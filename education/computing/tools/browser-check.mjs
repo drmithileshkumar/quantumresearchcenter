@@ -21,7 +21,11 @@ try {
  async function assert(expression,label){if(!await evaluate(expression))throw Error('Failed: '+label);console.log('PASS '+label)}
  await send('Page.enable');await send('Runtime.enable');await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
  await navigate('01-logic-computability');
- await assert(`document.querySelectorAll('.book-part').length===4&&document.querySelectorAll('.reading-topic').length===12`,'chapter structure');
+ await assert(`document.querySelectorAll('.book-part').length===4&&document.querySelectorAll('.reading-topic').length===11`,'chapter structure');
+ await evaluate(`Promise.all(Array.from(document.querySelectorAll('.book-drawing img')).map(i=>{i.loading='eager';return i.decode()}))`);
+ await assert(`document.querySelectorAll('.book-drawing img').length===11&&Array.from(document.querySelectorAll('.book-drawing img')).every(i=>i.complete&&i.naturalWidth>0)`,'chapter concept diagrams loaded');
+ await screenshot('book-turing-diagram','#figure-logic-turing-machine');
+ await screenshot('book-halting-diagram','#figure-logic-halting-contradiction');
  await screenshot('book-rewrite-opening','#section-1-1');
  await navigate('02-boolean-reversible-computation');
  await screenshot('book-rewrite-nand','#topic-2-2-2');

@@ -81,5 +81,7 @@ def main():
  d.line(230,160,285,160);d.text(265,143,'t');d.dot(285,160);d.line(285,160,285,110);d.line(285,110,352,110);d.line(285,160,285,210);d.line(285,210,352,210)
  d.line(330,60,330,80);d.line(330,80,352,80);d.line(330,255,330,240);d.line(330,240,352,240);nand(380,95);nand(380,225)
  d.line(420,95,530,95);d.line(530,95,530,145);d.line(530,145,572,145);d.text(470,78,'u');d.line(420,225,530,225);d.line(530,225,530,175);d.line(530,175,572,175);d.text(470,250,'v');nand(600,160);d.line(640,160,725,160);d.text(720,143,'a ⊕ b');d.text(395,310,'The small output circle denotes negation; filled dots denote branches.',True);d.save('nand-xor')
- print('Drew 13 SVG figures.')
+ print('Drew 13 SVG circuit figures.')
+ from draw_logic_figures import main as draw_logic
+ draw_logic()
 if __name__=='__main__':main()

@@ -2,64 +2,64 @@
   [
     "01-logic-computability",
     "Logic and Computability",
-    "",
-    "The expression \\(n^2+n+41\\) gives \\(41\\), \\(43\\), and \\(47\\) when \\(n\\) is zero, one, and two. All three results are prime: their only positive divisors are one and themselves. It is tempting to wonder whether the expression always produces a prime. How much confidence should a few successful calculations give us?",
+    "Can mathematical reasoning be given foundations whose reliability can itself be established?",
+    "The notion of computability finds its origin in establishing the reliability of mathematical reasoning. The purpose of mathematics is to provide objective grounds for establishing truth through the following scheme: choose your domain and fix your axioms and rules of inference. Now, everything related to the domain must be settled by starting with the axioms and following the rules.",
     ""
   ],
   [
     "02-boolean-reversible-computation",
     "Boolean and Reversible Computation",
-    "",
-    "A Boolean function specifies an answer, but its implementation may discard the information needed to reconstruct the input. We derive circuits from functions, then construct computations that preserve enough information to be reversed.",
+    "What must a computation remember in order to undo what it has done?",
+    "An answer can conceal the history that produced it: several different inputs may leave the same output. We begin with Boolean functions and build circuits that calculate them, then examine what disappears when a logical operation discards information. Reversible gates offer another way to organize a calculation, carrying its history forward until it can be carefully uncomputed. Along the way, the distinction between logical information loss and physical dissipation becomes essential.",
     ""
   ],
   [
     "03-amplitudes-interference",
     "Probability Amplitudes and Interference",
-    "",
-    "The same single-step probabilities can conceal different behavior under composition. A two-state example shows why quantum predictions retain amplitudes, and why alternatives must be combined before outcome probabilities are calculated.",
+    "What does it mean to consider alternatives when those alternatives can cancel one another?",
+    "Ordinary probability teaches us to add the weights of mutually exclusive possibilities. A two-state experiment makes that familiar rule insufficient for quantum alternatives: identical probabilities at one step can lead to different predictions after the next. We follow the calculation through competing paths, signs, and phases to discover why amplitudes must be combined before probabilities are assigned. The question becomes when alternatives interfere, and when distinguishing them removes that interference.",
     ""
   ],
   [
     "04-states-measurement",
     "Quantum States and Measurement",
-    "",
-    "Basic linear algebra supplies the language, but physical postulates give that language meaning. We connect vectors, projections, and operators to preparations, transformations, and measurable outcomes.",
+    "What can the mathematical description of a system tell us about what can be known through measurement?",
+    "A vector is a mathematical object; a measurement is a physical event. We begin by asking how the coordinates of one acquire meaning in the outcomes of the other. Changes of basis, projections, and unitary transformations lead us from state preparation to the limits of distinguishing states. The chapter develops the rules that connect a quantum description to observation, while keeping separate a prediction of possible outcomes and the outcome of an individual trial.",
     ""
   ],
   [
     "05-composite-systems",
     "Composite Systems and Entanglement",
-    "",
-    "Joint systems require joint amplitudes. Tensor products organize their coordinates; entanglement reveals why the state of the whole need not be a pair of individual state vectors.",
+    "Can a whole have a definite quantum state when its parts have no individual pure states of their own?",
+    "Combining two systems first looks like an exercise in keeping track of coordinates. Tensor products soon reveal states that cannot be separated into a state for each part, and correlations that require us to reason about the whole. We follow those correlations through the limits on copying quantum states and communicating by local actions. Teleportation then brings the pieces together: transferring an unknown state requires entanglement, measurement, and an ordinary classical message.",
     ""
   ],
   [
     "06-queries-phase-kickback",
     "Quantum Queries and Phase Kickback",
-    "",
-    "A quantum query can evaluate a function coherently, but readout remains restricted. A small decision problem shows how to encode a useful property in phase and turn it into a certain measurement result.",
+    "Can we learn a relation among answers without learning the individual answers themselves?",
+    "A function is usually queried to obtain its value at a chosen input. We instead ask how a reversible query acts on a superposition, and what information survives when the final measurement yields only one outcome. Phase kickback lets a function leave its mark in relative phase. Deutsch’s algorithm shows how interference can turn that mark into knowledge of a global property, without making every function value available to read.",
     ""
   ],
   [
     "07-amplitude-amplification",
     "Quantum Search and Amplitude Amplification",
-    "",
-    "A phase mark does not itself make a useful answer more likely. We first solve a four-item search completely, then uncover the rotation that generalizes the calculation.",
+    "How can a process concentrate our chances of finding an answer that it can recognize but does not yet know?",
+    "Recognizing a solution and locating it are different tasks. We begin with four possibilities and a phase change that marks the desired answer without changing its probability. A second transformation makes the mark consequential. Following these operations geometrically reveals a rotation, explains why too many iterations can undo the gain, and leads from one small search to the general method of amplitude amplification.",
     ""
   ],
   [
     "08-circuits-universality",
     "Quantum Circuits and Universality",
-    "",
-    "The preceding algorithms specify mathematical operations. Circuits expose how these operations are assembled and which implementation costs an abstract oracle can hide.",
+    "What separates an operation we can describe mathematically from one we can construct with finite means?",
+    "An algorithm may name a transformation in a single line while leaving its construction unexplained. We open up those transformations into gates, wires, and intermediate steps, asking how a limited repertoire can generate a much wider range of operations. Controlled gates and universal gate sets lead to the distinction between exact construction and approximation. Counting the resulting resources returns us to a practical question: how much work was hidden inside the operation we first took for granted?",
     ""
   ],
   [
     "09-complexity-advantage",
     "Computational Complexity and Quantum Advantage",
-    "",
-    "An advantage is meaningful only with a stated task, model, success condition, and resource. We distinguish algorithmic upper bounds, general lower bounds, and unresolved comparisons.",
+    "What would justify saying that one form of computation is more powerful than another?",
+    "A faster example alone cannot settle a comparison between models of computation. We begin by making the task, input size, allowed error, and counted resources explicit. Complexity classes and lower bounds then distinguish the limitations of a particular algorithm from the limitations of every algorithm in a specified model. Returning to quantum search, we ask what its advantage proves, what it leaves open, and why a query advantage need not be an advantage in total implementation cost.",
     ""
   ],
   [

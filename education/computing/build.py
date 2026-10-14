@@ -51,7 +51,10 @@ def main():
     groups.append(f'<li class="contents-part"><a href="#{part["id"]}"><span>{part["number"]}</span> {esc(part["title"])}</a><details><summary>Topics in this section</summary><ol>{topics}</ol></details></li>')
    toc=''.join(groups)
    contents_label=f'{len(manifest["parts"])} sections · {len(manifest["sections"])} topics'
-  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+str(soup)
+  opening=f'<p class="chapter-intro">{esc(manifest["opening"])}</p>' if manifest.get('opening') else ''
+  if manifest.get('opening_continuation'): opening+=f'<p>{esc(manifest["opening_continuation"])}</p>'
+  intro_continuation=f'<p>{esc(manifest["intro_continuation"])}</p>' if manifest.get('intro_continuation') else ''
+  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+str(soup)
   prev=META[i-1] if i else None; nxt=META[i+1] if i+1<len(META) else None
   body+='<nav class="chapter-pagination" aria-label="Chapter navigation">'+(f'<a rel="prev" href="{prev[0]}.html"><small>Previous chapter</small>{prev[1]} ←</a>' if prev else '<a href="index.html"><small>Book overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt[0]}.html"><small>Next chapter</small>{nxt[1]} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Book contents →</a>')+'</nav>'
   (ROOT/f'{stem}.html').write_text(shell(stem,title,body,data,manifest['styles'],manifest['scripts'],manifest['classes']))
