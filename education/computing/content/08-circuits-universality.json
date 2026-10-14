@@ -1,0 +1,115 @@
+{
+  "styles": [],
+  "scripts": [],
+  "classes": [
+    "revised-book"
+  ],
+  "sections": [
+    {
+      "id": "topic-8-1-1",
+      "title": "Wires and gate ordering",
+      "number": "8.1.1",
+      "group": "8.1 · Circuit Representation",
+      "part_id": "section-8-1"
+    },
+    {
+      "id": "topic-8-1-2",
+      "title": "Circuits for query and search algorithms",
+      "number": "8.1.2",
+      "group": "8.1 · Circuit Representation",
+      "part_id": "section-8-1"
+    },
+    {
+      "id": "topic-8-1-3",
+      "title": "Measurement and classical control",
+      "number": "8.1.3",
+      "group": "8.1 · Circuit Representation",
+      "part_id": "section-8-1"
+    },
+    {
+      "id": "topic-8-2-1",
+      "title": "Pauli, Hadamard, and rotation gates",
+      "number": "8.2.1",
+      "group": "8.2 · Gate Constructions",
+      "part_id": "section-8-2"
+    },
+    {
+      "id": "topic-8-2-2",
+      "title": "Controlled and entangling gates",
+      "number": "8.2.2",
+      "group": "8.2 · Gate Constructions",
+      "part_id": "section-8-2"
+    },
+    {
+      "id": "topic-8-2-3",
+      "title": "Oracle and reflection circuits",
+      "number": "8.2.3",
+      "group": "8.2 · Gate Constructions",
+      "part_id": "section-8-2"
+    },
+    {
+      "id": "topic-8-3-1",
+      "title": "Limits of local operations",
+      "number": "8.3.1",
+      "group": "8.3 · Universal Gate Sets",
+      "part_id": "section-8-3"
+    },
+    {
+      "id": "topic-8-3-2",
+      "title": "Entangling gates and universality",
+      "number": "8.3.2",
+      "group": "8.3 · Universal Gate Sets",
+      "part_id": "section-8-3"
+    },
+    {
+      "id": "topic-8-3-3",
+      "title": "Exact synthesis and approximation",
+      "number": "8.3.3",
+      "group": "8.3 · Universal Gate Sets",
+      "part_id": "section-8-3"
+    },
+    {
+      "id": "topic-8-4-1",
+      "title": "Gate count, depth, and workspace",
+      "number": "8.4.1",
+      "group": "8.4 · Implementation Resources",
+      "part_id": "section-8-4"
+    },
+    {
+      "id": "topic-8-4-2",
+      "title": "Connectivity and data preparation",
+      "number": "8.4.2",
+      "group": "8.4 · Implementation Resources",
+      "part_id": "section-8-4"
+    },
+    {
+      "id": "topic-8-4-3",
+      "title": "Error accumulation and reliability",
+      "number": "8.4.3",
+      "group": "8.4 · Implementation Resources",
+      "part_id": "section-8-4"
+    }
+  ],
+  "parts": [
+    {
+      "id": "section-8-1",
+      "title": "Circuit Representation",
+      "number": "8.1"
+    },
+    {
+      "id": "section-8-2",
+      "title": "Gate Constructions",
+      "number": "8.2"
+    },
+    {
+      "id": "section-8-3",
+      "title": "Universal Gate Sets",
+      "number": "8.3"
+    },
+    {
+      "id": "section-8-4",
+      "title": "Implementation Resources",
+      "number": "8.4"
+    }
+  ]
+}

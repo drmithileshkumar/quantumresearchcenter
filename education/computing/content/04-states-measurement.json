@@ -1,0 +1,115 @@
+{
+  "styles": [],
+  "scripts": [],
+  "classes": [
+    "revised-book"
+  ],
+  "sections": [
+    {
+      "id": "topic-4-1-1",
+      "title": "Basis coordinates and ket notation",
+      "number": "4.1.1",
+      "group": "4.1 · State Representation",
+      "part_id": "section-4-1"
+    },
+    {
+      "id": "topic-4-1-2",
+      "title": "Complex inner products and bra notation",
+      "number": "4.1.2",
+      "group": "4.1 · State Representation",
+      "part_id": "section-4-1"
+    },
+    {
+      "id": "topic-4-1-3",
+      "title": "Changes of basis",
+      "number": "4.1.3",
+      "group": "4.1 · State Representation",
+      "part_id": "section-4-1"
+    },
+    {
+      "id": "topic-4-2-1",
+      "title": "Pure states and normalization",
+      "number": "4.2.1",
+      "group": "4.2 · State and Measurement Postulates",
+      "part_id": "section-4-2"
+    },
+    {
+      "id": "topic-4-2-2",
+      "title": "Projective measurement and conditional states",
+      "number": "4.2.2",
+      "group": "4.2 · State and Measurement Postulates",
+      "part_id": "section-4-2"
+    },
+    {
+      "id": "topic-4-2-3",
+      "title": "Repeated measurements on independently prepared states",
+      "number": "4.2.3",
+      "group": "4.2 · State and Measurement Postulates",
+      "part_id": "section-4-2"
+    },
+    {
+      "id": "topic-4-3-1",
+      "title": "Operator action on a basis",
+      "number": "4.3.1",
+      "group": "4.3 · Quantum Evolution",
+      "part_id": "section-4-3"
+    },
+    {
+      "id": "topic-4-3-2",
+      "title": "Adjoints and inner products",
+      "number": "4.3.2",
+      "group": "4.3 · Quantum Evolution",
+      "part_id": "section-4-3"
+    },
+    {
+      "id": "topic-4-3-3",
+      "title": "Unitary evolution",
+      "number": "4.3.3",
+      "group": "4.3 · Quantum Evolution",
+      "part_id": "section-4-3"
+    },
+    {
+      "id": "topic-4-4-1",
+      "title": "Eigenvectors and eigenspaces",
+      "number": "4.4.1",
+      "group": "4.4 · Observables and Distinguishability",
+      "part_id": "section-4-4"
+    },
+    {
+      "id": "topic-4-4-2",
+      "title": "Hermitian operators and spectral projections",
+      "number": "4.4.2",
+      "group": "4.4 · Observables and Distinguishability",
+      "part_id": "section-4-4"
+    },
+    {
+      "id": "topic-4-4-3",
+      "title": "Nonorthogonal state discrimination",
+      "number": "4.4.3",
+      "group": "4.4 · Observables and Distinguishability",
+      "part_id": "section-4-4"
+    }
+  ],
+  "parts": [
+    {
+      "id": "section-4-1",
+      "title": "State Representation",
+      "number": "4.1"
+    },
+    {
+      "id": "section-4-2",
+      "title": "State and Measurement Postulates",
+      "number": "4.2"
+    },
+    {
+      "id": "section-4-3",
+      "title": "Quantum Evolution",
+      "number": "4.3"
+    },
+    {
+      "id": "section-4-4",
+      "title": "Observables and Distinguishability",
+      "number": "4.4"
+    }
+  ]
+}

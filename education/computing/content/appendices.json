@@ -1,0 +1,39 @@
+{
+  "styles": [],
+  "scripts": [],
+  "classes": [
+    "revised-book"
+  ],
+  "sections": [
+    {
+      "id": "appendix-a",
+      "title": "Automata and Memory",
+      "number": "A",
+      "group": ""
+    },
+    {
+      "id": "appendix-b",
+      "title": "Grammars and Lambda Calculus",
+      "number": "B",
+      "group": ""
+    },
+    {
+      "id": "appendix-c",
+      "title": "Linear Algebra Reference",
+      "number": "C",
+      "group": ""
+    },
+    {
+      "id": "appendix-d",
+      "title": "Mixed States and General Measurements",
+      "number": "D",
+      "group": ""
+    },
+    {
+      "id": "appendix-e",
+      "title": "Polynomial Lower Bounds",
+      "number": "E",
+      "group": ""
+    }
+  ]
+}

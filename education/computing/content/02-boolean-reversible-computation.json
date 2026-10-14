@@ -1,0 +1,115 @@
+{
+  "styles": [],
+  "scripts": [],
+  "classes": [
+    "revised-book"
+  ],
+  "sections": [
+    {
+      "id": "topic-2-1-1",
+      "title": "Binary encodings",
+      "number": "2.1.1",
+      "group": "2.1 · Boolean Functions",
+      "part_id": "section-2-1"
+    },
+    {
+      "id": "topic-2-1-2",
+      "title": "Boolean functions and truth tables",
+      "number": "2.1.2",
+      "group": "2.1 · Boolean Functions",
+      "part_id": "section-2-1"
+    },
+    {
+      "id": "topic-2-1-3",
+      "title": "Polynomial representation over the binary field",
+      "number": "2.1.3",
+      "group": "2.1 · Boolean Functions",
+      "part_id": "section-2-1"
+    },
+    {
+      "id": "topic-2-2-1",
+      "title": "Polynomial evaluation by circuits",
+      "number": "2.2.1",
+      "group": "2.2 · Boolean Circuits",
+      "part_id": "section-2-2"
+    },
+    {
+      "id": "topic-2-2-2",
+      "title": "NAND universality",
+      "number": "2.2.2",
+      "group": "2.2 · Boolean Circuits",
+      "part_id": "section-2-2"
+    },
+    {
+      "id": "topic-2-2-3",
+      "title": "Irreversible Boolean operations",
+      "number": "2.2.3",
+      "group": "2.2 · Boolean Circuits",
+      "part_id": "section-2-2"
+    },
+    {
+      "id": "topic-2-3-1",
+      "title": "Landauer’s principle",
+      "number": "2.3.1",
+      "group": "2.3 · Information Erasure",
+      "part_id": "section-2-3"
+    },
+    {
+      "id": "topic-2-3-2",
+      "title": "Logical reversibility and dissipation",
+      "number": "2.3.2",
+      "group": "2.3 · Information Erasure",
+      "part_id": "section-2-3"
+    },
+    {
+      "id": "topic-2-3-3",
+      "title": "Reversible function embeddings",
+      "number": "2.3.3",
+      "group": "2.3 · Information Erasure",
+      "part_id": "section-2-3"
+    },
+    {
+      "id": "topic-2-4-1",
+      "title": "Controlled reversible operations",
+      "number": "2.4.1",
+      "group": "2.4 · Reversible Gates",
+      "part_id": "section-2-4"
+    },
+    {
+      "id": "topic-2-4-2",
+      "title": "CNOT, Toffoli, and Fredkin gates",
+      "number": "2.4.2",
+      "group": "2.4 · Reversible Gates",
+      "part_id": "section-2-4"
+    },
+    {
+      "id": "topic-2-4-3",
+      "title": "Workspace and uncomputation",
+      "number": "2.4.3",
+      "group": "2.4 · Reversible Gates",
+      "part_id": "section-2-4"
+    }
+  ],
+  "parts": [
+    {
+      "id": "section-2-1",
+      "title": "Boolean Functions",
+      "number": "2.1"
+    },
+    {
+      "id": "section-2-2",
+      "title": "Boolean Circuits",
+      "number": "2.2"
+    },
+    {
+      "id": "section-2-3",
+      "title": "Information Erasure",
+      "number": "2.3"
+    },
+    {
+      "id": "section-2-4",
+      "title": "Reversible Gates",
+      "number": "2.4"
+    }
+  ]
+}

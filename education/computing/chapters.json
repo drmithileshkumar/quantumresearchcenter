@@ -1,0 +1,72 @@
+[
+  [
+    "01-logic-computability",
+    "Logic and Computability",
+    "",
+    "The expression \\(n^2+n+41\\) gives \\(41\\), \\(43\\), and \\(47\\) when \\(n\\) is zero, one, and two. All three results are prime: their only positive divisors are one and themselves. It is tempting to wonder whether the expression always produces a prime. How much confidence should a few successful calculations give us?",
+    ""
+  ],
+  [
+    "02-boolean-reversible-computation",
+    "Boolean and Reversible Computation",
+    "",
+    "A Boolean function specifies an answer, but its implementation may discard the information needed to reconstruct the input. We derive circuits from functions, then construct computations that preserve enough information to be reversed.",
+    ""
+  ],
+  [
+    "03-amplitudes-interference",
+    "Probability Amplitudes and Interference",
+    "",
+    "The same single-step probabilities can conceal different behavior under composition. A two-state example shows why quantum predictions retain amplitudes, and why alternatives must be combined before outcome probabilities are calculated.",
+    ""
+  ],
+  [
+    "04-states-measurement",
+    "Quantum States and Measurement",
+    "",
+    "Basic linear algebra supplies the language, but physical postulates give that language meaning. We connect vectors, projections, and operators to preparations, transformations, and measurable outcomes.",
+    ""
+  ],
+  [
+    "05-composite-systems",
+    "Composite Systems and Entanglement",
+    "",
+    "Joint systems require joint amplitudes. Tensor products organize their coordinates; entanglement reveals why the state of the whole need not be a pair of individual state vectors.",
+    ""
+  ],
+  [
+    "06-queries-phase-kickback",
+    "Quantum Queries and Phase Kickback",
+    "",
+    "A quantum query can evaluate a function coherently, but readout remains restricted. A small decision problem shows how to encode a useful property in phase and turn it into a certain measurement result.",
+    ""
+  ],
+  [
+    "07-amplitude-amplification",
+    "Quantum Search and Amplitude Amplification",
+    "",
+    "A phase mark does not itself make a useful answer more likely. We first solve a four-item search completely, then uncover the rotation that generalizes the calculation.",
+    ""
+  ],
+  [
+    "08-circuits-universality",
+    "Quantum Circuits and Universality",
+    "",
+    "The preceding algorithms specify mathematical operations. Circuits expose how these operations are assembled and which implementation costs an abstract oracle can hide.",
+    ""
+  ],
+  [
+    "09-complexity-advantage",
+    "Computational Complexity and Quantum Advantage",
+    "",
+    "An advantage is meaningful only with a stated task, model, success condition, and resource. We distinguish algorithmic upper bounds, general lower bounds, and unresolved comparisons.",
+    ""
+  ],
+  [
+    "appendices",
+    "Appendices",
+    "",
+    "These short extensions supply supporting models, identities, and formal arguments. Each can be read when its linked chapter raises the corresponding question.",
+    ""
+  ]
+]

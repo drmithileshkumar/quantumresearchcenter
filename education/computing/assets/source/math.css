@@ -1,0 +1,28 @@
+/* MathJax presentation styles; equation source stays editable as TeX in HTML. */
+.math-display{display:block;max-width:100%;overflow-x:auto;padding:.15em 0}
+mjx-container[jax="SVG"][display="true"]{margin:.65em 0!important}
+.math-inline{white-space:normal}
+.formula-panel{padding:24px!important}
+.formula-panel .formula-label{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+.formula-panel .formula-expression{background:white;border:1px solid #7ea5a0;border-radius:12px;padding:10px 8px;font-size:clamp(16px,1.6vw,24px)}
+.formula-panel .formula-key{font-size:14px;line-height:1.65;color:#546a70;margin:12px 0 24px}
+.formula-panel .validity-question{background:#fbf0e3;border:1px solid #bd8b59;border-radius:10px;padding:12px;font-size:14px;text-align:center}
+.formula-panel figcaption{margin:18px 0 0!important}
+@media print{.math-display{overflow:visible}.formula-panel .formula-expression{font-size:17pt}}
+.math-display{overflow-y:hidden;padding:.35em 0}
+.formula-panel .math-display{overflow:visible}
+.formula-panel mjx-container[jax="SVG"][display="true"]{margin:.2em 0!important}
+.formula-panel .formula-expression{font-size:clamp(15px,1.35vw,21px)}
+.formula-panel .formula-key{margin:10px 0 16px}
+@media screen and (min-width:801px) and (max-height:820px){
+ .formula-panel{padding:14px!important}
+ .formula-panel .formula-label{margin-bottom:6px;font-size:11px}
+ .formula-panel .formula-expression{padding:4px;font-size:16px}
+ .formula-panel .formula-key{margin:6px 0 10px;font-size:12px;line-height:1.45}
+ .formula-panel .validity-question{padding:8px;margin-bottom:8px;font-size:12px}
+ .formula-panel figcaption{margin-top:8px!important;font-size:11px!important}
+}
+
+/* MathJax glyphs embedded in diagrams must not inherit line/arrow styling. */
+.classical-deck svg .diagram-math{color:var(--ink)}
+.classical-deck svg .diagram-math path{fill:currentColor!important;stroke:none!important}

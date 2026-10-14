@@ -1,0 +1,423 @@
+/* Chapter-specific visual layout. All illustrations remain editable inline SVG. */
+.classical-deck .concept-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:32px;align-items:center}
+.classical-deck .concept-layout .slide-content{font-size:clamp(17px,1.45vw,23px);line-height:1.5;min-width:0}
+.classical-deck .concept-layout .slide-content li{margin-bottom:.65em}
+.classical-deck .concept-visual{margin:0;min-width:0;background:#f0f4ef;border:1px solid #dce5de;border-radius:18px;padding:14px}
+.classical-deck .concept-visual > svg{display:block;width:100%;max-height:49vh}
+.classical-deck .concept-visual > svg rect{fill:#fff;stroke:#7ea5a0;stroke-width:1.5}
+.classical-deck .concept-visual > svg rect.warm{fill:#fbf0e3;stroke:#bd8b59}
+.classical-deck .concept-visual .node{fill:#176c70}
+.classical-deck .concept-visual > svg text{font:18px var(--sans);fill:var(--ink)}
+.classical-deck .concept-visual > svg text.small{font-size:15px;fill:#546a70}
+.classical-deck .concept-visual > svg text.label{font-size:17px;font-weight:600;fill:var(--accent)}
+.classical-deck .concept-visual > svg path{fill:none;stroke:#176c70;stroke-width:2}
+.classical-deck .concept-visual > svg path.tip{fill:#176c70;stroke:none}
+.classical-deck .concept-visual figcaption{font-size:13px;line-height:1.5;text-align:left;margin:6px 8px;color:#546a70}
+.classical-deck .title-slide .concept-layout{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+.classical-deck .title-slide h1{font-size:clamp(40px,4.5vw,72px)}
+.classical-deck .title-slide .eyebrow{margin-bottom:2rem}
+.classical-deck .title-slide .subtitle{font-size:clamp(18px,1.9vw,28px)}
+.classical-deck .concept-layout table{font-size:.72em}
+.classical-deck .concept-layout math[display=block]{font-size:1em}
+@media(max-width:1150px){.classical-deck .concept-layout{gap:20px}.classical-deck .concept-visual{padding:8px}.classical-deck .concept-layout .slide-content{font-size:17px}}
+@media(max-width:800px){.classical-deck .concept-layout,.classical-deck .title-slide .concept-layout{grid-template-columns:1fr}.classical-deck .title-slide{justify-content:flex-start}.classical-deck .concept-visual{max-width:560px;width:100%;margin:auto}.classical-deck .concept-visual > svg{max-height:none}.classical-deck .concept-layout .slide-content{font-size:19px}}
+@media print{.classical-deck .concept-layout{gap:20px;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.classical-deck .concept-layout .slide-content{font-size:14pt}.classical-deck .concept-visual{break-inside:avoid}.classical-deck .concept-visual > svg{max-height:105mm}.classical-deck .concept-visual figcaption{font-size:10pt}.classical-deck .title-slide h1{font-size:40pt}}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .concept-visual > svg{max-height:40vh}.classical-deck .concept-visual figcaption{font-size:12px}.classical-deck .concept-layout{gap:22px}}
+
+/* Highlight the scanned tape cell in the binary-increment trace. */
+.classical-deck .concept-visual > svg rect.head-cell{fill:#cde6db;stroke:#176c70;stroke-width:3}
+
+/* Conceptual bridge slides use HTML so all formulas are native MathJax. */
+.classical-deck .teaching-visual{padding:22px}
+.visual-sequence{display:flex;flex-direction:column;gap:8px}
+.visual-step{background:#fff;border:1px solid #9bbab2;border-radius:12px;padding:16px 12px;text-align:center;font-size:18px;line-height:1.5}
+.visual-step strong{color:var(--accent);font-size:16px}
+.visual-link{text-align:center;color:var(--accent);font-size:20px;line-height:1}
+.teaching-visual figcaption{margin-top:18px!important}
+.checkpoint{font-size:.82em;border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
+.checkpoint summary{color:var(--accent);font-weight:600;cursor:pointer}
+.checkpoint p{margin:10px 0 0;line-height:1.5}
+@media screen and (min-width:801px) and (max-height:820px){.visual-step{padding:10px;font-size:16px}.visual-step strong{font-size:14px}.visual-sequence{gap:5px}.classical-deck .teaching-visual{padding:14px}.checkpoint{margin-top:10px;padding-top:8px}}
+@media print{.visual-step{font-size:13pt;padding:10px}.checkpoint{display:none}}
+/* Standard distinctive-shape logic symbols, drawn as editable vector paths. */
+.classical-deck .circuit-visual>svg .gate-body{fill:#fff;stroke:var(--accent);stroke-width:2.5}
+.classical-deck .circuit-visual>svg .inversion{fill:#fff;stroke:var(--accent);stroke-width:2.5}
+.classical-deck .circuit-visual>svg .logic-wire,.classical-deck .circuit-visual>svg .xor-curve{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round}
+.classical-deck .circuit-visual>svg .junction{fill:var(--accent);stroke:none}
+.classical-deck .circuit-visual>svg text{font-size:24px}
+.classical-deck .circuit-visual>svg text.small{font-size:21px}
+.classical-deck .circuit-slide .slide-content{font-size:clamp(17px,1.35vw,22px)}
+.classical-deck .circuit-slide .truth-table{font-size:.8em;width:100%;margin:12px 0 0}
+.classical-deck .truth-table th,.classical-deck .truth-table td{text-align:center!important;padding:.25em .4em}
+.circuit-reading{font-size:.8em}
+
+/* Paired definitions and formal conditions on the Hilbert slide. */
+.classical-deck .property-formulas .visual-step{padding:9px 10px;font-size:17px}
+.classical-deck .property-formulas mjx-container[display="true"]{margin:.3em 0!important}
+.classical-deck .property-formulas figcaption{margin-top:12px!important;font-size:12px}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .property-formulas .visual-step{padding:4px 8px;font-size:16px}.classical-deck .property-formulas figcaption{margin-top:8px!important;font-size:11px}}
+
+/* A question carries the lecture forward without crowding the slide body. */
+.classical-deck .controls .story-link{max-width:calc(100% - 170px);font-size:12px;line-height:1.4;color:var(--accent)}
+@media(max-width:700px){.classical-deck .controls .story-link{font-size:10px;max-width:calc(100% - 150px)}}
+/* Slide 18: a machine run and the matching term-rewriting run, row by row. */
+.rewrite-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:4px 12px;align-items:center;font-size:17px}
+.rewrite-pair strong{font-size:14px}
+.rewrite-match{color:var(--muted)}
+@media screen and (min-width:801px) and (max-height:820px){.rewrite-pair{font-size:15px;gap:1px 10px}.rewrite-pair strong{font-size:13px}}
+/* Slide 20: the four parts of a grammar, with a one-word gloss for each. */
+.grammar-parts{display:grid;grid-template-columns:auto auto;justify-content:center;gap:4px 18px;margin-top:8px;text-align:left}
+.grammar-parts span:nth-child(even){color:var(--muted);font-size:15px;align-self:center}
+.grammar-note{color:var(--muted);font-size:15px}
+.grammar-convention{font-size:15px;color:var(--muted);margin-top:4px}
+@media screen and (min-width:801px) and (max-height:820px){.grammar-parts{gap:1px 14px;margin-top:4px}.grammar-parts span:nth-child(even),.grammar-note{font-size:13px}.grammar-convention{font-size:13px}}
+/* Slide 21: nested Chomsky classes, darker toward the innermost. */
+.classical-deck .concept-visual > svg rect.chomsky-level-0{fill:#f8fbf9}
+.classical-deck .concept-visual > svg rect.chomsky-level-1{fill:#edf5f0}
+.classical-deck .concept-visual > svg rect.chomsky-level-2{fill:#e0eee6}
+.classical-deck .concept-visual > svg rect.chomsky-level-3{fill:#cde6db}
+.classical-deck .chomsky-table{margin:.6em 0}
+.classical-deck .chomsky-table td:first-child{font-weight:600;white-space:nowrap}
+.classical-deck .chomsky-table td:nth-child(2){font-size:.95em;line-height:1.5}
+/* Slide 23: a beta-reduction chain. */
+.lambda-heading{text-align:center;font-weight:600;color:var(--accent);font-size:16px}
+.classical-deck .visual-step.lambda-term{padding:10px 8px;font-size:17px}
+.visual-link.lambda-link{font-size:14px;color:var(--muted)}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .visual-step.lambda-term{padding:6px;font-size:15px}.visual-link.lambda-link{font-size:12px}}
+.lambda-gap{margin-top:8px}
+.classical-deck .lambda-kinds{margin:.3em 0 0;padding-left:1.2em}
+.classical-deck .lambda-kinds li{margin:.15em 0}
+.lambda-numerals{display:grid;grid-template-columns:auto auto;justify-content:start;gap:2px 18px;margin:.4em 0 0 .4em}
+.lambda-numerals span:nth-child(even){color:var(--muted);font-size:.85em;align-self:center}
+.classical-deck .lambda-kinds li{line-height:1.35}
+/* Slide 25: the same word read by a machine and built by rules, side by side. */
+.two-views{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:8px;text-align:left}
+.view-title{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:2px}
+.classical-deck .view-steps{list-style:none;margin:0;padding:0;font-size:16px;line-height:1.55}
+.view-steps strong{color:var(--accent)}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .view-steps{font-size:14px;line-height:1.4}.view-title{font-size:13px}}
+/* Slide 3: validity, provability, soundness, completeness as a 2x2 grid with the equivalence below. */
+.logic-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.classical-deck .logic-grid .visual-step{font-size:15px;line-height:1.4;padding:10px 8px}
+.classical-deck .logic-grid .visual-step strong{font-size:14px}
+.logic-grid .logic-together{grid-column:1/-1;font-size:18px}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .logic-grid .visual-step{font-size:13px;padding:6px}.classical-deck .logic-grid .visual-step strong{font-size:12.5px}.logic-grid{gap:5px}}
+/* Slide 3: what became of each of Hilbert's properties. */
+.hilbert-status{display:block;font-size:13px;line-height:1.35;font-weight:600;margin-top:2px}
+.hilbert-status.is-failed,.hilbert-status.is-blocked{color:#a33427}
+.hilbert-status.is-open{color:var(--accent)}
+@media screen and (min-width:801px) and (max-height:820px){.hilbert-status{font-size:11.5px}}
+/* Slide 8: a run drawn as configurations (memory + head on a read-only tape). */
+.cfg-rows{display:flex;flex-direction:column;gap:4px;margin-top:8px;align-items:center}
+.cfg-row{display:grid;grid-template-columns:28px 52px auto;align-items:center;gap:8px}
+.cfg-name{font-size:14px;color:var(--muted)}
+.cfg-state{font-size:13px;font-weight:600;color:var(--accent);background:#cde6db;border-radius:999px;padding:1px 8px;text-align:center}
+.cfg-tape{display:flex;gap:3px}
+.cfg-c{display:grid;place-items:center;width:24px;height:24px;border:1px solid #9bbab2;border-radius:5px;background:white;font-size:15px;font-variant-numeric:tabular-nums}
+.cfg-c.is-read{background:#e1e9e2;color:#8a9a91}
+.cfg-c.is-head{border:2px solid #b56b2c;box-shadow:0 2px 0 #b56b2c}
+.cfg-c.is-end{border-style:dashed;color:var(--muted)}
+.cfg-table{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;margin-top:6px;font-size:15px}
+@media screen and (min-width:801px) and (max-height:820px){.cfg-rows{gap:2px;margin-top:4px}.cfg-c{width:20px;height:20px;font-size:13px}.cfg-state{font-size:12px}.cfg-table{font-size:13px}}
+.classical-deck .concept-visual > svg circle.cfg-node{fill:#fff;stroke:#176c70;stroke-width:2}
+/* Slide 8: definitions list and the tape/head drawing. */
+.classical-deck .cfg-defs li{margin-bottom:.35em}
+.classical-deck .concept-visual > svg rect.cfg-memory{fill:#cde6db;stroke:#176c70;stroke-width:2}
+.classical-deck .concept-visual > svg rect.cfg-cell.is-read{fill:#e1e9e2}
+.classical-deck .concept-visual > svg rect.cfg-cell.is-head{stroke:#b56b2c;stroke-width:3}
+.classical-deck .concept-visual > svg path.cfg-headmark{fill:#b56b2c;stroke:none}
+/* Slide 18: generate vs recognize, logic vs languages. */
+.gen-rec{display:grid;grid-template-columns:auto 1fr 1fr;gap:8px 12px;margin-top:10px;align-items:center;font-size:15px;line-height:1.4}
+.gen-rec>strong{font-size:14px;color:var(--accent)}
+.gen-rec .row-head{text-align:left}
+.gen-rec em{color:var(--muted);font-size:13px}
+@media screen and (min-width:801px) and (max-height:820px){.gen-rec{font-size:13px;gap:5px 10px}.gen-rec em{font-size:12px}}
+/* Slide 27: numbered proof steps and the diagonal contradiction table. */
+.classical-deck ol.proof-steps{padding-left:1.4em;margin:0}
+.classical-deck ol.proof-steps li{margin-bottom:.5em}
+.classical-deck ol.proof-steps li::marker{color:var(--accent);font-weight:700}
+.proof-display{margin:.3em 0 0;font-size:.92em}
+.proof-conclusion{margin:.6em 0 0;padding:.45em .8em;border-left:4px solid var(--accent);background:#eef5f1;font-weight:600}
+.diag-table{display:grid;grid-template-columns:1fr 1fr 28px;gap:6px 10px;margin-top:8px;font-size:16px;align-items:center}
+.diag-table .diag-head{font-size:13px;color:var(--muted);font-weight:600}
+.diag-table .diag-x{color:#a33427;font-weight:700;font-size:18px}
+@media screen and (min-width:801px) and (max-height:820px){.diag-table{font-size:14px;gap:3px 8px}.proof-display{font-size:.85em}}
+/* Slide 41: O / Omega / Theta definitions and the sandwich plot. */
+.bigo-defs{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:.4em 0 .2em;padding:10px 14px;background:#eef5f1;border-radius:12px;align-items:baseline}
+.bigo-defs dt{font-weight:700;color:var(--accent);white-space:nowrap}
+.bigo-defs dd{margin:0;font-size:.9em}
+.classical-deck .concept-visual > svg polyline{fill:none;stroke-width:2.5}
+.classical-deck .concept-visual > svg polyline.bigo-bound{stroke:#176c70;stroke-dasharray:7 5}
+.classical-deck .concept-visual > svg polyline.bigo-f{stroke:#b56b2c;stroke-width:3.5}
+.classical-deck .concept-visual > svg rect.bigo-region{fill:#e0eee6;stroke:none}
+.classical-deck .concept-visual > svg path.bigo-n0{stroke:#546a70;stroke-dasharray:4 4}
+.classical-deck .concept-visual > svg text.bigo-label{font-size:16px;fill:#176c70}
+.classical-deck .concept-visual > svg text.bigo-label.is-f{fill:#b56b2c}
+@media screen and (min-width:801px) and (max-height:820px){.bigo-defs{gap:2px 10px;padding:6px 10px}}
+/* Slide 1: list of sections. */
+.deck-toc .toc-head{margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.deck-toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.deck-toc a{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:8px 12px;background:#fff;border:1px solid #9bbab2;border-radius:10px;color:var(--ink);text-decoration:none;font-size:16px;transition:border-color .15s,background .15s}
+.deck-toc a:hover,.deck-toc a:focus-visible{border-color:var(--accent);background:#eef5f1}
+.deck-toc .toc-num{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#cde6db;color:var(--accent);font-weight:700;font-size:13px}
+.deck-toc .toc-range{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+@media screen and (min-width:801px) and (max-height:820px){.deck-toc ol{gap:3px}.deck-toc a{padding:4px 10px;font-size:14px}.deck-toc .toc-num{width:22px;height:22px;font-size:12px}}
+/* Reversible gates slide: circuit symbols. */
+.classical-deck .concept-visual > svg circle.gate-dot{fill:#176c70}
+.classical-deck .concept-visual > svg circle.gate-target{fill:#fff;stroke:#176c70;stroke-width:2}
+.classical-deck .concept-visual > svg path.gate-x{stroke-width:3}
+/* Toffoli-universality slide: constants and garbage. */
+.classical-deck .concept-visual > svg text.gate-const{fill:#b56b2c;font-weight:700}
+.classical-deck .concept-visual > svg text.gate-garbage{fill:#9aa8a6}
+.classical-deck .concept-visual > svg rect.legend-const{fill:#b56b2c;stroke:none}
+.classical-deck .concept-visual > svg rect.legend-garbage{fill:#9aa8a6;stroke:none}
+.classical-deck .concept-visual > svg text[font-style="italic"]{font-style:italic;font-family:Georgia,"Times New Roman",serif}
+/* Summary and quantum-blend slides. */
+.recap{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:.4em 0;align-items:baseline}
+.recap dt{font-weight:700;color:var(--accent);white-space:nowrap;font-size:.9em}
+.recap dd{margin:0;font-size:.85em;line-height:1.4}
+.qmodels dd{font-size:.88em}
+@media screen and (min-width:801px) and (max-height:820px){.recap{gap:3px 10px}.recap dd{font-size:.8em}}
+.reading dd{font-size:.8em}
+.reading a{color:var(--accent)}
+.recap.reading{grid-template-columns:1fr;gap:0}
+.recap.reading dt{white-space:normal;margin-top:.45em;font-size:.82em}
+.recap.reading dd{font-size:.76em;line-height:1.35}
+@media screen and (min-width:801px) and (max-height:820px){.recap.reading dt{margin-top:.3em}.recap.reading dd{font-size:.72em}}
+.classical-deck .concept-visual > svg path.unknown{stroke:#b56b2c;stroke-dasharray:6 5}
+.classical-deck .concept-visual > svg text.unknown-label{font-size:20px;font-weight:700;fill:#b56b2c}
+.classical-deck .concept-visual > svg path.nd-accept{stroke:#b56b2c;stroke-width:3.5}
+.classical-deck .concept-visual .node.nd-accept{fill:#b56b2c}
+.classical-deck .concept-visual > svg text.nd-hit{font-weight:700;fill:#b56b2c}
+.classical-deck .nowrap{white-space:nowrap}
+.classical-deck .concept-visual > svg path.pnp-divider{stroke:#c9d8d1;stroke-width:1.5;stroke-dasharray:5 5}
+.classical-deck .concept-visual > svg rect.pnp-example{fill:#e6f0eb;stroke:none}
+.classical-deck .concept-visual > svg rect.red-frame{fill:none;stroke:#7ea5a0;stroke-width:1.5;stroke-dasharray:6 5}
+.classical-deck .concept-visual > svg circle.fa-state{fill:#fff;stroke:#176c70;stroke-width:2}
+.classical-deck .concept-visual > svg circle.fa-state.is-hit{fill:#fbf0e3;stroke:#b56b2c;stroke-width:2.5}
+.classical-deck .concept-visual > svg path.nd-tip{fill:#b56b2c;stroke:none}
+.classical-deck .concept-visual > svg text.m{font-size:22px}
+.classical-deck .concept-visual > svg text.pal-fail{font-size:20px;fill:#9aa8a6}
+.classical-deck .concept-visual > svg path.lba-fence{stroke:#b56b2c;stroke-width:4}
+.classical-deck .concept-visual > svg text.enc-string{font-size:21px;letter-spacing:2px;font-weight:600;fill:#176c70}
+.classical-deck .derivation-table{width:100%;font-size:19px;background:#fff;border-radius:12px;overflow:hidden;border-collapse:collapse}
+.classical-deck .derivation-table th{font-size:13px;color:var(--muted);padding:8px 14px}
+.classical-deck .derivation-table td{padding:5px 14px}
+.classical-deck .derivation-table tr.is-phase td{border-top:2px solid #7ea5a0}
+.classical-deck .derivation-table tr.is-done td{background:#fbf0e3}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .derivation-table{font-size:17px}.classical-deck .derivation-table td{padding:3px 12px}}
+.classical-deck .decide-grid th{text-align:left;font-size:15px;color:var(--accent)}
+.classical-deck .decide-grid thead th{color:var(--muted)}
+.classical-deck .decide-grid td,.classical-deck .decide-grid tbody th{padding:16px 14px;font-size:17px}
+.classical-deck .decide-grid td.is-warm{background:#fbf0e3}
+.classical-deck .decide-note{margin:14px 4px 0}
+.classical-deck .slide-content li.formula-item{list-style:none}
+.classical-deck .growth-table td span{display:block;font-size:13px;color:var(--muted)}
+.classical-deck .growth-table td.is-warm{background:#fbf0e3}
+.classical-deck .growth-table td.is-quantum{background:#cde6db}
+.classical-deck .growth-table td,.classical-deck .growth-table th{padding:9px 14px}
+.classical-deck .fac-head{margin:0 0 10px}
+@media screen and (min-width:801px) and (max-width:1100px){.classical-deck .concept-layout{gap:22px}.classical-deck .concept-layout .slide-content{font-size:16px}.classical-deck .derivation-table{font-size:15px}.classical-deck .growth-table td,.classical-deck .growth-table th{padding:6px 10px}}
+@media(max-width:800px){.classical-deck .chomsky-table{display:block;overflow-x:auto;font-size:13px}}
+/* The information-preservation requirement before reversible gate constructions. */
+.information-bridge .info-lead{color:var(--accent);margin:0 0 15px;line-height:1.45}
+.information-bridge .info-conclusion{border-left:3px solid #705297;background:#f0edf5;padding:10px 12px;font-size:.83em;line-height:1.45;margin:15px 0 0}
+.information-bridge .info-equation{text-align:center;font-size:19px;margin:10px 0}
+.classical-deck .information-bridge .concept-visual svg .info-divider{stroke:#cbd5d0;stroke-width:1;stroke-dasharray:4 4}
+.classical-deck .information-bridge .concept-visual svg .info-merge{stroke:#ae612c}
+.classical-deck .information-bridge .concept-visual svg text[data-tex]{font-size:17px}
+@media screen and (min-width:801px) and (max-height:760px){.classical-deck .information-bridge{padding-top:16px;padding-bottom:12px}.information-bridge .eyebrow{margin-bottom:12px}.information-bridge h2{margin-bottom:18px}.classical-deck .information-bridge .slide-content{font-size:15px}.information-bridge .info-lead{margin-bottom:10px}.information-bridge .info-conclusion{margin-top:10px}}
+@media screen and (min-width:801px) and (min-height:761px) and (max-height:900px){.classical-deck .information-bridge{padding-top:20px;padding-bottom:14px}.information-bridge .eyebrow{margin-bottom:14px}.information-bridge h2{font-size:34px;margin-bottom:20px}.classical-deck .information-bridge .slide-content{font-size:16px}}
+/* The closing narrative: a reason for the concept before its formal definition. */
+.classical-deck .cc-story .concept-layout{align-items:start}
+.cc-story .cc-lead{color:var(--accent);line-height:1.45;margin:0 0 16px}
+.classical-deck .cc-story .slide-content{font-size:17px;line-height:1.45}
+.cc-story .slide-content ul{padding-left:22px;margin:0}
+.cc-story .slide-content li{margin-bottom:12px}
+.cc-story .checkpoint{font-size:12px;margin-top:12px}
+.cc-story .cc-result{background:#eee8f5;border-left:3px solid #705297;padding:12px;margin-top:16px;font-size:15px;line-height:1.45}
+.cc-story .cc-vector-map{background:white;border:1px solid #dce5de;border-radius:9px;padding:22px 10px;margin:12px 0;font-size:22px;text-align:center}
+.cc-story .cc-question{padding:16px;background:white;border:1px solid #dce5de;border-radius:10px;font-size:16px;text-align:left}
+.cc-question strong{color:var(--accent);font-size:13px}.cc-question p{margin:8px 0 0}.cc-story figure figcaption{font-size:12px;line-height:1.45}
+@media screen and (min-width:801px) and (max-height:900px){.classical-deck .cc-story{padding-top:18px;padding-bottom:12px}.cc-story .eyebrow{margin-bottom:12px}.cc-story h2{font-size:32px;margin-bottom:18px}.classical-deck .cc-story .slide-content{font-size:16px}.cc-story .cc-lead{margin-bottom:12px}.cc-story .slide-content li{margin-bottom:10px}}
+@media screen and (min-width:801px) and (max-height:760px){.classical-deck .cc-story .slide-content{font-size:15px}.cc-story h2{font-size:29px;margin-bottom:14px}.cc-story .cc-lead{margin-bottom:10px}.cc-story .slide-content li{margin-bottom:9px}.cc-story .cc-vector-map{padding:15px 8px;font-size:19px}.cc-story .cc-question{padding:12px;font-size:14px}}
+@media(max-width:800px){.classical-deck .cc-story .slide-content{font-size:18px}.cc-story .cc-vector-map{font-size:18px}}
+@media screen and (min-width:801px) and (max-height:760px){.cc-recap .visual-step{padding:8px;font-size:15px;line-height:1.4}.cc-recap .visual-step .grammar-note{font-size:12px}.cc-recap .visual-link{line-height:1.1}}
+/* Derive the circuit model from Boolean polynomials. */
+.cp-card{background:white;border:1px solid #dce5de;border-radius:10px;padding:15px 12px;margin:10px 0;font-size:18px;line-height:1.5}
+.cp-card>strong{display:block;font-size:12px;color:var(--accent);margin-bottom:8px}
+.classical-deck .cp-visual .truth-table{font-size:15px;margin:12px 0;width:100%}
+.classical-deck .cp-visual .truth-table td,.classical-deck .cp-visual .truth-table th{padding:8px 5px}
+@media screen and (min-width:801px) and (max-height:760px){.cp-card{font-size:15px;padding:10px;margin:7px 0}.cp-card>strong{margin-bottom:5px}.classical-deck .cp-visual .truth-table{font-size:13px;margin:8px 0}.classical-deck .cp-visual .truth-table td,.classical-deck .cp-visual .truth-table th{padding:5px}}
+@media(max-width:800px){.cp-card{font-size:16px}}
+@media screen and (min-width:801px) and (max-height:760px){
+ .classical-deck .cc-cover{padding-top:16px;padding-bottom:12px}
+ .classical-deck .cc-foundations .teaching-visual{padding:11px}
+ .classical-deck .cc-foundations .visual-step{padding:8px;font-size:15px;line-height:1.35}
+ .classical-deck .cc-foundations .property-formulas .visual-step{padding:4px 7px;font-size:15px;line-height:1.35}
+ .classical-deck .cc-foundations .teaching-visual figcaption{margin-top:8px!important;font-size:11px}
+ .classical-deck .cc-foundations .view-steps{font-size:13px;line-height:1.35}
+ .classical-deck .cc-foundations .lba-demo>svg{max-height:21vh}
+}
+/* First definitions of asymptotic notation: visible, with a worked bound. */
+.growth-definitions{margin:12px 0;display:grid;gap:5px}
+.growth-definitions dt{color:var(--accent);font-weight:600;margin-top:7px}
+.growth-definitions dd{margin:0;line-height:1.4}
+.growth-definitions dd>div{margin-top:4px}
+.growth-conditions{font-size:.85em;line-height:1.4;margin:12px 0 0}
+.growth-example{border:1px solid #dce5de;border-radius:9px;background:white;padding:12px;margin-top:10px;font-size:15px;line-height:1.4}
+.growth-example strong{color:var(--accent);font-size:13px}.growth-example p{margin:7px 0 0}
+.classical-deck .growth-intro .concept-visual>svg{max-height:28vh}
+@media screen and (min-width:801px) and (max-height:760px){.growth-definitions{gap:3px;margin:7px 0}.growth-definitions dt{margin-top:5px}.growth-definitions dd>div{margin-top:2px}.growth-conditions{margin-top:7px}.growth-example{font-size:13px;padding:9px}.classical-deck .growth-intro .concept-visual>svg{max-height:23vh}.classical-deck .growth-intro .slide-content{font-size:14px}}
+@media(max-width:800px){.classical-deck .growth-intro .concept-visual>svg{max-height:none}}
+/* Keep the physical motivation readable on shorter presentation screens. */
+@media screen and (min-width:801px) and (max-height:760px){
+ .information-bridge .info-lead{margin-bottom:8px}
+ .information-bridge .info-conclusion{margin-top:7px;padding:8px 12px}
+ .information-bridge .info-physics{padding:12px}
+}
+@media screen and (min-width:801px) and (max-height:760px){
+ .classical-deck .information-bridge .slide-content li{margin-bottom:5px}
+}
+/* Show the information discarded by a many-to-one Boolean gate. */
+.information-loss .info-conclusion{border-left:3px solid #705297;background:#f0edf5;padding:10px 12px;font-size:.83em;line-height:1.45;margin:12px 0 0}
+.classical-deck .information-loss .concept-visual svg .loss-gate{fill:white;stroke:var(--accent);stroke-width:2}
+.classical-deck .information-loss .concept-visual svg .loss-merge{stroke:#ae612c}
+.classical-deck .information-loss .concept-visual svg text[data-tex]{font-size:19px}
+/* Reversible gate constructions, read left to right. */
+.reversible-build .info-conclusion{border-left:3px solid #705297;background:#f0edf5;padding:10px 12px;font-size:.83em;line-height:1.45;margin:12px 0 0}
+.classical-deck .rev-constructions>svg{max-height:none}
+.classical-deck .rev-constructions>svg .rev-divider{stroke:#cbd5d0;stroke-width:1;stroke-dasharray:4 4}
+.classical-deck .rev-constructions>svg text[data-tex]{font-size:18px}
+@media screen and (min-width:801px) and (max-height:760px){
+ .classical-deck .rev-constructions>svg{max-height:43vh}
+ .reversible-build .slide-content li{margin-bottom:6px}
+}
+/* Standard reversible symbols above ordinary NAND realizations. */
+.rg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.rg-card{background:#edf3ef;border:1px solid #d6e3db;border-radius:12px;padding:10px 12px}
+.rg-card h3{font-size:20px;color:var(--accent);margin:0}
+.rg-subtitle{font-size:12px;margin:3px 0 0;color:var(--muted)}
+.rg-card>svg{display:block;width:100%}
+.rg-card>svg>path{fill:none;stroke:#176c70;stroke-width:1.8}
+.rg-card svg .rg-body,.rg-card svg .rg-bubble,.rg-card svg .gate-target{fill:white;stroke:#176c70;stroke-width:1.8}
+.rg-card svg .gate-dot{fill:#176c70}
+.rg-card svg text{font-size:16px;fill:var(--ink)}
+.rg-equation{font-size:15px;min-height:43px;display:flex;align-items:center;justify-content:center}
+.rg-note{font-size:12px;margin:3px 0 8px;text-align:center}
+.rg-card h4{font-size:12px;color:var(--accent);border-top:1px solid #cbd9d1;margin:0;padding:8px 0}
+.rg-legend{font-size:12px;line-height:1.4;margin:10px 0 0}
+.rg-caution{font-size:13px;line-height:1.4;margin:8px 0 0;padding:8px 10px;border-left:3px solid #705297;background:#f0edf5}
+@media screen and (min-width:801px) and (max-height:760px){
+ .reversible-nand .cc-lead{font-size:14px;margin-bottom:8px}
+ .rg-card{padding:7px 9px}.rg-card h3{font-size:18px}
+ .rg-symbol{max-height:63px}.rg-nand{max-height:130px}
+ .rg-equation{font-size:13px;min-height:37px}
+ .rg-note{margin-bottom:5px}.rg-card h4{padding:5px 0}
+ .rg-legend{font-size:11px;margin-top:7px}.rg-caution{font-size:12px;margin-top:6px;padding:6px 9px}
+}
+@media(max-width:800px){.reversible-nand .rg-grid{grid-template-columns:1fr}.rg-card{max-width:440px;width:100%;box-sizing:border-box;margin:auto}.rg-legend,.rg-caution{font-size:14px}.rg-equation{font-size:17px}}
+.reversible-nand .rg-symbol{max-height:75px}
+.reversible-nand .rg-nand{max-height:160px}
+@media screen and (min-width:801px) and (max-height:760px){
+ .reversible-nand .rg-symbol{max-height:60px}
+ .reversible-nand .rg-nand{max-height:124px}
+ .reversible-nand .rg-card h4{padding:4px 0}
+}
+@media screen and (min-width:801px) and (max-height:760px){
+ .classical-deck .reversible-nand{padding-top:12px;padding-bottom:8px}
+ .reversible-nand .cc-lead{margin-bottom:5px}
+}
+/* Separate reversible gate definitions from their physical implementation. */
+.reversible-gates .rg-symbol{max-height:95px}
+.reversible-gates .rg-note{font-size:13px;margin:6px 0 0}
+.reversible-gates .rg-argument{font-size:16px;line-height:1.45;margin-top:14px}
+.reversible-gates .rg-argument ul{margin:0;padding-left:22px}
+.reversible-gates .rg-argument li{margin-bottom:10px}
+@media screen and (min-width:801px) and (max-height:760px){
+ .reversible-gates .cc-lead{font-size:14px;margin-bottom:10px}
+ .reversible-gates .rg-symbol{max-height:65px}
+ .reversible-gates .rg-argument{font-size:14px;margin-top:10px}
+ .reversible-gates .rg-argument li{margin-bottom:7px}
+}
+@media(max-width:800px){.reversible-gates .rg-grid{grid-template-columns:1fr}.reversible-gates .rg-argument{font-size:17px}}
+/* Motivate reversible gates through an update whose inverse is visible. */
+.rg-strategy{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px;padding:9px 12px;margin:0 0 12px;background:#f0edf5;border-left:3px solid #705297;font-size:15px;line-height:1.4}
+.reversible-gates .rg-note{line-height:1.4;text-align:left}
+.reversible-gates .rg-argument p{margin:0}
+@media screen and (min-width:801px) and (max-height:760px){
+ .rg-strategy{font-size:13px;padding:6px 9px;margin-bottom:8px}
+ .reversible-gates .rg-note{font-size:12px}
+ .reversible-gates .rg-argument{font-size:13px}
+}
+/* Connect control to invertibility, then expose the NAND implementation. */
+.controlled-intro .cc-lead{font-size:16px}
+.controlled-intro .rg-symbol{max-height:70px}
+.controlled-intro .rg-note{font-size:12px}
+.cn-example{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px;margin-top:12px;align-items:center}
+.cn-example figure{margin:0;background:#edf3ef;border:1px solid #d6e3db;border-radius:10px;padding:10px}
+.cn-example h3{font-size:14px;color:var(--accent);margin:0 0 6px}
+.cn-example figure>svg{display:block;width:100%;max-height:140px}
+.cn-example svg>path{stroke:#176c70;stroke-width:1.8;fill:none}
+.cn-example svg .cn-body,.cn-example svg .cn-bubble{fill:white;stroke:#176c70;stroke-width:1.8}
+.cn-example svg .cn-body:first-of-type{fill:#fbf0e3}
+.cn-example svg .cn-junction{fill:#176c70}
+.cn-example svg text{font-size:16px}
+.cn-example figcaption{font-size:11px;margin:4px 0 0;line-height:1.35;text-align:left}
+.cn-explanation{font-size:14px;line-height:1.45}.cn-explanation p{margin:0 0 8px}.cn-explanation p:last-child{margin:0}
+@media screen and (min-width:801px) and (max-height:760px){
+ .controlled-intro .cc-lead{font-size:13px;line-height:1.4;margin-bottom:8px}
+ .controlled-intro .rg-symbol{max-height:51px}
+ .controlled-intro .rg-equation{min-height:36px;font-size:12px}
+ .controlled-intro .rg-note{font-size:11px;margin-top:3px}
+ .controlled-intro .rg-legend{font-size:11px;margin-top:7px}
+ .cn-example{gap:12px;margin-top:8px}.cn-example figure{padding:7px}
+ .cn-example figure>svg{max-height:110px}.cn-explanation{font-size:12px;line-height:1.4}
+ .cn-example h3{font-size:12px;margin-bottom:3px}
+}
+@media(max-width:800px){.cn-example{grid-template-columns:1fr}.cn-explanation{font-size:16px}.controlled-intro .rg-symbol{max-height:95px}}
+/* Towards reversibility: gate as a controlled one-bit action. */
+.classical-deck .toward-table{width:100%;margin-top:8px;font-size:14px}
+.classical-deck .toward-table th,.classical-deck .toward-table td{text-align:center;padding:.3em .4em}
+.classical-deck .toward-table td:first-child{font-weight:700;color:var(--accent)}
+.classical-deck .act-ok{color:#176c70;font-weight:600}
+.classical-deck .act-erase{color:#b56b2c;font-weight:600}
+.classical-deck .act-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;margin:6px 0 2px}
+.classical-deck .concept-visual svg.cnot-mini{display:block;width:100%;max-height:13vh;margin:4px 0}
+.classical-deck .cnot-mini path{stroke:#176c70;stroke-width:2;fill:none}
+.classical-deck .cnot-mini text{font:italic 18px Georgia,"Times New Roman",serif;fill:var(--ink)}
+.classical-deck .cnot-mini circle.gate-dot{fill:#176c70}
+.classical-deck .cnot-mini circle.gate-target{fill:#fff;stroke:#176c70;stroke-width:2}
+.classical-deck .map-table td,.classical-deck .map-table th{font-variant-numeric:tabular-nums;padding:.2em .35em}
+.classical-deck .map-table .map-verdict td{font-size:12px;border-top:1px solid #9bbab2}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .concept-visual svg.cnot-mini{max-height:8.5vh;margin:0}.classical-deck .map-table td,.classical-deck .map-table th{padding:.1em .35em}}
+/* Garbage collection: four-register compute–copy–uncompute circuit. */
+.classical-deck .concept-visual svg.gc-circuit{display:block;width:100%;max-height:24vh;margin:4px 0 6px}
+.classical-deck .gc-circuit path.reg-wire{stroke:#176c70;stroke-width:2;fill:none}
+.classical-deck .gc-circuit path.reg-drop{stroke:#9aa8a6;stroke-width:2.5}
+.classical-deck .gc-circuit path.reg-cut{stroke:#b56b2c;stroke-width:1.2;stroke-dasharray:4 4}
+.classical-deck .gc-circuit text.reg-cut-label{font:700 13px var(--sans);fill:#b56b2c}
+.classical-deck .gc-circuit text.reg-name{font:15px var(--sans);fill:var(--ink)}
+.classical-deck .gc-circuit text.small{font:12px var(--sans);fill:#546a70}
+.classical-deck .gc-circuit rect.reg-box{fill:#cde6db;stroke:#176c70;stroke-width:2}
+.classical-deck .gc-circuit text.reg-box-label{font:italic 18px Georgia,serif;fill:#176c70}
+.classical-deck .gc-circuit circle.gate-dot{fill:#176c70}
+.classical-deck .gc-circuit circle.gate-target{fill:#fff;stroke:#176c70;stroke-width:2}
+.classical-deck .gc-table td,.classical-deck .gc-table th{padding:.15em .35em;font-size:13px;text-align:center}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .concept-visual svg.gc-circuit{max-height:19vh}}
+/* Slide 54: general reversible-computation recipe */
+.recipe-box{background:#fff;border:1px solid #9bbab2;border-radius:12px;padding:10px 14px;margin:8px 0 4px;font-size:14px;line-height:1.4}
+.recipe-box strong{color:var(--accent)}
+.recipe-box ol{margin:.3em 0;padding-left:1.3em}
+.recipe-map{text-align:center;margin:.3em 0;font-size:15px}
+@media screen and (min-width:801px) and (max-height:820px){.recipe-box{font-size:12.5px;padding:6px 10px;margin:4px 0 2px}.recipe-box ol{margin:.1em 0}}
+@media screen and (min-width:801px) and (max-height:820px){.classical-deck .recipe-figure > svg{max-height:27vh}}
+.classical-deck .gc-circuit text.reg-const{font:700 14px var(--sans);fill:#b56b2c}
+.classical-deck .gc-circuit text.reg-out{font:14px Georgia,serif;fill:var(--ink)}
+.classical-deck .gc-circuit path.reg-brace{fill:none;stroke:#176c70;stroke-width:1.6}
+.classical-deck .gc-circuit path.reg-brace.is-warm{stroke:#b56b2c}
+.classical-deck .gc-circuit text.reg-brace-label{font:15px Georgia,serif;fill:#176c70}
+.classical-deck .gc-circuit text.reg-brace.is-warm-label,.classical-deck .gc-circuit text[class~="is-warm-label"]{fill:#b56b2c}
+.classical-deck svg.gc-circuit[aria-labelledby^="xor-rev"] text.reg-name,.classical-deck svg.gc-circuit[aria-labelledby^="xor-rev"] text.reg-out,.classical-deck svg.gc-circuit[aria-labelledby^="xor-rev"] text.reg-const{font-size:19px}
+.classical-deck svg.gc-circuit[aria-labelledby^="xor-rev"] text[font-style="italic"]{font-size:20px}
+.classical-deck svg.gc-circuit[aria-labelledby^="xor-rev"] text.reg-cut-label{font-size:16px}
