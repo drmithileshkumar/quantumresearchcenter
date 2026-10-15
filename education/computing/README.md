@@ -459,3 +459,8 @@ aligned when changing the exposition. The original Chapter 1 introduction is pre
 Reading layout uses a bounded text measure, restrained postulate emphasis, and
 compact disclosure controls. Diagrams retain horizontal scrolling on small screens
 rather than shrinking mathematical labels below a readable size.
+
+Subsection problem sets use native `<details>` disclosures, closed initially. Only
+“Problems” is visible until selected; each solution remains independently hidden.
+Direct problem links expand the enclosing set, and printing expands both questions
+and solutions before restoring the reader’s previous state.

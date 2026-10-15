@@ -22,6 +22,9 @@ for name,s in pages.items():
   questions=section.select('.probing-question')
   if len(questions)!=1 or len(questions[0].select(':scope > ol > li'))!=3:
    errors.append(f'{name}: expected three questions for {section["id"]}')
+  for group in questions:
+   if group.name!='details' or group.has_attr('open') or not group.select_one(':scope > summary.question-label'):
+    errors.append(f'{name}: problems must be a closed disclosure in {section["id"]}')
   for problem in section.select('.probing-question > ol > li'):
    answers=problem.select('details.problem-solution')
    if len(answers)!=1 or answers[0].has_attr('open') or not answers[0].select_one('p'):

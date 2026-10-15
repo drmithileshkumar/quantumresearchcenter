@@ -44,9 +44,8 @@ def enrich(soup):
    raise ValueError(f'Expected three question levels for {ident}')
   if ident not in SOLUTIONS or set(SOLUTIONS[ident])!=set(questions) or not all(isinstance(a,str) and a.strip() for a in SOLUTIONS[ident].values()):
    raise ValueError(f'Missing problem solution for {ident}')
-  heading='h4' if section.find('h3',recursive=False) else 'h3'
   items=''.join(f'<li id="{ident}-problem-{n}"><p class="problem-text">{esc(questions[key])}</p><details class="problem-solution"><summary><span class="solution-closed">Show solution</span><span class="solution-open">Hide solution</span></summary><p>{esc(SOLUTIONS[ident][key])}</p></details></li>' for n,key in enumerate(('foundation','application','challenge'),1))
-  prompt=BeautifulSoup(f'<div class="probing-question"><{heading} class="question-label">Problems</{heading}><ol>{items}</ol></div>','html.parser')
+  prompt=BeautifulSoup(f'<details class="probing-question"><summary class="question-label">Problems</summary><ol>{items}</ol></details>','html.parser')
   section.append(prompt)
  # Link one prose occurrence per term per chapter; never modify equations or links.
  for term in GLOSSARY:

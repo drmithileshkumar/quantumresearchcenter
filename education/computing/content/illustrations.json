@@ -1483,202 +1483,490 @@
     ]
   },
   "topic-3-2-1": {
-    "kind": "table",
-    "title": "The product rule on the path 0 to 1 to 0",
-    "caption": "Multiplying the weights along the path \\(0\\to1\\to0\\) gives its weight in each model.",
-    "headers": [
-      "Rule",
-      "Arrow weights",
-      "Path weight"
-    ],
-    "rows": [
-      [
-        "NOT (deterministic)",
-        "\\(1\\) and \\(1\\)",
-        "\\(1\\)"
-      ],
-      [
-        "Keep or flip (nondeterministic)",
-        "yes and yes",
-        "possible"
-      ],
-      [
-        "Coin step (probabilistic)",
-        "\\(1/2\\) and \\(1/2\\)",
-        "\\(1/4\\)"
-      ]
+    "kind": "paths",
+    "title": "The product rule along one path",
+    "caption": "The weight of the path \\(i\\to j\\to k\\) is the product of its two transition weights.",
+    "paths": [
+      {
+        "label": "",
+        "states": [
+          "\\(i\\)",
+          "\\(j\\)",
+          "\\(k\\)"
+        ],
+        "weights": [
+          "\\(w(i\\to j)\\)",
+          "\\(w(j\\to k)\\)"
+        ],
+        "result": "\\(w(i\\to j\\to k)=w(j\\to k)\\,w(i\\to j)\\)"
+      }
     ]
   },
   "topic-3-2-2": {
-    "kind": "table",
-    "title": "The sum rule for ending at 0 after two steps",
-    "caption": "Adding the weights of the paths that end at \\(0\\) gives the weight of ending there.",
-    "headers": [
-      "Rule",
-      "Paths ending at \\(0\\)",
-      "Combined"
+    "kind": "network",
+    "title": "Sum the paths to a common endpoint",
+    "caption": "Each route passes through an intermediate configuration \\(j\\). Multiply along each route, then sum over all intermediate configurations; the dots stand for any additional routes.",
+    "nodes": [
+      {
+        "id": "i",
+        "x": 80,
+        "y": 190,
+        "label": "\\(i\\)"
+      },
+      {
+        "id": "j1",
+        "x": 380,
+        "y": 105,
+        "label": "\\(j_1\\)"
+      },
+      {
+        "id": "jm",
+        "x": 380,
+        "y": 275,
+        "label": "\\(j_m\\)"
+      },
+      {
+        "id": "k",
+        "x": 680,
+        "y": 190,
+        "label": "\\(k\\)"
+      }
     ],
-    "rows": [
-      [
-        "NOT",
-        "one path of weight \\(1\\)",
-        "\\(1\\)"
-      ],
-      [
-        "Keep or flip",
-        "two possible paths",
-        "reachable"
-      ],
-      [
-        "Coin step",
-        "\\(1/4\\) and \\(1/4\\)",
-        "\\(1/2\\)"
-      ]
-    ]
+    "edges": [
+      {
+        "start": "i",
+        "end": "j1",
+        "label": "\\(w(i\\to j_1)\\)",
+        "x": 220,
+        "y": 121
+      },
+      {
+        "start": "i",
+        "end": "jm",
+        "label": "\\(w(i\\to j_m)\\)",
+        "x": 220,
+        "y": 272
+      },
+      {
+        "start": "j1",
+        "end": "k",
+        "label": "\\(w(j_1\\to k)\\)",
+        "x": 540,
+        "y": 121
+      },
+      {
+        "start": "jm",
+        "end": "k",
+        "label": "\\(w(j_m\\to k)\\)",
+        "x": 540,
+        "y": 272
+      }
+    ],
+    "notes": [
+      {
+        "x": 380,
+        "y": 195,
+        "text": "⋮"
+      },
+      {
+        "x": 380,
+        "y": 347,
+        "text": "\\(w(i\\Rightarrow k)=\\sum_j w(j\\to k)w(i\\to j)\\)"
+      }
+    ],
+    "height": 400
   },
   "topic-3-2-3": {
-    "kind": "table",
-    "title": "One COIN step from different states",
-    "caption": "COIN sends every distribution to the state with weights \\(1/2\\) and \\(1/2\\), so the state after the step does not determine the state before it.",
-    "headers": [
-      "Weights before",
-      "Weights after"
+    "kind": "network",
+    "title": "Update one component of the state",
+    "caption": "Each initial weight \\(v_i\\) contributes \\(w(i\\to j)v_i\\) to the new weight at \\(j\\). The new state contains one such sum for every output configuration.",
+    "nodes": [
+      {
+        "id": "i1",
+        "x": 170,
+        "y": 110,
+        "label": "\\(i_1\\)"
+      },
+      {
+        "id": "im",
+        "x": 170,
+        "y": 280,
+        "label": "\\(i_m\\)"
+      },
+      {
+        "id": "j",
+        "x": 625,
+        "y": 195,
+        "label": "\\(j\\)"
+      }
     ],
-    "rows": [
-      [
-        "\\(1\\) and \\(0\\)",
-        "\\(1/2\\) and \\(1/2\\)"
-      ],
-      [
-        "\\(0\\) and \\(1\\)",
-        "\\(1/2\\) and \\(1/2\\)"
-      ],
-      [
-        "\\(3/4\\) and \\(1/4\\)",
-        "\\(1/2\\) and \\(1/2\\)"
-      ]
-    ]
+    "edges": [
+      {
+        "start": "i1",
+        "end": "j",
+        "label": "\\(w(i_1\\to j)\\)",
+        "x": 390,
+        "y": 128
+      },
+      {
+        "start": "im",
+        "end": "j",
+        "label": "\\(w(i_m\\to j)\\)",
+        "x": 390,
+        "y": 277
+      }
+    ],
+    "notes": [
+      {
+        "x": 170,
+        "y": 64,
+        "text": "\\(v_{i_1}\\)"
+      },
+      {
+        "x": 170,
+        "y": 195,
+        "text": "⋮"
+      },
+      {
+        "x": 170,
+        "y": 330,
+        "text": "\\(v_{i_m}\\)"
+      },
+      {
+        "x": 625,
+        "y": 147,
+        "text": "\\(v^\\prime_j\\)"
+      },
+      {
+        "x": 380,
+        "y": 385,
+        "text": "\\(v^\\prime_j=\\sum_iw(i\\to j)v_i\\)"
+      }
+    ],
+    "height": 430
   },
   "topic-3-3-1": {
-    "kind": "table",
-    "title": "One step looks random; two steps do not",
-    "caption": "COIN matches a single application and an interrupted pair, but not two unobserved applications. The unobserved qubit keeps information that the probabilities do not.",
-    "headers": [
-      "Experiment",
-      "COIN",
-      "Observed qubit"
+    "kind": "network",
+    "title": "The intermediate state retains the starting value",
+    "caption": "For either basis input \\(i\\), two unmeasured Hadamard steps return \\(i\\). Measuring the intermediate state instead gives zero or one with equal probability. Those probabilities alone cannot distinguish the two starting preparations.",
+    "nodes": [
+      {
+        "id": "start",
+        "x": 95,
+        "y": 125,
+        "label": "\\(\\ket i\\)"
+      },
+      {
+        "id": "middle",
+        "x": 380,
+        "y": 125,
+        "label": "\\(\\ket{\\psi_i}\\)"
+      },
+      {
+        "id": "end",
+        "x": 665,
+        "y": 125,
+        "label": "\\(\\ket i\\)"
+      },
+      {
+        "id": "zero",
+        "x": 230,
+        "y": 290,
+        "label": "\\(0\\)"
+      },
+      {
+        "id": "one",
+        "x": 530,
+        "y": 290,
+        "label": "\\(1\\)"
+      }
     ],
-    "rows": [
-      [
-        "Apply once, then measure",
-        "0 or 1, each 1/2",
-        "0 or 1, each 1/2"
-      ],
-      [
-        "Apply twice from 0",
-        "0 or 1, each 1/2",
-        "0 every time"
-      ],
-      [
-        "Apply twice, measuring between",
-        "0 or 1, each 1/2",
-        "0 or 1, each 1/2"
-      ]
-    ]
+    "edges": [
+      {
+        "start": "start",
+        "end": "middle",
+        "label": "\\(H\\)",
+        "x": 235,
+        "y": 109
+      },
+      {
+        "start": "middle",
+        "end": "end",
+        "label": "\\(H\\)",
+        "x": 525,
+        "y": 109
+      },
+      {
+        "start": "middle",
+        "end": "zero",
+        "label": "\\(p=1/2\\)",
+        "x": 220,
+        "y": 211
+      },
+      {
+        "start": "middle",
+        "end": "one",
+        "label": "\\(p=1/2\\)",
+        "x": 540,
+        "y": 211
+      }
+    ],
+    "notes": [
+      {
+        "x": 380,
+        "y": 65,
+        "text": "\\(i\\in\\{0,1\\},\\qquad\\ket{\\psi_i}=H\\ket i\\)"
+      },
+      {
+        "x": 380,
+        "y": 246,
+        "text": "Measure instead"
+      },
+      {
+        "x": 380,
+        "y": 365,
+        "text": "Equal measurement probabilities do not imply identical states."
+      }
+    ],
+    "height": 410
   },
   "topic-3-3-2": {
-    "kind": "table",
-    "title": "Add amplitudes before taking the square",
-    "caption": "The Born rule assigns probabilities to total amplitudes. Contributions from indistinguishable alternatives are added before the squared magnitude is taken. Opposite amplitudes cancel.",
-    "headers": [
-      "Contributions to one outcome",
-      "Total amplitude",
-      "Probability"
+    "kind": "network",
+    "title": "From path amplitudes to an outcome probability",
+    "caption": "Two coherent routes reach the same outcome \\(k\\). For real transition amplitudes \\(a,b,c,d\\), their amplitudes \\(ca\\) and \\(db\\) add before the total is squared. These labels describe the routes shown; a full operation must also satisfy normalization.",
+    "nodes": [
+      {
+        "id": "i",
+        "x": 80,
+        "y": 190,
+        "label": "\\(i\\)"
+      },
+      {
+        "id": "j1",
+        "x": 380,
+        "y": 105,
+        "label": "\\(j_1\\)"
+      },
+      {
+        "id": "j2",
+        "x": 380,
+        "y": 275,
+        "label": "\\(j_2\\)"
+      },
+      {
+        "id": "k",
+        "x": 680,
+        "y": 190,
+        "label": "\\(k\\)"
+      }
     ],
-    "rows": [
-      [
-        "\\(1/2,\\;1/2\\)",
-        "\\(1\\)",
-        "\\(1\\)"
-      ],
-      [
-        "\\(1/2,\\;-1/2\\)",
-        "\\(0\\)",
-        "\\(0\\)"
-      ],
-      [
-        "\\(1/\\sqrt2,\\;0\\)",
-        "\\(1/\\sqrt2\\)",
-        "\\(1/2\\)"
-      ]
-    ]
+    "edges": [
+      {
+        "start": "i",
+        "end": "j1",
+        "label": "\\(a\\)",
+        "x": 220,
+        "y": 121
+      },
+      {
+        "start": "i",
+        "end": "j2",
+        "label": "\\(b\\)",
+        "x": 220,
+        "y": 272
+      },
+      {
+        "start": "j1",
+        "end": "k",
+        "label": "\\(c\\)",
+        "x": 540,
+        "y": 121
+      },
+      {
+        "start": "j2",
+        "end": "k",
+        "label": "\\(d\\)",
+        "x": 540,
+        "y": 272
+      }
+    ],
+    "notes": [
+      {
+        "x": 380,
+        "y": 345,
+        "text": "\\(v_k=ca+db,\\qquad p(k)=(ca+db)^2\\)"
+      }
+    ],
+    "height": 400
   },
   "topic-3-4-1": {
-    "kind": "plane",
-    "title": "Phase is a direction in the complex plane",
-    "caption": "The complex numbers \\(1\\), \\(i\\), \\(-1\\), and \\(-i\\) have magnitude one and phases \\(0\\), \\(\\pi/2\\), \\(\\pi\\), and \\(3\\pi/2\\). Multiplying complex numbers adds their phases.",
-    "angles": [
-      0,
-      90,
-      180,
-      270
-    ],
-    "labels": [
-      "1",
-      "\\(i\\)",
-      "\\(-1\\)",
-      "\\(-i\\)"
-    ],
-    "axes": [
-      "Real",
-      "Imaginary"
-    ]
+    "kind": "phasor",
+    "title": "Magnitude and phase of an amplitude",
+    "caption": "The amplitude \\(z=re^{i\\phi}\\) is a vector of length \\(r\\) at angle \\(\\phi\\) in the complex plane. Its real and imaginary components are \\(r\\cos\\phi\\) and \\(r\\sin\\phi\\); its squared magnitude is \\(r^2\\)."
   },
   "topic-3-4-2": {
-    "kind": "table",
-    "title": "A final \\(H\\) reveals a relative sign",
-    "caption": "The first two states differ only by a global sign and have the same output probabilities. Changing only one component changes the outcome after \\(H\\).",
-    "headers": [
-      "Input state",
-      "After \\(H\\)",
-      "Certain outcome"
+    "kind": "network",
+    "title": "Relative phase changes how paths combine",
+    "caption": "Prepare equal-magnitude amplitudes with relative phase \\(\\phi\\), then apply \\(H\\). Only the routes to final outcome zero are shown. The phase changes their sum, even though it leaves the intermediate computational-basis probabilities unchanged.",
+    "nodes": [
+      {
+        "id": "start",
+        "x": 80,
+        "y": 190,
+        "label": "\\(\\ket0\\)"
+      },
+      {
+        "id": "zero",
+        "x": 380,
+        "y": 105,
+        "label": "\\(0\\)"
+      },
+      {
+        "id": "one",
+        "x": 380,
+        "y": 275,
+        "label": "\\(1\\)"
+      },
+      {
+        "id": "end",
+        "x": 680,
+        "y": 190,
+        "label": "\\(0\\)"
+      }
     ],
-    "rows": [
-      [
-        "\\((\\ket0 + \\ket1)/\\sqrt{2}\\)",
-        "\\(\\ket0\\)",
-        "0"
-      ],
-      [
-        "\\(-(\\ket0 + \\ket1)/\\sqrt{2}\\)",
-        "\\(-\\ket0\\)",
-        "0"
-      ],
-      [
-        "\\((\\ket0 - \\ket1)/\\sqrt{2}\\)",
-        "\\(\\ket1\\)",
-        "1"
-      ]
-    ]
+    "edges": [
+      {
+        "start": "start",
+        "end": "zero",
+        "label": "\\(1/\\sqrt2\\)",
+        "x": 220,
+        "y": 121
+      },
+      {
+        "start": "start",
+        "end": "one",
+        "label": "\\(e^{i\\phi}/\\sqrt2\\)",
+        "x": 220,
+        "y": 272
+      },
+      {
+        "start": "zero",
+        "end": "end",
+        "label": "\\(1/\\sqrt2\\)",
+        "x": 540,
+        "y": 121
+      },
+      {
+        "start": "one",
+        "end": "end",
+        "label": "\\(1/\\sqrt2\\)",
+        "x": 540,
+        "y": 272
+      }
+    ],
+    "notes": [
+      {
+        "x": 220,
+        "y": 61,
+        "text": "Preparation"
+      },
+      {
+        "x": 540,
+        "y": 61,
+        "text": "\\(H\\)"
+      },
+      {
+        "x": 380,
+        "y": 348,
+        "text": "\\(p(0)=\\left|(1+e^{i\\phi})/2\\right|^2=(1+\\cos\\phi)/2\\)"
+      }
+    ],
+    "height": 400
   },
   "topic-3-4-3": {
-    "kind": "flow",
-    "title": "A record keeps the paths apart",
-    "caption": "Copying the intermediate configuration into a record separates the paths, so their amplitudes no longer meet. Uncomputing the record restores the interference.",
-    "rows": [
-      [
-        "\\(\\ket{00}\\)",
-        "\\(H\\): \\((\\ket{00}+\\ket{10})/\\sqrt2\\)",
-        "CNOT: \\((\\ket{00}+\\ket{11})/\\sqrt2\\)",
-        "\\(H\\): qubit shows \\(1\\) with probability \\(1/2\\)"
-      ],
-      [
-        "\\(\\ket{00}\\)",
-        "\\(H\\), CNOT, CNOT: \\((\\ket{00}+\\ket{10})/\\sqrt2\\)",
-        "\\(H\\): \\(\\ket{00}\\)",
-        "Qubit shows \\(0\\) with certainty"
-      ]
-    ]
+    "kind": "network",
+    "title": "A record separates the final configurations",
+    "caption": "The second qubit records the intermediate value of the first. The two routes shown both give first-qubit outcome one, but end in different joint configurations, \\(10\\) and \\(11\\). Their amplitudes cannot cancel: add their squared magnitudes when ignoring the record. The routes to first-qubit outcome zero are omitted.",
+    "nodes": [
+      {
+        "id": "start",
+        "x": 80,
+        "y": 190,
+        "label": "\\(\\ket{00}\\)"
+      },
+      {
+        "id": "a",
+        "x": 365,
+        "y": 105,
+        "label": "\\(\\ket{00}\\)"
+      },
+      {
+        "id": "b",
+        "x": 365,
+        "y": 275,
+        "label": "\\(\\ket{11}\\)"
+      },
+      {
+        "id": "c",
+        "x": 665,
+        "y": 105,
+        "label": "\\(\\ket{10}\\)"
+      },
+      {
+        "id": "d",
+        "x": 665,
+        "y": 275,
+        "label": "\\(\\ket{11}\\)"
+      }
+    ],
+    "edges": [
+      {
+        "start": "start",
+        "end": "a",
+        "label": "\\(1/\\sqrt2\\)",
+        "x": 215,
+        "y": 121
+      },
+      {
+        "start": "start",
+        "end": "b",
+        "label": "\\(1/\\sqrt2\\)",
+        "x": 215,
+        "y": 272
+      },
+      {
+        "start": "a",
+        "end": "c",
+        "label": "\\(1/\\sqrt2\\)",
+        "x": 515,
+        "y": 85
+      },
+      {
+        "start": "b",
+        "end": "d",
+        "label": "\\(-1/\\sqrt2\\)",
+        "x": 515,
+        "y": 255
+      }
+    ],
+    "notes": [
+      {
+        "x": 215,
+        "y": 61,
+        "text": "\\(H\\), then CNOT"
+      },
+      {
+        "x": 515,
+        "y": 61,
+        "text": "\\(H\\) on the first qubit"
+      },
+      {
+        "x": 380,
+        "y": 348,
+        "text": "\\(p(\\text{first qubit}=1)=|1/2|^2+|-1/2|^2=1/2\\)"
+      }
+    ],
+    "height": 400
   },
   "topic-4-2-2": {
     "kind": "flow",

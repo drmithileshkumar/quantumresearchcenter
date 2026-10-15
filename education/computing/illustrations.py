@@ -14,6 +14,9 @@ class Drawing:
   if spec['kind'] in ('table','flow'):
    if spec.get('headers'):description+='Columns: '+', '.join(spec['headers'])+'. '
    description+='; '.join(' → '.join(row) if spec['kind']=='flow' else ', '.join(row) for row in spec['rows'])
+  elif spec['kind']=='paths':description+='; '.join(path['label']+': '+' → '.join(path['states'])+'; weights '+', '.join(path['weights'])+'; '+path['result'] for path in spec['paths'])
+  elif spec['kind']=='network':description+='; '.join(edge['start']+' → '+edge['end']+': '+edge['label'] for edge in spec['edges'])
+  elif spec['kind']=='phasor':description+='A vector from the origin, its phase angle, and its projections onto the real and imaginary axes.'
   elif spec['kind']=='bars':description+='; '.join(f'{label}: {value:g}' for label,value in zip(spec['labels'],spec['values']))
   elif spec['kind']=='decision':description+='; '.join(spec['nodes'])
   else:description+='; '.join(f'{label}: {angle} degrees' for label,angle in zip(spec['labels'],spec['angles']))
@@ -42,6 +45,40 @@ def render(spec):
     x=32+i*(w+28);d.box(x,y,w,h,cell,i==len(row)-1)
     if i<len(row)-1:d.edge(x+w,y+h/2,x+w+28,y+h/2)
    y+=h+24
+ elif kind=='paths':
+  d=Drawing(spec,76+140*len(spec['paths']))
+  for x,time in zip((180,380,580),(0,1,2)):
+   d.text(x,59,f'Time {time}','small')
+  for n,path in enumerate(spec['paths']):
+   y=126+140*n
+   d.text(38,y-37,path['label'],'heading','start',maxwidth=680)
+   for x,state in zip((180,380,580),path['states']):
+    d.parts.append(f'<circle cx="{x}" cy="{y}" r="23" fill="#fff" stroke="#246593" stroke-width="1.7"/>')
+    d.text(x,y+5,state,maxwidth=40)
+   for x,weight in zip((180,380),path['weights']):
+    d.edge(x+23,y,x+177,y)
+    d.text(x+100,y-14,weight,maxwidth=130)
+   d.text(380,y+51,path['result'],'small',maxwidth=680)
+ elif kind=='network':
+  d=Drawing(spec,spec['height']);nodes={node['id']:node for node in spec['nodes']};radius=28
+  for edge in spec['edges']:
+   a=nodes[edge['start']];b=nodes[edge['end']];dx=b['x']-a['x'];dy=b['y']-a['y'];length=math.hypot(dx,dy)
+   d.edge(a['x']+radius*dx/length,a['y']+radius*dy/length,b['x']-radius*dx/length,b['y']-radius*dy/length)
+   d.text(edge['x'],edge['y'],edge['label'],maxwidth=190)
+  for node in spec['nodes']:
+   d.parts.append(f'<circle cx="{node["x"]}" cy="{node["y"]}" r="{radius}" fill="#fff" stroke="#246593" stroke-width="1.7"/>')
+   d.text(node['x'],node['y']+5,node['label'],maxwidth=48)
+  for note in spec['notes']:d.text(note['x'],note['y'],note['text'],'small',maxwidth=700)
+ elif kind=='phasor':
+  d=Drawing(spec,390)
+  d.edge(125,280,650,280,'#6b7885');d.edge(180,310,180,70,'#6b7885')
+  d.parts.append('<path d="M430 280V110H180" fill="none" stroke="#a7bccd" stroke-dasharray="5 4"/>')
+  d.edge(180,280,430,110)
+  d.parts.append('<path d="M235 280A55 55 0 0 0 225.5 249.1" fill="none" stroke="#a64d26" stroke-width="1.7"/>')
+  d.text(180,58,'Imaginary','small');d.text(685,285,'Real','small',maxwidth=70)
+  d.text(160,303,r'\(0\)');d.text(430,310,r'\(r\cos\phi\)');d.text(115,116,r'\(r\sin\phi\)',maxwidth=100)
+  d.text(250,265,r'\(\phi\)');d.text(285,174,r'\(r\)');d.text(520,102,r'\(z=re^{i\phi}\)',maxwidth=200)
+  d.text(380,365,r'\(|z|^2=(r\cos\phi)^2+(r\sin\phi)^2=r^2\)','small')
  elif kind=='table':
   rows=[spec['headers'],*spec['rows']];w=696/len(rows[0]);heights=[max(48,22*max(len(lines(cell,w-22)) for cell in row)+18) for row in rows]
   d=Drawing(spec,70+sum(heights));y=54

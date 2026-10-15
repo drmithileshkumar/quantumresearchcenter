@@ -94,3 +94,10 @@
  .ebook .reading-topic .book-exposition>.principle {background:white;}
  .ebook .problem-solution {border-left:2px solid #aab9c5;padding-left:.8rem;}
 }
+
+/* Keep exercises available without interrupting the exposition. */
+.ebook details.probing-question {border-left:0;padding:0;}
+.ebook details.probing-question>summary.question-label {margin:0;padding:.4rem 0;color:var(--accent);font-size:.85em;}
+.ebook details.probing-question[open]>summary.question-label {margin-bottom:.7rem;}
+.ebook details.probing-question>ol {border-left:2px solid #aab9c5;padding-left:2em;}
+@media print {.ebook details.probing-question>summary.question-label {font-size:1em;color:inherit;}}

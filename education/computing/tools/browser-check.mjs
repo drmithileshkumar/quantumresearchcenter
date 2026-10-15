@@ -25,9 +25,13 @@ try {
  await assert(`document.querySelectorAll('.book-part').length===4&&document.querySelectorAll('.reading-topic').length===11`,'chapter structure');
  await assert(`document.querySelectorAll('.book-drawing svg.book-figure').length===11&&[...document.querySelectorAll('.book-drawing svg.book-figure')].every(s=>s.getBoundingClientRect().width>0)`,'chapter concept diagrams loaded');
  await assert(`document.querySelectorAll('.problem-solution').length===33&&[...document.querySelectorAll('.problem-solution')].every(d=>!d.open&&!d.querySelector('p').checkVisibility())`, 'subsection solutions are initially hidden');
+ await assert(`[...document.querySelectorAll('.probing-question')].every(d=>d.tagName==='DETAILS'&&!d.open&&d.querySelector('summary').textContent==='Problems'&&!d.querySelector('.problem-text').checkVisibility())`, 'problem sets start collapsed');
+ await assert(`(()=>{const d=document.querySelector('.probing-question');d.querySelector('summary').click();return d.open&&d.querySelector('.problem-text').checkVisibility()&&[...d.querySelectorAll('.problem-solution')].every(s=>!s.open)})()`, 'opening problems leaves solutions hidden');
  await assert(`(()=>{const d=document.querySelector('.problem-solution');d.querySelector('summary').click();return d.open&&d.querySelector('p').checkVisibility()&&getComputedStyle(d.querySelector('.solution-closed')).display==='none'&&[...document.querySelectorAll('.problem-solution')].filter(x=>x.open).length===1})()`, 'one solution opens independently');
  await screenshot('book-problem-solution','#topic-1-1-1 .probing-question');
  await assert(`(()=>{const d=document.querySelector('.problem-solution');d.querySelector('summary').click();return !d.open})()`, 'solution closes again');
+ await assert(`(()=>{const d=document.querySelector('.probing-question');d.querySelector('summary').click();return !d.open&&!d.querySelector('.problem-text').checkVisibility()})()`, 'problem set collapses again');
+ await assert(`(()=>{location.hash='topic-1-1-1-problem-2';return new Promise(resolve=>setTimeout(()=>resolve(document.querySelector('.probing-question').open&&document.querySelector('#topic-1-1-1-problem-2 .problem-text').checkVisibility()&&!document.querySelector('#topic-1-1-1-problem-2 .problem-solution').open),100))})()`, 'direct problem link reveals questions without solutions');
  await screenshot('book-probing-question','#topic-1-1-2 .probing-question');
  await screenshot('book-turing-diagram','#figure-logic-turing-machine');
  await screenshot('book-halting-diagram','#figure-logic-halting-contradiction');
@@ -63,6 +67,11 @@ try {
  await screenshot('book-mobile-notation');
  await navigate('03-amplitudes-interference');
  await screenshot('book-mobile-phase-illustration','#topic-3-4-2');
+ await screenshot('book-mobile-product-path','#topic-3-2-1 figure');
+ await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
+ await screenshot('book-product-path','#topic-3-2-1 figure');
+ for(const topic of ['3-2-2','3-2-3','3-3-1','3-3-2','3-4-1','3-4-2','3-4-3'])await screenshot('book-diagram-'+topic,'#topic-'+topic+' figure');
+ await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
 
  await navigate('07-amplitude-amplification');
  await screenshot('book-rewrite-mobile-circuit','#topic-7-1-3');
@@ -90,6 +99,7 @@ try {
  await send('Page.navigate',{url:pathToFileURL(join(root,'01-logic-computability.html')).href});
  await sleep(500);
  await assert(`!document.documentElement.classList.contains('book-js')&&getComputedStyle(document.querySelector('#book-navigation')).transform==='none'&&document.querySelectorAll('.exercise-solution').length===3`, 'mobile navigation and solutions remain available without JavaScript');
+ await assert(`(()=>{const d=document.querySelector('.probing-question');if(!d||d.open)return false;d.querySelector('summary').click();return d.open&&d.querySelector('.problem-text').checkVisibility()})()`, 'problem set opens without JavaScript');
  await assert(`(()=>{const d=document.querySelector('.problem-solution');if(!d||d.open)return false;d.querySelector('summary').click();return d.open})()`, 'subsection solution opens without JavaScript');
  await send('Emulation.setScriptExecutionDisabled',{value:false});
  if(errors.length)throw Error(errors.join('; '));console.log('All browser smoke checks passed. Screenshots saved in '+tmpdir());
