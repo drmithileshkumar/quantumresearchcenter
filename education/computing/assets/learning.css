@@ -67,3 +67,30 @@
  .ebook .notation-row > span:nth-child(2) {font-style:italic;color:#4b5864;}
 }
 @media print{.ebook .notation-row {break-inside:avoid;}}
+
+/* Editorial rhythm: keep prose readable while giving equations and figures room. */
+@media screen and (min-width:1051px) {
+ .ebook #main {padding-left:max(34px,calc((100vw - var(--course-sidebar) - 720px)/2));padding-right:max(34px,calc((100vw - var(--course-sidebar) - 720px)/2));}
+}
+.ebook .chapter-header {padding-bottom:1.6em;margin-bottom:2em;}
+.ebook .book-part {margin-top:3em;padding-top:1.4em;}
+.ebook .book-section.reading-topic {margin-bottom:2.4em;}
+.ebook .reading-topic .book-exposition>.principle {padding:.65em .9em;border-left:3px solid var(--accent);background:#f4f7f5;}
+.ebook .book-exposition>.observations {padding-left:1.5em;margin:1em 0;}
+.ebook .book-exposition>.observations li {padding-left:.3em;margin:.65em 0;}
+.ebook .book-exposition table {border-collapse:collapse;}
+.ebook .book-exposition th {text-align:left;border-bottom:2px solid #aabbb4;color:#304d48;font-weight:600;}
+.ebook .book-exposition td {border-bottom:1px solid var(--line);}
+.ebook .book-exposition tbody tr:nth-child(even) {background:#f7f9f7;}
+.ebook .probing-question {margin-top:1.4em;padding-left:1em;}
+.ebook .problem-solution {border:0;padding:0;margin:.45rem 0 1.1rem;}
+.ebook .problem-solution summary {padding:.35rem 0;color:var(--accent);min-height:36px;}
+.ebook .problem-solution[open] {border-left:2px solid #baccc4;padding-left:.8rem;}
+.ebook .problem-solution[open] p {font-size:.95em;}
+.ebook .book-drawing {border-radius:2px;background:#f8faf8;}
+@media print {
+ .ebook .chapter-header {margin-bottom:1em;}
+ .ebook .book-section.reading-topic {margin-bottom:1.5em;}
+ .ebook .reading-topic .book-exposition>.principle {background:white;}
+ .ebook .problem-solution {border-left:2px solid #aab9c5;padding-left:.8rem;}
+}

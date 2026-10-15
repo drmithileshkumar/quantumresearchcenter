@@ -112,9 +112,9 @@
       "number": "3.4"
     }
   ],
-  "opening": "Computation has been assumed to be a purely logical procedure in which the state of the computation transitions between configurations. But, mechanized computation must be physical. Physical processes must allow for the required transitions to happen. This lead to the question of reversibility as irreversible computation suffers from information (and hence energy) loss. We saw that reversible computation is feasible in principle.",
+  "opening": "So far, we have treated computation as a logical procedure that moves between configurations. A machine, however, must carry out those transitions through physical processes. This led us to reversibility: discarding logical information has a thermodynamic cost, whereas a reversible computation keeps enough information to undo each step. We saw how to make such computations possible in principle.",
   "opening_continuation": [
-    "Next, we march towards quantum computation which is based on the framework of quantum mechanics. As will be shown, quantum evolution is reversible and the transitions are not deterministic. This requires us to investigate various models of transition. We start with deterministic transitions where current configuration is proceeded by a unique configuration, i.e. a unique future. As a thought experiment, we introduce nondeterministic transitions that relax the above uniqueness of future configurations. Within this non-uniqueness two variants appear: probabilistic transitions and quantum transitions.",
-    "The next chapter formalizes and develops the framework of quantum mechanics relevant for quantum computation."
+    "We now turn to quantum computation. Its evolution between measurements is reversible, but a measurement need not give a predictable result. What should replace our description of a computation as a single path through configurations? We will compare deterministic, nondeterministic, and probabilistic transitions, then ask what must change to describe interference.",
+    "This chapter develops that picture through paths and their weights. The next expresses the same rules in the language of vectors, matrices, and measurement."
   ]
 }

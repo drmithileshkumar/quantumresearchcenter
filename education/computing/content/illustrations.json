@@ -1588,26 +1588,28 @@
   },
   "topic-3-3-2": {
     "kind": "table",
-    "title": "Which probability rule allows observation 1?",
-    "caption": "With probability \\(|w|^p\\), every operation must preserve \\(\\sum_j|v_j|^p\\). Only \\(p=2\\) allows an operation that sends a configuration to an equal superposition.",
+    "title": "Add amplitudes before taking the square",
+    "caption": "The Born rule assigns probabilities to total amplitudes. Contributions from indistinguishable alternatives are added before the squared magnitude is taken. Opposite amplitudes cancel.",
     "headers": [
-      "Probability rule",
-      "Quantity preserved",
-      "Allowed operations",
-      "Observation 1 possible?"
+      "Contributions to one outcome",
+      "Total amplitude",
+      "Probability"
     ],
     "rows": [
       [
-        "\\(|w|^p\\), \\(p\\neq2\\)",
-        "\\(\\sum_j|v_j|^p\\)",
-        "Each configuration to one configuration, weight \\(\\pm1\\)",
-        "No"
+        "\\(1/2,\\;1/2\\)",
+        "\\(1\\)",
+        "\\(1\\)"
       ],
       [
-        "\\(w^2\\)",
-        "\\(\\sum_jv_j^2\\)",
-        "Outgoing squares sum to 1; cross sums vanish",
-        "Yes"
+        "\\(1/2,\\;-1/2\\)",
+        "\\(0\\)",
+        "\\(0\\)"
+      ],
+      [
+        "\\(1/\\sqrt2,\\;0\\)",
+        "\\(1/\\sqrt2\\)",
+        "\\(1/2\\)"
       ]
     ]
   },

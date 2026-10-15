@@ -36,7 +36,7 @@
   },
   "topic-1-3-2": {
     "foundation": "(a) halts: \\(x\\) decreases to \\(0\\). (b) does not halt: \\(x\\) takes the values \\(5,3,1,-1,\\dots\\) and never equals \\(0\\). (c) does not halt. Particular programs can often be decided by inspection; the halting theorem rules out one procedure that works for every program.",
-    "application": "From \\(6\\): \\(6,3,10,5,16,8,4,2,1\\), eight steps. From \\(7\\) the run takes sixteen steps, reaching \\(1\\) after passing through \\(52\\). Every input tried so far halts, but no one has proved that every input does; this is the open Collatz problem. A decider must give a correct answer for every input, and running examples only confirms the cases already tried.",
+    "application": "A program that counts down from \\(1{,}000{,}001\\), one decrement per step, and then stops will outlast the test. For any fixed cutoff \\(B\\), a countdown longer than \\(B\\) gives the same counterexample. A timeout shows only that the program has not halted yet; it does not prove that it never will.",
     "challenge": "Given \\((P,x)\\), let \\(P^\\prime\\) be the program that ignores its input and runs \\(P\\) on \\(x\\). Then \\(P^\\prime\\) halts on \\(0\\) exactly when \\(P\\) halts on \\(x\\), and \\(P^\\prime\\) can be written down from \\(P\\) and \\(x\\) by an algorithm. If some algorithm decided halting on input \\(0\\), applying it to \\(P^\\prime\\) would decide whether \\(P\\) halts on \\(x\\), for every pair. That would solve the halting problem, which is impossible. So no such algorithm exists."
   },
   "topic-1-3-3": {
@@ -96,7 +96,7 @@
   },
   "topic-2-3-3": {
     "foundation": "\\(000\\to000\\), \\(010\\to011\\), \\(100\\to101\\), and \\(110\\to111\\): the target receives the OR of the inputs.",
-    "application": "First \\(t\\) becomes \\(1\\oplus(1\\lor0)=0\\), giving \\((1,0,0)\\). Then \\(t\\) becomes \\(0\\oplus1=1\\), giving \\((1,0,1)\\) again.",
+    "application": "The first call gives \\((1,0,0)\\), since \\(1\\oplus1=0\\). The second gives \\((1,0,1)\\), restoring the input. The oracle adds the function value modulo two to the existing target; it does not overwrite that target. To read \\(f(x)\\) directly from the target, initialize it to \\(0\\).",
     "challenge": "\\(U_f(U_f(x,t))=U_f(x,t\\oplus f(x))=(x,t\\oplus f(x)\\oplus f(x))=(x,t)\\), because each bit of \\(f(x)\\) added twice modulo two gives \\(0\\). So \\(U_f\\) undoes itself. In particular it is one-to-one, whatever \\(f\\) is."
   },
   "topic-2-4-1": {
@@ -147,7 +147,7 @@
   "topic-3-3-1": {
     "foundation": "COIN reproduces observation 1: one step gives \\(0\\) or \\(1\\) with probability \\(1/2\\) each. It reproduces observation 3: after a measurement, a second COIN step again gives \\(1/2\\) and \\(1/2\\). It fails observation 2: two unobserved COIN steps from \\(0\\) give \\(0\\) with probability \\(1/2\\), not with certainty.",
     "application": "Observation 1 says that from either start each outcome has probability \\(1/2\\), so \\(P(j\\mid i)=1/2\\) for all \\(i\\) and \\(j\\): the rule is COIN. Two steps from \\(0\\) end at \\(1\\) along \\(0\\to0\\to1\\) and \\(0\\to1\\to1\\), each with probability \\(1/4\\), so the probability is \\(1/2\\). Observation 2 requires \\(0\\).",
-    "challenge": "If only the run from \\(0\\) were constrained, the second step could be RESET, which sends every distribution to \\(0\\) and so returns \\(0\\) every time. The contradiction appears only because the same intermediate distribution must also lead back to \\(1\\) when the run starts from \\(1\\)."
+    "challenge": "The first observation fixes \\(P(0\\mid0)=P(1\\mid0)=1/2\\). After two steps the probability of \\(1\\) is \\((1/2)(1/2)+(1/2)r=1/4+r/2\\), at least \\(1/4\\). It cannot be zero. Using a fair coin first and RESET second would change the rule between steps. Allowing extra hidden configurations would change the model as well. The contradiction concerns the same rule acting on a complete two-configuration description."
   },
   "topic-3-3-2": {
     "foundation": "The squared weights must add to \\(1\\). For the first, \\(\\tfrac14+\\tfrac14=\\tfrac12\\); for the second, \\(\\tfrac9{25}+\\tfrac{16}{25}=1\\); for the third, \\(1+1=2\\). Only \\(\\tfrac35\\ket0-\\tfrac45\\ket1\\) is a state; it gives \\(0\\) with probability \\(9/25\\) and \\(1\\) with probability \\(16/25\\).",
@@ -160,7 +160,7 @@
     "challenge": "With \\(c=H(0\\to0)\\) and \\(s=H(0\\to1)\\) each \\(\\pm1/\\sqrt2\\), the weights are \\(w(0\\to0)=c\\), \\(w(0\\to1)=w(1\\to0)=s\\), and \\(w(1\\to1)=-c\\). Every weight has square \\(1/2\\), so observation 1 holds. Two steps from \\(0\\) give weight \\(c^2+s^2=1\\) at \\(0\\) and \\(cs-sc=0\\) at \\(1\\); from \\(1\\) they give \\(sc-cs=0\\) at \\(0\\) and \\(s^2+c^2=1\\) at \\(1\\). So observation 2 holds for all four. The choice \\(c=s=-1/\\sqrt2\\) is \\(-H\\), which differs from \\(H\\) by the common factor \\(-1\\). The two mixed choices are negatives of each other and differ from \\(H\\) in the sign of only some weights."
   },
   "topic-3-4-1": {
-    "foundation": "From \\(0\\): \\(S(0\\to0)^2+S(0\\to1)S(1\\to0)=0\\) and \\(S(0\\to1)\\bigl(S(0\\to0)+S(1\\to1)\\bigr)=1\\); from \\(1\\): \\(S(1\\to0)\\bigl(S(0\\to0)+S(1\\to1)\\bigr)=1\\). The last two make \\(S(0\\to1)S(1\\to0)\\) positive, so the first requires \\(S(0\\to0)^2\\lt 0\\).",
+    "foundation": "The return weight is \\(a^2+b^2\\), and the switch weight is \\(ab+ba=2ab\\). NOT requires these to be \\(0\\) and \\(1\\). For real weights, \\(a^2+b^2=0\\) forces both weights to vanish, making \\(2ab=1\\) impossible.",
     "application": "To \\(0\\): \\(S(1\\to0)S(0\\to0)+S(1\\to1)S(1\\to0)=\\tfrac14\\bigl((1-i)(1+i)+(1+i)(1-i)\\bigr)=\\tfrac14(2+2)=1\\). To \\(1\\): \\(S(1\\to0)S(0\\to1)+S(1\\to1)^2=\\tfrac14\\bigl((1-i)^2+(1+i)^2\\bigr)=\\tfrac14(-2i+2i)=0\\). Two steps of \\(S\\) send \\(1\\) to \\(0\\), as NOT does.",
     "challenge": "Two steps from \\(0\\) give weight \\(a^2+b^2\\) at \\(0\\) and \\(2ab\\) at \\(1\\), and from \\(1\\) the same by symmetry. We need \\(a^2+b^2=0\\) and \\(2ab=1\\). If \\(a\\) and \\(b\\) were real, the first equation would force \\(a=b=0\\), contradicting the second. Over the complex numbers, \\(a^2=-b^2\\) gives \\(a=\\pm ib\\). With \\(a=ib\\), \\(2ib^2=1\\), so \\(b^2=-i/2\\) and \\(b=\\pm(1-i)/2\\), \\(a=\\pm(1+i)/2\\). With \\(a=-ib\\), \\(b^2=i/2\\), so \\(b=\\pm(1+i)/2\\) and \\(a=\\pm(1-i)/2\\). There are four solutions: \\(S\\), \\(-S\\), and the two operations obtained from them by conjugating every weight. Each is unitary."
   },
@@ -227,7 +227,7 @@
   "topic-4-4-2": {
     "foundation": "Its conjugate transpose is \\(\\begin{pmatrix}1&(-i)^*\\\\i^*&1\\end{pmatrix}=\\begin{pmatrix}1&i\\\\-i&1\\end{pmatrix}\\), the same matrix, so it is Hermitian. The eigenvalues satisfy \\(\\lambda_1+\\lambda_2=2\\) (the trace) and \\(\\lambda_1\\lambda_2=1-(i)(-i)=0\\) (the determinant), so they are \\(0\\) and \\(2\\): real, as for every Hermitian matrix.",
     "application": "For the first state, \\((+1)\\tfrac34+(-1)\\tfrac14=\\tfrac12\\). For the second, \\((+1)\\tfrac12+(-1)\\tfrac12=0\\).",
-    "challenge": "If \\(A\\ket v=\\lambda\\ket v\\), then \\(\\lambda\\braket vv=\\braket v{Av}=\\braket{Av}v=\\lambda^*\\braket vv\\), and \\(\\braket vv\\gt 0\\), so \\(\\lambda=\\lambda^*\\). For the average, \\(\\sum_ja_j\\|P_j\\psi\\|^2=\\sum_ja_j\\braket{P_j\\psi}{P_j\\psi}=\\sum_ja_j\\braket\\psi{P_j\\psi}\\), using \\(P_j^\\dagger P_j=P_j\\). This equals \\(\\braket\\psi{A\\psi}\\)."
+    "challenge": "The projectors are \\(P_0=\\ket0\\bra0+\\ket1\\bra1\\) and \\(P_1=\\ket2\\bra2\\). Their probabilities are \\(2/3\\) and \\(1/3\\). The ideal projective measurement leaves \\((\\ket0+\\ket1)/\\sqrt2\\) after outcome \\(0\\): coherence within that eigenspace survives. A full basis measurement instead leaves either \\(\\ket0\\) or \\(\\ket1\\). Forgetting which does not restore coherence. For example, a later test for \\((\\ket0+\\ket1)/\\sqrt2\\) succeeds with probability \\(1\\) in the first case and \\(1/2\\) in the second."
   },
   "topic-4-4-3": {
     "foundation": "Only the orthogonal pairs: \\(\\{\\ket0,\\ket1\\}\\) and \\(\\{\\ket+,\\ket-\\}\\). For the others, \\(\\braket0+=1/\\sqrt2\\) and \\(\\braket+{+i}=(1+i)/2\\), whose magnitude is \\(1/\\sqrt2\\neq0\\).",
@@ -277,7 +277,7 @@
   "topic-5-3-3": {
     "foundation": "With probability \\(1/2\\), Alice obtains \\(0\\) and Bob’s qubit is \\(\\ket0\\); otherwise it is \\(\\ket1\\). Bob obtains \\(0\\) with probability \\(\\tfrac12\\cdot1+\\tfrac12\\cdot0=\\tfrac12\\), exactly as without Alice’s measurement.",
     "application": "\\((X\\otimes I)\\ket{\\Phi^+}=(\\ket{10}+\\ket{01})/\\sqrt2\\). Bob obtains \\(0\\) and \\(1\\) with probability \\(1/2\\) each, as before. Only the correlations between the two qubits have changed.",
-    "challenge": "Since \\(\\ket{\\Phi^+}=(\\ket{++}+\\ket{--})/\\sqrt2\\), Alice obtains \\(+\\) or \\(-\\) with probability \\(1/2\\) each, leaving Bob’s qubit in \\(\\ket+\\) or \\(\\ket-\\). Each gives Bob \\(0\\) with probability \\(1/2\\), so overall he still sees \\(1/2\\) and \\(1/2\\). Alice’s choice of basis changes Bob’s conditional states but not his statistics, so it cannot carry a message."
+    "challenge": "For Alice’s computational-basis choice, Bob’s probability is \\(\\tfrac12|a|^2+\\tfrac12|b|^2=1/2\\). For her \\(\\pm\\) choice, it is \\(\\tfrac14|a+b|^2+\\tfrac14|a-b|^2=\\tfrac12(|a|^2+|b|^2)=1/2\\). The cross terms cancel. Thus changing Bob’s measurement basis cannot reveal Alice’s choice. Matching probabilities in just one basis would not establish this: \\(\\ket+\\) and \\(\\ket-\\), for example, agree in the computational basis but are distinguishable in another."
   },
   "topic-5-4-1": {
     "foundation": "Alice holds two qubits, the input and her half of the Bell pair; Bob holds one. The state is \\(\\ket1\\otimes\\tfrac{\\ket{00}+\\ket{11}}{\\sqrt2}=\\tfrac{\\ket{100}+\\ket{111}}{\\sqrt2}\\).",
@@ -292,7 +292,7 @@
   "topic-5-4-3": {
     "foundation": "His qubit is \\(X^nZ^m\\ket0=\\pm\\ket n\\), with \\(n=0\\) or \\(1\\) equally likely, so he obtains \\(0\\) with probability \\(1/2\\).",
     "application": "\\(Z^m\\) changes only signs, so \\(Z^m\\ket\\psi\\) gives \\(0\\) with probability \\(|\\alpha|^2\\); \\(X\\) swaps the amplitudes, giving \\(|\\beta|^2\\). Averaging over \\(n\\), Bob obtains \\(0\\) with probability \\(\\tfrac12|\\alpha|^2+\\tfrac12|\\beta|^2=\\tfrac12\\), independent of \\(\\psi\\).",
-    "challenge": "Alice’s measurement leaves her qubits in \\(\\ket m\\ket n\\) and Bob’s in \\(X^nZ^m\\ket\\psi\\); the correction turns his into \\(\\ket\\psi\\). The state is a product, and Alice’s part \\(\\ket m\\ket n\\) is a basis state chosen by her random outcome, independent of \\(\\alpha\\) and \\(\\beta\\). No other system holds information about \\(\\ket\\psi\\), consistent with the no-cloning theorem."
+    "challenge": "The conditional state is \\(\\ket m\\ket n\\ket\\psi\\). Alice’s two qubits are basis states, and each pair \\((m,n)\\) has probability \\(1/4\\), independent of \\(\\psi\\). Her remaining registers and the classical record therefore contain no second copy of the unknown input. This describes the systems in this protocol; it does not assert that an external preparer could not already have held another copy."
   },
   "topic-6-1-1": {
     "foundation": "\\((0,0)\\) and \\((1,1)\\) are constant; \\((0,1)\\) and \\((1,0)\\) are balanced.",
@@ -331,7 +331,7 @@
   },
   "topic-6-3-2": {
     "foundation": "The signs are \\((-1)^{f(0)}=-1\\) and \\((-1)^{f(1)}=+1\\), so the result is \\(\\tfrac{-\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket-=-\\ket-\\ket-\\).",
-    "application": "For the constant functions, the two signs are equal, and the input is \\(\\ket+\\). For the balanced functions, they differ, and the input is \\(\\ket-\\). The global sign, \\(-1\\) for \\((1,1)\\) and \\((1,0)\\), has no effect.",
+    "application": "Since \\(X\\ket+=\\ket+\\), either value of \\(f(x)\\) leaves the target unchanged with eigenvalue \\(+1\\). For all four functions the output is \\(\\ket+\\ket+\\). The target is unentangled, but no information about \\(f\\) reaches the input. The \\(\\ket-\\) preparation matters because a flip has eigenvalue \\(-1\\), giving different phases to different function values.",
     "challenge": "For each basis input, \\(U_f\\ket x\\ket-=(-1)^{f(x)}\\ket x\\ket-\\), because a flip multiplies \\(\\ket-\\) by \\(-1\\) and no flip leaves it alone. By linearity, the superposition becomes \\(\\sum_x(-1)^{f(x)}\\ket x\\ket-\\), up to the factor \\(2^{-n/2}\\). The target factors out as \\(\\ket-\\), so it carries no record of \\(x\\)."
   },
   "topic-6-3-3": {
@@ -391,7 +391,7 @@
   },
   "topic-7-3-2": {
     "foundation": "\\(\\theta=30^\\circ\\), so the angle is \\(7\\theta=210^\\circ\\), and \\(\\sin^2210^\\circ=1/4\\): no better than guessing.",
-    "application": "About \\(\\tfrac\\pi4\\sqrt N=\\tfrac\\pi4\\cdot1024\\approx804\\) iterations, each with one query. A classical search needs about \\(N/2\\approx524{,}000\\) queries on average.",
+    "application": "With \\(M=4\\), \\(\\sin\\theta=\\sqrt{4/16}=1/2\\), so \\(\\theta=\\pi/6\\). Three iterations give \\(\\sin^2(7\\pi/6)=1/4\\). One iteration gives \\(\\sin^2(3\\pi/6)=1\\). More marked items do not guarantee better performance with a fixed iteration count: they change the rotation angle, so the stopping time must change too.",
     "challenge": "\\(p_k=\\sin^2\\bigl((2k+1)\\theta\\bigr)\\), and \\(\\sin^2\\) repeats when its argument changes by \\(\\pi\\). Each iteration adds \\(2\\theta\\), so \\(p_{k+j}=p_k\\) whenever \\(2j\\theta\\) is a multiple of \\(\\pi\\). For \\(\\theta=\\pi/6\\), \\(2j\\theta=j\\pi/3\\), first a multiple of \\(\\pi\\) at \\(j=3\\). The sequence is \\(\\tfrac14,1,\\tfrac14,\\tfrac14,1,\\tfrac14,\\dots\\), with period \\(3\\)."
   },
   "topic-7-3-3": {
@@ -472,7 +472,7 @@
   "topic-8-4-3": {
     "foundation": "\\((1-10^{-3})^{1000}\\approx e^{-1}\\approx0.37\\).",
     "application": "We need \\((1-q)^{10^9}\\geq0.9\\). Since \\((1-q)^N\\approx e^{-qN}\\), this requires \\(q\\lesssim-\\ln0.9/10^9\\approx1.05\\times10^{-10}\\), far below what physical gates achieve. Long computations need error correction.",
-    "challenge": "Decoding fails when at least two copies flip: \\(3q^2(1-q)+q^3=3q^2-2q^3\\). This is less than \\(q\\) when \\(3q-2q^2\\lt 1\\), that is, \\(2q^2-3q+1\\gt 0\\), or \\((2q-1)(q-1)\\gt 0\\), which holds for \\(0\\lt q\\lt 1/2\\). Encoding helps only when the individual error rate is already below a threshold. Quantum codes are more involved, since they must also protect phases without copying states."
+    "challenge": "Decoding fails after two or three flips: \\(3q^2(1-q)+q^3=3q^2-2q^3\\). This is smaller than \\(q\\) exactly for \\(0<q<1/2\\). But a phase flip gives \\(\\alpha\\ket{000}-\\beta\\ket{111}\\), which generally changes the encoded quantum state without changing any computational-basis bit pattern. Majority voting sees no error. Protecting quantum information therefore requires protection of relative phase as well as of bit values."
   },
   "topic-9-1-1": {
     "foundation": "\\(2^{29}\\lt10^9\\lt2^{30}\\), so \\(N\\) has \\(30\\) bits. With \\(n\\) bits, \\(\\sqrt N\\approx2^{n/2}\\), which is exponential in \\(n\\), not polynomial.",
@@ -481,7 +481,7 @@
   },
   "topic-9-1-2": {
     "foundation": "Yes: \\(100n\\leq100n^2\\) for \\(n\\geq1\\), so \\(C=100\\) works. No: \\(n^2\\leq C\\cdot100n\\) fails as soon as \\(n\\gt 100C\\), whatever \\(C\\) is.",
-    "application": "\\(\\sqrt n\\lt n\\log n\\lt n^2\\lt n^{10}\\lt1.01^n\\lt2^n\\), for large enough \\(n\\). Every exponential with base greater than \\(1\\) eventually exceeds every polynomial.",
+    "application": "At \\(n=100\\), the costs are \\(100{,}000\\) and \\(10{,}000\\), so the quadratic algorithm wins. At \\(n=1000\\), both cost \\(10^6\\). At \\(n=10{,}000\\), the costs are \\(10^7\\) and \\(10^8\\), so the linear algorithm wins. Linear growth is eventually better, but the constant moves the crossover to \\(1000\\). A scaling claim needs the input size and actual costs before it becomes a practical recommendation.",
     "challenge": "Comparing the two, \\(n^{10}\\gt 2^n\\) for every \\(n\\) from \\(2\\) to \\(58\\), and \\(n^{10}\\lt2^n\\) from \\(n=59\\) on. The polynomial algorithm wins only for inputs of at least \\(59\\) bits, where both costs exceed \\(10^{17}\\). Asymptotic statements describe eventual growth; at practical sizes, constants and exponents can decide the comparison."
   },
   "topic-9-1-3": {
@@ -525,9 +525,9 @@
     "challenge": "A phase oracle only changes signs, so every label is still measured with probability \\(2^{-n}\\): a uniformly random label, which a classical algorithm can produce without any query. With \\(U_f\\) and a clean target, the result is a uniformly random \\(x\\) together with \\(f(x)\\), exactly what one classical query of a random input gives. Without further operations that make amplitudes interfere, there is no advantage."
   },
   "topic-9-4-2": {
-    "foundation": "No. A classical computer can simulate any quantum circuit by storing and updating all of its amplitudes, so quantum computers compute exactly the functions that Turing machines compute. A quantum halting decider would therefore give a classical one, which does not exist.",
-    "application": "Memory grows like \\(2^n\\), so the simulation is exponentially slow. Computability asks only whether a function can be computed at all, in finite time and memory, and the simulation achieves that. Speed and computability are separate questions.",
-    "challenge": "\\(k\\) copies, each measured once, give at most \\(kn\\) bits of information. Specifying \\(2^n\\) amplitudes, even to a few bits each, takes at least of order \\(2^n\\) bits, so \\(kn\\) must be of order \\(2^n\\), and \\(k\\) of order \\(2^n/n\\). A quantum state holds an exponential description that measurement cannot read out efficiently."
+    "foundation": "No, in the usual effective model of quantum computation. Its gates and probabilities can be approximated by a classical algorithm. A bounded-error quantum decider can therefore be simulated to enough accuracy to distinguish its acceptance cases, however inefficiently. A halting decider in that model would give a classical halting decider, which is impossible. This assumes effectively specified operations, not a device supplied with an uncomputable real number as an oracle.",
+    "application": "The memory used by this direct simulation is proportional to \\(2^n\\) times the precision stored per amplitude. For any finite, effectively specified circuit, those amplitudes and its outcome probabilities can be approximated classically. With a promised acceptance gap, sufficient precision lets a classical algorithm make the same decision. The cost can be enormous; computability asks whether an algorithm exists at all, not whether it is practical.",
+    "challenge": "Inner products multiply under tensor products, so the overlap is \\((\\braket0+)^k=2^{-k/2}\\), which is nonzero for every finite \\(k\\). The nonorthogonal-state discrimination result therefore rules out a measurement that is always correct. Nevertheless, measuring every copy in the computational basis gives a simple approximate method: report \\(\\ket+\\) if any result is \\(1\\), and \\(\\ket0\\) otherwise. It never errs on \\(\\ket0\\), and errs with probability \\(2^{-k}\\) on \\(\\ket+\\). An arbitrarily small error is achievable; zero error with a fixed finite supply is not."
   },
   "topic-9-4-3": {
     "foundation": "The values for \\(x=0,1,2,3,4\\) are \\(1,2,4,8,1\\), so the period is \\(4\\).",

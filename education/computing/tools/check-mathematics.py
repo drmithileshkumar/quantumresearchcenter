@@ -44,3 +44,27 @@ for N in [4,8,16]:
   for k in range(8):
    close(sum(abs(v[:M])**2),np.sin((2*k+1)*theta)**2);v=d@o@v
 print('Verified NAND XOR, H², Bell preparation, diffusion, four Deutsch oracles, all teleportation outcomes, and amplification probabilities.')
+
+# The complex square root of NOT preserves norm as well as squaring to X.
+root_x=np.array([[1+1j,1-1j],[1-1j,1+1j]])/2
+close(root_x@root_x,X)
+close(root_x.conj().T@root_x,I)
+# Coarse measurement preserves coherence inside a degenerate eigenspace.
+v=np.ones(3)/np.sqrt(3);p0=np.diag([1,1,0]);coherent=p0@v/np.sqrt(2/3)
+plus3=np.array([1,1,0])/np.sqrt(2)
+close(np.linalg.norm(p0@v)**2,2/3)
+close(abs(np.vdot(plus3,coherent))**2,1)
+close(plus3@np.diag([.5,.5,0])@plus3,.5)
+# Ignoring Alice's outcome gives the same local state in either basis.
+plus=(zero+one)/np.sqrt(2);minus=(zero-one)/np.sqrt(2)
+close((np.outer(plus,plus)+np.outer(minus,minus))/2,I/2)
+# The wrong kickback target remains unchanged and conveys no function value.
+for f in product([0,1],repeat=2):
+ u=np.zeros((4,4))
+ for x,y in product([0,1],repeat=2):u[2*x+(y^f[x]),2*x+y]=1
+ close(u@np.kron(plus,plus),np.kron(plus,plus))
+# Appendix D: effects are positive, complete, and never give a false conclusive result.
+c=1/(1+1/np.sqrt(2));e0=c*np.outer(minus,minus);ep=c*np.outer(one,one);eq=I-e0-ep
+assert np.linalg.eigvalsh(eq).min()>-1e-10
+close(plus@e0@plus,0);close(zero@ep@zero,0)
+print('Verified square root of NOT, coarse measurement, local ensembles, wrong-target kickback, and inconclusive discrimination.')

@@ -89,29 +89,29 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Motivation:** Two devices give the same probabilities after one use, yet different outcomes after two uses. What did the one-step probabilities fail to describe?
 
-### 3.1 Classical Probability
+### 3.1 Three Kinds of Transition
 
-- **3.1.1** Outcomes, distributions, and frequencies
-- **3.1.2** Conditional probability and path weights
-- **3.1.3** Nondeterministic and probabilistic transitions
+- **3.1.1** Deterministic transitions
+- **3.1.2** Nondeterministic transitions
+- **3.1.3** Probabilistic transitions
 
-### 3.2 Quantum Transitions
+### 3.2 Sum and Product Rules
 
-- **3.2.1** A two-state quantum transformation
-- **3.2.2** Composition of transitions
-- **3.2.3** Signed amplitudes and outcome probabilities
+- **3.2.1** The product rule along a path
+- **3.2.2** The sum rule across paths
+- **3.2.3** States and steps
 
-### 3.3 Path Interference
+### 3.3 Signed Weights
 
-- **3.3.1** Sum and product rules
-- **3.3.2** Constructive and destructive interference
-- **3.3.3** Path information and interference
+- **3.3.1** An operation that probability cannot describe
+- **3.3.2** From weights to probabilities
+- **3.3.3** The Hadamard step
 
-### 3.4 Complex Amplitudes
+### 3.4 Complex Amplitudes and Interference
 
-- **3.4.1** Relative and global phase
-- **3.4.2** Complex numbers and phase representation
-- **3.4.3** State vectors and transition matrices
+- **3.4.1** Complex weights
+- **3.4.2** Interference and phase
+- **3.4.3** Path information and interference
 
 **Outcome and transition:** Amplitudes provide a predictive description that probabilities alone cannot supply. This is an introduction through examples, not a derivation of quantum mechanics from classical uncertainty. We next make its state and measurement rules precise.
 
@@ -119,23 +119,23 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Motivation:** The same prepared state can give a certain answer to one measurement and a random answer to another. How does the question asked determine what can be learned?
 
-### 4.1 State Representation
+### 4.1 Vectors and Matrices
 
-- **4.1.1** Basis coordinates and ket notation
-- **4.1.2** Complex inner products and bra notation
-- **4.1.3** Changes of basis
+- **4.1.1** State vectors and ket notation
+- **4.1.2** Operations as matrices
+- **4.1.3** Inner products, bras, and adjoints
 
-### 4.2 State and Measurement Postulates
+### 4.2 Postulates
 
-- **4.2.1** Pure states and normalization
-- **4.2.2** Projective measurement and conditional states
+- **4.2.1** State and evolution postulates
+- **4.2.2** The measurement postulate
 - **4.2.3** Repeated measurements on independently prepared states
 
-### 4.3 Quantum Evolution
+### 4.3 Measurement in Other Bases
 
-- **4.3.1** Operator action on a basis
-- **4.3.2** Adjoints and inner products
-- **4.3.3** Unitary evolution
+- **4.3.1** Changes of basis
+- **4.3.2** Measurement in an orthonormal basis
+- **4.3.3** Overlaps under unitary evolution
 
 ### 4.4 Observables and Distinguishability
 
@@ -323,19 +323,19 @@ These are not prerequisites to be completed before the main story can proceed. E
 
 ## Working with the current HTML book
 
-Open **index.html** to read the book. This is a standalone static site: upload the contents of `html_book/` to any directory on your website. It does not require a server-side application, a CDN, or a package build on the host. Relative links work under a subdirectory as well as at the domain root.
+Open **index.html** to read the book. This is a standalone static site: upload the extracted offline archive to any directory on your website. It does not require a server-side application, a CDN, or a package build on the host. Relative links work under a subdirectory as well as at the domain root.
 
 For local HTTP preview, from the repository root:
 
 ```sh
-python3 -m http.server 8000 --directory html_book
+python3 -m http.server 8000 --directory education/computing
 ```
 
 Then open `http://localhost:8000/`. Opening `index.html` directly also works.
 
 ## Reading experience
 
-- Nine rewritten chapters, 36 sections, 108 subsections, and five supporting appendices.
+- Nine rewritten chapters, 36 sections, 107 subsections, and five supporting appendices.
 - Basic linear algebra is the only subject prerequisite; the text develops computational concepts and quantum notation as needed.
 - Continuous serif prose with adjustable size, a linked hierarchical contents panel, local search, and chapter navigation.
 - Twenty-four original SVG drawings: eleven Chapter 1 concept diagrams plus circuit and geometric figures, including NAND, reversible gates, uncomputation, Bell preparation, teleportation, Deutsch, and Grover circuits. Wide drawings scroll within the page on small screens.
@@ -445,3 +445,17 @@ native `<details>` control, closed by default and usable without JavaScript.
 The global print handler temporarily expands solutions and restores their state.
 Subsection search entries include questions but omit solution text, so search
 previews do not disclose these answers. The offline edition includes all solutions.
+
+## Editorial revision — 15 October 2026
+
+The book-wide pass tightens 43 subsection explanations across all nine chapters,
+with additional corrections to transitions, scope, exercises, and learning guides.
+Physical postulates are distinguished from consequences of the model; pure states
+from general local states; and query savings from implementation costs.
+Exercises include incorrect implementations to diagnose, altered assumptions, and
+comparisons that connect calculations to their use. Keep their hidden solutions
+aligned when changing the exposition. The original Chapter 1 introduction is preserved.
+
+Reading layout uses a bounded text measure, restrained postulate emphasis, and
+compact disclosure controls. Diagrams retain horizontal scrolling on small screens
+rather than shrinking mathematical labels below a readable size.

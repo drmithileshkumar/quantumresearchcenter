@@ -89,19 +89,19 @@
     ]
   },
   "03-amplitudes-interference": {
-    "purpose": "Derive the rules of quantum mechanics for one qubit from how transitions compose, three observations, and three stated assumptions.",
+    "purpose": "Understand why probabilities alone do not describe interference, and learn to calculate with amplitudes.",
     "before": "Recall that a computation is a run of configurations, and that a reversible gate can be undone.",
     "outcomes": [
       "Draw a transition rule as a state diagram, and list its runs as paths in a time-expanded diagram.",
       "Apply the product rule along a path and the sum rule across paths.",
-      "Prove that no nonnegative weights reproduce two Hadamard steps.",
-      "Derive the measurement rule and the conditions on the weights of an operation that keep the total squared weight unchanged.",
-      "Show why a square root of NOT requires complex amplitudes.",
+      "Show why the same two-state probabilistic rule cannot reproduce two Hadamard steps.",
+      "Use the Born rule, and derive the constraints that preserve total probability.",
+      "Construct a complex square root of NOT.",
       "Explain how a leftover record destroys interference and how uncomputation restores it."
     ],
-    "limits": "Three assumptions are stated rather than derived, and the uniqueness of the exponent 2 is quoted. Measurement is described only through its outcome probabilities.",
+    "limits": "The Born rule and unitary evolution are physical postulates. The examples motivate them; they do not derive quantum mechanics from classical probability. The next chapter explains the state after measurement.",
     "example": "The same bit, updated twice, runs through the whole chapter. Its quantum version, two Hadamard steps, returns in Deutsch’s algorithm.",
-    "next": "Chapter 4 adopts the rules derived here as postulates and adds what a measurement does to the state.",
+    "next": "Chapter 4 gives the amplitude rules a compact vector-and-matrix notation and adds measurement updates.",
     "exercises": [
       {
         "kind": "Quick check",

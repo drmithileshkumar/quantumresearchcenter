@@ -144,7 +144,8 @@
         "read": "ket plus, ket minus",
         "meaning": "The plus/minus basis, \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\).",
         "section": "topic-4-3-1",
-        "pattern": "\\\\ket\\{?(\\\\pm|\\+|-)"
+        "pattern": "\\\\ket\\{?(\\\\pm|\\+|-)",
+        "intro": "topic-4-2-3"
       },
       {
         "tex": "\\|v\\|",
