@@ -7,109 +7,111 @@
   "sections": [
     {
       "id": "topic-3-1-1",
-      "title": "Outcomes, distributions, and frequencies",
+      "title": "Deterministic transitions",
       "number": "3.1.1",
-      "group": "3.1 · Classical Probability",
+      "group": "3.1 · Three Kinds of Transition",
       "part_id": "section-3-1"
     },
     {
       "id": "topic-3-1-2",
-      "title": "Conditional probability and path weights",
+      "title": "Nondeterministic transitions",
       "number": "3.1.2",
-      "group": "3.1 · Classical Probability",
+      "group": "3.1 · Three Kinds of Transition",
       "part_id": "section-3-1"
     },
     {
       "id": "topic-3-1-3",
-      "title": "Nondeterministic and probabilistic transitions",
+      "title": "Probabilistic transitions",
       "number": "3.1.3",
-      "group": "3.1 · Classical Probability",
+      "group": "3.1 · Three Kinds of Transition",
       "part_id": "section-3-1"
     },
     {
       "id": "topic-3-2-1",
-      "title": "A two-state quantum transformation",
+      "title": "The product rule along a path",
       "number": "3.2.1",
-      "group": "3.2 · Quantum Transitions",
+      "group": "3.2 · Sum and Product Rules",
       "part_id": "section-3-2"
     },
     {
       "id": "topic-3-2-2",
-      "title": "Composition of transitions",
+      "title": "The sum rule across paths",
       "number": "3.2.2",
-      "group": "3.2 · Quantum Transitions",
+      "group": "3.2 · Sum and Product Rules",
       "part_id": "section-3-2"
     },
     {
       "id": "topic-3-2-3",
-      "title": "Signed amplitudes and outcome probabilities",
+      "title": "States and steps",
       "number": "3.2.3",
-      "group": "3.2 · Quantum Transitions",
+      "group": "3.2 · Sum and Product Rules",
       "part_id": "section-3-2"
     },
     {
       "id": "topic-3-3-1",
-      "title": "Sum and product rules",
+      "title": "An operation that probability cannot describe",
       "number": "3.3.1",
-      "group": "3.3 · Path Interference",
+      "group": "3.3 · Signed Weights",
       "part_id": "section-3-3"
     },
     {
       "id": "topic-3-3-2",
-      "title": "Constructive and destructive interference",
+      "title": "From weights to probabilities",
       "number": "3.3.2",
-      "group": "3.3 · Path Interference",
+      "group": "3.3 · Signed Weights",
       "part_id": "section-3-3"
     },
     {
       "id": "topic-3-3-3",
-      "title": "Path information and interference",
+      "title": "The Hadamard step",
       "number": "3.3.3",
-      "group": "3.3 · Path Interference",
+      "group": "3.3 · Signed Weights",
       "part_id": "section-3-3"
     },
     {
       "id": "topic-3-4-1",
-      "title": "Relative and global phase",
+      "title": "Complex weights",
       "number": "3.4.1",
-      "group": "3.4 · Complex Amplitudes",
+      "group": "3.4 · Complex Amplitudes and Interference",
       "part_id": "section-3-4"
     },
     {
       "id": "topic-3-4-2",
-      "title": "Complex numbers and phase representation",
+      "title": "Interference and phase",
       "number": "3.4.2",
-      "group": "3.4 · Complex Amplitudes",
+      "group": "3.4 · Complex Amplitudes and Interference",
       "part_id": "section-3-4"
     },
     {
       "id": "topic-3-4-3",
-      "title": "State vectors and transition matrices",
+      "title": "Path information and interference",
       "number": "3.4.3",
-      "group": "3.4 · Complex Amplitudes",
+      "group": "3.4 · Complex Amplitudes and Interference",
       "part_id": "section-3-4"
     }
   ],
   "parts": [
     {
       "id": "section-3-1",
-      "title": "Classical Probability",
+      "title": "Three Kinds of Transition",
       "number": "3.1"
     },
     {
       "id": "section-3-2",
-      "title": "Quantum Transitions",
+      "title": "Sum and Product Rules",
       "number": "3.2"
     },
     {
       "id": "section-3-3",
-      "title": "Path Interference",
+      "title": "Signed Weights",
       "number": "3.3"
     },
     {
       "id": "section-3-4",
-      "title": "Complex Amplitudes",
+      "title": "Complex Amplitudes and Interference",
       "number": "3.4"
     }
-  ]
+  ],
+  "opening": "We have seen that a computation can be described as a run of configurations, each produced from the last by a transition rule, and that a reversible computation keeps enough information for every step to be undone. These ideas were developed for classical machines. Quantum computing asks what changes when the machine itself is a quantum system.",
+  "opening_continuation": "Classical computations, whether they follow fixed rules, explore several possibilities, or make random choices, share a common language of transitions. Quantum mechanics, the physical theory of systems such as single atoms, fits into the same language with one decisive difference: the alternative ways in which a computation can unfold can cancel one another instead of simply accumulating. This effect, called interference, has no classical counterpart, and it is the resource that quantum algorithms exploit. It is also fragile. A record of which alternative occurred, left anywhere, destroys it, which is why reversibility and the clearing of workspace matter so much in quantum computation. The rules of quantum mechanics for a single qubit are derived here from how transitions compose, three observations, and three stated assumptions; Chapter 4 adopts them as postulates."
 }

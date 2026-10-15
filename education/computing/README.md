@@ -366,6 +366,8 @@ Their SVG files live in `assets/figures/`. The Chapter 1 diagrams are generated 
 
 All mathematics is typeset by MathJax, including figure labels. Write math in the book's TeX delimiters, `\(...\)`, in prose, JSON content, and figure labels alike. `svgmath.py` turns figure labels into SVG text carrying `data-tex` (pure math) or `data-math` (prose with math), with a Unicode fallback. `build.py` inlines every figure into its page so `assets/source/mathjax-config.js` can typeset those labels. Alt text and SVG descriptions use `svgmath.plain()`, a Unicode rendering of the same TeX.
 
+The notation index (`notation.html`) is generated from `content/notation.json`. Each entry gives a symbol's TeX, how to read it aloud, its meaning, and the section that explains it (`section`). It may also give an earlier informal introduction (`intro`). When an entry has a `pattern`, `build.py` finds the symbol's first use in the chapter prose and prints a `Notation check` line if that comes before its explanation. Entries marked `prerequisite` are exempt.
+
 ## Design references
 
 The reading typography is inspired by the [Feynman Lectures online edition](https://www.feynmanlectures.caltech.edu/III_01.html): serif prose, comfortable line spacing, and restrained presentation. The expandable contents and chapter navigation are inspired by [qubit.guide](https://qubit.guide/index). This book uses original styles and the user's own course content, not copied chapter text or assets from either reference.

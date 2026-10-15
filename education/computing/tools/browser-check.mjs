@@ -58,6 +58,9 @@ try {
   await assert(`!document.querySelector('svg text[data-tex],svg text[data-math]')&&document.querySelectorAll('svg.book-figure .diagram-math').length>0`,chapter+' typesets every figure label');
   await assert(`[...document.querySelectorAll('.reading-topic')].every(s=>s.querySelector('figure,svg,img')&&s.querySelectorAll('.probing-question > ol > li').length===3)`,chapter+' has illustrations and three questions in every subsection');
  }
+ await navigate('notation');
+ await assert(`document.documentElement.scrollWidth<=innerWidth+2`,'notation index fits mobile');
+ await screenshot('book-mobile-notation');
  await navigate('03-amplitudes-interference');
  await screenshot('book-mobile-phase-illustration','#topic-3-4-2');
 
@@ -68,6 +71,9 @@ try {
  await navigate('glossary');
  await assert(`(()=>{const q=document.querySelector('#glossary-query');q.value='phase';q.dispatchEvent(new Event('input'));return document.querySelectorAll('.glossary-entry:not([hidden])').length>=3&&document.querySelectorAll('.glossary-entry[hidden]').length>0})()`, 'glossary filters definitions');
  await screenshot('book-glossary');
+ await navigate('notation');
+ await assert(`document.querySelectorAll('.notation-row:not(.notation-head)').length>=30&&[...document.querySelectorAll('.notation-symbol')].every(e=>e.querySelector('mjx-container'))&&!document.querySelector('[data-mml-node="merror"]')`,'notation index typesets every symbol');
+ await screenshot('book-notation');
  await navigate('09-complexity-advantage');
  await assert(`document.querySelectorAll('.exercise').length===3&&document.querySelectorAll('.exercise-hint').length===6`, 'chapter has staged practice');
  await assert(`(()=>{const e=document.querySelector('.exercise-hint');e.querySelector('summary').click();return e.open&&!document.querySelector('.exercise-solution').open})()`, 'hint opens without revealing solution');

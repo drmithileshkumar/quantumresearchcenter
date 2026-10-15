@@ -1,0 +1,306 @@
+[
+  {
+    "group": "Logic and classical computation",
+    "entries": [
+      {
+        "tex": "\\neg P",
+        "read": "not P",
+        "meaning": "The negation of the sentence \\(P\\).",
+        "section": "topic-1-3-3",
+        "pattern": "\\\\neg"
+      },
+      {
+        "tex": "f:\\{0,1\\}^n\\to\\{0,1\\}",
+        "read": "f from n-bit strings to bits",
+        "meaning": "A Boolean function: one yes/no answer for each \\(n\\)-bit input string.",
+        "section": "topic-2-1-2",
+        "pattern": "\\\\\\{0,1\\\\\\}\\^n"
+      },
+      {
+        "tex": "a\\oplus b",
+        "read": "a XOR b",
+        "meaning": "Exclusive OR: one when exactly one input is one. It is addition modulo two.",
+        "section": "topic-2-1-3",
+        "pattern": "\\\\(big)?oplus"
+      },
+      {
+        "tex": "a\\land b",
+        "read": "a and b",
+        "meaning": "AND of two bits: one only when both are one.",
+        "section": "topic-2-2-2",
+        "pattern": "\\\\land"
+      },
+      {
+        "tex": "k_{\\mathrm B}T\\ln2",
+        "read": "k B T log two",
+        "meaning": "Landauer’s minimum heat for erasing one equally likely bit at temperature \\(T\\).",
+        "section": "topic-2-3-1",
+        "pattern": "k_\\{?\\\\mathrm"
+      },
+      {
+        "tex": "x\\mapsto y",
+        "read": "x maps to y",
+        "meaning": "The rule that sends each input \\(x\\) to the output \\(y\\).",
+        "section": "topic-2-3-3",
+        "pattern": "\\\\mapsto"
+      },
+      {
+        "tex": "U_f",
+        "read": "U sub f",
+        "meaning": "The reversible oracle for \\(f\\): it keeps \\(x\\) and XORs \\(f(x)\\) into a target, \\(U_f\\ket{x,y}=\\ket{x,y\\oplus f(x)}\\).",
+        "intro": "topic-2-3-3",
+        "section": "topic-6-1-3",
+        "pattern": "U_f"
+      }
+    ]
+  },
+  {
+    "group": "Probability and complex amplitudes",
+    "entries": [
+      {
+        "tex": "\\sum_j",
+        "read": "sum over j",
+        "meaning": "Add the following term for every value of \\(j\\).",
+        "section": "appendix-c",
+        "prerequisite": true,
+        "pattern": "\\\\sum"
+      },
+      {
+        "tex": "P(j\\mid i)",
+        "read": "probability of j given i",
+        "meaning": "Conditional probability: the chance of next state \\(j\\) when the current state is \\(i\\).",
+        "section": "topic-3-1-3",
+        "pattern": "\\\\mid"
+      },
+      {
+        "tex": "re^{i\\phi}",
+        "read": "r e to the i phi",
+        "meaning": "An amplitude with magnitude \\(r\\ge0\\) and phase \\(\\phi\\). Its outcome probability is \\(r^2\\).",
+        "section": "topic-3-4-1",
+        "pattern": "e\\^\\{i"
+      },
+      {
+        "tex": "i",
+        "read": "i",
+        "meaning": "The imaginary unit, with \\(i^2=-1\\).",
+        "section": "topic-3-4-1"
+      },
+      {
+        "tex": "z^*",
+        "read": "z star",
+        "meaning": "The complex conjugate: for \\(z=a+ib\\), \\(z^*=a-ib\\).",
+        "section": "topic-3-4-1",
+        "pattern": "\\^\\*"
+      },
+      {
+        "tex": "|z|",
+        "read": "magnitude of z",
+        "meaning": "The size of a complex number. \\(|z|^2=z^*z\\) turns an amplitude into a probability weight.",
+        "section": "topic-3-4-1"
+      }
+    ]
+  },
+  {
+    "group": "Vectors and states",
+    "entries": [
+      {
+        "tex": "v^T",
+        "read": "v transpose",
+        "meaning": "Turns a row into a column or a column into a row; \\((a,b)^T\\) is a column vector.",
+        "section": "appendix-c",
+        "prerequisite": true,
+        "pattern": "\\^T\\b"
+      },
+      {
+        "tex": "\\ket\\psi",
+        "read": "ket psi",
+        "meaning": "The column vector of a state, named \\(\\psi\\). The brackets name a vector; they are not an operation.",
+        "intro": "topic-3-3-2",
+        "section": "topic-4-1-1",
+        "pattern": "\\\\ket"
+      },
+      {
+        "tex": "\\ket0,\\ \\ket1",
+        "read": "ket zero, ket one",
+        "meaning": "The computational basis: \\(\\ket0=(1,0)^T\\) and \\(\\ket1=(0,1)^T\\).",
+        "section": "topic-4-1-1"
+      },
+      {
+        "tex": "\\bra\\phi",
+        "read": "bra phi",
+        "meaning": "The conjugate-transpose row of \\(\\ket\\phi\\).",
+        "section": "topic-4-1-3",
+        "pattern": "\\\\bra(?!ket)"
+      },
+      {
+        "tex": "\\braket\\phi\\psi",
+        "read": "bra phi ket psi",
+        "meaning": "The complex inner product, or overlap, \\(\\sum_j\\phi_j^*\\psi_j\\).",
+        "section": "topic-4-1-3",
+        "pattern": "\\\\braket"
+      },
+      {
+        "tex": "\\ket\\pm",
+        "read": "ket plus, ket minus",
+        "meaning": "The plus/minus basis, \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\).",
+        "section": "topic-4-3-1",
+        "pattern": "\\\\ket\\{?(\\\\pm|\\+|-)"
+      },
+      {
+        "tex": "\\|v\\|",
+        "read": "norm of v",
+        "meaning": "The length of a vector, \\(\\sqrt{\\braket vv}\\). A state vector has norm one.",
+        "section": "topic-4-1-3",
+        "pattern": "\\\\\\|"
+      },
+      {
+        "tex": "\\ket a\\otimes\\ket b",
+        "read": "ket a tensor ket b",
+        "meaning": "The joint state of two systems, also written \\(\\ket{ab}\\). Dimensions multiply.",
+        "section": "topic-5-1-1",
+        "pattern": "\\\\otimes"
+      },
+      {
+        "tex": "\\ket{\\Phi^+}",
+        "read": "Bell state phi plus",
+        "meaning": "The entangled state \\((\\ket{00}+\\ket{11})/\\sqrt2\\).",
+        "section": "topic-5-2-1",
+        "pattern": "\\\\Phi\\^\\+"
+      },
+      {
+        "tex": "\\ket{0^n}",
+        "read": "ket zero to the n",
+        "meaning": "All \\(n\\) qubits in state zero.",
+        "section": "topic-8-2-3",
+        "pattern": "0\\^n"
+      }
+    ]
+  },
+  {
+    "group": "Operators and measurement",
+    "entries": [
+      {
+        "tex": "I",
+        "read": "identity",
+        "meaning": "The matrix that leaves every vector unchanged.",
+        "section": "appendix-c",
+        "prerequisite": true
+      },
+      {
+        "tex": "A^\\dagger",
+        "read": "A dagger",
+        "meaning": "The adjoint: the conjugate transpose \\((A^*)^T\\), defined by \\(\\braket\\phi{A\\psi}=\\braket{A^\\dagger\\phi}\\psi\\).",
+        "section": "topic-4-1-3",
+        "pattern": "\\\\dagger"
+      },
+      {
+        "tex": "\\operatorname{diag}(a,b)",
+        "read": "diagonal a, b",
+        "meaning": "The diagonal matrix with entries \\(a\\) and \\(b\\).",
+        "section": "topic-4-1-2",
+        "pattern": "diag"
+      },
+      {
+        "tex": "\\ket e\\bra e",
+        "read": "ket e bra e",
+        "meaning": "The projector onto the unit vector \\(\\ket e\\).",
+        "section": "topic-4-3-2",
+        "pattern": "\\\\ketbra|\\\\ket(\\{[^}]*\\}|\\\\?\\w)\\\\bra"
+      },
+      {
+        "tex": "P_j",
+        "read": "P sub j",
+        "meaning": "The projector for measurement outcome \\(j\\). The Born rule gives \\(p(j)=\\|P_j\\ket\\psi\\|^2\\).",
+        "section": "topic-4-3-2"
+      },
+      {
+        "tex": "\\lambda",
+        "read": "lambda",
+        "meaning": "An eigenvalue: \\(A\\ket v=\\lambda\\ket v\\).",
+        "section": "topic-4-4-1",
+        "pattern": "\\\\lambda(?! ?x)"
+      },
+      {
+        "tex": "X,\\ Z,\\ H",
+        "read": "X, Z, H",
+        "meaning": "The bit flip, phase flip, and Hadamard gates.",
+        "intro": "topic-3-3-1",
+        "section": "topic-8-2-1"
+      },
+      {
+        "tex": "A^{\\otimes n}",
+        "read": "A tensor n",
+        "meaning": "\\(n\\) copies combined by the tensor product. \\(H^{\\otimes n}\\) applies \\(H\\) to each of \\(n\\) qubits; \\(\\ket\\psi^{\\otimes2}\\) is two copies of \\(\\ket\\psi\\).",
+        "section": "topic-5-1-1",
+        "pattern": "\\^\\{\\\\otimes"
+      },
+      {
+        "tex": "\\rho",
+        "read": "rho",
+        "meaning": "A density matrix, describing a preparation that need not be pure.",
+        "section": "appendix-d",
+        "pattern": "\\\\rho"
+      },
+      {
+        "tex": "\\operatorname{tr}",
+        "read": "trace",
+        "meaning": "The sum of diagonal entries. With \\(\\rho\\), the Born rule is \\(p(j)=\\operatorname{tr}(P_j\\rho)\\).",
+        "section": "appendix-d",
+        "pattern": "\\\\tr\\b|operatorname\\{tr\\}"
+      }
+    ]
+  },
+  {
+    "group": "Algorithms and complexity",
+    "entries": [
+      {
+        "tex": "(-1)^{f(x)}",
+        "read": "minus one to the f of x",
+        "meaning": "The sign a phase oracle attaches to input \\(x\\): \\(+1\\) when \\(f(x)=0\\), \\(-1\\) when \\(f(x)=1\\).",
+        "section": "topic-6-3-2",
+        "pattern": "\\(-1\\)\\^\\{?f"
+      },
+      {
+        "tex": "\\sin^2\\theta=M/N",
+        "read": "sine squared theta equals M over N",
+        "meaning": "Defines the search angle \\(\\theta\\) for \\(M\\) marked items among \\(N\\).",
+        "section": "topic-7-2-2"
+      },
+      {
+        "tex": "O(g(n))",
+        "read": "big O of g of n",
+        "meaning": "An eventual upper bound up to a constant factor.",
+        "section": "topic-9-1-2",
+        "pattern": "(?<![\\w\\\\])O\\("
+      },
+      {
+        "tex": "\\Omega(g(n))",
+        "read": "big omega of g of n",
+        "meaning": "An eventual lower bound up to a constant factor.",
+        "section": "topic-9-1-2",
+        "pattern": "\\\\Omega\\("
+      },
+      {
+        "tex": "\\Theta(g(n))",
+        "read": "big theta of g of n",
+        "meaning": "Both an upper and a lower bound: growth exactly like \\(g(n)\\) up to constants.",
+        "section": "topic-9-1-2",
+        "pattern": "\\\\Theta\\("
+      },
+      {
+        "tex": "\\mathrm{BPP}\\subseteq\\mathrm{BQP}",
+        "read": "BPP is contained in BQP",
+        "meaning": "Every problem in the first class is also in the second.",
+        "section": "topic-9-2-2",
+        "pattern": "\\\\subseteq"
+      },
+      {
+        "tex": "(\\lambda x.t)u",
+        "read": "lambda x dot t, applied to u",
+        "meaning": "In lambda calculus, a function with parameter \\(x\\) and body \\(t\\), applied to \\(u\\).",
+        "section": "appendix-b",
+        "pattern": "\\\\lambda ?x\\."
+      }
+    ]
+  }
+]

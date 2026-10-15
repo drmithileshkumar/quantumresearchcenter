@@ -115,64 +115,64 @@
     "challenge": "The inverse reuses the information still present to undo intermediate steps and restore clean workspace. Because a separate output register holds the copied basis label, reversing the original registers does not erase that output. The input and output remain; the temporary history need not remain. This copying step concerns basis labels, not arbitrary unknown quantum states."
   },
   "topic-3-1-1": {
-    "foundation": "They sum to one for a complete set of mutually exclusive outcomes.",
-    "application": "The remaining probability is \\(1-0.7=0.3\\).",
-    "challenge": "Ten specified heads have probability \\((1/2)^{10}=1/1024\\) for independent fair tosses. This is unlikely but possible, so it is evidence to assess rather than a logical disproof. Statistical tests compare observed patterns with their predicted likelihoods; they do not require each finite sample to reproduce the model’s probabilities exactly."
+    "foundation": "A rule is deterministic when exactly one arrow leaves each configuration. It is also reversible when exactly one arrow enters each configuration, so every run can be followed backward.",
+    "application": "The diagram has arrows \\(0\\to0\\) and \\(1\\to0\\). From \\(1\\) the run is \\(1\\to0\\to0\\) and ends at \\(0\\). Starting from \\(0\\) also ends at \\(0\\), so the end configuration does not reveal the start: two arrows enter \\(0\\).",
+    "challenge": "The diagram has one circle for every pair, so it is infinite, but exactly one arrow leaves each circle, and a run follows a single chain of arrows. The merge appears as two arrows entering the circle \\((18,12)\\), one from \\((30,18)\\) and one from \\((48,18)\\). That is why the algorithm cannot be run backward."
   },
   "topic-3-1-2": {
-    "foundation": "Multiply the probability of the first step by the conditional probability of the second given the first.",
-    "application": "\\((1/2)\\times(1/3)=1/6\\).",
-    "challenge": "Route probabilities add when the routes are disjoint classical events. Along each route, conditional probabilities must refer to the actual preceding history. If routes are indistinguishable coherent quantum alternatives, adding their separate probabilities omits interference; their amplitudes must instead be combined first."
+    "foundation": "It specifies which next configurations are allowed from each configuration. It does not say which one is taken or how likely each is.",
+    "application": "The possible runs are \\(0\\to0\\to0\\), \\(0\\to0\\to1\\), and \\(0\\to1\\to1\\); the path \\(0\\to1\\to0\\) is not possible, because it uses the forbidden arrow. Both \\(0\\) and \\(1\\) are reachable: \\(0\\) by one path and \\(1\\) by two.",
+    "challenge": "A nondeterministic rule assigns no likelihoods. The rule says only which arrows may be taken, not how often a run takes each, so path counts measure possibilities, not chances. Likelihood requires probability weights on the arrows."
   },
   "topic-3-1-3": {
-    "foundation": "No. Nondeterminism specifies allowed alternatives and an existence condition, not a probability distribution.",
-    "application": "The random procedure succeeds with probability \\(1/8\\). The nondeterministic statement is simply true because at least one successful path exists; it does not assign the probability \\(1/8\\).",
-    "challenge": "Existence gives no measure of how often a randomized rule selects the successful path. For one successful path among \\(2^n\\) equally likely paths, success per random trial is \\(2^{-n}\\). The nondeterministic existence statement can hold even when random sampling almost always misses the path."
+    "foundation": "The label on the arrow from \\(i\\) to \\(j\\) is \\(P(j\\mid i)\\), the probability that the next configuration is \\(j\\) when the current one is \\(i\\). The labels leaving a configuration sum to one because some next configuration must occur.",
+    "application": "The paths to \\(0\\) are \\(0\\to0\\to0\\), with probability \\((3/4)(3/4)=9/16\\), and \\(0\\to1\\to0\\), with probability \\((1/4)(1/4)=1/16\\). The total is \\(10/16=5/8\\).",
+    "challenge": "COIN produces the distribution with weights \\(1/2\\) and \\(1/2\\) from either starting configuration. A later step receives the same distribution in both cases and so produces the same result, which cannot restore two different starts. COIN merges its inputs, as RESET does."
   },
   "topic-3-2-1": {
-    "foundation": "\\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\), which is \\(\\ket+\\).",
-    "application": "Each amplitude is \\(1/\\sqrt2\\), so each squared magnitude is \\(1/2\\).",
-    "challenge": "A probability-only transition model would mix two equal distributions and predict \\(1/2\\) for each final outcome. In fact \\(H^2\\ket0=\\ket0\\). The discarded signs distinguish the two routes to outcome 1, whose amplitudes cancel in the second step."
+    "foundation": "The weight of a path is the product of the weights of its arrows.",
+    "application": "By the product rule it is \\(P(1\\mid0)P(1\\mid1)P(0\\mid1)=(1/4)(3/4)(1/4)=3/64\\).",
+    "challenge": "Allowed arrows have weight \\(1\\) and forbidden ones weight \\(0\\). A product of zeros and ones is \\(1\\) exactly when every factor is \\(1\\), and \\(0\\) as soon as one factor is \\(0\\). Multiplication therefore acts as “and.”"
   },
   "topic-3-2-2": {
-    "foundation": "\\(A\\) acts first, followed by \\(B\\).",
-    "application": "\\(H(\\ket0+\\ket1)/\\sqrt2=[(\\ket0+\\ket1)+(\\ket0-\\ket1)]/2=\\ket0\\). The \\(\\ket1\\) coefficients cancel.",
-    "challenge": "Composing transformations sums products of amplitudes over intermediate states. For final outcome 1 in \\(H^2\\ket0\\), the two products are \\(+1/2\\) and \\(-1/2\\), giving probability zero. Squaring each route first instead gives \\(1/4+1/4=1/2\\) and loses the cancellation."
+    "foundation": "The weight of reaching a configuration is the sum of the weights of all paths to it. Probabilities may be added because the paths are mutually exclusive: a run follows only one of them.",
+    "application": "\\(P(1\\mid0)=P(1\\mid0)P(0\\mid0)+P(1\\mid1)P(1\\mid0)=(1/4)(3/4)+(3/4)(1/4)=6/16=3/8\\). With \\(P(0\\mid0)=5/8\\), the total is one.",
+    "challenge": "Under the sum rule, each additional path adds its weight, and a nonnegative number cannot decrease a sum. So no model built from nonnegative weights can make two paths cancel. The experiment in the next section requires exactly such a cancellation."
   },
   "topic-3-2-3": {
-    "foundation": "Take its squared magnitude: \\(p=|a|^2\\).",
-    "application": "Both give probability \\(1/4\\). Squaring the magnitude removes the minus sign.",
-    "challenge": "A sign matters relative to another component that can interfere with it. For example, \\(\\ket+\\) and \\(\\ket-\\) have identical computational-basis probabilities, but \\(H\\) maps them to \\(\\ket0\\) and \\(\\ket1\\). Multiplying the entire state by \\(-1\\) is only a global phase and does not produce this distinction."
+    "foundation": "\\(v^\\prime_j=\\sum_iw(i\\to j)\\,v_i\\). The product \\(w(i\\to j)\\,v_i\\) is the product rule along the arrow \\(i\\to j\\); adding these contributions over all \\(i\\) is the sum rule.",
+    "application": "\\(v^\\prime_0=(3/4)(1/2)+(1/4)(1/2)=1/2\\) and \\(v^\\prime_1=1/2\\): this distribution is unchanged by the step. COIN also gives \\(1/2\\) and \\(1/2\\), as it does from every distribution.",
+    "challenge": "NOT can be undone: one arrow leaves and one enters each configuration, and reversing both arrows undoes it. RESET cannot: two arrows enter \\(0\\), so the runs from \\(0\\) and \\(1\\) merge. COIN cannot: it sends every distribution to the same state."
   },
   "topic-3-3-1": {
-    "foundation": "They multiply along successive steps of a route; contributions from coherent alternative routes add.",
-    "application": "The sum is \\(1/2+1/2=1\\), so the outcome probability is \\(|1|^2=1\\).",
-    "challenge": "Matrix composition multiplies transition amplitudes along each route and sums over the intermediate alternatives. With two contributions of \\(1/2\\), the amplitude sum is one and the probability is one. Taking magnitudes first would give \\(1/4+1/4=1/2\\), discarding the cross term that represents interference."
+    "foundation": "(1) One application followed by measurement gives \\(0\\) or \\(1\\) with probability \\(1/2\\) each, from either start. (2) Two applications without measurement return the starting configuration with certainty. (3) With a measurement between the applications, the result is \\(0\\) or \\(1\\) with probability \\(1/2\\) each. Assumption 1: each arrow of \\(H\\) has a weight, repeated applications compose by the product and sum rules, and an outcome’s probability is \\(f(w)\\) of its weight, with \\(f(w)=0\\) exactly when \\(w=0\\).",
+    "application": "Two COIN steps give \\(0\\) or \\(1\\), each with probability \\(1/2\\). Two unmeasured applications of \\(H\\) instead return \\(0\\) every time.",
+    "challenge": "From \\(0\\) alone, the second step could be RESET, which sends every distribution to \\(0\\) and so returns \\(0\\) every time. The contradiction appears only because the same intermediate distribution must also lead back to \\(1\\) when the run starts from \\(1\\)."
   },
   "topic-3-3-2": {
-    "foundation": "It is cancellation, partial or complete, when coherent amplitude contributions add with opposing phases.",
-    "application": "The total amplitude is \\(1/2-1/2=0\\), so the probability is zero.",
-    "challenge": "The classical rule treats the alternatives as disjoint events with separately assignable probabilities. Coherent routes to the same outcome require adding amplitudes instead. The resulting squared magnitude remains nonnegative; a negative amplitude is not a negative probability."
+    "foundation": "A probability is nonnegative, so a negative weight cannot be one. The function \\(f\\) that turns weights into probabilities must be nonnegative on negative arguments.",
+    "application": "The probabilities are \\((\\sqrt3/2)^2=3/4\\) and \\((-1/2)^2=1/4\\), which sum to one.",
+    "challenge": "Apply the operation to the state with weight \\(1/\\sqrt2\\) on \\(i\\) and on \\(k\\). By the sum and product rules, the new weight of \\(j\\) is \\(\\bigl(w(i\\to j)+w(k\\to j)\\bigr)/\\sqrt2\\). Its total squared weight is \\(\\tfrac12\\sum_j\\bigl(w(i\\to j)^2+w(k\\to j)^2\\bigr)+\\sum_jw(i\\to j)\\,w(k\\to j)=1+\\sum_jw(i\\to j)\\,w(k\\to j)\\), using the first condition. Since the total must remain \\(1\\), the sum vanishes."
   },
   "topic-3-3-3": {
-    "foundation": "Yes. A physical correlation can distinguish paths whether or not a person observes it.",
-    "application": "The identical record does not distinguish the paths and preserves the possibility of interference. A perfectly distinguishing record removes the cross term when only the original system is measured.",
-    "challenge": "For joint branches \\(a\\ket0\\ket{e_0}\\) and \\(b\\ket1\\ket{e_1}\\), local interference contains the record overlap \\(\\braket{e_0}{e_1}\\). Identical normalized records give overlap one; orthogonal records give zero. The physical overlap, rather than anyone’s awareness, determines whether the local cross term survives."
+    "foundation": "\\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\) and \\(H\\ket1=(\\ket0-\\ket1)/\\sqrt2\\).",
+    "application": "To \\(0\\): \\((1/\\sqrt2)(1/\\sqrt2)=1/2\\) through \\(0\\) and \\((-1/\\sqrt2)(1/\\sqrt2)=-1/2\\) through \\(1\\), total \\(0\\). To \\(1\\): \\(1/2\\) through \\(0\\) and \\((-1/\\sqrt2)(-1/\\sqrt2)=1/2\\) through \\(1\\), total \\(1\\). The qubit returns to \\(1\\) with certainty.",
+    "challenge": "From \\(1\\) to \\(0\\): \\(H(1\\to0)H(0\\to0)+H(1\\to1)H(1\\to0)=\\tfrac12-\\tfrac12=0\\). From \\(1\\) to \\(1\\): \\(H(1\\to0)H(0\\to1)+H(1\\to1)^2=\\tfrac12+\\tfrac12=1\\). The qubit returns to \\(1\\) with certainty."
   },
   "topic-3-4-1": {
-    "foundation": "A global phase multiplies every amplitude by the same unit-magnitude factor. A relative phase is a phase difference between components.",
-    "application": "The first and second states differ by the common factor \\(-1\\), a global phase. The third changes the sign of only the \\(\\ket1\\) component and therefore has a different relative phase.",
-    "challenge": "A common phase leaves ratios between nonzero amplitudes unchanged and cancels from every probability. A phase on one component changes those ratios and the interference cross terms after later operations. \\(H\\), for example, converts the relative-sign difference between \\(\\ket+\\) and \\(\\ket-\\) into different certain outcomes."
+    "foundation": "From \\(0\\): \\(S(0\\to0)^2+S(0\\to1)S(1\\to0)=0\\) and \\(S(0\\to1)\\bigl(S(0\\to0)+S(1\\to1)\\bigr)=1\\); from \\(1\\): \\(S(1\\to0)\\bigl(S(0\\to0)+S(1\\to1)\\bigr)=1\\). The last two make \\(S(0\\to1)S(1\\to0)\\) positive, so the first requires \\(S(0\\to0)^2<0\\).",
+    "application": "To \\(0\\): \\(S(1\\to0)S(0\\to0)+S(1\\to1)S(1\\to0)=\\tfrac14\\bigl((1-i)(1+i)+(1+i)(1-i)\\bigr)=1\\). To \\(1\\): \\(S(1\\to0)S(0\\to1)+S(1\\to1)^2=\\tfrac14\\bigl((1-i)^2+(1+i)^2\\bigr)=0\\). Two steps of \\(S\\) send \\(1\\) to \\(0\\), as NOT does.",
+    "challenge": "\\(z^*=3-4i\\) and \\(|z|^2=z^*z=25\\). The square \\(v_j^2\\) of a complex number can be negative or non-real, as \\(i^2=-1\\) shows. \\(|v_j|^2=v_j^*v_j\\) is real and nonnegative, and it equals \\(v_j^2\\) when \\(v_j\\) is real."
   },
   "topic-3-4-2": {
-    "foundation": "\\(|i|^2=(-i)i=1\\).",
-    "application": "The probabilities are \\(|1/\\sqrt2|^2=1/2\\) and \\(|i/\\sqrt2|^2=1/2\\), the same computational-basis probabilities as \\(\\ket+\\).",
-    "challenge": "The states \\((\\ket0+e^{i\\phi}\\ket1)/\\sqrt2\\) fill a continuous family. After \\(H\\), \\(p(0)=(1+\\cos\\phi)/2\\). This distinguishes many phases, but not \\(\\phi\\) from \\(-\\phi\\). A known phase shift before \\(H\\) supplies a complementary interference setting sensitive to \\(\\sin\\phi\\), allowing those cases to be distinguished statistically using fresh copies."
+    "foundation": "A global phase multiplies every amplitude by the same factor and changes no prediction. A relative phase changes the phase of one amplitude relative to another and can change probabilities after further steps.",
+    "application": "\\(H\\) gives \\(\\ket0\\), \\(-\\ket0\\), and \\(\\ket1\\). The first two differ by the global phase \\(-1\\) and describe the same physical state. The third differs by a relative sign and leads to a different outcome.",
+    "challenge": "\\(\\phi\\) and \\(-\\phi\\) have the same cosine, so they give the same probabilities. An operation before \\(H\\) that subtracts \\(\\pi/2\\) from the phase of \\(\\ket1\\) changes the probability to \\((1+\\sin\\phi)/2\\), which differs for \\(\\phi\\) and \\(-\\phi\\) unless \\(\\sin\\phi=0\\)."
   },
   "topic-3-4-3": {
-    "foundation": "They are the amplitudes of the state in the chosen ordered basis.",
-    "application": "\\(X(a,b)^T=(b,a)^T\\), giving \\(b\\ket0+a\\ket1\\).",
-    "challenge": "All predictions for the same physical preparation, operation, and measurement remain unchanged under a consistent basis change. The state coordinates, operator matrices, and measurement description must transform together. Changing only the state coordinates while keeping a fixed numerical measurement matrix generally describes a different physical question."
+    "foundation": "It copies the qubit’s intermediate configuration, \\(0\\) or \\(1\\), into the record bit, which started at \\(0\\).",
+    "application": "\\(H\\) on the qubit of \\(\\ket{00}\\) gives \\((\\ket{00}+\\ket{10})/\\sqrt2\\). On \\(\\ket{11}\\) it gives \\((\\ket{01}-\\ket{11})/\\sqrt2\\). Adding these and multiplying by \\(1/\\sqrt2\\) gives the stated state.",
+    "challenge": "The sum rule adds only paths that end in the same configuration of the whole system. With the record, the two paths end in configurations that differ in the record bit, so their amplitudes cannot cancel, whether or not anyone reads it. A second CNOT resets the record to \\(0\\) on both paths, which then end in the same configurations and cancel as before."
   },
   "topic-4-1-1": {
     "foundation": "\\(\\ket0\\) has coordinates \\((1,0)^T\\) and \\(\\ket1\\) has coordinates \\((0,1)^T\\).",
@@ -180,14 +180,14 @@
     "challenge": "No. Different bases can give different coordinates for the same vector. To compare the lists, identify the ordered bases and the transformation between them. Physical disagreement concerns different predictions after translating both descriptions into the same basis, not different coordinate lists by themselves."
   },
   "topic-4-1-2": {
-    "foundation": "Conjugate the entries of the first vector before multiplying and summing.",
-    "application": "The conjugate transpose is \\((1,-i)\\). Its product with \\((1,i)^T\\) is \\(1+(-i)i=2\\), so the squared norm is 2.",
-    "challenge": "Without conjugation, the one-component vector \\(i\\) would have “squared length” \\(i^2=-1\\). With conjugation, it gives \\((-i)i=1\\). Conjugation ensures that each coordinate contributes \\(|v_j|^2\\), making the norm nonnegative and zero only for the zero vector."
+    "foundation": "\\(U(a\\ket0+b\\ket1)=aU\\ket0+bU\\ket1\\).",
+    "application": "The output is \\((\\ket1-\\ket0)/\\sqrt2=-\\ket-\\). Its overall minus sign is a global phase.",
+    "challenge": "A basis expansion determines coefficients uniquely, and linearity applies the same operator to each term. Consequently basis actions determine every output. A rule that produced different outputs for two decompositions of the same vector would not be a well-defined operation on that vector."
   },
   "topic-4-1-3": {
-    "foundation": "\\(\\ket+=(\\ket0+\\ket1)/\\sqrt2\\) and \\(\\ket-=(\\ket0-\\ket1)/\\sqrt2\\).",
-    "application": "Adding gives \\(\\ket++\\ket-=\\sqrt2\\ket0\\). Therefore \\(\\ket0=(\\ket++\\ket-)/\\sqrt2\\).",
-    "challenge": "A coordinate change transforms both the state coordinates and the matrix representing the fixed measurement, leaving its probabilities unchanged. A physical gate changes the state relative to that fixed apparatus. For example, applying \\(H\\) to \\(\\ket0\\) changes its computational-basis probabilities, while merely rewriting \\(\\ket0\\) in the plus/minus basis does not."
+    "foundation": "Conjugate the entries of the first vector before multiplying and summing.",
+    "application": "The conjugate transpose is \\((1,-i)\\). Its product with \\((1,i)^T\\) is \\(1+(-i)i=2\\), so the squared norm is 2.",
+    "challenge": "For \\(U=\\mathrm{diag}(1,i)\\), \\(U^\\dagger=\\mathrm{diag}(1,-i)\\). Their product is \\(\\mathrm{diag}(1,(-i)i)=I\\), so here the adjoint is also the inverse."
   },
   "topic-4-2-1": {
     "foundation": "Its norm is one, equivalently the sum of squared amplitude magnitudes is one.",
@@ -205,14 +205,14 @@
     "challenge": "Measurement generally changes the state. Fresh copies sample the original preparation distribution repeatedly; repeated measurements of one unchanged post-measurement system instead test the conditional state left by the first measurement. For an ideal projective measurement with no intervening dynamics, the same outcome repeats."
   },
   "topic-4-3-1": {
-    "foundation": "\\(U(a\\ket0+b\\ket1)=aU\\ket0+bU\\ket1\\).",
-    "application": "The output is \\((\\ket1-\\ket0)/\\sqrt2=-\\ket-\\). Its overall minus sign is a global phase.",
-    "challenge": "A basis expansion determines coefficients uniquely, and linearity applies the same operator to each term. Consequently basis actions determine every output. A rule that produced different outputs for two decompositions of the same vector would not be a well-defined operation on that vector."
+    "foundation": "\\(\\ket+=(\\ket0+\\ket1)/\\sqrt2\\) and \\(\\ket-=(\\ket0-\\ket1)/\\sqrt2\\).",
+    "application": "Adding gives \\(\\ket++\\ket-=\\sqrt2\\ket0\\). Therefore \\(\\ket0=(\\ket++\\ket-)/\\sqrt2\\).",
+    "challenge": "A coordinate change transforms both the state coordinates and the matrix representing the fixed measurement, leaving its probabilities unchanged. A physical gate changes the state relative to that fixed apparatus. For example, applying \\(H\\) to \\(\\ket0\\) changes its computational-basis probabilities, while merely rewriting \\(\\ket0\\) in the plus/minus basis does not."
   },
   "topic-4-3-2": {
-    "foundation": "Take the transpose and complex-conjugate every entry.",
-    "application": "For \\(U=\\mathrm{diag}(1,i)\\), \\(U^\\dagger=\\mathrm{diag}(1,-i)\\). Their product is \\(\\mathrm{diag}(1,(-i)i)=I\\), so here the adjoint is also the inverse.",
-    "challenge": "The adjoint transfers an operator between the two slots of an inner product: \\(\\braket{u}{Av}=\\braket{A^\\dagger u}{v}\\). It need not reconstruct a previous state. For \\(P=\\ketbra00\\), \\(P^\\dagger=P\\), but \\(P\\) removes the \\(\\ket1\\) component, so no inverse exists on the full space."
+    "foundation": "Apply \\(H\\). It sends \\(\\ket+\\) to \\(\\ket0\\) and \\(\\ket-\\) to \\(\\ket1\\), so the outcome \\(0\\) after \\(H\\) occurs exactly for the \\(\\ket+\\) component of the original state.",
+    "application": "\\(\\braket+0=\\braket-0=1/\\sqrt2\\), so each outcome has probability \\(1/2\\). After the outcome the state is \\(\\ket+\\) or \\(\\ket-\\).",
+    "challenge": "The coordinate \\(j\\) of \\(U^\\dagger\\ket\\psi\\) is \\(\\braket{j}{U^\\dagger\\psi}=\\braket{Uj}\\psi=\\braket{u_j}\\psi\\), using \\(\\braket\\phi{A\\psi}=\\braket{A^\\dagger\\phi}\\psi\\) and \\(U\\ket j=\\ket{u_j}\\). A computational-basis measurement of \\(U^\\dagger\\ket\\psi\\) gives \\(j\\) with probability \\(|\\braket{u_j}\\psi|^2\\)."
   },
   "topic-4-3-3": {
     "foundation": "For a square finite-dimensional matrix, \\(U^\\dagger U=I\\), equivalently \\(UU^\\dagger=I\\).",

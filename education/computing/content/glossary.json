@@ -60,34 +60,46 @@
     "url": "02-boolean-reversible-computation.html#topic-2-4-3"
   },
   {
+    "term": "Transition weight",
+    "slug": "transition-weight",
+    "definition": "The number attached to an arrow from one configuration to another: 1 for a deterministic or allowed arrow, a probability for a probabilistic rule, a complex amplitude for a quantum operation.",
+    "url": "03-amplitudes-interference.html#topic-3-2-1"
+  },
+  {
+    "term": "Qubit",
+    "slug": "qubit",
+    "definition": "A two-state quantum system. Its state is described by two amplitudes, one for each of the labels zero and one.",
+    "url": "03-amplitudes-interference.html#topic-3-3-1"
+  },
+  {
     "term": "Amplitude",
     "slug": "amplitude",
     "definition": "A complex coefficient used to describe a quantum state or transition. The squared magnitude gives the corresponding probability in the specified measurement basis.",
-    "url": "03-amplitudes-interference.html#topic-3-2-3"
+    "url": "03-amplitudes-interference.html#topic-3-4-1"
   },
   {
     "term": "Interference",
     "slug": "interference",
     "definition": "The addition of amplitudes for indistinguishable alternatives, which can increase or decrease an outcome probability.",
-    "url": "03-amplitudes-interference.html#topic-3-3-2"
+    "url": "03-amplitudes-interference.html#topic-3-4-2"
   },
   {
     "term": "Relative phase",
     "slug": "relative-phase",
     "definition": "The phase difference between two components of a state. It can affect probabilities after further operations.",
-    "url": "03-amplitudes-interference.html#topic-3-4-1"
+    "url": "03-amplitudes-interference.html#topic-3-4-2"
   },
   {
     "term": "Global phase",
     "slug": "global-phase",
     "definition": "A common phase factor multiplying an entire state vector. It leaves all measurement probabilities unchanged.",
-    "url": "03-amplitudes-interference.html#topic-3-4-1"
+    "url": "03-amplitudes-interference.html#topic-3-4-2"
   },
   {
     "term": "Inner product",
     "slug": "inner-product",
     "definition": "A scalar obtained from two vectors by conjugating the coordinates of the first and summing their products with the second. It measures their overlap.",
-    "url": "04-states-measurement.html#topic-4-1-2"
+    "url": "04-states-measurement.html#topic-4-1-3"
   },
   {
     "term": "Normalization",
@@ -99,19 +111,19 @@
     "term": "Projective measurement",
     "slug": "projective-measurement",
     "definition": "A measurement described by mutually orthogonal projectors summing to the identity. Each outcome probability is the squared norm of the projected state.",
-    "url": "04-states-measurement.html#topic-4-2-2"
+    "url": "04-states-measurement.html#topic-4-3-2"
   },
   {
     "term": "Adjoint",
     "slug": "adjoint",
     "definition": "The conjugate transpose of a matrix, written with a dagger. It is not generally the inverse.",
-    "url": "04-states-measurement.html#topic-4-3-2"
+    "url": "04-states-measurement.html#topic-4-1-3"
   },
   {
     "term": "Unitary",
     "slug": "unitary",
     "definition": "An operator whose adjoint is its inverse. Unitary transformations preserve inner products and describe closed-system quantum evolution.",
-    "url": "04-states-measurement.html#topic-4-3-3"
+    "url": "04-states-measurement.html#topic-4-1-3"
   },
   {
     "term": "Hermitian",

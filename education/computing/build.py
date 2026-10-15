@@ -21,7 +21,7 @@ def navigation(current,data):
     pieces.append(f'<a class="nav-group" href="{stem}.html#{part["id"]}">{esc(part["number"])} · {esc(part["title"])}</a>' if part else f'<p class="nav-group">{esc(label)}</p>')
    pieces.append(f'<a href="{stem}.html#{sec["id"]}" data-topic="{sec["id"]}"><span>{sec["number"]}</span> {esc(sec["title"])}</a>')
   pieces.append('</details>')
- pieces.append('<nav class="book-resources" aria-label="Learning resources"><a href="study-guide.html">Study guide</a><a href="glossary.html">Glossary</a><a href="revisions.html">Revisions and corrections</a><a href="downloads/quantum-computing.zip" download>Download offline book</a></nav>')
+ pieces.append('<nav class="book-resources" aria-label="Learning resources"><a href="study-guide.html">Study guide</a><a href="glossary.html">Glossary</a><a href="notation.html">Notation</a><a href="revisions.html">Revisions and corrections</a><a href="downloads/quantum-computing.zip" download>Download offline book</a></nav>')
  return ''.join(pieces)
 def inline_figures(soup):
  """Inline SVG figures so MathJax can typeset their data-tex labels.

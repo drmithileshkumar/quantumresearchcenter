@@ -16,15 +16,15 @@
   [
     "03-amplitudes-interference",
     "Probability Amplitudes and Interference",
-    "What does it mean to consider alternatives when those alternatives can cancel one another?",
-    "Ordinary probability teaches us to add the weights of mutually exclusive possibilities. A two-state experiment makes that familiar rule insufficient for quantum alternatives: identical probabilities at one step can lead to different predictions after the next. We follow the calculation through competing paths, signs, and phases to discover why amplitudes must be combined before probabilities are assigned. The question becomes when alternatives interfere, and when distinguishing them removes that interference.",
+    "How can two steps that each look random combine into a certain result?",
+    "A quantum step can look as random as a coin flip, yet two such steps in a row can give a certain result. Explaining how leads to the central ideas of quantum mechanics.",
     ""
   ],
   [
     "04-states-measurement",
     "Quantum States and Measurement",
     "What can the mathematical description of a system tell us about what can be known through measurement?",
-    "A vector is a mathematical object; a measurement is a physical event. We begin by asking how the coordinates of one acquire meaning in the outcomes of the other. Changes of basis, projections, and unitary transformations lead us from state preparation to the limits of distinguishing states. The chapter develops the rules that connect a quantum description to observation, while keeping separate a prediction of possible outcomes and the outcome of an individual trial.",
+    "The rules found for a single qubit take a compact form in vectors and matrices, and become the postulates of quantum mechanics. We then ask what a measurement in another basis reveals, which numbers a measurement can report, and why some different states can never be told apart with certainty.",
     ""
   ],
   [

@@ -56,3 +56,14 @@
  .ebook .problem-solution summary {display:none;}
  .ebook .problem-solution {border:0;border-left:2px solid #aab9c5;}
 }
+.ebook .notation-group {margin-top:2rem;}
+.ebook .notation-row {display:grid;grid-template-columns:minmax(7rem,1.1fr) minmax(7rem,1fr) 2fr minmax(9rem,1.3fr);gap:.4rem 1.2rem;padding:.9rem 0;border-bottom:1px solid #cbd3dc;scroll-margin-top:5rem;align-items:baseline;}
+.ebook .notation-head {font:600 .8rem/1.4 var(--sans);text-transform:uppercase;letter-spacing:.04em;color:#4b5864;padding-bottom:.5rem;}
+.ebook .notation-symbol {font-size:1.1em;min-width:0;}
+.ebook .notation-row :target, .ebook .notation-row:target {background:#eaf1f7;}
+@media (max-width:700px){
+ .ebook .notation-head {display:none;}
+ .ebook .notation-row {grid-template-columns:1fr;gap:.2rem;}
+ .ebook .notation-row > span:nth-child(2) {font-style:italic;color:#4b5864;}
+}
+@media print{.ebook .notation-row {break-inside:avoid;}}

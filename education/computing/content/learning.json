@@ -45,15 +45,16 @@
   },
   "02-boolean-reversible-computation": {
     "purpose": "Build computations from Boolean operations and learn how to preserve the information they would otherwise discard.",
-    "before": "Use Chapter 1’s distinction between a function and an implementation.",
+    "before": "Recall that a computation transforms configurations step by step, and that one function can have different implementations.",
     "outcomes": [
-      "Construct Boolean functions from elementary gates.",
+      "Write a Boolean function as a truth table and as a polynomial modulo two.",
+      "Construct Boolean functions from NAND gates.",
       "Verify a reversible function embedding.",
-      "Explain why temporary workspace must be uncomputed."
+      "Explain why temporary workspace is uncomputed rather than erased."
     ],
     "limits": "Logical reversibility alone does not guarantee low physical dissipation. Landauer’s bound concerns erasure under stated thermodynamic conditions.",
     "example": "Follow a function value from a truth table to a reversible target update. The same update becomes the oracle in Chapter 6.",
-    "next": "Chapter 3 introduces amplitudes, which make retained or discarded path information important.",
+    "next": "Chapter 3 compares deterministic, nondeterministic, probabilistic, and quantum transitions on one example, and shows how quantum amplitudes make retained path information important.",
     "exercises": [
       {
         "kind": "Quick check",
@@ -88,16 +89,19 @@
     ]
   },
   "03-amplitudes-interference": {
-    "purpose": "Replace classical path probabilities with amplitudes and see how interference changes predictions.",
-    "before": "Review vectors, matrix multiplication, and the probability of an outcome.",
+    "purpose": "Derive the rules of quantum mechanics for one qubit from how transitions compose, three observations, and three stated assumptions.",
+    "before": "Recall that a computation is a run of configurations, and that a reversible gate can be undone.",
     "outcomes": [
-      "Add amplitudes before taking squared magnitudes.",
-      "Calculate two successive Hadamard transformations.",
-      "Distinguish relative phase from global phase."
+      "Draw a transition rule as a state diagram, and list its runs as paths in a time-expanded diagram.",
+      "Apply the product rule along a path and the sum rule across paths.",
+      "Prove that no nonnegative weights reproduce two Hadamard steps.",
+      "Derive the measurement rule and the conditions on the weights of an operation that keep the total squared weight unchanged.",
+      "Show why a square root of NOT requires complex amplitudes.",
+      "Explain how a leftover record destroys interference and how uncomputation restores it."
     ],
-    "limits": "Coherent alternatives interfere only when their distinguishing records do not remain available in other systems.",
-    "example": "The two-Hadamard example returns in Deutsch’s algorithm: the final gate makes relative signs observable.",
-    "next": "Chapter 4 gives precise state and measurement rules for these calculations.",
+    "limits": "Three assumptions are stated rather than derived, and the uniqueness of the exponent 2 is quoted. Measurement is described only through its outcome probabilities.",
+    "example": "The same bit, updated twice, runs through the whole chapter. Its quantum version, two Hadamard steps, returns in Deutsch’s algorithm.",
+    "next": "Chapter 4 adopts the rules derived here as postulates and adds what a measurement does to the state.",
     "exercises": [
       {
         "kind": "Quick check",
@@ -107,7 +111,7 @@
           "Take the squared magnitude of the sum."
         ],
         "answer": "The total amplitude is zero, so the probability is zero. Adding the squared magnitudes separately would incorrectly give \\(1/2\\) for coherent alternatives.",
-        "review": "topic-3-3-2"
+        "review": "topic-3-4-2"
       },
       {
         "kind": "Worked problem",
@@ -116,27 +120,28 @@
           "\\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\).",
           "\\(Z\\) changes the sign of the \\(\\ket1\\) component."
         ],
-        "answer": "\\(H\\) then \\(Z\\) gives \\((\\ket0-\\ket1)/\\sqrt2\\). The final \\(H\\) gives \\(\\ket1\\). By contrast \\(H^2\\ket0=\\ket0\\). The intermediate probabilities are \\(1/2\\) and \\(1/2\\) in both cases, but the relative phase changes the final result.",
-        "review": "topic-3-4-1"
+        "answer": "\\(H\\) then \\(Z\\) gives \\((\\ket0-\\ket1)/\\sqrt2\\). The final \\(H\\) gives \\(\\ket1\\). By contrast, applying \\(H\\) twice returns \\(\\ket0\\). The intermediate probabilities are \\(1/2\\) and \\(1/2\\) in both cases, but the relative phase changes the final result.",
+        "review": "topic-3-4-2"
       },
       {
         "kind": "Extension",
-        "question": "Suppose an unobserved system records which intermediate basis state occurred between two Hadamards. Must the final result remain \\(\\ket0\\)?",
+        "question": "A qubit starts in \\(\\ket0\\). Between two applications of \\(H\\), a CNOT copies the qubit into a record bit that starts at \\(0\\). What is the probability that the qubit shows \\(0\\) at the end? What changes if a second CNOT is applied before the final \\(H\\)?",
         "hints": [
-          "Write the joint state using record states \\(\\ket{e_0}\\) and \\(\\ket{e_1}\\).",
-          "If the records are orthogonal, cross terms vanish when only the qubit is measured."
+          "Track the two-bit state step by step, with the qubit written first.",
+          "Amplitudes add only when the whole configuration, record included, is the same."
         ],
-        "answer": "No. After the first \\(H\\) and recording, the state is \\((\\ket0\\ket{e_0}+\\ket1\\ket{e_1})/\\sqrt2\\). After the second \\(H\\), the \\(\\ket0\\) component is \\((\\ket{e_0}+\\ket{e_1})/2\\). Its squared norm is \\(1/2\\) for orthogonal records, rather than 1 for identical records. Chapter 5 develops this joint-state calculation.",
-        "review": "topic-3-3-3"
+        "answer": "After the final \\(H\\) the state is \\(\\tfrac12(\\ket{00}+\\ket{10}+\\ket{01}-\\ket{11})\\), so the qubit shows \\(0\\) with probability \\(1/4+1/4=1/2\\). With a second CNOT, the record returns to \\(0\\) before the final \\(H\\), the paths meet again, and the qubit shows \\(0\\) with certainty.",
+        "review": "topic-3-4-3"
       }
     ]
   },
   "04-states-measurement": {
-    "purpose": "Connect vector calculations to preparations, transformations, and measurement outcomes.",
-    "before": "Use Chapter 3’s amplitude rules and basic linear algebra. Appendix C reviews the notation.",
+    "purpose": "Write the rules of quantum mechanics in vectors and matrices, adopt them as postulates, and derive measurement in any basis.",
+    "before": "Recall the rules found for a qubit: amplitudes, the measurement rule, and the two conditions on an operation. Appendix C reviews the linear algebra.",
     "outcomes": [
-      "Normalize a state and compute measurement probabilities.",
-      "Use an adjoint and test unitarity.",
+      "Write states as vectors and operations as matrices.",
+      "Use inner products and adjoints, and test whether a matrix is unitary.",
+      "Compute measurement probabilities and post-measurement states in any orthonormal basis.",
       "Explain why nonorthogonal states cannot be perfectly distinguished."
     ],
     "limits": "The main text treats finite-dimensional pure states and projective measurements. Mixed states and general measurements are in Appendix D.",
@@ -151,7 +156,7 @@
           "A projection can erase a component."
         ],
         "answer": "No. The adjoint is the conjugate transpose. It equals the inverse when \\(U\\) is unitary. A nontrivial projection has an adjoint but no inverse on the whole space.",
-        "review": "topic-4-3-2"
+        "review": "topic-4-1-3"
       },
       {
         "kind": "Worked problem",
@@ -177,7 +182,7 @@
   },
   "05-composite-systems": {
     "purpose": "Describe joint states and distinguish entanglement from ordinary correlation.",
-    "before": "Know normalization, basis measurements, and unitary transformations from Chapter 4.",
+    "before": "Know how to normalize a state, measure in a basis, and apply a unitary transformation.",
     "outcomes": [
       "Expand tensor-product states.",
       "Compare a Bell state with a correlated mixture.",
@@ -228,7 +233,7 @@
       "State exactly what a query advantage counts."
     ],
     "limits": "Deutsch’s task here uses a one-bit Boolean function and an ideal reversible oracle. A single query does not reveal every function value.",
-    "example": "The target update from Chapter 2 becomes a phase mark. The two-path interference from Chapter 3 becomes the readout.",
+    "example": "The reversible target update of a function becomes a phase mark, and two-path interference becomes the readout.",
     "next": "Chapter 7 uses phase marking to increase the probability of a marked answer.",
     "exercises": [
       {
@@ -353,7 +358,7 @@
   },
   "09-complexity-advantage": {
     "purpose": "Evaluate a quantum advantage claim by fixing the task, model, error allowance, and counted resources.",
-    "before": "Use Chapter 7’s query count and Chapter 8’s circuit costs.",
+    "before": "Recall the query count of amplitude amplification and the gate costs of circuits.",
     "outcomes": [
       "Distinguish upper bounds from lower bounds.",
       "Relate input length to numeric magnitude.",

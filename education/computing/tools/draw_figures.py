@@ -87,4 +87,6 @@ def main():
  print('Drew 13 SVG circuit figures.')
  from draw_logic_figures import main as draw_logic
  draw_logic()
+ from draw_transition_figures import main as draw_transitions
+ draw_transitions()
 if __name__=='__main__':main()

@@ -200,192 +200,6 @@
       ]
     ]
   },
-  "topic-3-1-1": {
-    "kind": "bars",
-    "title": "A two-outcome probability distribution",
-    "caption": "The bar heights are probabilities, not guaranteed frequencies in a short sample. Their sum is one.",
-    "labels": [
-      "Outcome 0",
-      "Outcome 1"
-    ],
-    "values": [
-      0.7,
-      0.3
-    ]
-  },
-  "topic-3-1-2": {
-    "kind": "flow",
-    "title": "Multiply along a classical route",
-    "caption": "First choose the left branch with probability \\(1/2\\). Conditional on that branch, success has probability \\(1/3\\). The probability of this complete route is \\(1/6\\).",
-    "rows": [
-      [
-        "Start",
-        "Left branch\nprobability \\(1/2\\)",
-        "Success given left\nprobability \\(1/3\\)",
-        "Route probability\n\\(1/2 \\times 1/3 = 1/6\\)"
-      ]
-    ]
-  },
-  "topic-3-1-3": {
-    "kind": "table",
-    "title": "Existence of a path is not its probability",
-    "caption": "With eight equally likely paths and one successful path, nondeterministic acceptance and randomized success answer different questions.",
-    "headers": [
-      "Description",
-      "Question",
-      "Result in this example"
-    ],
-    "rows": [
-      [
-        "Nondeterministic",
-        "Does a successful path exist?",
-        "Yes"
-      ],
-      [
-        "Uniform random choice",
-        "How often is it selected?",
-        "Probability \\(1/8\\)"
-      ]
-    ]
-  },
-  "topic-3-2-1": {
-    "kind": "flow",
-    "title": "One Hadamard creates two amplitudes",
-    "caption": "Starting in \\(\\ket0\\), \\(H\\) produces equal amplitudes. The computational-basis measurement therefore has two equally likely outcomes.",
-    "rows": [
-      [
-        "\\(\\ket0\\)",
-        "\\(H\\)",
-        "\\((\\ket0 + \\ket1)/\\sqrt{2}\\)"
-      ],
-      [
-        "Amplitude of 0: \\(1/\\sqrt{2}\\)",
-        "Square magnitude",
-        "Probability of 0: \\(1/2\\)"
-      ],
-      [
-        "Amplitude of 1: \\(1/\\sqrt{2}\\)",
-        "Square magnitude",
-        "Probability of 1: \\(1/2\\)"
-      ]
-    ]
-  },
-  "topic-3-2-3": {
-    "kind": "table",
-    "title": "A sign disappears in an isolated probability",
-    "caption": "Squaring magnitudes removes a sign. The sign can still affect later interference when an amplitude is added to another contribution.",
-    "headers": [
-      "Amplitude",
-      "Squared magnitude",
-      "Probability"
-    ],
-    "rows": [
-      [
-        "\\(+1/2\\)",
-        "\\(|+1/2|^2\\)",
-        "\\(1/4\\)"
-      ],
-      [
-        "\\(-1/2\\)",
-        "\\(|-1/2|^2\\)",
-        "\\(1/4\\)"
-      ]
-    ]
-  },
-  "topic-3-3-2": {
-    "kind": "flow",
-    "title": "Add coherent contributions before squaring",
-    "caption": "Each row describes contributions to a single outcome. A minus sign changes interference, not the requirement that a probability be nonnegative.",
-    "rows": [
-      [
-        "\\(+1/2\\) and \\(+1/2\\)",
-        "Sum: 1",
-        "Probability: 1"
-      ],
-      [
-        "\\(+1/2\\) and \\(-1/2\\)",
-        "Sum: 0",
-        "Probability: 0"
-      ]
-    ]
-  },
-  "topic-3-3-3": {
-    "kind": "flow",
-    "title": "A path record changes the joint alternatives",
-    "caption": "For the two-Hadamard experiment, identical environment records preserve interference. Orthogonal records distinguish the intermediate paths and remove the cross term in the qubit probabilities.",
-    "rows": [
-      [
-        "Same record\n\\(e_0 = e_1\\)",
-        "Paths remain coherent",
-        "Final \\(p(0) = 1\\)"
-      ],
-      [
-        "Distinguishing records\n\\(\\braket{e_0}{e_1} = 0\\)",
-        "No cross term locally",
-        "Final \\(p(0) = 1/2\\)"
-      ]
-    ]
-  },
-  "topic-3-4-1": {
-    "kind": "table",
-    "title": "A final \\(H\\) reveals a relative sign",
-    "caption": "The first two states differ only by a global sign and have the same output probabilities. Changing only one component changes the outcome after \\(H\\).",
-    "headers": [
-      "Input state",
-      "After \\(H\\)",
-      "Certain outcome"
-    ],
-    "rows": [
-      [
-        "\\((\\ket0 + \\ket1)/\\sqrt{2}\\)",
-        "\\(\\ket0\\)",
-        "0"
-      ],
-      [
-        "\\(-(\\ket0 + \\ket1)/\\sqrt{2}\\)",
-        "\\(-\\ket0\\)",
-        "0"
-      ],
-      [
-        "\\((\\ket0 - \\ket1)/\\sqrt{2}\\)",
-        "\\(\\ket1\\)",
-        "1"
-      ]
-    ]
-  },
-  "topic-3-4-2": {
-    "kind": "plane",
-    "title": "Phase is a direction in the complex plane",
-    "caption": "The four arrows all have magnitude one: \\(1\\), \\(i\\), \\(-1\\), and \\(-i\\). Different directions represent different phases. A relative phase compares two such directions.",
-    "angles": [
-      0,
-      90,
-      180,
-      270
-    ],
-    "labels": [
-      "1",
-      "\\(i\\)",
-      "\\(-1\\)",
-      "\\(-i\\)"
-    ],
-    "axes": [
-      "Real",
-      "Imaginary"
-    ]
-  },
-  "topic-3-4-3": {
-    "kind": "flow",
-    "title": "A matrix transforms the amplitude list",
-    "caption": "The \\(X\\) matrix swaps coordinates in the computational basis. The same rule acts on every input vector, not only the two basis vectors.",
-    "rows": [
-      [
-        "\\(a\\ket0 + b\\ket1\\)\ncoordinates \\((a,b)\\)",
-        "\\(X = [[0,1],[1,0]]\\)",
-        "\\(b\\ket0 + a\\ket1\\)\ncoordinates \\((b,a)\\)"
-      ]
-    ]
-  },
   "topic-4-1-1": {
     "kind": "table",
     "title": "Ket notation and coordinates",
@@ -415,6 +229,28 @@
   },
   "topic-4-1-2": {
     "kind": "flow",
+    "title": "Extend basis actions by linearity",
+    "caption": "The \\(X\\) operation is fixed by its two basis actions. Multiply those outputs by the input coefficients and add to obtain the output on a superposition.",
+    "rows": [
+      [
+        "\\(\\ket0\\)",
+        "\\(X\\)",
+        "\\(\\ket1\\)"
+      ],
+      [
+        "\\(\\ket1\\)",
+        "\\(X\\)",
+        "\\(\\ket0\\)"
+      ],
+      [
+        "\\(a\\ket0 + b\\ket1\\)",
+        "\\(X\\)",
+        "\\(a\\ket1 + b\\ket0\\)"
+      ]
+    ]
+  },
+  "topic-4-1-3": {
+    "kind": "flow",
     "title": "Conjugation makes the squared norm positive",
     "caption": "For \\(v=(1,i)\\), the conjugate transpose is \\((1,-i)\\). Multiplying gives \\(1+1=2\\). Omitting conjugation would incorrectly give zero.",
     "rows": [
@@ -422,28 +258,6 @@
         "\\(v = (1,i)^T\\)",
         "\\(v^\\dagger = (1,-i)\\)",
         "\\(v^\\dagger v = 1 + (-i)i = 2\\)"
-      ]
-    ]
-  },
-  "topic-4-1-3": {
-    "kind": "table",
-    "title": "The same state in two bases",
-    "caption": "These rows change coordinates without changing the physical state. The plus/minus basis is defined by \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\).",
-    "headers": [
-      "Physical state",
-      "Computational coordinates",
-      "Plus/minus coordinates"
-    ],
-    "rows": [
-      [
-        "\\(\\ket0\\)",
-        "(1, 0)",
-        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)"
-      ],
-      [
-        "\\(\\ket{+}\\)",
-        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)",
-        "(1, 0)"
       ]
     ]
   },
@@ -482,46 +296,24 @@
     ]
   },
   "topic-4-3-1": {
-    "kind": "flow",
-    "title": "Extend basis actions by linearity",
-    "caption": "The \\(X\\) operation is fixed by its two basis actions. Multiply those outputs by the input coefficients and add to obtain the output on a superposition.",
-    "rows": [
-      [
-        "\\(\\ket0\\)",
-        "\\(X\\)",
-        "\\(\\ket1\\)"
-      ],
-      [
-        "\\(\\ket1\\)",
-        "\\(X\\)",
-        "\\(\\ket0\\)"
-      ],
-      [
-        "\\(a\\ket0 + b\\ket1\\)",
-        "\\(X\\)",
-        "\\(a\\ket1 + b\\ket0\\)"
-      ]
-    ]
-  },
-  "topic-4-3-2": {
     "kind": "table",
-    "title": "Adjoint does not always mean inverse",
-    "caption": "A unitary has an inverse equal to its adjoint. A projection onto \\(\\ket0\\) has an adjoint but loses the \\(\\ket1\\) component, so it has no full-space inverse.",
+    "title": "The same state in two bases",
+    "caption": "These rows change coordinates without changing the physical state. The plus/minus basis is defined by \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\).",
     "headers": [
-      "Operator",
-      "Adjoint",
-      "Inverse"
+      "Physical state",
+      "Computational coordinates",
+      "Plus/minus coordinates"
     ],
     "rows": [
       [
-        "\\(\\mathrm{diag}(1,i)\\)",
-        "\\(\\mathrm{diag}(1,-i)\\)",
-        "\\(\\mathrm{diag}(1,-i)\\)"
+        "\\(\\ket0\\)",
+        "(1, 0)",
+        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)"
       ],
       [
-        "diag(1,0)",
-        "diag(1,0)",
-        "Does not exist"
+        "\\(\\ket{+}\\)",
+        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)",
+        "(1, 0)"
       ]
     ]
   },
@@ -1687,6 +1479,215 @@
         "Input-independent start\ndegree 0",
         "After \\(T\\) queries\namplitude degree \\(\\le T\\)",
         "Acceptance probability\ndegree \\(\\le 2T\\)"
+      ]
+    ]
+  },
+  "topic-3-2-1": {
+    "kind": "table",
+    "title": "The product rule on the path 0 to 1 to 0",
+    "caption": "Multiplying the weights along the path \\(0\\to1\\to0\\) gives its weight in each model.",
+    "headers": [
+      "Rule",
+      "Arrow weights",
+      "Path weight"
+    ],
+    "rows": [
+      [
+        "NOT (deterministic)",
+        "\\(1\\) and \\(1\\)",
+        "\\(1\\)"
+      ],
+      [
+        "Keep or flip (nondeterministic)",
+        "yes and yes",
+        "possible"
+      ],
+      [
+        "Coin step (probabilistic)",
+        "\\(1/2\\) and \\(1/2\\)",
+        "\\(1/4\\)"
+      ]
+    ]
+  },
+  "topic-3-2-2": {
+    "kind": "table",
+    "title": "The sum rule for ending at 0 after two steps",
+    "caption": "Adding the weights of the paths that end at \\(0\\) gives the weight of ending there.",
+    "headers": [
+      "Rule",
+      "Paths ending at \\(0\\)",
+      "Combined"
+    ],
+    "rows": [
+      [
+        "NOT",
+        "one path of weight \\(1\\)",
+        "\\(1\\)"
+      ],
+      [
+        "Keep or flip",
+        "two possible paths",
+        "reachable"
+      ],
+      [
+        "Coin step",
+        "\\(1/4\\) and \\(1/4\\)",
+        "\\(1/2\\)"
+      ]
+    ]
+  },
+  "topic-3-2-3": {
+    "kind": "table",
+    "title": "One COIN step from different states",
+    "caption": "COIN sends every distribution to the state with weights \\(1/2\\) and \\(1/2\\), so the state after the step does not determine the state before it.",
+    "headers": [
+      "Weights before",
+      "Weights after"
+    ],
+    "rows": [
+      [
+        "\\(1\\) and \\(0\\)",
+        "\\(1/2\\) and \\(1/2\\)"
+      ],
+      [
+        "\\(0\\) and \\(1\\)",
+        "\\(1/2\\) and \\(1/2\\)"
+      ],
+      [
+        "\\(3/4\\) and \\(1/4\\)",
+        "\\(1/2\\) and \\(1/2\\)"
+      ]
+    ]
+  },
+  "topic-3-3-1": {
+    "kind": "table",
+    "title": "One step looks random; two steps do not",
+    "caption": "COIN matches a single application and an interrupted pair, but not two unobserved applications. The unobserved qubit keeps information that the probabilities do not.",
+    "headers": [
+      "Experiment",
+      "COIN",
+      "Observed qubit"
+    ],
+    "rows": [
+      [
+        "Apply once, then measure",
+        "0 or 1, each 1/2",
+        "0 or 1, each 1/2"
+      ],
+      [
+        "Apply twice from 0",
+        "0 or 1, each 1/2",
+        "0 every time"
+      ],
+      [
+        "Apply twice, measuring between",
+        "0 or 1, each 1/2",
+        "0 or 1, each 1/2"
+      ]
+    ]
+  },
+  "topic-3-3-2": {
+    "kind": "table",
+    "title": "Which probability rule allows observation 1?",
+    "caption": "With probability \\(|w|^p\\), every operation must preserve \\(\\sum_j|v_j|^p\\). Only \\(p=2\\) allows an operation that sends a configuration to an equal superposition.",
+    "headers": [
+      "Probability rule",
+      "Quantity preserved",
+      "Allowed operations",
+      "Observation 1 possible?"
+    ],
+    "rows": [
+      [
+        "\\(|w|^p\\), \\(p\\neq2\\)",
+        "\\(\\sum_j|v_j|^p\\)",
+        "Each configuration to one configuration, weight \\(\\pm1\\)",
+        "No"
+      ],
+      [
+        "\\(w^2\\)",
+        "\\(\\sum_jv_j^2\\)",
+        "Outgoing squares sum to 1; cross sums vanish",
+        "Yes"
+      ]
+    ]
+  },
+  "topic-3-4-1": {
+    "kind": "plane",
+    "title": "Phase is a direction in the complex plane",
+    "caption": "The complex numbers \\(1\\), \\(i\\), \\(-1\\), and \\(-i\\) have magnitude one and phases \\(0\\), \\(\\pi/2\\), \\(\\pi\\), and \\(3\\pi/2\\). Multiplying complex numbers adds their phases.",
+    "angles": [
+      0,
+      90,
+      180,
+      270
+    ],
+    "labels": [
+      "1",
+      "\\(i\\)",
+      "\\(-1\\)",
+      "\\(-i\\)"
+    ],
+    "axes": [
+      "Real",
+      "Imaginary"
+    ]
+  },
+  "topic-3-4-2": {
+    "kind": "table",
+    "title": "A final \\(H\\) reveals a relative sign",
+    "caption": "The first two states differ only by a global sign and have the same output probabilities. Changing only one component changes the outcome after \\(H\\).",
+    "headers": [
+      "Input state",
+      "After \\(H\\)",
+      "Certain outcome"
+    ],
+    "rows": [
+      [
+        "\\((\\ket0 + \\ket1)/\\sqrt{2}\\)",
+        "\\(\\ket0\\)",
+        "0"
+      ],
+      [
+        "\\(-(\\ket0 + \\ket1)/\\sqrt{2}\\)",
+        "\\(-\\ket0\\)",
+        "0"
+      ],
+      [
+        "\\((\\ket0 - \\ket1)/\\sqrt{2}\\)",
+        "\\(\\ket1\\)",
+        "1"
+      ]
+    ]
+  },
+  "topic-3-4-3": {
+    "kind": "flow",
+    "title": "A record keeps the paths apart",
+    "caption": "Copying the intermediate configuration into a record separates the paths, so their amplitudes no longer meet. Uncomputing the record restores the interference.",
+    "rows": [
+      [
+        "\\(\\ket{00}\\)",
+        "\\(H\\): \\((\\ket{00}+\\ket{10})/\\sqrt2\\)",
+        "CNOT: \\((\\ket{00}+\\ket{11})/\\sqrt2\\)",
+        "\\(H\\): qubit shows \\(1\\) with probability \\(1/2\\)"
+      ],
+      [
+        "\\(\\ket{00}\\)",
+        "\\(H\\), CNOT, CNOT: \\((\\ket{00}+\\ket{10})/\\sqrt2\\)",
+        "\\(H\\): \\(\\ket{00}\\)",
+        "Qubit shows \\(0\\) with certainty"
+      ]
+    ]
+  },
+  "topic-4-2-2": {
+    "kind": "flow",
+    "title": "Measuring twice in a row",
+    "caption": "A measurement leaves the observed configuration, so an immediate second measurement repeats the result with certainty.",
+    "rows": [
+      [
+        "\\((\\sqrt3/2)\\ket0+(1/2)\\ket1\\)",
+        "Measure: \\(1\\) with probability \\(1/4\\)",
+        "State becomes \\(\\ket1\\)",
+        "Measure again: \\(1\\) with certainty"
       ]
     ]
   }

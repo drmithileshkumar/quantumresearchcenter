@@ -115,64 +115,64 @@
     "challenge": "If a computation retains every intermediate value, it can preserve its history but exhaust its workspace. How does computing, recording the result, and running backward avoid keeping that history forever? What information remains at the end?"
   },
   "topic-3-1-1": {
-    "foundation": "What must the probabilities of all possible outcomes sum to?",
-    "application": "A device produces 0 with probability 0.7. What is the probability of 1 if these are its only outcomes?",
-    "challenge": "A fair coin can produce ten heads in a row. What would such a record tell you about the claim that the coin is fair? Why can a probability model be tested by frequencies without requiring every finite sample to match its probabilities?"
+    "foundation": "In a state diagram, what makes a rule deterministic, and what additionally makes it reversible?",
+    "application": "Draw the state diagram of RESET. Draw its time-expanded diagram for two steps from \\(1\\). Where does the run end, and can the end reveal the start?",
+    "challenge": "Euclid’s algorithm has infinitely many configurations. In what sense does a state diagram still describe it, and how does the merge \\((30,18)\\to(18,12)\\) and \\((48,18)\\to(18,12)\\) appear?"
   },
   "topic-3-1-2": {
-    "foundation": "How do you calculate the probability of a route with two successive conditional steps?",
-    "application": "A route takes its first step with probability \\(1/2\\) and its second with conditional probability \\(1/3\\). Calculate its probability.",
-    "challenge": "Two different routes lead to the same final outcome. When is adding their route probabilities justified? What assumptions about the routes and their conditional weights are hidden in that calculation?"
+    "foundation": "What does a nondeterministic rule specify, and what does it leave out?",
+    "application": "A rule allows \\(0\\to0\\), \\(0\\to1\\), and \\(1\\to1\\), but forbids \\(1\\to0\\). List the possible two-step runs from \\(0\\). Which end configurations are reachable?",
+    "challenge": "Two possible paths reach \\(0\\) and one reaches \\(1\\). Why does this not make \\(0\\) twice as likely?"
   },
   "topic-3-1-3": {
-    "foundation": "Does a nondeterministic choice specify probabilities?",
-    "application": "A random procedure chooses uniformly among eight paths, one successful. Find its success probability and compare it with the statement “a successful path exists.”",
-    "challenge": "A nondeterministic description says that a successful path exists. A probabilistic procedure must actually reach one. Why does the first statement alone give no guarantee of a useful success probability?"
+    "foundation": "What do the labels on a probabilistic state diagram mean, and why must the labels leaving a configuration sum to one?",
+    "application": "A step keeps the bit with probability \\(3/4\\) and flips it with probability \\(1/4\\). Draw the time-expanded diagram for two steps from \\(0\\) and find the probability of ending at \\(0\\).",
+    "challenge": "Show that no probabilistic step can undo COIN."
   },
   "topic-3-2-1": {
-    "foundation": "What state does \\(H\\) produce from \\(\\ket0\\)?",
-    "application": "Use \\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\) to calculate the probabilities of measuring 0 and 1.",
-    "challenge": "One use of a Hadamard gate gives equal outcome probabilities from either basis input. If you retained only those probabilities, what prediction would you make for two uses? Which information would your description have lost?"
+    "foundation": "State the product rule.",
+    "application": "Using the step with \\(P(0\\mid0)=3/4\\), \\(P(1\\mid0)=1/4\\), \\(P(0\\mid1)=1/4\\), and \\(P(1\\mid1)=3/4\\), find the probability of the three-step path \\(0\\to1\\to1\\to0\\).",
+    "challenge": "Why does the product rule for a nondeterministic rule give the same answer as asking whether every arrow is allowed?"
   },
   "topic-3-2-2": {
-    "foundation": "Which transformation acts first in the matrix product BA applied to a column vector?",
-    "application": "Apply \\(H\\) to \\((\\ket0+\\ket1)/\\sqrt2\\) using the two basis-state rules. Combine the coefficients of each basis state.",
-    "challenge": "Why does composing two quantum transformations require their amplitudes rather than just their one-step outcome probabilities? Use the two-Hadamard example to locate exactly where a probability-only calculation fails."
+    "foundation": "State the sum rule, and say when probabilities of paths may be added.",
+    "application": "Using the step that keeps the bit with probability \\(3/4\\), find \\(P(1\\mid0)\\) for two steps with the sum rule, and check that it and \\(P(0\\mid0)\\) sum to one.",
+    "challenge": "All weights in the three models are nonnegative. Explain why this means that adding paths can never lower a configuration’s weight, and why this matters for the next section."
   },
   "topic-3-2-3": {
-    "foundation": "How do you obtain probability from an amplitude?",
-    "application": "Calculate the probabilities associated with amplitudes \\(1/2\\) and \\(-1/2\\). Are they different?",
-    "challenge": "Both \\(+a\\) and \\(-a\\) give the same probability when considered alone. In what sense can their difference still be physically meaningful? What additional operation would allow the difference to affect an observation?"
+    "foundation": "Write the formula for one step of a rule applied to a state \\(v\\), and say which part comes from the product rule and which from the sum rule.",
+    "application": "Apply one step of the rule that keeps the bit with probability \\(3/4\\) and flips it with probability \\(1/4\\) to the distribution with weights \\(1/2\\) and \\(1/2\\). Then apply COIN to the same distribution.",
+    "challenge": "Which of NOT, RESET, and COIN can be undone? Answer using the arrows entering and leaving each configuration."
   },
   "topic-3-3-1": {
-    "foundation": "Do amplitudes add or multiply along successive steps of one route?",
-    "application": "Two coherent routes contribute \\(1/2\\) and \\(1/2\\) to the same outcome. Add them and calculate the resulting probability.",
-    "challenge": "Why do amplitudes multiply along a route but add across coherent routes? Trace two routes to one output and identify the point where taking squared magnitudes too early would change the prediction."
+    "foundation": "State the three observations about \\(H\\), and Assumption 1.",
+    "application": "Using COIN, predict the result of two applications from \\(0\\). Which observation about \\(H\\) contradicts the prediction?",
+    "challenge": "The argument against a probabilistic description of \\(H\\) used runs starting from both \\(0\\) and \\(1\\). Why would the run from \\(0\\) alone not rule out every probabilistic rule?"
   },
   "topic-3-3-2": {
-    "foundation": "What is destructive interference?",
-    "application": "Two coherent contributions to an outcome are \\(1/2\\) and \\(-1/2\\). Calculate their total amplitude and the outcome probability.",
-    "challenge": "If adding a second route makes an outcome less likely, which assumption behind the classical picture of mutually exclusive routes has failed? Does destructive interference mean that a negative probability was ever present?"
+    "foundation": "Why can the probability of an outcome not equal its weight once weights may be negative?",
+    "application": "Using the measurement rule, find the outcome probabilities for the state \\((\\sqrt3/2)\\ket0-(1/2)\\ket1\\) and check that they sum to one.",
+    "challenge": "Derive the condition \\(\\sum_jw(i\\to j)\\,w(k\\to j)=0\\) for \\(i\\neq k\\) from the requirement that every operation leaves the total squared weight unchanged."
   },
   "topic-3-3-3": {
-    "foundation": "Can a path record matter even if nobody reads it?",
-    "application": "One record is identical for both paths; another perfectly identifies the path. Which one preserves the possibility of interference between the paths?",
-    "challenge": "Why can a path record suppress interference even when no person reads it? Compare a record that distinguishes the paths perfectly with one that is identical for both paths."
+    "foundation": "Read \\(H\\ket0\\) and \\(H\\ket1\\) from the weights of the arrows leaving \\(0\\) and \\(1\\).",
+    "application": "Draw the time-expanded diagram of two Hadamard steps from \\(1\\). Compute the path amplitudes to \\(0\\) and to \\(1\\), and the final probabilities.",
+    "challenge": "Using the paths from \\(1\\) to \\(0\\) and from \\(1\\) to \\(1\\) in two steps, check that the weights derived for \\(H\\) also return \\(1\\) with certainty."
   },
   "topic-3-4-1": {
-    "foundation": "What is the difference between global and relative phase?",
-    "application": "Compare \\((\\ket0+\\ket1)/\\sqrt2\\), \\(-(\\ket0+\\ket1)/\\sqrt2\\), and \\((\\ket0-\\ket1)/\\sqrt2\\). Which pair differs only by global phase?",
-    "challenge": "A phase factor on an entire state is unobservable, yet a phase factor on one component can matter. How does the second operation change a relation within the state that the first leaves unchanged?"
+    "foundation": "Which two-step path sums show that an operation with real weights cannot equal NOT when applied twice?",
+    "application": "For the operation \\(S\\) with \\(S(0\\to0)=S(1\\to1)=(1+i)/2\\) and \\(S(0\\to1)=S(1\\to0)=(1-i)/2\\), compute the two-step weights from \\(1\\) to \\(0\\) and to \\(1\\).",
+    "challenge": "For \\(z=3+4i\\), find \\(z^*\\) and \\(|z|^2\\). Why does the measurement rule use \\(|v_j|^2\\) rather than \\(v_j^2\\) for complex amplitudes?"
   },
   "topic-3-4-2": {
-    "foundation": "What is the squared magnitude of \\(i\\)?",
-    "application": "For \\((\\ket0+i\\ket1)/\\sqrt2\\), calculate the two computational-basis probabilities. Compare them with those of \\(\\ket+\\).",
-    "challenge": "What intermediate states become available when relative phase varies continuously instead of being restricted to a plus or minus sign? How could a later interference experiment distinguish those states?"
+    "foundation": "What is the difference between a global phase and a relative phase?",
+    "application": "Which of \\((\\ket0+\\ket1)/\\sqrt2\\), \\(-(\\ket0+\\ket1)/\\sqrt2\\), and \\((\\ket0-\\ket1)/\\sqrt2\\) describe the same physical state? Apply \\(H\\) to each to check.",
+    "challenge": "After \\(H\\), the state \\((\\ket0+e^{i\\phi}\\ket1)/\\sqrt2\\) gives \\(0\\) with probability \\((1+\\cos\\phi)/2\\). Which phases cannot be told apart this way, and what further operation would separate them?"
   },
   "topic-3-4-3": {
-    "foundation": "What do the entries of a state vector represent?",
-    "application": "Multiply the matrix \\(X\\), which swaps the two coordinates, by \\((a,b)^T\\). Write the resulting state.",
-    "challenge": "A state vector and a matrix depend on a choice of basis. Which predictions should remain unchanged if both are expressed consistently in a different basis? Why would changing just one give misleading results?"
+    "foundation": "What does the CNOT in this subsection copy, and where does it put the copy?",
+    "application": "Check the final state \\(\\tfrac12(\\ket{00}+\\ket{10}+\\ket{01}-\\ket{11})\\) by applying \\(H\\) to the qubit in \\(\\ket{00}\\) and in \\(\\ket{11}\\) separately.",
+    "challenge": "The record is never read. Why does it still change the qubit’s statistics, and how does uncomputation restore them?"
   },
   "topic-4-1-1": {
     "foundation": "What are the coordinate vectors of \\(\\ket0\\) and \\(\\ket1\\) in the computational basis?",
@@ -180,14 +180,14 @@
     "challenge": "If two people write different coordinate vectors for the same state in different bases, are they making different physical claims? What must you know before comparing their lists of amplitudes?"
   },
   "topic-4-1-2": {
-    "foundation": "What extra operation distinguishes a complex inner product from an ordinary coordinate-wise product?",
-    "application": "Calculate the squared norm of \\((1,i)^T\\) by conjugating the first vector before multiplying.",
-    "challenge": "Why is complex conjugation necessary in the inner product? Test what would happen to the proposed squared length of the one-component vector \\(i\\) if conjugation were omitted."
+    "foundation": "What does linearity say about \\(U(a\\ket0+b\\ket1)\\)?",
+    "application": "Given \\(U\\ket0=\\ket1\\) and \\(U\\ket1=\\ket0\\), find \\(U\\) applied to \\((\\ket0-\\ket1)/\\sqrt2\\).",
+    "challenge": "Why does knowing an operator’s action on every basis vector determine its action on all superpositions? What could go wrong if a proposed rule were allowed to depend on how the same vector was decomposed?"
   },
   "topic-4-1-3": {
-    "foundation": "What are \\(\\ket+\\) and \\(\\ket-\\) in the computational basis?",
-    "application": "Add the expressions for \\(\\ket+\\) and \\(\\ket-\\) to write \\(\\ket0\\) in that basis.",
-    "challenge": "Writing a state in a new basis and applying a gate can use similar matrix calculations. How would you distinguish a change in description from a physical change when predicting a fixed measurement?"
+    "foundation": "What extra operation distinguishes a complex inner product from an ordinary coordinate-wise product?",
+    "application": "Calculate the squared norm of \\((1,i)^T\\) by conjugating the first vector before multiplying.",
+    "challenge": "Find the adjoint of the diagonal matrix with entries \\(1\\) and \\(i\\). Multiply the two matrices and inspect the result."
   },
   "topic-4-2-1": {
     "foundation": "What is the required norm of a pure-state vector?",
@@ -205,14 +205,14 @@
     "challenge": "Why is measuring one system repeatedly not generally equivalent to measuring many independently prepared copies? Which experiment would reveal the original preparation probabilities, and which would mostly test the state left by the first measurement?"
   },
   "topic-4-3-1": {
-    "foundation": "What does linearity say about \\(U(a\\ket0+b\\ket1)\\)?",
-    "application": "Given \\(U\\ket0=\\ket1\\) and \\(U\\ket1=\\ket0\\), find \\(U\\) applied to \\((\\ket0-\\ket1)/\\sqrt2\\).",
-    "challenge": "Why does knowing an operator’s action on every basis vector determine its action on all superpositions? What could go wrong if a proposed rule were allowed to depend on how the same vector was decomposed?"
+    "foundation": "What are \\(\\ket+\\) and \\(\\ket-\\) in the computational basis?",
+    "application": "Add the expressions for \\(\\ket+\\) and \\(\\ket-\\) to write \\(\\ket0\\) in that basis.",
+    "challenge": "Writing a state in a new basis and applying a gate can use similar matrix calculations. How would you distinguish a change in description from a physical change when predicting a fixed measurement?"
   },
   "topic-4-3-2": {
-    "foundation": "How is a matrix adjoint formed?",
-    "application": "Find the adjoint of the diagonal matrix with entries \\(1\\) and \\(i\\). Multiply the two matrices and inspect the result.",
-    "challenge": "The adjoint is defined even when an inverse does not exist. What question about overlaps does it answer that is different from undoing an operation? Use a projection as a test case."
+    "foundation": "To measure a qubit in the basis \\(\\{\\ket+,\\ket-\\}\\), which operation is applied before a computational-basis measurement, and why?",
+    "application": "Measure \\(\\ket0\\) in the basis \\(\\{\\ket+,\\ket-\\}\\). Find the outcome probabilities and the state after each outcome.",
+    "challenge": "Let \\(U\\) be the unitary with columns \\(\\ket{u_j}\\). Show that applying \\(U^\\dagger\\) and then measuring in the computational basis gives outcome \\(j\\) with probability \\(|\\braket{u_j}\\psi|^2\\)."
   },
   "topic-4-3-3": {
     "foundation": "What equation must \\(U\\) satisfy to be unitary?",
