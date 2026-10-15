@@ -10,7 +10,7 @@
     "02-boolean-reversible-computation",
     "Boolean and Reversible Computation",
     "What must a computation remember in order to undo what it has done?",
-    "An answer can conceal the history that produced it: several different inputs may leave the same output. We begin with Boolean functions and build circuits that calculate them, then examine what disappears when a logical operation discards information. Reversible gates offer another way to organize a calculation, carrying its history forward until it can be carefully uncomputed. Along the way, the distinction between logical information loss and physical dissipation becomes essential.",
+    "An AND gate that outputs 0 cannot say which of three inputs it received. Computing without such losses requires keeping more than the answer.",
     ""
   ],
   [
@@ -24,42 +24,42 @@
     "04-states-measurement",
     "Quantum States and Measurement",
     "What can the mathematical description of a system tell us about what can be known through measurement?",
-    "The rules found for a single qubit take a compact form in vectors and matrices, and become the postulates of quantum mechanics. We then ask what a measurement in another basis reveals, which numbers a measurement can report, and why some different states can never be told apart with certainty.",
+    "A state vector holds many amplitudes, but a measurement returns a single outcome. The postulates of quantum mechanics connect the two.",
     ""
   ],
   [
     "05-composite-systems",
     "Composite Systems and Entanglement",
     "Can a whole have a definite quantum state when its parts have no individual pure states of their own?",
-    "Combining two systems first looks like an exercise in keeping track of coordinates. Tensor products soon reveal states that cannot be separated into a state for each part, and correlations that require us to reason about the whole. We follow those correlations through the limits on copying quantum states and communicating by local actions. Teleportation then brings the pieces together: transferring an unknown state requires entanglement, measurement, and an ordinary classical message.",
+    "Two qubits can be in a definite joint state while neither has a state of its own. Such entangled states decide what can be copied, communicated, and computed.",
     ""
   ],
   [
     "06-queries-phase-kickback",
     "Quantum Queries and Phase Kickback",
     "Can we learn a relation among answers without learning the individual answers themselves?",
-    "A function is usually queried to obtain its value at a chosen input. We instead ask how a reversible query acts on a superposition, and what information survives when the final measurement yields only one outcome. Phase kickback lets a function leave its mark in relative phase. Deutsch’s algorithm shows how interference can turn that mark into knowledge of a global property, without making every function value available to read.",
+    "One quantum query can reveal whether \\(f(0)\\) equals \\(f(1)\\), although no measurement reveals either value.",
     ""
   ],
   [
     "07-amplitude-amplification",
     "Quantum Search and Amplitude Amplification",
     "How can a process concentrate our chances of finding an answer that it can recognize but does not yet know?",
-    "Recognizing a solution and locating it are different tasks. We begin with four possibilities and a phase change that marks the desired answer without changing its probability. A second transformation makes the mark consequential. Following these operations geometrically reveals a rotation, explains why too many iterations can undo the gain, and leads from one small search to the general method of amplitude amplification.",
+    "Marking an answer with a sign does not change its probability. Repeated reflection turns the sign into a rotation toward the answer.",
     ""
   ],
   [
     "08-circuits-universality",
     "Quantum Circuits and Universality",
     "What separates an operation we can describe mathematically from one we can construct with finite means?",
-    "An algorithm may name a transformation in a single line while leaving its construction unexplained. We open up those transformations into gates, wires, and intermediate steps, asking how a limited repertoire can generate a much wider range of operations. Controlled gates and universal gate sets lead to the distinction between exact construction and approximation. Counting the resulting resources returns us to a practical question: how much work was hidden inside the operation we first took for granted?",
+    "Every quantum operation can be built from a few kinds of gate, but not every operation can be built cheaply.",
     ""
   ],
   [
     "09-complexity-advantage",
     "Computational Complexity and Quantum Advantage",
     "What would justify saying that one form of computation is more powerful than another?",
-    "A faster example alone cannot settle a comparison between models of computation. We begin by making the task, input size, allowed error, and counted resources explicit. Complexity classes and lower bounds then distinguish the limitations of a particular algorithm from the limitations of every algorithm in a specified model. Returning to quantum search, we ask what its advantage proves, what it leaves open, and why a query advantage need not be an advantage in total implementation cost.",
+    "A faster algorithm shows what is possible; only a lower bound shows what is impossible. Establishing an advantage needs both.",
     ""
   ],
   [

@@ -111,5 +111,10 @@
       "title": "Implementation Resources",
       "number": "8.4"
     }
+  ],
+  "opening": "The algorithms so far were described with whole operations: an oracle, a reflection, a Hadamard on every qubit. A real quantum computer applies a fixed set of elementary gates, each acting on one or two qubits. Before an algorithm’s advantage can be trusted, its operations must be built from such gates, and their cost counted.",
+  "opening_continuation": [
+    "We begin with circuit diagrams, which record which gate acts on which qubit and in what order, and with the difference between a coherent control and a control by a measured bit. We then build the gates the algorithms used: rotations, controlled gates, oracles, and reflections. This raises the question of universality. One-qubit gates alone can never entangle, but adding one entangling gate allows every operation to be built, and a finite set allows every operation to be approximated. Universality says nothing about cost, so we finish by counting resources: gates, depth, qubits, the connections between qubits, and the errors that accumulate in long circuits.",
+    "The next chapter uses these costs to ask when a quantum advantage is real."
   ]
 }

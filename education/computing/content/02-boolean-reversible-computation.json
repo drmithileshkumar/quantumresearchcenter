@@ -111,5 +111,10 @@
       "title": "Reversible Gates",
       "number": "2.4"
     }
+  ],
+  "opening": "A computation, we have seen, is a run of configurations produced by transition rules, and some questions cannot be settled by any such run. For the questions that can, we now ask how a single step is carried out. Every finite piece of data can be written in bits, so every step can be built from operations on bits. But the most familiar of these operations forget their inputs: an AND gate that outputs 0 cannot say which of three inputs it received, and the history of the computation is lost.",
+  "opening_continuation": [
+    "We therefore begin by describing what is to be computed, as a Boolean function, and show that every such function can be built from a few elementary gates arranged in a circuit. We then examine what is lost when a gate discards information, and why that loss has a physical price: erasing a bit releases heat. This motivates computing without discarding anything. We show that every function can be embedded in a reversible operation, build reversible gates that carry this out, and learn to clear the temporary workspace they leave behind by running the computation backward.",
+    "The next chapter takes reversible steps as its starting point and compares the kinds of transition a physical computer can make."
   ]
 }

@@ -77,7 +77,8 @@ def main():
    toc=''.join(groups)
    contents_label=f'{len(manifest["parts"])} sections · {len(manifest["sections"])} topics'
   opening=f'<p class="chapter-intro">{esc(manifest["opening"])}</p>' if manifest.get('opening') else ''
-  if manifest.get('opening_continuation'): opening+=f'<p>{esc(manifest["opening_continuation"])}</p>'
+  continuation=manifest.get('opening_continuation') or []
+  for paragraph in ([continuation] if isinstance(continuation,str) else continuation): opening+=f'<p>{esc(paragraph)}</p>'
   intro_continuation=f'<p>{esc(manifest["intro_continuation"])}</p>' if manifest.get('intro_continuation') else ''
   body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+learning.exercises(stem,index,title)
   prev=META[i-1] if i else None; nxt=META[i+1] if i+1<len(META) else None

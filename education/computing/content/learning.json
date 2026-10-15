@@ -13,32 +13,32 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "A proof search has not found a proof after one million candidates. Does this establish unprovability?",
+        "question": "A proof search over a three-symbol alphabet has checked every candidate of length at most \\(10\\), including the empty string, without finding a proof. How many candidates is that, and what does the failure establish?",
         "hints": [
-          "What candidates remain?",
-          "A finite proof may be longer than every candidate examined."
+          "There are \\(3^k\\) strings of length \\(k\\).",
+          "Unprovability is a claim about proofs of every length."
         ],
-        "answer": "No. It establishes only that the checked records were not proofs of the sentence. An independent argument would be needed to establish unprovability.",
+        "answer": "\\(1+3+\\dots+3^{10}=(3^{11}-1)/2=88{,}573\\) candidates. The failure shows only that the statement has no proof of length at most \\(10\\). A longer proof may exist, and no finite search can establish that none does.",
         "review": "topic-1-1-3"
       },
       {
         "kind": "Worked problem",
-        "question": "Run Euclid’s algorithm on (84, 30). Explain separately why the answer is correct and why the run stops.",
+        "question": "Run Euclid’s algorithm on \\((377,233)\\). Count the divisions, record each quotient, and explain separately why the answer is correct and why the run stops.",
         "hints": [
-          "Divide and keep the remainder.",
-          "\\(84=2\\cdot30+24\\); continue with \\((30,24)\\)."
+          "\\(377=1\\cdot233+144\\).",
+          "These are consecutive Fibonacci numbers."
         ],
-        "answer": "The pairs are \\((84,30)\\to(30,24)\\to(24,6)\\to(6,0)\\), so the answer is 6. Replacing \\((a,b)\\) with \\((b,a-qb)\\) preserves common divisors. The nonnegative second entry strictly decreases until it reaches zero. These justify correctness and termination separately.",
+        "answer": "The remainders are \\(144,89,55,34,21,13,8,5,3,2,1,0\\): twelve divisions, with quotient \\(1\\) every time except the last, which is \\(2\\). The greatest common divisor is \\(1\\). It is correct because each step keeps the set of common divisors unchanged, an invariant. The run stops because the second entry strictly decreases through nonnegative integers. Quotients of \\(1\\) make that decrease as slow as possible.",
         "review": "topic-1-2-1"
       },
       {
         "kind": "Extension",
-        "question": "Give two distinct predecessors of (7, 3) under one Euclid step. What information would distinguish them?",
+        "question": "Make each step of Euclid’s algorithm reversible by recording its quotient. Show that \\((b,r)\\) and \\(q\\) determine the previous pair, and find how many quotients a run on \\((377,233)\\) must keep.",
         "hints": [
-          "Solve \\(a=q\\cdot7+3\\).",
-          "Try \\(q=1\\) and \\(q=2\\)."
+          "The previous pair was \\((a,b)\\) with \\(a=qb+r\\).",
+          "Use the run from the worked problem."
         ],
-        "answer": "\\((10,7)\\) and \\((17,7)\\) both become \\((7,3)\\). Retaining the quotient \\(q\\) distinguishes these predecessors: \\(a=7q+3\\). More generally, a reversible implementation must preserve enough information to reconstruct each previous full state.",
+        "answer": "From \\((b,r)\\) and \\(q\\), the previous first entry is \\(a=qb+r\\), so the previous pair \\((a,b)\\) is recovered. A run that keeps all its quotients can be undone step by step. The run on \\((377,233)\\) keeps twelve quotients, eleven \\(1\\)s and one \\(2\\). Reversibility costs extra memory that grows with the length of the run.",
         "review": "topic-1-4-1"
       }
     ]
@@ -58,33 +58,33 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Is AND reversible if only its one-bit output is retained?",
+        "question": "Is the map \\((x,y)\\mapsto(x\\lor y,\\;x\\land y)\\) reversible?",
         "hints": [
-          "List inputs with output zero.",
-          "\\(00\\), \\(01\\), and \\(10\\) have the same output."
+          "List the four outputs.",
+          "Look for two inputs with the same output."
         ],
-        "answer": "No. The output does not uniquely identify the input. Keeping the inputs changes the full map and allows a reversible embedding.",
+        "answer": "No. The inputs \\(01\\) and \\(10\\) both give \\((1,0)\\). Two output bits are not enough when the map merges inputs.",
         "review": "topic-2-2-3"
       },
       {
         "kind": "Worked problem",
-        "question": "Apply \\((x,y,t)\\mapsto(x,y,t \\text{ XOR } xy)\\) to \\(110\\), \\(111\\), and \\(010\\). Then apply it again.",
+        "question": "Compute the three-bit majority function reversibly: using three Toffoli gates, turn \\((x,y,z,t)\\) into \\((x,y,z,\\,t\\oplus\\mathrm{maj}(x,y,z))\\). Check the construction on the inputs \\(110\\) and \\(100\\) with \\(t=0\\).",
         "hints": [
-          "The target flips only when both controls are 1.",
-          "The controls never change."
+          "Majority is \\(xy+yz+xz\\) modulo two.",
+          "Each Toffoli gate adds one product to the target."
         ],
-        "answer": "\\(110\\to111\\to110\\); \\(111\\to110\\to111\\); \\(010\\to010\\to010\\). The gate is its own inverse on all three bits, even though AND alone is many-to-one.",
+        "answer": "Apply Toffoli gates with controls \\((x,y)\\), \\((y,z)\\), and \\((x,z)\\), each targeting \\(t\\). Together they add \\(xy\\oplus yz\\oplus xz\\), the polynomial of majority. On \\(110\\): \\(1\\oplus0\\oplus0=1\\). On \\(100\\): \\(0\\oplus0\\oplus0=0\\). The inputs are kept, so the map is reversible; it is its own inverse.",
         "review": "topic-2-4-2"
       },
       {
         "kind": "Extension",
-        "question": "After computing an answer and temporary workspace, why not simply reset the workspace to zero? Describe a reversible alternative for classical basis inputs.",
+        "question": "Build the reversible embedding of OR, \\((x,y,t)\\mapsto(x,y,t\\oplus(x\\lor y))\\), from CNOT and Toffoli gates, and show that the circuit is its own inverse.",
         "hints": [
-          "Resetting merges different workspace values.",
-          "Record the answer in a clean output, then reverse the computation."
+          "\\(x\\lor y=x\\oplus y\\oplus xy\\).",
+          "Each gate adds something to \\(t\\) and leaves \\(x,y\\) unchanged."
         ],
-        "answer": "Resetting erases the distinctions stored in the workspace. Compute the result, XOR it into a clean output register, then apply the inverse computation to the original registers. This restores the workspace while retaining the input and recorded output. Copying basis labels this way does not clone an arbitrary unknown quantum state.",
-        "review": "topic-2-4-3"
+        "answer": "CNOT from \\(x\\) to \\(t\\), CNOT from \\(y\\) to \\(t\\), and Toffoli from \\((x,y)\\) to \\(t\\) add \\(x\\oplus y\\oplus xy=x\\lor y\\) to \\(t\\). Since none of the gates changes \\(x\\) or \\(y\\), running the circuit twice adds \\(x\\lor y\\) twice, which cancels. The circuit is its own inverse, and with \\(t=0\\) it leaves the answer in \\(t\\).",
+        "review": "topic-2-3-3"
       }
     ]
   },
@@ -105,33 +105,33 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Two contributions to one outcome are \\(+1/2\\) and \\(-1/2\\). What is the outcome probability?",
+        "question": "Two paths reach an outcome with amplitudes \\(1/2\\) and \\(e^{i\\pi/3}/2\\). What is its probability?",
         "hints": [
-          "Add first.",
-          "Take the squared magnitude of the sum."
+          "Add the amplitudes before squaring.",
+          "\\(|1+e^{i\\phi}|^2=2+2\\cos\\phi\\)."
         ],
-        "answer": "The total amplitude is zero, so the probability is zero. Adding the squared magnitudes separately would incorrectly give \\(1/2\\) for coherent alternatives.",
+        "answer": "\\(|1+e^{i\\pi/3}|^2/4=(2+2\\cos60^\\circ)/4=3/4\\). Squaring each path first would give \\(1/4+1/4=1/2\\): the phases partly reinforce.",
         "review": "topic-3-4-2"
       },
       {
         "kind": "Worked problem",
-        "question": "Starting in \\(\\ket0\\), apply \\(H\\), then \\(Z\\), then \\(H\\). Compare with applying \\(H\\) twice.",
+        "question": "An operation \\(G\\) on a qubit has the real weights \\(G(0\\to0)=G(1\\to1)=\\cos\\alpha\\), \\(G(0\\to1)=\\sin\\alpha\\), and \\(G(1\\to0)=-\\sin\\alpha\\). Check the two conditions on an operation, compute the two-step weights by path sums, and find the \\(\\alpha\\) for which two steps send \\(0\\) to \\(1\\).",
         "hints": [
-          "\\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\).",
-          "\\(Z\\) changes the sign of the \\(\\ket1\\) component."
+          "The cross sum is \\(G(0\\to0)G(1\\to0)+G(0\\to1)G(1\\to1)\\).",
+          "Two steps from \\(0\\) give \\(\\cos2\\alpha\\) at \\(0\\) and \\(\\sin2\\alpha\\) at \\(1\\)."
         ],
-        "answer": "\\(H\\) then \\(Z\\) gives \\((\\ket0-\\ket1)/\\sqrt2\\). The final \\(H\\) gives \\(\\ket1\\). By contrast, applying \\(H\\) twice returns \\(\\ket0\\). The intermediate probabilities are \\(1/2\\) and \\(1/2\\) in both cases, but the relative phase changes the final result.",
-        "review": "topic-3-4-2"
+        "answer": "The squares leaving each configuration add to \\(\\cos^2\\alpha+\\sin^2\\alpha=1\\), and the cross sum is \\(-\\cos\\alpha\\sin\\alpha+\\sin\\alpha\\cos\\alpha=0\\). From \\(0\\): weight \\(\\cos^2\\alpha-\\sin^2\\alpha=\\cos2\\alpha\\) at \\(0\\) and \\(2\\sin\\alpha\\cos\\alpha=\\sin2\\alpha\\) at \\(1\\). From \\(1\\): \\(-\\sin2\\alpha\\) at \\(0\\) and \\(\\cos2\\alpha\\) at \\(1\\). At \\(\\alpha=\\pi/4\\), two steps send \\(\\ket0\\) to \\(\\ket1\\) and \\(\\ket1\\) to \\(-\\ket0\\): NOT, except for a relative sign. Real weights reach NOT only up to this sign; exactly NOT needs complex weights.",
+        "review": "topic-3-4-1"
       },
       {
         "kind": "Extension",
-        "question": "A qubit starts in \\(\\ket0\\). Between two applications of \\(H\\), a CNOT copies the qubit into a record bit that starts at \\(0\\). What is the probability that the qubit shows \\(0\\) at the end? What changes if a second CNOT is applied before the final \\(H\\)?",
+        "question": "Apply \\(H\\), then the phase step with \\(w(0\\to0)=1\\) and \\(w(1\\to1)=e^{i\\phi}\\), then \\(H\\), to \\(\\ket0\\). Using path sums, find the probability of outcome \\(0\\) as a function of \\(\\phi\\), and the values of \\(\\phi\\) that make each outcome certain.",
         "hints": [
-          "Track the two-bit state step by step, with the qubit written first.",
-          "Amplitudes add only when the whole configuration, record included, is the same."
+          "There are two paths to each final configuration.",
+          "The path through \\(1\\) picks up the factor \\(e^{i\\phi}\\)."
         ],
-        "answer": "After the final \\(H\\) the state is \\(\\tfrac12(\\ket{00}+\\ket{10}+\\ket{01}-\\ket{11})\\), so the qubit shows \\(0\\) with probability \\(1/4+1/4=1/2\\). With a second CNOT, the record returns to \\(0\\) before the final \\(H\\), the paths meet again, and the qubit shows \\(0\\) with certainty.",
-        "review": "topic-3-4-3"
+        "answer": "To \\(0\\): \\(\\tfrac12+\\tfrac12e^{i\\phi}\\). To \\(1\\): \\(\\tfrac12-\\tfrac12e^{i\\phi}\\). The probability of \\(0\\) is \\(|1+e^{i\\phi}|^2/4=(1+\\cos\\phi)/2\\). Outcome \\(0\\) is certain at \\(\\phi=0\\) and outcome \\(1\\) at \\(\\phi=\\pi\\). A phase that no direct measurement sees controls the result completely.",
+        "review": "topic-3-4-2"
       }
     ]
   },
@@ -150,32 +150,32 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Does \\(U^\\dagger\\) always equal \\(U^{-1}\\)?",
+        "question": "Is \\(Z=\\operatorname{diag}(1,-1)\\) Hermitian, unitary, both, or neither? Answer the same for \\(\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}\\).",
         "hints": [
-          "Compare a projection with a unitary matrix.",
-          "A projection can erase a component."
+          "Hermitian means \\(A^\\dagger=A\\); unitary means \\(A^\\dagger A=I\\).",
+          "Compute the conjugate transpose of each."
         ],
-        "answer": "No. The adjoint is the conjugate transpose. It equals the inverse when \\(U\\) is unitary. A nontrivial projection has an adjoint but no inverse on the whole space.",
-        "review": "topic-4-1-3"
+        "answer": "\\(Z\\) is both: \\(Z^\\dagger=Z\\) and \\(Z^\\dagger Z=Z^2=I\\). The second matrix is neither: its adjoint \\(\\begin{pmatrix}1&0\\\\1&1\\end{pmatrix}\\) differs from it, and \\(A^\\dagger A=\\begin{pmatrix}1&1\\\\1&2\\end{pmatrix}\\neq I\\).",
+        "review": "topic-4-4-2"
       },
       {
         "kind": "Worked problem",
-        "question": "Normalize \\(3\\ket0+4i\\ket1\\) and calculate the probabilities of a computational-basis measurement.",
+        "question": "Normalize \\(3\\ket0+4i\\ket1\\). Find the probabilities of a measurement in the computational basis and in the \\(\\pm\\) basis.",
         "hints": [
-          "Compute the squared norm.",
-          "Use \\(|3|^2+|4i|^2=25\\)."
+          "The squared norm is \\(|3|^2+|4i|^2\\).",
+          "\\(\\braket\\pm\\psi=(\\psi_0\\pm\\psi_1)/\\sqrt2\\)."
         ],
-        "answer": "The normalized state is \\((3/5)\\ket0+(4i/5)\\ket1\\). The probabilities are \\(9/25\\) and \\(16/25\\). Conditional on outcome 1, the resulting ray is represented by \\(\\ket1\\); its overall phase has no observable effect.",
-        "review": "topic-4-2-2"
+        "answer": "The normalized state is \\(\\tfrac35\\ket0+\\tfrac{4i}5\\ket1\\). Computational basis: \\(9/25\\) and \\(16/25\\). \\(\\pm\\) basis: \\(\\braket\\pm\\psi=(3\\pm4i)/(5\\sqrt2)\\), each with squared magnitude \\(25/50=1/2\\). The relative phase \\(i\\) makes the \\(\\pm\\) outcomes equally likely, although the computational-basis probabilities are unequal.",
+        "review": "topic-4-3-2"
       },
       {
         "kind": "Extension",
-        "question": "Why can no unitary map both \\(\\ket0\\) and \\(\\ket+\\) to two orthogonal output states?",
+        "question": "Prove that no unitary maps \\(\\ket0\\) and \\(\\ket+\\) to two orthogonal states. What does this imply for any procedure that tries to identify which of the two was prepared?",
         "hints": [
-          "What does a unitary preserve?",
-          "The input inner product is \\(\\braket0+=1/\\sqrt2\\)."
+          "A unitary preserves inner products.",
+          "\\(\\braket0+=1/\\sqrt2\\)."
         ],
-        "answer": "Unitary transformations preserve inner products. Two orthogonal outputs have inner product zero, but these inputs have inner product \\(1/\\sqrt2\\). Such a map cannot be unitary. This is part of the obstruction to perfect discrimination of nonorthogonal states.",
+        "answer": "\\(\\braket{U0}{U+}=\\braket0+=1/\\sqrt2\\neq0\\), so the outputs cannot be orthogonal. Any procedure built from operations followed by a measurement therefore cannot always identify the state: perfect identification would require orthogonal outputs.",
         "review": "topic-4-4-3"
       }
     ]
@@ -194,33 +194,33 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Is \\((\\ket{00}+\\ket{01})/\\sqrt2\\) entangled?",
+        "question": "Is \\((\\ket{00}+\\ket{01}+\\ket{10})/\\sqrt3\\) entangled?",
         "hints": [
-          "Factor out a common first-qubit state.",
-          "Both terms have the first qubit in \\(\\ket0\\)."
+          "A product state satisfies \\(\\alpha_{00}\\alpha_{11}=\\alpha_{01}\\alpha_{10}\\).",
+          "Here \\(\\alpha_{11}=0\\)."
         ],
-        "answer": "No. It is \\(\\ket0\\otimes(\\ket0+\\ket1)/\\sqrt2\\), a product state. A sum of basis states is not automatically entangled.",
-        "review": "topic-5-1-2"
+        "answer": "\\(\\alpha_{00}\\alpha_{11}=0\\) but \\(\\alpha_{01}\\alpha_{10}=1/3\\), so the state is not a product: it is entangled.",
+        "review": "topic-5-2-2"
       },
       {
         "kind": "Worked problem",
-        "question": "Apply \\(H\\) to the first qubit of \\(\\ket{00}\\), then CNOT with that qubit as control. Give joint and first-qubit probabilities in the computational basis.",
+        "question": "Prepare \\(\\ket{\\Psi^-}=(\\ket{01}-\\ket{10})/\\sqrt2\\) from \\(\\ket{00}\\) using \\(X\\), \\(H\\), and CNOT gates. Show that measuring both qubits in the same basis \\(\\{\\cos\\theta\\ket0+\\sin\\theta\\ket1,\\,-\\sin\\theta\\ket0+\\cos\\theta\\ket1\\}\\) always gives opposite results.",
         "hints": [
-          "Expand after \\(H\\) before applying CNOT.",
-          "CNOT sends \\(\\ket{10}\\) to \\(\\ket{11}\\)."
+          "First prepare \\(\\ket{11}\\), then apply the Bell circuit.",
+          "\\(\\braket{u_a\\otimes u_b}{\\Psi^-}\\) is a \\(2\\times2\\) determinant divided by \\(\\sqrt2\\)."
         ],
-        "answer": "The intermediate state is \\((\\ket{00}+\\ket{10})/\\sqrt2\\) and the final state is \\((\\ket{00}+\\ket{11})/\\sqrt2\\). The joint probabilities are \\(p(00)=p(11)=1/2\\) and \\(p(01)=p(10)=0\\). Summing over the second bit gives \\(p(\\text{first}=0)=p(\\text{first}=1)=1/2\\).",
+        "answer": "\\(X\\otimes X\\) gives \\(\\ket{11}\\); \\(H\\) on the first qubit gives \\((\\ket{01}-\\ket{11})/\\sqrt2\\); CNOT gives \\((\\ket{01}-\\ket{10})/\\sqrt2\\). For real basis vectors, \\(\\braket{u_a\\otimes u_b}{\\Psi^-}=\\bigl(u_a(0)u_b(1)-u_a(1)u_b(0)\\bigr)/\\sqrt2\\), which is \\(0\\) when \\(a=b\\). So equal results never occur, in every such basis.",
         "review": "topic-5-2-3"
       },
       {
         "kind": "Extension",
-        "question": "Compare measuring both qubits in the \\(X\\) basis for the Bell state \\(\\ket{\\Phi^+}\\) and for an equal classical mixture of \\(00\\) and \\(11\\).",
+        "question": "Teleport \\(\\ket\\psi=(\\ket0+i\\ket1)/\\sqrt2\\). For each of Alice’s four outcomes \\((m,n)\\), give Bob’s state before correction and the correction he applies.",
         "hints": [
-          "Use \\(\\ket0=(\\ket++\\ket-)/\\sqrt2\\) and \\(\\ket1=(\\ket+-\\ket-)/\\sqrt2\\).",
-          "The Bell amplitudes for +− and −+ cancel."
+          "Bob holds \\(X^nZ^m\\ket\\psi\\).",
+          "He applies \\(X^n\\), then \\(Z^m\\)."
         ],
-        "answer": "For \\(\\ket{\\Phi^+}\\), the outcomes \\({+}{+}\\) and \\({-}{-}\\) each have probability \\(1/2\\). The mixture yields \\({+}{+}\\), \\({+}{-}\\), \\({-}{+}\\), and \\({-}{-}\\) with probability \\(1/4\\) each. Their computational-basis counts agree, but these \\(X\\)-basis counts distinguish coherence from the mixture.",
-        "review": "topic-5-2-2"
+        "answer": "\\((0,0)\\): \\((\\ket0+i\\ket1)/\\sqrt2\\), no correction. \\((0,1)\\): \\((i\\ket0+\\ket1)/\\sqrt2\\), apply \\(X\\). \\((1,0)\\): \\((\\ket0-i\\ket1)/\\sqrt2\\), apply \\(Z\\). \\((1,1)\\): \\((-i\\ket0+\\ket1)/\\sqrt2\\), apply \\(X\\) and then \\(Z\\). In every case the result is \\(\\ket\\psi\\).",
+        "review": "topic-5-4-2"
       }
     ]
   },
@@ -238,33 +238,33 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Why use \\(\\ket-\\) rather than \\(\\ket0\\) as the target for phase kickback?",
+        "question": "For \\(f=(0,1)\\), what does \\(U_f\\) do to \\(\\ket1\\ket-\\)?",
         "hints": [
-          "Apply \\(X\\) to both target states.",
+          "\\(f(1)=1\\), so the target flips.",
           "\\(X\\ket-=-\\ket-\\)."
         ],
-        "answer": "A flip changes \\(\\ket-\\) only by a sign. The same target state remains, while the input amplitudes acquire function-dependent signs. A \\(\\ket0\\) target instead records the function value and can become entangled with the input.",
-        "review": "topic-6-3-1"
+        "answer": "The target flips, which multiplies \\(\\ket-\\) by \\(-1\\): \\(U_f\\ket1\\ket-=-\\ket1\\ket-\\). The function value appears as a sign, and the target is unchanged.",
+        "review": "topic-6-3-2"
       },
       {
         "kind": "Worked problem",
-        "question": "Take \\(f(0)=1\\) and \\(f(1)=0\\). Starting with \\(\\ket+\\ket-\\), apply the oracle and then \\(H\\) to the input. What is measured on the input?",
+        "question": "Run the \\(n\\)-qubit version of Deutsch’s algorithm for \\(n=2\\) and the balanced function \\(f(x_1x_2)=x_1\\). Show that the outcome \\(00\\) never occurs.",
         "hints": [
-          "The input amplitudes gain signs \\((-1)^{f(x)}\\).",
-          "The input becomes \\((-\\ket0+\\ket1)/\\sqrt2\\)."
+          "After the query the input amplitudes are \\((-1)^{x_1}/2\\).",
+          "Factor the input state before applying \\(H\\otimes H\\)."
         ],
-        "answer": "The oracle gives \\(-\\ket-\\ket-\\). The final \\(H\\) on the input gives \\(-\\ket1\\ket-\\). The overall minus sign changes no probabilities, so outcome 1 occurs with certainty: the function is balanced.",
-        "review": "topic-6-4-1"
+        "answer": "After the query, the input is \\(\\tfrac12(\\ket{00}+\\ket{01}-\\ket{10}-\\ket{11})=\\ket-\\ket+\\). Applying \\(H\\otimes H\\) gives \\(\\ket1\\ket0\\), so the outcome is \\(10\\), never \\(00\\). The function is identified as balanced with one query.",
+        "review": "topic-6-4-2"
       },
       {
         "kind": "Extension",
-        "question": "Replace \\(f\\) by its complement \\(1-f\\). Can Deutsch’s final measurement tell them apart?",
+        "question": "Show that Deutsch’s algorithm gives the same outcome for \\(f\\) and for its complement \\(1-f\\), and that the outcome depends only on \\(f(0)\\oplus f(1)\\).",
         "hints": [
-          "Compare the two phase factors for every \\(x\\).",
-          "Complementing \\(f\\) multiplies every factor by \\(-1\\)."
+          "Complementing \\(f\\) multiplies both signs by \\(-1\\).",
+          "The final amplitudes are \\((s_0\\pm s_1)/2\\)."
         ],
-        "answer": "No. All input amplitudes gain the same extra minus sign, a global phase. The constant/balanced classification is unchanged. Deutsch’s measurement extracts that classification, not the individual truth table.",
-        "review": "topic-6-4-2"
+        "answer": "For \\(1-f\\), each sign \\((-1)^{f(x)}\\) is multiplied by \\(-1\\), a global phase that changes no probability. The outcome is \\(1\\) exactly when \\(s_0\\neq s_1\\), that is, when \\(f(0)\\oplus f(1)=1\\). The algorithm extracts this one bit and nothing more about \\(f\\).",
+        "review": "topic-6-4-1"
       }
     ]
   },
@@ -282,33 +282,33 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Does applying a phase oracle immediately increase a marked outcome’s probability?",
+        "question": "For \\(N=32\\) and \\(M=2\\), find \\(\\sin\\theta\\) and the initial success probability.",
         "hints": [
-          "Compare \\(a\\) and \\(-a\\).",
-          "Their squared magnitudes agree."
+          "\\(\\sin^2\\theta=M/N\\).",
+          "Compare with \\(N=16\\), \\(M=1\\)."
         ],
-        "answer": "No. The oracle changes a sign, not its squared magnitude. A subsequent reflection converts that phase difference into a change of amplitudes.",
-        "review": "topic-7-1-2"
+        "answer": "\\(\\sin\\theta=\\sqrt{2/32}=1/4\\), and the initial success probability is \\(1/16\\), the same as for one marked item among sixteen.",
+        "review": "topic-7-2-2"
       },
       {
         "kind": "Worked problem",
-        "question": "For four equal amplitudes of \\(1/2\\) with one marked item, calculate one marking step and one reflection about the mean.",
+        "question": "For \\(N=32\\) and \\(M=2\\), find the number of Grover iterations that maximizes success, and the success probability.",
         "hints": [
-          "After marking, the entries are \\(-1/2, 1/2, 1/2, 1/2\\).",
-          "The mean is \\(1/4\\); replace each amplitude \\(a\\) by \\(2\\cdot\\text{mean}-a\\)."
+          "The angle is the same as for \\(N=16\\), \\(M=1\\).",
+          "Compute \\(\\sin^2((2k+1)\\theta)\\) for \\(k=2,3,4\\)."
         ],
-        "answer": "The marked amplitude becomes \\(1/2-(-1/2)=1\\). Each unmarked amplitude becomes \\(1/2-1/2=0\\). Measuring returns the marked item with certainty after one ideal iteration.",
-        "review": "topic-7-1-3"
+        "answer": "With \\(\\theta\\approx14.48^\\circ\\), the success probabilities for \\(k=2,3,4\\) are about \\(0.91\\), \\(0.96\\), and \\(0.58\\). The best is \\(k=3\\), with success about \\(0.96\\). Only the marked fraction matters, not \\(N\\) or \\(M\\) separately.",
+        "review": "topic-7-3-2"
       },
       {
         "kind": "Extension",
-        "question": "In that four-item example, what happens if you apply a second Grover iteration before measuring?",
+        "question": "For \\(N=4\\) with two marked items, show that Grover iterations never change the success probability.",
         "hints": [
-          "Use \\(\\theta=\\pi/6\\) in \\(\\sin^2((2k+1)\\theta)\\).",
-          "For \\(k=2\\) the angle is \\(5\\pi/6\\)."
+          "Find \\(\\theta\\) from \\(\\sin^2\\theta=1/2\\).",
+          "Compute \\(\\sin^2((2k+1)\\theta)\\)."
         ],
-        "answer": "The success probability falls to \\(\\sin^2(5\\pi/6)=1/4\\). More iterations need not improve the result: the state rotates past the good direction.",
-        "review": "topic-7-3-2"
+        "answer": "\\(\\theta=45^\\circ\\), so the angles \\((2k+1)45^\\circ\\) are odd multiples of \\(45^\\circ\\), and \\(\\sin^2\\) of every one is \\(1/2\\). Iterating never helps: when half the items are marked, a random guess is already as good as the algorithm can do.",
+        "review": "topic-7-3-1"
       }
     ]
   },
@@ -326,32 +326,32 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Do \\(H\\) then \\(Z\\) and \\(Z\\) then \\(H\\) have the same action on \\(\\ket0\\)?",
+        "question": "Do \\(H\\) followed by \\(Z\\), and \\(Z\\) followed by \\(H\\), have the same action on \\(\\ket0\\)?",
         "hints": [
-          "Calculate the first step in each order.",
+          "Compute the first step in each order.",
           "\\(Z\\ket0=\\ket0\\), but \\(Z\\ket+=\\ket-\\)."
         ],
-        "answer": "No. \\(H\\) then \\(Z\\) gives \\(\\ket-\\); \\(Z\\) then \\(H\\) gives \\(\\ket+\\). Matrix multiplication order must match the circuit’s temporal order.",
+        "answer": "No. \\(H\\) then \\(Z\\) gives \\(\\ket-\\); \\(Z\\) then \\(H\\) gives \\(\\ket+\\). The order of the matrices must follow the order in time.",
         "review": "topic-8-1-1"
       },
       {
         "kind": "Worked problem",
-        "question": "Show that \\(H\\) on the target, CNOT, then \\(H\\) on the target implements controlled-\\(Z\\).",
+        "question": "Build the complete two-qubit Grover circuit for the marked item \\(10\\): the oracle from an \\(X\\) gate and a controlled-\\(Z\\), and the reflection from \\(H\\), \\(X\\), and controlled-\\(Z\\) gates. Verify that one iteration from \\(\\ket s\\) gives \\(10\\).",
         "hints": [
-          "Separate the \\(\\text{control}=0\\) and \\(\\text{control}=1\\) cases.",
-          "Use \\(H^2=I\\) and \\(HXH=Z\\)."
+          "The oracle flips the sign of \\(\\ket{10}\\): apply \\(X\\) to the qubit that should be \\(0\\).",
+          "The reflection is \\(H^{\\otimes2}(X\\otimes X)\\,CZ\\,(X\\otimes X)H^{\\otimes2}\\)."
         ],
-        "answer": "For control 0, the target undergoes \\(H\\cdot I\\cdot H=I\\). For control 1, it undergoes \\(H\\cdot X\\cdot H=Z\\). Only \\(\\ket{11}\\) gains a minus sign, so the joint operation is controlled-\\(Z\\). Linearity extends the result to superpositions.",
-        "review": "topic-8-2-2"
+        "answer": "Oracle: \\(X\\) on qubit 2, controlled-\\(Z\\), \\(X\\) on qubit 2. It sends \\(\\ket{10}\\) to \\(\\ket{11}\\), applies the sign, and restores \\(\\ket{10}\\). Starting from \\(\\ket s=\\tfrac12(1,1,1,1)\\), the oracle gives \\(\\tfrac12(1,1,-1,1)\\). The reflection circuit implements \\(-D\\), and \\(D\\) maps this state to \\(\\ket{10}\\), so the result is \\(-\\ket{10}\\): the outcome is \\(10\\) with certainty.",
+        "review": "topic-8-2-3"
       },
       {
         "kind": "Extension",
-        "question": "A query algorithm uses \\(q\\) oracle calls. Each compiled oracle needs \\(g\\) elementary gates. What bound on total gates follows from \\(q\\) alone?",
+        "question": "A search over \\(N=2^n\\) items uses \\((\\pi/4)\\sqrt N\\) iterations. The oracle is compiled into \\(20n\\) gates and the reflection into \\(10n\\) gates. Give the total gate count as a function of \\(n\\), and evaluate it for \\(n=30\\).",
         "hints": [
-          "Account for the oracle implementations first.",
-          "Add state preparation, readout-related operations, and other processing."
+          "Multiply the number of iterations by the gates per iteration.",
+          "\\(\\sqrt N=2^{n/2}\\)."
         ],
-        "answer": "No total gate bound follows from \\(q\\) alone. If each call costs \\(g\\) gates, the calls contribute \\(qg\\) gates, plus other operations. If \\(g\\) depends on input size or precision, it must remain in the analysis. Query savings alone do not establish a complete implementation advantage.",
+        "answer": "The total is about \\((\\pi/4)\\,2^{n/2}\\cdot30n\\). For \\(n=30\\): \\((\\pi/4)\\times32{,}768\\times900\\approx2.3\\times10^7\\) gates. The query count, about \\(2.6\\times10^4\\), hides a factor of \\(30n=900\\) gates per query.",
         "review": "topic-8-4-1"
       }
     ]
@@ -370,32 +370,32 @@
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "An algorithm uses \\(O(N)\\) steps on an integer \\(N\\) written in binary. Is that polynomial in input length?",
+        "question": "An algorithm uses \\(O(N)\\) steps on an integer \\(N\\) written in binary. Is that polynomial in the input length?",
         "hints": [
           "How many bits are needed to write \\(N\\)?",
-          "For \\(n\\) bits, \\(N\\) can be of order \\(2^n\\)."
+          "For \\(n\\) bits, \\(N\\) can be as large as \\(2^n-1\\)."
         ],
-        "answer": "Not in general. The input length is of order \\(\\log_2 N\\). A number of steps proportional to \\(N\\) can grow exponentially with that length.",
+        "answer": "Not in general. The input length is about \\(\\log_2N\\), so \\(N\\) steps can be exponential in that length.",
         "review": "topic-9-1-1"
       },
       {
         "kind": "Worked problem",
-        "question": "One algorithm uses at most \\(3n^2+7n+2\\) operations. What asymptotic bound does this give, and does it prove that every algorithm needs quadratic time?",
+        "question": "One algorithm uses at most \\(3n^2+7n+2\\) operations, and at least \\(n^2\\). Give constants showing that its cost is \\(\\Theta(n^2)\\). Does this prove that every algorithm for the task needs quadratic time?",
         "hints": [
-          "For \\(n\\ge1\\), compare each term with \\(n^2\\).",
-          "\\(3n^2+7n+2\\le12n^2\\)."
+          "For \\(n\\geq1\\), compare each term with \\(n^2\\).",
+          "An upper bound for one algorithm is not a lower bound for the task."
         ],
-        "answer": "It gives an \\(O(n^2)\\) upper bound for this algorithm. If the displayed expression is its actual cost, that cost is \\(\\Theta(n^2)\\). Neither statement proves a lower bound for all algorithms solving the task.",
-        "review": "topic-9-3-1"
+        "answer": "For \\(n\\geq1\\), \\(n^2\\leq3n^2+7n+2\\leq3n^2+7n^2+2n^2=12n^2\\), so the cost is \\(\\Theta(n^2)\\) with constants \\(1\\) and \\(12\\). This describes one algorithm. A lower bound for the task would have to hold for every algorithm, which needs a separate argument.",
+        "review": "topic-9-1-2"
       },
       {
         "kind": "Extension",
-        "question": "Suppose a quantum search uses \\(\\Theta(\\sqrt N)\\) queries, but each query requires \\(\\Theta(N)\\) gates in a chosen implementation. What do the query and gate counts say?",
+        "question": "A quantum search uses \\(\\Theta(\\sqrt N)\\) queries, but each query requires \\(\\Theta(N)\\) gates in a chosen implementation. What do the query and gate counts say about this implementation, and about the task?",
         "hints": [
-          "Multiply the number of calls by the cost per call.",
-          "Keep the result distinct from the task’s optimal gate complexity."
+          "Multiply the number of calls by the cost of each call.",
+          "Keep the implementation separate from the best possible gate count for the task."
         ],
-        "answer": "Those calls contribute \\(\\Theta(N^{3/2})\\) gates to that implementation, before other costs. The quadratic query improvement remains a statement about oracle access. It does not show that this implementation beats a classical end-to-end method, nor rule out a better oracle implementation.",
+        "answer": "The queries alone contribute \\(\\Theta(N^{3/2})\\) gates, worse than a classical scan of \\(N\\) items. The quadratic query advantage is still a true statement about oracle access. It does not show that this implementation beats a classical method, and a cheaper oracle implementation could change the comparison.",
         "review": "topic-9-1-3"
       }
     ]

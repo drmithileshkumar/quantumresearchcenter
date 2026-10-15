@@ -111,5 +111,10 @@
       "title": "Deutsch’s Algorithm",
       "number": "6.4"
     }
+  ],
+  "opening": "We now have the rules for registers of qubits. How can they compute something faster than a classical computer? To compare the two fairly, we need a task whose cost is easy to count. A natural one is to learn a property of a function that can be consulted only through queries: each query reveals one value, and we count how many are needed.",
+  "opening_continuation": [
+    "We pose the simplest such question: is a one-bit function constant or balanced? A classical algorithm needs two queries. A quantum query must be reversible, so we build it from the reversible embedding of the function and apply it to a superposition of inputs. This alone does not help: a measurement returns one value, and the target keeps a record that prevents interference. Choosing the target to be an eigenvector of the bit flip removes the record and moves the function’s value into a sign, an effect called phase kickback. A final Hadamard turns the relative sign into the answer. This is Deutsch’s algorithm, which needs a single query.",
+    "The next chapter uses the same phase mark for a harder task: finding a marked item among many."
   ]
 }

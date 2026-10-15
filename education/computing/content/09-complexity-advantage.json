@@ -111,5 +111,9 @@
       "title": "Scope of Quantum Advantage",
       "number": "9.4"
     }
+  ],
+  "opening": "We have seen quantum algorithms that use fewer queries than any classical method. Does that make quantum computers more powerful? A claim of this kind needs care. The same task, the same encoding of inputs, the same allowed error, and the same resources must be compared, and the comparison must hold against every possible method, not only the known ones.",
+  "opening_continuation": [
+    "We first fix how costs are measured: input size, asymptotic growth, and the resource being counted. Complexity classes then group problems by the resources needed to solve them, classically and quantum mechanically, and show what is known and what remains open. Lower bounds give the strongest evidence, a limit on every algorithm in a model; for unstructured search they show that Grover’s algorithm cannot be improved. Finally we take stock of what the algorithms in this book establish, what quantum computers cannot do, and where the subject continues."
   ]
 }

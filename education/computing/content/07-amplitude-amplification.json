@@ -111,5 +111,10 @@
       "title": "General Amplitude Amplification",
       "number": "7.4"
     }
+  ],
+  "opening": "Deutsch’s algorithm answered a question about a function with a single interference step. Many tasks instead ask for a particular input: an item that passes a test we can check but cannot invert. Classically, finding one marked item among \\(N\\) requires checking a number of candidates proportional to \\(N\\). Can interference concentrate probability on the marked item faster?",
+  "opening_continuation": [
+    "We start with four items, where every amplitude can be followed by hand: a phase oracle marks the answer with a sign, and a reflection about the mean turns the sign into certainty. For larger searches we group the marked and unmarked items, which reduces the whole evolution to a rotation in a plane. The rotation explains both the speedup, about \\(\\sqrt N\\) iterations instead of \\(N\\) queries, and its danger: rotating too far undoes the gain, so knowing when to stop is part of the algorithm. Finally we extend the method from a uniform start to any preparation and any test of success.",
+    "So far, oracles and reflections have been treated as single operations. The next chapter asks how such operations are built from elementary gates."
   ]
 }
