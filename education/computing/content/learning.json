@@ -1,0 +1,398 @@
+{
+  "01-logic-computability": {
+    "purpose": "Define what a mechanical procedure can do before asking what changes in quantum computing.",
+    "before": "No formal logic is assumed. Be comfortable following a short algebraic argument.",
+    "outcomes": [
+      "Separate checking, searching, and deciding.",
+      "Explain a Turing-machine configuration.",
+      "Distinguish determinism from reversibility."
+    ],
+    "limits": "The halting theorem concerns a general always-correct terminating procedure; it does not prevent analyzing individual programs.",
+    "example": "Follow Euclid’s algorithm: the answer is preserved even though distinct inputs can merge.",
+    "next": "Chapter 2 replaces such information-losing steps with reversible constructions.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "A proof search has not found a proof after one million candidates. Does this establish unprovability?",
+        "hints": [
+          "What candidates remain?",
+          "A finite proof may be longer than every candidate examined."
+        ],
+        "answer": "No. It establishes only that the checked records were not proofs of the sentence. An independent argument would be needed to establish unprovability.",
+        "review": "topic-1-1-3"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "Run Euclid’s algorithm on (84, 30). Explain separately why the answer is correct and why the run stops.",
+        "hints": [
+          "Divide and keep the remainder.",
+          "\\(84=2\\cdot30+24\\); continue with \\((30,24)\\)."
+        ],
+        "answer": "The pairs are \\((84,30)\\to(30,24)\\to(24,6)\\to(6,0)\\), so the answer is 6. Replacing \\((a,b)\\) with \\((b,a-qb)\\) preserves common divisors. The nonnegative second entry strictly decreases until it reaches zero. These justify correctness and termination separately.",
+        "review": "topic-1-2-1"
+      },
+      {
+        "kind": "Extension",
+        "question": "Give two distinct predecessors of (7, 3) under one Euclid step. What information would distinguish them?",
+        "hints": [
+          "Solve \\(a=q\\cdot7+3\\).",
+          "Try \\(q=1\\) and \\(q=2\\)."
+        ],
+        "answer": "\\((10,7)\\) and \\((17,7)\\) both become \\((7,3)\\). Retaining the quotient \\(q\\) distinguishes these predecessors: \\(a=7q+3\\). More generally, a reversible implementation must preserve enough information to reconstruct each previous full state.",
+        "review": "topic-1-4-1"
+      }
+    ]
+  },
+  "02-boolean-reversible-computation": {
+    "purpose": "Build computations from Boolean operations and learn how to preserve the information they would otherwise discard.",
+    "before": "Use Chapter 1’s distinction between a function and an implementation.",
+    "outcomes": [
+      "Construct Boolean functions from elementary gates.",
+      "Verify a reversible function embedding.",
+      "Explain why temporary workspace must be uncomputed."
+    ],
+    "limits": "Logical reversibility alone does not guarantee low physical dissipation. Landauer’s bound concerns erasure under stated thermodynamic conditions.",
+    "example": "Follow a function value from a truth table to a reversible target update. The same update becomes the oracle in Chapter 6.",
+    "next": "Chapter 3 introduces amplitudes, which make retained or discarded path information important.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "Is AND reversible if only its one-bit output is retained?",
+        "hints": [
+          "List inputs with output zero.",
+          "\\(00\\), \\(01\\), and \\(10\\) have the same output."
+        ],
+        "answer": "No. The output does not uniquely identify the input. Keeping the inputs changes the full map and allows a reversible embedding.",
+        "review": "topic-2-2-3"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "Apply \\((x,y,t)\\mapsto(x,y,t \\text{ XOR } xy)\\) to \\(110\\), \\(111\\), and \\(010\\). Then apply it again.",
+        "hints": [
+          "The target flips only when both controls are 1.",
+          "The controls never change."
+        ],
+        "answer": "\\(110\\to111\\to110\\); \\(111\\to110\\to111\\); \\(010\\to010\\to010\\). The gate is its own inverse on all three bits, even though AND alone is many-to-one.",
+        "review": "topic-2-4-2"
+      },
+      {
+        "kind": "Extension",
+        "question": "After computing an answer and temporary workspace, why not simply reset the workspace to zero? Describe a reversible alternative for classical basis inputs.",
+        "hints": [
+          "Resetting merges different workspace values.",
+          "Record the answer in a clean output, then reverse the computation."
+        ],
+        "answer": "Resetting erases the distinctions stored in the workspace. Compute the result, XOR it into a clean output register, then apply the inverse computation to the original registers. This restores the workspace while retaining the input and recorded output. Copying basis labels this way does not clone an arbitrary unknown quantum state.",
+        "review": "topic-2-4-3"
+      }
+    ]
+  },
+  "03-amplitudes-interference": {
+    "purpose": "Replace classical path probabilities with amplitudes and see how interference changes predictions.",
+    "before": "Review vectors, matrix multiplication, and the probability of an outcome.",
+    "outcomes": [
+      "Add amplitudes before taking squared magnitudes.",
+      "Calculate two successive Hadamard transformations.",
+      "Distinguish relative phase from global phase."
+    ],
+    "limits": "Coherent alternatives interfere only when their distinguishing records do not remain available in other systems.",
+    "example": "The two-Hadamard example returns in Deutsch’s algorithm: the final gate makes relative signs observable.",
+    "next": "Chapter 4 gives precise state and measurement rules for these calculations.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "Two contributions to one outcome are \\(+1/2\\) and \\(-1/2\\). What is the outcome probability?",
+        "hints": [
+          "Add first.",
+          "Take the squared magnitude of the sum."
+        ],
+        "answer": "The total amplitude is zero, so the probability is zero. Adding the squared magnitudes separately would incorrectly give \\(1/2\\) for coherent alternatives.",
+        "review": "topic-3-3-2"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "Starting in \\(\\ket0\\), apply \\(H\\), then \\(Z\\), then \\(H\\). Compare with applying \\(H\\) twice.",
+        "hints": [
+          "\\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\).",
+          "\\(Z\\) changes the sign of the \\(\\ket1\\) component."
+        ],
+        "answer": "\\(H\\) then \\(Z\\) gives \\((\\ket0-\\ket1)/\\sqrt2\\). The final \\(H\\) gives \\(\\ket1\\). By contrast \\(H^2\\ket0=\\ket0\\). The intermediate probabilities are \\(1/2\\) and \\(1/2\\) in both cases, but the relative phase changes the final result.",
+        "review": "topic-3-4-1"
+      },
+      {
+        "kind": "Extension",
+        "question": "Suppose an unobserved system records which intermediate basis state occurred between two Hadamards. Must the final result remain \\(\\ket0\\)?",
+        "hints": [
+          "Write the joint state using record states \\(\\ket{e_0}\\) and \\(\\ket{e_1}\\).",
+          "If the records are orthogonal, cross terms vanish when only the qubit is measured."
+        ],
+        "answer": "No. After the first \\(H\\) and recording, the state is \\((\\ket0\\ket{e_0}+\\ket1\\ket{e_1})/\\sqrt2\\). After the second \\(H\\), the \\(\\ket0\\) component is \\((\\ket{e_0}+\\ket{e_1})/2\\). Its squared norm is \\(1/2\\) for orthogonal records, rather than 1 for identical records. Chapter 5 develops this joint-state calculation.",
+        "review": "topic-3-3-3"
+      }
+    ]
+  },
+  "04-states-measurement": {
+    "purpose": "Connect vector calculations to preparations, transformations, and measurement outcomes.",
+    "before": "Use Chapter 3’s amplitude rules and basic linear algebra. Appendix C reviews the notation.",
+    "outcomes": [
+      "Normalize a state and compute measurement probabilities.",
+      "Use an adjoint and test unitarity.",
+      "Explain why nonorthogonal states cannot be perfectly distinguished."
+    ],
+    "limits": "The main text treats finite-dimensional pure states and projective measurements. Mixed states and general measurements are in Appendix D.",
+    "example": "Calculate the same state in different bases; a change of coordinates is not itself a physical change.",
+    "next": "Chapter 5 applies the state and measurement rules to joint systems.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "Does \\(U^\\dagger\\) always equal \\(U^{-1}\\)?",
+        "hints": [
+          "Compare a projection with a unitary matrix.",
+          "A projection can erase a component."
+        ],
+        "answer": "No. The adjoint is the conjugate transpose. It equals the inverse when \\(U\\) is unitary. A nontrivial projection has an adjoint but no inverse on the whole space.",
+        "review": "topic-4-3-2"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "Normalize \\(3\\ket0+4i\\ket1\\) and calculate the probabilities of a computational-basis measurement.",
+        "hints": [
+          "Compute the squared norm.",
+          "Use \\(|3|^2+|4i|^2=25\\)."
+        ],
+        "answer": "The normalized state is \\((3/5)\\ket0+(4i/5)\\ket1\\). The probabilities are \\(9/25\\) and \\(16/25\\). Conditional on outcome 1, the resulting ray is represented by \\(\\ket1\\); its overall phase has no observable effect.",
+        "review": "topic-4-2-2"
+      },
+      {
+        "kind": "Extension",
+        "question": "Why can no unitary map both \\(\\ket0\\) and \\(\\ket+\\) to two orthogonal output states?",
+        "hints": [
+          "What does a unitary preserve?",
+          "The input inner product is \\(\\braket0+=1/\\sqrt2\\)."
+        ],
+        "answer": "Unitary transformations preserve inner products. Two orthogonal outputs have inner product zero, but these inputs have inner product \\(1/\\sqrt2\\). Such a map cannot be unitary. This is part of the obstruction to perfect discrimination of nonorthogonal states.",
+        "review": "topic-4-4-3"
+      }
+    ]
+  },
+  "05-composite-systems": {
+    "purpose": "Describe joint states and distinguish entanglement from ordinary correlation.",
+    "before": "Know normalization, basis measurements, and unitary transformations from Chapter 4.",
+    "outcomes": [
+      "Expand tensor-product states.",
+      "Compare a Bell state with a correlated mixture.",
+      "Track teleportation outcomes and classical corrections."
+    ],
+    "limits": "Teleportation transfers a state using shared entanglement and classical communication; it does not transmit a controllable signal faster than light.",
+    "example": "Prepare a Bell state, then reuse that resource in teleportation. Compare computational-basis counts with X-basis counts.",
+    "next": "Chapter 6 uses joint registers to compute a function without leaving an unwanted record.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "Is \\((\\ket{00}+\\ket{01})/\\sqrt2\\) entangled?",
+        "hints": [
+          "Factor out a common first-qubit state.",
+          "Both terms have the first qubit in \\(\\ket0\\)."
+        ],
+        "answer": "No. It is \\(\\ket0\\otimes(\\ket0+\\ket1)/\\sqrt2\\), a product state. A sum of basis states is not automatically entangled.",
+        "review": "topic-5-1-2"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "Apply \\(H\\) to the first qubit of \\(\\ket{00}\\), then CNOT with that qubit as control. Give joint and first-qubit probabilities in the computational basis.",
+        "hints": [
+          "Expand after \\(H\\) before applying CNOT.",
+          "CNOT sends \\(\\ket{10}\\) to \\(\\ket{11}\\)."
+        ],
+        "answer": "The intermediate state is \\((\\ket{00}+\\ket{10})/\\sqrt2\\) and the final state is \\((\\ket{00}+\\ket{11})/\\sqrt2\\). The joint probabilities are \\(p(00)=p(11)=1/2\\) and \\(p(01)=p(10)=0\\). Summing over the second bit gives \\(p(\\text{first}=0)=p(\\text{first}=1)=1/2\\).",
+        "review": "topic-5-2-3"
+      },
+      {
+        "kind": "Extension",
+        "question": "Compare measuring both qubits in the \\(X\\) basis for the Bell state \\(\\ket{\\Phi^+}\\) and for an equal classical mixture of \\(00\\) and \\(11\\).",
+        "hints": [
+          "Use \\(\\ket0=(\\ket++\\ket-)/\\sqrt2\\) and \\(\\ket1=(\\ket+-\\ket-)/\\sqrt2\\).",
+          "The Bell amplitudes for +− and −+ cancel."
+        ],
+        "answer": "For \\(\\ket{\\Phi^+}\\), the outcomes \\({+}{+}\\) and \\({-}{-}\\) each have probability \\(1/2\\). The mixture yields \\({+}{+}\\), \\({+}{-}\\), \\({-}{+}\\), and \\({-}{-}\\) with probability \\(1/4\\) each. Their computational-basis counts agree, but these \\(X\\)-basis counts distinguish coherence from the mixture.",
+        "review": "topic-5-2-2"
+      }
+    ]
+  },
+  "06-queries-phase-kickback": {
+    "purpose": "Use a reversible query to encode a property in relative phase and read it through interference.",
+    "before": "Use reversible target updates, the Hadamard transformation, and joint-state notation.",
+    "outcomes": [
+      "Derive phase kickback using \\(\\ket-\\).",
+      "Calculate the output of Deutsch’s algorithm.",
+      "State exactly what a query advantage counts."
+    ],
+    "limits": "Deutsch’s task here uses a one-bit Boolean function and an ideal reversible oracle. A single query does not reveal every function value.",
+    "example": "The target update from Chapter 2 becomes a phase mark. The two-path interference from Chapter 3 becomes the readout.",
+    "next": "Chapter 7 uses phase marking to increase the probability of a marked answer.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "Why use \\(\\ket-\\) rather than \\(\\ket0\\) as the target for phase kickback?",
+        "hints": [
+          "Apply \\(X\\) to both target states.",
+          "\\(X\\ket-=-\\ket-\\)."
+        ],
+        "answer": "A flip changes \\(\\ket-\\) only by a sign. The same target state remains, while the input amplitudes acquire function-dependent signs. A \\(\\ket0\\) target instead records the function value and can become entangled with the input.",
+        "review": "topic-6-3-1"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "Take \\(f(0)=1\\) and \\(f(1)=0\\). Starting with \\(\\ket+\\ket-\\), apply the oracle and then \\(H\\) to the input. What is measured on the input?",
+        "hints": [
+          "The input amplitudes gain signs \\((-1)^{f(x)}\\).",
+          "The input becomes \\((-\\ket0+\\ket1)/\\sqrt2\\)."
+        ],
+        "answer": "The oracle gives \\(-\\ket-\\ket-\\). The final \\(H\\) on the input gives \\(-\\ket1\\ket-\\). The overall minus sign changes no probabilities, so outcome 1 occurs with certainty: the function is balanced.",
+        "review": "topic-6-4-1"
+      },
+      {
+        "kind": "Extension",
+        "question": "Replace \\(f\\) by its complement \\(1-f\\). Can Deutsch’s final measurement tell them apart?",
+        "hints": [
+          "Compare the two phase factors for every \\(x\\).",
+          "Complementing \\(f\\) multiplies every factor by \\(-1\\)."
+        ],
+        "answer": "No. All input amplitudes gain the same extra minus sign, a global phase. The constant/balanced classification is unchanged. Deutsch’s measurement extracts that classification, not the individual truth table.",
+        "review": "topic-6-4-2"
+      }
+    ]
+  },
+  "07-amplitude-amplification": {
+    "purpose": "Turn a phase mark into increased success probability and determine when to stop iterating.",
+    "before": "Use phase oracles, reflections, and normalized state vectors.",
+    "outcomes": [
+      "Calculate the four-item search.",
+      "Interpret two reflections as a rotation.",
+      "Include preparation and oracle costs in amplification."
+    ],
+    "limits": "The standard iteration formula assumes ideal reflections and a fixed marked subspace. The best iteration count depends on the initial success probability.",
+    "example": "Start with four equal amplitudes; carry the same reflection picture into the good/bad two-dimensional plane.",
+    "next": "Chapter 8 opens the oracle and reflection boxes into circuits.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "Does applying a phase oracle immediately increase a marked outcome’s probability?",
+        "hints": [
+          "Compare \\(a\\) and \\(-a\\).",
+          "Their squared magnitudes agree."
+        ],
+        "answer": "No. The oracle changes a sign, not its squared magnitude. A subsequent reflection converts that phase difference into a change of amplitudes.",
+        "review": "topic-7-1-2"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "For four equal amplitudes of \\(1/2\\) with one marked item, calculate one marking step and one reflection about the mean.",
+        "hints": [
+          "After marking, the entries are \\(-1/2, 1/2, 1/2, 1/2\\).",
+          "The mean is \\(1/4\\); replace each amplitude \\(a\\) by \\(2\\cdot\\text{mean}-a\\)."
+        ],
+        "answer": "The marked amplitude becomes \\(1/2-(-1/2)=1\\). Each unmarked amplitude becomes \\(1/2-1/2=0\\). Measuring returns the marked item with certainty after one ideal iteration.",
+        "review": "topic-7-1-3"
+      },
+      {
+        "kind": "Extension",
+        "question": "In that four-item example, what happens if you apply a second Grover iteration before measuring?",
+        "hints": [
+          "Use \\(\\theta=\\pi/6\\) in \\(\\sin^2((2k+1)\\theta)\\).",
+          "For \\(k=2\\) the angle is \\(5\\pi/6\\)."
+        ],
+        "answer": "The success probability falls to \\(\\sin^2(5\\pi/6)=1/4\\). More iterations need not improve the result: the state rotates past the good direction.",
+        "review": "topic-7-3-2"
+      }
+    ]
+  },
+  "08-circuits-universality": {
+    "purpose": "Translate abstract operations into circuits and account for the work hidden inside a gate box.",
+    "before": "Use the query and search algorithms from Chapters 6 and 7.",
+    "outcomes": [
+      "Read circuit order and controlled operations.",
+      "Distinguish exact construction from approximation.",
+      "Count gates, depth, and workspace separately."
+    ],
+    "limits": "A finite discrete gate set generally approximates arbitrary unitaries; universality does not imply every transformation has a short exact circuit.",
+    "example": "Decompose the controlled phase and reflections already used in search instead of treating them as free operations.",
+    "next": "Chapter 9 compares algorithms only after their resources and success conditions are specified.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "Do \\(H\\) then \\(Z\\) and \\(Z\\) then \\(H\\) have the same action on \\(\\ket0\\)?",
+        "hints": [
+          "Calculate the first step in each order.",
+          "\\(Z\\ket0=\\ket0\\), but \\(Z\\ket+=\\ket-\\)."
+        ],
+        "answer": "No. \\(H\\) then \\(Z\\) gives \\(\\ket-\\); \\(Z\\) then \\(H\\) gives \\(\\ket+\\). Matrix multiplication order must match the circuit’s temporal order.",
+        "review": "topic-8-1-1"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "Show that \\(H\\) on the target, CNOT, then \\(H\\) on the target implements controlled-\\(Z\\).",
+        "hints": [
+          "Separate the \\(\\text{control}=0\\) and \\(\\text{control}=1\\) cases.",
+          "Use \\(H^2=I\\) and \\(HXH=Z\\)."
+        ],
+        "answer": "For control 0, the target undergoes \\(H\\cdot I\\cdot H=I\\). For control 1, it undergoes \\(H\\cdot X\\cdot H=Z\\). Only \\(\\ket{11}\\) gains a minus sign, so the joint operation is controlled-\\(Z\\). Linearity extends the result to superpositions.",
+        "review": "topic-8-2-2"
+      },
+      {
+        "kind": "Extension",
+        "question": "A query algorithm uses \\(q\\) oracle calls. Each compiled oracle needs \\(g\\) elementary gates. What bound on total gates follows from \\(q\\) alone?",
+        "hints": [
+          "Account for the oracle implementations first.",
+          "Add state preparation, readout-related operations, and other processing."
+        ],
+        "answer": "No total gate bound follows from \\(q\\) alone. If each call costs \\(g\\) gates, the calls contribute \\(qg\\) gates, plus other operations. If \\(g\\) depends on input size or precision, it must remain in the analysis. Query savings alone do not establish a complete implementation advantage.",
+        "review": "topic-8-4-1"
+      }
+    ]
+  },
+  "09-complexity-advantage": {
+    "purpose": "Evaluate a quantum advantage claim by fixing the task, model, error allowance, and counted resources.",
+    "before": "Use Chapter 7’s query count and Chapter 8’s circuit costs.",
+    "outcomes": [
+      "Distinguish upper bounds from lower bounds.",
+      "Relate input length to numeric magnitude.",
+      "State the scope of the quantum search advantage."
+    ],
+    "limits": "Query lower bounds apply to the stated access model. An absence of known efficient classical algorithms is not a general classical lower bound.",
+    "example": "Revisit four-item search as a member of a problem family, then count how queries scale with the number of items.",
+    "next": "The appendices provide supporting mathematics; period finding and error correction are further topics, not proved here.",
+    "exercises": [
+      {
+        "kind": "Quick check",
+        "question": "An algorithm uses \\(O(N)\\) steps on an integer \\(N\\) written in binary. Is that polynomial in input length?",
+        "hints": [
+          "How many bits are needed to write \\(N\\)?",
+          "For \\(n\\) bits, \\(N\\) can be of order \\(2^n\\)."
+        ],
+        "answer": "Not in general. The input length is of order \\(\\log_2 N\\). A number of steps proportional to \\(N\\) can grow exponentially with that length.",
+        "review": "topic-9-1-1"
+      },
+      {
+        "kind": "Worked problem",
+        "question": "One algorithm uses at most \\(3n^2+7n+2\\) operations. What asymptotic bound does this give, and does it prove that every algorithm needs quadratic time?",
+        "hints": [
+          "For \\(n\\ge1\\), compare each term with \\(n^2\\).",
+          "\\(3n^2+7n+2\\le12n^2\\)."
+        ],
+        "answer": "It gives an \\(O(n^2)\\) upper bound for this algorithm. If the displayed expression is its actual cost, that cost is \\(\\Theta(n^2)\\). Neither statement proves a lower bound for all algorithms solving the task.",
+        "review": "topic-9-3-1"
+      },
+      {
+        "kind": "Extension",
+        "question": "Suppose a quantum search uses \\(\\Theta(\\sqrt N)\\) queries, but each query requires \\(\\Theta(N)\\) gates in a chosen implementation. What do the query and gate counts say?",
+        "hints": [
+          "Multiply the number of calls by the cost per call.",
+          "Keep the result distinct from the task’s optimal gate complexity."
+        ],
+        "answer": "Those calls contribute \\(\\Theta(N^{3/2})\\) gates to that implementation, before other costs. The quadratic query improvement remains a statement about oracle access. It does not show that this implementation beats a classical end-to-end method, nor rule out a better oracle implementation.",
+        "review": "topic-9-1-3"
+      }
+    ]
+  }
+}

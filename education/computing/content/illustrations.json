@@ -1,0 +1,1693 @@
+{
+  "topic-2-1-1": {
+    "kind": "table",
+    "title": "One bit string, different interpretations",
+    "caption": "An encoding supplies meaning. The bits alone do not tell a machine whether to treat \\(01000001\\) as a number or a character.",
+    "headers": [
+      "Bits",
+      "Encoding",
+      "Meaning"
+    ],
+    "rows": [
+      [
+        "01000001",
+        "Unsigned binary",
+        "65"
+      ],
+      [
+        "01000001",
+        "ASCII character",
+        "A"
+      ]
+    ]
+  },
+  "topic-2-1-2": {
+    "kind": "table",
+    "title": "AND as a complete input–output specification",
+    "caption": "The truth table lists four possible inputs. Only the input \\(11\\) produces one; a circuit must implement all four rows.",
+    "headers": [
+      "\\(x\\)",
+      "\\(y\\)",
+      "\\(x\\) AND \\(y\\)"
+    ],
+    "rows": [
+      [
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "1",
+        "0"
+      ],
+      [
+        "1",
+        "0",
+        "0"
+      ],
+      [
+        "1",
+        "1",
+        "1"
+      ]
+    ]
+  },
+  "topic-2-1-3": {
+    "kind": "table",
+    "title": "OR written as a polynomial over bits",
+    "caption": "All additions are modulo two. The polynomial \\(x+y+xy\\) reproduces OR on Boolean inputs; its interpretation depends on this arithmetic.",
+    "headers": [
+      "\\(x, y\\)",
+      "\\(x+y \\bmod 2\\)",
+      "xy",
+      "\\(x+y+xy \\bmod 2\\)"
+    ],
+    "rows": [
+      [
+        "0, 0",
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0, 1",
+        "1",
+        "0",
+        "1"
+      ],
+      [
+        "1, 0",
+        "1",
+        "0",
+        "1"
+      ],
+      [
+        "1, 1",
+        "0",
+        "1",
+        "1"
+      ]
+    ]
+  },
+  "topic-2-2-1": {
+    "kind": "flow",
+    "title": "An intermediate value becomes a wire",
+    "caption": "To evaluate \\(z=ab+c\\) over bits, compute the product once and pass that bit to XOR. Here \\(+\\) means XOR, so the diagram is also a circuit plan.",
+    "rows": [
+      [
+        "Inputs \\(a, b\\)",
+        "AND\n\\(u = ab\\)",
+        "XOR with \\(c\\)\n\\(z = u \\text{ XOR } c\\)"
+      ]
+    ]
+  },
+  "topic-2-2-3": {
+    "kind": "flow",
+    "title": "Three different inputs merge",
+    "caption": "The AND gate maps \\(00\\), \\(01\\), and \\(10\\) to the same output. Output zero cannot identify which of these inputs occurred.",
+    "rows": [
+      [
+        "00",
+        "AND",
+        "0"
+      ],
+      [
+        "01 or 10",
+        "AND",
+        "0"
+      ],
+      [
+        "11",
+        "AND",
+        "1"
+      ]
+    ]
+  },
+  "topic-2-3-1": {
+    "kind": "flow",
+    "title": "Resetting an unknown bit",
+    "caption": "Both possible logical inputs are reset to zero. For erasure of one equally likely bit in the standard isothermal setting, the minimum heat delivered to the environment is kBT ln 2.",
+    "rows": [
+      [
+        "Memory: 0 or 1",
+        "Reset operation",
+        "Memory: 0"
+      ],
+      [
+        "Thermal environment",
+        "Receives heat",
+        "\\(Q \\ge k_BT\\ln 2\\)"
+      ]
+    ]
+  },
+  "topic-2-3-2": {
+    "kind": "table",
+    "title": "Logical and physical questions are separate",
+    "caption": "A reversible truth table settles whether the input is recoverable. It does not specify the energy dissipated by a particular physical device.",
+    "headers": [
+      "Description",
+      "Question it answers",
+      "What else is needed"
+    ],
+    "rows": [
+      [
+        "Logical map",
+        "Can we recover the input?",
+        "Full input/output states"
+      ],
+      [
+        "Physical process",
+        "How much heat is released?",
+        "Dynamics and environment"
+      ]
+    ]
+  },
+  "topic-2-3-3": {
+    "kind": "flow",
+    "title": "Preserve the input; update the target",
+    "caption": "For \\(f(x)=1\\), the target flips. Applying the same reversible oracle twice restores the input and target because XOR by the same bit cancels.",
+    "rows": [
+      [
+        "\\((x, 0)\\)",
+        "\\((x, f(x))\\)",
+        "\\((x, 0)\\)"
+      ]
+    ]
+  },
+  "topic-2-4-1": {
+    "kind": "table",
+    "title": "A controlled operation has two branches",
+    "caption": "CNOT preserves its control bit. For control zero it leaves the target alone; for control one it flips the target. Each branch can be undone.",
+    "headers": [
+      "Control \\(x\\)",
+      "Target before",
+      "Target after",
+      "Control after"
+    ],
+    "rows": [
+      [
+        "0",
+        "\\(t\\)",
+        "\\(t\\)",
+        "0"
+      ],
+      [
+        "1",
+        "\\(t\\)",
+        "\\(t \\text{ XOR } 1\\)",
+        "1"
+      ]
+    ]
+  },
+  "topic-3-1-1": {
+    "kind": "bars",
+    "title": "A two-outcome probability distribution",
+    "caption": "The bar heights are probabilities, not guaranteed frequencies in a short sample. Their sum is one.",
+    "labels": [
+      "Outcome 0",
+      "Outcome 1"
+    ],
+    "values": [
+      0.7,
+      0.3
+    ]
+  },
+  "topic-3-1-2": {
+    "kind": "flow",
+    "title": "Multiply along a classical route",
+    "caption": "First choose the left branch with probability \\(1/2\\). Conditional on that branch, success has probability \\(1/3\\). The probability of this complete route is \\(1/6\\).",
+    "rows": [
+      [
+        "Start",
+        "Left branch\nprobability \\(1/2\\)",
+        "Success given left\nprobability \\(1/3\\)",
+        "Route probability\n\\(1/2 \\times 1/3 = 1/6\\)"
+      ]
+    ]
+  },
+  "topic-3-1-3": {
+    "kind": "table",
+    "title": "Existence of a path is not its probability",
+    "caption": "With eight equally likely paths and one successful path, nondeterministic acceptance and randomized success answer different questions.",
+    "headers": [
+      "Description",
+      "Question",
+      "Result in this example"
+    ],
+    "rows": [
+      [
+        "Nondeterministic",
+        "Does a successful path exist?",
+        "Yes"
+      ],
+      [
+        "Uniform random choice",
+        "How often is it selected?",
+        "Probability \\(1/8\\)"
+      ]
+    ]
+  },
+  "topic-3-2-1": {
+    "kind": "flow",
+    "title": "One Hadamard creates two amplitudes",
+    "caption": "Starting in \\(\\ket0\\), \\(H\\) produces equal amplitudes. The computational-basis measurement therefore has two equally likely outcomes.",
+    "rows": [
+      [
+        "\\(\\ket0\\)",
+        "\\(H\\)",
+        "\\((\\ket0 + \\ket1)/\\sqrt{2}\\)"
+      ],
+      [
+        "Amplitude of 0: \\(1/\\sqrt{2}\\)",
+        "Square magnitude",
+        "Probability of 0: \\(1/2\\)"
+      ],
+      [
+        "Amplitude of 1: \\(1/\\sqrt{2}\\)",
+        "Square magnitude",
+        "Probability of 1: \\(1/2\\)"
+      ]
+    ]
+  },
+  "topic-3-2-3": {
+    "kind": "table",
+    "title": "A sign disappears in an isolated probability",
+    "caption": "Squaring magnitudes removes a sign. The sign can still affect later interference when an amplitude is added to another contribution.",
+    "headers": [
+      "Amplitude",
+      "Squared magnitude",
+      "Probability"
+    ],
+    "rows": [
+      [
+        "\\(+1/2\\)",
+        "\\(|+1/2|^2\\)",
+        "\\(1/4\\)"
+      ],
+      [
+        "\\(-1/2\\)",
+        "\\(|-1/2|^2\\)",
+        "\\(1/4\\)"
+      ]
+    ]
+  },
+  "topic-3-3-2": {
+    "kind": "flow",
+    "title": "Add coherent contributions before squaring",
+    "caption": "Each row describes contributions to a single outcome. A minus sign changes interference, not the requirement that a probability be nonnegative.",
+    "rows": [
+      [
+        "\\(+1/2\\) and \\(+1/2\\)",
+        "Sum: 1",
+        "Probability: 1"
+      ],
+      [
+        "\\(+1/2\\) and \\(-1/2\\)",
+        "Sum: 0",
+        "Probability: 0"
+      ]
+    ]
+  },
+  "topic-3-3-3": {
+    "kind": "flow",
+    "title": "A path record changes the joint alternatives",
+    "caption": "For the two-Hadamard experiment, identical environment records preserve interference. Orthogonal records distinguish the intermediate paths and remove the cross term in the qubit probabilities.",
+    "rows": [
+      [
+        "Same record\n\\(e_0 = e_1\\)",
+        "Paths remain coherent",
+        "Final \\(p(0) = 1\\)"
+      ],
+      [
+        "Distinguishing records\n\\(\\braket{e_0}{e_1} = 0\\)",
+        "No cross term locally",
+        "Final \\(p(0) = 1/2\\)"
+      ]
+    ]
+  },
+  "topic-3-4-1": {
+    "kind": "table",
+    "title": "A final \\(H\\) reveals a relative sign",
+    "caption": "The first two states differ only by a global sign and have the same output probabilities. Changing only one component changes the outcome after \\(H\\).",
+    "headers": [
+      "Input state",
+      "After \\(H\\)",
+      "Certain outcome"
+    ],
+    "rows": [
+      [
+        "\\((\\ket0 + \\ket1)/\\sqrt{2}\\)",
+        "\\(\\ket0\\)",
+        "0"
+      ],
+      [
+        "\\(-(\\ket0 + \\ket1)/\\sqrt{2}\\)",
+        "\\(-\\ket0\\)",
+        "0"
+      ],
+      [
+        "\\((\\ket0 - \\ket1)/\\sqrt{2}\\)",
+        "\\(\\ket1\\)",
+        "1"
+      ]
+    ]
+  },
+  "topic-3-4-2": {
+    "kind": "plane",
+    "title": "Phase is a direction in the complex plane",
+    "caption": "The four arrows all have magnitude one: \\(1\\), \\(i\\), \\(-1\\), and \\(-i\\). Different directions represent different phases. A relative phase compares two such directions.",
+    "angles": [
+      0,
+      90,
+      180,
+      270
+    ],
+    "labels": [
+      "1",
+      "\\(i\\)",
+      "\\(-1\\)",
+      "\\(-i\\)"
+    ],
+    "axes": [
+      "Real",
+      "Imaginary"
+    ]
+  },
+  "topic-3-4-3": {
+    "kind": "flow",
+    "title": "A matrix transforms the amplitude list",
+    "caption": "The \\(X\\) matrix swaps coordinates in the computational basis. The same rule acts on every input vector, not only the two basis vectors.",
+    "rows": [
+      [
+        "\\(a\\ket0 + b\\ket1\\)\ncoordinates \\((a,b)\\)",
+        "\\(X = [[0,1],[1,0]]\\)",
+        "\\(b\\ket0 + a\\ket1\\)\ncoordinates \\((b,a)\\)"
+      ]
+    ]
+  },
+  "topic-4-1-1": {
+    "kind": "table",
+    "title": "Ket notation and coordinates",
+    "caption": "The two coordinates are ordered by the selected basis. The coefficients belong to basis vectors, not to two simultaneous measurement outcomes.",
+    "headers": [
+      "State",
+      "Coefficient of \\(\\ket0\\)",
+      "Coefficient of \\(\\ket1\\)"
+    ],
+    "rows": [
+      [
+        "\\(\\ket0\\)",
+        "1",
+        "0"
+      ],
+      [
+        "\\(\\ket1\\)",
+        "0",
+        "1"
+      ],
+      [
+        "\\(a\\ket0 + b\\ket1\\)",
+        "a",
+        "\\(b\\)"
+      ]
+    ]
+  },
+  "topic-4-1-2": {
+    "kind": "flow",
+    "title": "Conjugation makes the squared norm positive",
+    "caption": "For \\(v=(1,i)\\), the conjugate transpose is \\((1,-i)\\). Multiplying gives \\(1+1=2\\). Omitting conjugation would incorrectly give zero.",
+    "rows": [
+      [
+        "\\(v = (1,i)^T\\)",
+        "\\(v^\\dagger = (1,-i)\\)",
+        "\\(v^\\dagger v = 1 + (-i)i = 2\\)"
+      ]
+    ]
+  },
+  "topic-4-1-3": {
+    "kind": "table",
+    "title": "The same state in two bases",
+    "caption": "These rows change coordinates without changing the physical state. The plus/minus basis is defined by \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\).",
+    "headers": [
+      "Physical state",
+      "Computational coordinates",
+      "Plus/minus coordinates"
+    ],
+    "rows": [
+      [
+        "\\(\\ket0\\)",
+        "(1, 0)",
+        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)"
+      ],
+      [
+        "\\(\\ket{+}\\)",
+        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)",
+        "(1, 0)"
+      ]
+    ]
+  },
+  "topic-4-2-1": {
+    "kind": "flow",
+    "title": "Normalization turns weights into probabilities",
+    "caption": "The vector \\((3,4)\\) has norm five. Dividing each coordinate by five gives probabilities \\(9/25\\) and \\(16/25\\), which add to one.",
+    "rows": [
+      [
+        "(3, 4)",
+        "Divide by norm 5",
+        "\\((3/5, 4/5)\\)"
+      ],
+      [
+        "Square magnitudes",
+        "\\(9/25 + 16/25\\)",
+        "Total probability: 1"
+      ]
+    ]
+  },
+  "topic-4-2-3": {
+    "kind": "flow",
+    "title": "A fresh copy and a repeated measurement differ",
+    "caption": "After observing zero in a computational-basis measurement, the same qubit remains in \\(\\ket0\\). A fresh \\(\\ket+\\) still gives an equal distribution.",
+    "rows": [
+      [
+        "Prepare \\(\\ket{+}\\)",
+        "Measure; observe 0",
+        "Measure same qubit\n0 is certain"
+      ],
+      [
+        "Prepare fresh \\(\\ket{+}\\)",
+        "Measure in same basis",
+        "0 or 1\neach probability \\(1/2\\)"
+      ]
+    ]
+  },
+  "topic-4-3-1": {
+    "kind": "flow",
+    "title": "Extend basis actions by linearity",
+    "caption": "The \\(X\\) operation is fixed by its two basis actions. Multiply those outputs by the input coefficients and add to obtain the output on a superposition.",
+    "rows": [
+      [
+        "\\(\\ket0\\)",
+        "\\(X\\)",
+        "\\(\\ket1\\)"
+      ],
+      [
+        "\\(\\ket1\\)",
+        "\\(X\\)",
+        "\\(\\ket0\\)"
+      ],
+      [
+        "\\(a\\ket0 + b\\ket1\\)",
+        "\\(X\\)",
+        "\\(a\\ket1 + b\\ket0\\)"
+      ]
+    ]
+  },
+  "topic-4-3-2": {
+    "kind": "table",
+    "title": "Adjoint does not always mean inverse",
+    "caption": "A unitary has an inverse equal to its adjoint. A projection onto \\(\\ket0\\) has an adjoint but loses the \\(\\ket1\\) component, so it has no full-space inverse.",
+    "headers": [
+      "Operator",
+      "Adjoint",
+      "Inverse"
+    ],
+    "rows": [
+      [
+        "\\(\\mathrm{diag}(1,i)\\)",
+        "\\(\\mathrm{diag}(1,-i)\\)",
+        "\\(\\mathrm{diag}(1,-i)\\)"
+      ],
+      [
+        "diag(1,0)",
+        "diag(1,0)",
+        "Does not exist"
+      ]
+    ]
+  },
+  "topic-4-3-3": {
+    "kind": "flow",
+    "title": "Unitary evolution preserves overlap",
+    "caption": "An inner product between two inputs equals that between their unitary outputs. Orthogonal inputs stay orthogonal; nonorthogonal inputs do not become perfectly distinguishable.",
+    "rows": [
+      [
+        "Inputs \\(\\ket{\\psi}, \\ket{\\phi}\\)",
+        "Apply the same \\(U\\)",
+        "Outputs \\(U\\ket{\\psi}, U\\ket{\\phi}\\)"
+      ],
+      [
+        "Input overlap\n\\(\\braket{\\psi}{\\phi}\\)",
+        "\\(U^\\dagger U = I\\)",
+        "Output overlap\n\\(\\bra{\\psi}U^\\dagger U\\ket{\\phi}\\)"
+      ]
+    ]
+  },
+  "topic-4-4-1": {
+    "kind": "flow",
+    "title": "Eigenvectors retain their direction",
+    "caption": "For \\(Z\\), the computational basis vectors are eigenvectors with eigenvalues \\(+1\\) and \\(-1\\). A general superposition need not be an eigenvector.",
+    "rows": [
+      [
+        "\\(\\ket0\\)",
+        "\\(Z\\)",
+        "\\(+\\ket0\\)"
+      ],
+      [
+        "\\(\\ket1\\)",
+        "\\(Z\\)",
+        "\\(-\\ket1\\)"
+      ]
+    ]
+  },
+  "topic-4-4-2": {
+    "kind": "table",
+    "title": "An observable labels its eigenspaces",
+    "caption": "For \\(A=\\mathrm{diag}(2,5)\\), the projectors select the two computational-basis components. The measurement reports the associated eigenvalue.",
+    "headers": [
+      "Eigenspace",
+      "Projector",
+      "Reported value"
+    ],
+    "rows": [
+      [
+        "Span of \\(\\ket0\\)",
+        "\\(\\ketbra{0}{0}\\)",
+        "2"
+      ],
+      [
+        "Span of \\(\\ket1\\)",
+        "\\(\\ketbra{1}{1}\\)",
+        "5"
+      ]
+    ]
+  },
+  "topic-4-4-3": {
+    "kind": "plane",
+    "title": "Distinct vectors need not be orthogonal",
+    "caption": "The real slice shown contains \\(\\ket0\\) and \\(\\ket+\\) at \\(45^\\circ\\). Their overlap is \\(1/\\sqrt2\\), so one copy cannot always reveal which was prepared. Angles here represent state-vector geometry, not physical space.",
+    "angles": [
+      0,
+      45
+    ],
+    "labels": [
+      "\\(\\ket0\\)",
+      "\\(\\ket{+}\\)"
+    ],
+    "axes": [
+      "\\(\\ket0\\) coefficient",
+      "\\(\\ket1\\) coefficient"
+    ]
+  },
+  "topic-5-1-1": {
+    "kind": "table",
+    "title": "Local labels form joint basis labels",
+    "caption": "The joint basis has one label for every pair of local labels. This is the Cartesian arrangement of tensor-product basis vectors, not a mixture.",
+    "headers": [
+      "First qubit",
+      "Second: 0",
+      "Second: 1"
+    ],
+    "rows": [
+      [
+        "0",
+        "\\(\\ket{00}\\)",
+        "\\(\\ket{01}\\)"
+      ],
+      [
+        "1",
+        "\\(\\ket{10}\\)",
+        "\\(\\ket{11}\\)"
+      ]
+    ]
+  },
+  "topic-5-1-2": {
+    "kind": "flow",
+    "title": "A superposition can still factor",
+    "caption": "Both terms share the same second-qubit state. Factoring it out shows that this pure state is a product, despite having two nonzero amplitudes.",
+    "rows": [
+      [
+        "\\((\\ket{00} + \\ket{10})/\\sqrt{2}\\)",
+        "Factor the second qubit",
+        "\\(\\ket{+} \\otimes \\ket0\\)"
+      ]
+    ]
+  },
+  "topic-5-1-3": {
+    "kind": "table",
+    "title": "Description size and measurement output",
+    "caption": "The number of basis coefficients doubles with each added qubit. One computational-basis measurement still returns only one n-bit label.",
+    "headers": [
+      "Qubits \\(n\\)",
+      "Basis coefficients \\(2^n\\)",
+      "Bits in one outcome"
+    ],
+    "rows": [
+      [
+        "1",
+        "2",
+        "1"
+      ],
+      [
+        "2",
+        "4",
+        "2"
+      ],
+      [
+        "3",
+        "8",
+        "3"
+      ],
+      [
+        "10",
+        "1024",
+        "10"
+      ]
+    ]
+  },
+  "topic-5-2-2": {
+    "kind": "table",
+    "title": "The Bell coefficients cannot be a product",
+    "caption": "A product \\((a\\ket0+b\\ket1)(c\\ket0+d\\ket1)\\) would require \\(ac\\) and \\(bd\\) nonzero. Then all four factors are nonzero, contradicting \\(ad=bc=0\\).",
+    "headers": [
+      "Joint label",
+      "Product coefficient",
+      "Required Bell coefficient"
+    ],
+    "rows": [
+      [
+        "00",
+        "ac",
+        "\\(1/\\sqrt{2}\\)"
+      ],
+      [
+        "01",
+        "ad",
+        "0"
+      ],
+      [
+        "10",
+        "bc",
+        "0"
+      ],
+      [
+        "11",
+        "bd",
+        "\\(1/\\sqrt{2}\\)"
+      ]
+    ]
+  },
+  "topic-5-2-3": {
+    "kind": "table",
+    "title": "Sum joint probabilities to get a marginal",
+    "caption": "For the Bell state, the row sums give the first-qubit probabilities. Conditional on the first bit being zero, only the \\(00\\) entry remains possible.",
+    "headers": [
+      "First bit",
+      "Second \\(= 0\\)",
+      "Second \\(= 1\\)",
+      "Row sum"
+    ],
+    "rows": [
+      [
+        "0",
+        "\\(1/2\\)",
+        "0",
+        "\\(1/2\\)"
+      ],
+      [
+        "1",
+        "0",
+        "\\(1/2\\)",
+        "\\(1/2\\)"
+      ],
+      [
+        "Column sum",
+        "\\(1/2\\)",
+        "\\(1/2\\)",
+        "1"
+      ]
+    ]
+  },
+  "topic-5-3-1": {
+    "kind": "flow",
+    "title": "CNOT copies labels, not arbitrary states",
+    "caption": "The first two rows copy computational-basis labels into a blank target. By linearity the third row produces an entangled state rather than two copies of \\(\\ket+\\).",
+    "rows": [
+      [
+        "\\(\\ket0\\ket0\\)",
+        "CNOT",
+        "\\(\\ket0\\ket0\\)"
+      ],
+      [
+        "\\(\\ket1\\ket0\\)",
+        "CNOT",
+        "\\(\\ket1\\ket1\\)"
+      ],
+      [
+        "\\(\\ket{+}\\ket0\\)",
+        "CNOT",
+        "\\((\\ket{00} + \\ket{11})/\\sqrt{2}\\)"
+      ]
+    ]
+  },
+  "topic-5-3-2": {
+    "kind": "flow",
+    "title": "Cloning would have to preserve an impossible overlap",
+    "caption": "Let \\(c=\\braket\\psi\\phi\\). A unitary cloning map would preserve input overlap \\(c\\), while two copies have overlap \\(c^2\\). The value \\(1/\\sqrt2\\) cannot satisfy that requirement.",
+    "rows": [
+      [
+        "Input overlap\n\\(c = 1/\\sqrt{2}\\)",
+        "Unitary must preserve \\(c\\)",
+        "Two-copy overlap\n\\(c^2 = 1/2\\)"
+      ],
+      [
+        "Different nonorthogonal inputs",
+        "\\(c \\ne c^2\\)",
+        "No universal cloner"
+      ]
+    ]
+  },
+  "topic-5-3-3": {
+    "kind": "flow",
+    "title": "Local statistics do not carry a distant outcome",
+    "caption": "For the Bell pair, either local computational-basis distribution is fair. Learning the remote outcome permits conditioning; without it, the local distribution remains unchanged.",
+    "rows": [
+      [
+        "Remote outcome unknown",
+        "Local state \\(I/2\\)",
+        "\\(p(0) = p(1) = 1/2\\)"
+      ],
+      [
+        "Message says remote 0",
+        "Condition on that outcome",
+        "Local 0 is certain"
+      ]
+    ]
+  },
+  "topic-5-4-1": {
+    "kind": "flow",
+    "title": "Teleportation consumes shared resources",
+    "caption": "Alice and Bob first share a Bell pair. Alice’s joint measurement and two-bit message allow Bob to select the correction; the shared pair is consumed in transferring the input state.",
+    "rows": [
+      [
+        "Shared Bell pair",
+        "Alice measures input + half",
+        "Two classical bits",
+        "Bob corrects his half"
+      ]
+    ]
+  },
+  "topic-5-4-3": {
+    "kind": "flow",
+    "title": "A state is transferred, not a second copy retained",
+    "caption": "The two-bit message selects a correction using a previously shared Bell pair. It is not a classical list of the unknown amplitudes.",
+    "rows": [
+      [
+        "Alice: unknown \\(\\ket{\\psi}\\)",
+        "Bell pair + measurement",
+        "Classical message",
+        "Bob: corrected \\(\\ket{\\psi}\\)"
+      ]
+    ]
+  },
+  "topic-6-1-1": {
+    "kind": "table",
+    "title": "Four truth tables, two classes",
+    "caption": "Deutsch’s task asks whether the two outputs agree. It does not require identifying which truth table in a class was supplied.",
+    "headers": [
+      "\\(f(0)\\)",
+      "\\(f(1)\\)",
+      "Class"
+    ],
+    "rows": [
+      [
+        "0",
+        "0",
+        "Constant"
+      ],
+      [
+        "1",
+        "1",
+        "Constant"
+      ],
+      [
+        "0",
+        "1",
+        "Balanced"
+      ],
+      [
+        "1",
+        "0",
+        "Balanced"
+      ]
+    ]
+  },
+  "topic-6-1-2": {
+    "kind": "flow",
+    "title": "One observed value leaves an ambiguity",
+    "caption": "If a classical query returns \\(f(0)=0\\), both a constant and a balanced truth table remain possible. A second value is needed for an exact classical answer.",
+    "rows": [
+      [
+        "Query \\(f(0)\\)",
+        "Observed: 0",
+        "Could be \\((0,0)\\)\nconstant"
+      ],
+      [
+        "Same observation",
+        "No information about \\(f(1)\\)",
+        "Could be \\((0,1)\\)\nbalanced"
+      ]
+    ]
+  },
+  "topic-6-1-3": {
+    "kind": "table",
+    "title": "The target update is a permutation",
+    "caption": "For \\(f(x)=1\\), the two target values are swapped while \\(x\\) is kept. The full map is reversible even when the function \\(f\\) itself is not one-to-one.",
+    "headers": [
+      "Input register",
+      "Target before",
+      "Target after"
+    ],
+    "rows": [
+      [
+        "\\(x\\) with \\(f(x)=0\\)",
+        "0 / 1",
+        "0 / 1"
+      ],
+      [
+        "\\(x\\) with \\(f(x)=1\\)",
+        "0 / 1",
+        "1 / 0"
+      ]
+    ]
+  },
+  "topic-6-2-1": {
+    "kind": "flow",
+    "title": "Apply the oracle term by term",
+    "caption": "With \\(f(0)=0\\) and \\(f(1)=1\\), a blank target becomes correlated with the input. Linearity determines the output on the entire superposition.",
+    "rows": [
+      [
+        "\\(\\ket0\\ket0\\)",
+        "Oracle",
+        "\\(\\ket0\\ket0\\)"
+      ],
+      [
+        "\\(\\ket1\\ket0\\)",
+        "Oracle",
+        "\\(\\ket1\\ket1\\)"
+      ],
+      [
+        "\\(\\ket{+}\\ket0\\)",
+        "Add the two branches",
+        "\\((\\ket{00} + \\ket{11})/\\sqrt{2}\\)"
+      ]
+    ]
+  },
+  "topic-6-2-2": {
+    "kind": "bars",
+    "title": "A joint measurement returns one pair",
+    "caption": "For \\((\\ket{00}+\\ket{11})/\\sqrt2\\), a computational-basis measurement samples one of these four labels. It does not output the full list of amplitudes.",
+    "labels": [
+      "00",
+      "01",
+      "10",
+      "11"
+    ],
+    "values": [
+      0.5,
+      0,
+      0,
+      0.5
+    ]
+  },
+  "topic-6-2-3": {
+    "kind": "flow",
+    "title": "Workspace can distinguish input branches",
+    "caption": "Different workspace records can prevent the desired input interference. The shared-workspace example factors; the branch-record example does not. The common normalization factor \\(1/\\sqrt2\\) is omitted in the labels.",
+    "rows": [
+      [
+        "\\(\\ket0\\ket{w} + \\ket1\\ket{w}\\)",
+        "Same workspace",
+        "Input can interfere"
+      ],
+      [
+        "\\(\\ket0\\ket0 + \\ket1\\ket1\\)",
+        "Orthogonal records",
+        "Input alone loses coherence"
+      ]
+    ]
+  },
+  "topic-6-3-1": {
+    "kind": "flow",
+    "title": "The target eigenvalue supplies the sign",
+    "caption": "A bit flip leaves \\(\\ket+\\) unchanged but multiplies \\(\\ket-\\) by \\(-1\\). Using the latter as the target makes a controlled flip supply a phase to the input branch.",
+    "rows": [
+      [
+        "\\(\\ket{+}\\)",
+        "\\(X\\)",
+        "\\(+\\ket{+}\\)"
+      ],
+      [
+        "\\(\\ket{-}\\)",
+        "\\(X\\)",
+        "\\(-\\ket{-}\\)"
+      ]
+    ]
+  },
+  "topic-6-3-3": {
+    "kind": "flow",
+    "title": "Compute, mark, then clear the record",
+    "caption": "For a basis input \\(x\\), compute \\(f(x)\\) into clean workspace, apply \\(Z\\) to that bit, and reverse the computation. The function-dependent sign remains while the workspace returns to zero.",
+    "rows": [
+      [
+        "\\(\\ket{x}\\ket0\\)",
+        "Compute\n\\(\\ket{x}\\ket{f(x)}\\)",
+        "Apply phase\n\\((-1)^{f(x)}\\)",
+        "Uncompute\n\\((-1)^{f(x)}\\ket{x}\\ket0\\)"
+      ]
+    ]
+  },
+  "topic-6-4-1": {
+    "kind": "flow",
+    "title": "A sign pattern becomes a measured bit",
+    "caption": "Ignoring a common global sign, constant functions leave the input in \\(\\ket+\\) and balanced functions produce \\(\\ket-\\). The final \\(H\\) converts this distinction into a definite basis outcome.",
+    "rows": [
+      [
+        "Constant: \\(\\ket{+}\\)",
+        "\\(H\\)",
+        "\\(\\ket0 \\to\\) outcome 0"
+      ],
+      [
+        "Balanced: \\(\\ket{-}\\)",
+        "\\(H\\)",
+        "\\(\\ket1 \\to\\) outcome 1"
+      ]
+    ]
+  },
+  "topic-6-4-3": {
+    "kind": "flow",
+    "title": "Every stage contributes to correctness",
+    "caption": "The target \\(\\ket-\\) lets the oracle encode a phase without keeping an input-dependent target record. The final \\(H\\) converts that phase into the answer.",
+    "rows": [
+      [
+        "Prepare\n\\(\\ket{+}\\ket{-}\\)",
+        "Oracle\nencode signs",
+        "\\(H\\) on input\ncombine amplitudes",
+        "Measure input\nconstant or balanced"
+      ]
+    ]
+  },
+  "topic-7-1-1": {
+    "kind": "table",
+    "title": "A predicate tests one candidate",
+    "caption": "In this four-item example only \\(11\\) is marked. Testing a supplied candidate is different from locating the successful one.",
+    "headers": [
+      "Candidate \\(x\\)",
+      "Predicate \\(f(x)\\)",
+      "Verification"
+    ],
+    "rows": [
+      [
+        "00",
+        "0",
+        "Reject"
+      ],
+      [
+        "01",
+        "0",
+        "Reject"
+      ],
+      [
+        "10",
+        "0",
+        "Reject"
+      ],
+      [
+        "11",
+        "1",
+        "Accept"
+      ]
+    ]
+  },
+  "topic-7-1-2": {
+    "kind": "table",
+    "title": "Marking changes a sign, not a probability",
+    "caption": "The marked item is \\(11\\). Every immediate measurement probability stays \\(1/4\\), so another coherent operation is needed to turn the sign into an advantage.",
+    "headers": [
+      "Label",
+      "Initial amplitude",
+      "After marking",
+      "Probability"
+    ],
+    "rows": [
+      [
+        "00",
+        "\\(1/2\\)",
+        "\\(1/2\\)",
+        "\\(1/4\\)"
+      ],
+      [
+        "01",
+        "\\(1/2\\)",
+        "\\(1/2\\)",
+        "\\(1/4\\)"
+      ],
+      [
+        "10",
+        "\\(1/2\\)",
+        "\\(1/2\\)",
+        "\\(1/4\\)"
+      ],
+      [
+        "11",
+        "\\(1/2\\)",
+        "\\(-1/2\\)",
+        "\\(1/4\\)"
+      ]
+    ]
+  },
+  "topic-7-2-1": {
+    "kind": "flow",
+    "title": "Group coordinates into good and bad directions",
+    "caption": "For one marked item among four, \\(\\ket{G}=\\ket{11}\\) and \\(\\ket{B}=(\\ket{00}+\\ket{01}+\\ket{10})/\\sqrt3\\). These orthogonal directions contain the initial state and the entire ideal search trajectory.",
+    "rows": [
+      [
+        "Marked label\n11",
+        "Normalized \\(\\ket{G}\\)",
+        "Coefficient \\(1/2\\)"
+      ],
+      [
+        "Unmarked labels\n00, 01, 10",
+        "Normalized \\(\\ket{B}\\)",
+        "Coefficient \\(\\sqrt{3}/2\\)"
+      ]
+    ]
+  },
+  "topic-7-2-2": {
+    "kind": "plane",
+    "title": "Initial amplitude fixes the angle",
+    "caption": "With one marked item among four, \\(\\sin\\theta=1/2\\), so \\(\\theta=30^\\circ\\). The good amplitude is the vertical component; the success probability is its square.",
+    "angles": [
+      30
+    ],
+    "labels": [
+      "\\(\\theta = 30^\\circ\\)"
+    ],
+    "axes": [
+      "Bad component",
+      "Good component"
+    ]
+  },
+  "topic-7-2-3": {
+    "kind": "plane",
+    "title": "Two reflections advance the state",
+    "caption": "For \\(\\theta=30^\\circ\\), the initial state is at \\(30^\\circ\\). The oracle reflects it to \\(-30^\\circ\\) about the bad axis; reflection about the initial direction then sends it to \\(90^\\circ\\). These are real coordinates in the good/bad plane.",
+    "angles": [
+      30,
+      -30,
+      90
+    ],
+    "labels": [
+      "Initial: \\(30^\\circ\\)",
+      "After oracle: \\(-30^\\circ\\)",
+      "After diffusion: \\(90^\\circ\\)"
+    ],
+    "axes": [
+      "Bad component",
+      "Good component"
+    ]
+  },
+  "topic-7-3-1": {
+    "kind": "bars",
+    "title": "Success oscillates with iteration count",
+    "caption": "For \\(N=4\\) and \\(M=1\\), \\(p_k=\\sin^2((2k+1)\\pi/6)\\). One iteration is ideal, but the next two return to probability \\(1/4\\). Stopping is part of the algorithm.",
+    "labels": [
+      "\\(k = 0\\)",
+      "\\(k = 1\\)",
+      "\\(k = 2\\)",
+      "\\(k = 3\\)"
+    ],
+    "values": [
+      0.25,
+      1,
+      0.25,
+      0.25
+    ]
+  },
+  "topic-7-3-3": {
+    "kind": "decision",
+    "title": "Measure a candidate, then verify it",
+    "caption": "A failed verification rejects that candidate, not every possible candidate. With an unknown marked fraction, the schedule must choose how long to search before measuring again.",
+    "nodes": [
+      "Choose iteration count\nthen amplify and measure",
+      "Check the candidate\n\\(f(x) = 1\\)?",
+      "Yes: return \\(x\\)",
+      "No: revise schedule\nand try again"
+    ]
+  },
+  "topic-7-4-1": {
+    "kind": "plane",
+    "title": "Amplification uses the prepared success weight",
+    "caption": "A nonuniform preparation can still be resolved into normalized good and bad components. This example has \\(p=1/4\\), so its amplitudes are \\(1/2\\) and \\(\\sqrt3/2\\) regardless of how many underlying labels contribute.",
+    "angles": [
+      30
+    ],
+    "labels": [
+      "\\(\\sqrt{1-p}\\ket{B} + \\sqrt{p}\\ket{G}\\)"
+    ],
+    "axes": [
+      "Bad component",
+      "Good component"
+    ]
+  },
+  "topic-7-4-3": {
+    "kind": "table",
+    "title": "Count the work inside each amplification round",
+    "caption": "For small \\(p\\), the improvement concerns repeated use of coherent preparation and the success test. Their implementation costs must be included.",
+    "headers": [
+      "Method",
+      "Repetitions for constant success",
+      "Work used"
+    ],
+    "rows": [
+      [
+        "Independent trials",
+        "Order \\(1/p\\)",
+        "Prepare and test"
+      ],
+      [
+        "Amplitude amplification",
+        "Order \\(1/\\sqrt{p}\\)",
+        "\\(A\\), \\(A^\\dagger\\), phase test per round"
+      ]
+    ]
+  },
+  "topic-8-1-1": {
+    "kind": "flow",
+    "title": "Time order and matrix order",
+    "caption": "The circuit applies \\(H\\) first and \\(Z\\) second. On a column vector the rightmost matrix acts first, so the combined operator is \\(ZH\\).",
+    "rows": [
+      [
+        "\\(\\ket0\\)",
+        "\\(H \\to \\ket{+}\\)",
+        "\\(Z \\to \\ket{-}\\)"
+      ],
+      [
+        "Time: left to right",
+        "Combined matrix: ZH",
+        "Output: \\(ZH\\ket0\\)"
+      ]
+    ]
+  },
+  "topic-8-1-2": {
+    "kind": "flow",
+    "title": "Open a query box to count its gates",
+    "caption": "A query diagram counts uses of an oracle. Replacing each box by a circuit exposes the gate cost, plus any operations between calls.",
+    "rows": [
+      [
+        "Three oracle calls",
+        "Ten gates per call",
+        "Thirty oracle gates"
+      ],
+      [
+        "Prepare input",
+        "Query circuit + other gates",
+        "Measure output"
+      ]
+    ]
+  },
+  "topic-8-1-3": {
+    "kind": "flow",
+    "title": "A measured bit selects a correction",
+    "caption": "Classical control uses a recorded outcome. It selects a branch after measurement rather than preserving a coherent superposition of both control alternatives.",
+    "rows": [
+      [
+        "Measured bit \\(b = 0\\)",
+        "Choose I",
+        "Leave target unchanged"
+      ],
+      [
+        "Measured bit \\(b = 1\\)",
+        "Choose \\(X\\)",
+        "Flip target"
+      ]
+    ]
+  },
+  "topic-8-2-1": {
+    "kind": "table",
+    "title": "Gates act differently on different inputs",
+    "caption": "\\(X\\) exchanges basis labels; \\(Z\\) changes one sign; \\(H\\) changes basis. Their action on arbitrary superpositions follows by linearity.",
+    "headers": [
+      "Gate",
+      "Input \\(\\ket0\\)",
+      "Input \\(\\ket1\\)"
+    ],
+    "rows": [
+      [
+        "\\(X\\)",
+        "\\(\\ket1\\)",
+        "\\(\\ket0\\)"
+      ],
+      [
+        "\\(Z\\)",
+        "\\(\\ket0\\)",
+        "\\(-\\ket1\\)"
+      ],
+      [
+        "\\(H\\)",
+        "\\(\\ket{+}\\)",
+        "\\(\\ket{-}\\)"
+      ]
+    ]
+  },
+  "topic-8-3-1": {
+    "kind": "flow",
+    "title": "Local gates preserve a product form",
+    "caption": "Applying \\(A\\) to one qubit and \\(B\\) to the other gives \\((A\\ket\\psi)\\otimes(B\\ket\\phi)\\). Starting with a product, local unitary gates alone cannot create entanglement.",
+    "rows": [
+      [
+        "\\(\\ket{\\psi} \\otimes \\ket{\\phi}\\)",
+        "Local \\(A \\otimes B\\)",
+        "\\(A\\ket{\\psi} \\otimes B\\ket{\\phi}\\)"
+      ]
+    ]
+  },
+  "topic-8-3-2": {
+    "kind": "flow",
+    "title": "One route to universality",
+    "caption": "Arbitrary one-qubit unitaries together with CNOT suffice to construct arbitrary finite-register unitaries. A chosen finite gate alphabet instead generally requires approximation.",
+    "rows": [
+      [
+        "One-qubit unitaries",
+        "Combine with CNOT",
+        "General quantum circuits"
+      ]
+    ]
+  },
+  "topic-8-3-3": {
+    "kind": "flow",
+    "title": "Approximation includes a tolerance",
+    "caption": "The task is to find a finite circuit \\(V\\) close enough to a target \\(U\\). The tolerance controls acceptable error and affects the required circuit length.",
+    "rows": [
+      [
+        "Target unitary \\(U\\)",
+        "Compile using gate set",
+        "Circuit \\(V\\)"
+      ],
+      [
+        "Requested accuracy ε",
+        "Check operator distance",
+        "\\(\\|U - V\\| \\le \\varepsilon\\)"
+      ]
+    ]
+  },
+  "topic-8-4-1": {
+    "kind": "table",
+    "title": "The same gate count can give different depths",
+    "caption": "Four independent gates on four wires can occupy one layer. Four dependent gates on one wire require four layers. Parallelism may use more workspace.",
+    "headers": [
+      "Circuit arrangement",
+      "Gates",
+      "Depth",
+      "Wires used"
+    ],
+    "rows": [
+      [
+        "One gate on each of four wires",
+        "4",
+        "1",
+        "4"
+      ],
+      [
+        "Four gates in sequence on one wire",
+        "4",
+        "4",
+        "1"
+      ]
+    ]
+  },
+  "topic-8-4-2": {
+    "kind": "flow",
+    "title": "Connectivity can require moving information",
+    "caption": "On a three-site line only neighboring sites interact directly. To act on logical qubits A and C, swap A next to C, apply the gate, and restore the placement if needed.",
+    "rows": [
+      [
+        "Sites: A — B — C",
+        "SWAP first pair\nB — A — C",
+        "Gate on A and C",
+        "Optional SWAP back"
+      ]
+    ]
+  },
+  "topic-8-4-3": {
+    "kind": "flow",
+    "title": "A worst-case error budget",
+    "caption": "For ideal and implemented unitary gates with operator-norm error at most ε per gate, a telescoping bound gives total error at most mε. The bound is not a claim that all errors add with the same sign in a particular run.",
+    "rows": [
+      [
+        "\\(m = 100\\) gates",
+        "Each error \\(\\le 0.0001\\)",
+        "Total bound \\(\\le 0.01\\)"
+      ]
+    ]
+  },
+  "topic-9-1-1": {
+    "kind": "table",
+    "title": "Input value is not input length",
+    "caption": "Binary encoding uses logarithmically many bits. A cost proportional to the integer’s value can therefore be exponential in the number of input bits.",
+    "headers": [
+      "Value \\(N\\)",
+      "Binary encoding",
+      "Bit length"
+    ],
+    "rows": [
+      [
+        "7",
+        "111",
+        "3"
+      ],
+      [
+        "8",
+        "1000",
+        "4"
+      ],
+      [
+        "15",
+        "1111",
+        "4"
+      ],
+      [
+        "16",
+        "10000",
+        "5"
+      ]
+    ]
+  },
+  "topic-9-1-2": {
+    "kind": "table",
+    "title": "Asymptotic order and finite costs",
+    "caption": "The linear algorithm with a large constant eventually wins, but not for every input size. Big-O notation describes growth, not a complete timing prediction.",
+    "headers": [
+      "Input \\(n\\)",
+      "Cost \\(n^2\\)",
+      "Cost 1000n",
+      "Smaller cost"
+    ],
+    "rows": [
+      [
+        "10",
+        "100",
+        "10,000",
+        "\\(n^2\\)"
+      ],
+      [
+        "1000",
+        "1,000,000",
+        "1,000,000",
+        "Equal"
+      ],
+      [
+        "10,000",
+        "100,000,000",
+        "10,000,000",
+        "1000n"
+      ]
+    ]
+  },
+  "topic-9-1-3": {
+    "kind": "table",
+    "title": "Fewer queries can cost more gates",
+    "caption": "These totals count only the gates inside query calls. Preparation and other gates must still be added for a full comparison.",
+    "headers": [
+      "Implementation",
+      "Queries",
+      "Gates per query",
+      "Query gates"
+    ],
+    "rows": [
+      [
+        "A",
+        "5",
+        "100",
+        "500"
+      ],
+      [
+        "B",
+        "10",
+        "10",
+        "100"
+      ]
+    ]
+  },
+  "topic-9-2-1": {
+    "kind": "flow",
+    "title": "An efficient reduction transfers a solver",
+    "caption": "If task \\(A\\) reduces efficiently to task \\(B\\), an efficient solver for \\(B\\) would yield one for \\(A\\). The arrow describes converting instances, not proving that such a solver exists.",
+    "rows": [
+      [
+        "Instance of \\(A\\)",
+        "Efficient conversion",
+        "Instance of \\(B\\)",
+        "\\(B\\) solver \\(\\to\\) \\(A\\) answer"
+      ]
+    ]
+  },
+  "topic-9-2-2": {
+    "kind": "table",
+    "title": "Bounded error is a per-input requirement",
+    "caption": "Both classes concern polynomial-time decision procedures with a bounded error on every allowed input. The computational model differs.",
+    "headers": [
+      "Class",
+      "Model",
+      "Typical success guarantee"
+    ],
+    "rows": [
+      [
+        "BPP",
+        "Classical randomized",
+        "At least \\(2/3\\) on each input"
+      ],
+      [
+        "BQP",
+        "Quantum",
+        "At least \\(2/3\\) on each input"
+      ]
+    ]
+  },
+  "topic-9-2-3": {
+    "kind": "table",
+    "title": "Different tasks offer different structure",
+    "caption": "Factoring uses arithmetic structure; unstructured search assumes only oracle access to a predicate. A lower bound for the latter is not a lower bound for every structured problem.",
+    "headers": [
+      "Task",
+      "Information available",
+      "Quantum approach"
+    ],
+    "rows": [
+      [
+        "Factoring",
+        "Arithmetic on an integer",
+        "Use periodic structure"
+      ],
+      [
+        "Unstructured search",
+        "Predicate on candidate labels",
+        "Amplitude amplification"
+      ]
+    ]
+  },
+  "topic-9-3-1": {
+    "kind": "flow",
+    "title": "Two directions of a complexity argument",
+    "caption": "A construction proves that a task can be solved within a cost. A lower bound must cover every permitted algorithm in the stated model.",
+    "rows": [
+      [
+        "Exhibit one algorithm",
+        "Analyze its cost",
+        "Upper bound"
+      ],
+      [
+        "Consider every algorithm",
+        "Prove unavoidable cost",
+        "Lower bound"
+      ]
+    ]
+  },
+  "topic-9-3-2": {
+    "kind": "flow",
+    "title": "Search upper and lower bounds meet",
+    "caption": "For one marked item and constant success in the unstructured quantum query model, Grover’s \\(O(\\sqrt N)\\) upper bound and the \\(\\Omega(\\sqrt N)\\) lower bound give \\(\\Theta(\\sqrt N)\\) query complexity.",
+    "rows": [
+      [
+        "Grover construction",
+        "At most order \\(\\sqrt{N}\\) queries",
+        "Upper bound"
+      ],
+      [
+        "Any allowed quantum method",
+        "At least order \\(\\sqrt{N}\\) queries",
+        "Lower bound"
+      ]
+    ]
+  },
+  "topic-9-3-3": {
+    "kind": "flow",
+    "title": "Combine a model bound with a function bound",
+    "caption": "The query model limits acceptance degree to \\(2T\\). If approximating the requested function requires degree \\(d\\), then \\(2T\\ge d\\). The approximate-degree theorem is a separate ingredient.",
+    "rows": [
+      [
+        "\\(T\\) oracle calls",
+        "Acceptance degree \\(\\le 2T\\)",
+        "Required degree \\(\\ge d\\)",
+        "Therefore \\(T \\ge d/2\\)"
+      ]
+    ]
+  },
+  "topic-9-4-1": {
+    "kind": "flow",
+    "title": "Follow the costs around the algorithm",
+    "caption": "An advantage claim must include the access assumptions and success criterion. Expensive preparation or readout can dominate a reduction in oracle calls.",
+    "rows": [
+      [
+        "Encode / prepare",
+        "Queries + gates",
+        "Measure / verify",
+        "Compare total costs"
+      ]
+    ]
+  },
+  "topic-9-4-2": {
+    "kind": "table",
+    "title": "Three different limitations",
+    "caption": "A faster implementation does not turn an undecidable task into a decidable one, nor make all amplitudes available from a single measurement.",
+    "headers": [
+      "Question",
+      "Concern",
+      "Example"
+    ],
+    "rows": [
+      [
+        "Can it be computed?",
+        "Computability",
+        "General halting problem"
+      ],
+      [
+        "How much work?",
+        "Efficiency",
+        "Search query count"
+      ],
+      [
+        "What is observed?",
+        "Readout",
+        "One basis label per shot"
+      ]
+    ]
+  },
+  "topic-9-4-3": {
+    "kind": "flow",
+    "title": "Algorithmic structure and physical reliability",
+    "caption": "Period finding concerns making structure observable; error correction concerns protecting a computation from faults. A useful large computation needs both suitable algorithms and sufficiently reliable operations.",
+    "rows": [
+      [
+        "Period finding",
+        "Interference reveals structure",
+        "Algorithmic resource"
+      ],
+      [
+        "Error correction",
+        "Protect encoded information",
+        "Reliability resource"
+      ]
+    ]
+  },
+  "appendix-a": {
+    "kind": "table",
+    "title": "A stack remembers the unmatched prefix",
+    "caption": "Reading \\(aabb\\) pushes for each \\(a\\) and pops for each \\(b\\). The empty stack at the end certifies matching counts in this example; checking order is also required.",
+    "headers": [
+      "Read so far",
+      "Action",
+      "Stack height"
+    ],
+    "rows": [
+      [
+        "a",
+        "Push",
+        "1"
+      ],
+      [
+        "aa",
+        "Push",
+        "2"
+      ],
+      [
+        "aab",
+        "Pop",
+        "1"
+      ],
+      [
+        "aabb",
+        "Pop",
+        "0"
+      ]
+    ]
+  },
+  "appendix-b": {
+    "kind": "flow",
+    "title": "A derivation generates a string",
+    "caption": "Apply \\(S\\to aSb\\) twice, then \\(S\\to\\) empty string. This demonstrates generation of \\(aabb\\); it does not yet give a procedure for rejecting arbitrary strings.",
+    "rows": [
+      [
+        "\\(S\\)",
+        "aSb",
+        "aaSbb",
+        "aabb"
+      ]
+    ]
+  },
+  "appendix-c": {
+    "kind": "flow",
+    "title": "Use conjugation when normalizing",
+    "caption": "For the complex vector \\((3,4i)\\), the squared norm is \\(9+16=25\\). Dividing by five gives a unit vector; the imaginary coordinate contributes positively to its norm.",
+    "rows": [
+      [
+        "\\(v = (3,4i)^T\\)",
+        "\\(v^\\dagger v = 25\\)",
+        "\\(v / \\|v\\| = (3/5,4i/5)^T\\)"
+      ]
+    ]
+  },
+  "appendix-d": {
+    "kind": "table",
+    "title": "Different ensembles can yield the same density matrix",
+    "caption": "An equal mixture of \\(\\ket0\\) and \\(\\ket1\\) and an equal mixture of \\(\\ket+\\) and \\(\\ket-\\) both yield \\(I/2\\). No measurement on the qubit alone identifies which ensemble was used.",
+    "headers": [
+      "Preparation ensemble",
+      "Density matrix",
+      "Computational outcomes"
+    ],
+    "rows": [
+      [
+        "Half \\(\\ket0\\), half \\(\\ket1\\)",
+        "\\(I/2\\)",
+        "0 and 1 equally likely"
+      ],
+      [
+        "Half \\(\\ket{+}\\), half \\(\\ket{-}\\)",
+        "\\(I/2\\)",
+        "0 and 1 equally likely"
+      ]
+    ]
+  },
+  "appendix-e": {
+    "kind": "flow",
+    "title": "Queries can increase polynomial degree",
+    "caption": "Starting from amplitudes independent of hidden input bits, each Boolean query raises their degree by at most one. Squaring magnitudes gives the factor of two for acceptance probabilities.",
+    "rows": [
+      [
+        "Input-independent start\ndegree 0",
+        "After \\(T\\) queries\namplitude degree \\(\\le T\\)",
+        "Acceptance probability\ndegree \\(\\le 2T\\)"
+      ]
+    ]
+  }
+}

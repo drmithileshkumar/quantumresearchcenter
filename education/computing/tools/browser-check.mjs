@@ -4,7 +4,8 @@ import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
-const root=fileURLToPath(new URL('..',import.meta.url));
+const root=process.env.BOOK_ROOT||fileURLToPath(new URL('..',import.meta.url));
+const sourceRoot=fileURLToPath(new URL('..',import.meta.url));
 const profile=await mkdtemp(join(tmpdir(),'qc-book-browser-'));
 const chrome=spawn(process.env.CHROME||'google-chrome',['--headless','--no-sandbox','--disable-gpu','--remote-debugging-port=0','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));let ws;let serial=0;const pending=new Map();const errors=[];
@@ -22,8 +23,12 @@ try {
  await send('Page.enable');await send('Runtime.enable');await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
  await navigate('01-logic-computability');
  await assert(`document.querySelectorAll('.book-part').length===4&&document.querySelectorAll('.reading-topic').length===11`,'chapter structure');
- await evaluate(`Promise.all(Array.from(document.querySelectorAll('.book-drawing img')).map(i=>{i.loading='eager';return i.decode()}))`);
- await assert(`document.querySelectorAll('.book-drawing img').length===11&&Array.from(document.querySelectorAll('.book-drawing img')).every(i=>i.complete&&i.naturalWidth>0)`,'chapter concept diagrams loaded');
+ await assert(`document.querySelectorAll('.book-drawing svg.book-figure').length===11&&[...document.querySelectorAll('.book-drawing svg.book-figure')].every(s=>s.getBoundingClientRect().width>0)`,'chapter concept diagrams loaded');
+ await assert(`document.querySelectorAll('.problem-solution').length===33&&[...document.querySelectorAll('.problem-solution')].every(d=>!d.open&&!d.querySelector('p').checkVisibility())`, 'subsection solutions are initially hidden');
+ await assert(`(()=>{const d=document.querySelector('.problem-solution');d.querySelector('summary').click();return d.open&&d.querySelector('p').checkVisibility()&&getComputedStyle(d.querySelector('.solution-closed')).display==='none'&&[...document.querySelectorAll('.problem-solution')].filter(x=>x.open).length===1})()`, 'one solution opens independently');
+ await screenshot('book-problem-solution','#topic-1-1-1 .probing-question');
+ await assert(`(()=>{const d=document.querySelector('.problem-solution');d.querySelector('summary').click();return !d.open})()`, 'solution closes again');
+ await screenshot('book-probing-question','#topic-1-1-2 .probing-question');
  await screenshot('book-turing-diagram','#figure-logic-turing-machine');
  await screenshot('book-halting-diagram','#figure-logic-halting-contradiction');
  await screenshot('book-rewrite-opening','#section-1-1');
@@ -42,14 +47,44 @@ try {
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  await navigate('index');
  await assert(`(()=>{document.querySelector('#menu-toggle').click();return document.body.classList.contains('contents-open')&&!document.querySelector('#book-navigation').inert})()`, 'mobile contents opens');
- await assert(`(()=>{document.querySelector('#nav-scrim').click();return !document.body.classList.contains('contents-open')&&document.querySelector('#book-navigation').inert})()`, 'mobile contents closes and leaves tab order');
+ await assert(`(()=>{document.querySelector('#nav-scrim').click();return !document.body.classList.contains('contents-open')&&document.querySelector('#book-navigation').inert&&getComputedStyle(document.querySelector('#book-navigation')).visibility==='hidden'})()`, 'mobile contents closes and leaves tab order');
  await assert(`(()=>{document.querySelector('#search-open').click();const i=document.querySelector('#book-search');i.value='amplitude';i.dispatchEvent(new Event('input'));const ok=document.querySelectorAll('#search-results a').length>0;document.querySelector('#search-close').click();return ok})()`, 'book search returns results');
  await assert(`(()=>{const n=parseFloat(getComputedStyle(document.body).fontSize);document.querySelector('#text-larger').click();return parseFloat(getComputedStyle(document.body).fontSize)>n})()`, 'reading font size increases');
  await screenshot('book-mobile');
- for(const chapter of JSON.parse(await readFile(join(root,'chapters.json'),'utf8')).map(c=>c[0])){await navigate(chapter);await assert(`document.documentElement.scrollWidth<=innerWidth+2&&!document.querySelector('[data-mml-node="merror"]')`,chapter+' at 390px without page overflow or math errors')}
+ for(const chapter of JSON.parse(await readFile(join(sourceRoot,'chapters.json'),'utf8')).map(c=>c[0])){
+  await navigate(chapter);
+  await evaluate(`Promise.all([...document.querySelectorAll('.reading-topic img')].map(img=>{img.loading='eager';return img.decode()}))`);
+  await assert(`document.documentElement.scrollWidth<=innerWidth+2&&!document.querySelector('[data-mml-node="merror"]')`,chapter+' at 390px without page overflow or math errors');
+  await assert(`!document.querySelector('svg text[data-tex],svg text[data-math]')&&document.querySelectorAll('svg.book-figure .diagram-math').length>0`,chapter+' typesets every figure label');
+  await assert(`[...document.querySelectorAll('.reading-topic')].every(s=>s.querySelector('figure,svg,img')&&s.querySelectorAll('.probing-question > ol > li').length===3)`,chapter+' has illustrations and three questions in every subsection');
+ }
+ await navigate('03-amplitudes-interference');
+ await screenshot('book-mobile-phase-illustration','#topic-3-4-2');
+
  await navigate('07-amplitude-amplification');
  await screenshot('book-rewrite-mobile-circuit','#topic-7-1-3');
  await evaluate(`Promise.race([Promise.all(Array.from(document.images).map(i=>{i.loading='eager';return i.decode().catch(()=>{})})),new Promise((_,reject)=>setTimeout(()=>reject(Error('Image loading timed out')),5000))])`);
  await assert(`Array.from(document.images).every(i=>i.complete&&i.naturalWidth>0)`,'circuit drawings loaded');
+ await navigate('glossary');
+ await assert(`(()=>{const q=document.querySelector('#glossary-query');q.value='phase';q.dispatchEvent(new Event('input'));return document.querySelectorAll('.glossary-entry:not([hidden])').length>=3&&document.querySelectorAll('.glossary-entry[hidden]').length>0})()`, 'glossary filters definitions');
+ await screenshot('book-glossary');
+ await navigate('09-complexity-advantage');
+ await assert(`document.querySelectorAll('.exercise').length===3&&document.querySelectorAll('.exercise-hint').length===6`, 'chapter has staged practice');
+ await assert(`(()=>{const e=document.querySelector('.exercise-hint');e.querySelector('summary').click();return e.open&&!document.querySelector('.exercise-solution').open})()`, 'hint opens without revealing solution');
+ await screenshot('book-practice','#practice');
+ await assert(`(()=>{const before=[...document.querySelectorAll('main details')].map(e=>e.open);window.dispatchEvent(new Event('beforeprint'));const expanded=[...document.querySelectorAll('main details')].every(e=>e.open);window.dispatchEvent(new Event('afterprint'));return expanded&&[...document.querySelectorAll('main details')].every((e,i)=>e.open===before[i])})()`, 'printing expands explanations and restores disclosure state');
+ await navigate('study-guide');
+ await assert(`document.documentElement.scrollWidth<=innerWidth+2`, 'study guide fits mobile');
+ await assert(`(()=>{localStorage.setItem('qc-book-position','test');document.querySelector('#clear-reading-data').click();return !localStorage.getItem('qc-book-position')})()`, 'reading preferences can be cleared');
+ await navigate('appendices');
+ await evaluate(`localStorage.setItem('qc-book-position',JSON.stringify({url:document.body.dataset.chapter+'.html#'+document.querySelector('.book-section').id}))`);
+ await navigate('index');
+ await assert(`!document.querySelector('#resume-reading').hidden&&document.querySelector('#resume-reading').getAttribute('href').startsWith('appendices.html#')`, 'resume includes appendices');
+ await send('Emulation.setScriptExecutionDisabled',{value:true});
+ await send('Page.navigate',{url:pathToFileURL(join(root,'01-logic-computability.html')).href});
+ await sleep(500);
+ await assert(`!document.documentElement.classList.contains('book-js')&&getComputedStyle(document.querySelector('#book-navigation')).transform==='none'&&document.querySelectorAll('.exercise-solution').length===3`, 'mobile navigation and solutions remain available without JavaScript');
+ await assert(`(()=>{const d=document.querySelector('.problem-solution');if(!d||d.open)return false;d.querySelector('summary').click();return d.open})()`, 'subsection solution opens without JavaScript');
+ await send('Emulation.setScriptExecutionDisabled',{value:false});
  if(errors.length)throw Error(errors.join('; '));console.log('All browser smoke checks passed. Screenshots saved in '+tmpdir());
 }finally{ws?.close();chrome.kill();await sleep(400);await rm(profile,{recursive:true,force:true,maxRetries:3}).catch(()=>{})}

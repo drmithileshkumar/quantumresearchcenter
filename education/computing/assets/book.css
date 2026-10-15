@@ -97,11 +97,11 @@ body.ebook{margin:0;background:white;color:var(--ink);font-family:var(--reading-
 .topic-number{font:12px var(--sans);color:var(--muted);margin-right:8px;white-space:nowrap}
 .book-drawing{margin:1.7em 0 2em;padding:16px;border:1px solid var(--line);border-radius:5px;background:#f8faf8}
 .drawing-scroll{overflow-x:auto;max-width:100%;scrollbar-width:thin}
-.drawing-scroll img{display:block;width:100%;min-width:540px;height:auto;max-width:none}
+.drawing-scroll img,.drawing-scroll svg.book-figure{display:block;width:100%;min-width:540px;height:auto;max-width:none}
 .ebook .book-drawing figcaption{font:13px/1.6 var(--sans);color:var(--muted);margin-top:12px}
 .ebook .source-note{font:13px/1.6 var(--sans);color:var(--muted);margin:1.3em 0}
 .revised-book .book-exposition p{margin-bottom:1em}
-@media print{.drawing-scroll{overflow:visible}.drawing-scroll img{min-width:0}.book-drawing{break-inside:avoid}}
+@media print{.drawing-scroll{overflow:visible}.drawing-scroll img,.drawing-scroll svg.book-figure{min-width:0}.book-drawing{break-inside:avoid}}
 /* Heading levels: navy chapters, teal sections, and plum subsections. */
 :root{--chapter-heading:#233f73;--section-heading:#17665e;--subsection-heading:#79416b}
 .ebook .chapter-header h1{color:var(--chapter-heading)}

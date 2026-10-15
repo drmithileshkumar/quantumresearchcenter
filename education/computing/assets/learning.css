@@ -1,0 +1,58 @@
+/* Shared learning aids. All core reading content works without scripting. */
+.ebook .learning-guide,.ebook .prediction,.ebook .prediction-answer,.ebook .optional-note {border-left:3px solid var(--accent,#246593);background:var(--surface,#f5f7f9);padding:1rem 1.25rem;margin:1.5rem 0 2rem;}
+.ebook summary {cursor:pointer;line-height:1.5;}
+.ebook .learning-guide h3 {font-size:1.05em;margin:1.2em 0 .4em;}
+.ebook .chapter-practice {margin:3rem 0;}
+.ebook .exercise {padding:1rem 0 1.5rem;border-top:1px solid #cbd3dc;scroll-margin-top:5rem;}
+.ebook .exercise details {margin:.7rem 0;padding:.65rem 1rem;border:1px solid #cbd3dc;border-radius:4px;}
+.ebook .exercise details p {margin:.7rem 0 .2rem;white-space:pre-line;}
+.ebook .chapter-bridge {margin:2rem 0;}
+.ebook .glossary-term {text-decoration:underline dotted;text-underline-offset:.2em;}
+.ebook .book-resources {border-top:1px solid #cbd3dc;margin-top:1rem;padding:1rem 0;display:grid;gap:.6rem;}
+.ebook .glossary-entry {border-bottom:1px solid #cbd3dc;padding:1.2rem 0;scroll-margin-top:5rem;}
+.ebook .glossary-entry dt {font-weight:700;font-size:1.2em;}
+.ebook .glossary-entry dd {margin-left:0;}
+.ebook .glossary-filter input {display:block;width:100%;max-width:32rem;padding:.7rem;font:inherit;border:1px solid #8493a3;border-radius:4px;}
+.ebook [hidden] {display:none!important;}
+.ebook :focus-visible {outline:3px solid #246593;outline-offset:4px;}
+.ebook #menu-toggle,.ebook #search-open,.ebook #text-smaller,.ebook #text-larger {visibility:hidden;}
+.book-js .ebook #menu-toggle,.book-js .ebook #search-open,.book-js .ebook #text-smaller,.book-js .ebook #text-larger {visibility:visible;}
+@media(max-width:800px){
+ .book-js .ebook:not(.contents-open) #book-navigation {visibility:hidden;}
+ .book-js .ebook.contents-open #book-navigation {visibility:visible;}
+ html:not(.book-js) .ebook #book-navigation {position:relative;transform:none;inset:auto;width:100%;max-height:none;visibility:visible;}
+ .ebook #print-chapter {display:none;}
+ .ebook .reading-tools {gap:3px;}
+}
+@media(prefers-reduced-motion:reduce){.ebook * {scroll-behavior:auto!important;animation:none!important;transition:none!important;}}
+@page {size:auto;margin:18mm;}
+@media print {
+ .ebook .learning-guide,.ebook .prediction,.ebook .prediction-answer,.ebook .optional-note {background:white;border-color:#777;}
+ .ebook .exercise,.ebook .glossary-entry {break-inside:avoid;}
+ .ebook .exercise details,.ebook .learning-guide {break-inside:auto;}
+ .ebook .glossary-filter,.ebook #clear-reading-data {display:none!important;}
+ .ebook .glossary-term {color:inherit;text-decoration:none;}
+ .ebook details>summary {list-style:none;font-weight:bold;}
+ .ebook details::details-content {content-visibility:visible;}
+ .ebook .chapter-practice,.ebook .glossary-list {overflow:visible;}
+}
+
+ .ebook .probing-question {margin:1.6rem 0 .4rem;padding:.2rem 0 .2rem 1.1rem;border-left:2px solid #aab9c5;}
+.ebook .probing-question .question-label {font-family:var(--sans);font-size:1em;font-weight:600;color:#425a6c;margin:0 0 .7rem;}
+.ebook .probing-question ol {margin:0;padding-left:1.5em;list-style:decimal;}
+.ebook .probing-question li {margin:0 0 .8rem;padding-left:.25em;}
+.ebook .probing-question li:last-child {margin-bottom:0;}
+@media print {.ebook .probing-question {break-inside:auto;} .ebook .probing-question li {break-inside:avoid;}}
+
+.ebook .probing-question .problem-text {margin:0 0 .65rem;}
+.ebook .problem-solution {margin:.65rem 0 1.25rem;padding:.55rem .8rem;border:1px solid #cbd3dc;border-radius:4px;}
+.ebook .problem-solution summary {font-family:var(--sans);font-size:.85em;color:#425a6c;}
+.ebook .problem-solution p {margin:.75rem 0 0;}
+.ebook .problem-solution .solution-open {display:none;}
+.ebook .problem-solution[open] .solution-open {display:inline;}
+.ebook .problem-solution[open] .solution-closed {display:none;}
+@media print {
+ .ebook .probing-question li {break-inside:auto;}
+ .ebook .problem-solution summary {display:none;}
+ .ebook .problem-solution {border:0;border-left:2px solid #aab9c5;}
+}

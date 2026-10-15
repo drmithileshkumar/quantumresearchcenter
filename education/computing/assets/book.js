@@ -1,5 +1,6 @@
 /* Navigation and experiment lifecycle for a continuously scrolling book. */
 (() => {
+  document.documentElement.classList.add('book-js');
   const storage={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
   let size=Number(storage.get('qc-book-size'))||17;
   function setSize(n){size=Math.max(16,Math.min(26,n));document.documentElement.style.setProperty('--book-text-size',size+'px');storage.set('qc-book-size',size);document.querySelector('#text-smaller').disabled=size===16;document.querySelector('#text-larger').disabled=size===26;}
@@ -26,12 +27,13 @@
   });
   const chapter=document.body.dataset.chapter,sections=[...document.querySelectorAll('.book-section')];
   const resume=document.querySelector('#resume-reading');
-  if(resume){try{const saved=JSON.parse(storage.get('qc-book-position'));if(saved&&/^[0-6][0-9]?-[a-z-]+\.html#[a-z0-9-]+$/.test(saved.url)){resume.href=saved.url;resume.hidden=false}}catch{}}
+  if(resume){try{const saved=JSON.parse(storage.get('qc-book-position'));if(saved&&[...sidebar.querySelectorAll('a[data-topic]')].some(a=>a.getAttribute('href')===saved.url)){resume.href=saved.url;resume.hidden=false}}catch{}}
   const links=[...sidebar.querySelectorAll(`a[href^="${chapter}.html#"]`)];let selected=null,scheduled=false;
   function track(){scheduled=false;if(!sections.length)return;let current=sections[0];for(const s of sections){if(s.getBoundingClientRect().top<=150)current=s;else break}if(current===selected)return;selected=current;links.forEach(a=>{const active=a.dataset.topic===current.id;if(active){a.setAttribute('aria-current','location');const r=a.getBoundingClientRect(),nr=sidebar.getBoundingClientRect();if(r.bottom>nr.bottom-30)sidebar.scrollTop+=r.bottom-nr.bottom+45;else if(r.top<nr.top+15)sidebar.scrollTop+=r.top-nr.top-30;}else a.removeAttribute('aria-current')});storage.set('qc-book-position',JSON.stringify({url:chapter+'.html#'+current.id}));}
   addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(track)}},{passive:true});track();
   // Reuse the demos' pause-on-exit hooks without hiding any reading content.
   if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{entries.forEach(({target,isIntersecting})=>target.dispatchEvent(new CustomEvent(isIntersecting?'slideenter':'slideleave',{bubbles:true})))},{rootMargin:'0px',threshold:0});sections.filter(s=>s.querySelector('button,input,select')).forEach(s=>observer.observe(s));}
-  function followHash(){if(!location.hash)return;const id=decodeURIComponent(location.hash.slice(1));const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'instant',block:'start'});track()}
+  function followHash(){if(!location.hash)return;let id;try{id=decodeURIComponent(location.hash.slice(1))}catch{return}const el=document.getElementById(id);if(el){for(let p=el.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;el.scrollIntoView({behavior:'instant',block:'start'});}track()}
+  addEventListener('hashchange',followHash);
   if(window.MathJax?.startup?.promise)MathJax.startup.promise.then(followHash);else addEventListener('load',followHash);
 })();

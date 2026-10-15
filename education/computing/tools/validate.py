@@ -17,6 +17,17 @@ for name,s in pages.items():
   if u.fragment and target.suffix=='.html':
    doc=pages.get(target.name)
    if doc and not doc.find(id=unquote(u.fragment)):errors.append(f'{name}: missing anchor {value}')
+ for section in s.select('.reading-topic'):
+  if not section.select('figure,svg,img'):errors.append(f'{name}: missing illustration for {section["id"]}')
+  questions=section.select('.probing-question')
+  if len(questions)!=1 or len(questions[0].select(':scope > ol > li'))!=3:
+   errors.append(f'{name}: expected three questions for {section["id"]}')
+  for problem in section.select('.probing-question > ol > li'):
+   answers=problem.select('details.problem-solution')
+   if len(answers)!=1 or answers[0].has_attr('open') or not answers[0].select_one('p'):
+    errors.append(f'{name}: missing or initially exposed solution in {problem.get("id")}')
+  for img in section.select('img'):
+   if not img.get('alt','').strip():errors.append(f'{name}: missing figure description for {section["id"]}')
  if not s.select_one('main h1'):errors.append(f'{name}: no page heading')
  if s.select_one('script[src$="/slides.js"]'):errors.append(f'{name}: presentation navigation loaded')
 print(f'Checked {len(pages)} pages and their local links/assets.')

@@ -1,0 +1,562 @@
+{
+  "topic-1-1-1": {
+    "foundation": "What is an axiom, and what is a rule of inference?",
+    "application": "Given \\(P\\) and “\\(P\\) implies \\(Q\\),” write the conclusion and identify the rule used.",
+    "challenge": "If a machine accepts every step of a proof, what has it established about the conclusion—and what has it left unsettled about the axioms? Where does the responsibility for choosing those axioms remain?"
+  },
+  "topic-1-1-2": {
+    "foundation": "What does it mean for a formal system to be consistent?",
+    "application": "A system proves \\(P\\) and also proves “not \\(P\\).” Which requirement of Hilbert’s program has failed?",
+    "challenge": "Suppose we justify one system of rules by reasoning in another. What must we then trust about the second system? Why did Hilbert seek a particularly restricted form of reasoning for this justification?"
+  },
+  "topic-1-1-3": {
+    "foundation": "Does checking a supplied proof require finding that proof first?",
+    "application": "A checker rejects one proposed proof. Explain why this does not show that the statement has no proof.",
+    "challenge": "Imagine searching simultaneously for a proof of a statement and a proof of its negation. Under what assumptions would this become a decision procedure? What happens if neither proof exists?"
+  },
+  "topic-1-2-1": {
+    "foundation": "When does Euclid’s algorithm stop?",
+    "application": "Starting from (18,12), write the next two pairs and give the greatest common divisor.",
+    "challenge": "Euclid’s algorithm preserves the answer while decreasing the second entry. Why are both facts needed? Can you describe a procedure that preserves the right answer at every step but never reaches it?"
+  },
+  "topic-1-2-2": {
+    "foundation": "Name the three parts of a Turing-machine configuration.",
+    "application": "Two machines have the same tape and control state but different head positions. Explain why their next steps could differ.",
+    "challenge": "Two executions have the same control state but different tape contents. Must their futures agree? What information must a configuration include before it really determines the next step?"
+  },
+  "topic-1-2-3": {
+    "foundation": "What does a universal Turing machine simulate?",
+    "application": "To simulate a particular program on a particular input, what two pieces of information must the universal machine receive?",
+    "challenge": "A universal machine treats another machine’s instructions as input. What does this change about the boundary between a program and its data? Does the ability to simulate every machine imply the ability to predict which simulations finish?"
+  },
+  "topic-1-3-1": {
+    "foundation": "Which informal idea does the Church–Turing thesis connect to Turing machines?",
+    "application": "A new programming language can be simulated by a Turing machine. Does this establish that it computes more functions than a Turing machine? Explain.",
+    "challenge": "Why does agreement between several formal models support the Church–Turing thesis without proving it in the same way as a theorem about those models? What would a proposed counterexample have to explain?"
+  },
+  "topic-1-3-2": {
+    "foundation": "What two possible answers must a halting decider give?",
+    "application": "A program immediately stops. Another repeats an instruction forever. Can you decide these two cases without solving the general halting problem?",
+    "challenge": "The diagonal program behaves against the halting predictor when given its own description. Why does this produce a contradiction for a supposedly universal predictor, but not for a tool that correctly analyzes only some programs?"
+  },
+  "topic-1-3-3": {
+    "foundation": "Does “unprovable in this theory” mean “disproved in this theory”?",
+    "application": "A sentence has neither a proof nor a disproof in a theory. State what would change if it were added as an axiom.",
+    "challenge": "If a sentence is undecidable in one formal theory, could adding it as an axiom settle it there? Why would that not establish a general algorithm for deciding every sentence?"
+  },
+  "topic-1-4-1": {
+    "foundation": "What does a deterministic transition rule specify?",
+    "application": "Draw \\(A\\to C\\) and \\(B\\to C\\). Is this rule deterministic on \\(A\\) and \\(B\\)? Can \\(C\\) identify its predecessor?",
+    "challenge": "A deterministic rule fixes one future for each present state. Why need it not fix one past? Draw a transition pattern that separates these two requirements."
+  },
+  "topic-1-4-2": {
+    "foundation": "What information is lost when both 0 and 1 are reset to 0?",
+    "application": "Compare returning only \\(a+b\\) with returning \\((a,b,a+b)\\). Which output allows you to recover both inputs?",
+    "challenge": "If two inputs lead to the same answer, has the computation necessarily erased information? How does your answer depend on whether you inspect only the output or the entire machine state?"
+  },
+  "topic-2-1-1": {
+    "foundation": "How many different strings can two bits represent?",
+    "application": "Write the integers zero through three using two-bit binary strings.",
+    "challenge": "The same bit string can represent an integer, a character, or an instruction. Which part of its meaning belongs to the bits, and which part belongs to the encoding convention? How could changing the encoding change the cost of a task?"
+  },
+  "topic-2-1-2": {
+    "foundation": "What values can a Boolean variable take?",
+    "application": "List all input pairs for a two-input AND gate and give their outputs.",
+    "challenge": "A truth table specifies every output of a Boolean function. Why does possessing this complete description not necessarily give an efficient way to compute the function as the number of inputs grows?"
+  },
+  "topic-2-1-3": {
+    "foundation": "What are \\(1+1\\) and \\(1\\times1\\) in arithmetic modulo two?",
+    "application": "Evaluate \\(x+y+xy\\) modulo two for all four bit pairs. Which Boolean operation does it describe?",
+    "challenge": "Why can \\(x^2\\) be replaced by \\(x\\) for Boolean inputs even though these are different polynomials over unrestricted numbers? What does this tell you about the role of the allowed input domain in an algebraic representation?"
+  },
+  "topic-2-2-1": {
+    "foundation": "What does a wire carry between Boolean gates?",
+    "application": "For \\(z=(a \\text{ AND } b) \\text{ XOR } c\\), identify the intermediate value and draw the two operations in order.",
+    "challenge": "Two algebraically equivalent expressions can produce circuits of different sizes. Where can sharing an intermediate result save gates, and what extra information about a computation does a circuit reveal beyond its truth table?"
+  },
+  "topic-2-2-2": {
+    "foundation": "When does NAND output zero?",
+    "application": "Use \\(\\mathrm{NAND}(x,x)\\) to compute the output for \\(x=0\\) and \\(x=1\\). Which operation have you built?",
+    "challenge": "NAND can express every Boolean function. Does that make it the best gate for every implementation? Separate the claim that something can be built from the claim that it can be built economically."
+  },
+  "topic-2-2-3": {
+    "foundation": "Can you always recover both AND inputs from its output?",
+    "application": "List the input pairs that give AND output zero. Use the list to explain the loss of information.",
+    "challenge": "An AND output of one identifies its input, while an output of zero does not. Why is the gate still classified as irreversible? Is reversibility a property of one observed run or of the whole allowed map?"
+  },
+  "topic-2-3-1": {
+    "foundation": "Under the stated conditions, what happens to Landauer’s minimum erasure cost when temperature increases?",
+    "application": "Compare erasing two independent, equally likely bits with erasing one at the same temperature. How do their minimum costs compare?",
+    "challenge": "Erasing a known zero and erasing an unknown bit can leave the same final register value. What differs about the information being discarded? Why must a physical claim about erasure specify the initial situation?"
+  },
+  "topic-2-3-2": {
+    "foundation": "Does logical reversibility alone guarantee that a physical device produces no heat?",
+    "application": "A gate’s truth table is reversible, but its implementation dissipates energy. Explain why these statements do not contradict each other.",
+    "challenge": "Could a logically reversible circuit still dissipate substantial energy in its physical implementation? What does knowing its truth table tell you, and what physical details does that table leave out?"
+  },
+  "topic-2-3-3": {
+    "foundation": "Which register is preserved in \\((x,t)\\to(x,t \\text{ XOR } f(x))\\)?",
+    "application": "Set \\(f(0)=1\\) and start with \\((x,t)=(0,0)\\). Apply the update twice. What returns to its original value?",
+    "challenge": "A reversible embedding retains the input while updating a target bit. Has it made the original many-to-one function invertible, or changed what counts as the full output? Explain why this distinction matters."
+  },
+  "topic-2-4-1": {
+    "foundation": "In a controlled-NOT gate, which bit determines whether the target flips?",
+    "application": "Apply CNOT to \\(00\\), \\(01\\), \\(10\\), and \\(11\\), taking the first bit as control.",
+    "challenge": "A controlled gate uses one bit to determine what happens to another while preserving the control. Why is preserving the control helpful when reconstructing the past? Would merely knowing that a conditional instruction was executed be enough?"
+  },
+  "topic-2-4-2": {
+    "foundation": "How many control bits does a Toffoli gate have?",
+    "application": "Apply Toffoli to \\(110\\) and \\(100\\), with the last bit as target. Explain why only one target flips.",
+    "challenge": "CNOT and Toffoli are both reversible, but Toffoli can write the AND of two inputs into a blank target. What additional dependence on the inputs does Toffoli introduce? Why does reversibility alone not determine a gate’s computational usefulness?"
+  },
+  "topic-2-4-3": {
+    "foundation": "What is temporary workspace used for?",
+    "application": "Put these steps in order: reverse the computation, compute the result, copy the basis-state result into a clean output.",
+    "challenge": "If a computation retains every intermediate value, it can preserve its history but exhaust its workspace. How does computing, recording the result, and running backward avoid keeping that history forever? What information remains at the end?"
+  },
+  "topic-3-1-1": {
+    "foundation": "What must the probabilities of all possible outcomes sum to?",
+    "application": "A device produces 0 with probability 0.7. What is the probability of 1 if these are its only outcomes?",
+    "challenge": "A fair coin can produce ten heads in a row. What would such a record tell you about the claim that the coin is fair? Why can a probability model be tested by frequencies without requiring every finite sample to match its probabilities?"
+  },
+  "topic-3-1-2": {
+    "foundation": "How do you calculate the probability of a route with two successive conditional steps?",
+    "application": "A route takes its first step with probability \\(1/2\\) and its second with conditional probability \\(1/3\\). Calculate its probability.",
+    "challenge": "Two different routes lead to the same final outcome. When is adding their route probabilities justified? What assumptions about the routes and their conditional weights are hidden in that calculation?"
+  },
+  "topic-3-1-3": {
+    "foundation": "Does a nondeterministic choice specify probabilities?",
+    "application": "A random procedure chooses uniformly among eight paths, one successful. Find its success probability and compare it with the statement “a successful path exists.”",
+    "challenge": "A nondeterministic description says that a successful path exists. A probabilistic procedure must actually reach one. Why does the first statement alone give no guarantee of a useful success probability?"
+  },
+  "topic-3-2-1": {
+    "foundation": "What state does \\(H\\) produce from \\(\\ket0\\)?",
+    "application": "Use \\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\) to calculate the probabilities of measuring 0 and 1.",
+    "challenge": "One use of a Hadamard gate gives equal outcome probabilities from either basis input. If you retained only those probabilities, what prediction would you make for two uses? Which information would your description have lost?"
+  },
+  "topic-3-2-2": {
+    "foundation": "Which transformation acts first in the matrix product BA applied to a column vector?",
+    "application": "Apply \\(H\\) to \\((\\ket0+\\ket1)/\\sqrt2\\) using the two basis-state rules. Combine the coefficients of each basis state.",
+    "challenge": "Why does composing two quantum transformations require their amplitudes rather than just their one-step outcome probabilities? Use the two-Hadamard example to locate exactly where a probability-only calculation fails."
+  },
+  "topic-3-2-3": {
+    "foundation": "How do you obtain probability from an amplitude?",
+    "application": "Calculate the probabilities associated with amplitudes \\(1/2\\) and \\(-1/2\\). Are they different?",
+    "challenge": "Both \\(+a\\) and \\(-a\\) give the same probability when considered alone. In what sense can their difference still be physically meaningful? What additional operation would allow the difference to affect an observation?"
+  },
+  "topic-3-3-1": {
+    "foundation": "Do amplitudes add or multiply along successive steps of one route?",
+    "application": "Two coherent routes contribute \\(1/2\\) and \\(1/2\\) to the same outcome. Add them and calculate the resulting probability.",
+    "challenge": "Why do amplitudes multiply along a route but add across coherent routes? Trace two routes to one output and identify the point where taking squared magnitudes too early would change the prediction."
+  },
+  "topic-3-3-2": {
+    "foundation": "What is destructive interference?",
+    "application": "Two coherent contributions to an outcome are \\(1/2\\) and \\(-1/2\\). Calculate their total amplitude and the outcome probability.",
+    "challenge": "If adding a second route makes an outcome less likely, which assumption behind the classical picture of mutually exclusive routes has failed? Does destructive interference mean that a negative probability was ever present?"
+  },
+  "topic-3-3-3": {
+    "foundation": "Can a path record matter even if nobody reads it?",
+    "application": "One record is identical for both paths; another perfectly identifies the path. Which one preserves the possibility of interference between the paths?",
+    "challenge": "Why can a path record suppress interference even when no person reads it? Compare a record that distinguishes the paths perfectly with one that is identical for both paths."
+  },
+  "topic-3-4-1": {
+    "foundation": "What is the difference between global and relative phase?",
+    "application": "Compare \\((\\ket0+\\ket1)/\\sqrt2\\), \\(-(\\ket0+\\ket1)/\\sqrt2\\), and \\((\\ket0-\\ket1)/\\sqrt2\\). Which pair differs only by global phase?",
+    "challenge": "A phase factor on an entire state is unobservable, yet a phase factor on one component can matter. How does the second operation change a relation within the state that the first leaves unchanged?"
+  },
+  "topic-3-4-2": {
+    "foundation": "What is the squared magnitude of \\(i\\)?",
+    "application": "For \\((\\ket0+i\\ket1)/\\sqrt2\\), calculate the two computational-basis probabilities. Compare them with those of \\(\\ket+\\).",
+    "challenge": "What intermediate states become available when relative phase varies continuously instead of being restricted to a plus or minus sign? How could a later interference experiment distinguish those states?"
+  },
+  "topic-3-4-3": {
+    "foundation": "What do the entries of a state vector represent?",
+    "application": "Multiply the matrix \\(X\\), which swaps the two coordinates, by \\((a,b)^T\\). Write the resulting state.",
+    "challenge": "A state vector and a matrix depend on a choice of basis. Which predictions should remain unchanged if both are expressed consistently in a different basis? Why would changing just one give misleading results?"
+  },
+  "topic-4-1-1": {
+    "foundation": "What are the coordinate vectors of \\(\\ket0\\) and \\(\\ket1\\) in the computational basis?",
+    "application": "Write \\(3\\ket0+4\\ket1\\) as a column vector. Which coordinate belongs to each basis vector?",
+    "challenge": "If two people write different coordinate vectors for the same state in different bases, are they making different physical claims? What must you know before comparing their lists of amplitudes?"
+  },
+  "topic-4-1-2": {
+    "foundation": "What extra operation distinguishes a complex inner product from an ordinary coordinate-wise product?",
+    "application": "Calculate the squared norm of \\((1,i)^T\\) by conjugating the first vector before multiplying.",
+    "challenge": "Why is complex conjugation necessary in the inner product? Test what would happen to the proposed squared length of the one-component vector \\(i\\) if conjugation were omitted."
+  },
+  "topic-4-1-3": {
+    "foundation": "What are \\(\\ket+\\) and \\(\\ket-\\) in the computational basis?",
+    "application": "Add the expressions for \\(\\ket+\\) and \\(\\ket-\\) to write \\(\\ket0\\) in that basis.",
+    "challenge": "Writing a state in a new basis and applying a gate can use similar matrix calculations. How would you distinguish a change in description from a physical change when predicting a fixed measurement?"
+  },
+  "topic-4-2-1": {
+    "foundation": "What is the required norm of a pure-state vector?",
+    "application": "Normalize \\(3\\ket0+4\\ket1\\) and check that the resulting measurement probabilities sum to one.",
+    "challenge": "A vector and twice that vector point in the same direction. Why cannot both be used directly as normalized state vectors? Which part of the vector describes the state, and what role does normalization play in assigning probabilities?"
+  },
+  "topic-4-2-2": {
+    "foundation": "What does a computational-basis measurement return?",
+    "application": "For \\((\\sqrt3/2)\\ket0+(1/2)\\ket1\\), calculate each outcome probability and state the conditional state after outcome 1.",
+    "challenge": "A measurement can have a multidimensional outcome subspace. Does observing its outcome determine a unique final vector? What information about the initial state can survive inside that subspace?"
+  },
+  "topic-4-2-3": {
+    "foundation": "What does “independently prepared copies” mean?",
+    "application": "Measure \\(\\ket+\\) in the computational basis and obtain 0. Compare the next measurement of that same qubit with a measurement of a fresh \\(\\ket+\\).",
+    "challenge": "Why is measuring one system repeatedly not generally equivalent to measuring many independently prepared copies? Which experiment would reveal the original preparation probabilities, and which would mostly test the state left by the first measurement?"
+  },
+  "topic-4-3-1": {
+    "foundation": "What does linearity say about \\(U(a\\ket0+b\\ket1)\\)?",
+    "application": "Given \\(U\\ket0=\\ket1\\) and \\(U\\ket1=\\ket0\\), find \\(U\\) applied to \\((\\ket0-\\ket1)/\\sqrt2\\).",
+    "challenge": "Why does knowing an operator’s action on every basis vector determine its action on all superpositions? What could go wrong if a proposed rule were allowed to depend on how the same vector was decomposed?"
+  },
+  "topic-4-3-2": {
+    "foundation": "How is a matrix adjoint formed?",
+    "application": "Find the adjoint of the diagonal matrix with entries \\(1\\) and \\(i\\). Multiply the two matrices and inspect the result.",
+    "challenge": "The adjoint is defined even when an inverse does not exist. What question about overlaps does it answer that is different from undoing an operation? Use a projection as a test case."
+  },
+  "topic-4-3-3": {
+    "foundation": "What equation must \\(U\\) satisfy to be unitary?",
+    "application": "The matrix \\(X\\) swaps two coordinates. Apply it twice and use the result to identify its inverse.",
+    "challenge": "Unitary evolution is reversible, while a measurement outcome can leave several possible inputs indistinguishable. Why does this not justify describing measurement as just another unitary on the measured system alone?"
+  },
+  "topic-4-4-1": {
+    "foundation": "What equation defines an eigenvector and its eigenvalue?",
+    "application": "\\(Z\\) maps \\(\\ket0\\) to \\(\\ket0\\) and \\(\\ket1\\) to \\(-\\ket1\\). Identify the two eigenvalues.",
+    "challenge": "If two independent eigenvectors have the same eigenvalue, what happens to their superposition under the operator? Can the eigenvalue alone distinguish the two vectors or the superposition?"
+  },
+  "topic-4-4-2": {
+    "foundation": "What makes an operator Hermitian?",
+    "application": "For the diagonal matrix with entries 2 and 5, identify its eigenvectors, eigenvalues, and computational-basis measurement projectors.",
+    "challenge": "Two Hermitian operators can share the same eigenspaces but assign them different eigenvalues. In what sense do their projective measurements ask the same question, and in what sense do they report different values?"
+  },
+  "topic-4-4-3": {
+    "foundation": "Can two nonorthogonal states always be distinguished perfectly from one copy?",
+    "application": "Calculate \\(\\braket{0}{+}\\). Does the result allow perfect discrimination of these two states?",
+    "challenge": "Nonorthogonal states are different, yet no measurement always identifies which one was supplied from a single copy. Why is mathematical distinctness weaker than perfect experimental distinguishability? Which requirement could you relax to obtain a different task?"
+  },
+  "topic-5-1-1": {
+    "foundation": "List the computational-basis labels for two qubits.",
+    "application": "Expand \\(\\ket0\\otimes(\\ket0+\\ket1)/\\sqrt2\\) in the joint basis.",
+    "challenge": "Why does combining two two-dimensional systems require four joint basis labels rather than merely four alternatives to which system exists? What does a tensor-product label say about simultaneous properties of both systems?"
+  },
+  "topic-5-1-2": {
+    "foundation": "What does it mean for a pure joint state to be a product state?",
+    "application": "Factor \\((\\ket{00}+\\ket{10})/\\sqrt2\\) into one state for each qubit.",
+    "challenge": "A product state may have several nonzero joint amplitudes. Why is counting those amplitudes an unreliable test for entanglement? What relationship among them would establish that the state factors?"
+  },
+  "topic-5-1-3": {
+    "foundation": "How many computational-basis states do three qubits have?",
+    "application": "For three qubits, compare the number of state-vector coordinates with the number of bits in one basis-measurement outcome.",
+    "challenge": "An \\(n\\)-qubit state has exponentially many coordinates, but a basis measurement returns only \\(n\\) bits. Why does the size of the mathematical description not by itself establish a computational advantage?"
+  },
+  "topic-5-2-1": {
+    "foundation": "Which two gates prepare the Bell state from \\(\\ket{00}\\) in this subsection?",
+    "application": "Write the state after \\(H\\) on the first qubit and then after CNOT with that qubit as control.",
+    "challenge": "In Bell-state preparation, CNOT correlates the two qubits without measuring its control. How would the resulting preparation differ if the first qubit were measured after \\(H\\) and its outcome then used as an ordinary control?"
+  },
+  "topic-5-2-2": {
+    "foundation": "What must fail for a pure two-qubit state to be entangled?",
+    "application": "Try factoring \\((\\ket{00}+\\ket{11})/\\sqrt2\\). Explain why nonzero \\(00\\) and \\(11\\) coefficients force unwanted cross terms in a product.",
+    "challenge": "Why is failure to factor amplitudes stronger evidence of pure-state entanglement than observing correlated outcomes in one basis? What comparison would expose the difference between a Bell state and a classical mixture?"
+  },
+  "topic-5-2-3": {
+    "foundation": "How do you obtain a marginal probability from joint probabilities?",
+    "application": "For \\(p(00)=p(11)=1/2\\) and all other outcomes zero, calculate \\(p(\\text{first}=0)\\) and \\(p(\\text{second}=0 \\text{ given first}=0)\\).",
+    "challenge": "Knowing the first Bell measurement outcome lets you predict the second, although either local outcome is random. What changes when you condition on the first outcome: the local statistics available without the message, or the predictions available with it?"
+  },
+  "topic-5-3-1": {
+    "foundation": "Which target value allows CNOT to copy a basis label?",
+    "application": "Apply CNOT to \\(\\ket0\\ket0\\) and \\(\\ket1\\ket0\\), then use linearity to find its action on \\(\\ket+\\ket0\\).",
+    "challenge": "Why does a device that copies both basis states fail to copy their arbitrary superposition? Expand the desired two-copy output and identify the terms that linear evolution does not produce."
+  },
+  "topic-5-3-2": {
+    "foundation": "Does the no-cloning theorem forbid copying known orthogonal basis labels?",
+    "application": "Compare CNOT’s output on \\(\\ket+\\ket0\\) with \\(\\ket+\\ket+\\) by expanding both in the joint basis.",
+    "challenge": "What assumption in the no-cloning argument must change if the possible input states are known to be orthogonal? Why is a machine for copying that restricted set not a counterexample to the theorem?"
+  },
+  "topic-5-3-3": {
+    "foundation": "What is the local outcome distribution for either half of a Bell state?",
+    "application": "If the other qubit is measured but its outcome is not sent to you, do your computational-basis probabilities change? Explain using the two possible outcomes.",
+    "challenge": "A distant measurement can change the state you assign after learning its outcome. Why can this not be used to send a chosen message without communicating the outcome? Distinguish conditional knowledge from locally observable statistics."
+  },
+  "topic-5-4-1": {
+    "foundation": "What shared quantum resource does teleportation require?",
+    "application": "List the shared quantum resource and the classical communication used to teleport one qubit.",
+    "challenge": "Why must shared entanglement be included among the resources used by teleportation? If preparing and distributing the entangled pair were costly, how would that change an assessment of the protocol?"
+  },
+  "topic-5-4-2": {
+    "foundation": "Why does the receiver apply a correction in teleportation?",
+    "application": "If the receiver’s conditional state is \\(X\\ket\\psi\\), which gate recovers \\(\\ket\\psi\\)? Check by applying it.",
+    "challenge": "Before the classical correction, the receiver’s state depends on the sender’s measurement outcome. Why is knowing which correction to apply essential even though each possible correction is reversible?"
+  },
+  "topic-5-4-3": {
+    "foundation": "How many classical bits are sent in single-qubit teleportation?",
+    "application": "Explain why receiving the classical bits alone, without the shared Bell pair, is not the teleportation protocol.",
+    "challenge": "Teleportation communicates only two classical bits while transferring an arbitrary qubit state. Why does that not mean the two bits contain a classical description of all its amplitudes? What other resources make the transfer possible?"
+  },
+  "topic-6-1-1": {
+    "foundation": "When is a one-bit Boolean function constant?",
+    "application": "Classify the tables \\((f(0),f(1))=(0,0)\\), \\((0,1)\\), \\((1,0)\\), and \\((1,1)\\) as constant or balanced.",
+    "challenge": "For a one-bit function, the task asks whether two values agree, not what each value is. How can changing the requested answer change the information a successful algorithm must obtain?"
+  },
+  "topic-6-1-2": {
+    "foundation": "How many values does one ordinary classical query reveal?",
+    "application": "You queried \\(f(0)\\) and obtained 0. Write one constant and one balanced function consistent with that observation.",
+    "challenge": "After one classical query, which two possible truth tables remain indistinguishable while belonging to different classes? Why does this pair obstruct an exact one-query decision procedure?"
+  },
+  "topic-6-1-3": {
+    "foundation": "What is the reversible oracle’s action on \\(\\ket{x}\\ket{t}\\)?",
+    "application": "For \\(f(0)=1\\), find the oracle outputs on \\(\\ket0\\ket0\\) and \\(\\ket0\\ket1\\).",
+    "challenge": "Why must the oracle specify what happens to its target register, not merely declare that it “returns \\(f(x)\\)”? How does retaining \\(x\\) permit a reversible operation even when \\(f\\) is many-to-one?"
+  },
+  "topic-6-2-1": {
+    "foundation": "Which rule lets us find an oracle’s action on a superposition from its action on basis states?",
+    "application": "For \\(f(0)=0\\) and \\(f(1)=1\\), apply the oracle to \\(\\ket+\\ket0\\) by expanding the input into two terms.",
+    "challenge": "An oracle acts on every basis component of a superposition. Why is that not equivalent to receiving a readable list of all function values? Which subsequent step determines whether this action is useful?"
+  },
+  "topic-6-2-2": {
+    "foundation": "Does one basis measurement return every amplitude of a register?",
+    "application": "For \\((\\ket{00}+\\ket{11})/\\sqrt2\\), list the possible measured pairs and their probabilities.",
+    "challenge": "If measuring the input register returns one sampled input, what becomes of the other function values encoded in the joint state? Why does the existence of those components not guarantee access to all of them in one run?"
+  },
+  "topic-6-2-3": {
+    "foundation": "What is a workspace record?",
+    "application": "Compare \\((\\ket0\\ket0+\\ket1\\ket0)/\\sqrt2\\) with \\((\\ket0\\ket0+\\ket1\\ket1)/\\sqrt2\\). In which state does the second register distinguish the first-register alternatives?",
+    "challenge": "Two input branches leave different workspace records. Why can that obstruct the interference you wanted between them? What would have to be true of the final workspace for it to stop distinguishing the branches?"
+  },
+  "topic-6-3-1": {
+    "foundation": "What are the \\(X\\) eigenvalues of \\(\\ket+\\) and \\(\\ket-\\)?",
+    "application": "Apply \\(X\\) to \\((\\ket0-\\ket1)/\\sqrt2\\) and factor out the sign.",
+    "challenge": "Both \\(\\ket+\\) and \\(\\ket-\\) are eigenstates of the bit flip. Why does only one of them provide the sign change needed here? What property of the eigenvalue, rather than simply being an eigenstate, matters?"
+  },
+  "topic-6-3-2": {
+    "foundation": "What phase factor is attached to input \\(x\\) by a phase oracle?",
+    "application": "For \\(f(0)=0\\) and \\(f(1)=1\\), apply the phase factors to \\(\\ket+\\) and identify the new input state.",
+    "challenge": "Complementing every value of a Boolean function changes every phase mark by a common minus sign. Which distinctions between functions are therefore unavailable from this phase action alone?"
+  },
+  "topic-6-3-3": {
+    "foundation": "What operation clears workspace by undoing its computation?",
+    "application": "A reversible computation maps \\(\\ket{x}\\ket{0}\\) to \\(\\ket{x}\\ket{g(x)}\\). Write the action of its inverse on that output.",
+    "challenge": "Why is erasing workspace by measurement generally different from uncomputing it coherently? What record or disturbance could remain after the first method that the second is designed to avoid?"
+  },
+  "topic-6-4-1": {
+    "foundation": "What role does the last Hadamard play in Deutsch’s algorithm?",
+    "application": "Calculate \\(H\\ket+\\) and \\(H\\ket-\\). Match the two results to constant and balanced functions.",
+    "challenge": "The oracle encodes the distinction in signs, but the final measurement reads a bit. What exactly does the last Hadamard do to bridge those descriptions? Why would measuring before it fail?"
+  },
+  "topic-6-4-2": {
+    "foundation": "How many oracle calls does the ideal Deutsch algorithm use?",
+    "application": "Compare one quantum call with the two calls required by an exact classical method. Name one cost this count does not include.",
+    "challenge": "Deutsch’s algorithm uses one quantum query where exact classical computation needs two. Which access and success assumptions make that comparison meaningful? What extra information would be needed to compare total running times?"
+  },
+  "topic-6-4-3": {
+    "foundation": "Which target state is prepared for phase kickback?",
+    "application": "Replace \\(\\ket-\\) with \\(\\ket+\\) and use \\(X\\ket+=\\ket+\\). Does the target flip now give the input a function-dependent sign?",
+    "challenge": "If the oracle is correct but the target is prepared in \\(\\ket+\\) instead of \\(\\ket-\\), where does the algorithm lose its ability to distinguish the functions? What does this reveal about treating preparation as part of correctness?"
+  },
+  "topic-7-1-1": {
+    "foundation": "What does a search predicate tell you about a candidate?",
+    "application": "Among eight equally likely candidates, two are marked. What is the success probability of one uniformly random guess?",
+    "challenge": "Why does a fast test of a candidate not automatically give a fast way to find a successful candidate? What additional structure would allow classical search to do better than inspecting unrelated possibilities?"
+  },
+  "topic-7-1-2": {
+    "foundation": "Does changing an amplitude’s sign change its squared magnitude?",
+    "application": "Start with four amplitudes of \\(1/2\\) and negate the marked one. Calculate its probability before and after marking.",
+    "challenge": "A phase mark leaves all immediate basis-measurement probabilities unchanged. Why can it still be a useful search operation? What must the next operation make those signs interact with?"
+  },
+  "topic-7-1-3": {
+    "foundation": "What is the reflection-about-the-mean rule for an amplitude \\(a\\)?",
+    "application": "For amplitudes \\((-1/2,1/2,1/2,1/2)\\), find the mean and apply \\(2\\cdot\\text{mean}-a\\) to each entry.",
+    "challenge": "For four items, one reflection after marking can make the marked amplitude one. Why does the same single iteration not generally give certainty for a larger search space? Track how the mean changes."
+  },
+  "topic-7-2-1": {
+    "foundation": "What distinguishes the good subspace from the bad subspace?",
+    "application": "In a four-item search with only \\(00\\) marked, identify the good basis state and list the bad basis states.",
+    "challenge": "Why can a search over many basis states be described as motion in a two-dimensional plane? Which symmetries of the preparation and operations keep the state inside that plane?"
+  },
+  "topic-7-2-2": {
+    "foundation": "If the initial success probability is \\(p\\), what is the nonnegative good amplitude?",
+    "application": "For one marked item among four equally weighted items, find \\(p\\) and \\(\\sqrt p\\). Use \\(\\sin\\theta=\\sqrt p\\) to find \\(\\theta\\).",
+    "challenge": "Two search problems have the same number of items but different marked fractions. Why do they begin at different angles to the bad direction? How does that alter the amount of rotation needed?"
+  },
+  "topic-7-2-3": {
+    "foundation": "What geometric operation results from composing the two search reflections?",
+    "application": "For \\(\\theta=\\pi/6\\), start at angle \\(\\theta\\) and add \\(2\\theta\\) for one Grover iteration. What angle do you reach?",
+    "challenge": "Two reflections produce a rotation, but reversing their order reverses its direction. Why must an algorithm specify the order of the marking and preparation reflections rather than merely list them?"
+  },
+  "topic-7-3-1": {
+    "foundation": "What formula gives success probability after \\(k\\) Grover iterations?",
+    "application": "With \\(\\theta=\\pi/6\\), evaluate \\(\\sin^2((2k+1)\\theta)\\) for \\(k=0\\) and \\(k=1\\).",
+    "challenge": "What does the oscillation of success probability tell you about the difference between coherent amplification and a process that irreversibly accumulates successful outcomes? Why need success not grow monotonically?"
+  },
+  "topic-7-3-2": {
+    "foundation": "Can another Grover iteration reduce success probability?",
+    "application": "For \\(\\theta=\\pi/6\\), compare success at \\(k=1\\) with success at \\(k=2\\) using the iteration formula.",
+    "challenge": "An iteration rule can increase success initially and decrease it later. What information is needed to choose a stopping point? Why is “keep improving until certain” not an adequate instruction here?"
+  },
+  "topic-7-3-3": {
+    "foundation": "What does verification check after a candidate is measured?",
+    "application": "A measured candidate fails the predicate. Does that prove that every candidate fails? Explain with a four-item example.",
+    "challenge": "Why does verifying a candidate solve a different problem from knowing how many amplification steps to use? If a run fails verification, what has it established—and what has it not established—about the existence of a marked item?"
+  },
+  "topic-7-4-1": {
+    "foundation": "Must amplitude amplification start from a uniform superposition?",
+    "application": "A preparation succeeds with probability \\(1/4\\). Identify its good and bad amplitude magnitudes using \\(\\sqrt p\\) and \\(\\sqrt{1-p}\\).",
+    "challenge": "If an initial preparation already favors good answers, how should that change amplification? Which feature of the preparation matters more than the raw number of basis states?"
+  },
+  "topic-7-4-2": {
+    "foundation": "Which inverse appears in the reflection \\(A(2\\ketbra00-I)A^\\dagger\\)?",
+    "application": "Apply this reflection to \\(A\\ket0\\) by first using \\(A^\\dagger A=I\\). Does the prepared state change sign?",
+    "challenge": "Why does implementing reflection about a prepared state require access to the preparation’s inverse? Is being able to obtain a copy of that state by an uncontrolled process enough to build the same reflection?"
+  },
+  "topic-7-4-3": {
+    "foundation": "What costs besides iteration count enter amplitude amplification?",
+    "application": "Suppose each round uses 12 gates and the initial preparation uses 8. Calculate the cost of five rounds, ignoring measurement.",
+    "challenge": "A better initial success probability can reduce the number of amplification rounds, yet its preparation may be expensive. How would you decide whether the improved preparation saves total work?"
+  },
+  "topic-8-1-1": {
+    "foundation": "In which direction does time run in the circuit drawings?",
+    "application": "A circuit applies \\(H\\) and then \\(Z\\). Write the matrix product acting on the input column vector in the correct order.",
+    "challenge": "Why can interchanging two adjacent gates change the result even when the set of gates is unchanged? Give a condition under which the interchange is safe and explain why wire labels matter."
+  },
+  "topic-8-1-2": {
+    "foundation": "What does an oracle box stand for in a query circuit?",
+    "application": "A circuit uses three oracle boxes, each requiring ten gates when expanded. Count the gates contributed by those boxes.",
+    "challenge": "A circuit diagram can represent an entire oracle by one box. What must be specified before you can infer an implementation cost from that diagram? Which conclusions can still be drawn while the box remains abstract?"
+  },
+  "topic-8-1-3": {
+    "foundation": "What kind of information controls a classically conditioned correction?",
+    "application": "A measurement produces bit \\(b\\), and \\(X\\) is applied only if \\(b=1\\). Write the operation performed for each possible \\(b\\).",
+    "challenge": "How does controlling an operation with a measured bit differ from controlling it coherently with a qubit? What happens to the possibility of interference between the control alternatives?"
+  },
+  "topic-8-2-1": {
+    "foundation": "What does the \\(X\\) gate do to \\(\\ket0\\) and \\(\\ket1\\)?",
+    "application": "Compare \\(Z\\ket0\\) with \\(Z\\ket+\\). Which input makes the relative-sign change apparent?",
+    "challenge": "Applying \\(Z\\) to \\(\\ket0\\) changes nothing observable, but placing \\(Z\\) between two Hadamards changes the final outcome. Why is testing a gate on one input insufficient to establish that the gate has no effect?"
+  },
+  "topic-8-2-2": {
+    "foundation": "Which qubit changes in a CNOT operation?",
+    "application": "Compare CNOT on \\(\\ket0\\ket0\\) with CNOT on \\(\\ket+\\ket0\\). Write both outputs and identify which is entangled.",
+    "challenge": "A controlled gate is capable of entangling some inputs but leaves others as product states. What features of the control and target preparations decide which happens? Test CNOT on a basis control and on a superposed control."
+  },
+  "topic-8-2-3": {
+    "foundation": "Why are temporary workspace wires included in an oracle circuit?",
+    "application": "An implementation returns the correct answer but leaves a record \\(g(x)\\) in workspace. State the extra cleanup required before input branches can interfere without that record.",
+    "challenge": "When replacing an oracle box by a circuit, why must you check the final workspace as well as the output bits? Could a circuit have the correct truth table on its output and still spoil the intended quantum algorithm?"
+  },
+  "topic-8-3-1": {
+    "foundation": "Can local unitary gates create entanglement from a product state?",
+    "application": "Apply \\(H\\otimes I\\) to \\(\\ket0\\ket0\\) and write the result as a product of two one-qubit states.",
+    "challenge": "Why can local unitary operations change the appearance of an entangled state without removing its entanglement? Use the inverse operations to test what would follow if they could turn it into a product state."
+  },
+  "topic-8-3-2": {
+    "foundation": "What does a universal gate set allow us to construct or approximate?",
+    "application": "A collection contains only single-qubit gates. Starting from \\(\\ket{00}\\), can it prepare a Bell state? Use the product-state form to explain.",
+    "challenge": "Why does the availability of an entangling gate need to be considered together with the allowed one-qubit gates? What is missing from the claim that any collection containing one entangling operation is automatically universal?"
+  },
+  "topic-8-3-3": {
+    "foundation": "What distinguishes exact synthesis from approximate synthesis?",
+    "application": "A circuit’s error is at most 0.01. Does this meet a requested tolerance of 0.1? Does it meet 0.001?",
+    "challenge": "Why does approximating every desired operation arbitrarily closely differ from expressing every operation exactly with finitely many gates? What additional question about approximation cost matters to computation?"
+  },
+  "topic-8-4-1": {
+    "foundation": "What is the difference between gate count and circuit depth?",
+    "application": "Four one-qubit gates act on four different qubits with no dependencies. Find their gate count and minimum depth, assuming parallel execution is available.",
+    "challenge": "Two circuits use the same number of gates but have different dependencies. Why might their running times differ? What other resource could increase when you try to reduce their depth?"
+  },
+  "topic-8-4-2": {
+    "foundation": "What does hardware connectivity specify?",
+    "application": "Three qubits lie in a line with interactions only between neighbors. Which pair cannot interact directly, and what kind of extra operation could bring its information together?",
+    "challenge": "A circuit assumes that two distant qubits can interact. How does restricted hardware connectivity change the operations actually required? Why should loading the input also be counted before claiming an end-to-end advantage?"
+  },
+  "topic-8-4-3": {
+    "foundation": "What does a per-gate error bound describe?",
+    "application": "Using the bound that errors add, estimate the total error bound for 100 gates each with error at most 0.0001.",
+    "challenge": "Why can a small error in each gate become important in a long circuit? What assumptions would justify adding error bounds, and why should that worst-case bound not be mistaken for a prediction of the actual error in every run?"
+  },
+  "topic-9-1-1": {
+    "foundation": "What is meant by input length for a binary integer?",
+    "application": "Write 8 in binary and count its bits. Compare the value 8 with the input length.",
+    "challenge": "An integer’s value can be exponentially larger than the number of bits used to write it. Why must an efficiency claim identify the encoding? How might the same running-time formula be classified differently for binary and unary inputs?"
+  },
+  "topic-9-1-2": {
+    "foundation": "What does an \\(O(n^2)\\) upper bound say about growth?",
+    "application": "For \\(n\\ge1\\), bound \\(3n^2+2n\\) by a constant times \\(n^2\\). Give a suitable constant.",
+    "challenge": "Two algorithms have costs \\(n^2\\) and a million times \\(n\\). What does asymptotic comparison tell you, and what does it leave open for inputs you can actually run? Why are both questions worth asking?"
+  },
+  "topic-9-1-3": {
+    "foundation": "What does query complexity count?",
+    "application": "Algorithm A uses 5 queries of 100 gates each; B uses 10 queries of 10 gates each. Compare their query counts and the gates used by their queries.",
+    "challenge": "How could one algorithm use fewer queries but more elementary gates than another? Why is there no meaningful claim of “fewer resources” until the resource being compared is named?"
+  },
+  "topic-9-2-1": {
+    "foundation": "In the definition of NP, what is checked efficiently?",
+    "application": "A proposed factor \\(d\\) of \\(N\\) is supplied. Describe how division checks this proposal without finding \\(d\\) yourself.",
+    "challenge": "Checking a proposed solution efficiently is different from finding one efficiently. What would an efficient reduction allow you to transfer between problems, and why would that still not by itself settle whether P equals NP?"
+  },
+  "topic-9-2-2": {
+    "foundation": "Which model of computation distinguishes BPP from BQP?",
+    "application": "An algorithm must succeed with probability at least \\(2/3\\) on every input. Does success on 99 out of 100 tested inputs establish that guarantee for all inputs? Explain.",
+    "challenge": "Why must the error guarantee hold for every allowed input rather than only on average over a convenient test set? What would experiments on a small collection of instances fail to establish about membership in BPP or BQP?"
+  },
+  "topic-9-2-3": {
+    "foundation": "Is unstructured search assumed to provide useful relations between different candidates?",
+    "application": "Compare factoring an integer with searching an arbitrary list. Identify the arithmetic structure available in the first task.",
+    "challenge": "Why can an efficient quantum factoring algorithm and a quadratic quantum search improvement coexist without contradiction? Which structural difference prevents an unstructured-search lower bound from automatically applying to factoring?"
+  },
+  "topic-9-3-1": {
+    "foundation": "Does an upper bound describe one available method or rule out every faster method?",
+    "application": "Someone gives an \\(O(n^2)\\) algorithm and later someone gives an \\(O(n)\\) algorithm. Which upper bounds are still valid?",
+    "challenge": "Why does inventing a faster algorithm refute a proposed lower bound but never refute a valid upper bound? What different burdens of proof do these two kinds of claim carry?"
+  },
+  "topic-9-3-2": {
+    "foundation": "What resource does the standard unstructured-search lower bound count?",
+    "application": "If extra structure lets a classical algorithm avoid inspecting unrelated items, is it still the same unstructured access model? Explain.",
+    "challenge": "An optimality theorem rules out faster unstructured search in a particular query model. Which part of the problem would have to change for a faster method to be possible without contradicting that theorem?"
+  },
+  "topic-9-3-3": {
+    "foundation": "After \\(T\\) queries, what is the maximum degree bound on an acceptance probability?",
+    "application": "A function has approximate degree \\(d=10\\). Use \\(T\\ge d/2\\) to obtain a query lower bound.",
+    "challenge": "Why is a low-degree polynomial representation useful for proving a lower bound only when paired with a theorem about the function being approximated? Which half of that argument is supplied by the query model, and which is a separate mathematical result?"
+  },
+  "topic-9-4-1": {
+    "foundation": "Name two assumptions that should accompany a claimed quantum speedup.",
+    "application": "An algorithm makes fewer queries but requires costly input preparation. Which additional cost must be included before comparing full implementations?",
+    "challenge": "If an algorithm’s speedup relies on inexpensive state preparation and oracle access, what happens when those assumptions fail? How would you separate a correct conditional advantage from an unsupported claim about a practical implementation?"
+  },
+  "topic-9-4-2": {
+    "foundation": "What is the difference between computability and efficiency?",
+    "application": "A computer runs every step a million times faster. Does a program that never halts now halt? Explain.",
+    "challenge": "Why would a dramatic speedup on every problem a quantum computer can solve still not provide a general halting decider? What distinction between efficiency and computability survives any such improvement?"
+  },
+  "topic-9-4-3": {
+    "foundation": "Which further topic protects computations against noise?",
+    "application": "Match “extract periodic structure” and “preserve encoded information despite errors” to period finding and error correction.",
+    "challenge": "Period finding concerns extracting structure; error correction concerns preserving a computation despite noise. Why does progress on either problem not automatically solve the other? What must a useful large computation achieve on both fronts?"
+  },
+  "appendix-a": {
+    "foundation": "What kind of memory does a pushdown automaton add to a finite automaton?",
+    "application": "Process \\(aabb\\) by pushing once for each \\(a\\) and popping once for each \\(b\\). State the stack size after each symbol.",
+    "challenge": "Why does a collision between the states reached by two different prefixes prove a memory limitation? What continuation exposes that collision, and why does the argument depend on allowing arbitrarily long inputs?"
+  },
+  "appendix-b": {
+    "foundation": "What string results from applying \\(S\\to aSb\\) once and then \\(S\\to\\) empty string?",
+    "application": "Generate \\(aabb\\) from \\(S\\) using the two rules. Write each intermediate string.",
+    "challenge": "Why does being able to generate every valid string not automatically give a procedure that rejects every invalid string? How does this distinction connect grammars back to proof search and decision?"
+  },
+  "appendix-c": {
+    "foundation": "How do you find the norm of a complex vector?",
+    "application": "Calculate the norm of \\((3,4i)^T\\), then normalize the vector.",
+    "challenge": "A matrix is a representation, while a transformation acts on vectors independently of coordinates. Which identities in this reference ensure that changing coordinates consistently preserves lengths, overlaps, and predictions?"
+  },
+  "appendix-d": {
+    "foundation": "What two properties must a density matrix satisfy?",
+    "application": "Form the density matrix for an equal mixture of \\(\\ket0\\) and \\(\\ket1\\). Check its trace and computational-basis probabilities.",
+    "challenge": "Two different ensembles can produce the same density matrix. What could any measurement on the prepared system reveal about which ensemble was used? How would access to a separate preparation record change the question?"
+  },
+  "appendix-e": {
+    "foundation": "How much can one query increase the degree bound on an amplitude?",
+    "application": "For \\(T=3\\) queries, give the degree bounds on amplitudes and acceptance probabilities. Explain why the latter can be twice as large.",
+    "challenge": "Why do input-independent gates fail to increase polynomial degree while oracle queries can increase it? Which assumption about access to the hidden input would fail if the starting amplitudes already depended on its bits?"
+  }
+}
