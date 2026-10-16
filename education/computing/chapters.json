@@ -24,39 +24,46 @@
     "04-states-measurement",
     "Quantum States and Measurement",
     "",
-    "Different orthonormal bases give different measurement procedures. Their inner products determine outcome probabilities, while eigenspaces attach numerical values to outcomes. The same inner products also limit how well a measurement can distinguish two preparations.",
+    "State vectors and inner products describe quantum amplitudes. Transition matrices preserve their probability interpretation through unitary evolution, while measurement selects an outcome and its conditional state.",
     ""
   ],
   [
-    "05-composite-systems",
+    "05-quantum-model",
+    "Quantum Model of Computation",
+    "How do the quantum postulates become a programmable computation?",
+    "A quantum computation prepares a register, applies a specified sequence of gates, and measures an output. Circuits make these steps explicit, showing where amplitudes can interfere and where classical information is obtained.",
+    ""
+  ],
+  [
+    "06-composite-systems",
     "Composite Systems and Entanglement",
     "Can a whole have a definite quantum state when its parts have no individual pure states of their own?",
     "Two qubits can have a pure joint state while neither has an individual pure-state vector. We will calculate what this changes about copying, communication, and measurement.",
     ""
   ],
   [
-    "06-queries-phase-kickback",
+    "07-queries-phase-kickback",
     "Quantum Queries and Phase Kickback",
     "Can we learn a relation among answers without learning the individual answers themselves?",
     "One quantum query can reveal whether \\(f(0)\\) equals \\(f(1)\\), although no measurement reveals either value.",
     ""
   ],
   [
-    "07-circuits-universality",
+    "08-circuits-universality",
     "Quantum Circuits and Universality",
     "What separates an operation we can describe mathematically from one we can construct with finite means?",
     "Every quantum operation can be built from a few kinds of gate, but not every operation can be built cheaply.",
     ""
   ],
   [
-    "08-amplitude-amplification",
+    "09-amplitude-amplification",
     "Quantum Search and Amplitude Amplification",
     "How can a process concentrate our chances of finding an answer that it can recognize but does not yet know?",
     "Marking an answer with a sign does not change its probability. Repeated reflection turns the sign into a rotation toward the answer.",
     ""
   ],
   [
-    "09-complexity-advantage",
+    "10-complexity-advantage",
     "Computational Complexity and Quantum Advantage",
     "What would justify saying that one form of computation is more powerful than another?",
     "A faster algorithm shows what is possible; only a lower bound shows what is impossible. Establishing an advantage needs both.",

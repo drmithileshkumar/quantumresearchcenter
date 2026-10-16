@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 310" role="img" aria-labelledby="title desc"><title id="title">Relative phase becomes a definite output</title><desc id="desc">A qubit initialized to zero passes through H, Z, H, and measurement. The result is one with certainty.</desc><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.wire{stroke:#246593;stroke-width:2;fill:none}.gate{stroke:#246593;stroke-width:2;fill:#fff}</style>
+<text class="heading" x="400" y="30" text-anchor="middle">Relative phase becomes a definite output</text>
+<path class="wire" d="M100 140H615 M665 137H735 M665 143H735"/>
+<text x="70" y="146" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<rect class="gate" x="615" y="117" width="50" height="46" rx="3"/>
+<text x="640" y="146" text-anchor="middle" class="">M</text>
+<text x="755" y="146" text-anchor="middle" class="">1</text>
+<rect class="gate" x="195" y="117" width="50" height="46" rx="3"/>
+<text x="220" y="146" text-anchor="middle" class="">H</text>
+<rect class="gate" x="335" y="117" width="50" height="46" rx="3"/>
+<text x="360" y="146" text-anchor="middle" class="">Z</text>
+<rect class="gate" x="475" y="117" width="50" height="46" rx="3"/>
+<text x="500" y="146" text-anchor="middle" class="">H</text>
+<text x="400" y="225" text-anchor="middle" class="" data-tex="\ket0\ \longrightarrow\ \frac{\ket0+\ket1}{\sqrt2}\ \longrightarrow\ \frac{\ket0-\ket1}{\sqrt2}\ \longrightarrow\ \ket1">|0⟩ → (|0⟩ + |1⟩)/√2 → (|0⟩ − |1⟩)/√2 → |1⟩</text>
+<text x="400" y="293" text-anchor="middle" class="small">Double lines carry classical measurement records.</text>
+</svg>

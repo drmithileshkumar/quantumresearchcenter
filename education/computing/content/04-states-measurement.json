@@ -28,7 +28,7 @@
     },
     {
       "id": "topic-4-1-4",
-      "title": "Adjoints and unitary operations",
+      "title": "Reversibility of transitions",
       "number": "4.1.4",
       "group": "4.1 · Vectors and Matrices",
       "part_id": "section-4-1"
@@ -49,52 +49,10 @@
     },
     {
       "id": "topic-4-2-3",
-      "title": "Repeated measurements on independently prepared states",
+      "title": "The composite-state postulate",
       "number": "4.2.3",
       "group": "4.2 · Postulates",
       "part_id": "section-4-2"
-    },
-    {
-      "id": "topic-4-3-1",
-      "title": "Changes of basis",
-      "number": "4.3.1",
-      "group": "4.3 · Measurement in Other Bases",
-      "part_id": "section-4-3"
-    },
-    {
-      "id": "topic-4-3-2",
-      "title": "Measurement in an orthonormal basis",
-      "number": "4.3.2",
-      "group": "4.3 · Measurement in Other Bases",
-      "part_id": "section-4-3"
-    },
-    {
-      "id": "topic-4-3-3",
-      "title": "Overlaps under unitary evolution",
-      "number": "4.3.3",
-      "group": "4.3 · Measurement in Other Bases",
-      "part_id": "section-4-3"
-    },
-    {
-      "id": "topic-4-4-1",
-      "title": "Eigenvectors and eigenspaces",
-      "number": "4.4.1",
-      "group": "4.4 · Observables and Distinguishability",
-      "part_id": "section-4-4"
-    },
-    {
-      "id": "topic-4-4-2",
-      "title": "Hermitian operators and spectral projections",
-      "number": "4.4.2",
-      "group": "4.4 · Observables and Distinguishability",
-      "part_id": "section-4-4"
-    },
-    {
-      "id": "topic-4-4-3",
-      "title": "Nonorthogonal state discrimination",
-      "number": "4.4.3",
-      "group": "4.4 · Observables and Distinguishability",
-      "part_id": "section-4-4"
     }
   ],
   "parts": [
@@ -107,16 +65,6 @@
       "id": "section-4-2",
       "title": "Postulates",
       "number": "4.2"
-    },
-    {
-      "id": "section-4-3",
-      "title": "Measurement in Other Bases",
-      "number": "4.3"
-    },
-    {
-      "id": "section-4-4",
-      "title": "Observables and Distinguishability",
-      "number": "4.4"
     }
   ],
   "opening": "Complex amplitudes describe computation through two composition rules: multiply along paths, add at common endpoints, and take squared magnitudes to obtain probabilities. Normalization restricts the allowed states and transitions. Kets then express these amplitude lists as quantum states, and the measurement postulate specifies both a reported outcome and the state left afterward.",

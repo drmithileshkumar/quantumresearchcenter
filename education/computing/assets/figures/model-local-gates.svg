@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" role="img" aria-labelledby="title desc"><title id="title">Local gates and interference on a two-qubit register</title><desc id="desc">The upper wire receives H twice, while the lower wire receives X alongside the first H. The intermediate state is a superposition of 01 and 11; the final H cancels the 11 amplitude, giving 01.</desc><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.wire{stroke:#246593;stroke-width:2;fill:none}.gate{stroke:#246593;stroke-width:2;fill:#fff}</style>
+<text x="400" y="28" text-anchor="middle" class="heading">Local gates and interference on a two-qubit register</text>
+<path class="wire" d="M100 110H700"/>
+<text x="65" y="116" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<path class="wire" d="M100 220H700"/>
+<text x="65" y="226" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<rect class="gate" x="221" y="87" width="48" height="46" rx="3"/>
+<text x="245" y="116" text-anchor="middle" class="">H</text>
+<rect class="gate" x="221" y="197" width="48" height="46" rx="3"/>
+<text x="245" y="226" text-anchor="middle" class="">X</text>
+<rect class="gate" x="511" y="87" width="48" height="46" rx="3"/>
+<text x="535" y="116" text-anchor="middle" class="">H</text>
+<text x="745" y="116" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<text x="745" y="226" text-anchor="middle" class="" data-tex="\ket1">|1⟩</text>
+<text x="245" y="65" text-anchor="middle" class="small">First layer</text>
+<text x="535" y="65" text-anchor="middle" class="small">Second layer</text>
+<text x="400" y="290" text-anchor="middle" class="" data-tex="\frac{\ket{01}+\ket{11}}{\sqrt2}">(|01⟩ + |11⟩)/√2</text>
+<text x="400" y="320" text-anchor="middle" class="small">Joint state between the two gate layers</text>
+<text x="400" y="360" text-anchor="middle" class="small">3 gates · 2 layers · 2 qubits</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" role="img" aria-labelledby="title desc"><title id="title">Initialize a register: prepare 101 from 000</title><desc id="desc">Three qubit wires start at zero. X gates on the first and third wires change them to one; the middle wire remains zero.</desc><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.wire{stroke:#246593;stroke-width:2;fill:none}.gate{stroke:#246593;stroke-width:2;fill:#fff}</style>
+<text x="400" y="28" text-anchor="middle" class="heading">Initialize a register: prepare 101 from 000</text>
+<path class="wire" d="M125 95H660"/>
+<text x="85" y="101" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<text x="710" y="101" text-anchor="middle" class="" data-tex="\ket1">|1⟩</text>
+<rect class="gate" x="316" y="72" width="48" height="46" rx="3"/>
+<text x="340" y="101" text-anchor="middle" class="">X</text>
+<path class="wire" d="M125 175H660"/>
+<text x="85" y="181" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<text x="710" y="181" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<path class="wire" d="M125 255H660"/>
+<text x="85" y="261" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<text x="710" y="261" text-anchor="middle" class="" data-tex="\ket1">|1⟩</text>
+<rect class="gate" x="316" y="232" width="48" height="46" rx="3"/>
+<text x="340" y="261" text-anchor="middle" class="">X</text>
+<text x="400" y="320" text-anchor="middle" class="" data-tex="\ket{000}\xrightarrow{X\otimes I\otimes X}\ket{101}">|000⟩ → |101⟩</text>
+</svg>

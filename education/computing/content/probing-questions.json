@@ -209,337 +209,302 @@
     "application": "A qubit in \\((\\sqrt3/2)\\ket0+(1/2)\\ket1\\) is measured twice in a row. Find the probabilities of the four sequences of outcomes \\(00\\), \\(01\\), \\(10\\), and \\(11\\).",
     "challenge": "Start from \\(\\ket0\\). Apply \\(H\\), measure, apply \\(H\\), and measure again. Find the probabilities of the four pairs of outcomes, and compare with applying \\(H\\) twice and measuring once."
   },
-  "topic-4-2-3": {
-    "foundation": "A preparation gives outcome \\(1\\) with probability \\(0.3\\). In \\(100\\) independent runs, what is the expected number of \\(1\\)s, and its standard deviation \\(\\sqrt{Np(1-p)}\\)?",
-    "application": "For \\(p=1/2\\), how many independent runs are needed for the standard deviation of the observed fraction, \\(\\sqrt{p(1-p)/N}\\), to be at most \\(0.01\\)?",
-    "challenge": "Someone measures a single qubit, prepared in \\((\\ket0+\\ket1)/\\sqrt2\\), a hundred times in a row, obtains \\(0\\) every time, and concludes that the state was \\(\\ket0\\). What do the data actually show? Design an experiment that distinguishes \\((\\ket0+\\ket1)/\\sqrt2\\) from \\(\\ket0\\)."
-  },
-  "topic-4-3-1": {
-    "foundation": "Write \\(\\ket1\\) in the \\(\\pm\\) basis.",
-    "application": "Write \\((\\sqrt3/2)\\ket0+(1/2)\\ket1\\) in the \\(\\pm\\) basis.",
-    "challenge": "Let \\(\\ket{\\pm i}=(\\ket0\\pm i\\ket1)/\\sqrt2\\). Show that these two vectors form an orthonormal basis, and write \\(\\ket+\\) in it."
-  },
-  "topic-4-3-2": {
-    "foundation": "Measure \\((\\sqrt3/2)\\ket0+(1/2)\\ket1\\) in the \\(\\pm\\) basis. Give the probability of each outcome.",
-    "application": "Let \\(\\ket{\\pm i}=(\\ket0\\pm i\\ket1)/\\sqrt2\\). Which operations, applied before a computational-basis measurement, measure a qubit in the basis \\(\\{\\ket{+i},\\ket{-i}\\}\\)? Check your answer on \\(\\ket{+i}\\).",
-    "challenge": "Let \\(U\\) be the unitary with columns \\(\\ket{u_j}\\). Show that applying \\(U^\\dagger\\) and then measuring in the computational basis gives outcome \\(j\\) with probability \\(|\\braket{u_j}\\psi|^2\\)."
-  },
-  "topic-4-3-3": {
-    "foundation": "Check that \\(H\\) preserves the overlap of \\(\\ket0\\) and \\(\\ket+\\).",
-    "application": "The matrix \\(A=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}\\) is not unitary. Find two states whose overlap it changes.",
-    "challenge": "Prove that a matrix that preserves the norm of every vector preserves every inner product. Expand \\(\\|\\phi+\\psi\\|^2\\) and \\(\\|\\phi+i\\psi\\|^2\\)."
-  },
-  "topic-4-4-1": {
-    "foundation": "Show that \\(\\ket{+i}=(\\ket0+i\\ket1)/\\sqrt2\\) and \\(\\ket{-i}=(\\ket0-i\\ket1)/\\sqrt2\\) are eigenvectors of \\(Y=\\begin{pmatrix}0&-i\\\\i&0\\end{pmatrix}\\), and find their eigenvalues.",
-    "application": "Find the eigenvalues and eigenvectors of \\(H\\).",
-    "challenge": "Prove that every eigenvalue of a unitary has magnitude \\(1\\), and that eigenvectors of a unitary with different eigenvalues are orthogonal."
-  },
-  "topic-4-4-2": {
-    "foundation": "Is \\(\\begin{pmatrix}1&i\\\\-i&1\\end{pmatrix}\\) Hermitian? Find its eigenvalues.",
-    "application": "The observable \\(Z\\) reports \\(+1\\) for \\(\\ket0\\) and \\(-1\\) for \\(\\ket1\\). Find its average value, \\(\\sum_ja_jp_j\\), on \\((\\sqrt3/2)\\ket0+(1/2)\\ket1\\) and on \\((\\ket0+\\ket1)/\\sqrt2\\).",
-    "challenge": "An observable on three basis states has value \\(0\\) on \\(\\ket0,\\ket1\\) and value \\(1\\) on \\(\\ket2\\). For \\(\\ket\\psi=(\\ket0+\\ket1+\\ket2)/\\sqrt3\\), find the probabilities and the state after obtaining \\(0\\). Why would measuring the full basis and merely hiding the distinction between \\(0\\) and \\(1\\) be a different operation?"
-  },
-  "topic-4-4-3": {
-    "foundation": "Which of these pairs can be distinguished perfectly by one measurement: \\(\\{\\ket0,\\ket1\\}\\); \\(\\{\\ket+,\\ket-\\}\\); \\(\\{\\ket0,\\ket+\\}\\); \\(\\{\\ket+,\\ket{+i}\\}\\), where \\(\\ket{+i}=(\\ket0+i\\ket1)/\\sqrt2\\)?",
-    "application": "A qubit is \\(\\ket0\\) or \\(\\ket+\\), each with probability \\(1/2\\). We measure in the computational basis and guess \\(\\ket+\\) when the outcome is \\(1\\) and \\(\\ket0\\) when it is \\(0\\). Find the probability of guessing correctly.",
-    "challenge": "Prove that two pure states can be distinguished perfectly by a measurement exactly when they are orthogonal: give a measurement when they are, and show that none exists when they are not."
-  },
-  "topic-5-1-1": {
+  "topic-6-1-1": {
     "foundation": "Compute \\(\\bigl(\\tfrac1{\\sqrt2},\\tfrac1{\\sqrt2}\\bigr)^T\\otimes(1,0)^T\\) and \\(\\bigl(\\tfrac35,\\tfrac45\\bigr)^T\\otimes(0,1)^T\\).",
     "application": "Compute \\((H\\otimes I)\\ket{01}\\) and \\((I\\otimes H)\\ket{01}\\).",
     "challenge": "Show that \\(\\braket{a\\otimes b}{c\\otimes d}=\\braket ac\\braket bd\\) for vectors of two coordinates, and deduce that the tensor product of two unit vectors is a unit vector."
   },
-  "topic-5-1-2": {
+  "topic-6-1-2": {
     "foundation": "Is \\((\\ket{00}+\\ket{01}+\\ket{10}+\\ket{11})/2\\) a product state? If so, factor it.",
     "application": "Factor \\((\\ket{00}-\\ket{01}+\\ket{10}-\\ket{11})/2\\), and find the probability that the second qubit gives \\(0\\).",
     "challenge": "Show that a two-qubit state with amplitudes \\(\\alpha_{00},\\alpha_{01},\\alpha_{10},\\alpha_{11}\\) is a product state exactly when \\(\\alpha_{00}\\alpha_{11}=\\alpha_{01}\\alpha_{10}\\)."
   },
-  "topic-5-1-3": {
+  "topic-6-1-3": {
     "foundation": "How many amplitudes describe a general state of \\(10\\) qubits? How many bits does a measurement of all \\(10\\) qubits return?",
     "application": "A classical simulation stores each amplitude as two \\(8\\)-byte numbers. How much memory does a general \\(40\\)-qubit state need?",
     "challenge": "A product state of \\(n\\) qubits is described by \\(n\\) pairs of amplitudes. Show that applying one one-qubit operation to each qubit of a product state can be simulated with work proportional to \\(n\\). What does this show about the size of the state space as a source of difficulty?"
   },
-  "topic-5-2-1": {
+  "topic-6-2-1": {
     "foundation": "Apply \\(H\\) to the first qubit of \\(\\ket{10}\\), then CNOT with the first qubit as control. Which state results?",
     "application": "Apply the same circuit to \\(\\ket{01}\\) and to \\(\\ket{11}\\).",
     "challenge": "Show that the four states produced from \\(\\ket{00},\\ket{01},\\ket{10},\\ket{11}\\) form an orthonormal basis, and give a circuit that turns each of them back into its label."
   },
-  "topic-5-2-2": {
+  "topic-6-2-2": {
     "foundation": "Is \\((\\ket{00}+\\ket{01}+\\ket{10}-\\ket{11})/2\\) entangled?",
     "application": "For which real numbers \\(\\varepsilon\\) is \\((\\ket{00}+\\varepsilon\\ket{11})/\\sqrt{1+\\varepsilon^2}\\) a product state?",
     "challenge": "For a two-qubit state in which both outcomes of the first qubit are possible, measure the first qubit in the computational basis. Show that the state is entangled exactly when the conditional state of the second qubit depends on the outcome."
   },
-  "topic-5-2-3": {
+  "topic-6-2-3": {
     "foundation": "For \\(\\ket{\\Phi^+}\\), compute \\(p(\\text{first}=1)\\) and \\(p(\\text{second}=1\\mid\\text{first}=1)\\).",
     "application": "For \\((\\ket{00}+\\ket{01}+\\ket{11})/\\sqrt3\\), compute the joint probabilities, both marginal distributions, and \\(p(\\text{second}=1\\mid\\text{first}=0)\\).",
     "challenge": "Both qubits of \\(\\ket{\\Phi^+}\\) are measured in the basis \\(\\ket{u_0}=\\cos\\theta\\ket0+\\sin\\theta\\ket1\\), \\(\\ket{u_1}=-\\sin\\theta\\ket0+\\cos\\theta\\ket1\\). Show that the two results agree with certainty, for every \\(\\theta\\)."
   },
-  "topic-5-3-1": {
+  "topic-6-3-1": {
     "foundation": "Apply CNOT to \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\) and to \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket1\\).",
     "application": "For which states \\(\\alpha\\ket0+\\beta\\ket1\\) does CNOT turn \\((\\alpha\\ket0+\\beta\\ket1)\\ket0\\) into two copies, \\((\\alpha\\ket0+\\beta\\ket1)\\otimes(\\alpha\\ket0+\\beta\\ket1)\\)?",
     "challenge": "A unitary \\(U\\) copies both basis states: \\(U\\ket0\\ket0=\\ket0\\ket0\\) and \\(U\\ket1\\ket0=\\ket1\\ket1\\). Show that, whatever \\(U\\) does on other inputs, it sends \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\ket0\\) to an entangled state."
   },
-  "topic-5-3-2": {
+  "topic-6-3-2": {
     "foundation": "Compute \\(\\braket0+\\) and \\(\\braket{00}{++}\\). Why do these values rule out a unitary that copies both \\(\\ket0\\) and \\(\\ket+\\)?",
     "application": "Show that a unitary can copy each of the two states \\(\\ket+\\) and \\(\\ket-\\) into a register prepared in \\(\\ket0\\). Give one.",
     "challenge": "A cloning machine may change its own state: \\(U\\ket\\psi\\ket0\\ket e=\\ket\\psi\\ket\\psi\\ket{e_\\psi}\\), where the final machine state \\(\\ket{e_\\psi}\\) may depend on \\(\\ket\\psi\\). Show that it can still clone two states only if they are orthogonal or equal up to phase."
   },
-  "topic-5-3-3": {
+  "topic-6-3-3": {
     "foundation": "Alice and Bob share \\(\\ket{\\Phi^+}\\). Alice measures her qubit and does not report the result. What is the probability that Bob obtains \\(0\\) in a computational-basis measurement?",
     "application": "Alice applies \\(X\\) to her qubit of \\(\\ket{\\Phi^+}\\), without measuring. Find the new joint state and Bob’s computational-basis probabilities.",
     "challenge": "Alice measures her half of \\(\\ket{\\Phi^+}\\) in either the computational basis or the \\(\\pm\\) basis, without reporting her result. Bob tests for any normalized state \\(\\ket v=a\\ket0+b\\ket1\\). Show that his probability of success is \\(1/2\\) for either choice. Why is this stronger than checking only Bob’s computational-basis outcomes?"
   },
-  "topic-5-4-1": {
+  "topic-6-4-1": {
     "foundation": "In teleportation, how many qubits does each party hold at the start? Write the initial three-qubit state for \\(\\ket\\psi=\\ket1\\).",
     "application": "For \\(\\ket\\psi=\\ket1\\), apply Alice’s CNOT and \\(H\\), and group the result by the configuration of Alice’s two qubits.",
     "challenge": "Suppose Alice sends Bob only the bit \\(m\\), and Bob applies \\(Z^m\\). Show that for \\(\\ket\\psi=\\ket0\\) his qubit is wrong with probability \\(1/2\\)."
   },
-  "topic-5-4-2": {
+  "topic-6-4-2": {
     "foundation": "Alice obtains \\((m,n)=(1,0)\\). Which state does Bob hold, and which correction does he apply?",
     "application": "For \\(\\ket\\psi=\\ket+\\) and Alice’s result \\((1,1)\\), write Bob’s state before correction, and check that the correction restores \\(\\ket+\\).",
     "challenge": "Bob applies his corrections in the wrong order: \\(Z^m\\) first, then \\(X^n\\). Show that he still obtains \\(\\ket\\psi\\), up to a global phase."
   },
-  "topic-5-4-3": {
+  "topic-6-4-3": {
     "foundation": "Before the classical bits arrive, what is the probability that Bob obtains \\(0\\) when measuring his qubit, for \\(\\ket\\psi=\\ket0\\)?",
     "application": "Show that, before the bits arrive, Bob obtains \\(0\\) with probability \\(1/2\\) for every input \\(\\ket\\psi=\\alpha\\ket0+\\beta\\ket1\\).",
     "challenge": "After Bob’s correction, write the three-qubit state for a particular measurement result \\((m,n)\\). Do Alice’s qubits retain a second copy? Explain the scope of your conclusion."
   },
-  "topic-6-1-1": {
+  "topic-7-1-1": {
     "foundation": "List the four functions \\(f:\\{0,1\\}\\to\\{0,1\\}\\) as pairs \\((f(0),f(1))\\), and classify each as constant or balanced.",
     "application": "Among the functions \\(f:\\{0,1\\}^2\\to\\{0,1\\}\\), how many are constant, how many are balanced (output \\(1\\) on exactly half the inputs), and how many are neither?",
     "challenge": "For \\(f\\) on \\(n\\)-bit inputs, promised to be constant or balanced, show that a deterministic classical algorithm can decide which with \\(2^{n-1}+1\\) queries, and that \\(2^{n-1}\\) queries do not always suffice."
   },
-  "topic-6-1-2": {
+  "topic-7-1-2": {
     "foundation": "A classical algorithm queries \\(f(1)\\) and receives \\(1\\). Which of the four functions remain possible?",
     "application": "For \\(f\\) on two-bit inputs, promised constant or balanced, an algorithm queries \\(f(00)\\) and \\(f(01)\\). If they differ it answers “balanced”; otherwise it makes one more query. Complete the algorithm, and give its number of queries in the worst case.",
     "challenge": "Show that no one-query classical algorithm for \\(f:\\{0,1\\}\\to\\{0,1\\}\\), even one that chooses its query at random, is correct with probability greater than \\(1/2\\) on every function."
   },
-  "topic-6-1-3": {
+  "topic-7-1-3": {
     "foundation": "Write the action of \\(U_f\\) on the four basis states for \\(f=(1,0)\\), that is, \\(f(0)=1\\) and \\(f(1)=0\\).",
     "application": "Write the matrix of \\(U_f\\) for \\(f=(0,1)\\) in the order \\(00,01,10,11\\), and check that it is unitary.",
     "challenge": "Show that the map \\(\\ket{x,y}\\mapsto\\ket{x,f(x)}\\), which overwrites the target, is not unitary for any \\(f\\), and that \\(\\ket x\\mapsto\\ket{f(x)}\\) is not unitary when \\(f\\) is constant."
   },
-  "topic-6-2-1": {
+  "topic-7-2-1": {
     "foundation": "Apply \\(U_f\\) for \\(f=(1,1)\\) to \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\).",
     "application": "For each of the four functions, write \\(U_f\\bigl(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\bigr)\\), and say which results are entangled.",
     "challenge": "With \\(n\\) input qubits in the uniform superposition and a clean target, \\(U_f\\) produces \\(2^{-n/2}\\sum_x\\ket x\\ket{f(x)}\\). Measuring both registers gives a uniformly random \\(x\\) with \\(f(x)\\). About how many runs are needed, on average, before every value \\(f(x)\\) has been seen?"
   },
-  "topic-6-2-2": {
+  "topic-7-2-2": {
     "foundation": "Measure both registers of \\((\\ket{00}+\\ket{11})/\\sqrt2\\). What are the possible results and their probabilities? How many function values does one run reveal?",
     "application": "To decide constant or balanced, we repeatedly prepare \\((\\ket{0,f(0)}+\\ket{1,f(1)})/\\sqrt2\\) and measure both registers until both inputs have been seen. How many runs does this take on average?",
     "challenge": "Show that measuring only the input register of \\((\\ket{0,f(0)}+\\ket{1,f(1)})/\\sqrt2\\) gives \\(0\\) and \\(1\\) with probability \\(1/2\\) each for all four functions."
   },
-  "topic-6-2-3": {
+  "topic-7-2-3": {
     "foundation": "For \\(f=(0,1)\\), apply \\(H\\) to the input of \\((\\ket{00}+\\ket{11})/\\sqrt2\\), and find the probability of each input outcome.",
     "application": "For the constant function \\(f=(0,0)\\), repeat the calculation: start from \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\), apply \\(U_f\\), then \\(H\\) to the input.",
     "challenge": "Combining the two previous problems, design a one-query procedure with a clean target that never wrongly answers “balanced.” With what probability does it detect a balanced function?"
   },
-  "topic-6-3-1": {
+  "topic-7-3-1": {
     "foundation": "Compute \\(X(\\ket0+i\\ket1)/\\sqrt2\\). Is \\((\\ket0+i\\ket1)/\\sqrt2\\) an eigenvector of \\(X\\)?",
     "application": "Find every state that \\(X\\) leaves unchanged apart from a factor, by solving \\(X(a,b)^T=\\lambda(a,b)^T\\).",
     "challenge": "The target is prepared in \\(\\cos\\theta\\ket0+\\sin\\theta\\ket1\\), with real \\(\\theta\\), and the oracle flips it. Show that its overlap with the original target is \\(\\sin2\\theta\\), and that the target keeps no record of the flip only when it is \\(\\ket+\\) or \\(\\ket-\\)."
   },
-  "topic-6-3-2": {
+  "topic-7-3-2": {
     "foundation": "For \\(f=(1,0)\\), compute \\(U_f\\ket+\\ket-\\).",
     "application": "Prepare the input in \\(\\ket+\\), but mistakenly prepare the target in \\(\\ket+\\) too. Find the output of \\(U_f\\) for each of the four functions. Does leaving the target unentangled suffice to obtain useful phase kickback?",
     "challenge": "With \\(n\\) input qubits and the target in \\(\\ket-\\), show that \\(U_f\\bigl(2^{-n/2}\\sum_x\\ket x\\bigr)\\ket-=\\bigl(2^{-n/2}\\sum_x(-1)^{f(x)}\\ket x\\bigr)\\ket-\\), and that the target ends in \\(\\ket-\\) for every \\(f\\)."
   },
-  "topic-6-3-3": {
+  "topic-7-3-3": {
     "foundation": "For \\(f(x)=x\\), computed into a clean answer bit by CNOT, compute \\(\\mathrm{CNOT}\\,(I\\otimes Z)\\,\\mathrm{CNOT}\\) on \\(\\ket{0,0}\\) and \\(\\ket{1,0}\\).",
     "application": "Compute \\(\\mathrm{CNOT}\\,(I\\otimes Z)\\,\\mathrm{CNOT}\\) on all four basis states, and identify the operation. Why does compute, phase, uncompute need the workspace to start at \\(0\\)?",
     "challenge": "Omit the uncomputation: compute \\(f(x)=x\\) into the answer bit with CNOT and apply \\(Z\\) to the answer bit, but do not run CNOT again. Starting from \\(\\ket+\\ket0\\), apply \\(H\\) to the input at the end. Show that the outcome is random, whereas with uncomputation it is certain."
   },
-  "topic-6-4-1": {
+  "topic-7-4-1": {
     "foundation": "Compute \\(H\\bigl((-\\ket0+\\ket1)/\\sqrt2\\bigr)\\).",
     "application": "For each of the four functions, compute the final input amplitudes \\((s_0+s_1)/2\\) and \\((s_0-s_1)/2\\).",
     "challenge": "Show that if the final \\(H\\) is omitted, or replaced by \\(X\\), the measurement gives \\(0\\) and \\(1\\) with probability \\(1/2\\) each, for every function."
   },
-  "topic-6-4-2": {
+  "topic-7-4-2": {
     "foundation": "Count the queries and the other operations in Deutsch’s algorithm, starting from \\(\\ket{00}\\).",
     "application": "Run Deutsch’s algorithm for \\(f=(1,0)\\), giving the state after each step.",
     "challenge": "With \\(n\\) input qubits, after the query and \\(H\\) applied to each input qubit, show that the amplitude of the input configuration \\(0^n\\) is \\(2^{-n}\\sum_x(-1)^{f(x)}\\). Deduce that one query distinguishes constant from balanced functions with certainty."
   },
-  "topic-6-4-3": {
+  "topic-7-4-3": {
     "foundation": "Name the four stages of Deutsch’s algorithm and the operations used in each.",
     "application": "Replace the target \\(\\ket-\\) by \\(\\ket+\\), and run the algorithm for \\(f=(0,1)\\). What does the measurement give?",
     "challenge": "Leave out the first \\(H\\) on the input, so that the input stays \\(\\ket0\\). Show that the algorithm then gives each outcome with probability \\(1/2\\) for every function."
   },
-  "topic-8-1-1": {
+  "topic-9-1-1": {
     "foundation": "A predicate on three-bit labels marks the labels whose bits add to \\(2\\). How many labels are marked, and what is the probability that a uniformly random label is marked?",
     "application": "One label among \\(N=8\\) is marked. A classical search queries labels in a uniformly random order, without repetition, until it finds the marked one. What is the expected number of queries?",
     "challenge": "One label among \\(N\\) is marked, in a uniformly random position. Show that any classical algorithm making \\(k\\) queries finds it with probability at most \\(k/N\\)."
   },
-  "topic-8-1-2": {
+  "topic-9-1-2": {
     "foundation": "For \\(N=4\\) with the label \\(01\\) marked, write the amplitudes after preparing the uniform superposition and applying the phase oracle.",
     "application": "For \\(N=8\\) with one marked label, what are the amplitudes after preparation and marking, and what is the probability of measuring the marked label?",
     "challenge": "Show that applying the phase oracle any number of times, with nothing in between, never changes any measurement probability."
   },
-  "topic-8-1-3": {
+  "topic-9-1-3": {
     "foundation": "Reflect the amplitudes \\(\\tfrac12(1,-1,1,1)\\) about their mean.",
     "application": "For \\(N=8\\) with one marked label, compute the amplitudes after one marking and one reflection about the mean, and the success probability.",
     "challenge": "Show directly from \\(a_x\\mapsto2\\mu-a_x\\) that reflection about the mean preserves the sum of squared amplitudes, for real amplitudes."
   },
-  "topic-8-2-1": {
+  "topic-9-2-1": {
     "foundation": "For \\(N=8\\) with the marked labels \\(011\\) and \\(101\\), write \\(\\ket G\\) and \\(\\ket B\\).",
     "application": "For \\(N=8\\) and \\(M=2\\), write \\(\\ket s\\) as a combination of \\(\\ket G\\) and \\(\\ket B\\).",
     "challenge": "Show that the oracle \\(O_f\\) and the reflection \\(D=2\\ket s\\bra s-I\\) both map the plane of \\(\\ket G\\) and \\(\\ket B\\) into itself, by computing their action on \\(\\ket G\\) and \\(\\ket B\\)."
   },
-  "topic-8-2-2": {
+  "topic-9-2-2": {
     "foundation": "Find the angle \\(\\theta\\) for \\(N=16\\) with \\(M=1\\), and for \\(N=8\\) with \\(M=2\\).",
     "application": "For \\(N=8\\) and \\(M=2\\), how many iterations give success with certainty?",
     "challenge": "Show that, for \\(0\\lt M\\lt N\\), exactly one Grover iteration gives certain success precisely when \\(M/N=1/4\\)."
   },
-  "topic-8-2-3": {
+  "topic-9-2-3": {
     "foundation": "For \\(N=16\\) and \\(M=1\\), by how many degrees does each Grover iteration rotate the state?",
     "application": "For \\(N=16\\) and \\(M=1\\), give the angle of the state and the success probability after \\(1\\), \\(2\\), \\(3\\), and \\(4\\) iterations.",
     "challenge": "In the plane with the bad direction as the first axis and the good direction as the second, reflection across the line at angle \\(\\alpha\\) is \\(\\begin{pmatrix}\\cos2\\alpha&\\sin2\\alpha\\\\\\sin2\\alpha&-\\cos2\\alpha\\end{pmatrix}\\). Verify that reflecting across the bad axis and then across \\(\\ket s\\) is a rotation by \\(2\\theta\\)."
   },
-  "topic-8-3-1": {
+  "topic-9-3-1": {
     "foundation": "For \\(N=16\\) and \\(M=1\\), compute \\(p_k=\\sin^2\\bigl((2k+1)\\theta\\bigr)\\) for \\(k=0\\) and \\(k=3\\).",
     "application": "For \\(N=64\\) and \\(M=1\\), which number of iterations maximizes the success probability, and what is that probability?",
     "challenge": "Show that, given success, the measured label is uniformly distributed over the \\(M\\) marked labels, and that, given failure, it is uniform over the unmarked labels."
   },
-  "topic-8-3-2": {
+  "topic-9-3-2": {
     "foundation": "For \\(N=4\\) and \\(M=1\\), compute the success probability after three iterations.",
     "application": "A search has \\(N=16\\) items. You plan three Grover iterations assuming one marked item, but there are actually four. What success probability do three iterations give? How many iterations would work if you knew there were four?",
     "challenge": "Show that the sequence of success probabilities \\(p_0,p_1,p_2,\\dots\\) is periodic when \\(\\theta\\) is a rational multiple of \\(\\pi\\), and find the period for \\(N=4\\), \\(M=1\\)."
   },
-  "topic-8-3-3": {
+  "topic-9-3-3": {
     "foundation": "An algorithm succeeds with probability \\(p\\) per attempt and checks its candidate with one query. How many attempts does it need on average to find a marked label?",
     "application": "For \\(N=1024\\), the iteration count tuned for \\(M=1\\) is \\(k=25\\). What is the success probability if in fact \\(M=4\\)?",
     "challenge": "Each verified attempt succeeds with probability at least \\(1/4\\), independently. Show that \\(t\\) attempts all fail with probability at most \\((3/4)^t\\), and find the smallest \\(t\\) for which this is below \\(10^{-6}\\)."
   },
-  "topic-8-4-1": {
+  "topic-9-4-1": {
     "foundation": "A preparation succeeds with probability \\(p=1/9\\). Find \\(\\theta\\) and the amplitudes of \\(\\ket G\\) and \\(\\ket B\\).",
     "application": "For \\(p=1/9\\), how many amplification iterations maximize success, and what is the success probability?",
     "challenge": "A one-qubit preparation \\(A\\) gives \\(A\\ket0=\\tfrac{\\sqrt3}2\\ket0+\\tfrac12\\ket1\\), and success means outcome \\(1\\). Show that one amplification iteration succeeds with certainty, even though this preparation is not uniform."
   },
-  "topic-8-4-2": {
+  "topic-9-4-2": {
     "foundation": "For \\(A=H\\) on one qubit, write \\(R_\\psi=A(2\\ket0\\bra0-I)A^\\dagger\\) as a matrix.",
     "application": "Show that \\(A(2\\ket0\\bra0-I)A^\\dagger=2\\ket\\psi\\bra\\psi-I\\) when \\(A\\ket0=\\ket\\psi\\), and that it is unitary.",
     "challenge": "Why can the reflection \\(R_\\psi\\) not be replaced by measuring whether the prepared state succeeded? Show that measuring after each oracle step makes the success probability stay at \\(p\\)."
   },
-  "topic-8-4-3": {
+  "topic-9-4-3": {
     "foundation": "For \\(p=0.01\\), compare the number of independent trials needed for a reasonable chance of success with the number of amplification iterations.",
     "application": "Preparing \\(A\\) costs \\(100\\) gates and the success test \\(20\\) gates. For \\(p=10^{-4}\\), compare the total cost of about \\(1/p\\) independent trials, each a preparation and a test, with about \\(\\tfrac\\pi4/\\sqrt p\\) amplification iterations, each using \\(A\\), \\(A^\\dagger\\), and the test.",
     "challenge": "Preparing an arbitrary list of \\(N\\) amplitudes costs about \\(N\\) gates. For a search among \\(N\\) items with one marked item, so that \\(p=1/N\\), compare the cost of amplitude amplification with a classical scan of the list."
   },
-  "topic-7-1-1": {
+  "topic-8-1-1": {
     "foundation": "A circuit applies \\(H\\) to qubit 1, then \\(X\\) to qubit 2, then CNOT with qubit 1 as control and qubit 2 as target, starting from \\(\\ket{00}\\). Write the state after each step.",
     "application": "Apply, to \\(\\ket{00}\\), first \\(H\\) on qubit 1 and then CNOT, and in the other order. Do the two operations commute?",
     "challenge": "Prove that \\((U\\otimes I)(I\\otimes V)=(I\\otimes V)(U\\otimes I)=U\\otimes V\\): gates on different wires commute."
   },
-  "topic-7-1-2": {
+  "topic-8-1-2": {
     "foundation": "In the four-item search circuit, how many oracle uses and how many Hadamard gates does one Grover iteration contain, and how many Hadamard gates prepare the start?",
     "application": "List the gates of Deutsch’s algorithm in time order, starting from \\(\\ket{00}\\), with the qubits each acts on.",
     "challenge": "An oracle box \\(O_f\\) on \\(n\\) qubits marks one fixed string. It is built from \\(X\\) gates and a phase flip controlled on all \\(n\\) qubits, which in turn uses Toffoli gates and \\(n-2\\) workspace qubits. Count the gates in such a construction."
   },
-  "topic-7-1-3": {
+  "topic-8-1-3": {
     "foundation": "Bob receives a bit \\(b\\) and applies \\(X\\) only if \\(b=1\\). Write his operation for each value of \\(b\\).",
     "application": "For the input \\((\\alpha\\ket0+\\beta\\ket1)\\ket0\\), compare (a) CNOT followed by measuring the control with (b) measuring the control first and then applying \\(X\\) to the target if the result is \\(1\\). Show that the outcomes and final states agree.",
     "challenge": "Now the control is not measured at the end. Compare CNOT with “measure the control, then apply \\(X\\) if \\(1\\)” on the input \\(\\ket+\\ket-\\), by applying \\(H\\) to the control afterward and measuring it."
   },
-  "topic-7-2-1": {
+  "topic-8-2-1": {
     "foundation": "Compute \\(R_X(\\pi)\\) and \\(R_Z(\\pi)\\), and compare them with \\(X\\) and \\(Z\\).",
     "application": "Verify by multiplying matrices that \\(HZH=X\\), \\(HXH=Z\\), \\(S^2=Z\\), and \\(T^2=S\\).",
     "challenge": "Show that \\(R_Z(\\theta)=\\operatorname{diag}(e^{-i\\theta/2},e^{i\\theta/2})\\), and that up to a global phase it is \\(\\operatorname{diag}(1,e^{i\\theta})\\). Which values of \\(\\theta\\) give \\(S\\) and \\(T\\)?"
   },
-  "topic-7-2-2": {
+  "topic-8-2-2": {
     "foundation": "Apply controlled-\\(Z\\) to the four basis states. Show that exchanging the roles of control and target gives the same operation.",
     "application": "Verify that \\((I\\otimes H)\\,\\mathrm{CNOT}\\,(I\\otimes H)\\) acts as controlled-\\(Z\\) on \\(\\ket{10}\\) and \\(\\ket{11}\\).",
     "challenge": "Let \\(\\ket v\\) be an eigenvector of \\(U\\) with \\(U\\ket v=e^{i\\phi}\\ket v\\). Show that controlled-\\(U\\) sends \\(\\ket+\\ket v\\) to \\(\\tfrac1{\\sqrt2}(\\ket0+e^{i\\phi}\\ket1)\\otimes\\ket v\\). Is the result entangled?"
   },
-  "topic-7-2-3": {
+  "topic-8-2-3": {
     "foundation": "Which gates mark the string \\(01\\) on two qubits, that is, multiply \\(\\ket{01}\\) by \\(-1\\) and leave the other basis states alone?",
     "application": "For two qubits, verify that \\((H\\otimes H)(2\\ket{00}\\bra{00}-I)(H\\otimes H)\\) and \\(2\\ket s\\bra s-I\\) agree on \\(\\ket{00}\\).",
     "challenge": "Show that \\((X\\otimes X)\\,CZ\\,(X\\otimes X)=-(2\\ket{00}\\bra{00}-I)\\). Why does this sign not matter in an ordinary Grover iteration, and when would it matter?"
   },
-  "topic-7-3-1": {
+  "topic-8-3-1": {
     "foundation": "Apply \\(H\\otimes H\\) to \\(\\ket{00}\\), and check that the result is a product state.",
     "application": "A circuit applies \\(H\\) to qubit 1, then \\(X\\) to qubit 2, then \\(H\\) to qubit 1 again. Find the result on \\(\\ket{00}\\), and explain why it had to be a product state.",
     "challenge": "Show that one-qubit operations cannot turn an entangled two-qubit state into a product state."
   },
-  "topic-7-3-2": {
+  "topic-8-3-2": {
     "foundation": "Which of these gate sets can prepare a Bell state from \\(\\ket{00}\\): \\(\\{H,X,Z\\}\\); \\(\\{H,\\text{CNOT}\\}\\); \\(\\{\\text{CNOT},X\\}\\)?",
     "application": "Show that circuits of CNOT and \\(X\\) gates only permute computational basis states.",
     "challenge": "A reversible circuit on \\(m\\) wires uses \\(g\\) gates, each an \\(X\\), CNOT, or Toffoli on chosen wires. Show that there are at most \\((3m^3)^g\\) such circuits, and deduce that most Boolean functions of \\(n\\) bits need at least about \\(2^n/\\log_2(3m^3)\\) gates."
   },
-  "topic-7-3-3": {
+  "topic-8-3-3": {
     "foundation": "Each of \\(1000\\) gates is approximated within \\(10^{-6}\\). What error bound holds for the whole circuit?",
     "application": "A circuit has \\(10^6\\) gates and its total error must be at most \\(10^{-2}\\). What accuracy must each gate have if the error is split equally?",
     "challenge": "Prove that \\(\\|U_2U_1-V_2V_1\\|\\leq\\|U_2-V_2\\|+\\|U_1-V_1\\|\\) for unitaries \\(U_1,U_2,V_1,V_2\\)."
   },
-  "topic-7-4-1": {
+  "topic-8-4-1": {
     "foundation": "A circuit on three qubits applies \\(H\\) to each qubit, then CNOT from qubit 1 to qubit 2, then CNOT from qubit 2 to qubit 3. Give its gate count, depth, and width.",
     "application": "Compute the AND of \\(n=8\\) bits with a chain of Toffoli gates: \\(w_1=x_1x_2\\), \\(w_2=w_1x_3\\), and so on, then the output, then uncompute the workspace. Give the gate count, depth, and width.",
     "challenge": "Compute the AND of the same \\(8\\) bits with a balanced tree instead: combine bits in pairs, then pairs of results, and so on. Compare gate count, depth, and workspace with the chain."
   },
-  "topic-7-4-2": {
+  "topic-8-4-2": {
     "foundation": "Three qubits sit on a line, \\(1\\)–\\(2\\)–\\(3\\), and only neighbours can interact. How many SWAP gates are needed to apply a CNOT between qubits 1 and 3 and restore the original placement?",
     "application": "A SWAP gate costs three CNOT gates. Count the CNOT gates in the construction above, and for a CNOT between the two ends of a line of \\(n\\) qubits.",
     "challenge": "A data set of \\(N=2^n\\) numbers is loaded into amplitudes using one gate per number, and then searched with about \\(\\sqrt N\\) queries. When does the quadratic query speedup survive in the total cost?"
   },
-  "topic-7-4-3": {
+  "topic-8-4-3": {
     "foundation": "Each gate fails independently with probability \\(10^{-3}\\). What is the probability that a circuit of \\(1000\\) gates runs without any failure?",
     "application": "How small must the failure probability per gate be for a circuit of \\(10^9\\) gates to run without failure with probability at least \\(0.9\\)?",
     "challenge": "A repetition code stores a classical bit as three identical bits and decodes by majority. With independent flip probability \\(0<q<1\\), derive the failure probability and find when encoding helps. Now consider \\(\\alpha\\ket{000}+\\beta\\ket{111}\\): what does a phase flip \\(Z\\) on its first qubit do, and why does majority voting miss it?"
   },
-  "topic-9-1-1": {
+  "topic-10-1-1": {
     "foundation": "How many bits does \\(N=10^9\\) have in binary? A procedure takes about \\(\\sqrt N\\) steps. Is that polynomial in the input length?",
     "application": "An algorithm takes \\(5\\) steps on half of the \\(n\\)-bit inputs and \\(2^n\\) steps on the other half. Give its worst-case cost and its average cost over uniformly random inputs.",
     "challenge": "Trial division finds a factor of \\(N\\) by testing the divisors \\(2,3,\\dots,\\lfloor\\sqrt N\\rfloor\\). Express its worst-case number of divisions in terms of the input length \\(n=\\log_2N\\). Is it polynomial-time?"
   },
-  "topic-9-1-2": {
+  "topic-10-1-2": {
     "foundation": "Is \\(100n=O(n^2)\\)? Is \\(n^2=O(100n)\\)? Give constants, or explain why none exist.",
     "application": "Two algorithms take exactly \\(1000n\\) and \\(n^2\\) steps. Which is faster at \\(n=100\\), \\(n=1000\\), and \\(n=10{,}000\\)? Which scales better? Explain why these are different questions.",
     "challenge": "For which input lengths \\(n\\geq2\\) is an algorithm costing \\(n^{10}\\) steps faster than one costing \\(2^n\\) steps? What does this show about asymptotic comparisons?"
   },
-  "topic-9-1-3": {
+  "topic-10-1-3": {
     "foundation": "A Grover search over \\(N=10^6\\) items uses about \\((\\pi/4)\\sqrt N\\) queries. If each query costs \\(1000\\) gates and each reflection \\(50\\) gates, estimate the total gate count.",
     "application": "A classical scan costs one operation per item. For \\(N=10^6\\), below which cost \\(c\\) per query does a Grover search, costing about \\((\\pi/4)\\sqrt N\\cdot c\\) gates, beat the scan?",
     "challenge": "Algorithm A uses \\(n^2\\) queries and \\(n^3\\) other gates; algorithm B uses \\(n\\) queries and \\(n^4\\) other gates. If each query costs \\(n^k\\) gates, which algorithm has the smaller total gate count, depending on \\(k\\)?"
   },
-  "topic-9-2-1": {
+  "topic-10-2-1": {
     "foundation": "Which of these are decision problems: (a) is \\(N\\) prime? (b) find a factor of \\(N\\); (c) does a graph \\(G\\) contain a path from \\(u\\) to \\(v\\)?",
     "application": "For the problem “does \\(N\\) have a factor \\(d\\) with \\(1\\lt d\\lt k\\)?”, give a witness for \\(N=91\\) and \\(k=10\\), and explain how a witness is checked in polynomial time.",
     "challenge": "Prove that if \\(A\\) reduces to \\(B\\) in polynomial time and \\(B\\) is in P, then \\(A\\) is in P. Why must the reduction itself run in polynomial time?"
   },
-  "topic-9-2-2": {
+  "topic-10-2-2": {
     "foundation": "An algorithm errs with probability at most \\(1/3\\). Run it three times independently and take the majority answer. What is the error probability?",
     "application": "How many independent runs, with a majority vote, bring the error below \\(0.01\\) when each run errs with probability \\(1/3\\)?",
     "challenge": "Show that an algorithm that ignores its input and answers by flipping a fair coin has error \\(1/2\\) on every input, and that majority voting over repeated runs never improves it. Why is the condition “error at most \\(1/3\\)” essential?"
   },
-  "topic-9-2-3": {
+  "topic-10-2-3": {
     "foundation": "Trial division of a \\(2048\\)-bit number may test up to \\(\\sqrt N\\approx2^{1024}\\) divisors. Write this roughly as a power of ten.",
     "application": "A rough estimate for Shor’s factoring algorithm is \\(n^3\\) operations for an \\(n\\)-bit number. Compare \\(n^3\\) with \\(2^{n/2}\\) for \\(n=2048\\).",
     "challenge": "The best known classical factoring method, the number field sieve, takes time roughly \\(\\exp\\bigl(1.92(\\ln N)^{1/3}(\\ln\\ln N)^{2/3}\\bigr)\\). Evaluate it for a \\(2048\\)-bit \\(N\\), and explain why this comparison does not prove that quantum computers are exponentially more powerful."
   },
-  "topic-9-3-1": {
+  "topic-10-3-1": {
     "foundation": "Which of these establishes a lower bound on query complexity: (a) an algorithm using \\(\\sqrt N\\) queries; (b) a proof that every algorithm needs at least \\(\\sqrt N\\) queries; (c) many failed attempts to find an algorithm with fewer queries?",
     "application": "Using the fact that \\(k\\) classical queries find a single marked item among \\(N\\) with probability at most \\(k/N\\), show that success probability \\(1/2\\) needs at least \\(N/2\\) queries.",
     "challenge": "In the query model, an algorithm may compute without limit between queries. Explain why a query lower bound still applies to algorithms with limited computation, but a query upper bound need not give a fast algorithm."
   },
-  "topic-9-3-2": {
+  "topic-10-3-2": {
     "foundation": "For \\(N=10^6\\), compare Grover’s query count, about \\((\\pi/4)\\sqrt N\\), with the classical average \\(N/2\\).",
     "application": "If some quantum algorithm searched with only \\(N^{1/3}\\) queries, how many would it use for \\(N=10^6\\)? Which result rules this out?",
     "challenge": "Use the lower bound to show that no quantum algorithm finds a marked item among \\(N=2^n\\) with a number of queries polynomial in \\(n\\). What does this imply for solving NP problems by unstructured search?"
   },
-  "topic-9-3-3": {
+  "topic-10-3-3": {
     "foundation": "After \\(T=3\\) queries, what is the largest possible degree of an amplitude, and of an acceptance probability?",
     "application": "The approximate degree of OR on \\(N\\) bits grows like \\(\\sqrt N\\). For \\(N=10^4\\), what lower bound on queries does \\(T\\geq d/2\\) give, up to a constant factor?",
     "challenge": "Show that the exact degree of OR on \\(N\\) bits is \\(N\\), by writing \\(\\mathrm{OR}(z)=1-\\prod_i(1-z_i)\\). What does this imply for algorithms that must be correct with certainty?"
   },
-  "topic-9-4-1": {
+  "topic-10-4-1": {
     "foundation": "For Deutsch’s algorithm and for Grover search, name the property that is encoded in phases, and the operation that turns it into probability.",
     "application": "For each of the two algorithms, list costs that its query count does not include.",
     "challenge": "An algorithm prepares the uniform superposition of \\(n\\) qubits, applies an oracle once, and measures immediately. Show that it does no better than one classical query, whether the oracle is a phase oracle or the reversible \\(U_f\\)."
   },
-  "topic-9-4-2": {
+  "topic-10-4-2": {
     "foundation": "Can a quantum computer decide the halting problem? Why not?",
     "application": "A classical simulation of an \\(n\\)-qubit circuit stores all \\(2^n\\) amplitudes. How does its memory grow, and why does the simulation nevertheless show that quantum computers compute nothing beyond Turing machines?",
     "challenge": "A source promises to prepare either \\(\\ket0\\) on every run or \\(\\ket+\\) on every run. After obtaining \\(k\\) copies, the alternatives are \\(\\ket0^{\\otimes k}\\) and \\(\\ket+^{\\otimes k}\\). Compute their overlap. Can any finite number of copies guarantee perfect discrimination? How does that differ from making the error very small?"
   },
-  "topic-9-4-3": {
+  "topic-10-4-3": {
     "foundation": "What is the period of \\(f(x)=2^x\\bmod15\\)?",
     "application": "Use the period \\(r=4\\) of \\(2^x\\bmod15\\) to factor \\(15\\), by computing \\(\\gcd(2^{r/2}-1,15)\\) and \\(\\gcd(2^{r/2}+1,15)\\).",
     "challenge": "Let \\(a^x\\bmod N\\) have even period \\(r\\), with \\(a^{r/2}\\not\\equiv-1\\pmod N\\). Show that \\(\\gcd(a^{r/2}-1,N)\\) is a factor of \\(N\\) other than \\(1\\) and \\(N\\)."
@@ -573,5 +538,40 @@
     "foundation": "Compute \\(\\braket\\phi\\psi\\) for \\(\\ket\\phi=(\\ket0+i\\ket1)/\\sqrt2\\) and \\(\\ket\\psi=(\\ket0-i\\ket1)/\\sqrt2\\). Are the two states orthogonal?",
     "application": "For \\(\\ket\\psi=(\\sqrt3/2)\\ket0+(i/2)\\ket1\\), find the amplitudes \\(\\braket0\\psi\\) and \\(\\braket1\\psi\\), their probabilities, and the norm of \\(\\ket\\psi\\).",
     "challenge": "Let \\(\\ket\\phi=(\\ket0+\\ket1)/\\sqrt2\\) and \\(\\ket\\psi=\\ket0\\). Find the component \\(\\braket\\phi\\psi\\,\\ket\\phi\\) and the orthogonal remainder. Check that their squared norms add to one."
+  },
+  "topic-4-2-3": {
+    "foundation": "If system A has two basis states and system B has three, how many basis states does their composite have?",
+    "application": "Expand \\((\\ket0+\\ket1)/\\sqrt2\\otimes\\ket1\\) in the joint basis and give its computational-basis outcome probabilities.",
+    "challenge": "Why can \\((\\ket{00}+\\ket{11})/\\sqrt2\\) not be written as a product of two pure qubit states?"
+  },
+  "topic-5-1-1": {
+    "foundation": "What is the dimension of a three-qubit register?",
+    "application": "How do you prepare the classical input 101 from 000?",
+    "challenge": "Does a register with eight amplitudes reveal eight classical answers in one measurement?"
+  },
+  "topic-5-1-2": {
+    "foundation": "Why must an ideal gate be unitary?",
+    "application": "Write the combined operation for H followed by Z on one qubit.",
+    "challenge": "Why should an arbitrary n-qubit unitary not automatically count as one elementary gate?"
+  },
+  "topic-5-1-3": {
+    "foundation": "What information does a final computational-basis measurement return?",
+    "application": "If a register has state \\((\\ket{00}+\\ket{11})/\\sqrt2\\), what is the probability that measuring only the first qubit gives 1?",
+    "challenge": "Why include state preparation and repetitions in a resource estimate?"
+  },
+  "topic-5-2-1": {
+    "foundation": "In which direction is a circuit read?",
+    "application": "What does CNOT do to \\(\\ket{10}\\) and \\(\\ket{11}\\)?",
+    "challenge": "Does a filled CNOT control dot mean that the control qubit is measured?"
+  },
+  "topic-5-2-2": {
+    "foundation": "What is the output of H, Z, H on input zero?",
+    "application": "What changes if Z is omitted?",
+    "challenge": "What happens if a computational-basis measurement is inserted immediately after the first H?"
+  },
+  "topic-5-2-3": {
+    "foundation": "Which qubit is the control in the displayed circuit?",
+    "application": "List the two possible joint measurement outcomes and their probabilities.",
+    "challenge": "Why is \\(a\\ket{00}+b\\ket{11}\\) generally not two copies of \\(a\\ket0+b\\ket1\\)?"
   }
 }

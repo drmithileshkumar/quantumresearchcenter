@@ -363,264 +363,7 @@
       ]
     ]
   },
-  "topic-4-2-3": {
-    "kind": "network",
-    "title": "Repeated measurements on the same qubit",
-    "caption": "A computational-basis measurement of \\(\\ket+\\) leaves \\(\\ket0\\) or \\(\\ket1\\). Later measurements of that same unchanged qubit repeat the first result. A fresh preparation starts again at \\(\\ket+\\), with equal probabilities.",
-    "height": 380,
-    "nodes": [
-      {
-        "id": "start",
-        "x": 80,
-        "y": 180,
-        "label": "\\(\\ket+\\)"
-      },
-      {
-        "id": "zero",
-        "x": 365,
-        "y": 105,
-        "label": "\\(\\ket0\\)"
-      },
-      {
-        "id": "one",
-        "x": 365,
-        "y": 260,
-        "label": "\\(\\ket1\\)"
-      },
-      {
-        "id": "end0",
-        "x": 665,
-        "y": 105,
-        "label": "\\(\\ket0\\)"
-      },
-      {
-        "id": "end1",
-        "x": 665,
-        "y": 260,
-        "label": "\\(\\ket1\\)"
-      }
-    ],
-    "edges": [
-      {
-        "start": "start",
-        "end": "zero",
-        "label": "\\(p=1/2\\)",
-        "x": 215,
-        "y": 115
-      },
-      {
-        "start": "start",
-        "end": "one",
-        "label": "\\(p=1/2\\)",
-        "x": 215,
-        "y": 245
-      },
-      {
-        "start": "zero",
-        "end": "end0",
-        "label": "\\(p=1\\)",
-        "x": 515,
-        "y": 85
-      },
-      {
-        "start": "one",
-        "end": "end1",
-        "label": "\\(p=1\\)",
-        "x": 515,
-        "y": 240
-      }
-    ],
-    "notes": [
-      {
-        "x": 215,
-        "y": 55,
-        "text": "First measurement"
-      },
-      {
-        "x": 515,
-        "y": 55,
-        "text": "Immediate repeat"
-      },
-      {
-        "x": 380,
-        "y": 335,
-        "text": "Arrow labels are probabilities; nodes are conditional states."
-      }
-    ]
-  },
-  "topic-4-3-1": {
-    "kind": "table",
-    "title": "The same state in two bases",
-    "caption": "These rows change coordinates without changing the physical state. The plus/minus basis is defined by \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\).",
-    "headers": [
-      "Physical state",
-      "Computational coordinates",
-      "Plus/minus coordinates"
-    ],
-    "rows": [
-      [
-        "\\(\\ket0\\)",
-        "(1, 0)",
-        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)"
-      ],
-      [
-        "\\(\\ket{+}\\)",
-        "\\((1/\\sqrt{2}, 1/\\sqrt{2})\\)",
-        "(1, 0)"
-      ]
-    ]
-  },
-  "topic-4-3-3": {
-    "kind": "network",
-    "title": "The same unitary preserves both states’ overlap",
-    "caption": "\\(H\\) sends \\(\\ket0\\) to \\(\\ket+\\) and \\(\\ket+\\) to \\(\\ket0\\). The inner product of the two states is \\(1/\\sqrt2\\) before and after. Arrows here denote unitary evolution.",
-    "height": 370,
-    "nodes": [
-      {
-        "id": "a",
-        "x": 170,
-        "y": 110,
-        "label": "\\(\\ket0\\)"
-      },
-      {
-        "id": "b",
-        "x": 590,
-        "y": 110,
-        "label": "\\(\\ket+\\)"
-      },
-      {
-        "id": "c",
-        "x": 170,
-        "y": 250,
-        "label": "\\(\\ket+\\)"
-      },
-      {
-        "id": "e",
-        "x": 590,
-        "y": 250,
-        "label": "\\(\\ket0\\)"
-      }
-    ],
-    "edges": [
-      {
-        "start": "a",
-        "end": "b",
-        "label": "\\(H\\)",
-        "x": 380,
-        "y": 90
-      },
-      {
-        "start": "c",
-        "end": "e",
-        "label": "\\(H\\)",
-        "x": 380,
-        "y": 230
-      }
-    ],
-    "notes": [
-      {
-        "x": 170,
-        "y": 55,
-        "text": "Inputs"
-      },
-      {
-        "x": 590,
-        "y": 55,
-        "text": "Outputs"
-      },
-      {
-        "x": 380,
-        "y": 325,
-        "text": "\\(\\braket0+=\\braket+0=1/\\sqrt2\\)"
-      }
-    ]
-  },
-  "topic-4-4-1": {
-    "kind": "transitions",
-    "title": "Eigenvectors retain their direction",
-    "caption": "\\(Z\\) keeps each configuration and multiplies the amplitude at \\(1\\) by \\(-1\\). So \\(\\ket0\\) and \\(\\ket1\\) are eigenvectors, with eigenvalues \\(+1\\) and \\(-1\\), but a state with \\(\\alpha\\) and \\(\\beta\\) both nonzero is not.",
-    "panels": [
-      {
-        "columns": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ]
-        ],
-        "steps": [
-          "\\(Z\\)"
-        ],
-        "weights": [
-          {
-            "0": "\\(\\alpha\\)",
-            "1": "\\(\\beta\\)"
-          },
-          {
-            "0": "\\(\\alpha\\)",
-            "1": "\\(-\\beta\\)"
-          }
-        ],
-        "edges": [
-          [
-            0,
-            "0",
-            "0",
-            "\\(1\\)"
-          ],
-          [
-            0,
-            "1",
-            "1",
-            "\\(-1\\)"
-          ]
-        ]
-      }
-    ]
-  },
-  "topic-4-4-2": {
-    "kind": "table",
-    "title": "An observable labels its eigenspaces",
-    "caption": "For \\(A=\\mathrm{diag}(2,5)\\), the projectors select the two computational-basis components. The measurement reports the associated eigenvalue.",
-    "headers": [
-      "Eigenspace",
-      "Projector",
-      "Reported value"
-    ],
-    "rows": [
-      [
-        "Span of \\(\\ket0\\)",
-        "\\(\\ketbra{0}{0}\\)",
-        "2"
-      ],
-      [
-        "Span of \\(\\ket1\\)",
-        "\\(\\ketbra{1}{1}\\)",
-        "5"
-      ]
-    ]
-  },
-  "topic-4-4-3": {
-    "kind": "plane",
-    "title": "Distinct vectors need not be orthogonal",
-    "caption": "The real slice shown contains \\(\\ket0\\) and \\(\\ket+\\) at \\(45^\\circ\\). Their overlap is \\(1/\\sqrt2\\), so one copy cannot always reveal which was prepared. Angles here represent state-vector geometry, not physical space.",
-    "angles": [
-      0,
-      45
-    ],
-    "labels": [
-      "\\(\\ket0\\)",
-      "\\(\\ket{+}\\)"
-    ],
-    "axes": [
-      "\\(\\ket0\\) coefficient",
-      "\\(\\ket1\\) coefficient"
-    ]
-  },
-  "topic-5-1-1": {
+  "topic-6-1-1": {
     "kind": "table",
     "title": "Local labels form joint basis labels",
     "caption": "The joint basis has one label for every pair of local labels. This is the Cartesian arrangement of tensor-product basis vectors, not a mixture.",
@@ -642,7 +385,7 @@
       ]
     ]
   },
-  "topic-5-1-2": {
+  "topic-6-1-2": {
     "kind": "flow",
     "title": "A superposition can still factor",
     "caption": "Both terms share the same second-qubit state. Factoring it out shows that this pure state is a product, despite having two nonzero amplitudes.",
@@ -654,7 +397,7 @@
       ]
     ]
   },
-  "topic-5-1-3": {
+  "topic-6-1-3": {
     "kind": "table",
     "title": "Description size and measurement output",
     "caption": "The number of basis coefficients doubles with each added qubit. One computational-basis measurement still returns only one n-bit label.",
@@ -686,7 +429,7 @@
       ]
     ]
   },
-  "topic-5-2-2": {
+  "topic-6-2-2": {
     "kind": "table",
     "title": "The Bell coefficients cannot be a product",
     "caption": "A product \\((a\\ket0+b\\ket1)(c\\ket0+d\\ket1)\\) would require \\(ac\\) and \\(bd\\) nonzero. Then all four factors are nonzero, contradicting \\(ad=bc=0\\).",
@@ -718,7 +461,7 @@
       ]
     ]
   },
-  "topic-5-2-3": {
+  "topic-6-2-3": {
     "kind": "table",
     "title": "Sum joint probabilities to get a marginal",
     "caption": "For the Bell state, the row sums give the first-qubit probabilities. Conditional on the first bit being zero, only the \\(00\\) entry remains possible.",
@@ -749,7 +492,7 @@
       ]
     ]
   },
-  "topic-5-3-1": {
+  "topic-6-3-1": {
     "kind": "transitions",
     "title": "CNOT copies labels, not arbitrary states",
     "caption": "With a blank target, CNOT carries the amplitude \\(\\alpha\\) of \\(00\\) to \\(00\\) and the amplitude \\(\\beta\\) of \\(10\\) to \\(11\\). The result \\(\\alpha\\ket{00}+\\beta\\ket{11}\\) is not two copies of \\(\\alpha\\ket0+\\beta\\ket1\\) unless \\(\\alpha\\) or \\(\\beta\\) is zero.",
@@ -807,7 +550,7 @@
       }
     ]
   },
-  "topic-5-3-2": {
+  "topic-6-3-2": {
     "kind": "flow",
     "title": "Cloning would have to preserve an impossible overlap",
     "caption": "Let \\(c=\\braket\\psi\\phi\\). A unitary cloning map would preserve input overlap \\(c\\), while two copies have overlap \\(c^2\\). The value \\(1/\\sqrt2\\) cannot satisfy that requirement.",
@@ -824,7 +567,7 @@
       ]
     ]
   },
-  "topic-5-3-3": {
+  "topic-6-3-3": {
     "kind": "flow",
     "title": "Local statistics do not carry a distant outcome",
     "caption": "For the Bell pair, either local computational-basis distribution is fair. Learning the remote outcome permits conditioning; without it, the local distribution remains unchanged.",
@@ -841,7 +584,7 @@
       ]
     ]
   },
-  "topic-5-4-1": {
+  "topic-6-4-1": {
     "kind": "flow",
     "title": "Teleportation consumes shared resources",
     "caption": "Alice and Bob first share a Bell pair. Alice’s joint measurement and two-bit message allow Bob to select the correction; the shared pair is consumed in transferring the input state.",
@@ -854,7 +597,7 @@
       ]
     ]
   },
-  "topic-5-4-3": {
+  "topic-6-4-3": {
     "kind": "flow",
     "title": "A state is transferred, not a second copy retained",
     "caption": "The two-bit message selects a correction using a previously shared Bell pair. It is not a classical list of the unknown amplitudes.",
@@ -867,7 +610,7 @@
       ]
     ]
   },
-  "topic-6-1-1": {
+  "topic-7-1-1": {
     "kind": "table",
     "title": "Four truth tables, two classes",
     "caption": "Deutsch’s task asks whether the two outputs agree. It does not require identifying which truth table in a class was supplied.",
@@ -899,7 +642,7 @@
       ]
     ]
   },
-  "topic-6-1-2": {
+  "topic-7-1-2": {
     "kind": "flow",
     "title": "One observed value leaves an ambiguity",
     "caption": "If a classical query returns \\(f(0)=0\\), both a constant and a balanced truth table remain possible. A second value is needed for an exact classical answer.",
@@ -916,7 +659,7 @@
       ]
     ]
   },
-  "topic-6-1-3": {
+  "topic-7-1-3": {
     "kind": "transitions",
     "title": "The target update is a permutation",
     "caption": "Configurations are written \\(xy\\), here with \\(f(0)=0\\) and \\(f(1)=1\\). Where \\(f(x)=1\\) the two target values exchange; elsewhere nothing moves. One arrow enters each configuration, so \\(U_f\\) is reversible even when \\(f\\) is not one-to-one.",
@@ -964,7 +707,7 @@
       }
     ]
   },
-  "topic-6-2-1": {
+  "topic-7-2-1": {
     "kind": "transitions",
     "title": "Apply the oracle term by term",
     "caption": "With \\(f(0)=0\\) and \\(f(1)=1\\), each amplitude follows its own arrow. The input superposition with a blank target becomes \\((\\ket{00}+\\ket{11})/\\sqrt2\\): the target is now correlated with the input.",
@@ -1022,7 +765,7 @@
       }
     ]
   },
-  "topic-6-2-2": {
+  "topic-7-2-2": {
     "kind": "bars",
     "title": "A joint measurement returns one pair",
     "caption": "For \\((\\ket{00}+\\ket{11})/\\sqrt2\\), a computational-basis measurement samples one of these four labels. It does not output the full list of amplitudes.",
@@ -1039,7 +782,7 @@
       0.5
     ]
   },
-  "topic-6-2-3": {
+  "topic-7-2-3": {
     "kind": "flow",
     "title": "Workspace can distinguish input branches",
     "caption": "Different workspace records can prevent the desired input interference. The shared-workspace example factors; the branch-record example does not. The common normalization factor \\(1/\\sqrt2\\) is omitted in the labels.",
@@ -1056,7 +799,7 @@
       ]
     ]
   },
-  "topic-6-3-1": {
+  "topic-7-3-1": {
     "kind": "transitions",
     "title": "The target eigenvalue supplies the sign",
     "caption": "A bit flip moves each amplitude to the other configuration. For \\(\\ket-\\) the result is \\(-\\ket-\\): the target is unchanged apart from a sign, which the oracle can pass to the input.",
@@ -1102,7 +845,7 @@
       }
     ]
   },
-  "topic-6-3-3": {
+  "topic-7-3-3": {
     "kind": "transitions",
     "title": "Compute, mark, then clear the record",
     "caption": "For a basis input \\(x\\), compute \\(f(x)\\) into clean workspace, apply \\(Z\\) to that bit, and reverse the computation. The function-dependent sign remains while the workspace returns to zero.",
@@ -1150,7 +893,7 @@
       }
     ]
   },
-  "topic-6-4-1": {
+  "topic-7-4-1": {
     "kind": "transitions",
     "title": "A sign pattern becomes a measured bit",
     "caption": "The final \\(H\\) sends each signed amplitude along two arrows. At \\(0\\) the contributions add and at \\(1\\) they subtract, so equal signs give \\(0\\) with certainty and opposite signs give \\(1\\).",
@@ -1208,7 +951,7 @@
       }
     ]
   },
-  "topic-6-4-3": {
+  "topic-7-4-3": {
     "kind": "flow",
     "title": "Every stage contributes to correctness",
     "caption": "The target \\(\\ket-\\) lets the oracle encode a phase without keeping an input-dependent target record. The final \\(H\\) converts that phase into the answer.",
@@ -1221,7 +964,7 @@
       ]
     ]
   },
-  "topic-8-1-1": {
+  "topic-9-1-1": {
     "kind": "table",
     "title": "A predicate tests one candidate",
     "caption": "In this four-item example only \\(11\\) is marked. Testing a supplied candidate is different from locating the successful one.",
@@ -1253,7 +996,7 @@
       ]
     ]
   },
-  "topic-8-1-2": {
+  "topic-9-1-2": {
     "kind": "transitions",
     "title": "Marking changes a sign, not a probability",
     "caption": "The oracle keeps every configuration and multiplies the amplitude of the marked item \\(11\\) by \\(-1\\). Every immediate measurement probability stays \\(1/4\\), so another operation is needed to turn the sign into an advantage.",
@@ -1319,7 +1062,7 @@
       }
     ]
   },
-  "topic-8-2-1": {
+  "topic-9-2-1": {
     "kind": "flow",
     "title": "Group coordinates into good and bad directions",
     "caption": "For one marked item among four, \\(\\ket{G}=\\ket{11}\\) and \\(\\ket{B}=(\\ket{00}+\\ket{01}+\\ket{10})/\\sqrt3\\). These orthogonal directions contain the initial state and the entire ideal search trajectory.",
@@ -1336,7 +1079,7 @@
       ]
     ]
   },
-  "topic-8-2-2": {
+  "topic-9-2-2": {
     "kind": "plane",
     "title": "Initial amplitude fixes the angle",
     "caption": "With one marked item among four, \\(\\sin\\theta=1/2\\), so \\(\\theta=30^\\circ\\). The good amplitude is the vertical component; the success probability is its square.",
@@ -1351,7 +1094,7 @@
       "Good component"
     ]
   },
-  "topic-8-2-3": {
+  "topic-9-2-3": {
     "kind": "plane",
     "title": "Two reflections advance the state",
     "caption": "For \\(\\theta=30^\\circ\\), the initial state is at \\(30^\\circ\\). The oracle reflects it to \\(-30^\\circ\\) about the bad axis; reflection about the initial direction then sends it to \\(90^\\circ\\). These are real coordinates in the good/bad plane.",
@@ -1370,7 +1113,7 @@
       "Good component"
     ]
   },
-  "topic-8-3-1": {
+  "topic-9-3-1": {
     "kind": "bars",
     "title": "Success oscillates with iteration count",
     "caption": "For \\(N=4\\) and \\(M=1\\), \\(p_k=\\sin^2((2k+1)\\pi/6)\\). One iteration is ideal, but the next two return to probability \\(1/4\\). Stopping is part of the algorithm.",
@@ -1387,7 +1130,7 @@
       0.25
     ]
   },
-  "topic-8-3-3": {
+  "topic-9-3-3": {
     "kind": "decision",
     "title": "Measure a candidate, then verify it",
     "caption": "A failed verification rejects that candidate, not every possible candidate. With an unknown marked fraction, the schedule must choose how long to search before measuring again.",
@@ -1398,7 +1141,7 @@
       "No: revise schedule\nand try again"
     ]
   },
-  "topic-8-4-1": {
+  "topic-9-4-1": {
     "kind": "plane",
     "title": "Amplification uses the prepared success weight",
     "caption": "A nonuniform preparation can still be resolved into normalized good and bad components. This example has \\(p=1/4\\), so its amplitudes are \\(1/2\\) and \\(\\sqrt3/2\\) regardless of how many underlying labels contribute.",
@@ -1413,7 +1156,7 @@
       "Good component"
     ]
   },
-  "topic-8-4-3": {
+  "topic-9-4-3": {
     "kind": "table",
     "title": "Count the work inside each amplification round",
     "caption": "For small \\(p\\), the improvement concerns repeated use of coherent preparation and the success test. Their implementation costs must be included.",
@@ -1435,7 +1178,7 @@
       ]
     ]
   },
-  "topic-7-1-1": {
+  "topic-8-1-1": {
     "kind": "transitions",
     "title": "Time order and matrix order",
     "caption": "The circuit applies \\(H\\) first and \\(Z\\) second, as the columns run from left to right. The combined operator is written \\(ZH\\): on a column vector the rightmost matrix acts first.",
@@ -1514,7 +1257,7 @@
       }
     ]
   },
-  "topic-7-1-2": {
+  "topic-8-1-2": {
     "kind": "flow",
     "title": "Open a query box to count its gates",
     "caption": "A query diagram counts uses of an oracle. Replacing each box by a circuit exposes the gate cost, plus any operations between calls.",
@@ -1531,7 +1274,7 @@
       ]
     ]
   },
-  "topic-7-1-3": {
+  "topic-8-1-3": {
     "kind": "flow",
     "title": "A measured bit selects a correction",
     "caption": "Classical control uses a recorded outcome. It selects a branch after measurement rather than preserving a coherent superposition of both control alternatives.",
@@ -1548,7 +1291,7 @@
       ]
     ]
   },
-  "topic-7-2-1": {
+  "topic-8-2-1": {
     "kind": "transitions",
     "title": "Gates act differently on different inputs",
     "caption": "\\(X\\) exchanges basis labels; \\(Z\\) changes one sign; \\(H\\) changes basis. Their action on arbitrary superpositions follows by linearity.",
@@ -1654,7 +1397,7 @@
       }
     ]
   },
-  "topic-7-3-1": {
+  "topic-8-3-1": {
     "kind": "flow",
     "title": "Local gates preserve a product form",
     "caption": "Applying \\(A\\) to one qubit and \\(B\\) to the other gives \\((A\\ket\\psi)\\otimes(B\\ket\\phi)\\). Starting with a product, local unitary gates alone cannot create entanglement.",
@@ -1666,7 +1409,7 @@
       ]
     ]
   },
-  "topic-7-3-2": {
+  "topic-8-3-2": {
     "kind": "flow",
     "title": "One route to universality",
     "caption": "Arbitrary one-qubit unitaries together with CNOT suffice to construct arbitrary finite-register unitaries. A chosen finite gate alphabet instead generally requires approximation.",
@@ -1678,7 +1421,7 @@
       ]
     ]
   },
-  "topic-7-3-3": {
+  "topic-8-3-3": {
     "kind": "flow",
     "title": "Approximation includes a tolerance",
     "caption": "The task is to find a finite circuit \\(V\\) close enough to a target \\(U\\). The tolerance controls acceptable error and affects the required circuit length.",
@@ -1695,7 +1438,7 @@
       ]
     ]
   },
-  "topic-7-4-1": {
+  "topic-8-4-1": {
     "kind": "table",
     "title": "The same gate count can give different depths",
     "caption": "Four independent gates on four wires can occupy one layer. Four dependent gates on one wire require four layers. Parallelism may use more workspace.",
@@ -1720,7 +1463,7 @@
       ]
     ]
   },
-  "topic-7-4-2": {
+  "topic-8-4-2": {
     "kind": "flow",
     "title": "Connectivity can require moving information",
     "caption": "On a three-site line only neighboring sites interact directly. To act on logical qubits A and C, swap A next to C, apply the gate, and restore the placement if needed.",
@@ -1733,7 +1476,7 @@
       ]
     ]
   },
-  "topic-7-4-3": {
+  "topic-8-4-3": {
     "kind": "flow",
     "title": "A worst-case error budget",
     "caption": "For ideal and implemented unitary gates with operator-norm error at most ε per gate, a telescoping bound gives total error at most mε. The bound is not a claim that all errors add with the same sign in a particular run.",
@@ -1745,7 +1488,7 @@
       ]
     ]
   },
-  "topic-9-1-1": {
+  "topic-10-1-1": {
     "kind": "table",
     "title": "Input value is not input length",
     "caption": "Binary encoding uses logarithmically many bits. A cost proportional to the integer’s value can therefore be exponential in the number of input bits.",
@@ -1777,7 +1520,7 @@
       ]
     ]
   },
-  "topic-9-1-2": {
+  "topic-10-1-2": {
     "kind": "table",
     "title": "Asymptotic order and finite costs",
     "caption": "The linear algorithm with a large constant eventually wins, but not for every input size. Big-O notation describes growth, not a complete timing prediction.",
@@ -1808,7 +1551,7 @@
       ]
     ]
   },
-  "topic-9-1-3": {
+  "topic-10-1-3": {
     "kind": "table",
     "title": "Fewer queries can cost more gates",
     "caption": "These totals count only the gates inside query calls. Preparation and other gates must still be added for a full comparison.",
@@ -1833,7 +1576,7 @@
       ]
     ]
   },
-  "topic-9-2-1": {
+  "topic-10-2-1": {
     "kind": "flow",
     "title": "An efficient reduction transfers a solver",
     "caption": "If task \\(A\\) reduces efficiently to task \\(B\\), an efficient solver for \\(B\\) would yield one for \\(A\\). The arrow describes converting instances, not proving that such a solver exists.",
@@ -1846,7 +1589,7 @@
       ]
     ]
   },
-  "topic-9-2-2": {
+  "topic-10-2-2": {
     "kind": "table",
     "title": "Bounded error is a per-input requirement",
     "caption": "Both classes concern polynomial-time decision procedures with a bounded error on every allowed input. The computational model differs.",
@@ -1868,7 +1611,7 @@
       ]
     ]
   },
-  "topic-9-2-3": {
+  "topic-10-2-3": {
     "kind": "table",
     "title": "Different tasks offer different structure",
     "caption": "Factoring uses arithmetic structure; unstructured search assumes only oracle access to a predicate. A lower bound for the latter is not a lower bound for every structured problem.",
@@ -1890,7 +1633,7 @@
       ]
     ]
   },
-  "topic-9-3-1": {
+  "topic-10-3-1": {
     "kind": "flow",
     "title": "Two directions of a complexity argument",
     "caption": "A construction proves that a task can be solved within a cost. A lower bound must cover every permitted algorithm in the stated model.",
@@ -1907,7 +1650,7 @@
       ]
     ]
   },
-  "topic-9-3-2": {
+  "topic-10-3-2": {
     "kind": "flow",
     "title": "Search upper and lower bounds meet",
     "caption": "For one marked item and constant success in the unstructured quantum query model, Grover’s \\(O(\\sqrt N)\\) upper bound and the \\(\\Omega(\\sqrt N)\\) lower bound give \\(\\Theta(\\sqrt N)\\) query complexity.",
@@ -1924,7 +1667,7 @@
       ]
     ]
   },
-  "topic-9-3-3": {
+  "topic-10-3-3": {
     "kind": "flow",
     "title": "Combine a model bound with a function bound",
     "caption": "The query model limits acceptance degree to \\(2T\\). If approximating the requested function requires degree \\(d\\), then \\(2T\\ge d\\). The approximate-degree theorem is a separate ingredient.",
@@ -1937,7 +1680,7 @@
       ]
     ]
   },
-  "topic-9-4-1": {
+  "topic-10-4-1": {
     "kind": "flow",
     "title": "Follow the costs around the algorithm",
     "caption": "An advantage claim must include the access assumptions and success criterion. Expensive preparation or readout can dominate a reduction in oracle calls.",
@@ -1950,7 +1693,7 @@
       ]
     ]
   },
-  "topic-9-4-2": {
+  "topic-10-4-2": {
     "kind": "table",
     "title": "Three different limitations",
     "caption": "A faster implementation does not turn an undecidable task into a decidable one, nor make all amplitudes available from a single measurement.",
@@ -1977,7 +1720,7 @@
       ]
     ]
   },
-  "topic-9-4-3": {
+  "topic-10-4-3": {
     "kind": "flow",
     "title": "Algorithmic structure and physical reliability",
     "caption": "Period finding concerns making structure observable; error correction concerns protecting a computation from faults. A useful large computation needs both suitable algorithms and sufficiently reliable operations.",

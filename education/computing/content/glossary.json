@@ -111,7 +111,7 @@
     "term": "Projective measurement",
     "slug": "projective-measurement",
     "definition": "A measurement described by mutually orthogonal projectors summing to the identity. Each outcome probability is the squared norm of the projected state.",
-    "url": "04-states-measurement.html#topic-4-3-2"
+    "url": "04-states-measurement.html#topic-4-2-2"
   },
   {
     "term": "Adjoint",
@@ -129,102 +129,102 @@
     "term": "Hermitian",
     "slug": "hermitian",
     "definition": "An operator equal to its adjoint. Its eigenvalues are real and its eigenspaces can describe a projective measurement.",
-    "url": "04-states-measurement.html#topic-4-4-2"
+    "url": "appendices.html#appendix-c"
   },
   {
     "term": "Tensor product",
     "slug": "tensor-product",
     "definition": "The construction of a joint vector space from component spaces. Basis labels combine in pairs and dimensions multiply.",
-    "url": "05-composite-systems.html#topic-5-1-1"
+    "url": "06-composite-systems.html#topic-6-1-1"
   },
   {
     "term": "Product state",
     "slug": "product-state",
     "definition": "A pure joint state that can be written as a tensor product of one state for each subsystem.",
-    "url": "05-composite-systems.html#topic-5-1-2"
+    "url": "06-composite-systems.html#topic-6-1-2"
   },
   {
     "term": "Entanglement",
     "slug": "entanglement",
     "definition": "For a pure joint state, the inability to write it as a product of subsystem states. Mixed-state entanglement requires a broader definition.",
-    "url": "05-composite-systems.html#topic-5-2-2"
+    "url": "06-composite-systems.html#topic-6-2-2"
   },
   {
     "term": "Bell state",
     "slug": "bell-state",
     "definition": "One of four maximally entangled two-qubit basis states. The book begins with the equal superposition of 00 and 11.",
-    "url": "05-composite-systems.html#topic-5-2-1"
+    "url": "06-composite-systems.html#topic-6-2-1"
   },
   {
     "term": "Oracle",
     "slug": "oracle",
     "definition": "A specified operation that provides access to a function. Counting its uses does not by itself account for the cost of building it.",
-    "url": "06-queries-phase-kickback.html#topic-6-1-3"
+    "url": "07-queries-phase-kickback.html#topic-7-1-3"
   },
   {
     "term": "Phase kickback",
     "slug": "phase-kickback",
     "definition": "When a controlled operation acts on a target eigenstate, its eigenvalue appears as a phase on the corresponding control component.",
-    "url": "06-queries-phase-kickback.html#topic-6-3-1"
+    "url": "07-queries-phase-kickback.html#topic-7-3-1"
   },
   {
     "term": "Superposition",
     "slug": "superposition",
     "definition": "A linear combination of basis states. Its components depend on the chosen basis; measurement does not reveal all coefficients at once.",
-    "url": "06-queries-phase-kickback.html#topic-6-2-1"
+    "url": "07-queries-phase-kickback.html#topic-7-2-1"
   },
   {
     "term": "Amplitude amplification",
     "slug": "amplitude-amplification",
     "definition": "A sequence of reflections that increases the amplitude in a designated successful subspace, given suitable preparation and inverse operations.",
-    "url": "08-amplitude-amplification.html#topic-8-4-1"
+    "url": "09-amplitude-amplification.html#topic-9-4-1"
   },
   {
     "term": "Grover iteration",
     "slug": "grover-iteration",
     "definition": "A phase reversal on marked items followed by a reflection about the prepared uniform state in the standard search algorithm.",
-    "url": "08-amplitude-amplification.html#topic-8-2-3"
+    "url": "09-amplitude-amplification.html#topic-9-2-3"
   },
   {
     "term": "Quantum circuit",
     "slug": "quantum-circuit",
     "definition": "An ordered description of operations on quantum registers, with any measurements and classical control specified.",
-    "url": "07-circuits-universality.html#topic-7-1-1"
+    "url": "08-circuits-universality.html#topic-8-1-1"
   },
   {
     "term": "Universal gate set",
     "slug": "universal-gate-set",
     "definition": "A set of gates sufficient to construct arbitrary quantum operations in the stated model, exactly or to a specified approximation.",
-    "url": "07-circuits-universality.html#topic-7-3-2"
+    "url": "08-circuits-universality.html#topic-8-3-2"
   },
   {
     "term": "Circuit depth",
     "slug": "circuit-depth",
     "definition": "The number of sequential layers of operations when compatible operations can run in parallel.",
-    "url": "07-circuits-universality.html#topic-7-4-1"
+    "url": "08-circuits-universality.html#topic-8-4-1"
   },
   {
     "term": "Query complexity",
     "slug": "query-complexity",
     "definition": "The number of oracle calls required for a task under a stated success criterion and oracle model.",
-    "url": "09-complexity-advantage.html#topic-9-1-3"
+    "url": "10-complexity-advantage.html#topic-10-1-3"
   },
   {
     "term": "BQP",
     "slug": "bqp",
     "definition": "The class of decision problems solvable by uniform polynomial-size quantum circuits with bounded error.",
-    "url": "09-complexity-advantage.html#topic-9-2-2"
+    "url": "10-complexity-advantage.html#topic-10-2-2"
   },
   {
     "term": "Lower bound",
     "slug": "lower-bound",
     "definition": "A limit on the resources required by every algorithm within a specified model, rather than the cost of one construction.",
-    "url": "09-complexity-advantage.html#topic-9-3-1"
+    "url": "10-complexity-advantage.html#topic-10-3-1"
   },
   {
     "term": "Quantum advantage",
     "slug": "quantum-advantage",
     "definition": "An improvement over classical computation for a specified task, resource measure, and success guarantee. Its assumptions must be stated.",
-    "url": "09-complexity-advantage.html#topic-9-4-1"
+    "url": "10-complexity-advantage.html#topic-10-4-1"
   }
 ]

@@ -10,9 +10,12 @@ No prior knowledge of quantum mechanics, formal logic, automata theory, computat
 
 The exposition should be intuitive without sacrificing precision. Motivation belongs in the examples and explanatory prose. Chapter, section, and subsection titles should identify their subject directly, using concise technical terms. Each new term must be explained when it enters the argument.
 
-The HTML book now follows this nine-chapter structure. Old chapter URLs redirect to the corresponding chapters in the current book.
+The HTML book now follows a ten-chapter structure. Old chapter URLs redirect to the corresponding chapters in the current book.
 
 ## Book Structure
+
+Chapter 5, **Quantum Model of Computation**, introduces registers, preparation, local unitary gates, measurement, resources, and circuit notation, with H–Z–H and H–CNOT examples. Composite Systems is now Chapter 6; Queries is Chapter 7; Circuits and Universality is Chapter 8; Search is Chapter 9; Complexity is Chapter 10. Earlier chapter URLs redirect to the new pages.
+
 
 | Part | Chapters | Development |
 | --- | --- | --- |
@@ -146,7 +149,7 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Outcome and transition:** States, operators, and measurements now form one predictive framework. Before using it to compute, we must learn how the description changes when a system has several parts.
 
-## Chapter 5 — Composite Systems and Entanglement
+## Chapter 6 — Composite Systems and Entanglement
 
 **Motivation:** A joint state can predict perfect correlations while neither subsystem has a definite individual outcome. Where does the information reside?
 
@@ -176,7 +179,7 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Outcome and transition:** The state of a register must be tracked as a whole, including any workspace. This sets up the central algorithmic question: how can a joint evolution reveal a desired property rather than merely produce a complicated state?
 
-## Chapter 6 — Quantum Queries and Phase Kickback
+## Chapter 7 — Quantum Queries and Phase Kickback
 
 **Motivation:** We can evaluate a function on a superposition, but measuring the result does not hand us all its values. What should a quantum algorithm try to reveal instead?
 
@@ -206,7 +209,7 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Outcome and transition:** The first algorithm reveals a global property through interference. Its oracle assumptions are explicit. Next we construct such operations from elementary gates before using them for search.
 
-## Chapter 7 — Quantum Circuits and Universality
+## Chapter 8 — Quantum Circuits and Universality
 
 **Motivation:** Writing down a transformation does not show that it is cheap to implement. How are the operations needed for queries and search built from elementary gates?
 
@@ -236,7 +239,7 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Outcome and transition:** The gate constructions provide the operations for search and expose costs that a query count may hide.
 
-## Chapter 8 — Quantum Search and Amplitude Amplification
+## Chapter 9 — Quantum Search and Amplitude Amplification
 
 **Motivation:** An oracle can change the sign of a marked amplitude without changing its probability. Which next operation turns that invisible mark into an advantage?
 
@@ -266,7 +269,7 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Outcome and transition:** Search combines the constructed oracles and reflections into an algorithm. Its query savings and gate costs can now be compared with the limits on any algorithm for the same problem.
 
-## Chapter 9 — Computational Complexity and Quantum Advantage
+## Chapter 10 — Computational Complexity and Quantum Advantage
 
 **Motivation:** A reduction in oracle queries, a shorter circuit, and a faster physical computation are different claims. Which one has an algorithm established?
 
@@ -343,6 +346,8 @@ Then open `http://localhost:8000/`. Opening `index.html` directly also works.
 - Local MathJax and four interactive examples: elementary gates, Bell preparation, phase kickback, and amplitude amplification.
 - Chapter understanding checks with expandable answers; primary-source links for selected advanced results.
 - No server application or remote math service is required. Print layout preserves the current experimental state.
+
+Illustrations should use representative quantum states, weighted state graphs, or circuits. Avoid generic block or flow diagrams for new material.
 
 ## Edit and rebuild
 

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 430" role="img" aria-labelledby="title desc">
+<title id="title">Two-qubit amplitudes on a complete bipartite graph</title>
+<desc id="desc">Two nodes for qubit A, zero and one, are each connected to both basis nodes for qubit B. The four edge weights are c00, c01, c10, and c11, one amplitude for each joint configuration. For a product state these weights are ac, ad, bc, and bd. Edges label joint configurations, not time evolution.</desc>
+<style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.edge{fill:none;stroke:#246593;stroke-width:2}.node{fill:#fff;stroke:#246593;stroke-width:2}</style>
+<text class="heading" x="400" y="28" text-anchor="middle">Four joint configurations, four amplitude weights</text>
+<text class="heading" x="170" y="68" text-anchor="middle">Qubit A</text>
+<text class="heading" x="630" y="68" text-anchor="middle">Qubit B</text>
+<path class="edge" d="M170 120H630 M170 280H630 M170 120L630 280 M170 280L630 120"/>
+<text x="400" y="103" text-anchor="middle" data-tex="c_{00}=ac">c₀₀ = ac</text>
+<text x="400" y="309" text-anchor="middle" data-tex="c_{11}=bd">c₁₁ = bd</text>
+<text x="325" y="147" text-anchor="middle" data-tex="c_{01}=ad">c₀₁ = ad</text>
+<text x="325" y="263" text-anchor="middle" data-tex="c_{10}=bc">c₁₀ = bc</text>
+<circle class="node" cx="170" cy="120" r="28"/><circle class="node" cx="170" cy="280" r="28"/>
+<circle class="node" cx="630" cy="120" r="28"/><circle class="node" cx="630" cy="280" r="28"/>
+<text x="170" y="126" text-anchor="middle" data-tex="\ket0_A">|0⟩ₐ</text><text x="170" y="286" text-anchor="middle" data-tex="\ket1_A">|1⟩ₐ</text>
+<text x="630" y="126" text-anchor="middle" data-tex="\ket0_B">|0⟩ᵦ</text><text x="630" y="286" text-anchor="middle" data-tex="\ket1_B">|1⟩ᵦ</text>
+<text class="small" x="400" y="336" text-anchor="middle">Each edge joins a pair of local labels to specify one joint basis state.</text>
+<text x="400" y="371" text-anchor="middle" data-tex="\ket\Psi=\sum_{i,j}c_{ij}\ket{ij},\qquad\sum_{i,j}|c_{ij}|^2=1">|Ψ⟩ = Σᵢⱼ cᵢⱼ|ij⟩,   Σᵢⱼ |cᵢⱼ|² = 1</text>
+<text class="small" x="400" y="407" text-anchor="middle">The product weights ac, ad, bc, bd apply to independent pure-state preparations.</text>
+</svg>

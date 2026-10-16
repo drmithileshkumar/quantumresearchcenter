@@ -10,7 +10,7 @@ META=json.loads((ROOT/'chapters.json').read_text())
 def esc(s):return html.escape(str(s),quote=True)
 def chapter_redirect(previous,target):
  """Preserve topic bookmarks when a numbered chapter moves."""
- renumber={'07-amplitude-amplification':(7,8),'08-circuits-universality':(8,7)}
+ renumber={'07-amplitude-amplification':(7,9),'08-circuits-universality':(8,8),'05-composite-systems':(5,6),'06-queries-phase-kickback':(6,7),'07-circuits-universality':(7,8),'08-amplitude-amplification':(8,9),'09-complexity-advantage':(9,10)}
  script=''
  if previous in renumber:
   old,new=renumber[previous]
@@ -97,8 +97,10 @@ def main():
 <section class="book-about"><h2>Prerequisites and approach</h2><p>The exposition begins with motivation, develops a mathematical language, and connects it to examples. You do not need prior experience with models of computation. Basic linear algebra is the only subject prerequisite: vectors, matrices, bases, and linear transformations. Complex inner products, tensor products, discrete probability, and computational concepts are developed where they are needed.</p><p>Circuit drawings show how operations are assembled. Interactive figures let you prepare a Bell state, compare phase oracles, and watch how search redistributes amplitudes. Try predicting a result before moving a control, then explain what changed. Animations wait for you to start them.</p></section>
 <section class="book-chapters"><h2>Contents</h2><ol>'''+cards+'''</ol></section><section class="book-about"><h2>How to use this book</h2><p>Read the chapters in order for a continuous path through the subject, or use the expandable contents to revisit a topic. Search works throughout the book. The text-size controls adjust the reading view, and each section has a permanent link.</p><p>Diagrams, equations, and interactive experiments are included with the book. Use Print chapter for a reading copy, or download the complete offline edition. The <a href="study-guide.html">study guide</a> explains the exercises, reader controls, and sources; the <a href="glossary.html">glossary</a> collects key definitions. Interactive figures print their current state.</p></section>'''
  (ROOT/'index.html').write_text(shell('index','Introduction',intro,data))
- legacy={'00-landscape':'index','01-classical-computation':'01-logic-computability','02-quantum-mechanics':'04-states-measurement','03-quantum-computation':'06-queries-phase-kickback','04-quantum-circuits':'07-circuits-universality','05-amplitude-amplification':'08-amplitude-amplification','06-black-box-model':'06-queries-phase-kickback','07-amplitude-amplification':'08-amplitude-amplification','08-circuits-universality':'07-circuits-universality'}
+ legacy={'00-landscape':'index','01-classical-computation':'01-logic-computability','02-quantum-mechanics':'04-states-measurement','03-quantum-computation':'07-queries-phase-kickback','04-quantum-circuits':'08-circuits-universality','05-amplitude-amplification':'09-amplitude-amplification','06-black-box-model':'07-queries-phase-kickback','07-amplitude-amplification':'09-amplitude-amplification','08-circuits-universality':'08-circuits-universality'}
+ legacy.update({'05-composite-systems': '06-composite-systems', '06-queries-phase-kickback': '07-queries-phase-kickback', '07-circuits-universality': '08-circuits-universality', '08-amplitude-amplification': '09-amplitude-amplification', '09-complexity-advantage': '10-complexity-advantage'})
  for previous,target in legacy.items():
+  if previous in {m[0] for m in META}:continue
   (ROOT/f'{previous}.html').write_text(chapter_redirect(previous,target))
  for stem,title,body in learning.resources(META,index):
   (ROOT/f'{stem}.html').write_text(shell(stem,title,body,data))

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 310" role="img" aria-labelledby="title desc"><title id="title">Prepare an entangled pair: H followed by CNOT</title><desc id="desc">Two wires initialized to zero. Hadamard on the upper wire, then a controlled NOT from upper to lower, followed by measurement of both wires.</desc><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.wire{stroke:#246593;stroke-width:2;fill:none}.gate{stroke:#246593;stroke-width:2;fill:#fff}</style>
+<text class="heading" x="400" y="30" text-anchor="middle">Prepare an entangled pair: H followed by CNOT</text>
+<path class="wire" d="M100 105H615 M665 102H735 M665 108H735"/>
+<text x="70" y="111" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<rect class="gate" x="615" y="82" width="50" height="46" rx="3"/>
+<text x="640" y="111" text-anchor="middle" class="">M</text>
+<text x="755" y="111" text-anchor="middle" class="">b</text>
+<path class="wire" d="M100 205H615 M665 202H735 M665 208H735"/>
+<text x="70" y="211" text-anchor="middle" class="" data-tex="\ket0">|0⟩</text>
+<rect class="gate" x="615" y="182" width="50" height="46" rx="3"/>
+<text x="640" y="211" text-anchor="middle" class="">M</text>
+<text x="755" y="211" text-anchor="middle" class="">b</text>
+<rect class="gate" x="205" y="82" width="50" height="46" rx="3"/>
+<text x="230" y="111" text-anchor="middle" class="">H</text>
+<path class="wire" d="M420 105V205"/><circle cx="420" cy="105" r="6" fill="#246593"/><circle class="gate" cx="420" cy="205" r="16"/><path class="wire" d="M404 205H436 M420 189V221"/>
+<text x="420" y="75" text-anchor="middle" class="small">CNOT</text>
+<text x="400" y="266" text-anchor="middle" class="small">Read operations from left to right.</text>
+<text x="400" y="293" text-anchor="middle" class="small">Double lines carry classical measurement records.</text>
+</svg>

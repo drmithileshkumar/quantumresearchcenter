@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 410" role="img" aria-labelledby="title desc">
+<title id="title">Continuous evolution interrupted by measurement</title>
+<desc id="desc">A schematic state history follows four smooth blue curves separated by three vertical orange drops at measurement times. Each drop represents projection and normalization conditional on the observed outcome. Smooth unitary evolution resumes from each updated state. The vertical position is illustrative, not a probability or state norm.</desc>
+<defs><marker id="history-arrow" markerWidth="7" markerHeight="7" refX="9" refY="5" orient="auto" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z" fill="context-stroke"/></marker></defs>
+<style>text{font:16px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.flow{fill:none;stroke:#246593;stroke-width:3}.drop{fill:none;stroke:#a64d26;stroke-width:3;marker-end:url(#history-arrow)}.guide{stroke:#d3dee7;stroke-width:1;stroke-dasharray:4 5}</style>
+<text class="heading" x="480" y="28" text-anchor="middle">One observed history: evolve → measure → evolve → measure …</text>
+<text class="small" x="65" y="62">State trajectory (schematic)</text>
+<path class="guide" d="M275 85V302 M505 85V302 M735 85V302"/>
+<path d="M65 302H915" fill="none" stroke="#a7bccd" stroke-width="1.5" marker-end="url(#history-arrow)"/>
+<text class="small" x="910" y="330" text-anchor="end">Time</text>
+<path class="flow" d="M65 250 C125 250 165 120 275 120"/>
+<path class="drop" d="M275 120V250"/>
+<path class="flow" d="M275 250 C355 250 390 100 505 100"/>
+<path class="drop" d="M505 100V235"/>
+<path class="flow" d="M505 235 C595 235 630 135 735 135"/>
+<path class="drop" d="M735 135V260"/>
+<path class="flow" d="M735 260 C810 260 835 155 910 155"/>
+<g fill="#fff" stroke="#246593" stroke-width="2"><circle cx="275" cy="120" r="5"/><circle cx="505" cy="100" r="5"/><circle cx="735" cy="135" r="5"/></g>
+<g fill="#a64d26"><circle cx="275" cy="250" r="4"/><circle cx="505" cy="235" r="4"/><circle cx="735" cy="260" r="4"/></g>
+<text class="small" x="167" y="102" text-anchor="middle">Unitary evolution</text>
+<text class="small" x="395" y="78" text-anchor="middle">Unitary evolution</text>
+<text class="small" x="625" y="113" text-anchor="middle">Unitary evolution</text>
+<text class="small" x="827" y="130" text-anchor="middle">Evolution resumes</text>
+<text x="295" y="192" data-tex="\ket{\psi_1}">|ψ₁⟩</text>
+<text x="525" y="184" data-tex="\ket{\psi_2}">|ψ₂⟩</text>
+<text x="755" y="211" data-tex="\ket{\psi_3}">|ψ₃⟩</text>
+<text class="small" x="275" y="327" text-anchor="middle">Measurement 1</text>
+<text class="small" x="505" y="327" text-anchor="middle">Measurement 2</text>
+<text class="small" x="735" y="327" text-anchor="middle">Measurement 3</text>
+<text x="480" y="370" text-anchor="middle" data-tex="\ket{\psi_k}=\frac{P_{j_k}\ket{\psi(t_k^-)}}{\sqrt{p(j_k)}},\quad p(j_k)=\|P_{j_k}\ket{\psi(t_k^-)}\|^2">At each drop: project onto the observed outcome and normalize.</text>
+<text class="small" x="480" y="400" text-anchor="middle">Vertical drops mark conditional updates; their height is not a loss of probability or norm.</text>
+</svg>

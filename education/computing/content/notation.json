@@ -49,7 +49,7 @@
         "read": "U sub f",
         "meaning": "The reversible oracle for \\(f\\): it keeps \\(x\\) and XORs \\(f(x)\\) into a target, \\(U_f\\ket{x,y}=\\ket{x,y\\oplus f(x)}\\).",
         "intro": "topic-2-3-3",
-        "section": "topic-6-1-3",
+        "section": "topic-7-1-3",
         "pattern": "U_f"
       }
     ]
@@ -140,14 +140,6 @@
         "pattern": "\\\\braket"
       },
       {
-        "tex": "\\ket\\pm",
-        "read": "ket plus, ket minus",
-        "meaning": "The plus/minus basis, \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\).",
-        "section": "topic-4-3-1",
-        "pattern": "\\\\ket\\{?(\\\\pm|\\+|-)",
-        "intro": "topic-4-2-3"
-      },
-      {
         "tex": "\\|v\\|",
         "read": "norm of v",
         "meaning": "The length of a vector, \\(\\sqrt{\\braket vv}\\). A state vector has norm one.",
@@ -158,21 +150,22 @@
         "tex": "\\ket a\\otimes\\ket b",
         "read": "ket a tensor ket b",
         "meaning": "The joint state of two systems, also written \\(\\ket{ab}\\). Dimensions multiply.",
-        "section": "topic-5-1-1",
-        "pattern": "\\\\otimes"
+        "section": "topic-6-1-1",
+        "pattern": "\\\\otimes",
+        "intro": "topic-4-2-3"
       },
       {
         "tex": "\\ket{\\Phi^+}",
         "read": "Bell state phi plus",
         "meaning": "The entangled state \\((\\ket{00}+\\ket{11})/\\sqrt2\\).",
-        "section": "topic-5-2-1",
+        "section": "topic-6-2-1",
         "pattern": "\\\\Phi\\^\\+"
       },
       {
         "tex": "\\ket{0^n}",
         "read": "ket zero to the n",
         "meaning": "All \\(n\\) qubits in state zero.",
-        "section": "topic-7-2-3",
+        "section": "topic-8-2-3",
         "pattern": "0\\^n"
       }
     ]
@@ -205,35 +198,29 @@
         "tex": "\\ket e\\bra e",
         "read": "ket e bra e",
         "meaning": "The projector onto the unit vector \\(\\ket e\\).",
-        "section": "topic-4-3-2",
+        "section": "topic-4-2-2",
         "pattern": "\\\\ketbra|\\\\ket(\\{[^}]*\\}|\\\\?\\w)\\\\bra"
       },
       {
         "tex": "P_j",
         "read": "P sub j",
         "meaning": "The projector for measurement outcome \\(j\\). The Born rule gives \\(p(j)=\\|P_j\\ket\\psi\\|^2\\).",
-        "section": "topic-4-3-2"
-      },
-      {
-        "tex": "\\lambda",
-        "read": "lambda",
-        "meaning": "An eigenvalue: \\(A\\ket v=\\lambda\\ket v\\).",
-        "section": "topic-4-4-1",
-        "pattern": "\\\\lambda(?! ?x)"
+        "section": "topic-4-2-2"
       },
       {
         "tex": "X,\\ Z,\\ H",
         "read": "X, Z, H",
         "meaning": "The bit flip, phase flip, and Hadamard gates.",
         "intro": "topic-3-3-3",
-        "section": "topic-7-2-1"
+        "section": "topic-8-2-1"
       },
       {
         "tex": "A^{\\otimes n}",
         "read": "A tensor n",
         "meaning": "\\(n\\) copies combined by the tensor product. \\(H^{\\otimes n}\\) applies \\(H\\) to each of \\(n\\) qubits; \\(\\ket\\psi^{\\otimes2}\\) is two copies of \\(\\ket\\psi\\).",
-        "section": "topic-5-1-1",
-        "pattern": "\\^\\{\\\\otimes"
+        "section": "topic-6-1-1",
+        "pattern": "\\^\\{\\\\otimes",
+        "intro": "topic-5-1-1"
       },
       {
         "tex": "\\rho",
@@ -258,41 +245,41 @@
         "tex": "(-1)^{f(x)}",
         "read": "minus one to the f of x",
         "meaning": "The sign a phase oracle attaches to input \\(x\\): \\(+1\\) when \\(f(x)=0\\), \\(-1\\) when \\(f(x)=1\\).",
-        "section": "topic-6-3-2",
+        "section": "topic-7-3-2",
         "pattern": "\\(-1\\)\\^\\{?f"
       },
       {
         "tex": "\\sin^2\\theta=M/N",
         "read": "sine squared theta equals M over N",
         "meaning": "Defines the search angle \\(\\theta\\) for \\(M\\) marked items among \\(N\\).",
-        "section": "topic-8-2-2"
+        "section": "topic-9-2-2"
       },
       {
         "tex": "O(g(n))",
         "read": "big O of g of n",
         "meaning": "An eventual upper bound up to a constant factor.",
-        "section": "topic-9-1-2",
+        "section": "topic-10-1-2",
         "pattern": "(?<![\\w\\\\])O\\("
       },
       {
         "tex": "\\Omega(g(n))",
         "read": "big omega of g of n",
         "meaning": "An eventual lower bound up to a constant factor.",
-        "section": "topic-9-1-2",
+        "section": "topic-10-1-2",
         "pattern": "\\\\Omega\\("
       },
       {
         "tex": "\\Theta(g(n))",
         "read": "big theta of g of n",
         "meaning": "Both an upper and a lower bound: growth exactly like \\(g(n)\\) up to constants.",
-        "section": "topic-9-1-2",
+        "section": "topic-10-1-2",
         "pattern": "\\\\Theta\\("
       },
       {
         "tex": "\\mathrm{BPP}\\subseteq\\mathrm{BQP}",
         "read": "BPP is contained in BQP",
         "meaning": "Every problem in the first class is also in the second.",
-        "section": "topic-9-2-2",
+        "section": "topic-10-2-2",
         "pattern": "\\\\subseteq"
       },
       {
