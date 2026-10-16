@@ -27,6 +27,30 @@ class Drawing:
  def save(self,name):
   ROOT.mkdir(parents=True,exist_ok=True);(ROOT/(name+'.svg')).write_text(''.join(self.parts)+'</svg>')
 
+def polynomial_circuit():
+ d=Drawing('Circuit for x + y + xy',
+  r'Inputs \(x\) and \(y\) each branch to an AND gate and an XOR gate. The AND produces \(u=xy\), the first XOR produces \(v=x+y\), and a second XOR produces \(z=u+v=x+y+xy\). Filled dots connect wires; a crossing without a dot is not a connection.',800,330)
+ def xor(left,y):
+  d.parts.append(f'<path d="M{left} {y-30} Q{left+30} {y} {left} {y+30} Q{left+60} {y+30} {left+80} {y} Q{left+60} {y-30} {left} {y-30} Z" style="fill:#f8fbf9"/>')
+  d.parts.append(f'<path d="M{left-10} {y-30} Q{left+20} {y} {left-10} {y+30}"/>')
+ d.text(400,28,r'\(z=x+y+xy\) over bits')
+ d.text(35,85,r'\(x\)');d.text(35,265,r'\(y\)')
+ d.line(55,80,90,80);d.line(90,80,90,205);d.dot(90,105)
+ d.line(90,105,270,105);d.line(90,205,272,205)
+ d.line(55,260,150,260);d.line(150,260,150,135);d.dot(150,235)
+ d.line(150,135,270,135);d.line(150,235,272,235)
+ # Standard AND and XOR gate outlines; left XOR inputs meet its curved boundary.
+ d.parts.append('<path d="M270 90 H300 A30 30 0 0 1 300 150 H270 Z" style="fill:#f8fbf9"/>')
+ xor(260,220);xor(530,170)
+ d.text(300,76,'AND',True);d.text(300,277,'XOR',True);d.text(570,123,'XOR',True)
+ d.line(330,120,425,120);d.line(425,120,425,155);d.line(425,155,542,155)
+ d.text(385,103,r'\(u=xy\)')
+ d.line(340,220,425,220);d.line(425,220,425,185);d.line(425,185,542,185)
+ d.text(386,246,r'\(v=x+y\)')
+ d.line(610,170,735,170);d.text(700,150,r'\(z=u+v\)')
+ d.text(400,312,'Filled dots join wires; crossings without dots do not. Here + means XOR.',True)
+ d.save('polynomial-circuit')
+
 def main():
  d=Drawing('Controlled reversible gates','CNOT has one control and an XOR target. Toffoli has two controls. Fredkin has a control and two swap targets.',700,270)
  for offset,name in [(0,'CNOT'),(225,'Toffoli'),(450,'Fredkin')]:
@@ -84,7 +108,8 @@ def main():
  d.line(230,160,285,160);d.text(265,143,r'\(t\)');d.dot(285,160);d.line(285,160,285,110);d.line(285,110,352,110);d.line(285,160,285,210);d.line(285,210,352,210)
  d.line(330,60,330,80);d.line(330,80,352,80);d.line(330,255,330,240);d.line(330,240,352,240);nand(380,95);nand(380,225)
  d.line(420,95,530,95);d.line(530,95,530,145);d.line(530,145,572,145);d.text(470,78,r'\(u\)');d.line(420,225,530,225);d.line(530,225,530,175);d.line(530,175,572,175);d.text(470,250,r'\(v\)');nand(600,160);d.line(640,160,725,160);d.text(720,143,r'\(a\oplus b\)');d.text(395,310,'The small output circle denotes negation; filled dots denote branches.',True);d.save('nand-xor')
- print('Drew 13 SVG circuit figures.')
+ polynomial_circuit()
+ print('Drew 14 SVG circuit figures.')
  from draw_logic_figures import main as draw_logic
  draw_logic()
  from draw_transition_figures import main as draw_transitions

@@ -122,8 +122,9 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 ### 4.1 Vectors and Matrices
 
 - **4.1.1** State vectors and ket notation
-- **4.1.2** Operations as matrices
-- **4.1.3** Inner products, bras, and adjoints
+- **4.1.2** Inner products and transition amplitudes
+- **4.1.3** Transition matrices
+- **4.1.4** Adjoints and unitary operations
 
 ### 4.2 Postulates
 
@@ -203,67 +204,67 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 - **6.4.2** Quantum and classical query counts
 - **6.4.3** Preparation, oracle evaluation, and measurement
 
-**Outcome and transition:** The first algorithm reveals a global property through interference. Its oracle assumptions are explicit. Next we ask how to use interference when the task is to find a useful input itself.
+**Outcome and transition:** The first algorithm reveals a global property through interference. Its oracle assumptions are explicit. Next we construct such operations from elementary gates before using them for search.
 
-## Chapter 7 — Quantum Search and Amplitude Amplification
+## Chapter 7 — Quantum Circuits and Universality
+
+**Motivation:** Writing down a transformation does not show that it is cheap to implement. How are the operations needed for queries and search built from elementary gates?
+
+### 7.1 Circuit Representation
+
+- **7.1.1** Wires and gate ordering
+- **7.1.2** Circuits for query and search algorithms
+- **7.1.3** Measurement and classical control
+
+### 7.2 Gate Constructions
+
+- **7.2.1** Pauli, Hadamard, and rotation gates
+- **7.2.2** Controlled and entangling gates
+- **7.2.3** Oracle and reflection circuits
+
+### 7.3 Universal Gate Sets
+
+- **7.3.1** Limits of local operations
+- **7.3.2** Entangling gates and universality
+- **7.3.3** Exact synthesis and approximation
+
+### 7.4 Implementation Resources
+
+- **7.4.1** Gate count, depth, and workspace
+- **7.4.2** Connectivity and data preparation
+- **7.4.3** Error accumulation and reliability
+
+**Outcome and transition:** The gate constructions provide the operations for search and expose costs that a query count may hide.
+
+## Chapter 8 — Quantum Search and Amplitude Amplification
 
 **Motivation:** An oracle can change the sign of a marked amplitude without changing its probability. Which next operation turns that invisible mark into an advantage?
 
-### 7.1 Four-Item Search
+### 8.1 Four-Item Search
 
-- **7.1.1** Search predicates and classical queries
-- **7.1.2** State preparation and phase marking
-- **7.1.3** Reflection and final amplitudes
+- **8.1.1** Search predicates and classical queries
+- **8.1.2** State preparation and phase marking
+- **8.1.3** Reflection and final amplitudes
 
-### 7.2 Search Geometry
+### 8.2 Search Geometry
 
-- **7.2.1** Good and bad subspaces
-- **7.2.2** Initial success amplitude
-- **7.2.3** Reflections and rotations
+- **8.2.1** Good and bad subspaces
+- **8.2.2** Initial success amplitude
+- **8.2.3** Reflections and rotations
 
-### 7.3 Grover Iteration
+### 8.3 Grover Iteration
 
-- **7.3.1** Amplitude evolution
-- **7.3.2** Iteration count and overshooting
-- **7.3.3** Unknown marked fraction and verification
+- **8.3.1** Amplitude evolution
+- **8.3.2** Iteration count and overshooting
+- **8.3.3** Unknown marked fraction and verification
 
-### 7.4 General Amplitude Amplification
+### 8.4 General Amplitude Amplification
 
-- **7.4.1** Arbitrary state preparation
-- **7.4.2** Reflection using preparation and its inverse
-- **7.4.3** Success probability and resource cost
+- **8.4.1** Arbitrary state preparation
+- **8.4.2** Reflection using preparation and its inverse
+- **8.4.3** Success probability and resource cost
 
-**Outcome and transition:** We have designed a complete algorithm as a sequence of mathematical operations. The next question is whether those operations can be constructed economically from a small collection of available gates.
-
-## Chapter 8 — Quantum Circuits and Universality
-
-**Motivation:** Writing down a transformation does not show that it is cheap to implement. What must be built to carry out the algorithms we have just analyzed?
-
-### 8.1 Circuit Representation
-
-- **8.1.1** Wires and gate ordering
-- **8.1.2** Circuits for query and search algorithms
-- **8.1.3** Measurement and classical control
-
-### 8.2 Gate Constructions
-
-- **8.2.1** Pauli, Hadamard, and rotation gates
-- **8.2.2** Controlled and entangling gates
-- **8.2.3** Oracle and reflection circuits
-
-### 8.3 Universal Gate Sets
-
-- **8.3.1** Limits of local operations
-- **8.3.2** Entangling gates and universality
-- **8.3.3** Exact synthesis and approximation
-
-### 8.4 Implementation Resources
-
-- **8.4.1** Gate count, depth, and workspace
-- **8.4.2** Connectivity and data preparation
-- **8.4.3** Error accumulation and reliability
-
-**Outcome and transition:** An algorithm’s physical construction carries costs that a query count may hide. We can now assess an advantage at several levels without confusing them.
+**Outcome and transition:** Search combines the constructed oracles and reflections into an algorithm. Its query savings and gate costs can now be compared with the limits on any algorithm for the same problem.
 
 ## Chapter 9 — Computational Complexity and Quantum Advantage
 

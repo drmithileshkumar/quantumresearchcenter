@@ -14,15 +14,22 @@
     },
     {
       "id": "topic-4-1-2",
-      "title": "Operations as matrices",
+      "title": "Inner products and transition amplitudes",
       "number": "4.1.2",
       "group": "4.1 · Vectors and Matrices",
       "part_id": "section-4-1"
     },
     {
       "id": "topic-4-1-3",
-      "title": "Inner products, bras, and adjoints",
+      "title": "Transition matrices",
       "number": "4.1.3",
+      "group": "4.1 · Vectors and Matrices",
+      "part_id": "section-4-1"
+    },
+    {
+      "id": "topic-4-1-4",
+      "title": "Adjoints and unitary operations",
+      "number": "4.1.4",
       "group": "4.1 · Vectors and Matrices",
       "part_id": "section-4-1"
     },
@@ -112,9 +119,8 @@
       "number": "4.4"
     }
   ],
-  "opening": "We have found how a qubit must behave: its state is a list of complex amplitudes, every operation keeps their total squared magnitude, and a measurement turns amplitudes into probabilities. These rules were derived for a single qubit, through sums over paths. To use them for larger systems and longer computations, we need a compact language, and a statement of the rules that holds for every quantum system.",
+  "opening": "Complex amplitudes describe computation through two composition rules: multiply along paths, add at common endpoints, and take squared magnitudes to obtain probabilities. Normalization restricts the allowed states and transitions. Kets then express these amplitude lists as quantum states, and the measurement postulate specifies both a reported outcome and the state left afterward.",
   "opening_continuation": [
-    "We first collect the weights of a state into a vector and those of an operation into a matrix, so that sums over paths become matrix multiplication and the conditions on an operation become unitarity. We then adopt the rules as the postulates of quantum mechanics, adding what a measurement does to the state. With the postulates in place, we ask what can be learned by measurement: a unitary followed by a measurement measures in another basis, an observable attaches numbers to outcomes, and the overlap of two states limits how well they can be told apart.",
-    "The next chapter applies the postulates to systems made of several parts, where states of a new kind appear."
+    "State vectors give coordinates for quantum states. Inner products give amplitudes from initial states to final directions and define their lengths and overlaps. Matrices describe transitions between states, while adjoints connect this geometry to normalization and unitarity. With these tools, the state and measurement rules extend to finite systems with any number of configurations."
   ]
 }

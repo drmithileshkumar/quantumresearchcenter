@@ -98,8 +98,8 @@
   {
     "term": "Inner product",
     "slug": "inner-product",
-    "definition": "A scalar obtained from two vectors by conjugating the coordinates of the first and summing their products with the second. It measures their overlap.",
-    "url": "04-states-measurement.html#topic-4-1-3"
+    "definition": "The overlap of two state vectors, obtained by conjugating the coordinates of the first and summing their products with the second. With the final state on the left and the initial state on the right, it is the amplitude for that final-state outcome.",
+    "url": "04-states-measurement.html#topic-4-1-2"
   },
   {
     "term": "Normalization",
@@ -117,13 +117,13 @@
     "term": "Adjoint",
     "slug": "adjoint",
     "definition": "The conjugate transpose of a matrix, written with a dagger. It is not generally the inverse.",
-    "url": "04-states-measurement.html#topic-4-1-3"
+    "url": "04-states-measurement.html#topic-4-1-4"
   },
   {
     "term": "Unitary",
     "slug": "unitary",
     "definition": "An operator whose adjoint is its inverse. Unitary transformations preserve inner products and describe closed-system quantum evolution.",
-    "url": "04-states-measurement.html#topic-4-1-3"
+    "url": "04-states-measurement.html#topic-4-1-4"
   },
   {
     "term": "Hermitian",
@@ -177,31 +177,31 @@
     "term": "Amplitude amplification",
     "slug": "amplitude-amplification",
     "definition": "A sequence of reflections that increases the amplitude in a designated successful subspace, given suitable preparation and inverse operations.",
-    "url": "07-amplitude-amplification.html#topic-7-4-1"
+    "url": "08-amplitude-amplification.html#topic-8-4-1"
   },
   {
     "term": "Grover iteration",
     "slug": "grover-iteration",
     "definition": "A phase reversal on marked items followed by a reflection about the prepared uniform state in the standard search algorithm.",
-    "url": "07-amplitude-amplification.html#topic-7-2-3"
+    "url": "08-amplitude-amplification.html#topic-8-2-3"
   },
   {
     "term": "Quantum circuit",
     "slug": "quantum-circuit",
     "definition": "An ordered description of operations on quantum registers, with any measurements and classical control specified.",
-    "url": "08-circuits-universality.html#topic-8-1-1"
+    "url": "07-circuits-universality.html#topic-7-1-1"
   },
   {
     "term": "Universal gate set",
     "slug": "universal-gate-set",
     "definition": "A set of gates sufficient to construct arbitrary quantum operations in the stated model, exactly or to a specified approximation.",
-    "url": "08-circuits-universality.html#topic-8-3-2"
+    "url": "07-circuits-universality.html#topic-7-3-2"
   },
   {
     "term": "Circuit depth",
     "slug": "circuit-depth",
     "definition": "The number of sequential layers of operations when compatible operations can run in parallel.",
-    "url": "08-circuits-universality.html#topic-8-4-1"
+    "url": "07-circuits-universality.html#topic-7-4-1"
   },
   {
     "term": "Query complexity",

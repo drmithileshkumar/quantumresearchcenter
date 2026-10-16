@@ -129,14 +129,14 @@
         "tex": "\\bra\\phi",
         "read": "bra phi",
         "meaning": "The conjugate-transpose row of \\(\\ket\\phi\\).",
-        "section": "topic-4-1-3",
+        "section": "topic-4-1-2",
         "pattern": "\\\\bra(?!ket)"
       },
       {
         "tex": "\\braket\\phi\\psi",
         "read": "bra phi ket psi",
-        "meaning": "The complex inner product, or overlap, \\(\\sum_j\\phi_j^*\\psi_j\\).",
-        "section": "topic-4-1-3",
+        "meaning": "The inner product \\(\\sum_j\\phi_j^*\\psi_j\\): the transition amplitude with final state \\(\\phi\\) on the left and initial state \\(\\psi\\) on the right.",
+        "section": "topic-4-1-2",
         "pattern": "\\\\braket"
       },
       {
@@ -151,7 +151,7 @@
         "tex": "\\|v\\|",
         "read": "norm of v",
         "meaning": "The length of a vector, \\(\\sqrt{\\braket vv}\\). A state vector has norm one.",
-        "section": "topic-4-1-3",
+        "section": "topic-4-1-2",
         "pattern": "\\\\\\|"
       },
       {
@@ -172,7 +172,7 @@
         "tex": "\\ket{0^n}",
         "read": "ket zero to the n",
         "meaning": "All \\(n\\) qubits in state zero.",
-        "section": "topic-8-2-3",
+        "section": "topic-7-2-3",
         "pattern": "0\\^n"
       }
     ]
@@ -191,14 +191,14 @@
         "tex": "A^\\dagger",
         "read": "A dagger",
         "meaning": "The adjoint: the conjugate transpose \\((A^*)^T\\), defined by \\(\\braket\\phi{A\\psi}=\\braket{A^\\dagger\\phi}\\psi\\).",
-        "section": "topic-4-1-3",
+        "section": "topic-4-1-4",
         "pattern": "\\\\dagger"
       },
       {
         "tex": "\\operatorname{diag}(a,b)",
         "read": "diagonal a, b",
         "meaning": "The diagonal matrix with entries \\(a\\) and \\(b\\).",
-        "section": "topic-4-1-2",
+        "section": "topic-4-1-3",
         "pattern": "diag"
       },
       {
@@ -226,7 +226,7 @@
         "read": "X, Z, H",
         "meaning": "The bit flip, phase flip, and Hadamard gates.",
         "intro": "topic-3-3-3",
-        "section": "topic-8-2-1"
+        "section": "topic-7-2-1"
       },
       {
         "tex": "A^{\\otimes n}",
@@ -265,7 +265,7 @@
         "tex": "\\sin^2\\theta=M/N",
         "read": "sine squared theta equals M over N",
         "meaning": "Defines the search angle \\(\\theta\\) for \\(M\\) marked items among \\(N\\).",
-        "section": "topic-7-2-2"
+        "section": "topic-8-2-2"
       },
       {
         "tex": "O(g(n))",

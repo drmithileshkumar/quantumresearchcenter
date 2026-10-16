@@ -6,115 +6,115 @@
   ],
   "sections": [
     {
-      "id": "topic-7-1-1",
+      "id": "topic-8-1-1",
       "title": "Search predicates and classical queries",
-      "number": "7.1.1",
-      "group": "7.1 · Four-Item Search",
-      "part_id": "section-7-1"
+      "number": "8.1.1",
+      "group": "8.1 · Four-Item Search",
+      "part_id": "section-8-1"
     },
     {
-      "id": "topic-7-1-2",
+      "id": "topic-8-1-2",
       "title": "State preparation and phase marking",
-      "number": "7.1.2",
-      "group": "7.1 · Four-Item Search",
-      "part_id": "section-7-1"
+      "number": "8.1.2",
+      "group": "8.1 · Four-Item Search",
+      "part_id": "section-8-1"
     },
     {
-      "id": "topic-7-1-3",
+      "id": "topic-8-1-3",
       "title": "Reflection and final amplitudes",
-      "number": "7.1.3",
-      "group": "7.1 · Four-Item Search",
-      "part_id": "section-7-1"
+      "number": "8.1.3",
+      "group": "8.1 · Four-Item Search",
+      "part_id": "section-8-1"
     },
     {
-      "id": "topic-7-2-1",
+      "id": "topic-8-2-1",
       "title": "Good and bad subspaces",
-      "number": "7.2.1",
-      "group": "7.2 · Search Geometry",
-      "part_id": "section-7-2"
+      "number": "8.2.1",
+      "group": "8.2 · Search Geometry",
+      "part_id": "section-8-2"
     },
     {
-      "id": "topic-7-2-2",
+      "id": "topic-8-2-2",
       "title": "Initial success amplitude",
-      "number": "7.2.2",
-      "group": "7.2 · Search Geometry",
-      "part_id": "section-7-2"
+      "number": "8.2.2",
+      "group": "8.2 · Search Geometry",
+      "part_id": "section-8-2"
     },
     {
-      "id": "topic-7-2-3",
+      "id": "topic-8-2-3",
       "title": "Reflections and rotations",
-      "number": "7.2.3",
-      "group": "7.2 · Search Geometry",
-      "part_id": "section-7-2"
+      "number": "8.2.3",
+      "group": "8.2 · Search Geometry",
+      "part_id": "section-8-2"
     },
     {
-      "id": "topic-7-3-1",
+      "id": "topic-8-3-1",
       "title": "Amplitude evolution",
-      "number": "7.3.1",
-      "group": "7.3 · Grover Iteration",
-      "part_id": "section-7-3"
+      "number": "8.3.1",
+      "group": "8.3 · Grover Iteration",
+      "part_id": "section-8-3"
     },
     {
-      "id": "topic-7-3-2",
+      "id": "topic-8-3-2",
       "title": "Iteration count and overshooting",
-      "number": "7.3.2",
-      "group": "7.3 · Grover Iteration",
-      "part_id": "section-7-3"
+      "number": "8.3.2",
+      "group": "8.3 · Grover Iteration",
+      "part_id": "section-8-3"
     },
     {
-      "id": "topic-7-3-3",
+      "id": "topic-8-3-3",
       "title": "Unknown marked fraction and verification",
-      "number": "7.3.3",
-      "group": "7.3 · Grover Iteration",
-      "part_id": "section-7-3"
+      "number": "8.3.3",
+      "group": "8.3 · Grover Iteration",
+      "part_id": "section-8-3"
     },
     {
-      "id": "topic-7-4-1",
+      "id": "topic-8-4-1",
       "title": "Arbitrary state preparation",
-      "number": "7.4.1",
-      "group": "7.4 · General Amplitude Amplification",
-      "part_id": "section-7-4"
+      "number": "8.4.1",
+      "group": "8.4 · General Amplitude Amplification",
+      "part_id": "section-8-4"
     },
     {
-      "id": "topic-7-4-2",
+      "id": "topic-8-4-2",
       "title": "Reflection using preparation and its inverse",
-      "number": "7.4.2",
-      "group": "7.4 · General Amplitude Amplification",
-      "part_id": "section-7-4"
+      "number": "8.4.2",
+      "group": "8.4 · General Amplitude Amplification",
+      "part_id": "section-8-4"
     },
     {
-      "id": "topic-7-4-3",
+      "id": "topic-8-4-3",
       "title": "Success probability and resource cost",
-      "number": "7.4.3",
-      "group": "7.4 · General Amplitude Amplification",
-      "part_id": "section-7-4"
+      "number": "8.4.3",
+      "group": "8.4 · General Amplitude Amplification",
+      "part_id": "section-8-4"
     }
   ],
   "parts": [
     {
-      "id": "section-7-1",
+      "id": "section-8-1",
       "title": "Four-Item Search",
-      "number": "7.1"
+      "number": "8.1"
     },
     {
-      "id": "section-7-2",
+      "id": "section-8-2",
       "title": "Search Geometry",
-      "number": "7.2"
+      "number": "8.2"
     },
     {
-      "id": "section-7-3",
+      "id": "section-8-3",
       "title": "Grover Iteration",
-      "number": "7.3"
+      "number": "8.3"
     },
     {
-      "id": "section-7-4",
+      "id": "section-8-4",
       "title": "General Amplitude Amplification",
-      "number": "7.4"
+      "number": "8.4"
     }
   ],
   "opening": "Deutsch’s algorithm answered a question about a function with a single interference step. Many tasks instead ask for a particular input: an item that passes a test we can check but cannot invert. Classically, finding one marked item among \\(N\\) requires checking a number of candidates proportional to \\(N\\). Can interference concentrate probability on the marked item faster?",
   "opening_continuation": [
     "We start with four items, where every amplitude can be followed by hand: a phase oracle marks the answer with a sign, and a reflection about the mean turns the sign into certainty. For larger searches we group the marked and unmarked items, which reduces the whole evolution to a rotation in a plane. The rotation explains both the speedup, about \\(\\sqrt N\\) iterations instead of \\(N\\) queries, and its danger: rotating too far undoes the gain, so knowing when to stop is part of the algorithm. Finally we extend the method from a uniform start to any preparation and any test of success.",
-    "So far, oracles and reflections have been treated as single operations. The next chapter asks how such operations are built from elementary gates."
+    "The oracle and reflection constructions provide the operations used here. Their gate costs must be included when comparing a complete search procedure with classical alternatives."
   ]
 }

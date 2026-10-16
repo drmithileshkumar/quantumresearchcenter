@@ -8,6 +8,14 @@ import illustrations
 ROOT=Path(__file__).resolve().parent
 META=json.loads((ROOT/'chapters.json').read_text())
 def esc(s):return html.escape(str(s),quote=True)
+def chapter_redirect(previous,target):
+ """Preserve topic bookmarks when a numbered chapter moves."""
+ renumber={'07-amplitude-amplification':(7,8),'08-circuits-universality':(8,7)}
+ script=''
+ if previous in renumber:
+  old,new=renumber[previous]
+  script=f'<script>location.replace({json.dumps(target+".html")}+location.hash.replace(/^#(topic|section)-{old}-/,"#$1-{new}-"));</script>'
+ return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chapter moved</title><link rel="canonical" href="https://quantumresearch.center/education/computing/{target}.html">{script}<meta http-equiv="refresh" content="0;url={target}.html"></head><body><main><h1>Chapter moved</h1><p>The book has been reorganized. <a href="{target}.html">Continue to the revised book</a>.</p></main></body></html>'
 def navigation(current,data):
  pieces=['<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Computing<span>From classical to quantum</span></a><a class="nav-introduction" href="index.html">About this book</a>']
  for i,(meta,m) in enumerate(zip(META,data)):
@@ -89,9 +97,9 @@ def main():
 <section class="book-about"><h2>Prerequisites and approach</h2><p>The exposition begins with motivation, develops a mathematical language, and connects it to examples. You do not need prior experience with models of computation. Basic linear algebra is the only subject prerequisite: vectors, matrices, bases, and linear transformations. Complex inner products, tensor products, discrete probability, and computational concepts are developed where they are needed.</p><p>Circuit drawings show how operations are assembled. Interactive figures let you prepare a Bell state, compare phase oracles, and watch how search redistributes amplitudes. Try predicting a result before moving a control, then explain what changed. Animations wait for you to start them.</p></section>
 <section class="book-chapters"><h2>Contents</h2><ol>'''+cards+'''</ol></section><section class="book-about"><h2>How to use this book</h2><p>Read the chapters in order for a continuous path through the subject, or use the expandable contents to revisit a topic. Search works throughout the book. The text-size controls adjust the reading view, and each section has a permanent link.</p><p>Diagrams, equations, and interactive experiments are included with the book. Use Print chapter for a reading copy, or download the complete offline edition. The <a href="study-guide.html">study guide</a> explains the exercises, reader controls, and sources; the <a href="glossary.html">glossary</a> collects key definitions. Interactive figures print their current state.</p></section>'''
  (ROOT/'index.html').write_text(shell('index','Introduction',intro,data))
- legacy={'00-landscape':'index','01-classical-computation':'01-logic-computability','02-quantum-mechanics':'04-states-measurement','03-quantum-computation':'06-queries-phase-kickback','04-quantum-circuits':'08-circuits-universality','05-amplitude-amplification':'07-amplitude-amplification','06-black-box-model':'06-queries-phase-kickback'}
+ legacy={'00-landscape':'index','01-classical-computation':'01-logic-computability','02-quantum-mechanics':'04-states-measurement','03-quantum-computation':'06-queries-phase-kickback','04-quantum-circuits':'07-circuits-universality','05-amplitude-amplification':'08-amplitude-amplification','06-black-box-model':'06-queries-phase-kickback','07-amplitude-amplification':'08-amplitude-amplification','08-circuits-universality':'07-circuits-universality'}
  for previous,target in legacy.items():
-  (ROOT/f'{previous}.html').write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chapter moved</title><meta http-equiv="refresh" content="0;url={target}.html"></head><body><main><h1>Chapter moved</h1><p>The book has been reorganized. <a href="{target}.html">Continue to the revised book</a>.</p></main></body></html>')
+  (ROOT/f'{previous}.html').write_text(chapter_redirect(previous,target))
  for stem,title,body in learning.resources(META,index):
   (ROOT/f'{stem}.html').write_text(shell(stem,title,body,data))
  (ROOT/'assets/search-index.js').write_text('window.BOOK_SEARCH = '+json.dumps(index,ensure_ascii=False).replace('</','<\\/')+';\n')

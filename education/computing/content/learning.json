@@ -136,16 +136,16 @@
     ]
   },
   "04-states-measurement": {
-    "purpose": "Write the rules of quantum mechanics in vectors and matrices, adopt them as postulates, and derive measurement in any basis.",
-    "before": "Recall the rules found for a qubit: amplitudes, the measurement rule, and the two conditions on an operation. Appendix C reviews the linear algebra.",
+    "purpose": "Use state vectors and inner products to describe transition amplitudes and geometry, then express operations as matrices and calculate measurement outcomes.",
+    "before": "The prerequisites are complex amplitudes, normalization, path sums, the cross-sum condition, and the state update after an ideal configuration measurement. Appendix C reviews vectors and matrices.",
     "outcomes": [
-      "Write states as vectors and operations as matrices.",
-      "Use inner products and adjoints, and test whether a matrix is unitary.",
+      "Write states as vectors and interpret inner products as final-state amplitudes.",
+      "Represent operations as matrices and use adjoints to test unitarity.",
       "Compute measurement probabilities and post-measurement states in any orthonormal basis.",
       "Explain why nonorthogonal states cannot be perfectly distinguished."
     ],
     "limits": "The main text treats finite-dimensional pure states and projective measurements. Mixed states and general measurements are in Appendix D.",
-    "example": "Calculate the same state in different bases; a change of coordinates is not itself a physical change.",
+    "example": "Compare state vectors by their inner products, then follow the Hadamard operation from transition amplitudes to a matrix and a choice of measurement basis.",
     "next": "Chapter 5 applies the state and measurement rules to joint systems.",
     "exercises": [
       {
@@ -175,7 +175,7 @@
           "A unitary preserves inner products.",
           "\\(\\braket0+=1/\\sqrt2\\)."
         ],
-        "answer": "\\(\\braket{U0}{U+}=\\braket0+=1/\\sqrt2\\neq0\\), so the outputs cannot be orthogonal. Any procedure built from operations followed by a measurement therefore cannot always identify the state: perfect identification would require orthogonal outputs.",
+        "answer": "\\(\\braket{U0}{U+}=\\braket0+=1/\\sqrt2\\ne0\\), so the outputs cannot be orthogonal. A unitary followed by a measurement cannot identify the state with certainty: perfect discrimination would require orthogonal outcome subspaces. Adding an apparatus does not change the conclusion, since the joint unitary also preserves the input overlap.",
         "review": "topic-4-4-3"
       }
     ]
@@ -234,7 +234,7 @@
     ],
     "limits": "Deutsch’s task here uses a one-bit Boolean function and an ideal reversible oracle. A single query does not reveal every function value.",
     "example": "The reversible target update of a function becomes a phase mark, and two-path interference becomes the readout.",
-    "next": "Chapter 7 uses phase marking to increase the probability of a marked answer.",
+    "next": "Chapter 7 constructs the oracle and other operations from elementary gates.",
     "exercises": [
       {
         "kind": "Quick check",
@@ -268,7 +268,7 @@
       }
     ]
   },
-  "07-amplitude-amplification": {
+  "08-amplitude-amplification": {
     "purpose": "Turn a phase mark into increased success probability and determine when to stop iterating.",
     "before": "Use phase oracles, reflections, and normalized state vectors.",
     "outcomes": [
@@ -278,7 +278,7 @@
     ],
     "limits": "The standard iteration formula assumes ideal reflections and a fixed marked subspace. The best iteration count depends on the initial success probability.",
     "example": "Start with four equal amplitudes; carry the same reflection picture into the good/bad two-dimensional plane.",
-    "next": "Chapter 8 opens the oracle and reflection boxes into circuits.",
+    "next": "Chapter 9 compares query savings with gate costs and lower bounds.",
     "exercises": [
       {
         "kind": "Quick check",
@@ -288,7 +288,7 @@
           "Compare with \\(N=16\\), \\(M=1\\)."
         ],
         "answer": "\\(\\sin\\theta=\\sqrt{2/32}=1/4\\), and the initial success probability is \\(1/16\\), the same as for one marked item among sixteen.",
-        "review": "topic-7-2-2"
+        "review": "topic-8-2-2"
       },
       {
         "kind": "Worked problem",
@@ -298,7 +298,7 @@
           "Compute \\(\\sin^2((2k+1)\\theta)\\) for \\(k=2,3,4\\)."
         ],
         "answer": "With \\(\\theta\\approx14.48^\\circ\\), the success probabilities for \\(k=2,3,4\\) are about \\(0.91\\), \\(0.96\\), and \\(0.58\\). The best is \\(k=3\\), with success about \\(0.96\\). Only the marked fraction matters, not \\(N\\) or \\(M\\) separately.",
-        "review": "topic-7-3-2"
+        "review": "topic-8-3-2"
       },
       {
         "kind": "Extension",
@@ -308,21 +308,21 @@
           "Compute \\(\\sin^2((2k+1)\\theta)\\)."
         ],
         "answer": "\\(\\theta=45^\\circ\\), so the angles \\((2k+1)45^\\circ\\) are odd multiples of \\(45^\\circ\\), and \\(\\sin^2\\) of every one is \\(1/2\\). Iterating never helps: when half the items are marked, a random guess is already as good as the algorithm can do.",
-        "review": "topic-7-3-1"
+        "review": "topic-8-3-1"
       }
     ]
   },
-  "08-circuits-universality": {
+  "07-circuits-universality": {
     "purpose": "Translate abstract operations into circuits and account for the work hidden inside a gate box.",
-    "before": "Use the query and search algorithms from Chapters 6 and 7.",
+    "before": "Use the query algorithm, phase marking, unitary evolution, and joint-state notation.",
     "outcomes": [
       "Read circuit order and controlled operations.",
       "Distinguish exact construction from approximation.",
       "Count gates, depth, and workspace separately."
     ],
     "limits": "A finite discrete gate set generally approximates arbitrary unitaries; universality does not imply every transformation has a short exact circuit.",
-    "example": "Decompose the controlled phase and reflections already used in search instead of treating them as free operations.",
-    "next": "Chapter 9 compares algorithms only after their resources and success conditions are specified.",
+    "example": "Decompose an oracle and a reflection into gates, then use these constructions in the search algorithm that follows.",
+    "next": "Chapter 8 uses phase oracles and reflections to increase the probability of a marked answer.",
     "exercises": [
       {
         "kind": "Quick check",
@@ -332,7 +332,7 @@
           "\\(Z\\ket0=\\ket0\\), but \\(Z\\ket+=\\ket-\\)."
         ],
         "answer": "No. \\(H\\) then \\(Z\\) gives \\(\\ket-\\); \\(Z\\) then \\(H\\) gives \\(\\ket+\\). The order of the matrices must follow the order in time.",
-        "review": "topic-8-1-1"
+        "review": "topic-7-1-1"
       },
       {
         "kind": "Worked problem",
@@ -342,7 +342,7 @@
           "The reflection is \\(H^{\\otimes2}(X\\otimes X)\\,CZ\\,(X\\otimes X)H^{\\otimes2}\\)."
         ],
         "answer": "Oracle: \\(X\\) on qubit 2, controlled-\\(Z\\), \\(X\\) on qubit 2. It sends \\(\\ket{10}\\) to \\(\\ket{11}\\), applies the sign, and restores \\(\\ket{10}\\). Starting from \\(\\ket s=\\tfrac12(1,1,1,1)\\), the oracle gives \\(\\tfrac12(1,1,-1,1)\\). The reflection circuit implements \\(-D\\), and \\(D\\) maps this state to \\(\\ket{10}\\), so the result is \\(-\\ket{10}\\): the outcome is \\(10\\) with certainty.",
-        "review": "topic-8-2-3"
+        "review": "topic-7-2-3"
       },
       {
         "kind": "Extension",
@@ -352,7 +352,7 @@
           "\\(\\sqrt N=2^{n/2}\\)."
         ],
         "answer": "The total is about \\((\\pi/4)\\,2^{n/2}\\cdot30n\\). For \\(n=30\\): \\((\\pi/4)\\times32{,}768\\times900\\approx2.3\\times10^7\\) gates. The query count, about \\(2.6\\times10^4\\), hides a factor of \\(30n=900\\) gates per query.",
-        "review": "topic-8-4-1"
+        "review": "topic-7-4-1"
       }
     ]
   },

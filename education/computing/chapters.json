@@ -23,8 +23,8 @@
   [
     "04-states-measurement",
     "Quantum States and Measurement",
-    "What can the mathematical description of a system tell us about what can be known through measurement?",
-    "A state vector holds many amplitudes, but a measurement returns a single outcome. The postulates of quantum mechanics connect the two.",
+    "",
+    "Different orthonormal bases give different measurement procedures. Their inner products determine outcome probabilities, while eigenspaces attach numerical values to outcomes. The same inner products also limit how well a measurement can distinguish two preparations.",
     ""
   ],
   [
@@ -42,17 +42,17 @@
     ""
   ],
   [
-    "07-amplitude-amplification",
-    "Quantum Search and Amplitude Amplification",
-    "How can a process concentrate our chances of finding an answer that it can recognize but does not yet know?",
-    "Marking an answer with a sign does not change its probability. Repeated reflection turns the sign into a rotation toward the answer.",
-    ""
-  ],
-  [
-    "08-circuits-universality",
+    "07-circuits-universality",
     "Quantum Circuits and Universality",
     "What separates an operation we can describe mathematically from one we can construct with finite means?",
     "Every quantum operation can be built from a few kinds of gate, but not every operation can be built cheaply.",
+    ""
+  ],
+  [
+    "08-amplitude-amplification",
+    "Quantum Search and Amplitude Amplification",
+    "How can a process concentrate our chances of finding an answer that it can recognize but does not yet know?",
+    "Marking an answer with a sign does not change its probability. Repeated reflection turns the sign into a rotation toward the answer.",
     ""
   ],
   [

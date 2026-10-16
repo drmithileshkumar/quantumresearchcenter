@@ -38,12 +38,12 @@ try {
  await screenshot('book-rewrite-opening','#section-1-1');
  await navigate('02-boolean-reversible-computation');
  await screenshot('book-rewrite-nand','#topic-2-2-2');
- await navigate('08-circuits-universality');
+ await navigate('07-circuits-universality');
  await assert(`(()=>{const l=document.querySelector('[data-lab="gates"]');l.querySelector('[data-gate="H"]').click();l.querySelector('[data-gate="H"]').click();const v=JSON.parse(l.dataset.amplitudes);return Math.abs(v[0]-1)<1e-9&&Math.abs(v[1])<1e-9})()`, 'H twice restores the state');
  await navigate('05-composite-systems');
  await screenshot('book-rewrite-teleportation','#topic-5-4-2');
  await assert(`(()=>{const l=document.querySelector('[data-lab="bell"]');l.querySelector('[data-next]').click();l.querySelector('[data-next]').click();const v=JSON.parse(l.dataset.amplitudes);return Math.abs(v[0]**2-.5)<1e-9&&Math.abs(v[3]**2-.5)<1e-9&&v[1]===0&&v[2]===0})()`, 'Bell preparation gives 00/11 amplitudes');
- await navigate('07-amplitude-amplification');
+ await navigate('08-amplitude-amplification');
  await assert(`(()=>{const l=document.querySelector('[data-lab="grover"]'),n=l.querySelector('[data-size]');n.value='4';n.dispatchEvent(new Event('change'));l.querySelector('[data-next]').click();return Math.abs(Number(l.dataset.probability)-1)<1e-9})()`, 'Grover N=4 reaches probability one in one iteration');
  await screenshot('book-grover','[data-lab="grover"]');
  await navigate('06-queries-phase-kickback');
@@ -73,8 +73,8 @@ try {
  for(const topic of ['3-2-2','3-2-3','3-3-1','3-3-2','3-4-1','3-4-2','3-4-3'])await screenshot('book-diagram-'+topic,'#topic-'+topic+' figure');
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
 
- await navigate('07-amplitude-amplification');
- await screenshot('book-rewrite-mobile-circuit','#topic-7-1-3');
+ await navigate('08-amplitude-amplification');
+ await screenshot('book-rewrite-mobile-circuit','#topic-8-1-3');
  await evaluate(`Promise.race([Promise.all(Array.from(document.images).map(i=>{i.loading='eager';return i.decode().catch(()=>{})})),new Promise((_,reject)=>setTimeout(()=>reject(Error('Image loading timed out')),5000))])`);
  await assert(`Array.from(document.images).every(i=>i.complete&&i.naturalWidth>0)`,'circuit drawings loaded');
  await navigate('glossary');

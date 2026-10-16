@@ -189,14 +189,14 @@
     "application": "The vector is \\((1/\\sqrt2,\\,0,\\,0,\\,-1/\\sqrt2)^T\\). The configurations \\(00\\) and \\(11\\) each have probability \\(1/2\\); \\(01\\) and \\(10\\) have probability \\(0\\).",
     "challenge": "Comparing coordinates: \\((a+b)/\\sqrt2=1\\) and \\((a-b)/\\sqrt2=0\\), so \\(a=b=1/\\sqrt2\\). The state \\((\\ket0+\\ket1)/\\sqrt2\\) is a superposition of \\(\\ket0\\) and \\(\\ket1\\), but in the basis \\(\\{(\\ket0+\\ket1)/\\sqrt2,(\\ket0-\\ket1)/\\sqrt2\\}\\) it is a single basis vector, while \\(\\ket0\\) becomes a superposition. Whether a state is a superposition depends on the basis."
   },
-  "topic-4-1-2": {
-    "foundation": "With \\(U_{ji}=w(i\\to j)\\), the matrix is \\(\\begin{pmatrix}0&-i\\\\i&0\\end{pmatrix}\\). Its columns give \\(U\\ket0=i\\ket1\\) and \\(U\\ket1=-i\\ket0\\).",
-    "application": "\\(XZ=\\begin{pmatrix}0&-1\\\\1&0\\end{pmatrix}\\) and \\(ZX=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}\\), so \\(XZ=-ZX\\). \\(XZ\\ket0=X(Z\\ket0)=\\ket1\\), while \\(ZX\\ket0=Z\\ket1=-\\ket1\\). The matrices differ. On \\(\\ket0\\) the two results differ only by a global phase, but in general the order of operations changes the result.",
-    "challenge": "It sends \\(\\ket0\\) to \\(\\ket0\\), and \\(\\ket1\\) to \\(2\\ket1\\), rescaled to \\(\\ket1\\). A linear rule with these values would be the identity and would leave \\((\\ket0+\\ket1)/\\sqrt2\\) unchanged. The rule instead gives \\(\\ket0+2\\ket1\\), rescaled to \\((\\ket0+2\\ket1)/\\sqrt5\\). So it is not linear, cannot be written as a matrix, and is not a valid operation."
-  },
   "topic-4-1-3": {
-    "foundation": "\\(\\braket\\phi\\psi=\\tfrac12\\bigl(1\\cdot1+(i)^*(-i)\\bigr)=\\tfrac12\\bigl(1+(-i)(-i)\\bigr)=\\tfrac12(1-1)=0\\). They are orthogonal. Without the conjugate, the sum would be \\(\\tfrac12(1+1)=1\\), wrongly suggesting the two states are equal.",
-    "application": "\\(\\operatorname{diag}(1,i)^\\dagger=\\operatorname{diag}(1,-i)\\), and their product is \\(\\operatorname{diag}(1,(-i)i)=I\\), so the first is unitary. For the second, the adjoint is \\(\\begin{pmatrix}1&0\\\\2&1\\end{pmatrix}\\), and \\(A^\\dagger A=\\begin{pmatrix}1&2\\\\2&5\\end{pmatrix}\\neq I\\), so it is not.",
+    "foundation": "With \\(U_{ji}=w(i\\to j)\\), the matrix is \\(\\begin{pmatrix}0&-i\\\\i&0\\end{pmatrix}\\). Its columns give \\(U\\ket0=i\\ket1\\) and \\(U\\ket1=-i\\ket0\\).",
+    "application": "\\(XH=\\tfrac1{\\sqrt2}\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix}\\) and \\(HX=\\tfrac1{\\sqrt2}\\begin{pmatrix}1&1\\\\-1&1\\end{pmatrix}\\). Their first columns give \\(XH\\ket0=\\ket+\\) and \\(HX\\ket0=\\ket-\\). These states are orthogonal, so they do not differ by a global phase. A measurement in the \\(\\pm\\) basis distinguishes them with certainty.",
+    "challenge": "The rule sends \\(\\ket0\\) and \\(\\ket1\\) to themselves after normalization. A linear map with those actions would be the identity. On \\((\\ket0+\\ket1)/\\sqrt2\\), the rule instead gives \\((\\ket0+2\\ket1)/\\sqrt5\\). It is therefore nonlinear and cannot describe deterministic closed-system evolution."
+  },
+  "topic-4-1-4": {
+    "foundation": "\\(\\operatorname{diag}(1,i)^\\dagger=\\operatorname{diag}(1,-i)\\), and their product is \\(\\operatorname{diag}(1,(-i)i)=I\\), so the first is unitary. For the second, the adjoint is \\(\\begin{pmatrix}1&0\\\\2&1\\end{pmatrix}\\), and \\(A^\\dagger A=\\begin{pmatrix}1&2\\\\2&5\\end{pmatrix}\\neq I\\), so it is not.",
+    "application": "\\(U^\\dagger=\\tfrac1{\\sqrt2}\\begin{pmatrix}1&-i\\\\-i&1\\end{pmatrix}\\). Their product has diagonal entries \\((1+(-i)i)/2=1\\) and off-diagonal entries \\((i-i)/2=0\\), so \\(U^\\dagger U=I\\). After the two steps, the amplitude to return to the initial configuration is one, and the amplitude to reach the other configuration is zero.",
     "challenge": "For all \\(\\ket\\phi,\\ket\\psi\\): \\(\\braket\\phi{AB\\psi}=\\braket{A^\\dagger\\phi}{B\\psi}=\\braket{B^\\dagger A^\\dagger\\phi}\\psi\\). This is the defining property of \\((AB)^\\dagger\\), so \\((AB)^\\dagger=B^\\dagger A^\\dagger\\). For unitaries \\(U,V\\): \\((UV)^\\dagger UV=V^\\dagger U^\\dagger UV=V^\\dagger V=I\\)."
   },
   "topic-4-2-1": {
@@ -226,7 +226,7 @@
   },
   "topic-4-3-3": {
     "foundation": "\\(\\braket0+=1/\\sqrt2\\). After \\(H\\), the states are \\(H\\ket0=\\ket+\\) and \\(H\\ket+=\\ket0\\), with overlap \\(\\braket+0=1/\\sqrt2\\). The overlap is unchanged.",
-    "application": "\\(A\\ket0=\\ket0\\) and \\(A\\ket1=\\ket0+\\ket1\\). The overlap \\(\\braket01=0\\) becomes \\(\\braket0{0+1}=1\\). Two orthogonal, perfectly distinguishable states would become indistinguishable in part, so \\(A\\) cannot be an operation.",
+    "application": "\\(A\\ket0=\\ket0\\) and \\(A\\ket1=\\ket0+\\ket1\\). The inner product changes from \\(\\braket01=0\\) to \\(\\bra0A\\ket1=1\\); the second output also has norm \\(\\sqrt2\\). Thus \\(A\\) does not preserve inner products and cannot be a closed-system unitary operation.",
     "challenge": "\\(\\|\\phi+\\psi\\|^2=\\|\\phi\\|^2+\\|\\psi\\|^2+2\\operatorname{Re}\\braket\\phi\\psi\\), and \\(\\|\\phi+i\\psi\\|^2=\\|\\phi\\|^2+\\|\\psi\\|^2+2\\operatorname{Re}\\bigl(i\\braket\\phi\\psi\\bigr)=\\|\\phi\\|^2+\\|\\psi\\|^2-2\\operatorname{Im}\\braket\\phi\\psi\\). If \\(U\\) preserves every norm, it preserves the left-hand sides and \\(\\|\\phi\\|,\\|\\psi\\|\\), hence the real and imaginary parts of \\(\\braket\\phi\\psi\\). So \\(\\braket{U\\phi}{U\\psi}=\\braket\\phi\\psi\\)."
   },
   "topic-4-4-1": {
@@ -242,7 +242,7 @@
   "topic-4-4-3": {
     "foundation": "Only the orthogonal pairs: \\(\\{\\ket0,\\ket1\\}\\) and \\(\\{\\ket+,\\ket-\\}\\). For the others, \\(\\braket0+=1/\\sqrt2\\) and \\(\\braket+{+i}=(1+i)/2\\), whose magnitude is \\(1/\\sqrt2\\neq0\\).",
     "application": "If the state is \\(\\ket0\\), the outcome is always \\(0\\), and the guess is right. If it is \\(\\ket+\\), the outcome is \\(1\\) with probability \\(1/2\\), and the guess is right only then. The success probability is \\(\\tfrac12\\cdot1+\\tfrac12\\cdot\\tfrac12=\\tfrac34\\). A measurement in a basis tilted halfway between the two states does better, reaching \\(\\tfrac12\\bigl(1+1/\\sqrt2\\bigr)\\approx0.85\\), but no measurement reaches \\(1\\).",
-    "challenge": "If \\(\\braket\\phi\\psi=0\\), extend \\(\\ket\\phi,\\ket\\psi\\) to an orthonormal basis and measure in it: \\(\\ket\\phi\\) always gives the outcome \\(\\phi\\), and \\(\\ket\\psi\\) always gives \\(\\psi\\). Conversely, suppose a projective measurement has an outcome with projector \\(P\\) such that \\(\\ket\\phi\\) always gives it and \\(\\ket\\psi\\) never does. Then \\(\\|P\\phi\\|=1\\), so \\(P\\ket\\phi=\\ket\\phi\\), and \\(P\\ket\\psi=0\\). Hence \\(\\braket\\phi\\psi=\\braket{P\\phi}\\psi=\\braket\\phi{P\\psi}=0\\), using \\(P^\\dagger=P\\)."
+    "challenge": "For orthogonal states, include both in an orthonormal basis and measure in it. Conversely, group all outcomes identifying \\(\\ket\\phi\\) into a projector \\(P\\). Perfect identification requires \\(P\\ket\\phi=\\ket\\phi\\) and \\(P\\ket\\psi=0\\). Since \\(P^\\dagger=P\\), \\(\\braket\\phi\\psi=\\braket{P\\phi}\\psi=\\bra\\phi P\\ket\\psi=0\\). This proves the claim for projective measurements; preserving overlap with an apparatus extends the restriction to general measurement procedures."
   },
   "topic-5-1-1": {
     "foundation": "Each joint amplitude is a product of local amplitudes, in the order \\(00,01,10,11\\): the first is \\(\\bigl(\\tfrac1{\\sqrt2},0,\\tfrac1{\\sqrt2},0\\bigr)^T\\), and the second is \\(\\bigl(0,\\tfrac35,0,\\tfrac45\\bigr)^T\\).",
@@ -364,122 +364,122 @@
     "application": "\\(X\\ket+=\\ket+\\), so \\(U_f\\) leaves \\(\\ket+\\ket+\\) unchanged, and the final \\(H\\) gives \\(\\ket0\\). The algorithm reports “constant” for a balanced function: with the wrong target, the function leaves no mark at all.",
     "challenge": "\\(U_f\\ket0\\ket-=(-1)^{f(0)}\\ket0\\ket-\\), which depends only on \\(f(0)\\), and only through a global sign. The final \\(H\\) gives \\(\\pm\\ket+\\), so each outcome has probability \\(1/2\\). Without a superposition of inputs, the query sees only one input, and no relative phase forms."
   },
-  "topic-7-1-1": {
+  "topic-8-1-1": {
     "foundation": "The marked labels are \\(011\\), \\(101\\), and \\(110\\): three of the eight. A random label is marked with probability \\(3/8\\).",
     "application": "The marked label is equally likely to be in any of the \\(8\\) positions of the order, so the expected number of queries is \\((1+2+\\dots+8)/8=(N+1)/2=4.5\\).",
     "challenge": "Consider first a deterministic algorithm. Until it finds the label, every answer is \\(0\\), so its sequence of queries before success is fixed in advance: some \\(k\\) labels. It succeeds exactly when the marked label is among them, with probability at most \\(k/N\\). A randomized algorithm is an average of deterministic ones, so it too succeeds with probability at most \\(k/N\\). Constant success therefore needs a number of queries proportional to \\(N\\)."
   },
-  "topic-7-1-2": {
+  "topic-8-1-2": {
     "foundation": "\\(\\tfrac12(1,-1,1,1)\\), in the order \\(00,01,10,11\\).",
     "application": "Every amplitude is \\(1/\\sqrt8\\), except the marked one, which is \\(-1/\\sqrt8\\). The marked label is measured with probability \\(1/8\\), the same as before marking.",
     "challenge": "\\(O_f\\) multiplies each amplitude by \\(\\pm1\\), so it leaves every magnitude unchanged. Moreover \\(O_f^2=I\\), so any number of applications equals \\(I\\) or \\(O_f\\). The probabilities never change; an operation that mixes amplitudes is needed."
   },
-  "topic-7-1-3": {
+  "topic-8-1-3": {
     "foundation": "The mean is \\(\\tfrac14\\). The entries \\(\\tfrac12\\) become \\(2\\cdot\\tfrac14-\\tfrac12=0\\), and \\(-\\tfrac12\\) becomes \\(\\tfrac12+\\tfrac12=1\\). The result is \\((0,1,0,0)\\): the marked label \\(01\\) with certainty.",
     "application": "Write \\(a=1/\\sqrt8\\). After marking, seven amplitudes are \\(a\\) and one is \\(-a\\), so the mean is \\(6a/8=3a/4\\). The unmarked amplitudes become \\(3a/2-a=a/2\\), and the marked one becomes \\(3a/2+a=5a/2\\). The success probability is \\((5a/2)^2=25/32\\approx0.78\\), up from \\(1/8\\). The seven unmarked probabilities, \\(1/32\\) each, account for the remaining \\(7/32\\).",
     "challenge": "\\(\\sum_x(2\\mu-a_x)^2=\\sum_x\\bigl(4\\mu^2-4\\mu a_x+a_x^2\\bigr)=4N\\mu^2-4\\mu\\cdot N\\mu+\\sum_xa_x^2=\\sum_xa_x^2\\), using \\(\\sum_xa_x=N\\mu\\)."
   },
-  "topic-7-2-1": {
+  "topic-8-2-1": {
     "foundation": "\\(\\ket G=(\\ket{011}+\\ket{101})/\\sqrt2\\), and \\(\\ket B\\) is the equal superposition of the other six labels, each with amplitude \\(1/\\sqrt6\\).",
     "application": "\\(\\ket s=\\sqrt{2/8}\\,\\ket G+\\sqrt{6/8}\\,\\ket B=\\tfrac12\\ket G+\\tfrac{\\sqrt3}2\\ket B\\).",
     "challenge": "\\(O_f\\ket G=-\\ket G\\) and \\(O_f\\ket B=\\ket B\\). With \\(\\ket s=\\sin\\theta\\ket G+\\cos\\theta\\ket B\\), we have \\(\\braket sG=\\sin\\theta\\) and \\(\\braket sB=\\cos\\theta\\), so \\(D\\ket G=2\\sin\\theta\\ket s-\\ket G\\) and \\(D\\ket B=2\\cos\\theta\\ket s-\\ket B\\). Both are combinations of \\(\\ket G\\) and \\(\\ket B\\), so the state never leaves their plane."
   },
-  "topic-7-2-2": {
+  "topic-8-2-2": {
     "foundation": "For \\(N=16\\), \\(M=1\\): \\(\\sin\\theta=1/4\\), so \\(\\theta\\approx14.5^\\circ\\). For \\(N=8\\), \\(M=2\\): \\(\\sin\\theta=1/2\\), so \\(\\theta=30^\\circ\\).",
     "application": "\\(\\theta=30^\\circ\\), as for \\(N=4\\), \\(M=1\\). One iteration turns the state to \\(3\\theta=90^\\circ\\), the good direction, so one iteration succeeds with certainty.",
     "challenge": "After one iteration the success probability is \\(\\sin^2(3\\theta)\\), which equals \\(1\\) when \\(3\\theta=\\pi/2+j\\pi\\). For \\(0\\lt\\theta\\lt\\pi/2\\) this gives \\(\\theta=\\pi/6\\) only, since the next solution, \\(\\theta=\\pi/2\\), would mean \\(M=N\\). And \\(\\sin^2(\\pi/6)=1/4=M/N\\)."
   },
-  "topic-7-2-3": {
+  "topic-8-2-3": {
     "foundation": "By \\(2\\theta\\approx29^\\circ\\), where \\(\\sin\\theta=1/4\\).",
     "application": "The angle after \\(k\\) iterations is \\((2k+1)\\theta\\), with \\(\\theta\\approx14.48^\\circ\\): about \\(43.4^\\circ\\), \\(72.4^\\circ\\), \\(101.3^\\circ\\), and \\(130.3^\\circ\\). The success probabilities \\(\\sin^2\\) of these angles are about \\(0.47\\), \\(0.91\\), \\(0.96\\), and \\(0.58\\). The best is three iterations; the fourth overshoots.",
     "challenge": "The first reflection, across \\(\\alpha=0\\), is \\(\\operatorname{diag}(1,-1)\\). The second, across \\(\\alpha=\\theta\\), multiplies it on the left: \\(\\begin{pmatrix}\\cos2\\theta&\\sin2\\theta\\\\\\sin2\\theta&-\\cos2\\theta\\end{pmatrix}\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}=\\begin{pmatrix}\\cos2\\theta&-\\sin2\\theta\\\\\\sin2\\theta&\\cos2\\theta\\end{pmatrix}\\), the rotation by \\(2\\theta\\)."
   },
-  "topic-7-3-1": {
+  "topic-8-3-1": {
     "foundation": "With \\(\\sin\\theta=1/4\\): \\(p_0=1/16\\), and \\(p_3=\\sin^2(7\\theta)\\approx\\sin^2(101.3^\\circ)\\approx0.96\\).",
     "application": "\\(\\sin\\theta=1/8\\), so \\(\\theta\\approx7.18^\\circ\\), and \\(\\pi/(4\\theta)-1/2\\approx5.8\\). Comparing neighbours: \\(k=5\\) gives \\(\\sin^2(79^\\circ)\\approx0.96\\), and \\(k=6\\) gives \\(\\sin^2(93.4^\\circ)\\approx0.997\\). The best is \\(k=6\\), with success probability about \\(0.997\\).",
     "challenge": "The state is always \\(\\sin\\bigl((2k+1)\\theta\\bigr)\\ket G+\\cos\\bigl((2k+1)\\theta\\bigr)\\ket B\\), and \\(\\ket G\\) gives every marked label the same amplitude \\(1/\\sqrt M\\). So all marked labels have equal probability \\(\\sin^2\\bigl((2k+1)\\theta\\bigr)/M\\), and given success each has probability \\(1/M\\). The same argument with \\(\\ket B\\) applies to failure."
   },
-  "topic-7-3-2": {
+  "topic-8-3-2": {
     "foundation": "\\(\\theta=30^\\circ\\), so the angle is \\(7\\theta=210^\\circ\\), and \\(\\sin^2210^\\circ=1/4\\): no better than guessing.",
     "application": "With \\(M=4\\), \\(\\sin\\theta=\\sqrt{4/16}=1/2\\), so \\(\\theta=\\pi/6\\). Three iterations give \\(\\sin^2(7\\pi/6)=1/4\\). One iteration gives \\(\\sin^2(3\\pi/6)=1\\). More marked items do not guarantee better performance with a fixed iteration count: they change the rotation angle, so the stopping time must change too.",
     "challenge": "\\(p_k=\\sin^2\\bigl((2k+1)\\theta\\bigr)\\), and \\(\\sin^2\\) repeats when its argument changes by \\(\\pi\\). Each iteration adds \\(2\\theta\\), so \\(p_{k+j}=p_k\\) whenever \\(2j\\theta\\) is a multiple of \\(\\pi\\). For \\(\\theta=\\pi/6\\), \\(2j\\theta=j\\pi/3\\), first a multiple of \\(\\pi\\) at \\(j=3\\). The sequence is \\(\\tfrac14,1,\\tfrac14,\\tfrac14,1,\\tfrac14,\\dots\\), with period \\(3\\)."
   },
-  "topic-7-3-3": {
+  "topic-8-3-3": {
     "foundation": "The attempts are independent, so the number needed is geometric with mean \\(1/p\\). Because each candidate is checked, the algorithm never reports a wrong label.",
     "application": "For \\(M=4\\), \\(\\sin\\theta=\\sqrt{4/1024}=1/16\\), and \\(51\\theta\\approx51\\times3.58^\\circ\\approx182.7^\\circ\\), so the success probability is \\(\\sin^2(182.7^\\circ)\\approx0.002\\). Tuned for \\(M=1\\) it would be about \\(0.999\\). Guessing \\(M\\) wrong can make the search almost certain to fail.",
     "challenge": "Each attempt fails with probability at most \\(3/4\\), and independent failures multiply, so all \\(t\\) fail with probability at most \\((3/4)^t\\). We need \\(t\\ln(3/4)\\lt\\ln10^{-6}\\), that is, \\(t\\gt\\ln10^{-6}/\\ln(3/4)\\approx48.0\\), so \\(t=49\\)."
   },
-  "topic-7-4-1": {
+  "topic-8-4-1": {
     "foundation": "\\(\\sin\\theta=\\sqrt p=1/3\\), so \\(\\theta\\approx19.5^\\circ\\). The amplitudes are \\(\\sqrt p=1/3\\) and \\(\\sqrt{1-p}=2\\sqrt2/3\\).",
     "application": "The angle after \\(k\\) iterations is \\((2k+1)\\theta\\): about \\(58.4^\\circ\\) for \\(k=1\\) and \\(97.4^\\circ\\) for \\(k=2\\). The success probabilities are about \\(0.73\\) and \\(0.98\\), so \\(k=2\\) is best.",
     "challenge": "\\(p=1/4\\), so \\(\\theta=30^\\circ\\), and one iteration turns the state to \\(90^\\circ\\), the good direction. Directly: \\(I-2P_G=Z\\) gives \\(\\ket v=\\tfrac{\\sqrt3}2\\ket0-\\tfrac12\\ket1\\). Then \\(R_\\psi\\ket v=2\\ket\\psi\\braket\\psi v-\\ket v\\) with \\(\\braket\\psi v=\\tfrac34-\\tfrac14=\\tfrac12\\), giving \\(\\ket\\psi-\\ket v=\\ket1\\)."
   },
-  "topic-7-4-2": {
+  "topic-8-4-2": {
     "foundation": "Here \\(\\ket\\psi=\\ket+\\), and \\(R_\\psi=2\\ket+\\bra+-I=\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}-I=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}=X\\).",
     "application": "\\(A\\ket0\\bra0A^\\dagger=(A\\ket0)(A\\ket0)^\\dagger=\\ket\\psi\\bra\\psi\\), and \\(AIA^\\dagger=AA^\\dagger=I\\), so the product is \\(2\\ket\\psi\\bra\\psi-I\\). It is a product of three unitaries, since \\(2\\ket0\\bra0-I=\\operatorname{diag}(1,-1,\\dots,-1)\\) is unitary, and so it is unitary.",
     "challenge": "Measuring the prepared state \\(\\sqrt p\\ket G+\\sqrt{1-p}\\ket B\\) gives success with probability \\(p\\) and leaves a single outcome. Repeating preparation and measurement just gives independent trials, each with success \\(p\\). The reflection instead rotates the whole state toward \\(\\ket G\\); measurement destroys the superposition that the rotation acts on."
   },
-  "topic-7-4-3": {
+  "topic-8-4-3": {
     "foundation": "Trials: about \\(1/p=100\\). Amplification: about \\(\\tfrac\\pi4/\\sqrt p\\approx8\\) iterations, each using \\(A\\), \\(A^\\dagger\\), and the success test.",
     "application": "Trials: \\(10^4\\times120=1.2\\times10^6\\) gates. Amplification: \\(\\tfrac\\pi4\\times100\\approx79\\) iterations of \\(100+100+20=220\\) gates, about \\(1.7\\times10^4\\) gates, roughly \\(70\\) times fewer.",
     "challenge": "Amplification needs about \\(\\sqrt N\\) iterations, and each uses the preparation, costing about \\(N\\), so the total is about \\(N\\sqrt N\\). A classical scan of the list costs about \\(N\\). If the data must be loaded this way, amplification is slower: the advantage depends on the preparation being cheap."
   },
-  "topic-8-1-1": {
+  "topic-7-1-1": {
     "foundation": "\\(H\\): \\((\\ket{00}+\\ket{10})/\\sqrt2\\). \\(X\\) on qubit 2: \\((\\ket{01}+\\ket{11})/\\sqrt2\\). CNOT flips qubit 2 where qubit 1 is \\(1\\): \\((\\ket{01}+\\ket{10})/\\sqrt2\\).",
     "application": "\\(H\\) then CNOT gives \\((\\ket{00}+\\ket{11})/\\sqrt2\\). CNOT then \\(H\\) gives \\((\\ket{00}+\\ket{10})/\\sqrt2\\), because CNOT leaves \\(\\ket{00}\\) unchanged. They do not commute; the two gates share qubit 1.",
     "challenge": "On a product state \\(\\ket a\\ket b\\), both orders give \\(U\\ket a\\otimes V\\ket b\\), which is also \\((U\\otimes V)\\ket a\\ket b\\). The three matrices agree on every product basis state, and every state is a combination of these, so by linearity they are equal."
   },
-  "topic-8-1-2": {
+  "topic-7-1-2": {
     "foundation": "One iteration has one oracle use, the first controlled-\\(Z\\), and four Hadamard gates in the reflection, two before and two after the reflection about \\(\\ket{00}\\). Two more Hadamard gates prepare \\(\\ket s\\) from \\(\\ket{00}\\).",
     "application": "\\(X\\) on qubit 2; \\(H\\) on qubit 1 and \\(H\\) on qubit 2, which can act at the same time; \\(U_f\\) on qubits 1 and 2; \\(H\\) on qubit 1; measurement of qubit 1.",
     "challenge": "Up to \\(n\\) \\(X\\) gates before and \\(n\\) after, on the positions where the string has \\(0\\). The phase flip computes the AND of \\(n-1\\) qubits into the workspace with \\(n-2\\) Toffoli gates, applies a controlled-\\(Z\\) between the last workspace qubit and the remaining qubit, and uncomputes with \\(n-2\\) more Toffoli gates. Altogether about \\(2n\\) \\(X\\) gates, \\(2(n-2)\\) Toffoli gates, and one controlled-\\(Z\\): one box hides a number of gates proportional to \\(n\\)."
   },
-  "topic-8-1-3": {
+  "topic-7-1-3": {
     "foundation": "\\(b=0\\): the identity \\(I\\). \\(b=1\\): \\(X\\). The bit is known when the gate is chosen, so this is a classical choice, not a quantum gate.",
     "application": "(a) CNOT gives \\(\\alpha\\ket{00}+\\beta\\ket{11}\\). Measuring the control gives \\(0\\) with probability \\(|\\alpha|^2\\), leaving \\(\\ket{00}\\), and \\(1\\) with probability \\(|\\beta|^2\\), leaving \\(\\ket{11}\\). (b) Measuring first gives the same probabilities, leaving \\(\\ket{00}\\) or \\(\\ket{10}\\), and the classical \\(X\\) turns \\(\\ket{10}\\) into \\(\\ket{11}\\). The results agree: a measurement of the control may be moved past a gate that it controls.",
     "challenge": "CNOT gives \\(\\ket-\\ket-\\), by phase kickback; \\(H\\) on the control gives \\(\\ket1\\), so the result is \\(1\\) with certainty. Measuring first leaves the control in \\(\\ket0\\) or \\(\\ket1\\), with the target still \\(\\ket-\\), up to sign; \\(H\\) then gives \\(0\\) or \\(1\\) with probability \\(1/2\\). A classically controlled gate is not a substitute for a coherent one when the control’s phase matters."
   },
-  "topic-8-2-1": {
+  "topic-7-2-1": {
     "foundation": "\\(R_P(\\pi)=\\cos\\tfrac\\pi2I-i\\sin\\tfrac\\pi2P=-iP\\). So \\(R_X(\\pi)=-iX\\) and \\(R_Z(\\pi)=-iZ\\): the Pauli gates, up to the global phase \\(-i\\).",
     "application": "\\(HZ=\\tfrac1{\\sqrt2}\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix}\\), and multiplying by \\(H\\) gives \\(\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}=X\\). Similarly, \\(HXH=Z\\). For the phase gates, \\(S^2=\\operatorname{diag}(1,i^2)=\\operatorname{diag}(1,-1)=Z\\) and \\(T^2=\\operatorname{diag}(1,e^{i\\pi/2})=\\operatorname{diag}(1,i)=S\\).",
     "challenge": "\\(\\cos\\tfrac\\theta2I-i\\sin\\tfrac\\theta2Z=\\operatorname{diag}\\bigl(\\cos\\tfrac\\theta2-i\\sin\\tfrac\\theta2,\\;\\cos\\tfrac\\theta2+i\\sin\\tfrac\\theta2\\bigr)=\\operatorname{diag}(e^{-i\\theta/2},e^{i\\theta/2})\\). Factoring out \\(e^{-i\\theta/2}\\) leaves \\(\\operatorname{diag}(1,e^{i\\theta})\\). So \\(S\\) is \\(R_Z(\\pi/2)\\) and \\(T\\) is \\(R_Z(\\pi/4)\\), each up to a global phase."
   },
-  "topic-8-2-2": {
+  "topic-7-2-2": {
     "foundation": "It fixes \\(\\ket{00}\\), \\(\\ket{01}\\), and \\(\\ket{10}\\), and sends \\(\\ket{11}\\) to \\(-\\ket{11}\\): the matrix \\(\\operatorname{diag}(1,1,1,-1)\\). The sign appears exactly when both qubits are \\(1\\), a condition symmetric in the two qubits.",
     "application": "\\(\\ket{10}\\to\\ket1\\ket+\\to\\ket1X\\ket+=\\ket1\\ket+\\to\\ket{10}\\). \\(\\ket{11}\\to\\ket1\\ket-\\to\\ket1X\\ket-=-\\ket1\\ket-\\to-\\ket{11}\\). Only \\(\\ket{11}\\) gains the sign, as for controlled-\\(Z\\).",
     "challenge": "Controlled-\\(U\\) leaves \\(\\ket0\\ket v\\) unchanged and sends \\(\\ket1\\ket v\\) to \\(\\ket1U\\ket v=e^{i\\phi}\\ket1\\ket v\\). By linearity, \\(\\ket+\\ket v\\) becomes \\(\\tfrac1{\\sqrt2}(\\ket0+e^{i\\phi}\\ket1)\\otimes\\ket v\\), a product state. The eigenvalue moves onto the control as a relative phase; phase kickback in Deutsch’s algorithm is the case \\(U=X\\), \\(\\ket v=\\ket-\\), \\(\\phi=\\pi\\)."
   },
-  "topic-8-2-3": {
+  "topic-7-2-3": {
     "foundation": "\\(X\\) on qubit 1, controlled-\\(Z\\), then \\(X\\) on qubit 1. The first \\(X\\) turns \\(\\ket{01}\\) into \\(\\ket{11}\\), controlled-\\(Z\\) gives it the sign, and the second \\(X\\) restores the label. Every other basis state avoids \\(\\ket{11}\\) and is unchanged.",
     "application": "Left side: \\((H\\otimes H)\\ket{00}=\\ket s\\); the reflection gives \\(2\\ket{00}\\braket{00}s-\\ket s=\\ket{00}-\\ket s\\), since \\(\\braket{00}s=\\tfrac12\\); and \\(H\\otimes H\\) gives \\(\\ket s-\\ket{00}\\). Right side: \\(2\\ket s\\braket s{00}-\\ket{00}=\\ket s-\\ket{00}\\). They agree.",
     "challenge": "Conjugating by \\(X\\otimes X\\) moves the sign of controlled-\\(Z\\) from \\(\\ket{11}\\) to \\(\\ket{00}\\), giving \\(\\operatorname{diag}(-1,1,1,1)=-\\operatorname{diag}(1,-1,-1,-1)=-(2\\ket{00}\\bra{00}-I)\\). In a Grover iteration the factor \\(-1\\) is a global phase and changes no probability. If the iteration were controlled by another qubit, the sign would apply only in the branch where the control is \\(1\\), becoming a relative phase that affects later interference."
   },
-  "topic-8-3-1": {
+  "topic-7-3-1": {
     "foundation": "\\((H\\otimes H)\\ket{00}=\\ket+\\ket+=(\\ket{00}+\\ket{01}+\\ket{10}+\\ket{11})/2\\), a product of the two local states.",
     "application": "The two \\(H\\) gates cancel on qubit 1, and \\(X\\) acts on qubit 2, so the result is \\(\\ket{01}\\). Every gate acts on one qubit, so the circuit is \\((HH)\\otimes X\\), which maps product states to product states.",
     "challenge": "Suppose \\((A\\otimes B)\\ket\\Phi=\\ket u\\otimes\\ket v\\) for unitaries \\(A,B\\). Applying \\(A^\\dagger\\otimes B^\\dagger\\) gives \\(\\ket\\Phi=A^\\dagger\\ket u\\otimes B^\\dagger\\ket v\\), a product state, contradicting the assumption that \\(\\ket\\Phi\\) is entangled. Local operations can neither create nor remove entanglement."
   },
-  "topic-8-3-2": {
+  "topic-7-3-2": {
     "foundation": "Only \\(\\{H,\\text{CNOT}\\}\\). The first set has only one-qubit gates, which keep product states. The third has only permutations of basis states, which never create a superposition.",
     "application": "Each gate sends every basis state to a basis state and is one-to-one, so its matrix is a permutation matrix. A product of permutation matrices is a permutation matrix, so the whole circuit permutes the basis states, and from \\(\\ket{00}\\) it reaches only another basis state.",
     "challenge": "Each gate is one of three types placed on at most \\(m^3\\) choices of wires, so there are at most \\(3m^3\\) choices per gate and \\((3m^3)^g\\) circuits of \\(g\\) gates. There are \\(2^{2^n}\\) Boolean functions of \\(n\\) bits, and a circuit computes one function on a chosen output wire, so computing all of them needs \\((3m^3)^g\\geq2^{2^n}\\), that is, \\(g\\geq2^n/\\log_2(3m^3)\\). For \\(n=20\\) and \\(m=30\\), this is about \\(64{,}000\\) gates. Universality guarantees that every function can be built, not that it can be built cheaply."
   },
-  "topic-8-3-3": {
+  "topic-7-3-3": {
     "foundation": "Errors add at most, so the bound is \\(1000\\times10^{-6}=10^{-3}\\).",
     "application": "\\(10^{-2}/10^6=10^{-8}\\) per gate.",
     "challenge": "Write \\(U_2U_1-V_2V_1=U_2(U_1-V_1)+(U_2-V_2)V_1\\). For every unit vector \\(v\\), \\(\\|U_2(U_1-V_1)v\\|=\\|(U_1-V_1)v\\|\\leq\\|U_1-V_1\\|\\), since \\(U_2\\) preserves length, and \\(\\|(U_2-V_2)V_1v\\|\\leq\\|U_2-V_2\\|\\), since \\(V_1v\\) is a unit vector. The triangle inequality gives the result; repeating the argument covers \\(L\\) gates."
   },
-  "topic-8-4-1": {
+  "topic-7-4-1": {
     "foundation": "Gate count \\(5\\). Depth \\(3\\): the three \\(H\\) gates form one layer, and the two CNOT gates must follow one another, since both use qubit 2. Width \\(3\\).",
     "application": "Computing uses \\(n-1=7\\) Toffoli gates (six into workspace bits, one into the output), and uncomputing uses \\(6\\) more: \\(13\\) gates. Each gate needs the previous result, so the depth is also \\(13\\). Width: \\(8\\) inputs, \\(6\\) workspace bits, and \\(1\\) output, \\(15\\) qubits.",
     "challenge": "The tree uses \\(4\\) Toffoli gates on the input pairs, \\(2\\) on their results, and \\(1\\) into the output: \\(7\\) gates in \\(3\\) layers. Uncomputing the \\(6\\) workspace bits takes \\(6\\) gates in \\(2\\) layers. Total: \\(13\\) gates, depth \\(5\\), and \\(6\\) workspace bits. The chain has the same gate count and workspace but depth \\(13\\). For \\(n\\) bits, the tree’s depth grows like \\(2\\log_2n\\) rather than \\(2n\\)."
   },
-  "topic-8-4-2": {
+  "topic-7-4-2": {
     "foundation": "Two: swap qubits 1 and 2, so that qubit 1’s state sits next to qubit 3; apply the CNOT; then swap back.",
     "application": "For three qubits: \\(2\\times3+1=7\\) CNOT gates instead of \\(1\\). For \\(n\\) qubits, moving one end next to the other takes \\(n-2\\) SWAP gates, and moving back takes \\(n-2\\) more: \\(6(n-2)+1=6n-11\\) CNOT gates.",
     "challenge": "Loading costs about \\(N\\), more than the \\(\\sqrt N\\) search, so a single search costs about \\(N\\), no better than scanning the data classically. The speedup survives only if the state is cheap to prepare, for example because it is produced by a short computation rather than loaded from data, or because one loaded state is used for many searches."
   },
-  "topic-8-4-3": {
+  "topic-7-4-3": {
     "foundation": "\\((1-10^{-3})^{1000}\\approx e^{-1}\\approx0.37\\).",
     "application": "We need \\((1-q)^{10^9}\\geq0.9\\). Since \\((1-q)^N\\approx e^{-qN}\\), this requires \\(q\\lesssim-\\ln0.9/10^9\\approx1.05\\times10^{-10}\\), far below what physical gates achieve. Long computations need error correction.",
     "challenge": "Decoding fails after two or three flips: \\(3q^2(1-q)+q^3=3q^2-2q^3\\). This is smaller than \\(q\\) exactly for \\(0<q<1/2\\). But a phase flip gives \\(\\alpha\\ket{000}-\\beta\\ket{111}\\), which generally changes the encoded quantum state without changing any computational-basis bit pattern. Majority voting sees no error. Protecting quantum information therefore requires protection of relative phase as well as of bit values."
@@ -568,5 +568,10 @@
     "foundation": "The query gives \\(\\ket{1,z_1}\\): the amplitude of \\(\\ket{1,0}\\) is \\(1-z_1\\), and that of \\(\\ket{1,1}\\) is \\(z_1\\). Both have degree \\(1\\).",
     "application": "Each term becomes \\(z_1z_2\\), giving \\(2z_1z_2\\).",
     "challenge": "\\(z_1\\oplus z_2=z_1+z_2-2z_1z_2\\), which takes the values \\(0,1,1,0\\) on the four inputs and has degree \\(2\\). An exact algorithm’s acceptance probability has degree at most \\(2T\\), so \\(2T\\geq2\\) and \\(T\\geq1\\). Deutsch’s algorithm computes \\(f(0)\\oplus f(1)\\) with one query, so the bound is achieved."
+  },
+  "topic-4-1-2": {
+    "foundation": "\\(\\braket\\phi\\psi=\\tfrac12\\bigl(1\\cdot1+(i)^*(-i)\\bigr)=\\tfrac12\\bigl(1+(-i)(-i)\\bigr)=\\tfrac12(1-1)=0\\). They are orthogonal. Without the conjugate, the sum would be \\(\\tfrac12(1+1)=1\\), wrongly suggesting the two states are equal.",
+    "application": "The final-state amplitudes are \\(\\sqrt3/2\\) for \\(\\ket0\\) and \\(i/2\\) for \\(\\ket1\\). Their squared magnitudes are \\(3/4\\) and \\(1/4\\). Since they sum to one, \\(\\|\\psi\\|=1\\).",
+    "challenge": "\\(\\braket\\phi\\psi=1/\\sqrt2\\), so the component along \\(\\ket\\phi\\) is \\((\\ket0+\\ket1)/2\\). Subtracting it from \\(\\ket0\\) leaves \\(\\ket{\\psi_\\perp}=(\\ket0-\\ket1)/2\\). Its inner product with \\(\\ket\\phi\\) is zero. Both components have squared norm \\(1/2\\), giving total one."
   }
 }

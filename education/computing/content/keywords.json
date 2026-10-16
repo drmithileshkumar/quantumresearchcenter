@@ -163,18 +163,13 @@
     "state vector",
     "ket"
   ],
-  "topic-4-1-2": [
+  "topic-4-1-3": [
     "matrix",
     "matrix product",
     "identity matrix",
     "linearity"
   ],
-  "topic-4-1-3": [
-    "inner product",
-    "norm",
-    "orthogonal",
-    "orthonormal",
-    "bra",
+  "topic-4-1-4": [
     "adjoint",
     "unitary"
   ],
@@ -255,73 +250,73 @@
     "Deutsch’s algorithm",
     "query separation"
   ],
-  "topic-7-1-1": [
+  "topic-8-1-1": [
     "marked",
     "predicate"
   ],
-  "topic-7-1-2": [
+  "topic-8-1-2": [
     "uniform superposition"
   ],
-  "topic-7-1-3": [
+  "topic-8-1-3": [
     "reflection about the mean"
   ],
-  "topic-7-2-1": [
+  "topic-8-2-1": [
     "good and bad subspaces"
   ],
-  "topic-7-2-2": [
+  "topic-8-2-2": [
     "success probability"
   ],
-  "topic-7-2-3": [
+  "topic-8-2-3": [
     "Grover iteration"
   ],
-  "topic-7-3-2": [
+  "topic-8-3-2": [
     "overshooting",
     "stopping rule"
   ],
-  "topic-7-3-3": [
+  "topic-8-3-3": [
     "verification"
   ],
-  "topic-7-4-2": [
+  "topic-8-4-2": [
     "coherent access"
   ],
-  "topic-7-4-3": [
+  "topic-8-4-3": [
     "amplitude amplification"
   ],
-  "topic-8-1-1": [
+  "topic-7-1-1": [
     "circuit",
     "wire"
   ],
-  "topic-8-1-3": [
+  "topic-7-1-3": [
     "classically controlled",
     "coherent controlled gate"
   ],
-  "topic-8-2-1": [
+  "topic-7-2-1": [
     "Pauli matrices",
     "rotation gate",
     "phase gates"
   ],
-  "topic-8-2-2": [
+  "topic-7-2-2": [
     "controlled-\\(Z\\)"
   ],
-  "topic-8-3-2": [
+  "topic-7-3-2": [
     "universal"
   ],
-  "topic-8-3-3": [
+  "topic-7-3-3": [
     "Clifford+T",
     "operator-norm error"
   ],
-  "topic-8-4-1": [
+  "topic-7-4-1": [
     "gate count",
     "depth",
     "width",
     "ancilla",
     "uniform"
   ],
-  "topic-8-4-2": [
+  "topic-7-4-2": [
     "connectivity",
     "SWAP gate"
   ],
-  "topic-8-4-3": [
+  "topic-7-4-3": [
     "quantum error correction",
     "syndrome"
   ],
@@ -386,5 +381,14 @@
   ],
   "appendix-e": [
     "approximate degree"
+  ],
+  "topic-4-1-2": [
+    "inner product",
+    "transition amplitude",
+    "bra",
+    "norm",
+    "orthogonal",
+    "orthonormal",
+    "conjugate symmetry"
   ]
 }
