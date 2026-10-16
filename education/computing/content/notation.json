@@ -115,7 +115,7 @@
         "tex": "\\ket\\psi",
         "read": "ket psi",
         "meaning": "The column vector of a state, named \\(\\psi\\). The brackets name a vector; they are not an operation.",
-        "intro": "topic-3-3-2",
+        "intro": "topic-3-4-3",
         "section": "topic-4-1-1",
         "pattern": "\\\\ket"
       },
@@ -225,7 +225,7 @@
         "tex": "X,\\ Z,\\ H",
         "read": "X, Z, H",
         "meaning": "The bit flip, phase flip, and Hadamard gates.",
-        "intro": "topic-3-3-1",
+        "intro": "topic-3-3-3",
         "section": "topic-8-2-1"
       },
       {

@@ -78,6 +78,29 @@ def transition_figure(name, title, description, weights, totals, note):
     f.text(552, 300, note, 'small')
     f.save(name)
 
+def hadamard_weight_figure():
+    """Show the unnormalized signed step before fixing its common weight c."""
+    c = r'\(c\)'
+    transition_figure('transitions-hadamard-c', 'Signed Hadamard transition with weight c',
+        'Three arrows carry weight c and the arrow from 1 to 1 carries minus c. '
+        'Over two steps from 0, two paths to 0 contribute c squared each, giving 2c squared; '
+        'the paths to 1 contribute c squared and minus c squared, giving zero. '
+        'Returning the original weight one therefore requires 2c squared equals one.',
+        {(0, 0): c, (0, 1): c, (1, 0): c, (1, 1): r'\(-c\)'},
+        {0: r'\(c^2+c^2=2c^2\)', 1: r'\(c^2-c^2=0\)'},
+        r'Returning to weight one requires \(2c^2=1\).')
+
+def sqrt_not_weight_figure():
+    """Show the path sums of a symmetric step whose square is NOT."""
+    transition_figure('transitions-sqrt-not-ab', 'Square root of NOT with weights a and b',
+        'Each self-loop carries stay-weight a and each arrow between configurations carries switch-weight b. '
+        'Over two steps from 0, staying twice contributes a squared and switching twice contributes b squared at 0. '
+        'Staying then switching contributes ab and switching then staying contributes ba at 1. '
+        'For the combined step to be NOT, a squared plus b squared must be zero and 2ab must be one.',
+        {(0, 0): r'\(a\)', (0, 1): r'\(b\)', (1, 0): r'\(b\)', (1, 1): r'\(a\)'},
+        {0: r'\(a^2+b^2\)', 1: r'\(ab+ba=2ab\)'},
+        r'NOT requires \(a^2+b^2=0\) and \(2ab=1\).')
+
 def main():
     h = r'\(1/\sqrt2\)'
     transition_figure('transitions-deterministic', 'Deterministic transitions: NOT applied twice',
@@ -98,7 +121,9 @@ def main():
         {(0, 0): h, (0, 1): h, (1, 0): h, (1, 1): r'\(-1/\sqrt2\)'},
         {0: r'\(\tfrac12+\tfrac12=1\)', 1: r'\(\tfrac12-\tfrac12=0\)'},
         'The amplitudes of the two paths to \\(1\\) cancel.')
-    print('Drew 4 Chapter 3 transition diagrams.')
+    hadamard_weight_figure()
+    sqrt_not_weight_figure()
+    print('Drew 6 Chapter 3 transition diagrams.')
 
 if __name__ == '__main__':
     main()

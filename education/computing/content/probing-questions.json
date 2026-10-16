@@ -155,19 +155,19 @@
     "challenge": "Prove that a probabilistic rule on finitely many configurations can be undone by another probabilistic rule only if it is deterministic and reversible."
   },
   "topic-3-3-1": {
-    "foundation": "Which of observations 1, 2, and 3 does COIN reproduce?",
-    "application": "Suppose a probabilistic rule satisfies observation 1. Show that it must be COIN, and compute the probability that two steps from \\(0\\) end at \\(1\\).",
-    "challenge": "Suppose only runs starting at \\(0\\) are tested: one step is fair, but two unmeasured steps return \\(0\\) with certainty. Can the same probabilistic rule on two configurations reproduce even these observations? Let \\(r\\) be its probability of going from \\(1\\) to \\(1\\)."
+    "foundation": "A path has arrow weights \\(-1/2\\), \\(1/3\\), and \\(-3/4\\). What is its weight?",
+    "application": "A starting configuration has weight \\(-2\\). A path from it has arrow weights \\(1/2\\) and \\(-1/3\\). What contribution reaches the endpoint?",
+    "challenge": "If the sign of one nonzero arrow weight on a path is reversed, how does the path weight change? What if two arrow occurrences change sign?"
   },
   "topic-3-3-2": {
-    "foundation": "Which of the following are possible qubit states under the measurement rule: \\(\\tfrac12\\ket0+\\tfrac12\\ket1\\); \\(\\tfrac35\\ket0-\\tfrac45\\ket1\\); \\(\\ket0-\\ket1\\)?",
-    "application": "An operation has weights \\(w(0\\to0)=\\tfrac35\\), \\(w(0\\to1)=\\tfrac45\\), \\(w(1\\to0)=\\tfrac45\\), and \\(w(1\\to1)=-\\tfrac35\\). Check the two conditions on an operation, and apply it to \\(\\ket0\\) and to \\((\\ket0+\\ket1)/\\sqrt2\\).",
-    "challenge": "Derive the condition \\(\\sum_jw(i\\to j)\\,w(k\\to j)=0\\) for \\(i\\neq k\\) from the requirement that every operation leaves the total squared weight unchanged."
+    "foundation": "Three paths to the same endpoint contribute \\(1/3\\), \\(-1/2\\), and \\(1/6\\). What is the total? Does it imply that no path reaches the endpoint?",
+    "application": "In the two-path diagram, set \\(a=b=c=1/2\\). Find the total at \\(k\\) for \\(d=1/2\\), \\(d=-1/4\\), and \\(d=-1/2\\).",
+    "challenge": "Two paths to \\(0\\) contribute \\(1/4\\) each, and two paths to \\(1\\) contribute \\(-1/4\\) each. What are the final state weights? Can any contributions cancel?"
   },
   "topic-3-3-3": {
-    "foundation": "Apply \\(H\\) to \\((\\ket0-\\ket1)/\\sqrt2\\) using the weights of its arrows.",
-    "application": "Draw the time-expanded diagram of two Hadamard steps from \\(1\\). Compute the path weights to \\(0\\) and to \\(1\\), and the final probabilities.",
-    "challenge": "Observation 2 left the signs of \\(H(0\\to0)\\) and \\(H(0\\to1)\\) free. Write the four resulting operations, and show that each satisfies observations 1 and 2. Which of them differ from \\(H\\) only by a factor common to all weights?"
+    "foundation": "Apply \\(H\\) to the state weights \\((1,-1)/\\sqrt2\\).",
+    "application": "Draw the two-step paths from \\(1\\) under \\(H\\). Compute the contribution of each path and the final weights.",
+    "challenge": "Replace the negative arrow of \\(H\\) by \\(+1/\\sqrt2\\). Starting at \\(0\\), find the weights after two steps. Explain why this modified step cannot be reversible."
   },
   "topic-3-4-1": {
     "foundation": "A symmetric step has stay-weight \\(a\\) and switch-weight \\(b\\). Write the two-step weights for returning and switching. Why can real \\(a,b\\) not make two steps equal NOT?",
@@ -177,7 +177,7 @@
   "topic-3-4-2": {
     "foundation": "Two paths reach an outcome with amplitudes \\(1/2\\) and \\(i/2\\). What is its probability? Is the interference constructive, destructive, or neither?",
     "application": "Two paths contribute \\(0.6\\) and \\(-0.2\\) to an outcome. Compare the probability obtained by adding first with the result of squaring first.",
-    "challenge": "After \\(H\\), the state \\((\\ket0+e^{i\\phi}\\ket1)/\\sqrt2\\) gives \\(0\\) with probability \\((1+\\cos\\phi)/2\\). Which phases cannot be told apart this way, and what further operation would separate them?"
+    "challenge": "Start with amplitudes \\((1/\\sqrt2,e^{i\\phi}/\\sqrt2)\\) and apply \\(H\\). The probability of \\(0\\) is \\((1+\\cos\\phi)/2\\). Which values of \\(\\phi\\) give the same probabilities, and what extra operation could distinguish them?"
   },
   "topic-3-4-3": {
     "foundation": "In the record experiment, find the probability of each of the four final configurations, and the probability that the record shows \\(1\\).",

@@ -103,15 +103,15 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 ### 3.3 Signed Weights
 
-- **3.3.1** An operation that probability cannot describe
-- **3.3.2** From weights to probabilities
+- **3.3.1** Negative weights
+- **3.3.2** Cancellation across paths
 - **3.3.3** The Hadamard step
 
 ### 3.4 Complex Amplitudes and Interference
 
 - **3.4.1** Complex weights
 - **3.4.2** Interference and phase
-- **3.4.3** Path information and interference
+- **3.4.3** Kets, measurement, and path information
 
 **Outcome and transition:** Amplitudes provide a predictive description that probabilities alone cannot supply. This is an introduction through examples, not a derivation of quantum mechanics from classical uncertainty. We next make its state and measurement rules precise.
 
@@ -430,6 +430,11 @@ Existing manuscript figures are kept. `content/illustrations.json` describes the
 when the book is built. The available layouts cover transformations, tables,
 probability bars, state-space directions, and a branching verification procedure.
 Each figure includes a caption, alternative text, and SVG title/description.
+
+For states, transitions, and path composition, use state-transition or connection
+diagrams: configurations are nodes, transitions are directed arrows, and weights
+label the arrows. Show path products and endpoint sums beside the diagram.
+Do not represent these concepts as a sequence of rectangular flowchart blocks.
 
 Edit the specification rather than the generated SVG. Keep examples consistent
 with the manuscript's basis ordering and assumptions. The builder fails if an
