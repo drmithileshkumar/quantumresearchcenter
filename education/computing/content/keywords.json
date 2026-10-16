@@ -1,0 +1,388 @@
+{
+  "topic-1-1-1": [
+    "axiom",
+    "rules of inference"
+  ],
+  "topic-1-1-2": [
+    "consistent",
+    "finitary methods"
+  ],
+  "topic-1-1-3": [
+    "proof search",
+    "decision procedure"
+  ],
+  "topic-1-2-1": [
+    "Euclid’s algorithm",
+    "invariant"
+  ],
+  "topic-1-2-2": [
+    "configuration",
+    "transition",
+    "run"
+  ],
+  "topic-1-2-3": [
+    "Turing machine",
+    "tape",
+    "head",
+    "control state",
+    "rule table",
+    "halting state",
+    "universal machine"
+  ],
+  "topic-1-3-1": [
+    "lambda calculus",
+    "Church–Turing thesis"
+  ],
+  "topic-1-3-2": [
+    "halting problem"
+  ],
+  "topic-1-3-3": [
+    "undecidable problem",
+    "incomplete theory",
+    "second incompleteness theorem"
+  ],
+  "topic-1-4-1": [
+    "deterministic",
+    "one-to-one",
+    "bijection",
+    "logical reversibility"
+  ],
+  "topic-1-4-2": [
+    "many-to-one",
+    "unitary transformation"
+  ],
+  "topic-2-1-1": [
+    "encoding"
+  ],
+  "topic-2-1-2": [
+    "Boolean function",
+    "truth table"
+  ],
+  "topic-2-1-3": [
+    "arithmetic modulo two",
+    "XOR",
+    "detector"
+  ],
+  "topic-2-2-1": [
+    "circuit",
+    "gate",
+    "wire"
+  ],
+  "topic-2-2-2": [
+    "NAND",
+    "universal",
+    "fan-out"
+  ],
+  "topic-2-3-1": [
+    "Landauer’s principle"
+  ],
+  "topic-2-3-2": [
+    "logically reversible"
+  ],
+  "topic-2-3-3": [
+    "target bit"
+  ],
+  "topic-2-4-1": [
+    "control",
+    "target",
+    "CNOT"
+  ],
+  "topic-2-4-2": [
+    "Toffoli",
+    "Fredkin"
+  ],
+  "topic-2-4-3": [
+    "workspace",
+    "uncomputation",
+    "garbage"
+  ],
+  "topic-3-1-1": [
+    "configuration",
+    "state",
+    "weight",
+    "definite"
+  ],
+  "topic-3-1-2": [
+    "transition rule",
+    "state diagram",
+    "weight",
+    "run",
+    "time-expanded diagram",
+    "path"
+  ],
+  "topic-3-1-3": [
+    "deterministic",
+    "reversible"
+  ],
+  "topic-3-1-4": [
+    "nondeterministic",
+    "reachable"
+  ],
+  "topic-3-1-5": [
+    "probabilistic",
+    "conditional probability",
+    "Markov"
+  ],
+  "topic-3-2-1": [
+    "product rule"
+  ],
+  "topic-3-2-2": [
+    "sum rule"
+  ],
+  "topic-3-3-1": [
+    "qubit",
+    "measurement",
+    "amplitude"
+  ],
+  "topic-3-3-2": [
+    "superposition",
+    "measurement rule",
+    "normalization condition",
+    "cross-sum condition"
+  ],
+  "topic-3-3-3": [
+    "Hadamard operation"
+  ],
+  "topic-3-4-1": [
+    "conjugate",
+    "squared magnitude",
+    "phase"
+  ],
+  "topic-3-4-2": [
+    "interference",
+    "coherent",
+    "global phase",
+    "relative phase"
+  ],
+  "topic-3-4-3": [
+    "record"
+  ],
+  "topic-4-1-1": [
+    "state vector",
+    "ket"
+  ],
+  "topic-4-1-2": [
+    "matrix",
+    "matrix product",
+    "identity matrix",
+    "linearity"
+  ],
+  "topic-4-1-3": [
+    "inner product",
+    "norm",
+    "orthogonal",
+    "orthonormal",
+    "bra",
+    "adjoint",
+    "unitary"
+  ],
+  "topic-4-2-1": [
+    "postulate"
+  ],
+  "topic-4-2-2": [
+    "measurement postulate"
+  ],
+  "topic-4-3-1": [
+    "\\(\\pm\\) basis"
+  ],
+  "topic-4-3-2": [
+    "measurement in a basis",
+    "projector",
+    "projective measurement"
+  ],
+  "topic-4-4-1": [
+    "eigenvector",
+    "eigenvalue",
+    "eigenspace"
+  ],
+  "topic-4-4-2": [
+    "observable",
+    "Hermitian",
+    "spectral projectors"
+  ],
+  "topic-5-1-1": [
+    "tensor product",
+    "product basis"
+  ],
+  "topic-5-1-2": [
+    "product state"
+  ],
+  "topic-5-1-3": [
+    "composition postulate"
+  ],
+  "topic-5-2-1": [
+    "Bell state"
+  ],
+  "topic-5-2-2": [
+    "entangled"
+  ],
+  "topic-5-2-3": [
+    "joint probability",
+    "marginal",
+    "conditional probability"
+  ],
+  "topic-5-3-2": [
+    "no-cloning theorem"
+  ],
+  "topic-5-3-3": [
+    "density matrix",
+    "no-signalling"
+  ],
+  "topic-5-4-2": [
+    "teleportation"
+  ],
+  "topic-6-1-1": [
+    "constant",
+    "balanced",
+    "promise"
+  ],
+  "topic-6-1-2": [
+    "query"
+  ],
+  "topic-6-1-3": [
+    "oracle",
+    "black-box"
+  ],
+  "topic-6-3-2": [
+    "phase kickback"
+  ],
+  "topic-6-3-3": [
+    "compute, phase, uncompute"
+  ],
+  "topic-6-4-2": [
+    "Deutsch’s algorithm",
+    "query separation"
+  ],
+  "topic-7-1-1": [
+    "marked",
+    "predicate"
+  ],
+  "topic-7-1-2": [
+    "uniform superposition"
+  ],
+  "topic-7-1-3": [
+    "reflection about the mean"
+  ],
+  "topic-7-2-1": [
+    "good and bad subspaces"
+  ],
+  "topic-7-2-2": [
+    "success probability"
+  ],
+  "topic-7-2-3": [
+    "Grover iteration"
+  ],
+  "topic-7-3-2": [
+    "overshooting",
+    "stopping rule"
+  ],
+  "topic-7-3-3": [
+    "verification"
+  ],
+  "topic-7-4-2": [
+    "coherent access"
+  ],
+  "topic-7-4-3": [
+    "amplitude amplification"
+  ],
+  "topic-8-1-1": [
+    "circuit",
+    "wire"
+  ],
+  "topic-8-1-3": [
+    "classically controlled",
+    "coherent controlled gate"
+  ],
+  "topic-8-2-1": [
+    "Pauli matrices",
+    "rotation gate",
+    "phase gates"
+  ],
+  "topic-8-2-2": [
+    "controlled-\\(Z\\)"
+  ],
+  "topic-8-3-2": [
+    "universal"
+  ],
+  "topic-8-3-3": [
+    "Clifford+T",
+    "operator-norm error"
+  ],
+  "topic-8-4-1": [
+    "gate count",
+    "depth",
+    "width",
+    "ancilla",
+    "uniform"
+  ],
+  "topic-8-4-2": [
+    "connectivity",
+    "SWAP gate"
+  ],
+  "topic-8-4-3": [
+    "quantum error correction",
+    "syndrome"
+  ],
+  "topic-9-1-1": [
+    "worst case"
+  ],
+  "topic-9-1-2": [
+    "asymptotic notation",
+    "\\(O(g(n))\\)",
+    "\\(\\Omega\\)",
+    "\\(\\Theta\\)"
+  ],
+  "topic-9-1-3": [
+    "query complexity",
+    "gate complexity",
+    "space complexity"
+  ],
+  "topic-9-2-1": [
+    "decision problem",
+    "P",
+    "NP",
+    "certificate",
+    "polynomial-time reduction"
+  ],
+  "topic-9-2-2": [
+    "BPP",
+    "BQP"
+  ],
+  "topic-9-2-3": [
+    "period finding"
+  ],
+  "topic-9-3-1": [
+    "upper bound",
+    "lower bound"
+  ],
+  "topic-9-3-2": [
+    "hybrid argument"
+  ],
+  "topic-9-3-3": [
+    "approximate degree"
+  ],
+  "topic-9-4-3": [
+    "quantum Fourier transform"
+  ],
+  "appendix-a": [
+    "finite automaton",
+    "pushdown automaton",
+    "linear-bounded automaton"
+  ],
+  "appendix-b": [
+    "grammar",
+    "lambda calculus",
+    "Church numeral"
+  ],
+  "appendix-c": [
+    "operator norm"
+  ],
+  "appendix-d": [
+    "density matrix",
+    "reduced state",
+    "effects"
+  ],
+  "appendix-e": [
+    "approximate degree"
+  ]
+}

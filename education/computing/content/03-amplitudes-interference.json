@@ -7,23 +7,37 @@
   "sections": [
     {
       "id": "topic-3-1-1",
-      "title": "Deterministic transitions",
+      "title": "States",
       "number": "3.1.1",
-      "group": "3.1 · Three Kinds of Transition",
+      "group": "3.1 · States and Transitions",
       "part_id": "section-3-1"
     },
     {
       "id": "topic-3-1-2",
-      "title": "Nondeterministic transitions",
+      "title": "Transitions",
       "number": "3.1.2",
-      "group": "3.1 · Three Kinds of Transition",
+      "group": "3.1 · States and Transitions",
       "part_id": "section-3-1"
     },
     {
       "id": "topic-3-1-3",
-      "title": "Probabilistic transitions",
+      "title": "Deterministic transitions",
       "number": "3.1.3",
-      "group": "3.1 · Three Kinds of Transition",
+      "group": "3.1 · States and Transitions",
+      "part_id": "section-3-1"
+    },
+    {
+      "id": "topic-3-1-4",
+      "title": "Nondeterministic transitions",
+      "number": "3.1.4",
+      "group": "3.1 · States and Transitions",
+      "part_id": "section-3-1"
+    },
+    {
+      "id": "topic-3-1-5",
+      "title": "Probabilistic transitions",
+      "number": "3.1.5",
+      "group": "3.1 · States and Transitions",
       "part_id": "section-3-1"
     },
     {
@@ -93,7 +107,7 @@
   "parts": [
     {
       "id": "section-3-1",
-      "title": "Three Kinds of Transition",
+      "title": "States and Transitions",
       "number": "3.1"
     },
     {

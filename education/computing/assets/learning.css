@@ -101,3 +101,7 @@
 .ebook details.probing-question[open]>summary.question-label {margin-bottom:.7rem;}
 .ebook details.probing-question>ol {border-left:2px solid #aab9c5;padding-left:2em;}
 @media print {.ebook details.probing-question>summary.question-label {font-size:1em;color:inherit;}}
+
+.ebook .keywords {margin:-.2rem 0 .7rem;padding:0;font-family:var(--sans);font-size:.8em;line-height:1.45;font-variant-caps:small-caps;letter-spacing:.03em;color:var(--muted);}
+.ebook .keywords .keyword-sep {font-variant:normal;}
+.ebook .keywords a.glossary-term {color:inherit;}

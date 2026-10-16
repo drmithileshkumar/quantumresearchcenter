@@ -103,42 +103,82 @@
     ]
   },
   "topic-2-2-3": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Three different inputs merge",
     "caption": "The AND gate maps \\(00\\), \\(01\\), and \\(10\\) to the same output. Output zero cannot identify which of these inputs occurred.",
-    "rows": [
-      [
-        "00",
-        "AND",
-        "0"
-      ],
-      [
-        "01 or 10",
-        "AND",
-        "0"
-      ],
-      [
-        "11",
-        "AND",
-        "1"
-      ]
+    "panels": [
+      {
+        "columns": [
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "AND"
+        ],
+        "edges": [
+          [
+            0,
+            "00",
+            "0"
+          ],
+          [
+            0,
+            "01",
+            "0"
+          ],
+          [
+            0,
+            "10",
+            "0"
+          ],
+          [
+            0,
+            "11",
+            "1"
+          ]
+        ]
+      }
     ]
   },
   "topic-2-3-1": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Resetting an unknown bit",
     "caption": "Both possible logical inputs are reset to zero. For erasure of one equally likely bit in the standard isothermal setting, the minimum heat delivered to the environment is kBT ln 2.",
-    "rows": [
-      [
-        "Memory: 0 or 1",
-        "Reset operation",
-        "Memory: 0"
-      ],
-      [
-        "Thermal environment",
-        "Receives heat",
-        "\\(Q \\ge k_BT\\ln 2\\)"
-      ]
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "steps": [
+          "reset"
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "0"
+          ],
+          [
+            0,
+            "1",
+            "0"
+          ]
+        ]
+      }
     ]
   },
   "topic-2-3-2": {
@@ -164,40 +204,126 @@
     ]
   },
   "topic-2-3-3": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Preserve the input; update the target",
-    "caption": "For \\(f(x)=1\\), the target flips. Applying the same reversible oracle twice restores the input and target because XOR by the same bit cancels.",
-    "rows": [
-      [
-        "\\((x, 0)\\)",
-        "\\((x, f(x))\\)",
-        "\\((x, 0)\\)"
-      ]
+    "caption": "Configurations are written \\(xt\\), here with \\(f(0)=0\\) and \\(f(1)=1\\). \\(U_f\\) flips the target exactly when \\(f(x)=1\\), and applying it twice returns every configuration.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        ],
+        "steps": [
+          "\\(U_f\\)",
+          "\\(U_f\\)"
+        ],
+        "edges": [
+          [
+            0,
+            "00",
+            "00"
+          ],
+          [
+            0,
+            "01",
+            "01"
+          ],
+          [
+            0,
+            "10",
+            "11"
+          ],
+          [
+            0,
+            "11",
+            "10"
+          ],
+          [
+            1,
+            "00",
+            "00"
+          ],
+          [
+            1,
+            "01",
+            "01"
+          ],
+          [
+            1,
+            "10",
+            "11"
+          ],
+          [
+            1,
+            "11",
+            "10"
+          ]
+        ]
+      }
     ]
   },
   "topic-2-4-1": {
-    "kind": "table",
+    "kind": "transitions",
     "title": "A controlled operation has two branches",
-    "caption": "CNOT preserves its control bit. For control zero it leaves the target alone; for control one it flips the target. Each branch can be undone.",
-    "headers": [
-      "Control \\(x\\)",
-      "Target before",
-      "Target after",
-      "Control after"
-    ],
-    "rows": [
-      [
-        "0",
-        "\\(t\\)",
-        "\\(t\\)",
-        "0"
-      ],
-      [
-        "1",
-        "\\(t\\)",
-        "\\(t \\text{ XOR } 1\\)",
-        "1"
-      ]
+    "caption": "CNOT keeps the control, the first bit, and flips the target when the control is \\(1\\): \\(10\\) and \\(11\\) exchange. Exactly one arrow enters each configuration, so the step can be undone.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        ],
+        "steps": [
+          "CNOT"
+        ],
+        "edges": [
+          [
+            0,
+            "00",
+            "00"
+          ],
+          [
+            0,
+            "01",
+            "01"
+          ],
+          [
+            0,
+            "10",
+            "11"
+          ],
+          [
+            0,
+            "11",
+            "10"
+          ]
+        ]
+      }
     ]
   },
   "topic-4-1-1": {
@@ -228,25 +354,49 @@
     ]
   },
   "topic-4-1-2": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Extend basis actions by linearity",
-    "caption": "The \\(X\\) operation is fixed by its two basis actions. Multiply those outputs by the input coefficients and add to obtain the output on a superposition.",
-    "rows": [
-      [
-        "\\(\\ket0\\)",
-        "\\(X\\)",
-        "\\(\\ket1\\)"
-      ],
-      [
-        "\\(\\ket1\\)",
-        "\\(X\\)",
-        "\\(\\ket0\\)"
-      ],
-      [
-        "\\(a\\ket0 + b\\ket1\\)",
-        "\\(X\\)",
-        "\\(a\\ket1 + b\\ket0\\)"
-      ]
+    "caption": "\\(X\\) is fixed by its arrows \\(0\\to1\\) and \\(1\\to0\\). Each amplitude travels along its arrow, so \\(\\alpha\\ket0+\\beta\\ket1\\) becomes \\(\\beta\\ket0+\\alpha\\ket1\\).",
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(X\\)"
+        ],
+        "weights": [
+          {
+            "0": "\\(\\alpha\\)",
+            "1": "\\(\\beta\\)"
+          },
+          {
+            "0": "\\(\\beta\\)",
+            "1": "\\(\\alpha\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "1",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "1",
+            "0",
+            "\\(1\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-4-1-3": {
@@ -335,20 +485,49 @@
     ]
   },
   "topic-4-4-1": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Eigenvectors retain their direction",
-    "caption": "For \\(Z\\), the computational basis vectors are eigenvectors with eigenvalues \\(+1\\) and \\(-1\\). A general superposition need not be an eigenvector.",
-    "rows": [
-      [
-        "\\(\\ket0\\)",
-        "\\(Z\\)",
-        "\\(+\\ket0\\)"
-      ],
-      [
-        "\\(\\ket1\\)",
-        "\\(Z\\)",
-        "\\(-\\ket1\\)"
-      ]
+    "caption": "\\(Z\\) keeps each configuration and multiplies the amplitude at \\(1\\) by \\(-1\\). So \\(\\ket0\\) and \\(\\ket1\\) are eigenvectors, with eigenvalues \\(+1\\) and \\(-1\\), but a state with \\(\\alpha\\) and \\(\\beta\\) both nonzero is not.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(Z\\)"
+        ],
+        "weights": [
+          {
+            "0": "\\(\\alpha\\)",
+            "1": "\\(\\beta\\)"
+          },
+          {
+            "0": "\\(\\alpha\\)",
+            "1": "\\(-\\beta\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "0",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "1",
+            "1",
+            "\\(-1\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-4-4-2": {
@@ -520,25 +699,61 @@
     ]
   },
   "topic-5-3-1": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "CNOT copies labels, not arbitrary states",
-    "caption": "The first two rows copy computational-basis labels into a blank target. By linearity the third row produces an entangled state rather than two copies of \\(\\ket+\\).",
-    "rows": [
-      [
-        "\\(\\ket0\\ket0\\)",
-        "CNOT",
-        "\\(\\ket0\\ket0\\)"
-      ],
-      [
-        "\\(\\ket1\\ket0\\)",
-        "CNOT",
-        "\\(\\ket1\\ket1\\)"
-      ],
-      [
-        "\\(\\ket{+}\\ket0\\)",
-        "CNOT",
-        "\\((\\ket{00} + \\ket{11})/\\sqrt{2}\\)"
-      ]
+    "caption": "With a blank target, CNOT carries the amplitude \\(\\alpha\\) of \\(00\\) to \\(00\\) and the amplitude \\(\\beta\\) of \\(10\\) to \\(11\\). The result \\(\\alpha\\ket{00}+\\beta\\ket{11}\\) is not two copies of \\(\\alpha\\ket0+\\beta\\ket1\\) unless \\(\\alpha\\) or \\(\\beta\\) is zero.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        ],
+        "steps": [
+          "CNOT"
+        ],
+        "weights": [
+          {
+            "00": "\\(\\alpha\\)",
+            "10": "\\(\\beta\\)"
+          },
+          {
+            "00": "\\(\\alpha\\)",
+            "11": "\\(\\beta\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "00",
+            "00"
+          ],
+          [
+            0,
+            "01",
+            "01"
+          ],
+          [
+            0,
+            "10",
+            "11"
+          ],
+          [
+            0,
+            "11",
+            "10"
+          ]
+        ]
+      }
     ]
   },
   "topic-5-3-2": {
@@ -651,47 +866,109 @@
     ]
   },
   "topic-6-1-3": {
-    "kind": "table",
+    "kind": "transitions",
     "title": "The target update is a permutation",
-    "caption": "For \\(f(x)=1\\), the two target values are swapped while \\(x\\) is kept. The full map is reversible even when the function \\(f\\) itself is not one-to-one.",
-    "headers": [
-      "Input register",
-      "Target before",
-      "Target after"
-    ],
-    "rows": [
-      [
-        "\\(x\\) with \\(f(x)=0\\)",
-        "0 / 1",
-        "0 / 1"
-      ],
-      [
-        "\\(x\\) with \\(f(x)=1\\)",
-        "0 / 1",
-        "1 / 0"
-      ]
+    "caption": "Configurations are written \\(xy\\), here with \\(f(0)=0\\) and \\(f(1)=1\\). Where \\(f(x)=1\\) the two target values exchange; elsewhere nothing moves. One arrow enters each configuration, so \\(U_f\\) is reversible even when \\(f\\) is not one-to-one.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        ],
+        "steps": [
+          "\\(U_f\\)"
+        ],
+        "edges": [
+          [
+            0,
+            "00",
+            "00"
+          ],
+          [
+            0,
+            "01",
+            "01"
+          ],
+          [
+            0,
+            "10",
+            "11"
+          ],
+          [
+            0,
+            "11",
+            "10"
+          ]
+        ]
+      }
     ]
   },
   "topic-6-2-1": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Apply the oracle term by term",
-    "caption": "With \\(f(0)=0\\) and \\(f(1)=1\\), a blank target becomes correlated with the input. Linearity determines the output on the entire superposition.",
-    "rows": [
-      [
-        "\\(\\ket0\\ket0\\)",
-        "Oracle",
-        "\\(\\ket0\\ket0\\)"
-      ],
-      [
-        "\\(\\ket1\\ket0\\)",
-        "Oracle",
-        "\\(\\ket1\\ket1\\)"
-      ],
-      [
-        "\\(\\ket{+}\\ket0\\)",
-        "Add the two branches",
-        "\\((\\ket{00} + \\ket{11})/\\sqrt{2}\\)"
-      ]
+    "caption": "With \\(f(0)=0\\) and \\(f(1)=1\\), each amplitude follows its own arrow. The input superposition with a blank target becomes \\((\\ket{00}+\\ket{11})/\\sqrt2\\): the target is now correlated with the input.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        ],
+        "steps": [
+          "\\(U_f\\)"
+        ],
+        "weights": [
+          {
+            "00": "\\(1/\\sqrt2\\)",
+            "10": "\\(1/\\sqrt2\\)"
+          },
+          {
+            "00": "\\(1/\\sqrt2\\)",
+            "11": "\\(1/\\sqrt2\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "00",
+            "00"
+          ],
+          [
+            0,
+            "01",
+            "01"
+          ],
+          [
+            0,
+            "10",
+            "11"
+          ],
+          [
+            0,
+            "11",
+            "10"
+          ]
+        ]
+      }
     ]
   },
   "topic-6-2-2": {
@@ -729,50 +1006,155 @@
     ]
   },
   "topic-6-3-1": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "The target eigenvalue supplies the sign",
-    "caption": "A bit flip leaves \\(\\ket+\\) unchanged but multiplies \\(\\ket-\\) by \\(-1\\). Using the latter as the target makes a controlled flip supply a phase to the input branch.",
-    "rows": [
-      [
-        "\\(\\ket{+}\\)",
-        "\\(X\\)",
-        "\\(+\\ket{+}\\)"
-      ],
-      [
-        "\\(\\ket{-}\\)",
-        "\\(X\\)",
-        "\\(-\\ket{-}\\)"
-      ]
+    "caption": "A bit flip moves each amplitude to the other configuration. For \\(\\ket-\\) the result is \\(-\\ket-\\): the target is unchanged apart from a sign, which the oracle can pass to the input.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(X\\)"
+        ],
+        "weights": [
+          {
+            "0": "\\(1/\\sqrt2\\)",
+            "1": "\\(-1/\\sqrt2\\)"
+          },
+          {
+            "0": "\\(-1/\\sqrt2\\)",
+            "1": "\\(1/\\sqrt2\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "1",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "1",
+            "0",
+            "\\(1\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-6-3-3": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Compute, mark, then clear the record",
     "caption": "For a basis input \\(x\\), compute \\(f(x)\\) into clean workspace, apply \\(Z\\) to that bit, and reverse the computation. The function-dependent sign remains while the workspace returns to zero.",
-    "rows": [
-      [
-        "\\(\\ket{x}\\ket0\\)",
-        "Compute\n\\(\\ket{x}\\ket{f(x)}\\)",
-        "Apply phase\n\\((-1)^{f(x)}\\)",
-        "Uncompute\n\\((-1)^{f(x)}\\ket{x}\\ket0\\)"
-      ]
+    "panels": [
+      {
+        "columns": [
+          [
+            "\\(x,0,0\\)"
+          ],
+          [
+            "\\(x,f(x),g(x)\\)"
+          ],
+          [
+            "\\(x,f(x),g(x)\\)"
+          ],
+          [
+            "\\(x,0,0\\)"
+          ]
+        ],
+        "steps": [
+          "\\(A\\)",
+          "\\(Z\\)",
+          "\\(A^\\dagger\\)"
+        ],
+        "edges": [
+          [
+            0,
+            "\\(x,0,0\\)",
+            "\\(x,f(x),g(x)\\)",
+            "\\(1\\)"
+          ],
+          [
+            1,
+            "\\(x,f(x),g(x)\\)",
+            "\\(x,f(x),g(x)\\)",
+            "\\((-1)^{f(x)}\\)"
+          ],
+          [
+            2,
+            "\\(x,f(x),g(x)\\)",
+            "\\(x,0,0\\)",
+            "\\(1\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-6-4-1": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "A sign pattern becomes a measured bit",
-    "caption": "Ignoring a common global sign, constant functions leave the input in \\(\\ket+\\) and balanced functions produce \\(\\ket-\\). The final \\(H\\) converts this distinction into a definite basis outcome.",
-    "rows": [
-      [
-        "Constant: \\(\\ket{+}\\)",
-        "\\(H\\)",
-        "\\(\\ket0 \\to\\) outcome 0"
-      ],
-      [
-        "Balanced: \\(\\ket{-}\\)",
-        "\\(H\\)",
-        "\\(\\ket1 \\to\\) outcome 1"
-      ]
+    "caption": "The final \\(H\\) sends each signed amplitude along two arrows. At \\(0\\) the contributions add and at \\(1\\) they subtract, so equal signs give \\(0\\) with certainty and opposite signs give \\(1\\).",
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(H\\)"
+        ],
+        "weights": [
+          {
+            "0": "\\(s_0/\\sqrt2\\)",
+            "1": "\\(s_1/\\sqrt2\\)"
+          },
+          {
+            "0": "\\((s_0+s_1)/2\\)",
+            "1": "\\((s_0-s_1)/2\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "0",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "0",
+            "1",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "1",
+            "0",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "1",
+            "1",
+            "\\(-1/\\sqrt2\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-6-4-3": {
@@ -821,40 +1203,69 @@
     ]
   },
   "topic-7-1-2": {
-    "kind": "table",
+    "kind": "transitions",
     "title": "Marking changes a sign, not a probability",
-    "caption": "The marked item is \\(11\\). Every immediate measurement probability stays \\(1/4\\), so another coherent operation is needed to turn the sign into an advantage.",
-    "headers": [
-      "Label",
-      "Initial amplitude",
-      "After marking",
-      "Probability"
-    ],
-    "rows": [
-      [
-        "00",
-        "\\(1/2\\)",
-        "\\(1/2\\)",
-        "\\(1/4\\)"
-      ],
-      [
-        "01",
-        "\\(1/2\\)",
-        "\\(1/2\\)",
-        "\\(1/4\\)"
-      ],
-      [
-        "10",
-        "\\(1/2\\)",
-        "\\(1/2\\)",
-        "\\(1/4\\)"
-      ],
-      [
-        "11",
-        "\\(1/2\\)",
-        "\\(-1/2\\)",
-        "\\(1/4\\)"
-      ]
+    "caption": "The oracle keeps every configuration and multiplies the amplitude of the marked item \\(11\\) by \\(-1\\). Every immediate measurement probability stays \\(1/4\\), so another operation is needed to turn the sign into an advantage.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ],
+          [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        ],
+        "steps": [
+          "\\(O_f\\)"
+        ],
+        "weights": [
+          {
+            "00": "\\(1/2\\)",
+            "01": "\\(1/2\\)",
+            "10": "\\(1/2\\)",
+            "11": "\\(1/2\\)"
+          },
+          {
+            "00": "\\(1/2\\)",
+            "01": "\\(1/2\\)",
+            "10": "\\(1/2\\)",
+            "11": "\\(-1/2\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "00",
+            "00",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "01",
+            "01",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "10",
+            "10",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "11",
+            "11",
+            "\\(-1\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-7-2-1": {
@@ -974,20 +1385,82 @@
     ]
   },
   "topic-8-1-1": {
-    "kind": "flow",
+    "kind": "transitions",
     "title": "Time order and matrix order",
-    "caption": "The circuit applies \\(H\\) first and \\(Z\\) second. On a column vector the rightmost matrix acts first, so the combined operator is \\(ZH\\).",
-    "rows": [
-      [
-        "\\(\\ket0\\)",
-        "\\(H \\to \\ket{+}\\)",
-        "\\(Z \\to \\ket{-}\\)"
-      ],
-      [
-        "Time: left to right",
-        "Combined matrix: ZH",
-        "Output: \\(ZH\\ket0\\)"
-      ]
+    "caption": "The circuit applies \\(H\\) first and \\(Z\\) second, as the columns run from left to right. The combined operator is written \\(ZH\\): on a column vector the rightmost matrix acts first.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(H\\)",
+          "\\(Z\\)"
+        ],
+        "weights": [
+          {
+            "0": "\\(1\\)",
+            "1": "\\(0\\)"
+          },
+          {
+            "0": "\\(1/\\sqrt2\\)",
+            "1": "\\(1/\\sqrt2\\)"
+          },
+          {
+            "0": "\\(1/\\sqrt2\\)",
+            "1": "\\(-1/\\sqrt2\\)"
+          }
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "0",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "0",
+            "1",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "1",
+            "0",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "1",
+            "1",
+            "\\(-1/\\sqrt2\\)"
+          ],
+          [
+            1,
+            "0",
+            "0",
+            "\\(1\\)"
+          ],
+          [
+            1,
+            "1",
+            "1",
+            "\\(-1\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-8-1-2": {
@@ -1025,30 +1498,109 @@
     ]
   },
   "topic-8-2-1": {
-    "kind": "table",
+    "kind": "transitions",
     "title": "Gates act differently on different inputs",
     "caption": "\\(X\\) exchanges basis labels; \\(Z\\) changes one sign; \\(H\\) changes basis. Their action on arbitrary superpositions follows by linearity.",
-    "headers": [
-      "Gate",
-      "Input \\(\\ket0\\)",
-      "Input \\(\\ket1\\)"
-    ],
-    "rows": [
-      [
-        "\\(X\\)",
-        "\\(\\ket1\\)",
-        "\\(\\ket0\\)"
-      ],
-      [
-        "\\(Z\\)",
-        "\\(\\ket0\\)",
-        "\\(-\\ket1\\)"
-      ],
-      [
-        "\\(H\\)",
-        "\\(\\ket{+}\\)",
-        "\\(\\ket{-}\\)"
-      ]
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(X\\)"
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "1",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "1",
+            "0",
+            "\\(1\\)"
+          ]
+        ]
+      },
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(Z\\)"
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "0",
+            "\\(1\\)"
+          ],
+          [
+            0,
+            "1",
+            "1",
+            "\\(-1\\)"
+          ]
+        ]
+      },
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "\\(H\\)"
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "0",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "0",
+            "1",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "1",
+            "0",
+            "\\(1/\\sqrt2\\)"
+          ],
+          [
+            0,
+            "1",
+            "1",
+            "\\(-1/\\sqrt2\\)"
+          ]
+        ]
+      }
     ]
   },
   "topic-8-3-1": {
@@ -1979,6 +2531,73 @@
         "State becomes \\(\\ket1\\)",
         "Measure again: \\(1\\) with certainty"
       ]
+    ]
+  },
+  "topic-3-1-1": {
+    "kind": "network",
+    "title": "A state of one bit",
+    "caption": "Each configuration carries a weight. The state is the pair of weights \\(v_0\\) and \\(v_1\\).",
+    "nodes": [
+      {
+        "id": "0",
+        "x": 300,
+        "y": 140,
+        "label": "\\(0\\)"
+      },
+      {
+        "id": "1",
+        "x": 500,
+        "y": 140,
+        "label": "\\(1\\)"
+      }
+    ],
+    "edges": [],
+    "notes": [
+      {
+        "x": 300,
+        "y": 92,
+        "text": "\\(v_0\\)"
+      },
+      {
+        "x": 500,
+        "y": 92,
+        "text": "\\(v_1\\)"
+      }
+    ],
+    "height": 210
+  },
+  "topic-3-1-3": {
+    "kind": "transitions",
+    "title": "RESET merges two configurations",
+    "caption": "RESET sends both configurations to \\(0\\). A run that reaches \\(0\\) does not record where it started, so RESET is deterministic but not reversible.",
+    "panels": [
+      {
+        "columns": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "steps": [
+          "RESET"
+        ],
+        "edges": [
+          [
+            0,
+            "0",
+            "0"
+          ],
+          [
+            0,
+            "1",
+            "0"
+          ]
+        ]
+      }
     ]
   }
 }

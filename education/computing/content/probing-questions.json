@@ -115,16 +115,26 @@
     "challenge": "A reversible computation \\(A\\) maps \\((x,0,0)\\) to \\((x,f(x),g(x))\\). Show that applying \\(A\\), then copying the answer register into a fresh register with CNOT gates, then applying \\(A^{-1}\\), produces \\((x,0,0;f(x))\\) for every input \\(x\\)."
   },
   "topic-3-1-1": {
+    "foundation": "A two-bit register has configurations \\(00,01,10,11\\). Write the weights of its state when (a) the register is known to hold \\(10\\); (b) the first bit is known to be \\(1\\) and the second could be either; (c) both bits were set by independent fair coins.",
+    "application": "Someone describes a bit by the weights \\(v_0=v_1=1\\). Can these weights be probabilities? What do they say about the bit, and what do they leave unsaid? Give two different probability states that are consistent with them.",
+    "challenge": "A register has \\(k\\) bits. A possibility state gives each configuration weight \\(0\\) or \\(1\\), with at least one weight \\(1\\). How many possibility states are there? How many probability states are there? Which probability states are consistent with the possibility state in which every configuration is possible?"
+  },
+  "topic-3-1-2": {
+    "foundation": "A rule on the configurations \\(0,1,2\\) sends \\(0\\to1\\), \\(1\\to2\\), and \\(2\\to0\\). Draw its state diagram and write the run from \\(0\\) for four steps.",
+    "application": "For the same rule, draw the time-expanded diagram for the times \\(t=0,1,2\\). How many arrows does it contain, and which path is the run from \\(2\\)?",
+    "challenge": "A rule on \\(m\\) configurations has \\(a\\) arrows in its state diagram. How many arrows does its time-expanded diagram have for the times \\(0,1,\\dots,t\\)? Show that the runs of \\(t\\) steps are exactly the paths from time \\(0\\) to time \\(t\\), and explain why the time-expanded diagram never contains a cycle, even when the state diagram does."
+  },
+  "topic-3-1-3": {
     "foundation": "On two bits, the rule SWAP exchanges the bits: \\(01\\to10\\) and \\(10\\to01\\), while \\(00\\) and \\(11\\) stay as they are. Write the two-step run from \\(01\\). Is SWAP deterministic? Is it reversible?",
     "application": "On the configurations \\(0,1,2,3\\), the rule INC adds \\(1\\) modulo \\(4\\), and the rule HALVE replaces \\(n\\) by \\(\\lfloor n/2\\rfloor\\), the integer part of \\(n/2\\). Draw both state diagrams, write the two-step runs from \\(3\\), and decide which rule is reversible.",
     "challenge": "Prove that a deterministic rule on finitely many configurations is reversible exactly when every configuration has at least one incoming arrow. Then show that the statement fails for the rule \\(n\\mapsto\\lfloor n/2\\rfloor\\) on all nonnegative integers."
   },
-  "topic-3-1-2": {
+  "topic-3-1-4": {
     "foundation": "A rule on \\(\\{0,1\\}\\) allows \\(0\\to1\\), \\(1\\to0\\), and \\(1\\to1\\), and forbids \\(0\\to0\\). List the possible two-step runs from \\(0\\), and the configurations reachable at time \\(2\\).",
     "application": "For the same rule, list the possible three-step runs from \\(0\\). Which configurations are reachable at time \\(3\\), and by how many paths?",
     "challenge": "On the configurations \\(0,1,\\dots,k\\), a rule allows \\(i\\to i\\) and \\(i\\to i+1\\) for \\(i\\lt k\\), and only \\(k\\to k\\) at \\(k\\). Show that \\(k\\) is reachable from \\(0\\) at time \\(t\\) exactly when \\(t\\geq k\\), and that the number of paths from \\(0\\) to \\(k\\) at time \\(t\\) is \\(\\binom tk\\)."
   },
-  "topic-3-1-3": {
+  "topic-3-1-5": {
     "foundation": "A step keeps the bit with probability \\(2/3\\) and flips it with probability \\(1/3\\). Starting from \\(0\\), compute \\(P(c_2=0)\\) by listing the paths that end at \\(0\\).",
     "application": "For the same rule, compute \\(P(c_3=0)\\) from \\(0\\). Check your answer against the formula \\(P(c_t=0)=\\tfrac12+\\tfrac12\\left(\\tfrac13\\right)^t\\).",
     "challenge": "Prove the formula \\(P(c_t=0)=\\tfrac12+\\tfrac12\\left(\\tfrac13\\right)^t\\) for the rule above, and describe what happens to the run’s memory of its starting configuration as \\(t\\) grows."

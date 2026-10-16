@@ -19,6 +19,7 @@ class Drawing:
   elif spec['kind']=='phasor':description+='A vector from the origin, its phase angle, and its projections onto the real and imaginary axes.'
   elif spec['kind']=='bars':description+='; '.join(f'{label}: {value:g}' for label,value in zip(spec['labels'],spec['values']))
   elif spec['kind']=='decision':description+='; '.join(spec['nodes'])
+  elif spec['kind']=='transitions':description+=' '.join('; '.join(f'{a} → {b}'+(f' (weight {w})' if w else '') for _,a,b,*rest in panel['edges'] for w in [rest[0] if rest else ''])+'.' for panel in spec['panels'])
   else:description+='; '.join(f'{label}: {angle} degrees' for label,angle in zip(spec['labels'],spec['angles']))
   description=plain(description)
   self.parts=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 {height}" role="img" aria-labelledby="title desc"><title id="title">{escape(plain(spec["title"]))}</title><desc id="desc">{escape(description)}</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="context-stroke"/></marker></defs><style>text{{font:16px Georgia,serif;fill:#30343b}}.heading{{font:600 15px system-ui,sans-serif;fill:#246593}}.small{{font:14px system-ui,sans-serif;fill:#4b5864}}.grid{{stroke:#d3dee7;stroke-width:1}}.edge{{fill:none;stroke:#246593;stroke-width:1.7;marker-end:url(#arrow)}}</style>']
@@ -104,6 +105,42 @@ def render(spec):
    x=105+(i+.5)*step;top=baseline-value*scale
    d.parts.append(f'<rect x="{x-w/2:g}" y="{top:g}" width="{w:g}" height="{value*scale:g}" fill="#246593"/>')
    d.text(x,top-12,f'{value:g}','small');d.text(x,298,label,'small',maxwidth=step-10)
+ elif kind=='transitions':
+  panels=spec['panels'];rows=max(len(col) for panel in panels for col in panel['columns']);gap=84;top=118 if any(panel.get('weights') for panel in panels) else 104
+  d=Drawing(spec,top+(rows-1)*gap+(70 if any(panel.get('weights') for panel in panels) else 50));width=700/len(panels)
+  def size(label):
+   n=len(plain(label));return (22,22) if n<=2 else (8+4.6*n,20)
+  for p,panel in enumerate(panels):
+   cols=panel['columns'];x0=30+p*width;m=112 if panel.get('weights') else (36 if len(panels)>1 else 62);xs=[x0+width/2] if len(cols)==1 else [x0+m+c*(width-2*m)/(len(cols)-1) for c in range(len(cols))]
+   pos={}
+   for c,col in enumerate(cols):
+    for i,label in enumerate(col):pos[c,label]=(xs[c],top+(rows-len(col))*gap/2+i*gap)
+   for c,label in enumerate(panel.get('times',[])):d.text(xs[c],top-48,label,'small',maxwidth=width/len(cols))
+   for c,label in enumerate(panel.get('steps',[])):d.text((xs[c]+xs[c+1])/2,top-48,label,maxwidth=width/len(cols))
+   for c,a,b,*rest in panel['edges']:
+    (x1,y1),(x2,y2)=pos[c,a],pos[c+1,b];dx,dy=x2-x1,y2-y1;length=math.hypot(dx,dy);ux,uy=dx/length,dy/length
+    (a1,b1),(a2,b2)=size(a),size(b)
+    t1=1/math.hypot(ux/a1,uy/b1);t2=1/math.hypot(ux/a2,uy/b2)
+    d.edge(x1+ux*(t1+2),y1+uy*(t1+2),x2-ux*(t2+3),y2-uy*(t2+3))
+    if rest and rest[0]:
+     if abs(uy)<.2:
+      f=t1+0.5*(length-t1-t2);below=pos[c,a][1]>top+(rows-1)*gap/2+1 and any(e[0]==c and e[1]==a and e[2]!=b for e in panel['edges'])
+      d.text(x1+ux*f,y1+uy*f+(19 if below else -9),rest[0],'small',maxwidth=120)
+     else:
+      f=(0.3 if uy>0 else 0.7)*length;lx=x1+ux*f;ly=y1+uy*f;w=7.2*len(plain(rest[0]))+8
+      d.parts.append(f'<rect x="{lx-w/2:g}" y="{ly-10:g}" width="{w:g}" height="20" rx="3" fill="#fff"/>')
+      d.text(lx,ly+5,rest[0],'small',maxwidth=120)
+   for (c,label),(x,y) in pos.items():
+    hw,hh=size(label)
+    if hw==22:d.parts.append(f'<circle cx="{x:g}" cy="{y:g}" r="22" fill="#fff" stroke="#246593" stroke-width="1.7"/>')
+    else:d.parts.append(f'<rect x="{x-hw:g}" y="{y-hh:g}" width="{2*hw:g}" height="{2*hh:g}" rx="{hh:g}" fill="#fff" stroke="#246593" stroke-width="1.7"/>')
+    d.text(x,y+5,label,maxwidth=2*hw-6)
+   for c,weights in enumerate(panel.get('weights',[])):
+    for label,w in weights.items():
+     x,y=pos[c,label];hw,hh=size(label)
+     if c==0 and len(cols)>1:d.text(x-hw-10,y+5,w,'',anchor='end',maxwidth=120)
+     elif c==len(cols)-1:d.text(x+hw+10,y+5,w,'',anchor='start',maxwidth=120)
+     else:d.text(x,y-hh-10,w,'',maxwidth=120)
  elif kind=='plane':
   d=Drawing(spec,430);cx=225;cy=230;r=115
   d.parts.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#c4d1dc"/>')
