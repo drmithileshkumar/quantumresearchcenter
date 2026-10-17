@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 350" role="img" aria-labelledby="title desc"><title id="title">A product state as joint amplitudes</title><desc id="desc">A complete bipartite graph connects first-qubit labels zero and one to second-qubit labels zero and one. Edges 00 and 10 have amplitude one over square root of two. Edges 01 and 11 have amplitude zero.</desc><style>text{font:18px Georgia,serif;fill:#26434b}.small{font:15px Arial,sans-serif}line{stroke:#476b70;stroke-width:2}circle{fill:#f8fbf9;stroke:#476b70;stroke-width:2}.zero{stroke:#95a7aa;stroke-dasharray:6 5}</style>
+<text x="150" y="35" text-anchor="middle" class="small">First qubit</text><text x="510" y="35" text-anchor="middle" class="small">Second qubit</text>
+<line x1="150" y1="100" x2="510" y2="100"/><line x1="150" y1="240" x2="510" y2="100"/><line class="zero" x1="150" y1="100" x2="510" y2="240"/><line class="zero" x1="150" y1="240" x2="510" y2="240"/>
+<circle cx="150" cy="100" r="23"/><circle cx="150" cy="240" r="23"/><circle cx="510" cy="100" r="23"/><circle cx="510" cy="240" r="23"/>
+<text x="150" y="106" text-anchor="middle">0</text><text x="150" y="246" text-anchor="middle">1</text><text x="510" y="106" text-anchor="middle">0</text><text x="510" y="246" text-anchor="middle">1</text>
+<text x="330" y="85" text-anchor="middle" data-tex="\alpha_{00}=1/\sqrt2">α₀₀ = 1/√2</text>
+<text x="190" y="181" data-tex="\alpha_{10}=1/\sqrt2">α₁₀ = 1/√2</text>
+<text x="217" y="118" data-tex="\alpha_{01}=0">α₀₁ = 0</text>
+<text x="330" y="267" text-anchor="middle" data-tex="\alpha_{11}=0">α₁₁ = 0</text>
+<text x="330" y="319" text-anchor="middle" data-tex="(\ket{00}+\ket{10})/\sqrt2=\ket+\otimes\ket0">(|00⟩ + |10⟩)/√2 = |+⟩ ⊗ |0⟩</text></svg>

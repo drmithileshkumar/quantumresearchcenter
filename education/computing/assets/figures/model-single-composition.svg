@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280" role="img" aria-labelledby="title desc"><title id="title">Successive operations form one unitary evolution</title><desc id="desc">An input ket goes through U1 to an intermediate ket, then U2 to the output ket. The total operation is U2 U1.</desc><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="9" refY="5" orient="auto" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z" fill="#246593"/></marker></defs><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.wire{fill:none;stroke:#246593;stroke-width:2}.gate{fill:white;stroke:#246593;stroke-width:2}</style><text class="heading" x="450" y="30" text-anchor="middle">Successive operations form one unitary evolution</text>
+<text x="105" y="133" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{in}}}">|ψᵢₙ⟩</text>
+<path class="wire" marker-end="url(#arrow)" d="M190 125H355"/><text x="270" y="100" text-anchor="middle" data-tex="U_1">U₁</text>
+<text x="450" y="133" text-anchor="middle" data-tex="\ket{\psi_1}">|ψ₁⟩</text>
+<path class="wire" marker-end="url(#arrow)" d="M540 125H710"/><text x="625" y="100" text-anchor="middle" data-tex="U_2">U₂</text>
+<text x="800" y="133" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{out}}}">|ψₒᵤₜ⟩</text>
+<text x="450" y="217" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{out}}}=U_2U_1\ket{\psi_{\mathrm{in}}},\qquad U_f=U_2U_1">|ψₒᵤₜ⟩ = U₂U₁|ψᵢₙ⟩,   U_f = U₂U₁</text>
+<text class="small" x="450" y="260" text-anchor="middle">The first operation is the rightmost factor in the product.</text></svg>

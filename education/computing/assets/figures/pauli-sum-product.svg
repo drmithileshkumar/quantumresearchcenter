@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-labelledby="title desc"><title id="title">A matrix sum is not a circuit product</title><desc id="desc">The upper circuit applies H to zero and produces an equal superposition. H is the matrix sum X plus Z divided by square root of two. The lower circuit applies X then Z to zero and produces minus ket one.</desc><defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="9" refY="5" orient="auto" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z" fill="#246593"/></marker></defs><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.edge{fill:none;stroke:#246593;stroke-width:1.8;marker-end:url(#arrow)}.node,.gate{fill:white;stroke:#246593;stroke-width:1.7}.wire{stroke:#246593;stroke-width:1.8;fill:none}</style>
+<text class="heading" x="450" y="30" text-anchor="middle">Linear combination and sequential composition</text>
+<text x="70" y="108" text-anchor="middle" data-tex="\ket0">|0⟩</text><path class="wire" d="M110 100H500"/>
+<rect class="gate" x="245" y="75" width="50" height="50" rx="3"/><text x="270" y="107" text-anchor="middle">H</text>
+<text x="680" y="108" text-anchor="middle" data-tex="(\ket0+\ket1)/\sqrt2">(|0⟩ + |1⟩)/√2</text>
+<text x="270" y="160" text-anchor="middle" data-tex="H=(X+Z)/\sqrt2">H = (X + Z)/√2</text>
+<text x="70" y="248" text-anchor="middle" data-tex="\ket0">|0⟩</text><path class="wire" d="M110 240H500"/>
+<rect class="gate" x="195" y="215" width="50" height="50" rx="3"/><text x="220" y="247" text-anchor="middle">X</text>
+<rect class="gate" x="345" y="215" width="50" height="50" rx="3"/><text x="370" y="247" text-anchor="middle">Z</text>
+<text x="680" y="248" text-anchor="middle" data-tex="-\ket1">−|1⟩</text>
+<text x="295" y="300" text-anchor="middle" data-tex="ZX\ne(X+Z)/\sqrt2">ZX ≠ (X + Z)/√2</text>
+<text class="small" x="450" y="343" text-anchor="middle">Pauli-only circuits preserve basis states up to phase; H can create a superposition.</text></svg>

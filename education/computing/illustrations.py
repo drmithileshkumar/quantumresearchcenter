@@ -37,6 +37,9 @@ class Drawing:
  def save(self,path):path.write_text(''.join(self.parts)+'</svg>\n')
 def render(spec):
  kind=spec['kind']
+ if kind=='circuit':
+  from circuit_illustrations import CircuitDrawing
+  return CircuitDrawing(spec)
  if kind=='flow':
   heights=[max(70,22*max(len(lines(cell,(696-(len(row)-1)*28)/len(row)-22)) for cell in row)+24) for row in spec['rows']]
   d=Drawing(spec,70+sum(heights)+24*(len(heights)-1));y=54

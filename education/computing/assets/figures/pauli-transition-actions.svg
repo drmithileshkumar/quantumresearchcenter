@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 340" role="img" aria-labelledby="title desc"><title id="title">Pauli transition weights</title><desc id="desc">Four panels show I preserving both labels with weight one; X exchanging them with weight one; Y sending zero to one with weight i and one to zero with weight minus i; Z preserving zero with weight one and one with weight minus one.</desc><defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="9" refY="5" orient="auto" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z" fill="#246593"/></marker></defs><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.edge{fill:none;stroke:#246593;stroke-width:1.8;marker-end:url(#arrow)}.node,.gate{fill:white;stroke:#246593;stroke-width:1.7}.wire{stroke:#246593;stroke-width:1.8;fill:none}</style>
+<text class="heading" x="130" y="30" text-anchor="middle">I</text><text class="small" x="60" y="66" text-anchor="middle">Input</text><text class="small" x="200" y="66" text-anchor="middle">Output</text>
+<path class="edge" d="M81.0 115.0L176.0 115.0"/>
+<text x="130" y="100" text-anchor="middle">1</text>
+<path class="edge" d="M81.0 255.0L176.0 255.0"/>
+<text x="130" y="240" text-anchor="middle">1</text>
+<circle class="node" cx="60" cy="115" r="21"/><text x="60" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="60" cy="255" r="21"/><text x="60" y="261" text-anchor="middle">1</text>
+<circle class="node" cx="200" cy="115" r="21"/><text x="200" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="200" cy="255" r="21"/><text x="200" y="261" text-anchor="middle">1</text>
+<text class="heading" x="370" y="30" text-anchor="middle">X</text><text class="small" x="300" y="66" text-anchor="middle">Input</text><text class="small" x="440" y="66" text-anchor="middle">Output</text>
+<path class="edge" d="M314.8492424049175 129.8492424049175L423.02943725152284 238.02943725152286"/>
+<text x="345" y="135" text-anchor="middle">1</text>
+<path class="edge" d="M314.8492424049175 240.1507575950825L423.02943725152284 131.97056274847714"/>
+<text x="345" y="250" text-anchor="middle">1</text>
+<circle class="node" cx="300" cy="115" r="21"/><text x="300" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="300" cy="255" r="21"/><text x="300" y="261" text-anchor="middle">1</text>
+<circle class="node" cx="440" cy="115" r="21"/><text x="440" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="440" cy="255" r="21"/><text x="440" y="261" text-anchor="middle">1</text>
+<text class="heading" x="610" y="30" text-anchor="middle">Y</text><text class="small" x="540" y="66" text-anchor="middle">Input</text><text class="small" x="680" y="66" text-anchor="middle">Output</text>
+<path class="edge" d="M554.8492424049175 129.8492424049175L663.0294372515228 238.02943725152286"/>
+<text x="585" y="135" text-anchor="middle" data-tex="i">i</text>
+<path class="edge" d="M554.8492424049175 240.1507575950825L663.0294372515228 131.97056274847714"/>
+<text x="585" y="250" text-anchor="middle" data-tex="-i">−i</text>
+<circle class="node" cx="540" cy="115" r="21"/><text x="540" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="540" cy="255" r="21"/><text x="540" y="261" text-anchor="middle">1</text>
+<circle class="node" cx="680" cy="115" r="21"/><text x="680" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="680" cy="255" r="21"/><text x="680" y="261" text-anchor="middle">1</text>
+<text class="heading" x="850" y="30" text-anchor="middle">Z</text><text class="small" x="780" y="66" text-anchor="middle">Input</text><text class="small" x="920" y="66" text-anchor="middle">Output</text>
+<path class="edge" d="M801.0 115.0L896.0 115.0"/>
+<text x="850" y="100" text-anchor="middle">1</text>
+<path class="edge" d="M801.0 255.0L896.0 255.0"/>
+<text x="850" y="240" text-anchor="middle">−1</text>
+<circle class="node" cx="780" cy="115" r="21"/><text x="780" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="780" cy="255" r="21"/><text x="780" y="261" text-anchor="middle">1</text>
+<circle class="node" cx="920" cy="115" r="21"/><text x="920" y="121" text-anchor="middle">0</text>
+<circle class="node" cx="920" cy="255" r="21"/><text x="920" y="261" text-anchor="middle">1</text>
+<text class="small" x="480" y="322" text-anchor="middle">Each arrow carries a transition amplitude; a missing arrow has weight zero.</text></svg>

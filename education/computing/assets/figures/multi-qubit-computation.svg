@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" role="img" aria-labelledby="title desc">
+<title id="title">A complete two-qubit computation</title><desc id="desc">Starting from zero on both wires, H acts on the first qubit and X on the second. CNOT then uses the first as control and the second as target. Measurements return opposite bits with equal probability.</desc>
+<style>text{font:18px Georgia,serif;fill:#26434b}.small{font:15px Arial,sans-serif}line,path{stroke:#476b70;stroke-width:2;fill:none}rect,circle{fill:#f8fbf9;stroke:#476b70;stroke-width:2}</style>
+<text x="380" y="30" text-anchor="middle" class="small">Local gates → controlled gate → measurement</text>
+<text x="40" y="96" text-anchor="middle" data-tex="\ket0">|0⟩</text><text x="40" y="176" text-anchor="middle" data-tex="\ket0">|0⟩</text>
+<path d="M75 90H550 M75 170H550"/>
+<rect x="151" y="70" width="48" height="40" rx="4"/><text x="175" y="96" text-anchor="middle" data-tex="H">H</text>
+<rect x="151" y="150" width="48" height="40" rx="4"/><text x="175" y="176" text-anchor="middle" data-tex="X">X</text>
+<line x1="365" y1="90" x2="365" y2="170"/><circle cx="365" cy="90" r="5" style="fill:#476b70"/><circle cx="365" cy="170" r="14"/><path d="M351 170H379 M365 156V184"/>
+<rect x="526" y="70" width="48" height="40" rx="4"/><text x="550" y="96" text-anchor="middle">M</text>
+<rect x="526" y="150" width="48" height="40" rx="4"/><text x="550" y="176" text-anchor="middle">M</text>
+<path d="M574 87H680 M574 93H680 M574 167H680 M574 173H680"/>
+<text x="710" y="96" text-anchor="middle" data-tex="a">a</text><text x="710" y="176" text-anchor="middle" data-tex="b">b</text>
+<text x="380" y="228" text-anchor="middle" data-tex="\ket{00}\ \longrightarrow\ (\ket{01}+\ket{11})/\sqrt2\ \longrightarrow\ (\ket{01}+\ket{10})/\sqrt2">|00⟩ → (|01⟩+|11⟩)/√2 → (|01⟩+|10⟩)/√2</text>
+<text x="380" y="262" text-anchor="middle" class="small">Output ab: 01 or 10, each with probability 1/2</text>
+</svg>

@@ -364,1377 +364,2839 @@
     ]
   },
   "topic-6-1-1": {
-    "kind": "table",
-    "title": "Local labels form joint basis labels",
-    "caption": "The joint basis has one label for every pair of local labels. This is the Cartesian arrangement of tensor-product basis vectors, not a mixture.",
-    "headers": [
-      "First qubit",
-      "Second: 0",
-      "Second: 1"
-    ],
-    "rows": [
-      [
-        "0",
-        "\\(\\ket{00}\\)",
-        "\\(\\ket{01}\\)"
-      ],
-      [
-        "1",
-        "\\(\\ket{10}\\)",
-        "\\(\\ket{11}\\)"
-      ]
-    ]
-  },
-  "topic-6-1-2": {
-    "kind": "flow",
-    "title": "A superposition can still factor",
-    "caption": "Both terms share the same second-qubit state. Factoring it out shows that this pure state is a product, despite having two nonzero amplitudes.",
-    "rows": [
-      [
-        "\\((\\ket{00} + \\ket{10})/\\sqrt{2}\\)",
-        "Factor the second qubit",
-        "\\(\\ket{+} \\otimes \\ket0\\)"
-      ]
+    "kind": "circuit",
+    "title": "Independent preparation on two wires",
+    "caption": "A and B are single-qubit preparation unitaries. Their independent actions give the four joint amplitudes ac, ad, bc, bd; each box can require several elementary gates.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "A",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "B",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(A\\ket0=a\\ket0+b\\ket1,\\quad B\\ket0=c\\ket0+d\\ket1\\)",
+          "\\(\\ket\\Psi=ac\\ket{00}+ad\\ket{01}+bc\\ket{10}+bd\\ket{11}\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-6-1-3": {
-    "kind": "table",
-    "title": "Description size and measurement output",
-    "caption": "The number of basis coefficients doubles with each added qubit. One computational-basis measurement still returns only one n-bit label.",
-    "headers": [
-      "Qubits \\(n\\)",
-      "Basis coefficients \\(2^n\\)",
-      "Bits in one outcome"
-    ],
-    "rows": [
-      [
-        "1",
-        "2",
-        "1"
-      ],
-      [
-        "2",
-        "4",
-        "2"
-      ],
-      [
-        "3",
-        "8",
-        "3"
-      ],
-      [
-        "10",
-        "1024",
-        "10"
-      ]
+    "kind": "circuit",
+    "title": "A joint register and its readout",
+    "caption": "A joint unitary updates four amplitudes on two qubits, but measurement returns a single pair of bits. U denotes the complete operation, not a free elementary gate.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "U",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(U\\ket{00}=\\sum_{a,b}\\alpha_{ab}\\ket{ab};\\quad p(a,b)=|\\alpha_{ab}|^2\\)"
+        ],
+        "outputs": [
+          "a",
+          "b"
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-6-2-2": {
-    "kind": "table",
-    "title": "The Bell coefficients cannot be a product",
-    "caption": "A product \\((a\\ket0+b\\ket1)(c\\ket0+d\\ket1)\\) would require \\(ac\\) and \\(bd\\) nonzero. Then all four factors are nonzero, contradicting \\(ad=bc=0\\).",
-    "headers": [
-      "Joint label",
-      "Product coefficient",
-      "Required Bell coefficient"
-    ],
-    "rows": [
-      [
-        "00",
-        "ac",
-        "\\(1/\\sqrt{2}\\)"
-      ],
-      [
-        "01",
-        "ad",
-        "0"
-      ],
-      [
-        "10",
-        "bc",
-        "0"
-      ],
-      [
-        "11",
-        "bd",
-        "\\(1/\\sqrt{2}\\)"
-      ]
+    "kind": "circuit",
+    "title": "A gate that prevents factorization",
+    "caption": "Before CNOT the two wires have a product state. After it, the coefficients of 00 and 11 are nonzero while those of 01 and 10 vanish; no product of two local vectors has these coefficients.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{00}\\longmapsto\\ket+\\ket0\\longmapsto(\\ket{00}+\\ket{11})/\\sqrt2\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-6-2-3": {
-    "kind": "table",
-    "title": "Sum joint probabilities to get a marginal",
-    "caption": "For the Bell state, the row sums give the first-qubit probabilities. Conditional on the first bit being zero, only the \\(00\\) entry remains possible.",
-    "headers": [
-      "First bit",
-      "Second \\(= 0\\)",
-      "Second \\(= 1\\)",
-      "Row sum"
-    ],
-    "rows": [
-      [
-        "0",
-        "\\(1/2\\)",
-        "0",
-        "\\(1/2\\)"
-      ],
-      [
-        "1",
-        "0",
-        "\\(1/2\\)",
-        "\\(1/2\\)"
-      ],
-      [
-        "Column sum",
-        "\\(1/2\\)",
-        "\\(1/2\\)",
-        "1"
-      ]
+    "kind": "circuit",
+    "title": "Choose the readout circuit",
+    "caption": "The upper circuit measures a Bell pair directly. The lower circuit first applies H on both wires. Both give matching bits; the corresponding classical mixture gives all four pairs in the lower circuit.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(p(00)=p(11)=1/2\\)"
+        ],
+        "outputs": [
+          "a",
+          "b"
+        ],
+        "label": "Computational-basis readout",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(p(00)=p(11)=1/2;\\quad p(01)=p(10)=0\\)"
+        ],
+        "outputs": [
+          "a",
+          "b"
+        ],
+        "label": "Hadamards before readout",
+        "bundles": []
+      }
     ]
   },
   "topic-6-3-1": {
-    "kind": "transitions",
-    "title": "CNOT copies labels, not arbitrary states",
-    "caption": "With a blank target, CNOT carries the amplitude \\(\\alpha\\) of \\(00\\) to \\(00\\) and the amplitude \\(\\beta\\) of \\(10\\) to \\(11\\). The result \\(\\alpha\\ket{00}+\\beta\\ket{11}\\) is not two copies of \\(\\alpha\\ket0+\\beta\\ket1\\) unless \\(\\alpha\\) or \\(\\beta\\) is zero.",
-    "panels": [
+    "kind": "circuit",
+    "title": "Copying basis labels",
+    "caption": "CNOT copies a basis label into a blank target. For a superposition the joint output is entangled, rather than two independent copies.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ],
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ]
+        "inputs": [
+          "\\(\\alpha\\ket0+\\beta\\ket1\\)",
+          "\\(\\ket0\\)"
         ],
         "steps": [
-          "CNOT"
-        ],
-        "weights": [
-          {
-            "00": "\\(\\alpha\\)",
-            "10": "\\(\\beta\\)"
-          },
-          {
-            "00": "\\(\\alpha\\)",
-            "11": "\\(\\beta\\)"
-          }
-        ],
-        "edges": [
           [
-            0,
-            "00",
-            "00"
-          ],
-          [
-            0,
-            "01",
-            "01"
-          ],
-          [
-            0,
-            "10",
-            "11"
-          ],
-          [
-            0,
-            "11",
-            "10"
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "\\(\\ket{\\rm out}=\\alpha\\ket{00}+\\beta\\ket{11}\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-6-3-2": {
-    "kind": "flow",
-    "title": "Cloning would have to preserve an impossible overlap",
-    "caption": "Let \\(c=\\braket\\psi\\phi\\). A unitary cloning map would preserve input overlap \\(c\\), while two copies have overlap \\(c^2\\). The value \\(1/\\sqrt2\\) cannot satisfy that requirement.",
-    "rows": [
-      [
-        "Input overlap\n\\(c = 1/\\sqrt{2}\\)",
-        "Unitary must preserve \\(c\\)",
-        "Two-copy overlap\n\\(c^2 = 1/2\\)"
-      ],
-      [
-        "Different nonorthogonal inputs",
-        "\\(c \\ne c^2\\)",
-        "No universal cloner"
-      ]
+    "kind": "circuit",
+    "title": "The proposed copying circuit",
+    "caption": "U? is a hypothetical universal copying unitary, not an available gate. The required output overlap differs from the input overlap, so the two requested actions cannot belong to one unitary.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\text{ or }\\ket+\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "U?",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Required outputs: \\(\\ket{00}\\) or \\(\\ket{++}\\)",
+          "Input overlap \\(1/\\sqrt2\\); required output overlap \\(1/2\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-6-3-3": {
-    "kind": "flow",
-    "title": "Local statistics do not carry a distant outcome",
-    "caption": "For the Bell pair, either local computational-basis distribution is fair. Learning the remote outcome permits conditioning; without it, the local distribution remains unchanged.",
-    "rows": [
-      [
-        "Remote outcome unknown",
-        "Local state \\(I/2\\)",
-        "\\(p(0) = p(1) = 1/2\\)"
-      ],
-      [
-        "Message says remote 0",
-        "Condition on that outcome",
-        "Local 0 is certain"
-      ]
-    ]
-  },
-  "topic-6-4-1": {
-    "kind": "flow",
-    "title": "Teleportation consumes shared resources",
-    "caption": "Alice and Bob first share a Bell pair. Alice’s joint measurement and two-bit message allow Bob to select the correction; the shared pair is consumed in transferring the input state.",
-    "rows": [
-      [
-        "Shared Bell pair",
-        "Alice measures input + half",
-        "Two classical bits",
-        "Bob corrects his half"
-      ]
-    ]
-  },
-  "topic-6-4-3": {
-    "kind": "flow",
-    "title": "A state is transferred, not a second copy retained",
-    "caption": "The two-bit message selects a correction using a previously shared Bell pair. It is not a classical list of the unknown amplitudes.",
-    "rows": [
-      [
-        "Alice: unknown \\(\\ket{\\psi}\\)",
-        "Bell pair + measurement",
-        "Classical message",
-        "Bob: corrected \\(\\ket{\\psi}\\)"
-      ]
+    "kind": "circuit",
+    "title": "Local operations and remote readout",
+    "caption": "H and CNOT prepare the shared Bell pair. Alice’s local gate UA cannot affect Bob’s outcome probabilities, even when Bob chooses a different readout gate V.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_A\\)",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "V",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Alice’s result is not sent to Bob.",
+          "\\(p(b=0)=p(b=1)=1/2\\)"
+        ],
+        "outputs": [
+          "a",
+          "b"
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-7-1-1": {
-    "kind": "table",
-    "title": "Four truth tables, two classes",
-    "caption": "Deutsch’s task asks whether the two outputs agree. It does not require identifying which truth table in a class was supplied.",
-    "headers": [
-      "\\(f(0)\\)",
-      "\\(f(1)\\)",
-      "Class"
-    ],
-    "rows": [
-      [
-        "0",
-        "0",
-        "Constant"
-      ],
-      [
-        "1",
-        "1",
-        "Constant"
-      ],
-      [
-        "0",
-        "1",
-        "Balanced"
-      ],
-      [
-        "1",
-        "0",
-        "Balanced"
-      ]
+    "kind": "circuit",
+    "title": "Four possible one-bit oracles",
+    "caption": "The four reversible circuits encode the four Boolean functions. They retain x and update y by XOR with f(x). This anticipates the reversible query definition in 7.1.3.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket y\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "I",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{x,y}\\mapsto\\ket{x,y\\oplus f(x)}\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "Constant: f(x) = 0",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket y\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "X",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{x,y}\\mapsto\\ket{x,y\\oplus f(x)}\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "Constant: f(x) = 1",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket y\\)"
+        ],
+        "steps": [
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{x,y}\\mapsto\\ket{x,y\\oplus f(x)}\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "Balanced: f(x) = x",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket y\\)"
+        ],
+        "steps": [
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "X",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{x,y}\\mapsto\\ket{x,y\\oplus f(x)}\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "Balanced: f(x) = 1 XOR x",
+        "bundles": []
+      }
     ]
   },
   "topic-7-1-2": {
-    "kind": "flow",
-    "title": "One observed value leaves an ambiguity",
-    "caption": "If a classical query returns \\(f(0)=0\\), both a constant and a balanced truth table remain possible. A second value is needed for an exact classical answer.",
-    "rows": [
-      [
-        "Query \\(f(0)\\)",
-        "Observed: 0",
-        "Could be \\((0,0)\\)\nconstant"
-      ],
-      [
-        "Same observation",
-        "No information about \\(f(1)\\)",
-        "Could be \\((0,1)\\)\nbalanced"
-      ]
+    "kind": "circuit",
+    "title": "Two classical value queries",
+    "caption": "Two separate basis-input runs of the reversible oracle reproduce classical value-query access. Each target is measured to read a function value; no superposition is used.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "",
+          "f(0)"
+        ],
+        "label": "Query 1",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket1\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "",
+          "f(1)"
+        ],
+        "label": "Query 2",
+        "bundles": []
+      }
     ]
   },
   "topic-7-1-3": {
-    "kind": "transitions",
-    "title": "The target update is a permutation",
-    "caption": "Configurations are written \\(xy\\), here with \\(f(0)=0\\) and \\(f(1)=1\\). Where \\(f(x)=1\\) the two target values exchange; elsewhere nothing moves. One arrow enters each configuration, so \\(U_f\\) is reversible even when \\(f\\) is not one-to-one.",
-    "panels": [
+    "kind": "circuit",
+    "title": "The reversible query gate",
+    "caption": "The box acts on both wires and retains the input label. One use counts as one query in the specified oracle model.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ],
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ]
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket y\\)"
         ],
         "steps": [
-          "\\(U_f\\)"
-        ],
-        "edges": [
           [
-            0,
-            "00",
-            "00"
-          ],
-          [
-            0,
-            "01",
-            "01"
-          ],
-          [
-            0,
-            "10",
-            "11"
-          ],
-          [
-            0,
-            "11",
-            "10"
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "\\(U_f\\ket{x,y}=\\ket{x,y\\oplus f(x)}\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-7-2-1": {
-    "kind": "transitions",
-    "title": "Apply the oracle term by term",
-    "caption": "With \\(f(0)=0\\) and \\(f(1)=1\\), each amplitude follows its own arrow. The input superposition with a blank target becomes \\((\\ket{00}+\\ket{11})/\\sqrt2\\): the target is now correlated with the input.",
-    "panels": [
+    "kind": "circuit",
+    "title": "Evaluate on a superposition",
+    "caption": "H prepares both input alternatives coherently. The oracle acts on their joint superposition; it has not supplied two classical answers.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ],
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ]
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
         ],
         "steps": [
-          "\\(U_f\\)"
-        ],
-        "weights": [
-          {
-            "00": "\\(1/\\sqrt2\\)",
-            "10": "\\(1/\\sqrt2\\)"
-          },
-          {
-            "00": "\\(1/\\sqrt2\\)",
-            "11": "\\(1/\\sqrt2\\)"
-          }
-        ],
-        "edges": [
           [
-            0,
-            "00",
-            "00"
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
           ],
           [
-            0,
-            "01",
-            "01"
-          ],
-          [
-            0,
-            "10",
-            "11"
-          ],
-          [
-            0,
-            "11",
-            "10"
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "Before readout: \\((\\ket{0,f(0)}+\\ket{1,f(1)})/\\sqrt2\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-7-2-2": {
-    "kind": "bars",
-    "title": "A joint measurement returns one pair",
-    "caption": "For \\((\\ket{00}+\\ket{11})/\\sqrt2\\), a computational-basis measurement samples one of these four labels. It does not output the full list of amplitudes.",
-    "labels": [
-      "00",
-      "01",
-      "10",
-      "11"
-    ],
-    "values": [
-      0.5,
-      0,
-      0,
-      0.5
+    "kind": "circuit",
+    "title": "Read one input–value pair",
+    "caption": "Both wires are measured after one query. A run returns either (0,f(0)) or (1,f(1)), each with probability one half.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Before readout: \\((\\ket{0,f(0)}+\\ket{1,f(1)})/\\sqrt2\\)"
+        ],
+        "outputs": [
+          "x",
+          "f(x)"
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-7-2-3": {
-    "kind": "flow",
-    "title": "Workspace can distinguish input branches",
-    "caption": "Different workspace records can prevent the desired input interference. The shared-workspace example factors; the branch-record example does not. The common normalization factor \\(1/\\sqrt2\\) is omitted in the labels.",
-    "rows": [
-      [
-        "\\(\\ket0\\ket{w} + \\ket1\\ket{w}\\)",
-        "Same workspace",
-        "Input can interfere"
-      ],
-      [
-        "\\(\\ket0\\ket0 + \\ket1\\ket1\\)",
-        "Orthogonal records",
-        "Input alone loses coherence"
-      ]
+    "kind": "circuit",
+    "title": "A workspace record changes interference",
+    "caption": "The target starts at zero and can retain the input branch. For a balanced function, the final H on the input cannot make its outcome definite.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "A target record prevents cancellation when f is balanced."
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-7-3-1": {
-    "kind": "transitions",
-    "title": "The target eigenvalue supplies the sign",
-    "caption": "A bit flip moves each amplitude to the other configuration. For \\(\\ket-\\) the result is \\(-\\ket-\\): the target is unchanged apart from a sign, which the oracle can pass to the input.",
-    "panels": [
+    "kind": "circuit",
+    "title": "Flip eigenstates on a wire",
+    "caption": "X leaves the plus state unchanged and multiplies the minus state by a common minus sign. In a controlled operation that factor becomes a relative phase between control alternatives.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ]
+        "inputs": [
+          "\\(\\ket+\\)"
         ],
         "steps": [
-          "\\(X\\)"
-        ],
-        "weights": [
-          {
-            "0": "\\(1/\\sqrt2\\)",
-            "1": "\\(-1/\\sqrt2\\)"
-          },
-          {
-            "0": "\\(-1/\\sqrt2\\)",
-            "1": "\\(1/\\sqrt2\\)"
-          }
-        ],
-        "edges": [
           [
-            0,
-            "0",
-            "1",
-            "\\(1\\)"
-          ],
-          [
-            0,
-            "1",
-            "0",
-            "\\(1\\)"
+            {
+              "label": "X",
+              "wires": [
+                0
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "\\(X\\ket+=\\ket+\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket-\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "X",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(X\\ket-=-\\ket-\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-7-3-3": {
-    "kind": "transitions",
-    "title": "Compute, mark, then clear the record",
-    "caption": "For a basis input \\(x\\), compute \\(f(x)\\) into clean workspace, apply \\(Z\\) to that bit, and reverse the computation. The function-dependent sign remains while the workspace returns to zero.",
-    "panels": [
+    "kind": "circuit",
+    "title": "Compute, phase, uncompute",
+    "caption": "A computes the answer and workspace. Z changes the answer-one sign. The inverse A restores the answer and workspace to zero, leaving the input phase.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "\\(x,0,0\\)"
-          ],
-          [
-            "\\(x,f(x),g(x)\\)"
-          ],
-          [
-            "\\(x,f(x),g(x)\\)"
-          ],
-          [
-            "\\(x,0,0\\)"
-          ]
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket0\\)",
+          "\\(\\ket{0^n}\\)"
         ],
         "steps": [
-          "\\(A\\)",
-          "\\(Z\\)",
-          "\\(A^\\dagger\\)"
-        ],
-        "edges": [
           [
-            0,
-            "\\(x,0,0\\)",
-            "\\(x,f(x),g(x)\\)",
-            "\\(1\\)"
+            {
+              "label": "A",
+              "wires": [
+                0,
+                1,
+                2
+              ]
+            }
           ],
           [
-            1,
-            "\\(x,f(x),g(x)\\)",
-            "\\(x,f(x),g(x)\\)",
-            "\\((-1)^{f(x)}\\)"
+            {
+              "label": "Z",
+              "wires": [
+                1
+              ]
+            }
           ],
           [
-            2,
-            "\\(x,f(x),g(x)\\)",
-            "\\(x,0,0\\)",
-            "\\(1\\)"
+            {
+              "label": "\\(A^\\dagger\\)",
+              "wires": [
+                0,
+                1,
+                2
+              ]
+            }
           ]
+        ],
+        "notes": [
+          "\\(\\ket{x,0,0}\\longmapsto(-1)^{f(x)}\\ket{x,0,0}\\)"
+        ],
+        "outputs": [
+          "",
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": [
+          2
         ]
       }
     ]
   },
   "topic-7-4-1": {
-    "kind": "transitions",
-    "title": "A sign pattern becomes a measured bit",
-    "caption": "The final \\(H\\) sends each signed amplitude along two arrows. At \\(0\\) the contributions add and at \\(1\\) they subtract, so equal signs give \\(0\\) with certainty and opposite signs give \\(1\\).",
-    "panels": [
+    "kind": "circuit",
+    "title": "Read the relative sign",
+    "caption": "The final H makes equal and opposite oracle signs distinguishable. M reads the parity of the two function values, not their individual values.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ]
+        "inputs": [
+          "\\(\\ket{\\phi_f}\\)"
         ],
         "steps": [
-          "\\(H\\)"
-        ],
-        "weights": [
-          {
-            "0": "\\(s_0/\\sqrt2\\)",
-            "1": "\\(s_1/\\sqrt2\\)"
-          },
-          {
-            "0": "\\((s_0+s_1)/2\\)",
-            "1": "\\((s_0-s_1)/2\\)"
-          }
-        ],
-        "edges": [
           [
-            0,
-            "0",
-            "0",
-            "\\(1/\\sqrt2\\)"
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
           ],
           [
-            0,
-            "0",
-            "1",
-            "\\(1/\\sqrt2\\)"
-          ],
-          [
-            0,
-            "1",
-            "0",
-            "\\(1/\\sqrt2\\)"
-          ],
-          [
-            0,
-            "1",
-            "1",
-            "\\(-1/\\sqrt2\\)"
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "Input: \\((s_0\\ket0+s_1\\ket1)/\\sqrt2\\)",
+          "\\(s_x=(-1)^{f(x)};\\quad y=f(0)\\oplus f(1)\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-7-4-3": {
-    "kind": "flow",
-    "title": "Every stage contributes to correctness",
-    "caption": "The target \\(\\ket-\\) lets the oracle encode a phase without keeping an input-dependent target record. The final \\(H\\) converts that phase into the answer.",
-    "rows": [
-      [
-        "Prepare\n\\(\\ket{+}\\ket{-}\\)",
-        "Oracle\nencode signs",
-        "\\(H\\) on input\ncombine amplitudes",
-        "Measure input\nconstant or balanced"
-      ]
+    "kind": "circuit",
+    "title": "Preparation and readout both matter",
+    "caption": "With target input 1, the first H prepares the minus state and the full circuit returns the desired parity. Starting the target at 0 instead makes a plus state and always yields zero. Omitting the final H gives random input-wire outcomes.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket1\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "y",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "y",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket1\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "y",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-9-1-1": {
-    "kind": "table",
-    "title": "A predicate tests one candidate",
-    "caption": "In this four-item example only \\(11\\) is marked. Testing a supplied candidate is different from locating the successful one.",
-    "headers": [
-      "Candidate \\(x\\)",
-      "Predicate \\(f(x)\\)",
-      "Verification"
-    ],
-    "rows": [
-      [
-        "00",
-        "0",
-        "Reject"
-      ],
-      [
-        "01",
-        "0",
-        "Reject"
-      ],
-      [
-        "10",
-        "0",
-        "Reject"
-      ],
-      [
-        "11",
-        "1",
-        "Accept"
-      ]
+    "kind": "circuit",
+    "title": "Test a candidate label",
+    "caption": "A computational-basis input and a blank target implement one predicate test. M reads whether x is marked; this is classical value-query behaviour represented with the reversible oracle.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "",
+          "f(x)"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-9-1-2": {
-    "kind": "transitions",
-    "title": "Marking changes a sign, not a probability",
-    "caption": "The oracle keeps every configuration and multiplies the amplitude of the marked item \\(11\\) by \\(-1\\). Every immediate measurement probability stays \\(1/4\\), so another operation is needed to turn the sign into an advantage.",
-    "panels": [
+    "kind": "circuit",
+    "title": "Prepare and mark four candidates",
+    "caption": "Two H gates prepare the uniform state. Controlled-Z marks 11 by changing only its sign; it does not change immediate measurement probabilities.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ],
-          [
-            "00",
-            "01",
-            "10",
-            "11"
-          ]
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
         ],
         "steps": [
-          "\\(O_f\\)"
-        ],
-        "weights": [
-          {
-            "00": "\\(1/2\\)",
-            "01": "\\(1/2\\)",
-            "10": "\\(1/2\\)",
-            "11": "\\(1/2\\)"
-          },
-          {
-            "00": "\\(1/2\\)",
-            "01": "\\(1/2\\)",
-            "10": "\\(1/2\\)",
-            "11": "\\(-1/2\\)"
-          }
-        ],
-        "edges": [
           [
-            0,
-            "00",
-            "00",
-            "\\(1\\)"
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
           ],
           [
-            0,
-            "01",
-            "01",
-            "\\(1\\)"
-          ],
-          [
-            0,
-            "10",
-            "10",
-            "\\(1\\)"
-          ],
-          [
-            0,
-            "11",
-            "11",
-            "\\(-1\\)"
+            {
+              "kind": "cz",
+              "wires": [
+                0,
+                1
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "Output amplitudes in order 00, 01, 10, 11: \\((1,1,1,-1)/2\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-9-2-1": {
-    "kind": "flow",
-    "title": "Group coordinates into good and bad directions",
-    "caption": "For one marked item among four, \\(\\ket{G}=\\ket{11}\\) and \\(\\ket{B}=(\\ket{00}+\\ket{01}+\\ket{10})/\\sqrt3\\). These orthogonal directions contain the initial state and the entire ideal search trajectory.",
-    "rows": [
-      [
-        "Marked label\n11",
-        "Normalized \\(\\ket{G}\\)",
-        "Coefficient \\(1/2\\)"
-      ],
-      [
-        "Unmarked labels\n00, 01, 10",
-        "Normalized \\(\\ket{B}\\)",
-        "Coefficient \\(\\sqrt{3}/2\\)"
-      ]
+    "kind": "circuit",
+    "title": "Group outcomes of the search circuit",
+    "caption": "The bundled wire carries the n-qubit search register. Good and bad components group its basis labels; they are not separate physical qubits.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(H^{\\otimes n}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\((DO_f)^{k}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{\\psi_k}=a_k\\ket G+b_k\\ket B\\)",
+          "\\(p(\\text{marked})=|a_k|^2\\)"
+        ],
+        "outputs": [
+          "x"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-9-2-2": {
-    "kind": "plane",
-    "title": "Initial amplitude fixes the angle",
-    "caption": "With one marked item among four, \\(\\sin\\theta=1/2\\), so \\(\\theta=30^\\circ\\). The good amplitude is the vertical component; the success probability is its square.",
-    "angles": [
-      30
-    ],
-    "labels": [
-      "\\(\\theta = 30^\\circ\\)"
-    ],
-    "axes": [
-      "Bad component",
-      "Good component"
+    "kind": "circuit",
+    "title": "Readout before amplification",
+    "caption": "Measuring the uniform preparation succeeds with probability M/N. The angle in the text describes this circuit’s initial amplitudes, not a second register.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(H^{\\otimes n}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket s=\\sin\\theta\\ket G+\\cos\\theta\\ket B,\\quad \\sin^2\\theta=M/N\\)"
+        ],
+        "outputs": [
+          "x"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-9-2-3": {
-    "kind": "plane",
-    "title": "Two reflections advance the state",
-    "caption": "For \\(\\theta=30^\\circ\\), the initial state is at \\(30^\\circ\\). The oracle reflects it to \\(-30^\\circ\\) about the bad axis; reflection about the initial direction then sends it to \\(90^\\circ\\). These are real coordinates in the good/bad plane.",
-    "angles": [
-      30,
-      -30,
-      90
-    ],
-    "labels": [
-      "Initial: \\(30^\\circ\\)",
-      "After oracle: \\(-30^\\circ\\)",
-      "After diffusion: \\(90^\\circ\\)"
-    ],
-    "axes": [
-      "Bad component",
-      "Good component"
+    "kind": "circuit",
+    "title": "One pair of reflections",
+    "caption": "On a bundled register the oracle acts first and D second. Their product rotates the two-component state by 2 theta; D is the reflection about the prepared uniform state.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket s\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(O_f\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "D",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\sin\\theta\\ket G+\\cos\\theta\\ket B\\longmapsto\\sin(3\\theta)\\ket G+\\cos(3\\theta)\\ket B\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-9-3-1": {
-    "kind": "bars",
-    "title": "Success oscillates with iteration count",
-    "caption": "For \\(N=4\\) and \\(M=1\\), \\(p_k=\\sin^2((2k+1)\\pi/6)\\). One iteration is ideal, but the next two return to probability \\(1/4\\). Stopping is part of the algorithm.",
-    "labels": [
-      "\\(k = 0\\)",
-      "\\(k = 1\\)",
-      "\\(k = 2\\)",
-      "\\(k = 3\\)"
-    ],
-    "values": [
-      0.25,
-      1,
-      0.25,
-      0.25
+    "kind": "circuit",
+    "title": "Repeated Grover iterations",
+    "caption": "The repeated gate denotes k uses of the oracle-and-reflection pair, not one elementary gate. Measure only after these coherent iterations.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(H^{\\otimes n}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\((DO_f)^{k}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(p_k=\\sin^2((2k+1)\\theta),\\quad \\sin^2\\theta=M/N\\)"
+        ],
+        "outputs": [
+          "x"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-9-3-3": {
-    "kind": "decision",
-    "title": "Measure a candidate, then verify it",
-    "caption": "A failed verification rejects that candidate, not every possible candidate. With an unknown marked fraction, the schedule must choose how long to search before measuring again.",
-    "nodes": [
-      "Choose iteration count\nthen amplify and measure",
-      "Check the candidate\n\\(f(x) = 1\\)?",
-      "Yes: return \\(x\\)",
-      "No: revise schedule\nand try again"
+    "kind": "circuit",
+    "title": "Verify a measured candidate",
+    "caption": "After a search run returns candidate x, a separate basis-input query checks it. A failed check calls for another run with the prescribed iteration schedule and budget.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(H^{\\otimes n}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\((DO_f)^{k}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "x"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      },
+      {
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Accept only when the measured predicate bit is 1."
+        ],
+        "outputs": [
+          "",
+          "f(x)"
+        ],
+        "label": "Verification run",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-9-4-1": {
-    "kind": "plane",
-    "title": "Amplification uses the prepared success weight",
-    "caption": "A nonuniform preparation can still be resolved into normalized good and bad components. This example has \\(p=1/4\\), so its amplitudes are \\(1/2\\) and \\(\\sqrt3/2\\) regardless of how many underlying labels contribute.",
-    "angles": [
-      30
-    ],
-    "labels": [
-      "\\(\\sqrt{1-p}\\ket{B} + \\sqrt{p}\\ket{G}\\)"
-    ],
-    "axes": [
-      "Bad component",
-      "Good component"
+    "kind": "circuit",
+    "title": "An arbitrary coherent preparation",
+    "caption": "A is the full reversible preparation circuit. Its success probability is the total weight on good outputs; the bundled wire includes any required coherent workspace.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "A",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(A\\ket0=\\sqrt p\\ket G+\\sqrt{1-p}\\ket B\\)"
+        ],
+        "outputs": [
+          "x"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-9-4-3": {
-    "kind": "table",
-    "title": "Count the work inside each amplification round",
-    "caption": "For small \\(p\\), the improvement concerns repeated use of coherent preparation and the success test. Their implementation costs must be included.",
-    "headers": [
-      "Method",
-      "Repetitions for constant success",
-      "Work used"
-    ],
-    "rows": [
-      [
-        "Independent trials",
-        "Order \\(1/p\\)",
-        "Prepare and test"
-      ],
-      [
-        "Amplitude amplification",
-        "Order \\(1/\\sqrt{p}\\)",
-        "\\(A\\), \\(A^\\dagger\\), phase test per round"
-      ]
+    "kind": "circuit",
+    "title": "Pay for both preparation and its inverse",
+    "caption": "One amplification round applies the success reflection, inverse preparation, zero-state reflection, and preparation. Repeat the round coherently before measuring; the zero-reflection cost must also be included when significant.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(I-2P_G\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(A^\\dagger\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(R_0\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "A",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(R_0=2\\ket0\\bra0-I;\\quad R_\\psi=A R_0 A^\\dagger\\)",
+          "One round costs \\(C_G+2C_A+C_{R_0}\\)."
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-8-1-1": {
-    "kind": "transitions",
-    "title": "Time order and matrix order",
-    "caption": "The circuit applies \\(H\\) first and \\(Z\\) second, as the columns run from left to right. The combined operator is written \\(ZH\\): on a column vector the rightmost matrix acts first.",
-    "panels": [
+    "kind": "circuit",
+    "title": "Wire order and gate order",
+    "caption": "The two wires identify subsystems. U followed by V on the first wire gives VU; W on the separate wire may run independently.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ]
+        "inputs": [
+          "\\(\\ket\\psi\\)",
+          "\\(\\ket\\phi\\)"
         ],
         "steps": [
-          "\\(H\\)",
-          "\\(Z\\)"
-        ],
-        "weights": [
-          {
-            "0": "\\(1\\)",
-            "1": "\\(0\\)"
-          },
-          {
-            "0": "\\(1/\\sqrt2\\)",
-            "1": "\\(1/\\sqrt2\\)"
-          },
-          {
-            "0": "\\(1/\\sqrt2\\)",
-            "1": "\\(-1/\\sqrt2\\)"
-          }
-        ],
-        "edges": [
           [
-            0,
-            "0",
-            "0",
-            "\\(1/\\sqrt2\\)"
+            {
+              "label": "U",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "W",
+              "wires": [
+                1
+              ]
+            }
           ],
           [
-            0,
-            "0",
-            "1",
-            "\\(1/\\sqrt2\\)"
-          ],
-          [
-            0,
-            "1",
-            "0",
-            "\\(1/\\sqrt2\\)"
-          ],
-          [
-            0,
-            "1",
-            "1",
-            "\\(-1/\\sqrt2\\)"
-          ],
-          [
-            1,
-            "0",
-            "0",
-            "\\(1\\)"
-          ],
-          [
-            1,
-            "1",
-            "1",
-            "\\(-1\\)"
+            {
+              "label": "V",
+              "wires": [
+                0
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "Output: \\((VU\\ket\\psi)\\otimes(W\\ket\\phi)\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-8-1-2": {
-    "kind": "flow",
-    "title": "Open a query box to count its gates",
-    "caption": "A query diagram counts uses of an oracle. Replacing each box by a circuit exposes the gate cost, plus any operations between calls.",
-    "rows": [
-      [
-        "Three oracle calls",
-        "Ten gates per call",
-        "Thirty oracle gates"
-      ],
-      [
-        "Prepare input",
-        "Query circuit + other gates",
-        "Measure output"
-      ]
-    ]
-  },
-  "topic-8-1-3": {
-    "kind": "flow",
-    "title": "A measured bit selects a correction",
-    "caption": "Classical control uses a recorded outcome. It selects a branch after measurement rather than preserving a coherent superposition of both control alternatives.",
-    "rows": [
-      [
-        "Measured bit \\(b = 0\\)",
-        "Choose I",
-        "Leave target unchanged"
-      ],
-      [
-        "Measured bit \\(b = 1\\)",
-        "Choose \\(X\\)",
-        "Flip target"
-      ]
+    "kind": "circuit",
+    "title": "The oracle inside a circuit",
+    "caption": "Deutsch’s algorithm uses one oracle gate between its preparation and readout gates. The Uf box specifies a joint operation, not its internal gate count.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket1\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          "y",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-8-2-1": {
-    "kind": "transitions",
-    "title": "Gates act differently on different inputs",
-    "caption": "\\(X\\) exchanges basis labels; \\(Z\\) changes one sign; \\(H\\) changes basis. Their action on arbitrary superpositions follows by linearity.",
-    "panels": [
+    "kind": "circuit",
+    "title": "Rotations and phase gates",
+    "caption": "These are separate single-qubit circuits. Rotation parameters are continuous; S and T are fixed phase operations.",
+    "circuits": [
       {
-        "columns": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ]
+        "inputs": [
+          "\\(\\ket\\psi\\)"
         ],
         "steps": [
-          "\\(X\\)"
-        ],
-        "edges": [
           [
-            0,
-            "0",
-            "1",
-            "\\(1\\)"
-          ],
-          [
-            0,
-            "1",
-            "0",
-            "\\(1\\)"
+            {
+              "label": "\\(R_P(\\theta)\\)",
+              "wires": [
+                0
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "\\(R_P(\\theta)=\\cos(\\theta/2)I-i\\sin(\\theta/2)P\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "",
+        "bundles": []
       },
       {
-        "columns": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ]
+        "inputs": [
+          "\\(\\ket0\\)"
         ],
         "steps": [
-          "\\(Z\\)"
-        ],
-        "edges": [
           [
-            0,
-            "0",
-            "0",
-            "\\(1\\)"
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
           ],
           [
-            0,
-            "1",
-            "1",
-            "\\(-1\\)"
+            {
+              "label": "S",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "\\(p(1)=1/2\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": []
       },
       {
-        "columns": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "0",
-            "1"
-          ]
+        "inputs": [
+          "\\(\\ket0\\)"
         ],
         "steps": [
-          "\\(H\\)"
-        ],
-        "edges": [
           [
-            0,
-            "0",
-            "0",
-            "\\(1/\\sqrt2\\)"
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
           ],
           [
-            0,
-            "0",
-            "1",
-            "\\(1/\\sqrt2\\)"
+            {
+              "label": "T",
+              "wires": [
+                0
+              ]
+            }
           ],
           [
-            0,
-            "1",
-            "0",
-            "\\(1/\\sqrt2\\)"
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
           ],
           [
-            0,
-            "1",
-            "1",
-            "\\(-1/\\sqrt2\\)"
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
           ]
-        ]
+        ],
+        "notes": [
+          "\\(p(1)=(1-\\cos(\\pi/4))/2\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": []
       }
     ]
   },
   "topic-8-3-1": {
-    "kind": "flow",
-    "title": "Local gates preserve a product form",
-    "caption": "Applying \\(A\\) to one qubit and \\(B\\) to the other gives \\((A\\ket\\psi)\\otimes(B\\ket\\phi)\\). Starting with a product, local unitary gates alone cannot create entanglement.",
-    "rows": [
-      [
-        "\\(\\ket{\\psi} \\otimes \\ket{\\phi}\\)",
-        "Local \\(A \\otimes B\\)",
-        "\\(A\\ket{\\psi} \\otimes B\\ket{\\phi}\\)"
-      ]
+    "kind": "circuit",
+    "title": "Local gates preserve product states",
+    "caption": "No wire connection appears in this circuit. Each output depends only on the input on its own wire, so local gates cannot create entanglement from a product input.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)",
+          "\\(\\ket\\phi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(V_1\\)",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "\\(V_2\\)",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Output: \\((V_1U_1\\ket\\psi)\\otimes(V_2U_2\\ket\\phi)\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-8-3-2": {
-    "kind": "flow",
-    "title": "One route to universality",
-    "caption": "Arbitrary one-qubit unitaries together with CNOT suffice to construct arbitrary finite-register unitaries. A chosen finite gate alphabet instead generally requires approximation.",
-    "rows": [
-      [
-        "One-qubit unitaries",
-        "Combine with CNOT",
-        "General quantum circuits"
-      ]
+    "kind": "circuit",
+    "title": "Local gates with entangling connections",
+    "caption": "A representative circuit uses arbitrary single-qubit gates and CNOT. This finite example shows the gate repertoire; it does not claim that two CNOTs synthesize every two-qubit unitary.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)",
+          "\\(\\ket\\phi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "U",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "V",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "W",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "R",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                1,
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "S",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "T",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "U, V, W, R, S, T here denote arbitrary single-qubit unitaries."
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-8-3-3": {
-    "kind": "flow",
-    "title": "Approximation includes a tolerance",
-    "caption": "The task is to find a finite circuit \\(V\\) close enough to a target \\(U\\). The tolerance controls acceptable error and affects the required circuit length.",
-    "rows": [
-      [
-        "Target unitary \\(U\\)",
-        "Compile using gate set",
-        "Circuit \\(V\\)"
-      ],
-      [
-        "Requested accuracy ε",
-        "Check operator distance",
-        "\\(\\|U - V\\| \\le \\varepsilon\\)"
-      ]
+    "kind": "circuit",
+    "title": "Approximate a gate sequence",
+    "caption": "Each Vj approximates the corresponding Uj with a specified operator-norm error. The diagram compares two circuits; it does not assert an exact finite-alphabet synthesis.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_3\\)",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [],
+        "outputs": [
+          ""
+        ],
+        "label": "Ideal circuit",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(V_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(V_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(V_3\\)",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\|U_3U_2U_1-V_3V_2V_1\\|\\leq\\epsilon_1+\\epsilon_2+\\epsilon_3\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "Approximate circuit",
+        "bundles": []
+      }
     ]
   },
   "topic-8-4-1": {
-    "kind": "table",
-    "title": "The same gate count can give different depths",
-    "caption": "Four independent gates on four wires can occupy one layer. Four dependent gates on one wire require four layers. Parallelism may use more workspace.",
-    "headers": [
-      "Circuit arrangement",
-      "Gates",
-      "Depth",
-      "Wires used"
-    ],
-    "rows": [
-      [
-        "One gate on each of four wires",
-        "4",
-        "1",
-        "4"
-      ],
-      [
-        "Four gates in sequence on one wire",
-        "4",
-        "4",
-        "1"
-      ]
+    "kind": "circuit",
+    "title": "Count gates, layers, and wires",
+    "caption": "Three initial Hadamards run in parallel, followed by two successive CNOTs. This example has five gates, depth three, and width three when these gates are available directly.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                2
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                1,
+                2
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Gate count: 5     Depth: 3     Width: 3"
+        ],
+        "outputs": [
+          "",
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-8-4-2": {
-    "kind": "flow",
-    "title": "Connectivity can require moving information",
-    "caption": "On a three-site line only neighboring sites interact directly. To act on logical qubits A and C, swap A next to C, apply the gate, and restore the placement if needed.",
-    "rows": [
-      [
-        "Sites: A — B — C",
-        "SWAP first pair\nB — A — C",
-        "Gate on A and C",
-        "Optional SWAP back"
-      ]
+    "kind": "circuit",
+    "title": "Route an interaction through a neighbour",
+    "caption": "For a linear three-qubit layout, SWAP brings the third logical qubit next to the first. CNOT acts there, and the second SWAP restores the original ordering. Each SWAP itself requires implementation.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket a\\)",
+          "\\(\\ket b\\)",
+          "\\(\\ket c\\)"
+        ],
+        "steps": [
+          [
+            {
+              "kind": "swap",
+              "wires": [
+                1,
+                2
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "swap",
+              "wires": [
+                1,
+                2
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Output on basis inputs: \\(\\ket{a,b,c\\oplus a}\\)"
+        ],
+        "outputs": [
+          "",
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-8-4-3": {
-    "kind": "flow",
-    "title": "A worst-case error budget",
-    "caption": "For ideal and implemented unitary gates with operator-norm error at most ε per gate, a telescoping bound gives total error at most mε. The bound is not a claim that all errors add with the same sign in a particular run.",
-    "rows": [
-      [
-        "\\(m = 100\\) gates",
-        "Each error \\(\\le 0.0001\\)",
-        "Total bound \\(\\le 0.01\\)"
-      ]
+    "kind": "circuit",
+    "title": "Encoding is not cloning",
+    "caption": "Two CNOTs encode one unknown qubit into a joint three-qubit state. This is the repetition-code encoding used for bit-flip protection; it is not a complete error-correction or fault-tolerance circuit.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)",
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                2
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket\\psi=\\alpha\\ket0+\\beta\\ket1\\)",
+          "Encoded state: \\(\\alpha\\ket{000}+\\beta\\ket{111}\\)"
+        ],
+        "outputs": [
+          "",
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "topic-10-1-1": {
-    "kind": "table",
-    "title": "Input value is not input length",
-    "caption": "Binary encoding uses logarithmically many bits. A cost proportional to the integer’s value can therefore be exponential in the number of input bits.",
-    "headers": [
-      "Value \\(N\\)",
-      "Binary encoding",
-      "Bit length"
-    ],
-    "rows": [
-      [
-        "7",
-        "111",
-        "3"
-      ],
-      [
-        "8",
-        "1000",
-        "4"
-      ],
-      [
-        "15",
-        "1111",
-        "4"
-      ],
-      [
-        "16",
-        "10000",
-        "5"
-      ]
+    "kind": "circuit",
+    "title": "Specify the input and success condition",
+    "caption": "Cn is the complete circuit selected by the input length n. The bundled wire includes input and initialized workspace; the measured output is interpreted according to the stated task.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{x,0}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(C_n\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(n=|x|;\\quad p(\\text{correct output}\\mid x)\\geq2/3\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-1-2": {
-    "kind": "table",
-    "title": "Asymptotic order and finite costs",
-    "caption": "The linear algorithm with a large constant eventually wins, but not for every input size. Big-O notation describes growth, not a complete timing prediction.",
-    "headers": [
-      "Input \\(n\\)",
-      "Cost \\(n^2\\)",
-      "Cost 1000n",
-      "Smaller cost"
-    ],
-    "rows": [
-      [
-        "10",
-        "100",
-        "10,000",
-        "\\(n^2\\)"
-      ],
-      [
-        "1000",
-        "1,000,000",
-        "1,000,000",
-        "Equal"
-      ],
-      [
-        "10,000",
-        "100,000,000",
-        "10,000,000",
-        "1000n"
-      ]
+    "kind": "circuit",
+    "title": "A circuit family and its cost",
+    "caption": "An abstract Cn box stands for a full circuit whose cost has been counted separately. The growth estimate describes that construction, not a lower bound on every algorithm.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{x,0}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(C_n\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Example gate count: \\(T(n)=3n^2+7n+2\\)",
+          "For \\(n\\geq1\\): \\(3n^2\\leq T(n)\\leq12n^2\\), so \\(T(n)=\\Theta(n^2)\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-1-3": {
-    "kind": "table",
-    "title": "Fewer queries can cost more gates",
-    "caption": "These totals count only the gates inside query calls. Preparation and other gates must still be added for a full comparison.",
-    "headers": [
-      "Implementation",
-      "Queries",
-      "Gates per query",
-      "Query gates"
-    ],
-    "rows": [
-      [
-        "A",
-        "5",
-        "100",
-        "500"
-      ],
-      [
-        "B",
-        "10",
-        "10",
-        "100"
-      ]
+    "kind": "circuit",
+    "title": "Count queries separately from gates",
+    "caption": "This illustrative schedule uses two queries. U0, U1, U2 and the oracle implementations may each contain many elementary gates; the bundled wire includes workspace.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_0\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_z\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_z\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Oracle uses: 2; total gates and register width require separate accounting."
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-2-1": {
-    "kind": "flow",
-    "title": "An efficient reduction transfers a solver",
-    "caption": "If task \\(A\\) reduces efficiently to task \\(B\\), an efficient solver for \\(B\\) would yield one for \\(A\\). The arrow describes converting instances, not proving that such a solver exists.",
-    "rows": [
-      [
-        "Instance of \\(A\\)",
-        "Efficient conversion",
-        "Instance of \\(B\\)",
-        "\\(B\\) solver \\(\\to\\) \\(A\\) answer"
-      ]
+    "kind": "circuit",
+    "title": "Checking a certificate",
+    "caption": "The reversible implementation of a classical verifier preserves x and certificate w and writes V(x,w) into a blank bit. This checks a supplied certificate; it does not find one. Internal workspace is suppressed.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket x\\)",
+          "\\(\\ket w\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_V\\)",
+              "wires": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                2
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Accept if the final bit is 1."
+        ],
+        "outputs": [
+          "",
+          "",
+          "V(x,w)"
+        ],
+        "label": "",
+        "bundles": [
+          0,
+          1
+        ]
+      }
     ]
   },
   "topic-10-2-2": {
-    "kind": "table",
-    "title": "Bounded error is a per-input requirement",
-    "caption": "Both classes concern polynomial-time decision procedures with a bounded error on every allowed input. The computational model differs.",
-    "headers": [
-      "Class",
-      "Model",
-      "Typical success guarantee"
-    ],
-    "rows": [
-      [
-        "BPP",
-        "Classical randomized",
-        "At least \\(2/3\\) on each input"
-      ],
-      [
-        "BQP",
-        "Quantum",
-        "At least \\(2/3\\) on each input"
-      ]
+    "kind": "circuit",
+    "title": "A bounded-error decision circuit",
+    "caption": "A BQP circuit family must be uniformly generated with polynomial gate count and workspace. Each run yields a decision bit; repeated fresh runs can reduce its error.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{x,0}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(C_n\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(p(y=\\text{correct decision})\\geq2/3\\) on every input."
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-2-3": {
-    "kind": "table",
-    "title": "Different tasks offer different structure",
-    "caption": "Factoring uses arithmetic structure; unstructured search assumes only oracle access to a predicate. A lower bound for the latter is not a lower bound for every structured problem.",
-    "headers": [
-      "Task",
-      "Information available",
-      "Quantum approach"
-    ],
-    "rows": [
-      [
-        "Factoring",
-        "Arithmetic on an integer",
-        "Use periodic structure"
-      ],
-      [
-        "Unstructured search",
-        "Predicate on candidate labels",
-        "Amplitude amplification"
-      ]
+    "kind": "circuit",
+    "title": "Search in its query model",
+    "caption": "The search circuit has a proved quadratic query advantage. This does not establish a general computational-class separation or give a factoring construction.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(H^{\\otimes n}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\((DO_f)^{k}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Unique mark: \\(k=O(\\sqrt N)\\) queries for constant success.",
+          "Factoring uses a different construction, beyond this book’s derivation."
+        ],
+        "outputs": [
+          "x"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-3-1": {
-    "kind": "flow",
-    "title": "Two directions of a complexity argument",
-    "caption": "A construction proves that a task can be solved within a cost. A lower bound must cover every permitted algorithm in the stated model.",
-    "rows": [
-      [
-        "Exhibit one algorithm",
-        "Analyze its cost",
-        "Upper bound"
-      ],
-      [
-        "Consider every algorithm",
-        "Prove unavoidable cost",
-        "Lower bound"
-      ]
+    "kind": "circuit",
+    "title": "The circuit family covered by a query bound",
+    "caption": "A query algorithm alternates oracle calls with operations independent of the hidden input. The two-query drawing is one instance of this general form; a lower bound must cover every allowed sequence.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_0\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_z\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_z\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "The hidden input enters only through the oracle gates."
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-3-2": {
-    "kind": "flow",
-    "title": "Search upper and lower bounds meet",
-    "caption": "For one marked item and constant success in the unstructured quantum query model, Grover’s \\(O(\\sqrt N)\\) upper bound and the \\(\\Omega(\\sqrt N)\\) lower bound give \\(\\Theta(\\sqrt N)\\) query complexity.",
-    "rows": [
-      [
-        "Grover construction",
-        "At most order \\(\\sqrt{N}\\) queries",
-        "Upper bound"
-      ],
-      [
-        "Any allowed quantum method",
-        "At least order \\(\\sqrt{N}\\) queries",
-        "Lower bound"
-      ]
+    "kind": "circuit",
+    "title": "Compare hidden inputs in the same circuit",
+    "caption": "The two circuits use identical intervening gates and differ only in the oracle. The lower-bound argument compares their final states; the diagram itself is not a proof of the bound.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_0\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_w\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_w\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Marked oracle: one hidden position changes phase."
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      },
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_0\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(I\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(I\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Reference oracle: no positions change phase."
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-3-3": {
-    "kind": "flow",
-    "title": "Combine a model bound with a function bound",
-    "caption": "The query model limits acceptance degree to \\(2T\\). If approximating the requested function requires degree \\(d\\), then \\(2T\\ge d\\). The approximate-degree theorem is a separate ingredient.",
-    "rows": [
-      [
-        "\\(T\\) oracle calls",
-        "Acceptance degree \\(\\le 2T\\)",
-        "Required degree \\(\\ge d\\)",
-        "Therefore \\(T \\ge d/2\\)"
-      ]
+    "kind": "circuit",
+    "title": "Queries increase polynomial degree",
+    "caption": "The two-query example gives amplitudes of degree at most two in the hidden Boolean bits and acceptance probabilities of degree at most four. The text generalizes this to T queries.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_0\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_z\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(O_z\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(T=2:\\quad \\deg(\\text{amplitude})\\leq2,\\quad\\deg(p_{\\rm accept})\\leq4\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-4-1": {
-    "kind": "flow",
-    "title": "Follow the costs around the algorithm",
-    "caption": "An advantage claim must include the access assumptions and success criterion. Expensive preparation or readout can dominate a reduction in oracle calls.",
-    "rows": [
-      [
-        "Encode / prepare",
-        "Queries + gates",
-        "Measure / verify",
-        "Compare total costs"
-      ]
+    "kind": "circuit",
+    "title": "Coherent operations before readout",
+    "caption": "The preparation A and its associated reflection must be implemented coherently. The success reflection changes phase; the prepared-state reflection converts that phase change into a change in success probability.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "A",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(I-2P_G\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(R_\\psi\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(R_\\psi=A(2\\ket0\\bra0-I)A^\\dagger\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-4-2": {
-    "kind": "table",
-    "title": "Three different limitations",
-    "caption": "A faster implementation does not turn an undecidable task into a decidable one, nor make all amplitudes available from a single measurement.",
-    "headers": [
-      "Question",
-      "Concern",
-      "Example"
-    ],
-    "rows": [
-      [
-        "Can it be computed?",
-        "Computability",
-        "General halting problem"
-      ],
-      [
-        "How much work?",
-        "Efficiency",
-        "Search query count"
-      ],
-      [
-        "What is observed?",
-        "Readout",
-        "One basis label per shot"
-      ]
+    "kind": "circuit",
+    "title": "A finite circuit still has a sampled output",
+    "caption": "A computably described finite circuit can be simulated classically, potentially at enormous cost. Its measurement returns a sample, not its complete amplitude list or a general halting decision.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{x,0}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(C_n\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "One run returns y; a full classical simulation tracks the joint amplitudes."
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": [
+          0
+        ]
+      }
     ]
   },
   "topic-10-4-3": {
-    "kind": "flow",
-    "title": "Algorithmic structure and physical reliability",
-    "caption": "Period finding concerns making structure observable; error correction concerns protecting a computation from faults. A useful large computation needs both suitable algorithms and sufficiently reliable operations.",
-    "rows": [
-      [
-        "Period finding",
-        "Interference reveals structure",
-        "Algorithmic resource"
-      ],
-      [
-        "Error correction",
-        "Protect encoded information",
-        "Reliability resource"
-      ]
+    "kind": "circuit",
+    "title": "A starting circuit for error correction",
+    "caption": "This repetition encoding is a concrete continuation toward error correction. It creates one encoded joint state, not three clones. Syndrome extraction and recovery still need further circuits; period finding is a separate continuation.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)",
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "cx",
+              "wires": [
+                0,
+                2
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\alpha\\ket0+\\beta\\ket1\\longmapsto\\alpha\\ket{000}+\\beta\\ket{111}\\)"
+        ],
+        "outputs": [
+          "",
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
     ]
   },
   "appendix-a": {
@@ -2230,91 +3692,6 @@
     ],
     "height": 400
   },
-  "topic-3-4-3": {
-    "kind": "network",
-    "title": "A record separates the final configurations",
-    "caption": "The second qubit records the intermediate value of the first. The two routes shown both give first-qubit outcome one, but end in different joint configurations, \\(10\\) and \\(11\\). Their amplitudes cannot cancel: add their squared magnitudes when ignoring the record. The routes to first-qubit outcome zero are omitted.",
-    "nodes": [
-      {
-        "id": "start",
-        "x": 80,
-        "y": 190,
-        "label": "\\(\\ket{00}\\)"
-      },
-      {
-        "id": "a",
-        "x": 365,
-        "y": 105,
-        "label": "\\(\\ket{00}\\)"
-      },
-      {
-        "id": "b",
-        "x": 365,
-        "y": 275,
-        "label": "\\(\\ket{11}\\)"
-      },
-      {
-        "id": "c",
-        "x": 665,
-        "y": 105,
-        "label": "\\(\\ket{10}\\)"
-      },
-      {
-        "id": "d",
-        "x": 665,
-        "y": 275,
-        "label": "\\(\\ket{11}\\)"
-      }
-    ],
-    "edges": [
-      {
-        "start": "start",
-        "end": "a",
-        "label": "\\(1/\\sqrt2\\)",
-        "x": 215,
-        "y": 121
-      },
-      {
-        "start": "start",
-        "end": "b",
-        "label": "\\(1/\\sqrt2\\)",
-        "x": 215,
-        "y": 272
-      },
-      {
-        "start": "a",
-        "end": "c",
-        "label": "\\(1/\\sqrt2\\)",
-        "x": 515,
-        "y": 85
-      },
-      {
-        "start": "b",
-        "end": "d",
-        "label": "\\(-1/\\sqrt2\\)",
-        "x": 515,
-        "y": 255
-      }
-    ],
-    "notes": [
-      {
-        "x": 215,
-        "y": 61,
-        "text": "\\(H\\), then CNOT"
-      },
-      {
-        "x": 515,
-        "y": 61,
-        "text": "\\(H\\) on the first qubit"
-      },
-      {
-        "x": 380,
-        "y": 348,
-        "text": "\\(p(\\text{first qubit}=1)=|1/2|^2+|-1/2|^2=1/2\\)"
-      }
-    ],
-    "height": 400
-  },
   "topic-4-2-2": {
     "kind": "network",
     "title": "Measurement and its conditional state",
@@ -2463,6 +3840,414 @@
             "1",
             "0"
           ]
+        ]
+      }
+    ]
+  },
+  "topic-5-1-1": {
+    "kind": "circuit",
+    "title": "Input, unitary evolution, and readout",
+    "caption": "The wire carries the quantum input through the complete unitary Uf to measurement. M produces one classical result; Uf may contain many elementary gates.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{\\psi_{\\rm in}}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{\\psi_{\\rm out}}=U_f\\ket{\\psi_{\\rm in}}\\) before M"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-5-1-2": {
+    "kind": "circuit",
+    "title": "Gates compose in time order",
+    "caption": "The same wire passes through U1 and then U2. The output is U2 U1 applied to the input.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{\\psi_{\\rm in}}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_1\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_2\\)",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket{\\psi_{\\rm out}}=U_2U_1\\ket{\\psi_{\\rm in}}\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-5-1-3": {
+    "kind": "circuit",
+    "title": "One run gives one result",
+    "caption": "Each fresh run prepares its input and repeats the circuit. The double line carries the sampled classical result, not the state’s amplitude list.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{\\psi_{\\rm in}}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(p(y)=|\\bra yU_f\\ket{\\psi_{\\rm in}}|^2\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-5-2-3": {
+    "kind": "circuit",
+    "title": "Phase becomes an output probability",
+    "caption": "The final Hadamard converts the relative phase into measurement probabilities.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(R_\\phi\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(p(0)=(1+\\cos\\phi)/2,\\quad p(1)=(1-\\cos\\phi)/2\\)"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-5-3-1": {
+    "kind": "circuit",
+    "title": "The Pauli gates on one wire",
+    "caption": "These are four separate circuits on the same arbitrary input. The displayed output vectors include their phase factors.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "I",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(a\\ket0+b\\ket1\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "I",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "X",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(b\\ket0+a\\ket1\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "X",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "Y",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(-ib\\ket0+ia\\ket1\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "Y",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket\\psi\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "Z",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(a\\ket0-b\\ket1\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "Z",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-5-3-2": {
+    "kind": "circuit",
+    "title": "A matrix sum is not a gate sequence",
+    "caption": "H equals the normalized matrix sum of X and Z. Applying X then Z instead gives their product ZX, a different circuit.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(H=(X+Z)/\\sqrt2;\\quad H\\ket0=\\ket+\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "Hadamard",
+        "bundles": []
+      },
+      {
+        "inputs": [
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "X",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "Z",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(ZX\\ket0=-\\ket1\\)"
+        ],
+        "outputs": [
+          ""
+        ],
+        "label": "Pauli sequence",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-6-1-2": {
+    "kind": "circuit",
+    "title": "A superposition without entanglement",
+    "caption": "H acts only on the first wire; the second remains zero. The output is a product despite having two nonzero joint amplitudes.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "\\(\\ket\\Psi=(\\ket{00}+\\ket{10})/\\sqrt2=\\ket+\\otimes\\ket0\\)"
+        ],
+        "outputs": [
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-9-3-2": {
+    "kind": "circuit",
+    "title": "Choose how many iterations to apply",
+    "caption": "The circuit repeats the oracle-and-reflection pair k times before measurement. More iterations can decrease success; the interactive readout below tracks this same circuit.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket{0^n}\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "\\(H^{\\otimes n}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\((DO_f)^{k}\\)",
+              "wires": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "For \\(N=4,M=1\\): \\(p_0=1/4,\\ p_1=1,\\ p_2=1/4\\)"
+        ],
+        "outputs": [
+          "x"
+        ],
+        "label": "",
+        "bundles": [
+          0
         ]
       }
     ]

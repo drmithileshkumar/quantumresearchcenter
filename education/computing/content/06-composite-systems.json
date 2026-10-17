@@ -9,21 +9,28 @@
       "id": "topic-6-1-1",
       "title": "Tensor products and product bases",
       "number": "6.1.1",
-      "group": "6.1 · Composite State Spaces",
+      "group": "6.1 · Registers and Operations",
       "part_id": "section-6-1"
     },
     {
       "id": "topic-6-1-2",
       "title": "Product states",
       "number": "6.1.2",
-      "group": "6.1 · Composite State Spaces",
+      "group": "6.1 · Registers and Operations",
       "part_id": "section-6-1"
     },
     {
       "id": "topic-6-1-3",
-      "title": "The composition postulate",
+      "title": "Joint amplitudes",
       "number": "6.1.3",
-      "group": "6.1 · Composite State Spaces",
+      "group": "6.1 · Registers and Operations",
+      "part_id": "section-6-1"
+    },
+    {
+      "id": "topic-6-1-4",
+      "title": "Local and controlled gates",
+      "number": "6.1.4",
+      "group": "6.1 · Registers and Operations",
       "part_id": "section-6-1"
     },
     {
@@ -93,7 +100,7 @@
   "parts": [
     {
       "id": "section-6-1",
-      "title": "Composite State Spaces",
+      "title": "Registers and Operations",
       "number": "6.1"
     },
     {
@@ -112,9 +119,9 @@
       "number": "6.4"
     }
   ],
-  "opening": "A quantum computer is a register of many qubits, not a single one. So far a state has described one qubit. How should we describe several? For independently prepared qubits, the product rule gives the answer: the joint amplitudes are products of the individual ones. But the postulates also allow joint states that are not products, and these states have no classical counterpart.",
+  "opening": "Chapter 5 followed a single qubit from input through unitary gates to measurement. A computation with several qubits follows the same rules, but its amplitudes belong to complete bit strings. How do we operate on one part of such a register, couple its parts, and read out an answer?",
   "opening_continuation": [
-    "We begin with the tensor product, which builds joint states from individual ones, and adopt it as the postulate for composite systems. A two-gate circuit then produces a Bell state, which cannot be written as a product, and we learn to tell such entanglement apart from classical correlation. Entanglement and linearity limit what can be done with quantum information: an unknown state cannot be copied, and acting on one part of an entangled pair cannot send a message to the other. Teleportation shows what remains possible within these limits: with shared entanglement and two classical bits, an unknown state can be moved from one place to another.",
-    "With registers of qubits in hand, the next chapter turns to computation itself and asks how a quantum algorithm can learn about a function."
+    "We begin with the joint-state rule from Chapter 4 and turn it into working circuit notation. Local gates update individual labels; controlled gates connect them. A two-qubit computation leads to entanglement, and measurements show why joint amplitudes contain more information than separate output counts.",
+    "We then examine the limits on copying and signalling, and work through teleportation as a complete three-qubit computation with measurement and classical control. Chapter 7 will use this machinery for function evaluation and phase kickback."
   ]
 }

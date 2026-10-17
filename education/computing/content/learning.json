@@ -120,12 +120,12 @@
           "The cross sum is \\(G(0\\to0)G(1\\to0)+G(0\\to1)G(1\\to1)\\).",
           "Two steps from \\(0\\) give \\(\\cos2\\alpha\\) at \\(0\\) and \\(\\sin2\\alpha\\) at \\(1\\)."
         ],
-        "answer": "The squares leaving each configuration add to \\(\\cos^2\\alpha+\\sin^2\\alpha=1\\), and the cross sum is \\(-\\cos\\alpha\\sin\\alpha+\\sin\\alpha\\cos\\alpha=0\\). From \\(0\\): weight \\(\\cos^2\\alpha-\\sin^2\\alpha=\\cos2\\alpha\\) at \\(0\\) and \\(2\\sin\\alpha\\cos\\alpha=\\sin2\\alpha\\) at \\(1\\). From \\(1\\): \\(-\\sin2\\alpha\\) at \\(0\\) and \\(\\cos2\\alpha\\) at \\(1\\). At \\(\\alpha=\\pi/4\\), two steps send \\(\\ket0\\) to \\(\\ket1\\) and \\(\\ket1\\) to \\(-\\ket0\\): NOT, except for a relative sign. Real weights reach NOT only up to this sign; exactly NOT needs complex weights.",
+        "answer": "The squares leaving each configuration add to \\(\\cos^2\\alpha+\\sin^2\\alpha=1\\), and the cross sum is \\(-\\cos\\alpha\\sin\\alpha+\\sin\\alpha\\cos\\alpha=0\\). From \\(0\\): weight \\(\\cos^2\\alpha-\\sin^2\\alpha=\\cos2\\alpha\\) at \\(0\\) and \\(2\\sin\\alpha\\cos\\alpha=\\sin2\\alpha\\) at \\(1\\). From \\(1\\): \\(-\\sin2\\alpha\\) at \\(0\\) and \\(\\cos2\\alpha\\) at \\(1\\). At \\(\\alpha=\\pi/4\\), two steps send \\(0\\) to \\(1\\) and \\(1\\) to \\(-0\\): NOT, except for a relative sign. Real weights reach NOT only up to this sign; exactly NOT needs complex weights.",
         "review": "topic-3-4-1"
       },
       {
         "kind": "Extension",
-        "question": "Apply \\(H\\), then the phase step with \\(w(0\\to0)=1\\) and \\(w(1\\to1)=e^{i\\phi}\\), then \\(H\\), to \\(\\ket0\\). Using path sums, find the probability of outcome \\(0\\) as a function of \\(\\phi\\), and the values of \\(\\phi\\) that make each outcome certain.",
+        "question": "Apply \\(H\\), then the phase step with \\(w(0\\to0)=1\\) and \\(w(1\\to1)=e^{i\\phi}\\), then \\(H\\), to \\(0\\). Using path sums, find the probability of outcome \\(0\\) as a function of \\(\\phi\\), and the values of \\(\\phi\\) that make each outcome certain.",
         "hints": [
           "There are two paths to each final configuration.",
           "The path through \\(1\\) picks up the factor \\(e^{i\\phi}\\)."
@@ -137,7 +137,7 @@
   },
   "04-states-measurement": {
     "purpose": "Use state vectors and inner products to describe transition amplitudes and geometry, then express operations as matrices and calculate measurement outcomes.",
-    "before": "The prerequisites are complex amplitudes, normalization, path sums, the cross-sum condition, and the state update after an ideal configuration measurement. Appendix C reviews vectors and matrices.",
+    "before": "The prerequisites are the complex amplitudes, normalization, path sums, cross-sum condition, and complete configuration labels developed in Chapter 3. This chapter introduces ket notation and the state update after measurement.",
     "outcomes": [
       "Write states as vectors and interpret inner products as final-state amplitudes.",
       "Represent operations as matrices and use adjoints to test unitarity.",
@@ -150,15 +150,16 @@
     "exercises": []
   },
   "06-composite-systems": {
-    "purpose": "Describe joint states and distinguish entanglement from ordinary correlation.",
-    "before": "Know how to normalize a state, measure in a basis, and apply a unitary transformation.",
+    "purpose": "Extend the single-qubit model to computations on joint registers, including measurement and classical control.",
+    "before": "Use the state and composition rules of Chapter 4 and the single-qubit circuits of Chapter 5.",
     "outcomes": [
-      "Expand tensor-product states.",
-      "Compare a Bell state with a correlated mixture.",
-      "Track teleportation outcomes and classical corrections."
+      "Track joint amplitudes through local and controlled gates.",
+      "Calculate joint, marginal, and conditional measurement probabilities.",
+      "Distinguish entanglement from classical correlation and explain the limits on copying and signalling.",
+      "Follow teleportation through all four outcomes and corrections."
     ],
     "limits": "Teleportation transfers a state using shared entanglement and classical communication; it does not transmit a controllable signal faster than light.",
-    "example": "Prepare a Bell state, then reuse that resource in teleportation. Compare computational-basis counts with X-basis counts.",
+    "example": "Compute a two-qubit circuit, prepare and test a Bell state, then use a shared pair in teleportation.",
     "next": "Chapter 7 uses joint registers to compute a function without leaving an unwanted record.",
     "exercises": [
       {
@@ -173,12 +174,12 @@
       },
       {
         "kind": "Worked problem",
-        "question": "Prepare \\(\\ket{\\Psi^-}=(\\ket{01}-\\ket{10})/\\sqrt2\\) from \\(\\ket{00}\\) using \\(X\\), \\(H\\), and CNOT gates. Show that measuring both qubits in the same basis \\(\\{\\cos\\theta\\ket0+\\sin\\theta\\ket1,\\,-\\sin\\theta\\ket0+\\cos\\theta\\ket1\\}\\) always gives opposite results.",
+        "question": "Prepare \\((\\ket{01}-\\ket{10})/\\sqrt2\\) from \\(\\ket{00}\\) using X, H, and CNOT. Calculate the outcomes if H is then applied to both qubits before measurement.",
         "hints": [
-          "First prepare \\(\\ket{11}\\), then apply the Bell circuit.",
-          "\\(\\braket{u_a\\otimes u_b}{\\Psi^-}\\) is a \\(2\\times2\\) determinant divided by \\(\\sqrt2\\)."
+          "Prepare 11 first, then use H on the first qubit followed by CNOT.",
+          "Expand the two contributions separately before adding."
         ],
-        "answer": "\\(X\\otimes X\\) gives \\(\\ket{11}\\); \\(H\\) on the first qubit gives \\((\\ket{01}-\\ket{11})/\\sqrt2\\); CNOT gives \\((\\ket{01}-\\ket{10})/\\sqrt2\\). For real basis vectors, \\(\\braket{u_a\\otimes u_b}{\\Psi^-}=\\bigl(u_a(0)u_b(1)-u_a(1)u_b(0)\\bigr)/\\sqrt2\\), which is \\(0\\) when \\(a=b\\). So equal results never occur, in every such basis.",
+        "answer": "X on both wires gives 11. H on the first gives \\((\\ket{01}-\\ket{11})/\\sqrt2\\), and CNOT gives \\((\\ket{01}-\\ket{10})/\\sqrt2\\). Applying H on both sends this to \\((\\ket{10}-\\ket{01})/\\sqrt2\\), differing only by a global minus sign. Outcomes 01 and 10 each occur with probability one half.",
         "review": "topic-6-2-3"
       },
       {
@@ -370,43 +371,44 @@
     ]
   },
   "05-quantum-model": {
-    "purpose": "Turn the quantum postulates into a model of computation and read elementary circuits.",
+    "purpose": "Understand the global model of quantum computation and calculate a complete single-qubit example.",
     "before": "Chapter 4 introduces state vectors, unitary operations, measurement, and the composite-state postulate.",
     "outcomes": [
-      "Describe preparation, gates, measurement, and classical control.",
-      "Read wires, gate order, CNOT, and measurement symbols.",
-      "Track amplitudes through one- and two-qubit circuits.",
-      "Identify the resources and success criterion of a computation."
+      "Relate input state, unitary evolution, and measurement to a computational task.",
+      "Read single-qubit circuit notation.",
+      "Calculate interference and output probabilities on one qubit.",
+      "Distinguish a complete evolution from its implementation cost.",
+      "Expand single-qubit operators in the Pauli basis and distinguish this completeness from circuit universality."
     ],
-    "example": "Follow H, Z, H on one qubit, then H and CNOT on two qubits.",
-    "limits": "Ideal finite qubit registers and elementary gates; noise and detailed gate synthesis are deferred.",
-    "next": "Chapter 6 develops composite systems, entanglement, and local measurement.",
+    "example": "Use H, Z, H to compute NOT on either input bit, then replace Z by a variable phase.",
+    "limits": "The global model is illustrated with one qubit. Multi-qubit registers, local and joint gates, and entanglement are developed in Chapter 6.",
+    "next": "Chapter 6 extends the model to multiple qubits and develops joint operations, entanglement, and local measurement.",
     "exercises": [
       {
         "kind": "Quick check",
-        "question": "Does a register with eight amplitudes reveal eight classical answers in one measurement?",
+        "question": "Why does drawing the whole evolution as one block not make it a one-step computation?",
         "hints": [
-          "Write the state in the computational basis and apply the relevant rule."
+          "Track the amplitudes through each operation before taking squared magnitudes."
         ],
-        "answer": "No. One computational-basis measurement returns one three-bit string. Repeated, independently prepared runs can reveal statistics.",
+        "answer": "The block abbreviates a sequence of elementary operations; its implementation cost must still be counted.",
         "review": "topic-5-1-1"
       },
       {
         "kind": "Worked problem",
-        "question": "What happens if a computational-basis measurement is inserted immediately after the first H?",
+        "question": "Follow input \\(\\ket1\\) through H, Z, H.",
         "hints": [
-          "Write the state in the computational basis and apply the relevant rule."
+          "Track the amplitudes through each operation before taking squared magnitudes."
         ],
-        "answer": "The first measurement selects zero or one. Either branch gives equal final probabilities after Z and H, so the final result is no longer certain.",
+        "answer": "\\(\\ket1\\) becomes \\((\\ket0-\\ket1)/\\sqrt2\\), then \\((\\ket0+\\ket1)/\\sqrt2\\), then \\(\\ket0\\).",
         "review": "topic-5-2-2"
       },
       {
         "kind": "Extension",
-        "question": "Why is \\(a\\ket{00}+b\\ket{11}\\) generally not two copies of \\(a\\ket0+b\\ket1\\)?",
+        "question": "Start the phase circuit at \\(\\ket1\\) instead of \\(\\ket0\\). Find its final amplitudes and probabilities.",
         "hints": [
-          "Write the state in the computational basis and apply the relevant rule."
+          "Track the amplitudes through each operation before taking squared magnitudes."
         ],
-        "answer": "Two copies would have amplitudes \\(a^2,ab,ab,b^2\\). The circuit output instead has amplitudes \\(a,0,0,b\\), which are generally different.",
+        "answer": "The final state is \\((1-e^{i\\phi})\\ket0/2+(1+e^{i\\phi})\\ket1/2\\). Its probabilities are \\(p(0)=(1-\\cos\\phi)/2\\) and \\(p(1)=(1+\\cos\\phi)/2\\).",
         "review": "topic-5-2-3"
       }
     ]

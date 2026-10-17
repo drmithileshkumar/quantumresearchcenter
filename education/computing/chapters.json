@@ -31,14 +31,14 @@
     "05-quantum-model",
     "Quantum Model of Computation",
     "How do the quantum postulates become a programmable computation?",
-    "A quantum computation prepares a register, applies a specified sequence of gates, and measures an output. Circuits make these steps explicit, showing where amplitudes can interfere and where classical information is obtained.",
+    "Quantum computation specifies an input state, unitary evolution, and a measurement whose result answers a task. A single qubit illustrates the whole sequence, including interference, circuit notation, and output probabilities.",
     ""
   ],
   [
     "06-composite-systems",
-    "Composite Systems and Entanglement",
-    "Can a whole have a definite quantum state when its parts have no individual pure states of their own?",
-    "Two qubits can have a pure joint state while neither has an individual pure-state vector. We will calculate what this changes about copying, communication, and measurement.",
+    "Multi-Qubit Computation",
+    "How do gates and measurements act on a register of qubits?",
+    "Extend single-qubit computation to joint registers, controlled gates, entanglement, and teleportation.",
     ""
   ],
   [

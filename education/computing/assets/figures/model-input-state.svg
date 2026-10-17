@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 310" role="img" aria-labelledby="title desc"><title id="title">Input and workspace in a joint state</title><desc id="desc">The input state consists of the classical input x and workspace initially zero. For input 101 and one workspace qubit, the complete initial ket is 1010.</desc><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="9" refY="5" orient="auto" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z" fill="#246593"/></marker></defs><style>text{font:18px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.edge{fill:none;stroke:#246593;stroke-width:2;marker-end:url(#arrow)}</style>
+<text class="heading" x="480" y="30" text-anchor="middle">The initial state describes the whole register</text>
+<text x="480" y="100" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{in}}}=\ket{x}\otimes\ket{0\ldots0}">|ψᵢₙ⟩ = |x⟩ ⊗ |0…0⟩</text>
+<text x="350" y="185" text-anchor="middle" data-tex="\ket{101}">|101⟩</text>
+<text x="480" y="185" text-anchor="middle" data-tex="\otimes">⊗</text>
+<text x="610" y="185" text-anchor="middle" data-tex="\ket0">|0⟩</text>
+<text class="small" x="350" y="215" text-anchor="middle">Three input qubits</text>
+<text class="small" x="610" y="215" text-anchor="middle">One workspace qubit</text>
+<text x="480" y="270" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{in}}}=\ket{1010}">|ψᵢₙ⟩ = |1010⟩</text></svg>

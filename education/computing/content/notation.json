@@ -115,7 +115,6 @@
         "tex": "\\ket\\psi",
         "read": "ket psi",
         "meaning": "The column vector of a state, named \\(\\psi\\). The brackets name a vector; they are not an operation.",
-        "intro": "topic-3-4-3",
         "section": "topic-4-1-1",
         "pattern": "\\\\ket"
       },
@@ -219,8 +218,7 @@
         "read": "A tensor n",
         "meaning": "\\(n\\) copies combined by the tensor product. \\(H^{\\otimes n}\\) applies \\(H\\) to each of \\(n\\) qubits; \\(\\ket\\psi^{\\otimes2}\\) is two copies of \\(\\ket\\psi\\).",
         "section": "topic-6-1-1",
-        "pattern": "\\^\\{\\\\otimes",
-        "intro": "topic-5-1-1"
+        "pattern": "\\^\\{\\\\otimes"
       },
       {
         "tex": "\\rho",

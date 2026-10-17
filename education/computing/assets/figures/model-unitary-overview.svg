@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 290" role="img" aria-labelledby="title desc"><title id="title">Unitary evolution followed by measurement</title><desc id="desc">Input ket psi in enters a block labelled U f for unitary evolution. Output ket psi out then goes to measurement, which reports a classical outcome y.</desc><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="9" refY="5" orient="auto" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z" fill="#246593"/></marker></defs><style>text{font:18px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.edge{fill:none;stroke:#246593;stroke-width:2;marker-end:url(#arrow)}</style>
+<text class="heading" x="480" y="30" text-anchor="middle">Quantum state evolution and classical readout</text>
+<text x="100" y="145" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{in}}}">|ψᵢₙ⟩</text>
+<path class="edge" d="M165 138H245"/>
+<rect x="250" y="95" width="125" height="86" rx="4" fill="#eaf1f7" stroke="#246593" stroke-width="2"/>
+<text x="312" y="145" text-anchor="middle" data-tex="U_f">U_f</text>
+<text class="small" x="312" y="208" text-anchor="middle">Unitary evolution</text>
+<path class="edge" d="M380 138H455"/>
+<text x="530" y="145" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{out}}}">|ψₒᵤₜ⟩</text>
+<path class="edge" d="M610 138H675"/>
+<text x="745" y="145" text-anchor="middle">Measurement</text>
+<path class="edge" d="M815 138H870"/>
+<text x="905" y="145" text-anchor="middle" data-tex="y">y</text>
+<text class="small" x="895" y="180" text-anchor="middle">Classical outcome</text>
+<text x="480" y="258" text-anchor="middle" data-tex="\ket{\psi_{\mathrm{out}}}=U_f\ket{\psi_{\mathrm{in}}}">|ψₒᵤₜ⟩ = U_f |ψᵢₙ⟩</text></svg>

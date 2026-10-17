@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280" role="img" aria-labelledby="title desc"><title id="title">One qubit: a gate followed by measurement</title><desc id="desc">One wire starts at ket zero, passes through H and M, and then becomes a double classical line carrying y.</desc><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="9" refY="5" orient="auto" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z" fill="#246593"/></marker></defs><style>text{font:17px Georgia,serif;fill:#30343b}.heading{font:600 15px system-ui,sans-serif;fill:#246593}.small{font:13px system-ui,sans-serif;fill:#4b5864}.wire{fill:none;stroke:#246593;stroke-width:2}.gate{fill:white;stroke:#246593;stroke-width:2}</style><text class="heading" x="450" y="30" text-anchor="middle">One qubit: a gate followed by measurement</text>
+<text x="75" y="135" text-anchor="middle" data-tex="\ket0">|0⟩</text><path class="wire" d="M115 128H625 M675 125H800 M675 131H800"/>
+<rect class="gate" x="280" y="103" width="50" height="50" rx="3"/><text x="305" y="135" text-anchor="middle">H</text>
+<rect class="gate" x="625" y="103" width="50" height="50" rx="3"/><text x="650" y="135" text-anchor="middle">M</text>
+<text x="835" y="135" text-anchor="middle">y</text>
+<text class="small" x="305" y="190" text-anchor="middle">Hadamard gate</text><text class="small" x="650" y="190" text-anchor="middle">Measurement</text>
+<text class="small" x="450" y="240" text-anchor="middle">One quantum wire before measurement; a classical record afterward.</text></svg>

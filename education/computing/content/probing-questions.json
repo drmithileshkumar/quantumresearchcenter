@@ -180,9 +180,9 @@
     "challenge": "Start with amplitudes \\((1/\\sqrt2,e^{i\\phi}/\\sqrt2)\\) and apply \\(H\\). The probability of \\(0\\) is \\((1+\\cos\\phi)/2\\). Which values of \\(\\phi\\) give the same probabilities, and what extra operation could distinguish them?"
   },
   "topic-3-4-3": {
-    "foundation": "In the record experiment, find the probability of each of the four final configurations, and the probability that the record shows \\(1\\).",
-    "application": "Check the final state \\(\\tfrac12(\\ket{00}+\\ket{10}+\\ket{01}-\\ket{11})\\) by applying \\(H\\) to the qubit in \\(\\ket{00}\\) and in \\(\\ket{11}\\) separately.",
-    "challenge": "Replace the CNOT by an operation that records the path only partly: it leaves \\(\\ket{00}\\) unchanged and sends \\(\\ket{10}\\) to \\(\\ket1(\\cos\\alpha\\ket0+\\sin\\alpha\\ket1)\\). Show that the qubit then gives \\(1\\) at the end with probability \\((1-\\cos\\alpha)/2\\), and interpret the cases \\(\\alpha=0\\) and \\(\\alpha=\\pi/2\\)."
+    "foundation": "After retaining the record, what is the probability of each final configuration? What is the probability that the record is one?",
+    "application": "Follow the routes from the two configurations after recording, \\(00\\) and \\(11\\), through the final \\(H\\). Calculate the four final amplitudes and explain why the contributions to first-label value one do not cancel.",
+    "challenge": "Suppose the recording is undone only after the final \\(H\\). Track the four amplitudes through this extra controlled-NOT. Does the first label now return to zero with certainty? Explain why the timing matters."
   },
   "topic-4-1-1": {
     "foundation": "Write \\(\\tfrac1{\\sqrt3}\\ket0+i\\sqrt{\\tfrac23}\\ket1\\) as a column vector, and check that its coordinates satisfy the condition for a state vector.",
@@ -237,7 +237,7 @@
   "topic-6-2-3": {
     "foundation": "For \\(\\ket{\\Phi^+}\\), compute \\(p(\\text{first}=1)\\) and \\(p(\\text{second}=1\\mid\\text{first}=1)\\).",
     "application": "For \\((\\ket{00}+\\ket{01}+\\ket{11})/\\sqrt3\\), compute the joint probabilities, both marginal distributions, and \\(p(\\text{second}=1\\mid\\text{first}=0)\\).",
-    "challenge": "Both qubits of \\(\\ket{\\Phi^+}\\) are measured in the basis \\(\\ket{u_0}=\\cos\\theta\\ket0+\\sin\\theta\\ket1\\), \\(\\ket{u_1}=-\\sin\\theta\\ket0+\\cos\\theta\\ket1\\). Show that the two results agree with certainty, for every \\(\\theta\\)."
+    "challenge": "Compare the Bell state and an equally weighted classical mixture of 00 and 11 after applying H to both qubits and measuring. Why must you add amplitudes in one calculation and probabilities in the other?"
   },
   "topic-6-3-1": {
     "foundation": "Apply CNOT to \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\) and to \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket1\\).",
@@ -545,33 +545,48 @@
     "challenge": "Why can \\((\\ket{00}+\\ket{11})/\\sqrt2\\) not be written as a product of two pure qubit states?"
   },
   "topic-5-1-1": {
-    "foundation": "What is the dimension of a three-qubit register?",
-    "application": "How do you prepare the classical input 101 from 000?",
-    "challenge": "Does a register with eight amplitudes reveal eight classical answers in one measurement?"
+    "foundation": "What are the three stages in the overview of a quantum computation?",
+    "application": "Does one measurement reveal every amplitude in the output state?",
+    "challenge": "Why does drawing the whole evolution as one block not make it a one-step computation?"
   },
   "topic-5-1-2": {
-    "foundation": "Why must an ideal gate be unitary?",
-    "application": "Write the combined operation for H followed by Z on one qubit.",
-    "challenge": "Why should an arbitrary n-qubit unitary not automatically count as one elementary gate?"
+    "foundation": "In the product U₃U₂U₁, which operation acts first?",
+    "application": "Compare \\(HH\\) and \\(HZH\\) on input \\(\\ket0\\).",
+    "challenge": "Why can a phase change matter even when it leaves the immediate basis probabilities unchanged?"
   },
   "topic-5-1-3": {
-    "foundation": "What information does a final computational-basis measurement return?",
-    "application": "If a register has state \\((\\ket{00}+\\ket{11})/\\sqrt2\\), what is the probability that measuring only the first qubit gives 1?",
-    "challenge": "Why include state preparation and repetitions in a resource estimate?"
+    "foundation": "What does a measurement return on a single run?",
+    "application": "An output state has amplitudes \\(3/5\\) and \\(4/5\\). Find the two basis probabilities.",
+    "challenge": "Why must repeated executions and initialization be included in the cost?"
   },
   "topic-5-2-1": {
-    "foundation": "In which direction is a circuit read?",
-    "application": "What does CNOT do to \\(\\ket{10}\\) and \\(\\ket{11}\\)?",
-    "challenge": "Does a filled CNOT control dot mean that the control qubit is measured?"
+    "foundation": "What do a single wire, a gate box, and a double output line mean?",
+    "application": "Find the output probabilities after H on \\(\\ket1\\).",
+    "challenge": "How can a specified classical input bit 1 be initialized from \\(\\ket0\\)?"
   },
   "topic-5-2-2": {
-    "foundation": "What is the output of H, Z, H on input zero?",
-    "application": "What changes if Z is omitted?",
-    "challenge": "What happens if a computational-basis measurement is inserted immediately after the first H?"
+    "foundation": "What is the result of H, Z, H on input zero?",
+    "application": "Follow input \\(\\ket1\\) through H, Z, H.",
+    "challenge": "What changes if a measurement is inserted after the first H?"
   },
   "topic-5-2-3": {
-    "foundation": "Which qubit is the control in the displayed circuit?",
-    "application": "List the two possible joint measurement outcomes and their probabilities.",
-    "challenge": "Why is \\(a\\ket{00}+b\\ket{11}\\) generally not two copies of \\(a\\ket0+b\\ket1\\)?"
+    "foundation": "What does \\(R_\\phi\\) do to each basis state?",
+    "application": "Calculate the output probabilities at \\(\\phi=0,\\pi/2,\\pi\\).",
+    "challenge": "Start the phase circuit at \\(\\ket1\\) instead of \\(\\ket0\\). Find its final amplitudes and probabilities."
+  },
+  "topic-5-3-1": {
+    "foundation": "Find \\(Y\\ket0\\) and \\(Y\\ket1\\).",
+    "application": "Check \\(Y^2=I\\) on both basis states.",
+    "challenge": "Calculate \\(XZ\\ket0\\) and \\(ZX\\ket0\\). How does \\(Y=iXZ\\) account for the phase?"
+  },
+  "topic-5-3-2": {
+    "foundation": "What is the distinction between a linear combination of Pauli matrices and a sequence of Pauli gates?",
+    "application": "Expand \\(\\operatorname{diag}(1,i)\\) in the Pauli basis.",
+    "challenge": "Can a sequence of I, X, Y, and Z map \\(\\ket0\\) to \\((\\ket0+\\ket1)/\\sqrt2\\)? Explain without counting circuit lengths."
+  },
+  "topic-6-1-4": {
+    "foundation": "Apply CNOT to \\((\\ket{00}+i\\ket{11})/\\sqrt2\\). What are the measurement probabilities?",
+    "application": "In the circuit above, move CNOT before both local gates. Starting from \\(\\ket{00}\\), calculate the output and compare the measured bit pairs.",
+    "challenge": "Can local gates alone turn a product state into an entangled state? Use \\((U\\otimes V)(\\ket\\psi\\otimes\\ket\\phi)\\) to justify your answer."
   }
 }

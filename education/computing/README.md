@@ -1,10 +1,12 @@
 # Quantum Computing — HTML book
 
+The book-writing instructions are in [AGENTS.md](AGENTS.md). They define the intended teaching approach and conceptual progression; the historical outline below describes earlier organization and must be reconciled with those instructions as chapters are revised.
+
 ## Objective and Prerequisites
 
 The book develops the foundations of quantum computing, from computability and reversible computation to quantum states, interference, and algorithms. It explains how an algorithm encodes a problem, transforms information, and produces a measurable answer, then examines the resources required to do so.
 
-**The only subject prerequisite is basic linear algebra.** Readers should be familiar with vectors, matrices, linear combinations, bases, matrix multiplication, and linear transformations. Inner products, orthogonality, and eigenvectors are briefly reviewed where needed. Complex vector spaces, adjoints, tensor products, and quantum notation are developed in the text.
+**No subject prerequisites are assumed.** Mathematical ideas and notation are developed in the context that needs them. Configurations, weighted transitions, and explicit path calculations precede vectors, matrices, inner products, complex numbers, and tensor products; these are introduced as useful descriptions of ideas the reader has already encountered.
 
 No prior knowledge of quantum mechanics, formal logic, automata theory, computational complexity, or probability theory is assumed. Discrete probability, Boolean algebra, proof techniques, and algorithmic concepts are introduced before use. Calculus, differential equations, and thermodynamics are not prerequisites; the physical context of information erasure is explained without requiring a thermodynamic derivation.
 
@@ -14,7 +16,7 @@ The HTML book now follows a ten-chapter structure. Old chapter URLs redirect to 
 
 ## Book Structure
 
-Chapter 5, **Quantum Model of Computation**, introduces registers, preparation, local unitary gates, measurement, resources, and circuit notation, with H–Z–H and H–CNOT examples. Composite Systems is now Chapter 6; Queries is Chapter 7; Circuits and Universality is Chapter 8; Search is Chapter 9; Complexity is Chapter 10. Earlier chapter URLs redirect to the new pages.
+Chapter 5, **Quantum Model of Computation**, introduces the global input–evolution–measurement model and single-qubit computation, with H–Z–H and variable-phase examples. Multi-qubit registers and controlled gates are introduced in Chapter 6. Composite Systems is now Chapter 6; Queries is Chapter 7; Circuits and Universality is Chapter 8; Search is Chapter 9; Complexity is Chapter 10. Earlier chapter URLs redirect to the new pages.
 
 
 | Part | Chapters | Development |
@@ -149,33 +151,34 @@ Numbers have the form `chapter.section.subsection`. Sections and subsections ide
 
 **Outcome and transition:** States, operators, and measurements now form one predictive framework. Before using it to compute, we must learn how the description changes when a system has several parts.
 
-## Chapter 6 — Composite Systems and Entanglement
+## Chapter 6 — Multi-Qubit Computation
 
-**Motivation:** A joint state can predict perfect correlations while neither subsystem has a definite individual outcome. Where does the information reside?
+**Motivation:** How do local gates, controlled gates, and measurements turn a joint register into a computation?
 
-### 5.1 Composite State Spaces
+### 6.1 Registers and Operations
 
-- **5.1.1** Tensor products and product bases
-- **5.1.2** Product states
-- **5.1.3** The composition postulate
+- **6.1.1** Tensor products and product bases
+- **6.1.2** Product states
+- **6.1.3** Joint amplitudes
+- **6.1.4** Local and controlled gates
 
-### 5.2 Entangled States
+### 6.2 Entangled States
 
-- **5.2.1** Bell-state preparation
-- **5.2.2** Nonfactorization of amplitudes
-- **5.2.3** Joint, marginal, and conditional probabilities
+- **6.2.1** Bell-state preparation
+- **6.2.2** Nonfactorization of amplitudes
+- **6.2.3** Joint, marginal, and conditional probabilities
 
-### 5.3 Quantum Information Constraints
+### 6.3 Quantum Information Constraints
 
-- **5.3.1** Basis-state copying
-- **5.3.2** The no-cloning theorem
-- **5.3.3** Local states and no-signalling
+- **6.3.1** Basis-state copying
+- **6.3.2** The no-cloning theorem
+- **6.3.3** Local states and no-signalling
 
-### 5.4 Quantum Teleportation
+### 6.4 Quantum Teleportation
 
-- **5.4.1** Entanglement resources
-- **5.4.2** Measurement and conditional corrections
-- **5.4.3** State transfer and classical communication
+- **6.4.1** Entanglement resources
+- **6.4.2** Measurement and conditional corrections
+- **6.4.3** State transfer and classical communication
 
 **Outcome and transition:** The state of a register must be tracked as a whole, including any workspace. This sets up the central algorithmic question: how can a joint evolution reveal a desired property rather than merely produce a complicated state?
 
@@ -430,8 +433,7 @@ Questions are also included in the book search index and offline edition.
 
 ## Subsection illustrations
 
-Every `.reading-topic` has an illustration followed by three numbered questions under “Problems,” without difficulty labels.
-Existing manuscript figures are kept. `content/illustrations.json` describes the
+From Chapter 5 onward, illustrations use circuit diagrams. Circuit specifications in `content/illustrations.json` are rendered by `circuit_illustrations.py`; detailed authored circuit SVGs are retained. `content/illustrations.json` describes the
 86 supplemental figures; `illustrations.py` generates their SVGs automatically
 when the book is built. The available layouts cover transformations, tables,
 probability bars, state-space directions, and a branching verification procedure.
