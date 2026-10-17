@@ -26,22 +26,21 @@ size.addEventListener('click', () => {
   size.setAttribute('aria-label', large ? 'Restore text size' : 'Increase text size');
 });
 const search = document.querySelector('#topic-search');
-const chapters = [...document.querySelectorAll('.sidebar .chapter')];
+const topicRoots = [...document.querySelectorAll('.sidebar .contents-list > .chapter')];
 search.addEventListener('input', () => {
   const query = search.value.trim().toLocaleLowerCase();
   let matches = 0;
-  chapters.forEach(chapter => {
-    const title = chapter.querySelector(':scope > a').textContent.toLocaleLowerCase();
+  const filter = (node, ancestorMatches = false) => {
+    const title = node.querySelector(':scope > a')?.textContent.toLocaleLowerCase() || '';
     const ownMatch = title.includes(query);
-    let childMatch = false;
-    chapter.querySelectorAll('li').forEach(section => {
-      const match = section.textContent.toLocaleLowerCase().includes(query);
-      section.hidden = !ownMatch && !match;
-      if (match) { childMatch = true; matches++; }
-    });
-    chapter.hidden = !ownMatch && !childMatch;
     if (ownMatch) matches++;
-  });
+    const children = [...node.querySelectorAll(':scope > ul > li')];
+    const childMatches = children.map(child => filter(child, ancestorMatches || ownMatch));
+    const visible = ancestorMatches || ownMatch || childMatches.some(Boolean);
+    node.hidden = !visible;
+    return visible;
+  };
+  topicRoots.forEach(node => filter(node));
   document.querySelectorAll('.sidebar .part-label').forEach(label => { label.hidden = Boolean(query); });
   document.querySelector('#search-status').textContent = query ? `${matches} matching topics` : '';
 });

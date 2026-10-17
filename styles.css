@@ -68,3 +68,22 @@ body.ebook{--accent:var(--blue);--course-sidebar:var(--sidebar-width);--chapter-
 .landing-literature>a{flex-shrink:0}
 @media(max-width:760px){.landing .toolbar{height:auto;min-height:76px;padding:16px 24px;flex-wrap:wrap;gap:10px}.landing .toolbar>a{font-size:19px}.landing .reading-layout{padding:0 24px 20px}.landing-hero{padding:52px 0}.landing-hero .subtitle{font-size:19px}.landing-paths{grid-template-columns:1fr;gap:40px;padding:36px 0}.landing-paths h2{font-size:26px}.landing-literature{display:block}.landing-literature>a{display:inline-block;margin-top:24px}}
 @media print{.landing .toolbar{display:none}.landing-hero{padding:20px 0}.landing-paths{gap:30px}.landing-hero h1{font-size:30pt}}
+
+/* Recursive research categories and topic keywords. */
+.research-categories{display:grid;gap:28px}
+.research-category{padding:8px 0 28px;border-bottom:1px solid var(--line)}
+.research-category h3{font-size:27px;margin:8px 0 16px}
+.research-category p{color:var(--muted);font-size:16px}
+.research-keywords{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:20px 0 28px}
+.research-keywords li{margin:0;max-width:100%}
+.research-keywords a{display:block;padding:8px 13px;border:1px solid #d9e2eb;border-radius:4px;background:#f7f9fb;font:14px/1.5 system-ui,sans-serif;overflow-wrap:anywhere}
+.research-keywords a:hover{background:#e7eef5;text-decoration:none}
+.breadcrumbs{font:12px/1.7 system-ui,sans-serif;margin-bottom:28px;color:var(--muted)}
+.breadcrumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:5px 10px;padding:0;margin:0}
+.breadcrumbs li{margin:0;overflow-wrap:anywhere}
+.breadcrumbs li+li:before{content:"/";margin-right:10px;color:#969ba3}
+.research-parent{margin-top:36px;font:14px/1.6 system-ui,sans-serif}
+.sidebar .research-node>ul{margin-left:10px;border-left:1px solid var(--line)}
+.sidebar .research-node>ul a{padding-left:10px;font-weight:normal}
+.sidebar .contents-list>.research-node{margin-top:14px}
+@media(max-width:760px){.research-category h3{font-size:24px}.research-keywords{gap:8px}.breadcrumbs{font-size:11px}}
