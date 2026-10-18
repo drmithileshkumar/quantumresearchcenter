@@ -156,6 +156,12 @@
     "url": "06-composite-systems.html#topic-6-2-1"
   },
   {
+    "term": "Quantum parallelism",
+    "slug": "quantum-parallelism",
+    "definition": "One reversible evaluation of a function applied to a superposition of inputs, producing a state in which every input appears beside its own value. A measurement returns only one input–value pair; a useful algorithm must follow the evaluation with interference.",
+    "url": "06-composite-systems.html#topic-6-5-1"
+  },
+  {
     "term": "Oracle",
     "slug": "oracle",
     "definition": "A specified operation that provides access to a function. Counting its uses does not by itself account for the cost of building it.",

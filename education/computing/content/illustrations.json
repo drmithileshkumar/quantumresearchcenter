@@ -4251,5 +4251,203 @@
         ]
       }
     ]
+  },
+  "topic-6-5-1": {
+    "kind": "circuit",
+    "title": "Evaluate f on every input",
+    "caption": "Two H gates spread the inputs over all four strings. One application of \\(U_f\\) then places each input beside its own value: \\(\\tfrac12\\sum_x\\ket x\\ket{f(x)}\\).",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "After \\(U_f\\): \\(\\tfrac12\\sum_x\\ket x\\ket{f(x)}\\)"
+        ],
+        "outputs": [
+          "",
+          "",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-6-5-2": {
+    "kind": "circuit",
+    "title": "Measure a parallel evaluation",
+    "caption": "Measuring all three wires after the parallel evaluation returns one input \\(x\\), chosen at random, with its value \\(f(x)\\). The other pairs are not available from the same run.",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                2
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Each pair \\((x,f(x))\\) has probability \\(1/4\\)"
+        ],
+        "outputs": [
+          "\\(x_1\\)",
+          "\\(x_2\\)",
+          "\\(f(x)\\)"
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
+  },
+  "topic-6-5-3": {
+    "kind": "circuit",
+    "title": "Interfere the input branches",
+    "caption": "After \\(U_f\\), H on each input combines contributions from all four inputs. A constant \\(f\\) returns the readout 00 with certainty; for AND the target’s record keeps the branches apart, and 00 has probability \\(5/8\\).",
+    "circuits": [
+      {
+        "inputs": [
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)",
+          "\\(\\ket0\\)"
+        ],
+        "steps": [
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "label": "\\(U_f\\)",
+              "wires": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          [
+            {
+              "label": "H",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "label": "H",
+              "wires": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "kind": "measure",
+              "wires": [
+                0
+              ]
+            },
+            {
+              "kind": "measure",
+              "wires": [
+                1
+              ]
+            }
+          ]
+        ],
+        "notes": [
+          "Constant \\(f\\): readout 00 with certainty"
+        ],
+        "outputs": [
+          "\\(z_1\\)",
+          "\\(z_2\\)",
+          ""
+        ],
+        "label": "",
+        "bundles": []
+      }
+    ]
   }
 }

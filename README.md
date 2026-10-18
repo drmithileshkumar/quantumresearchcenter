@@ -23,3 +23,36 @@ Run `python3 scripts/build.py` to regenerate the site and sitemap, then
 The builder checks local links and page reachability. When moving a topic,
 remove its obsolete generated page after checking that its content and links
 have moved; the builder does not delete arbitrary folders.
+
+### Students and contributions
+
+Use the copyable [student-entry template](content/templates/student.json) and
+[entry instructions](content/templates/README.md) to record problems, individual
+contributions, and optional GitHub, preprint, and accepted-paper links.
+
+`research/students/index.html` collects contributions by student. Add entries to
+the `students` array in `content/student.json`, then rebuild. Leave the list empty until
+actual student details are available. A student can have several contributions:
+
+```json
+{
+  "name": "Student name",
+  "affiliation": "Optional affiliation",
+  "contributions": [
+    {
+      "title": "Project title",
+      "topic": "research/quantum-computation/algorithms/index.html",
+      "description": "The student's specific contribution.",
+      "period": "2026–2027",
+      "status": "Ongoing",
+      "outputs": [
+        {"label": "Code", "url": "https://example.org/project"}
+      ]
+    }
+  ]
+}
+```
+
+Local links are relative to the repository root. Omit optional affiliation,
+topic link, period, status, or outputs when they are unavailable. Keep detailed
+project descriptions in their research-topic pages and link them here.

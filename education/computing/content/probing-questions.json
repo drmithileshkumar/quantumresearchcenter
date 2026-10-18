@@ -588,5 +588,20 @@
     "foundation": "Apply CNOT to \\((\\ket{00}+i\\ket{11})/\\sqrt2\\). What are the measurement probabilities?",
     "application": "In the circuit above, move CNOT before both local gates. Starting from \\(\\ket{00}\\), calculate the output and compare the measured bit pairs.",
     "challenge": "Can local gates alone turn a product state into an entangled state? Use \\((U\\otimes V)(\\ket\\psi\\otimes\\ket\\phi)\\) to justify your answer."
+  },
+  "topic-6-5-1": {
+    "foundation": "How many Hadamard gates prepare the uniform superposition of all inputs on five qubits? How many configurations does it contain, and what is the amplitude of each?",
+    "application": "Write the state that \\(U_f\\) produces from \\(\\tfrac12\\sum_x\\ket x\\ket0\\) when \\(f(x)=x_1\\oplus x_2\\). Can it be written as an input state times a target state?",
+    "challenge": "Start the target in \\(\\ket1\\) instead of \\(\\ket0\\). What state does \\(U_f\\) produce from the uniform input superposition, and does it carry more or less information about \\(f\\) than the state with target \\(\\ket0\\)?"
+  },
+  "topic-6-5-2": {
+    "foundation": "After the parallel evaluation of AND, every qubit is measured. List the possible results with their probabilities. What is the state of the register after the result \\((10,0)\\)?",
+    "application": "Measure only the target after the parallel evaluation of XOR. Give both outcome probabilities and the conditional state of the inputs in each case. What have you learned about \\(f\\)?",
+    "challenge": "Each run of the parallel evaluation of a two-input function, followed by measuring every qubit, reveals one random pair \\((x,f(x))\\). What is the expected number of runs before all four values are known? Compare with evaluating \\(f\\) on each input in turn."
+  },
+  "topic-6-5-3": {
+    "foundation": "For a constant function \\(f(x)=c\\) on two inputs, show that applying \\(H\\otimes H\\) to the inputs after the parallel evaluation gives the readout \\(00\\) with certainty.",
+    "application": "Repeat the calculation for \\(f(x)=x_1\\), the first input bit. Find the probability of the readout \\(00\\).",
+    "challenge": "Why can contributions that end with different target values not cancel? Use this to explain why the readout \\(00\\) does not reliably separate a constant \\(f\\) from AND, and say what the target would need to do instead."
   }
 }

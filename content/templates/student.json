@@ -1,0 +1,28 @@
+{
+  "name": "STUDENT NAME",
+  "affiliation": "DEPARTMENT / INSTITUTION",
+  "contributions": [
+    {
+      "title": "PROBLEM OR PROJECT TITLE",
+      "topic": "research/quantum-computation/algorithms/index.html",
+      "problem": "State the research question, its scope, and what the project aimed to establish.",
+      "description": "Describe this student's specific contribution: methods developed, calculations, proofs, experiments, code, or analysis. Summarize the result and any remaining work.",
+      "period": "MONTH YEAR – MONTH YEAR",
+      "status": "Ongoing",
+      "outputs": [
+        {
+          "label": "GitHub · REPOSITORY NAME",
+          "url": "https://github.com/USERNAME/REPOSITORY"
+        },
+        {
+          "label": "Preprint · PAPER TITLE",
+          "url": "https://arxiv.org/abs/REPLACE_WITH_ARXIV_ID"
+        },
+        {
+          "label": "Accepted paper · PAPER TITLE · VENUE, YEAR",
+          "url": "https://doi.org/REPLACE_WITH_DOI"
+        }
+      ]
+    }
+  ]
+}

@@ -342,11 +342,11 @@ Then open `http://localhost:8000/`. Opening `index.html` directly also works.
 
 ## Reading experience
 
-- Nine rewritten chapters, 36 sections, 107 subsections, and five supporting appendices.
+- Ten chapters, 38 sections, 116 subsections, and five supporting appendices.
 - Basic linear algebra is the only subject prerequisite; the text develops computational concepts and quantum notation as needed.
 - Continuous serif prose with adjustable size, a linked hierarchical contents panel, local search, and chapter navigation.
 - Twenty-four original SVG drawings: eleven Chapter 1 concept diagrams plus circuit and geometric figures, including NAND, reversible gates, uncomputation, Bell preparation, teleportation, Deutsch, and Grover circuits. Wide drawings scroll within the page on small screens.
-- Local MathJax and sixteen interactive figures: four experiments (elementary gates, Bell preparation, phase kickback, and amplitude amplification) and twelve animations (random proofs with a step-by-step checker, a reversibility checker for random Boolean functions, conversion of random NAND circuits to Toffoli gates, Euclid’s algorithm, Turing machines drawn as state diagrams, with randomly generated problems, path cancellation, square roots of any one-bit step, relative and global phase, inner products, measurement, and Grover reflections).
+- Local MathJax and seventeen interactive figures: four experiments (elementary gates, Bell preparation, phase kickback, and amplitude amplification) and thirteen animations (random proofs with a step-by-step checker, sampling a parallel function evaluation, a reversibility checker for random Boolean functions, conversion of random NAND circuits to Toffoli gates, Euclid’s algorithm, Turing machines drawn as state diagrams, with randomly generated problems, path cancellation, square roots of any one-bit step, relative and global phase, inner products, measurement, and Grover reflections).
 - Chapter understanding checks with expandable answers; primary-source links for selected advanced results.
 - No server application or remote math service is required. Print layout preserves the current experimental state.
 

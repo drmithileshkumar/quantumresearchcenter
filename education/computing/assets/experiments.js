@@ -559,4 +559,37 @@
   [...entries,angle].forEach(e=>e.oninput=()=>{cancel();t=2;draw()});
   draw();
  });
+ document.querySelectorAll('[data-lab="parallel"]').forEach(lab=>{
+  const svg=stage(lab,600,300,'Amplitudes of input and target configurations during a parallel evaluation'),choice=lab.querySelector('[data-function]'),next=lab.querySelector('[data-next]');
+  const bits=(v,n)=>v.toString(2).padStart(n,'0'),int=(lo,hi)=>lo+Math.floor(Math.random()*(hi-lo+1));
+  const tables={and:[0,0,0,1],xor:[0,1,1,0],zero:[0,0,0,0],first:[0,0,1,1]};
+  let f,n,stage2,amp,known,runs,note='',last=null;
+  // amp[x][y] is the amplitude of |x>|y>; stages: 0 start, 1 after H on the inputs, 2 after U_f.
+  function prepare(s){const N=2**n;amp=[...Array(N)].map((_,x)=>[s===0?(x===0?1:0):s===1?1/Math.sqrt(N):(f[x]?0:1/Math.sqrt(N)),s===2&&f[x]?1/Math.sqrt(N):0]);stage2=s;last=null}
+  function sample(){let r=Math.random();for(let x=0;x<amp.length;x++)for(const y of [0,1]){r-=amp[x][y]**2;if(r<=0)return[x,y]}return[amp.length-1,f[amp.length-1]]}
+  function draw(){
+   const N=2**n,row=30,top=56,H=top+N*row+20;svg.setAttribute('viewBox',`0 0 600 ${H}`);svg.replaceChildren();
+   label(svg,70,top-24,'input x',{class:'lf-caption'});label(svg,175,top-24,'target 0',{class:'lf-caption'});label(svg,295,top-24,'target 1',{class:'lf-caption'});
+   label(svg,470,top-38,'values learned from runs',{class:'lf-caption'});label(svg,430,top-18,'x',{class:'lf-caption'});label(svg,510,top-18,'f(x)',{class:'lf-caption'});
+   for(let x=0;x<N;x++){const y=top+x*row;label(svg,70,y+19,`|${bits(x,n)}⟩`);
+    [0,1].forEach(t=>{const a=amp[x][t],p=a*a,cx=120+t*120,hit=last&&last[0]===x&&last[1]===t;node(svg,'rect',{x:cx,y:y+3,width:110,height:row-6,rx:3,class:'lf-track'});node(svg,'rect',{x:cx,y:y+3,width:110*p**.5*(p>0?1:0),height:row-6,rx:3,class:'lf-bar'+(hit?' c-neg':''),style:hit?'fill:currentColor':''});if(a)label(svg,cx+55,y+20,(Math.round(a*1000)/1000).toString(),{style:'font-size:12px'+(Math.abs(a)>.6?';fill:white':'')})});
+    label(svg,430,y+19,bits(x,n),{class:'lf-caption'});label(svg,510,y+19,known[x]==null?'?':String(known[x]),known[x]==null?{class:'lf-caption'}:{class:'tint c-state'})}
+   const learned=known.filter(v=>v!=null).length,status=lab.querySelector('[data-status]');
+   lab.querySelector('[data-state]').textContent=`Runs so far: ${runs}. Values learned: ${learned} of ${N}. Evaluating f one input at a time would take exactly ${N} evaluations.`;
+   status.textContent=note||['All qubits start in 0. Apply H to each input qubit.',`Every input string now has amplitude 1/√${N}; the target is still 0. Apply U_f.`,'Each input now sits beside its own value. Measure every qubit, or only the target.'][stage2];
+   next.disabled=stage2===2;next.textContent=['Apply H to the inputs','Apply U_f','Applied'][stage2];
+   lab.dataset.runs=String(runs);lab.dataset.learned=String(learned);lab.dataset.table=JSON.stringify(f);lab.dataset.amps=JSON.stringify(amp);
+  }
+  function measureAll(){if(stage2<2)prepare(2);const [x,y]=sample();runs++;known[x]=y;amp=amp.map((r,i)=>r.map((_,t)=>i===x&&t===y?1:0));last=[x,y];note=`This run returned the input ${bits(x,n)} with value ${y}. The other pairs are gone; learning another value needs a fresh preparation.`;draw();return[x,y]}
+  function measureTarget(){if(stage2<2)prepare(2);const p1=amp.reduce((s,r)=>s+r[1]**2,0),y=Math.random()<p1?1:0,p=y?p1:1-p1,keep=amp.map(r=>r[y]).map(a=>a/Math.sqrt(p));runs++;amp=keep.map(a=>y?[0,a]:[a,0]);last=null;
+   const inputs=keep.map((a,x)=>a?bits(x,n):null).filter(Boolean);note=`The target gave ${y}, with probability ${(Math.round(p*1000)/1000)}. The inputs left are exactly the strings with value ${y}: ${inputs.join(', ')}. We learn that f takes the value ${y}, but not at which input unless only one remains.`;
+   if(inputs.length===1)known[parseInt(inputs[0],2)]=y;draw()}
+  function load(table){f=table;n=Math.log2(table.length);known=Array(table.length).fill(null);runs=0;note='';prepare(0);draw()}
+  next.onclick=()=>{note='';prepare(stage2+1);draw()};
+  lab.querySelector('[data-all]').onclick=measureAll;lab.querySelector('[data-target]').onclick=measureTarget;
+  lab.querySelector('[data-again]').onclick=()=>{note='A fresh preparation: the same parallel state as before the last measurement.';prepare(2);draw()};
+  lab.querySelector('[data-collect]').onclick=()=>{const start=runs;while(known.some(v=>v==null)){prepare(2);measureAll()}note=`Every value is now known after ${runs-start} more runs, ${runs} in all, compared with ${f.length} one-at-a-time evaluations. Random sampling repeats inputs, so it usually needs more runs than there are values.`;draw()};
+  choice.onchange=()=>load(choice.value==='random'?Array.from({length:2**int(2,3)},()=>int(0,1)):tables[choice.value]);
+  load(tables.and);
+ });
 })();

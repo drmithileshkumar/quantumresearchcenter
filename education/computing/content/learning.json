@@ -156,11 +156,12 @@
       "Track joint amplitudes through local and controlled gates.",
       "Calculate joint, marginal, and conditional measurement probabilities.",
       "Distinguish entanglement from classical correlation and explain the limits on copying and signalling.",
-      "Follow teleportation through all four outcomes and corrections."
+      "Follow teleportation through all four outcomes and corrections.",
+      "Explain what one parallel evaluation of a function produces, and why a measurement reveals only one input–value pair."
     ],
     "limits": "Teleportation transfers a state using shared entanglement and classical communication; it does not transmit a controllable signal faster than light.",
-    "example": "Compute a two-qubit circuit, prepare and test a Bell state, then use a shared pair in teleportation.",
-    "next": "Chapter 7 uses joint registers to compute a function without leaving an unwanted record.",
+    "example": "Compute a two-qubit circuit, prepare and test a Bell state, use a shared pair in teleportation, then evaluate AND on all four inputs at once.",
+    "next": "Chapter 7 asks which global property of a function interference can extract, and prepares the target so that it keeps no record of the branch.",
     "exercises": [
       {
         "kind": "Quick check",

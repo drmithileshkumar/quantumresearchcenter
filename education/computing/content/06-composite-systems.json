@@ -95,6 +95,27 @@
       "number": "6.4.3",
       "group": "6.4 · Quantum Teleportation",
       "part_id": "section-6-4"
+    },
+    {
+      "id": "topic-6-5-1",
+      "title": "Evaluation on every input",
+      "number": "6.5.1",
+      "group": "6.5 · Quantum Parallelism",
+      "part_id": "section-6-5"
+    },
+    {
+      "id": "topic-6-5-2",
+      "title": "What a measurement reveals",
+      "number": "6.5.2",
+      "group": "6.5 · Quantum Parallelism",
+      "part_id": "section-6-5"
+    },
+    {
+      "id": "topic-6-5-3",
+      "title": "Global properties through interference",
+      "number": "6.5.3",
+      "group": "6.5 · Quantum Parallelism",
+      "part_id": "section-6-5"
     }
   ],
   "parts": [
@@ -117,11 +138,16 @@
       "id": "section-6-4",
       "title": "Quantum Teleportation",
       "number": "6.4"
+    },
+    {
+      "id": "section-6-5",
+      "title": "Quantum Parallelism",
+      "number": "6.5"
     }
   ],
   "opening": "Chapter 5 followed a single qubit from input through unitary gates to measurement. A computation with several qubits follows the same rules, but its amplitudes belong to complete bit strings. How do we operate on one part of such a register, couple its parts, and read out an answer?",
   "opening_continuation": [
     "We begin with the joint-state rule from Chapter 4 and turn it into working circuit notation. Local gates update individual labels; controlled gates connect them. A two-qubit computation leads to entanglement, and measurements show why joint amplitudes contain more information than separate output counts.",
-    "We then examine the limits on copying and signalling, and work through teleportation as a complete three-qubit computation with measurement and classical control. Chapter 7 will use this machinery for function evaluation and phase kickback."
+    "We then examine the limits on copying and signalling, and work through teleportation as a complete three-qubit computation with measurement and classical control. Finally, a register computes: one reversible evaluation of a function acts on every input at once, and we ask how much of the result a measurement can deliver. Chapter 7 develops the interference this requires through function queries and phase kickback."
   ]
 }

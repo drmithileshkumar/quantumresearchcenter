@@ -70,6 +70,8 @@ try {
  await navigate('07-circuits-universality');
  await assert(`(()=>{const l=document.querySelector('[data-lab="gates"]');l.querySelector('[data-gate="H"]').click();l.querySelector('[data-gate="H"]').click();const v=JSON.parse(l.dataset.amplitudes);return Math.abs(v[0]-1)<1e-9&&Math.abs(v[1])<1e-9})()`, 'H twice restores the state');
  await navigate('05-composite-systems');
+ await assert(`(()=>{const l=document.querySelector('[data-lab="parallel"]'),n=l.querySelector('[data-next]');n.click();n.click();const a=JSON.parse(l.dataset.amps);const ok=a.every((r,x)=>Math.abs(r[x===3?1:0]-.5)<1e-9&&r[x===3?0:1]===0);l.querySelector('[data-all]').click();const one=l.dataset.learned==='1'&&l.dataset.runs==='1';l.querySelector('[data-collect]').click();if(!(ok&&one&&l.dataset.learned==='4'&&Number(l.dataset.runs)>=4))return false;const f=l.querySelector('[data-function]');for(let t=0;t<20;t++){f.value='random';f.dispatchEvent(new Event('change'));l.querySelector('[data-collect]').click();const tab=JSON.parse(l.dataset.table);if(Number(l.dataset.learned)!==tab.length)return false}return true})()`, 'parallel evaluation holds every pair, but runs reveal one value at a time');
+ await screenshot('book-live-parallel','[data-lab="parallel"]');
  await screenshot('book-rewrite-teleportation','#topic-5-4-2');
  await assert(`(()=>{const l=document.querySelector('[data-lab="bell"]');l.querySelector('[data-next]').click();l.querySelector('[data-next]').click();const v=JSON.parse(l.dataset.amplitudes);return Math.abs(v[0]**2-.5)<1e-9&&Math.abs(v[3]**2-.5)<1e-9&&v[1]===0&&v[2]===0})()`, 'Bell preparation gives 00/11 amplitudes');
  await navigate('08-amplitude-amplification');

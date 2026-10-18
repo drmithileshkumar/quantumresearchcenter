@@ -91,7 +91,9 @@ def render(book):
         sidebar_contents = ('<ul class="contents-list"><li class="part-label">Courses</li>'+''.join(f'<li class="chapter"><a href="{esc(relative(course["path"], source))}">{esc(course["title"])}</a></li>' for course in courses)+'</ul>' if source=='education/index.html' else toc(source,current))
         if source=='index.html':
             sidebar_contents='<ul class="contents-list"><li class="part-label">Explore the site</li><li class="chapter"><a href="education/index.html">Education</a></li><li class="chapter"><a href="research/index.html">Research</a></li></ul>'
-        intro_target='index.html' if source=='index.html' else ('education/index.html' if source=='education/index.html' else 'research/index.html')
+        if source.startswith('research/') or source=='references/index.html':
+            sidebar_contents+=f'<a class="intro-link" '+('aria-current="page" ' if source=='research/students/index.html' else '')+f'href="{relative("research/students/index.html",source)}">Students and Contributions</a>'
+        intro_target='index.html'  if source=='index.html' else ('education/index.html' if source=='education/index.html' else 'research/index.html')
         intro_label='Home' if source=='index.html' else ('Course catalog' if source=='education/index.html' else 'Research introduction')
         toolbar_title='Quantum Research Center' if source=='index.html' else ('Education' if source=='education/index.html' else 'Quantum Research')
         landing_nav=site_nav if source=='index.html' else ''
@@ -104,7 +106,8 @@ def render(book):
     for category in children[None]:
         intro+='<section class="research-category"><h3>'+link(category,'research/index.html')+'</h3><p>'+esc(category['summary'])+'</p>'+keywords(children.get(path(category),[]),'research/index.html')+'</section>'
     intro+='</div></section><section id="literature"><h2>Literature</h2><p>Selected references accompany the topic pages. Browse the <a href="../references/index.html">complete bibliography</a> for the collected papers and reviews.</p></section>'
-    page('research/index.html','Quantum Research',intro,[('introduction','Explore research'),('contents-overview','Research categories'),('literature','Literature')])
+    intro+='<section id="students"><h2>Students and Contributions</h2><p>Meet the students contributing to our research and explore their projects, reports, code, and presentations.</p><p><a href="students/index.html">View students and contributions →</a></p></section>'
+    page('research/index.html','Quantum Research',intro,[('introduction','Explore research'),('contents-overview','Research categories'),('literature','Literature'),('students','Students and Contributions')])
     home='''<header class="landing-hero" id="welcome"><p class="kicker">Quantum Research Center</p><h1>The study of quantum science</h1><p class="subtitle">A place for learning and inquiry into quantum theory, computation, and information. Courses and research notes connect foundational ideas, mathematical reasoning, and open questions.</p><div class="landing-actions"><a class="primary-link" href="education/index.html">Explore courses →</a><a href="research/index.html">Read research notes →</a></div></header><div class="landing-paths"><section id="education"><p class="kicker">Education</p><h2>Courses in quantum science</h2><p>The courses develop concepts through explanations, mathematical examples, and interactive experiments. Quantum Computing begins with classical logic and proceeds through quantum states, circuits, and algorithms.</p><a href="education/index.html">Browse courses →</a></section><section id="research"><p class="kicker">Research</p><h2>Topics and open questions</h2><p>Explore Quantum Computation, Quantum Information, and Quantum Technologies through research topics, open problems, and references to the literature.</p><a href="research/index.html">Explore research →</a></section></div><section class="landing-literature" id="references"><div><p class="kicker">References</p><h2>Papers and further reading</h2><p>The bibliography collects papers and reviews cited in the research notes, with brief annotations on their relevance.</p></div><a href="references/index.html">Browse the bibliography →</a></section>'''
     page('index.html','Home',home,[('welcome','Welcome'),('education','Education'),('research','Research'),('references','References')])
     course_list=''.join(f'<li class="course-card"><p class="kicker">{esc(course["format"])}</p><h3><a href="{esc(relative(course["path"], "education/index.html"))}">{esc(course["title"])}</a></h3><p>{esc(course["description"])}</p><p class="course-meta">{esc(course["details"])}</p><p><strong>Prerequisite:</strong> {esc(course["prerequisite"])}</p><a href="{esc(relative(course["path"], "education/index.html"))}">View course →</a></li>' for course in courses)
@@ -130,6 +133,36 @@ def render(book):
         parent_url=path(parent) if parent else 'research/index.html'
         body+='<p class="research-parent"><a href="'+relative(parent_url,source)+'">← Back to '+esc(parent['title'] if parent else 'Research')+'</a></p>'
         page(source,item['title'],body,sections,item,entries[index-1] if index else None,entries[index+1] if index+1<len(entries) else None)
+    student_source='research/students/index.html'
+    student_body='<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Research</a></li><li><span aria-current="page">Students and Contributions</span></li></ol></nav><header class="title-page"><p class="kicker">Research community</p><h1>Students and Contributions</h1><p class="subtitle">Student projects and contributions across our research areas.</p></header><section id="contributions"><h2>Student contributions</h2>'
+    students=json.loads((ROOT/'content/student.json').read_text())['students']
+    if not students:
+        student_body+='<p>Student profiles and contributions will be added here as projects are documented.</p>'
+    def student_url(value):
+        url=urlsplit(value)
+        if url.scheme not in ('','https','http') or url.netloc and not url.scheme:
+            raise ValueError('Unsupported student link: '+value)
+        if url.scheme:return esc(value)
+        return esc(relative(value,student_source))
+    for student in students:
+        student_body+='<section class="student-profile"><h3>'+esc(student['name'])+'</h3>'
+        if student.get('affiliation'):student_body+='<p class="student-affiliation">'+esc(student['affiliation'])+'</p>'
+        student_body+='<ul class="student-contributions">'
+        for contribution in student['contributions']:
+            title=esc(contribution['title'])
+            if contribution.get('topic'):title='<a href="'+student_url(contribution['topic'])+'">'+title+'</a>'
+            student_body+='<li><h4>'+title+'</h4>'
+            if contribution.get('problem'):
+                student_body+='<p><strong>Problem:</strong> '+esc(contribution['problem'])+'</p>'
+            student_body+='<p>'+('<strong>Contribution:</strong> ' if contribution.get('problem') else '')+esc(contribution['description'])+'</p>'
+            metadata=[contribution.get('period'),contribution.get('status')]
+            if any(metadata):student_body+='<p class="contribution-meta">'+esc(' · '.join(x for x in metadata if x))+'</p>'
+            if contribution.get('outputs'):
+                student_body+='<ul class="contribution-outputs">'+''.join('<li><a href="'+student_url(output['url'])+'">'+esc(output['label'])+'</a></li>' for output in contribution['outputs'])+'</ul>'
+            student_body+='</li>'
+        student_body+='</ul></section>'
+    student_body+='</section><p class="research-parent"><a href="../index.html">← Back to Research</a></p>'
+    page(student_source,'Students and Contributions',student_body,[('contributions','Student contributions')])
     used=list(dict.fromkeys(ref for item in entries for ref in item['papers']))
     page('references/index.html','Bibliography','<p class="kicker">Reference material</p><h1>Bibliography</h1><p class="lead">Papers cited in the research handbook.</p><section id="papers"><h2>Research papers and reviews</h2>'+bibliography(used)+'</section>',[('papers','Papers and reviews')])
     outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc></url>' for p in [*[name for name in outputs if name.endswith('.html')], 'education/computing/index.html', 'education/computing/glossary.html', 'education/computing/study-guide.html', 'education/computing/revisions.html', *['education/computing/'+chapter[0]+'.html' for chapter in json.loads((ROOT/'education/computing/chapters.json').read_text())]])+'</urlset>\n'

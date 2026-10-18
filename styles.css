@@ -87,3 +87,13 @@ body.ebook{--accent:var(--blue);--course-sidebar:var(--sidebar-width);--chapter-
 .sidebar .research-node>ul a{padding-left:10px;font-weight:normal}
 .sidebar .contents-list>.research-node{margin-top:14px}
 @media(max-width:760px){.research-category h3{font-size:24px}.research-keywords{gap:8px}.breadcrumbs{font-size:11px}}
+
+/* People and their contributions, grouped by student. */
+.student-profile{padding:24px 0;border-top:1px solid var(--line)}
+.student-profile h3{font-size:26px;margin:0 0 12px}
+.student-affiliation,.contribution-meta{font:13px/1.7 system-ui,sans-serif;color:var(--muted)}
+.student-contributions{list-style:none;padding:0;margin:20px 0 0}
+.student-contributions>li{padding:4px 0 18px}
+.student-contributions h4{font-size:19px;font-weight:normal;margin:0 0 10px}
+.student-contributions p{margin-bottom:12px}
+.contribution-outputs{display:flex;flex-wrap:wrap;gap:10px 22px;list-style:none;padding:0;font:13px/1.6 system-ui,sans-serif}

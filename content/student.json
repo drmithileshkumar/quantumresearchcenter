@@ -1,0 +1,19 @@
+{
+  "students": [
+    {
+      "name": "Vivek Madoori",
+      "affiliation": "Krea University",
+      "contributions": [
+        {
+          "title": "CNOT cost of unitary operations",
+          "topic": "research/quantum-computation/algorithms/index.html",
+          "problem": "How does the number of Grover iterations affect the probability of finding a marked item?",
+          "description": "Illustrative contribution: simulate four- and sixteen-item searches, compare the results with the predicted success probabilities, and explain why additional iterations can reduce success. Replace this sample with the student’s actual work.",
+          "period": "2026 (example)",
+          "status": "Example only",
+          "outputs": []
+        }
+      ]
+    }
+  ]
+}
