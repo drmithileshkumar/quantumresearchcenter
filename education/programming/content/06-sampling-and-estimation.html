@@ -1,0 +1,35 @@
+<section class="book-section" id="section-6-1" aria-labelledby="section-6-1-heading"><h2 id="section-6-1-heading">6.1 Execution Primitives</h2>
+<p>For Ry(θ)|0〉, the probability of one is sin²(θ/2), while the mean of Z is cos θ. These are two ways to ask about the same circuit, and they correspond to two execution interfaces.</p>
+<h3>6.1.1 V2 Sampler and Estimator</h3><p>A Sampler accepts measured circuits and returns shot records. An Estimator accepts circuits together with observables and returns expectation estimates. V2 interfaces group related work in primitive unified blocs, usually abbreviated PUBs. A PUB is an input grouping, not a quantum gate or a physical batch guarantee. The companion uses local Statevector implementations, so no device account is involved.</p>
+<h3>6.1.2 Local implementations and result structures</h3><p>The Estimator input tuple contains a circuit, an observable, and parameter values. The result is indexed by input PUB; data.evs holds the corresponding expectation array. For Sampler, data is organized by classical register name; measure_all creates meas in our examples. Explicitly named registers change the field you read. Do not paste a result-access expression without checking the circuit’s register names.</p>
+<div class="exercise"><p><strong>Problem 6.1.</strong> At θ=π/3, predict p(1) and the Z mean.</p><details class="problem-solution"><summary>Worked solution</summary><p>They are 1/4 and 1/2. A result near zero would suggest a wrong angle, observable, or parameter mapping.</p></details></div>
+</section>
+<section class="book-section" id="section-6-2" aria-labelledby="section-6-2-heading"><h2 id="section-6-2-heading">6.2 Statistical Readout</h2>
+<h3>6.2.1 Shots, precision, and uncertainty</h3><p>A Bernoulli frequency has variance \(p(1-p)/R\), while an average of ±1 values has variance \((1-\langle Z\rangle^2)/R\). The identity \(\langle Z\rangle=1-2p(1)\) connects them. Exact StatevectorEstimator at zero requested precision has no shot fluctuation for our unitary examples; it is not a model of a hardware estimator with finite shots.</p>
+<h3>6.2.2 Bit strings and classical postprocessing</h3><p>Decode counts using the measurement mapping before converting them into an observable. For two bits, ZZ assigns +1 to equal bits and −1 to unequal bits. Summing signed counts and dividing by total shots estimates its mean. A normalized count table is an empirical distribution; its small entries have large relative uncertainty.</p>
+<div class="exercise"><p><strong>Problem 6.2.</strong> How does doubling shots change a standard error?</p><details class="problem-solution"><summary>Worked solution</summary><p>It reduces the standard error by √2, assuming independent identically distributed shots. It does not remove systematic bias.</p></details></div>
+</section>
+<section class="book-section" id="section-6-3" aria-labelledby="section-6-3-heading"><h2 id="section-6-3-heading">6.3 Repeated Workloads</h2>
+<h3>6.3.1 Parameter sweeps</h3><p>The companion sends angles 0, π/2, and π as a three-row parameter array. Its returned Z means must be 1, 0, and −1. Parameter sweeps reuse a circuit structure while changing values. Array shapes describe the experiment and should be checked explicitly; silently broadcasting the wrong dimension can produce a different workload.</p>
+<h3>6.3.2 Batching inputs and interpreting results</h3><p>Batching several experiments can reduce host overhead, but each requested circuit, parameter set, observable group, and shot budget still consumes resources. Keep the parameter order and result order in the saved record. The example separates an exact three-point sweep from a sampled midpoint, so the two sources of output are unambiguous.</p><p>The complete companion below can be <a href="examples/chapter_06.py" download>downloaded as chapter_06.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 6.&quot;&quot;&quot;
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.circuit import Parameter
+from qiskit.primitives import StatevectorSampler, StatevectorEstimator
+from qiskit.quantum_info import SparsePauliOp
+
+theta = Parameter(&quot;theta&quot;)
+qc = QuantumCircuit(1)
+qc.ry(theta, 0)
+values = [[0], [np.pi / 2], [np.pi]]
+result = StatevectorEstimator().run([(qc, SparsePauliOp(&quot;Z&quot;), values)]).result()
+assert np.allclose(result[0].data.evs, [1, 0, -1])
+measured = qc.assign_parameters({theta: np.pi / 2})
+measured.measure_all()
+counts = StatevectorSampler(seed=9).run([measured], shots=4096).result()[0].data.meas.get_counts()
+print(&quot;Exact means:&quot;, result[0].data.evs, &quot;sampled counts:&quot;, counts)
+</code></pre>
+<div class="exercise"><p><strong>Problem 6.3.</strong> Why keep a circuit without measurements for the Estimator?</p><details class="problem-solution"><summary>Worked solution</summary><p>It represents the prepared state whose observable is requested. The estimation implementation chooses its measurement procedure; terminal measurements in the input can conflict with that contract.</p></details></div>
+<p>We can now run and interpret a circuit. The next step is to construct the input-dependent oracle that an algorithm assumes.</p>
+<p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.primitives.StatevectorEstimator">IBM, StatevectorEstimator</a>; <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.primitives.StatevectorSampler">IBM, StatevectorSampler</a>.</p>
+</section>

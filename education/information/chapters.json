@@ -1,0 +1,754 @@
+[
+  {
+    "stem": "01-information-and-distinguishability",
+    "title": "Information and Distinguishability",
+    "question": "What makes two physical messages distinguishable?",
+    "example": "Two messages encoded in distinguishable physical alternatives.",
+    "prerequisites": "No subject prerequisites; quantities and notation are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "title": "Messages and Encodings",
+        "number": "1.1",
+        "subsections": [
+          "Physical carriers and distinguishable alternatives",
+          "States and knowledge about states"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "title": "Uncertainty",
+        "number": "1.2",
+        "subsections": [
+          "Possible messages and prior knowledge",
+          "Observations and inference"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "title": "Information Tasks",
+        "number": "1.3",
+        "subsections": [
+          "Learning, preserving, and transmitting",
+          "Resources and criteria for success"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Alice sends Bob a physical object to mean either “yes” or “no.” If the two possible preparations always look identical to every permitted observation, no message has been conveyed. Information begins with distinguishable alternatives, a preparation rule, and a receiver’s procedure.",
+      "worked_examples": [
+        "With the detector above, what is the posterior probability of A after a non-red report?",
+        "How well does the rule “red means B, otherwise A” perform?",
+        "Does a carrier with many possible physical settings guarantee many readable messages?"
+      ],
+      "handoff": "We next quantify classical uncertainty and the resources needed to compress or protect messages.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "02-classical-information",
+    "title": "Classical Information",
+    "question": "How much can a message be compressed or recovered after noise?",
+    "example": "A biased binary source and a binary channel that sometimes flips a bit.",
+    "prerequisites": "Chapter 1; probability and logarithms are developed through coding examples.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "title": "Probability and Correlation",
+        "number": "2.1",
+        "subsections": [
+          "Joint and conditional probabilities",
+          "Independent and correlated messages"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "title": "Entropy and Compression",
+        "number": "2.2",
+        "subsections": [
+          "Information content and average length",
+          "Repeated sources and compression limits"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "title": "Noisy Communication",
+        "number": "2.3",
+        "subsections": [
+          "Channels and decoding",
+          "Reliable transmission and rate"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A source sends many zeros and a few ones. Can a long message use fewer bits without losing its meaning? The answer depends on the distribution of messages, the allowed errors, and how long a block we encode.",
+      "worked_examples": [
+        "What is the entropy of a certain message?",
+        "Can 0,01,1 be used as a prefix code?",
+        "At e=0, what rate does the three-bit repetition code achieve?"
+      ],
+      "handoff": "Classical probabilities add across mutually exclusive alternatives. Interference requires a different kind of quantity before probabilities are formed.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "03-quantum-states",
+    "title": "Quantum States",
+    "question": "What description accounts for both interference and incompatible measurements?",
+    "example": "A two-alternative interference experiment with a controllable relative phase.",
+    "prerequisites": "Chapters 1–2; complex amplitudes and vector notation are developed within the examples.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "title": "Amplitudes",
+        "number": "3.1",
+        "subsections": [
+          "Interference and the probability rule",
+          "Complex numbers and relative phase"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "title": "State Representations",
+        "number": "3.2",
+        "subsections": [
+          "Vectors, kets, and inner products",
+          "Normalization and distinguishability"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "title": "Evolution and Readout",
+        "number": "3.3",
+        "subsections": [
+          "Unitary transitions",
+          "Projective measurements and conditional states"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A two-path experiment can yield a certain output when both paths are available, yet a fair output when a path record is made. Ordinary probabilities attached independently to the paths cannot describe that change. We introduce amplitudes as quantities that combine before the probability is calculated.",
+      "worked_examples": [
+        "Predict H applied to minus.",
+        "For (|0〉+i|1〉)/√2, what is the H readout probability of zero?",
+        "Can a unitary map both zero and one to plus?"
+      ],
+      "handoff": "The next chapter pairs configuration labels to describe two systems and discovers joint states that cannot be split into separate vectors.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "04-composite-systems",
+    "title": "Composite Systems",
+    "question": "Can the joint state contain information that separate state descriptions miss?",
+    "example": "A Bell pair contrasted with independent preparations.",
+    "prerequisites": "Chapter 3; tensor products are developed by pairing configuration labels.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "title": "Joint States",
+        "number": "4.1",
+        "subsections": [
+          "Product configurations and amplitudes",
+          "Tensor products and local operations"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "title": "Entanglement",
+        "number": "4.2",
+        "subsections": [
+          "Bell-state construction",
+          "Failure of product descriptions"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "title": "Joint Measurement",
+        "number": "4.3",
+        "subsections": [
+          "Marginal and conditional probabilities",
+          "Correlations and classical comparison"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Alice and Bob each hold a two-state system. Four configuration labels are needed for the pair: 00,01,10,11, with Alice’s bit first. Joint amplitudes contain more possibilities than independently assigning each party a state.",
+      "worked_examples": [
+        "Is (|00〉+|01〉)/√2 entangled?",
+        "What does Z on Alice do to the Bell pair?",
+        "Can Bob tell from his local counts whether Alice measured her Bell half?"
+      ],
+      "handoff": "Density operators will combine uncertain preparations and reduced subsystem descriptions without confusing them with pure superpositions.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "05-mixed-states",
+    "title": "Mixed States",
+    "question": "How do we predict measurements when no single pure-state vector describes the preparation?",
+    "example": "Compare a random choice of basis states with one half of a Bell pair.",
+    "prerequisites": "Chapters 2–4; density operators are constructed from averaged measurement probabilities.",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "title": "Uncertain Preparations",
+        "number": "5.1",
+        "subsections": [
+          "Pure states and ensembles",
+          "Constructing density operators"
+        ]
+      },
+      {
+        "id": "section-5-2",
+        "title": "Subsystems",
+        "number": "5.2",
+        "subsections": [
+          "Reduced states and partial traces",
+          "Entanglement and local uncertainty"
+        ]
+      },
+      {
+        "id": "section-5-3",
+        "title": "Equivalent Descriptions",
+        "number": "5.3",
+        "subsections": [
+          "Different ensembles for the same state",
+          "Purification and inaccessible records"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A fair coin chooses whether to prepare zero or one. A different apparatus supplies one half of a Bell pair. These procedures have different joint histories, yet every local measurement has the same statistics. We need a description based on those predictions.",
+      "worked_examples": [
+        "Compute the density matrix of plus.",
+        "Why does tracing out Bob kill |00〉〈11|?",
+        "Can the density matrix identify a unique preparation ensemble?"
+      ],
+      "handoff": "Interaction with an auxiliary system followed by discarding produces the general operations studied next.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "06-quantum-operations",
+    "title": "Quantum Operations",
+    "question": "What operations remain possible when a system interacts with something we do not observe?",
+    "example": "A qubit coupled to an auxiliary qubit that is subsequently discarded.",
+    "prerequisites": "Chapters 3–5; operator sums and complete positivity are developed through composite examples.",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "title": "Physical Constructions",
+        "number": "6.1",
+        "subsections": [
+          "Ancillas, interaction, and discarding",
+          "Reversible and irreversible descriptions"
+        ]
+      },
+      {
+        "id": "section-6-2",
+        "title": "Quantum Channels",
+        "number": "6.2",
+        "subsections": [
+          "Operator-sum representations",
+          "Trace preservation and complete positivity"
+        ]
+      },
+      {
+        "id": "section-6-3",
+        "title": "Noise and Composition",
+        "number": "6.3",
+        "subsections": [
+          "Simple qubit channels",
+          "Channel composition and accessible information"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Let a qubit control an initially zero auxiliary via CNOT, then ignore the auxiliary. The joint evolution is reversible, yet the qubit loses its visible interference. Irreversibility can arise from limiting which systems we retain.",
+      "worked_examples": [
+        "At p=1/2, what does phase-flip noise do to plus?",
+        "Verify trace preservation for amplitude damping.",
+        "Does reversing the retained qubit alone undo complete dephasing?"
+      ],
+      "handoff": "A measurement is an operation whose branch record is retained. We now describe both the outcome probabilities and the conditional state changes.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "07-quantum-measurement",
+    "title": "Quantum Measurement",
+    "question": "What can a measuring procedure reveal, and what does it leave behind?",
+    "example": "An ancilla-assisted measurement of a qubit.",
+    "prerequisites": "Chapters 3–6; measurement effects and state updates are derived from circuits.",
+    "sections": [
+      {
+        "id": "section-7-1",
+        "title": "Measurement Procedures",
+        "number": "7.1",
+        "subsections": [
+          "Coupling to an auxiliary system",
+          "Outcomes and conditional operations"
+        ]
+      },
+      {
+        "id": "section-7-2",
+        "title": "General Measurements",
+        "number": "7.2",
+        "subsections": [
+          "Measurement effects and probabilities",
+          "POVMs and physical implementations"
+        ]
+      },
+      {
+        "id": "section-7-3",
+        "title": "Information and Disturbance",
+        "number": "7.3",
+        "subsections": [
+          "Outcome statistics versus state updates",
+          "Sequential measurement and retained records"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A detector does two jobs: it produces an outcome and changes the system. Identical outcome frequencies can conceal different disturbances. We will describe those two jobs separately.",
+      "worked_examples": [
+        "For the noisy effect E0 above, what is p0 on plus?",
+        "Verify the square-root implementation’s completeness.",
+        "Why is a POVM insufficient to predict sequential measurements?"
+      ],
+      "handoff": "We can now optimize measurements for a concrete information task: guessing which of two known states was prepared.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "08-state-discrimination",
+    "title": "State Discrimination",
+    "question": "How well can we identify a state chosen from known alternatives?",
+    "example": "Distinguish two nonorthogonal qubit states with specified prior probabilities.",
+    "prerequisites": "Chapters 2–7; trace distance is introduced through decision probabilities.",
+    "sections": [
+      {
+        "id": "section-8-1",
+        "title": "Discrimination Tasks",
+        "number": "8.1",
+        "subsections": [
+          "Priors, decisions, and error",
+          "Orthogonal and nonorthogonal alternatives"
+        ]
+      },
+      {
+        "id": "section-8-2",
+        "title": "Optimal Strategies",
+        "number": "8.2",
+        "subsections": [
+          "Minimum-error discrimination",
+          "Unambiguous discrimination and inconclusive results"
+        ]
+      },
+      {
+        "id": "section-8-3",
+        "title": "Accessible Information",
+        "number": "8.3",
+        "subsections": [
+          "Measurements on encoded messages",
+          "Bounds on classical information extraction"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Alice chooses zero or plus with equal probability. Bob knows the two possibilities but receives only one qubit. A computational-basis measurement is useful, yet it is not the best possible decision procedure.",
+      "worked_examples": [
+        "Compare the Z strategy’s error with the optimal error.",
+        "Why does E0 give no false identification on plus?",
+        "If one state has prior 0.99, is a fair guess the right baseline?"
+      ],
+      "handoff": "The distinction between orthogonal and nonorthogonal inputs also limits copying, broadcasting, and signalling.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "09-information-constraints",
+    "title": "Information Constraints",
+    "question": "Which apparently natural information-processing tasks are forbidden?",
+    "example": "Attempt to copy two different nonorthogonal states with one fixed device.",
+    "prerequisites": "Chapters 4–8; physical assumptions are distinguished from mathematical consequences.",
+    "sections": [
+      {
+        "id": "section-9-1",
+        "title": "Copying Restrictions",
+        "number": "9.1",
+        "subsections": [
+          "No-cloning",
+          "No-broadcasting and mixed states"
+        ]
+      },
+      {
+        "id": "section-9-2",
+        "title": "Locality Constraints",
+        "number": "9.2",
+        "subsections": [
+          "Local operations and remote statistics",
+          "No-signalling and conditional predictions"
+        ]
+      },
+      {
+        "id": "section-9-3",
+        "title": "Scope of Impossibility",
+        "number": "9.3",
+        "subsections": [
+          "Restricted input sets",
+          "Approximate and probabilistic alternatives"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Suppose a machine promises to duplicate any unknown pure state. Test it on two nonorthogonal inputs. Preserving their overlap before and after the operation exposes the contradiction.",
+      "worked_examples": [
+        "Why does the overlap proof not forbid copying zero and one?",
+        "Does deleting Alice’s measurement record restore Bob’s knowledge of her outcome?",
+        "Would a copier for a known single state violate the theorem?"
+      ],
+      "handoff": "Entanglement protocols respect these constraints by explicitly consuming shared pairs and sending classical or quantum systems.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "10-entanglement-protocols",
+    "title": "Entanglement Protocols",
+    "question": "What tasks become possible when separated parties share entanglement?",
+    "example": "Teleport an unknown qubit using a Bell pair and two classical bits.",
+    "prerequisites": "Chapters 3–9; each protocol specifies its resources and communication assumptions.",
+    "sections": [
+      {
+        "id": "section-10-1",
+        "title": "Teleportation",
+        "number": "10.1",
+        "subsections": [
+          "Joint measurements and outcome branches",
+          "Conditional corrections and resource consumption"
+        ]
+      },
+      {
+        "id": "section-10-2",
+        "title": "Dense Coding",
+        "number": "10.2",
+        "subsections": [
+          "Encoding classical messages in a shared pair",
+          "Joint decoding and transmitted systems"
+        ]
+      },
+      {
+        "id": "section-10-3",
+        "title": "Entanglement Swapping",
+        "number": "10.3",
+        "subsections": [
+          "Connecting separated pairs",
+          "Classical records and protocol accounting"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Alice has an unknown qubit and shares a Bell pair with Bob. She cannot copy the input or describe its amplitudes from one sample. Nevertheless, a joint measurement and two classical bits can transfer its state to Bob.",
+      "worked_examples": [
+        "For teleportation outcome m=1,n=0, what correction is required?",
+        "Why does dense coding not contradict a one-bit unassisted qubit bound?",
+        "Can the endpoints use a particular swapped Bell state before learning the middle result?"
+      ],
+      "handoff": "We next quantify uncertainty and correlations, including the striking fact that a pure pair can have uncertain individual parts.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "11-quantum-entropy",
+    "title": "Quantum Entropy",
+    "question": "How should uncertainty and correlation be quantified for quantum systems?",
+    "example": "Compare the entropy of a Bell pair with the entropy of either subsystem.",
+    "prerequisites": "Chapters 2 and 5–10; spectral representations and matrix logarithms are developed in context.",
+    "sections": [
+      {
+        "id": "section-11-1",
+        "title": "State Entropy",
+        "number": "11.1",
+        "subsections": [
+          "Eigenvalues as probabilities",
+          "Von Neumann entropy and pure states"
+        ]
+      },
+      {
+        "id": "section-11-2",
+        "title": "Correlation Measures",
+        "number": "11.2",
+        "subsections": [
+          "Mutual information",
+          "Conditional entropy and negative values"
+        ]
+      },
+      {
+        "id": "section-11-3",
+        "title": "Information Inequalities",
+        "number": "11.3",
+        "subsections": [
+          "Relative entropy and distinguishability",
+          "Data processing and operational meaning"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A Bell pair is specified by one pure vector, yet either half is maximally uncertain. A useful entropy must describe both facts without treating their difference as an inconsistency.",
+      "worked_examples": [
+        "What is the entropy of diag(3/4,1/4)?",
+        "Why is the Bell pair’s joint entropy zero?",
+        "Does χ=0.601 mean each trial returns a fractional bit string?"
+      ],
+      "handoff": "Entropy next becomes a physical resource rate: the number of qubits needed to preserve a repeated quantum source.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "12-quantum-compression",
+    "title": "Quantum Compression",
+    "question": "How many qubits are needed to preserve the messages of a quantum source?",
+    "example": "Compress repeated signals drawn from a biased qubit ensemble.",
+    "prerequisites": "Chapters 2, 5, and 11; typical subspaces and fidelity are introduced in context.",
+    "sections": [
+      {
+        "id": "section-12-1",
+        "title": "Quantum Sources",
+        "number": "12.1",
+        "subsections": [
+          "Source ensembles and average states",
+          "Faithful recovery and fidelity"
+        ]
+      },
+      {
+        "id": "section-12-2",
+        "title": "Typical Subspaces",
+        "number": "12.2",
+        "subsections": [
+          "Repeated sources and typicality",
+          "Encoding and decoding"
+        ]
+      },
+      {
+        "id": "section-12-3",
+        "title": "Compression Limits",
+        "number": "12.3",
+        "subsections": [
+          "Schumacher compression",
+          "Rates, errors, and assumptions"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A source emits pure quantum signals independently, but its average state has eigenvalues 3/4 and 1/4. Sending one qubit per signal works. Can a long block be stored in fewer qubits while preserving the signals, including their coherence with other systems?",
+      "worked_examples": [
+        "For n=3 and eigenvalue 1/4 for label one, what total probability lies on strings with zero or one ones?",
+        "Why not measure the typical string and send its index classically?",
+        "What compression rate follows for the maximally mixed qubit source?"
+      ],
+      "handoff": "Typical subspaces also explain how many weakly entangled pairs can supply a smaller number of nearly perfect Bell pairs.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "13-entanglement-transformations",
+    "title": "Entanglement Transformations",
+    "question": "Which shared states can be converted into others using only local actions and classical messages?",
+    "example": "Compare conversion of a partially entangled pure pair into Bell pairs and the reverse task.",
+    "prerequisites": "Chapters 4–5 and 10–12; Schmidt coefficients and majorization are developed through conversions.",
+    "sections": [
+      {
+        "id": "section-13-1",
+        "title": "Allowed Operations",
+        "number": "13.1",
+        "subsections": [
+          "Local operations and classical communication",
+          "Schmidt coefficients and conversion criteria"
+        ]
+      },
+      {
+        "id": "section-13-2",
+        "title": "Pure-State Resources",
+        "number": "13.2",
+        "subsections": [
+          "Concentration",
+          "Dilution and asymptotic rates"
+        ]
+      },
+      {
+        "id": "section-13-3",
+        "title": "Mixed-State Resources",
+        "number": "13.3",
+        "subsections": [
+          "Distillation and formation",
+          "Irreversibility and limitations"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Alice and Bob share √p|00〉+√(1−p)|11〉, with p at least one half. Can local actions turn this into a Bell pair? The answer changes depending on whether success must be certain, failures may be declared, or many copies are available.",
+      "worked_examples": [
+        "At p=0.9, what is the filter’s success probability?",
+        "Can a product state with Schmidt vector (1,0) become a Bell pair deterministically by LOCC?",
+        "Why does an asymptotic rate not determine a one-copy conversion probability?"
+      ],
+      "handoff": "Preserving entanglement under noise leads to quantum error correction, where the environment must not learn the logical state.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "14-quantum-error-correction",
+    "title": "Quantum Error Correction",
+    "question": "How can an unknown state be protected without learning or copying its amplitudes?",
+    "example": "Encode a qubit into a three-qubit code and correct a single bit flip.",
+    "prerequisites": "Chapters 4–7 and 9; code spaces and syndrome measurements are developed through circuits.",
+    "sections": [
+      {
+        "id": "section-14-1",
+        "title": "Encoding",
+        "number": "14.1",
+        "subsections": [
+          "Redundancy without cloning",
+          "Errors on joint states"
+        ]
+      },
+      {
+        "id": "section-14-2",
+        "title": "Detection and Recovery",
+        "number": "14.2",
+        "subsections": [
+          "Syndromes without logical readout",
+          "Conditional recovery"
+        ]
+      },
+      {
+        "id": "section-14-3",
+        "title": "Correction Conditions",
+        "number": "14.3",
+        "subsections": [
+          "Correctable error sets",
+          "Code capabilities and limitations"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "An unknown qubit cannot be copied into three independent specimens. Yet it can be encoded into a joint three-qubit state whose error can be diagnosed without learning its amplitudes.",
+      "worked_examples": [
+        "An observed syndrome is (−,−). Which correction is used?",
+        "Why not measure all three data bits and take a majority?",
+        "Does Z1 satisfy the correction criterion together with identity?"
+      ],
+      "handoff": "Codes protect states across repeated noisy uses. Channel capacity asks the best rate achievable by all such coding strategies.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "15-quantum-communication",
+    "title": "Quantum Communication",
+    "question": "At what rates can noisy channels transmit classical or quantum information reliably?",
+    "example": "Compare tasks performed using repeated uses of a noisy qubit channel.",
+    "prerequisites": "Chapters 6, 10–14; capacity theorems are introductory and their asymptotic assumptions are stated.",
+    "sections": [
+      {
+        "id": "section-15-1",
+        "title": "Communication Tasks",
+        "number": "15.1",
+        "subsections": [
+          "Classical and quantum messages",
+          "Assistance and resource models"
+        ]
+      },
+      {
+        "id": "section-15-2",
+        "title": "Coding and Rates",
+        "number": "15.2",
+        "subsections": [
+          "Achievability and converse statements",
+          "Classical and entanglement-assisted capacities"
+        ]
+      },
+      {
+        "id": "section-15-3",
+        "title": "Quantum Transmission",
+        "number": "15.3",
+        "subsections": [
+          "Coherent information and quantum capacity",
+          "Regularization and finite-resource limitations"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A channel sometimes transmits a qubit perfectly and sometimes replaces it with an orthogonal erasure flag. The receiver knows which uses were erased. This simple channel separates classical transmission, quantum transmission, and assisted transmission.",
+      "worked_examples": [
+        "Why does a known erasure differ from an unflagged bit flip?",
+        "What happens at e=1/2?",
+        "Why is a single-use coherent information not generally “the quantum capacity”?"
+      ],
+      "handoff": "Communication rates describe reliability. The final chapter asks when transmitted data can also be secret from an adversary.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "16-quantum-cryptography",
+    "title": "Quantum Cryptography",
+    "question": "How can observed quantum statistics support a claim of secrecy?",
+    "example": "Use a prepare-and-measure key-distribution protocol to identify the information an eavesdropper might obtain.",
+    "prerequisites": "Chapters 7–11 and 15; security definitions and classical processing are introduced in context.",
+    "sections": [
+      {
+        "id": "section-16-1",
+        "title": "Key Distribution",
+        "number": "16.1",
+        "subsections": [
+          "Preparation and basis choices",
+          "Entanglement-based descriptions"
+        ]
+      },
+      {
+        "id": "section-16-2",
+        "title": "From Data to a Key",
+        "number": "16.2",
+        "subsections": [
+          "Parameter estimation and error correction",
+          "Privacy amplification"
+        ]
+      },
+      {
+        "id": "section-16-3",
+        "title": "Security Assumptions",
+        "number": "16.3",
+        "subsections": [
+          "Eavesdropping models and authentication",
+          "Finite data and composable security goals"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Alice and Bob want a shared random key that an eavesdropper cannot predict. Quantum transmission can help them estimate how much information may have leaked, but detection of disturbance alone is not a security proof.",
+      "worked_examples": [
+        "Why is the intercept-resend error 1/4 rather than 1/2?",
+        "Can Alice and Bob keep the publicly revealed test bits as secret key?",
+        "Why is secrecy alone insufficient if Alice’s and Bob’s keys differ?"
+      ],
+      "handoff": "The course has moved from distinguishable messages to the operational limits of learning, preserving, transmitting, and protecting quantum information. Each rate or security claim depends on the same discipline: define the task, permitted resources, assumptions, and error criterion before asserting what is possible.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  }
+]

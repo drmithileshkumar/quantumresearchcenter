@@ -1,0 +1,876 @@
+[
+  {
+    "stem": "01-physical-quantum-computation",
+    "title": "Physical Quantum Computation",
+    "question": "How does a physical device implement an abstract quantum circuit?",
+    "example": "A pulse, an entangling operation, and a measured bit.",
+    "prerequisites": "Quantum Computing: states, gates, and measurement. The required physics is developed in context.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "number": "1.1",
+        "title": "Physical Requirements",
+        "subsections": [
+          "Encoding and initialization",
+          "Control and measurement"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "number": "1.2",
+        "title": "Computational Resources",
+        "subsections": [
+          "Physical and logical qubits",
+          "Time, connectivity, and error"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "number": "1.3",
+        "title": "Implementation Models",
+        "subsections": [
+          "Gate and analog evolution",
+          "A device-level specification"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A circuit says to rotate a qubit, couple it to another, and measure. A laboratory must supply a physical state, a timed interaction, and a detector. This course follows that chain and asks what must be true for the measured bit to mean what the algorithm predicts.",
+      "worked_examples": [
+        "Does a long coherence time alone make a good processor?",
+        "What assumption permits the estimate t/T1?",
+        "Why distinguish physical and logical qubit counts?"
+      ],
+      "handoff": "We begin by asking when a physical system with many states can be approximated by a qubit."
+    }
+  },
+  {
+    "stem": "02-physical-qubits",
+    "title": "Physical Qubits",
+    "question": "When can two states of a larger physical system be treated as a qubit?",
+    "example": "Three energy levels and a drive intended to address only two.",
+    "prerequisites": "Chapters 1–1; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "number": "2.1",
+        "title": "Energy Levels",
+        "subsections": [
+          "Stationary states and frequencies",
+          "The two-level approximation"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "number": "2.2",
+        "title": "Qubit Encodings",
+        "subsections": [
+          "Computational subspaces",
+          "Leakage and selection rules"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "number": "2.3",
+        "title": "Effective Dynamics",
+        "subsections": [
+          "Hamiltonians and rotating frames",
+          "Testing the approximation"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A device has energy levels E0, E1, and E2. We want to rotate only the lowest two. The third level matters even when the circuit drawing has only one wire: a drive can accidentally put amplitude there.",
+      "worked_examples": [
+        "If E1−E0=hf, what relative phase accumulates in time 1/(2f)?",
+        "Does a zero computational-basis error guarantee no leakage?",
+        "Why is an equally spaced oscillator not automatically a selective two-level qubit?"
+      ],
+      "handoff": "With the subspace specified, we can calculate how a resonant drive rotates its amplitudes."
+    }
+  },
+  {
+    "stem": "03-coherent-control",
+    "title": "Coherent Control",
+    "question": "How does a timed field implement a desired quantum gate?",
+    "example": "Calibrating a resonant pulse to produce a pi rotation.",
+    "prerequisites": "Chapters 1–2; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "number": "3.1",
+        "title": "Driven Transitions",
+        "subsections": [
+          "Resonance and Rabi oscillations",
+          "Pulse area and phase"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "number": "3.2",
+        "title": "Control Errors",
+        "subsections": [
+          "Detuning and amplitude error",
+          "Pulse shaping and leakage"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "number": "3.3",
+        "title": "Gate Calibration",
+        "subsections": [
+          "Rotation experiments",
+          "Frames and virtual phases"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Prepare zero and apply a resonant field for a variable time. The measured excited population oscillates. This experiment turns an abstract X rotation into a calibrated duration and field amplitude.",
+      "worked_examples": [
+        "What is the π/2-pulse duration at a 5 MHz Rabi rate?",
+        "If |Δ|=Ω, can a square pulse invert perfectly?",
+        "Why is a successful zero-to-one pulse insufficient as a gate test?"
+      ],
+      "handoff": "A single drive supplies rotations. Two-qubit gates require an interaction that cannot be written as separate local evolutions."
+    }
+  },
+  {
+    "stem": "04-qubit-interactions",
+    "title": "Qubit Interactions",
+    "question": "How does a physical coupling produce an entangling gate?",
+    "example": "Two qubits coupled through a ZZ interaction.",
+    "prerequisites": "Chapters 1–3; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "number": "4.1",
+        "title": "Interaction Models",
+        "subsections": [
+          "Conditional energies",
+          "Exchange interactions"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "number": "4.2",
+        "title": "Entangling Gates",
+        "subsections": [
+          "Controlled phases",
+          "Mediated interactions"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "number": "4.3",
+        "title": "Gate Performance",
+        "subsections": [
+          "Residual entanglement",
+          "Speed and unwanted coupling"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Two qubits can each be well controlled yet remain computationally separate. To entangle them, the energy or transition of one must depend on the state of the other, or both must interact through a shared mediator.",
+      "worked_examples": [
+        "For the exchange model, when is population fully transferred from 01 to 10?",
+        "Can separate Z rotations erase every ZZ conditional phase?",
+        "Why must an auxiliary oscillator close its trajectory?"
+      ],
+      "handoff": "We now have candidate gates. Initialization and measurement determine whether their inputs and outputs can be used reliably."
+    }
+  },
+  {
+    "stem": "05-initialization-and-readout",
+    "title": "Initialization and Readout",
+    "question": "How can a processor reliably begin in a known state and report its result?",
+    "example": "A noisy detector separating two qubit preparations.",
+    "prerequisites": "Chapters 1–4; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "number": "5.1",
+        "title": "Initialization",
+        "subsections": [
+          "Thermal preparation",
+          "Active reset"
+        ]
+      },
+      {
+        "id": "section-5-2",
+        "number": "5.2",
+        "title": "Measurement Signals",
+        "subsections": [
+          "State-dependent response",
+          "Assignment and backaction"
+        ]
+      },
+      {
+        "id": "section-5-3",
+        "number": "5.3",
+        "title": "Readout Design",
+        "subsections": [
+          "Integration and discrimination",
+          "Repeated measurement and reuse"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Two preparations produce overlapping detector signals. Choosing a threshold gives a bit, but it also gives mistakes. Readout is therefore a calibrated statistical decision linked to a physical disturbance.",
+      "worked_examples": [
+        "At ΔE/kBT=5, estimate thermal excited population.",
+        "If e0=e1=1/2, can the assignment relation be inverted?",
+        "Does a destructive detector with perfect labels qualify as reusable nondemolition readout?"
+      ],
+      "handoff": "Noise changes the state even when we intend to do nothing. The next chapter separates energy loss from phase uncertainty."
+    }
+  },
+  {
+    "stem": "06-noise-and-decoherence",
+    "title": "Noise and Decoherence",
+    "question": "Which physical disturbances destroy a computation and how do we distinguish them?",
+    "example": "A decaying excited state and a Ramsey fringe.",
+    "prerequisites": "Chapters 1–5; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "number": "6.1",
+        "title": "Relaxation",
+        "subsections": [
+          "Energy loss and T1",
+          "Thermal excitation"
+        ]
+      },
+      {
+        "id": "section-6-2",
+        "number": "6.2",
+        "title": "Dephasing",
+        "subsections": [
+          "Frequency noise and T2",
+          "Echo and noise timescales"
+        ]
+      },
+      {
+        "id": "section-6-3",
+        "number": "6.3",
+        "title": "Error Models",
+        "subsections": [
+          "Leakage and correlated errors",
+          "From a model to a prediction"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "An excited-state population decays, while a superposition can lose its interference even without losing energy. These two experiments motivate distinct timescales rather than one universal “qubit lifetime.”",
+      "worked_examples": [
+        "Can T2 exceed 2T1 in the stated exponential model?",
+        "Does echo reverse a spontaneous emission event?",
+        "After ten identical overrotations by ε, what coherent angle error remains?"
+      ],
+      "handoff": "The next chapter constructs the experiments that infer these parameters and separates inference from proof of gate quality."
+    }
+  },
+  {
+    "stem": "07-calibration-and-characterization",
+    "title": "Calibration and Characterization",
+    "question": "Which experiments establish what the processor actually does?",
+    "example": "Estimating detuning from a Ramsey oscillation.",
+    "prerequisites": "Chapters 1–6; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-7-1",
+        "number": "7.1",
+        "title": "Calibration Experiments",
+        "subsections": [
+          "Spectroscopy and Rabi scans",
+          "Ramsey and echo"
+        ]
+      },
+      {
+        "id": "section-7-2",
+        "number": "7.2",
+        "title": "Process Characterization",
+        "subsections": [
+          "State and process tomography",
+          "Randomized benchmarking"
+        ]
+      },
+      {
+        "id": "section-7-3",
+        "number": "7.3",
+        "title": "Measurement Limits",
+        "subsections": [
+          "Preparation and measurement errors",
+          "Drift and validation"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A fringe oscillates while its envelope decays. Its period estimates a detuning; its envelope estimates a sequence-dependent coherence time. Extracting those quantities requires a model and a calibration strategy.",
+      "worked_examples": [
+        "What does a Ramsey period fail to reveal by itself?",
+        "For α=0.998, what is the single-qubit depolarizing-model error per Clifford?",
+        "Why repeat a benchmark with simultaneous neighboring operations?"
+      ],
+      "handoff": "We now apply this common language to concrete platforms, beginning with a nonlinear electrical oscillator."
+    }
+  },
+  {
+    "stem": "08-superconducting-circuits",
+    "title": "Superconducting Circuits",
+    "question": "How can an electrical circuit support controllable quantum energy levels?",
+    "example": "A transmon coupled to a readout resonator.",
+    "prerequisites": "Chapters 1–7; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-8-1",
+        "number": "8.1",
+        "title": "Circuit Qubits",
+        "subsections": [
+          "Oscillators and Josephson junctions",
+          "The transmon regime"
+        ]
+      },
+      {
+        "id": "section-8-2",
+        "number": "8.2",
+        "title": "Control and Coupling",
+        "subsections": [
+          "Microwave gates",
+          "Resonators and entangling gates"
+        ]
+      },
+      {
+        "id": "section-8-3",
+        "number": "8.3",
+        "title": "Readout and Scaling",
+        "subsections": [
+          "Dispersive measurement",
+          "Materials, wiring, and crosstalk"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A capacitor and an inductor exchange electric and magnetic energy. Why can we not simply call their two lowest energy levels a qubit?",
+      "worked_examples": [
+        "Let \\(E_C/h=0.25\\) GHz and \\(E_J/h=20\\) GHz. Estimate the lowest transition.",
+        "Why can a shorter pulse cause leakage?",
+        "If \\(g/2\\pi=10\\) MHz and \\(\\Delta/2\\pi=200\\) MHz, what is the simple dispersive estimate?"
+      ],
+      "handoff": "An atomic qubit starts with naturally occurring levels instead of a fabricated nonlinear oscillator. The next chapter asks how motion supplies the missing coupling."
+    }
+  },
+  {
+    "stem": "09-trapped-ions",
+    "title": "Trapped Ions",
+    "question": "How do isolated charged atoms perform joint quantum gates?",
+    "example": "Two ion spins coupled through a shared motional mode.",
+    "prerequisites": "Chapters 1–8; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-9-1",
+        "number": "9.1",
+        "title": "Atomic Qubits",
+        "subsections": [
+          "Trapping and internal states",
+          "Cooling and preparation"
+        ]
+      },
+      {
+        "id": "section-9-2",
+        "number": "9.2",
+        "title": "Coherent Gates",
+        "subsections": [
+          "Carrier and sideband transitions",
+          "Motion-mediated entanglement"
+        ]
+      },
+      {
+        "id": "section-9-3",
+        "number": "9.3",
+        "title": "Measurement and Architecture",
+        "subsections": [
+          "Fluorescence detection",
+          "Transport and optical connections"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Two ions can be far enough apart to address separately and still share a collective vibration. That vibration can carry the influence of one qubit to another.",
+      "worked_examples": [
+        "Why is an internal ground state insufficient evidence of motional cooling?",
+        "Compare red-sideband couplings for \\(n=1\\) and \\(n=4\\).",
+        "What remains if a gate leaves distinguishable bus states?"
+      ],
+      "handoff": "Neutral atoms remove the electric charge that supports trapping and Coulomb coupling. Optical forces and highly excited electronic states replace those mechanisms."
+    }
+  },
+  {
+    "stem": "10-neutral-atoms",
+    "title": "Neutral Atoms",
+    "question": "How do neutral atoms in an array interact strongly enough to compute?",
+    "example": "Two atoms with a Rydberg blockade shift.",
+    "prerequisites": "Chapters 1–9; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-10-1",
+        "number": "10.1",
+        "title": "Atom Arrays",
+        "subsections": [
+          "Optical traps and loading",
+          "Internal-state encoding"
+        ]
+      },
+      {
+        "id": "section-10-2",
+        "number": "10.2",
+        "title": "Rydberg Gates",
+        "subsections": [
+          "Excitation and blockade",
+          "Conditional phase accumulation"
+        ]
+      },
+      {
+        "id": "section-10-3",
+        "number": "10.3",
+        "title": "Readout and Scaling",
+        "subsections": [
+          "Detection and atom loss",
+          "Rearrangement and parallel control"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "An atom excited to a large electronic orbit can shift the excitation energy of its neighbour. We can use that shift to make a pulse conditional.",
+      "worked_examples": [
+        "If sites load independently with probability 0.6, what is the probability that ten prescribed sites are occupied?",
+        "For \\(B=20\\Omega\\), bound transfer in the simple blockade model.",
+        "Why should detected atom loss not be recorded as measurement zero?"
+      ],
+      "handoff": "In a semiconductor, electrostatic confinement plays the role of the trap, while electron spin supplies the two states."
+    }
+  },
+  {
+    "stem": "11-semiconductor-spins",
+    "title": "Semiconductor Spins",
+    "question": "How can a confined electron spin become an electrically controlled qubit?",
+    "example": "Two electron spins with a tunable exchange interaction.",
+    "prerequisites": "Chapters 1–10; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-11-1",
+        "number": "11.1",
+        "title": "Spin Qubits",
+        "subsections": [
+          "Confinement and Zeeman splitting",
+          "Spin encodings"
+        ]
+      },
+      {
+        "id": "section-11-2",
+        "number": "11.2",
+        "title": "Electrical Control",
+        "subsections": [
+          "Spin rotations",
+          "Exchange gates"
+        ]
+      },
+      {
+        "id": "section-11-3",
+        "number": "11.3",
+        "title": "Readout and Integration",
+        "subsections": [
+          "Spin-to-charge conversion",
+          "Disorder, wiring, and uniformity"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Can an electrical device use a spin to store information and charge motion only when it needs to operate on that information?",
+      "worked_examples": [
+        "For \\(|g|=2\\), \\(B=0.5\\) T, and \\(\\mu_B/h\\approx14\\) GHz/T, find the spin frequency.",
+        "If \\(J/h=10\\) MHz, how long is a SWAP exchange pulse?",
+        "Can perfect charge detection guarantee perfect spin readout?"
+      ],
+      "handoff": "A crystal defect can also localize an electronic spin, with an optical transition offering a route between stationary and flying information."
+    }
+  },
+  {
+    "stem": "12-defect-centers",
+    "title": "Defect Centers",
+    "question": "How can a localized defect connect a long-lived spin to light?",
+    "example": "An optically addressable electron spin and a nearby nuclear memory.",
+    "prerequisites": "Chapters 1–11; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-12-1",
+        "number": "12.1",
+        "title": "Localized States",
+        "subsections": [
+          "Defects and spin levels",
+          "Initialization and microwave control"
+        ]
+      },
+      {
+        "id": "section-12-2",
+        "number": "12.2",
+        "title": "Spin Registers",
+        "subsections": [
+          "Nuclear memories",
+          "Conditional operations"
+        ]
+      },
+      {
+        "id": "section-12-3",
+        "number": "12.3",
+        "title": "Optical Interfaces",
+        "subsections": [
+          "Readout and heralded entanglement",
+          "Collection efficiency and scaling"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A localized electron can be a processor, a nearby nucleus a memory, and an emitted photon a connection. The useful object is then a small quantum node.",
+      "worked_examples": [
+        "Two independent required photons are each collected with probability 0.1. What is the collection contribution to success?",
+        "What is the relative conditional phase between even and odd parity under the stated interaction?",
+        "Why benchmark a memory during link attempts?"
+      ],
+      "handoff": "We next let photons carry the computation itself. Their weak interaction is both an advantage for transmission and a difficulty for gates."
+    }
+  },
+  {
+    "stem": "13-photonic-computation",
+    "title": "Photonic Computation",
+    "question": "How can light carry qubits and mediate computation when photons interact weakly?",
+    "example": "A dual-rail qubit passing through a balanced beam splitter.",
+    "prerequisites": "Chapters 1–12; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-13-1",
+        "number": "13.1",
+        "title": "Optical Qubits",
+        "subsections": [
+          "Encoding and sources",
+          "Interference and phase control"
+        ]
+      },
+      {
+        "id": "section-13-2",
+        "number": "13.2",
+        "title": "Photonic Gates",
+        "subsections": [
+          "Two-photon interference",
+          "Measurement-induced operations"
+        ]
+      },
+      {
+        "id": "section-13-3",
+        "number": "13.3",
+        "title": "Detection and Architecture",
+        "subsections": [
+          "Loss and heralding",
+          "Resource states and multiplexing"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A photon can take two paths coherently. A beam splitter mixes those paths, but making one photon control another requires an additional mechanism.",
+      "worked_examples": [
+        "What happens to a dual-rail qubit if its photon is lost?",
+        "What is the ideal coincidence probability for one identical photon in each balanced input?",
+        "If independent sources succeed with probability 0.1, what is the chance that at least one of ten succeeds?"
+      ],
+      "handoff": "A mode can hold more than a single photon. Using that larger space for encoding leads to bosonic error-protection strategies."
+    }
+  },
+  {
+    "stem": "14-bosonic-encodings",
+    "title": "Bosonic Encodings",
+    "question": "How can many levels of one oscillator protect a single logical qubit?",
+    "example": "A photon-loss event detected through number parity.",
+    "prerequisites": "Chapters 1–13; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-14-1",
+        "number": "14.1",
+        "title": "Oscillator States",
+        "subsections": [
+          "Number states and coherent states",
+          "Encoding within a mode"
+        ]
+      },
+      {
+        "id": "section-14-2",
+        "number": "14.2",
+        "title": "Protected Information",
+        "subsections": [
+          "Cat states and parity",
+          "Grid-state encodings"
+        ]
+      },
+      {
+        "id": "section-14-3",
+        "number": "14.3",
+        "title": "Control and Recovery",
+        "subsections": [
+          "Auxiliary-mediated operations",
+          "Finite energy and error channels"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Instead of selecting only the lowest two oscillator levels, can we distribute a qubit across many levels so that common errors leave recognizable traces?",
+      "worked_examples": [
+        "What does one loss do to \\(\\ket4\\)?",
+        "Why can parity measurement damage a superposition of an even and an odd cat?",
+        "For \\(\\kappa=100\\) s⁻¹, mean occupation 4, and \\(t=10\\) μs, estimate loss probability."
+      ],
+      "handoff": "Bosonic codes engineer redundancy in oscillator space. Topological approaches seek insensitivity to local disturbances through a different structure of physical states."
+    }
+  },
+  {
+    "stem": "15-topological-approaches",
+    "title": "Topological Approaches",
+    "question": "What would it mean for quantum information to be protected by nonlocal physical structure?",
+    "example": "A pair of separated modes with a joint parity degree of freedom.",
+    "prerequisites": "Chapters 1–14; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-15-1",
+        "number": "15.1",
+        "title": "Nonlocal Encoding",
+        "subsections": [
+          "Degeneracy and local perturbations",
+          "Parity and encoded information"
+        ]
+      },
+      {
+        "id": "section-15-2",
+        "number": "15.2",
+        "title": "Topological Operations",
+        "subsections": [
+          "Exchange and braiding",
+          "Readout and universality"
+        ]
+      },
+      {
+        "id": "section-15-3",
+        "number": "15.3",
+        "title": "Physical Requirements",
+        "subsections": [
+          "Gaps, poisoning, and finite size",
+          "Evidence and limitations"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Suppose two logical states look identical to every sufficiently local probe. A local disturbance would then have difficulty learning which logical state was present.",
+      "worked_examples": [
+        "Why are four ideal Majorana modes used for one fixed-parity qubit?",
+        "Does a protected braid imply a universal processor?",
+        "Compare Boltzmann factors for \\(\\Delta/k_BT=5\\) and 10."
+      ],
+      "handoff": "Whatever the encoding, controls, cooling, and classical processing must support it. The next chapter counts those physical requirements."
+    }
+  },
+  {
+    "stem": "16-control-infrastructure",
+    "title": "Control Infrastructure",
+    "question": "What equipment and signal paths must work together to execute a circuit?",
+    "example": "A gate command with a finite latency and heat budget.",
+    "prerequisites": "Chapters 1–15; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-16-1",
+        "number": "16.1",
+        "title": "Operating Conditions",
+        "subsections": [
+          "Cryogenics and vacuum",
+          "Optical and microwave delivery"
+        ]
+      },
+      {
+        "id": "section-16-2",
+        "number": "16.2",
+        "title": "Classical Control",
+        "subsections": [
+          "Waveforms and synchronization",
+          "Feedback and decoding"
+        ]
+      },
+      {
+        "id": "section-16-3",
+        "number": "16.3",
+        "title": "System Budgets",
+        "subsections": [
+          "Heat, bandwidth, and wiring",
+          "Calibration and stability"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A gate is a timed physical signal, and a measurement is a signal that must be interpreted. The classical equipment is part of the quantum computer.",
+      "worked_examples": [
+        "A hypothetical cold stage has 10 μW available; each line adds 20 nW. What is the line-only upper bound?",
+        "A syndrome round takes 1 μs and decoding latency is 5 μs. Must every round wait 5 μs?",
+        "If calibration takes 15 minutes each hour, what fraction remains for data collection?"
+      ],
+      "handoff": "Infrastructure limits which operations can happen together. Architecture translates these constraints into a schedule for an entire algorithm."
+    }
+  },
+  {
+    "stem": "17-processor-architecture",
+    "title": "Processor Architecture",
+    "question": "How should qubits, links, and control be organized into a usable processor?",
+    "example": "Routing a distant interaction across a line of qubits.",
+    "prerequisites": "Chapters 1–16; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-17-1",
+        "number": "17.1",
+        "title": "Connectivity",
+        "subsections": [
+          "Local and nonlocal interactions",
+          "Routing and scheduling"
+        ]
+      },
+      {
+        "id": "section-17-2",
+        "number": "17.2",
+        "title": "Modular Systems",
+        "subsections": [
+          "Photonic links",
+          "Communication and memory"
+        ]
+      },
+      {
+        "id": "section-17-3",
+        "number": "17.3",
+        "title": "Scaling Design",
+        "subsections": [
+          "Fabrication and yield",
+          "Architecture-aware resource counts"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "The same logical circuit can require very different physical operations on different connection graphs. Architecture makes that difference explicit.",
+      "worked_examples": [
+        "On a line A–B–C, how can an A–C interaction be made local?",
+        "A link succeeds with probability 0.02 per 10 μs attempt. Find its mean waiting time.",
+        "For 1,000 independent components of yield 0.999, estimate perfect-array yield."
+      ],
+      "handoff": "Error correction adds a structured workload of its own. The next chapter turns its parity checks into device-level operations."
+    }
+  },
+  {
+    "stem": "18-fault-tolerant-hardware",
+    "title": "Fault-Tolerant Hardware",
+    "question": "What must hardware do to keep an encoded computation reliable while it runs?",
+    "example": "Repeated parity measurements with imperfect data and auxiliaries.",
+    "prerequisites": "Chapters 1–17; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-18-1",
+        "number": "18.1",
+        "title": "Syndrome Extraction",
+        "subsections": [
+          "Physical parity circuits",
+          "Measurement faults and repetition"
+        ]
+      },
+      {
+        "id": "section-18-2",
+        "number": "18.2",
+        "title": "Logical Operations",
+        "subsections": [
+          "Code distance and decoding",
+          "Gates and auxiliary states"
+        ]
+      },
+      {
+        "id": "section-18-3",
+        "number": "18.3",
+        "title": "Hardware Requirements",
+        "subsections": [
+          "Leakage, correlation, and latency",
+          "Thresholds and overhead"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A parity measurement should reveal whether two data bits agree without revealing either bit. Implementing that distinction is the first hardware task of error correction.",
+      "worked_examples": [
+        "What happens when the parity circuit receives (|00⟩ + |11⟩)/√2?",
+        "How many arbitrary physical-qubit errors can a distance-5 code correct with perfect syndrome information?",
+        "Use \\(A=0.1\\), \\(p/p_{\\rm th}=0.1\\). Compare distances 3 and 5 in the illustrative fit."
+      ],
+      "handoff": "We can now evaluate a processor through the computation it can carry out, with the full preparation, control, measurement, and correction costs included."
+    }
+  },
+  {
+    "stem": "19-hardware-evaluation",
+    "title": "Hardware Evaluation",
+    "question": "How can we compare processors against the task they must perform?",
+    "example": "A fixed workload with a target success probability and runtime.",
+    "prerequisites": "Chapters 1–18; physical concepts and approximations are introduced as needed.",
+    "sections": [
+      {
+        "id": "section-19-1",
+        "number": "19.1",
+        "title": "Performance Measures",
+        "subsections": [
+          "Physical metrics",
+          "Logical metrics"
+        ]
+      },
+      {
+        "id": "section-19-2",
+        "number": "19.2",
+        "title": "Workload Evaluation",
+        "subsections": [
+          "Compilation and execution cost",
+          "Statistical uncertainty"
+        ]
+      },
+      {
+        "id": "section-19-3",
+        "number": "19.3",
+        "title": "Comparative Assessment",
+        "subsections": [
+          "Matched resource models",
+          "A complete implementation study"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A processor with more qubits is not necessarily the processor that completes a specified computation more accurately or sooner. Evaluation begins by fixing the task.",
+      "worked_examples": [
+        "Why is a long T1 insufficient to predict circuit accuracy?",
+        "In 10,000 independent trials, 9,000 succeed. Estimate one standard error.",
+        "No failures occur in 1,000 independent trials. What upper error bound follows at 95% confidence?"
+      ],
+      "handoff": "The full cycle is now visible: a computational task determines a circuit, the circuit demands physical operations, and the physical error and resource budgets determine whether the task succeeds. Return to the algorithms and programming courses with these budgets attached to every abstract operation."
+    }
+  }
+]

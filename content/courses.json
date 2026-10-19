@@ -6,5 +6,37 @@
     "description": "From logic and reversible computation to quantum states, interference, circuits, and algorithms. Develop the mathematical foundations and explore them through interactive experiments.",
     "details": "9 chapters · Appendices · By Mithilesh Kumar",
     "prerequisite": "Basic linear algebra. No prior quantum mechanics required."
+  },
+  {
+    "title": "Quantum Algorithms",
+    "path": "education/algorithms/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "Develop quantum algorithms through coherent computation, phase encoding, Fourier methods, amplitude manipulation, walks, and operator transformations.",
+    "details": "11 developed chapters · Worked examples and solved problems · By Mithilesh Kumar",
+    "prerequisite": "Quantum Computing course or equivalent knowledge."
+  },
+  {
+    "title": "Quantum Programming",
+    "path": "education/programming/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "Turn quantum algorithms into correct, testable, and reproducible programs with Qiskit. Explore language design, circuit construction, simulation, compilation, and hardware execution.",
+    "details": "16 developed chapters · Worked examples and solved problems · By Mithilesh Kumar",
+    "prerequisite": "Quantum Computing and Quantum Algorithms, or equivalent knowledge. Python essentials are introduced in the course."
+  },
+  {
+    "title": "Quantum Information",
+    "path": "education/information/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "From distinguishable messages and classical information to quantum states, entanglement, compression, error correction, communication, and cryptography. Develop the necessary mathematics through concrete information-processing tasks.",
+    "details": "16 developed chapters · Worked examples and solved problems · By Mithilesh Kumar",
+    "prerequisite": "No prior quantum mechanics, information theory, or linear algebra course required. Mathematics is developed in context."
+  },
+  {
+    "title": "Quantum Hardware",
+    "path": "education/hardware/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "From physical qubits, control, coupling, and readout to hardware platforms, bosonic and topological encodings, processor architecture, and fault-tolerant implementation.",
+    "details": "19 developed chapters · Worked examples and solved problems · By Mithilesh Kumar",
+    "prerequisite": "Quantum Computing course or equivalent knowledge. Device physics is introduced in context."
   }
 ]

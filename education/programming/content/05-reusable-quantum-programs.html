@@ -1,0 +1,38 @@
+<section class="book-section" id="section-5-1" aria-labelledby="section-5-1-heading"><h2 id="section-5-1-heading">5.1 Circuit Interfaces</h2>
+<p>A useful circuit fragment should behave predictably when embedded in a larger computation. Its interface must specify wire order, parameters, and workspace, just as a classical function specifies its inputs and outputs.</p>
+<h3>5.1.1 Python circuit factories</h3><p>A circuit factory is a Python function returning a newly constructed circuit. The rotation factory below makes one Ry gate with a supplied angle. Fresh objects prevent one experiment’s edits from silently changing another. Returning a circuit also lets the caller decide where it is composed and when it is executed.</p>
+<h3>5.1.2 Register contracts and composition</h3><p>The interface of a predicate may be “input wires first, target next, zeroed scratch last; preserve inputs and clear scratch.” Document such contracts beside the factory. compose can map the component’s wires onto selected wires of a larger circuit. A valid mathematical component on the wrong wire mapping is still a program bug.</p>
+<div class="exercise"><p><strong>Problem 5.1.</strong> Why return a fresh circuit instead of a shared global one?</p><details class="problem-solution"><summary>Worked solution</summary><p>Appending gates mutates circuit objects. A shared object can accumulate instructions across calls and make experiments depend on call history.</p></details></div>
+</section>
+<section class="book-section" id="section-5-2" aria-labelledby="section-5-2-heading"><h2 id="section-5-2-heading">5.2 Reusable Operations</h2>
+<h3>5.2.1 Custom gates and controlled gates</h3><p>to_gate() packages a unitary circuit into a reusable gate, and control() constructs a controlled version when supported. Control is a mathematical construction whose decomposition can be costly. It is not equivalent to using a Python if statement. A global phase of the base operation becomes a relative phase when controlled and must be preserved.</p>
+<h3>5.2.2 Inverses and parameter binding</h3><p>Parameter("theta") creates a symbolic parameter. assign_parameters binds it to a numerical value without replacing the entire circuit construction. inverse() reverses a reversible circuit; a circuit containing measurement generally has no unitary inverse. The companion composes a bound rotation with its inverse and compares the result with the identity matrix.</p>
+<div class="exercise"><p><strong>Problem 5.2.</strong> Does U followed by U† test the intended specification?</p><details class="problem-solution"><summary>Worked solution</summary><p>It checks reversibility and the implementation of the inverse, but a wrong U can also pass. Compare with independently predicted outputs or matrices.</p></details></div>
+<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/variational-pair.svg" alt="A one-parameter entangled trial state: cos(θ/2)|00⟩+sin(θ/2)|11⟩. Measure ZZ directly or rotate both wires with H before measuring XX." style="max-width:100%;height:auto"></div><figcaption>A one-parameter entangled trial state: cos(θ/2)|00⟩+sin(θ/2)|11⟩. Measure ZZ directly or rotate both wires with H before measuring XX.</figcaption></figure></section>
+<section class="book-section" id="section-5-3" aria-labelledby="section-5-3-heading"><h2 id="section-5-3-heading">5.3 Workspace Contracts</h2>
+<h3>5.3.1 Ancilla allocation</h3><p>Ancillas are extra quantum wires, not temporary Python variables. Allocate them explicitly and state their required initial state. A borrowed qubit in an unknown state is a different resource from a clean zero ancilla. Simply stopping references to a wire does not physically erase its correlation with the data.</p>
+<h3>5.3.2 Uncomputation and cleanup checks</h3><p>Check workspace restoration on coherent inputs, not just individual values. After a clean subroutine, the workspace must factor into its specified state, with the correct relative phases on the useful registers. A probability-zero error in scratch measurement is useful but does not alone certify the target action. The next oracle chapter gives a full coherent sign check.</p><p>The complete companion below can be <a href="examples/chapter_05.py" download>downloaded as chapter_05.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 5.&quot;&quot;&quot;
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.circuit import Parameter
+from qiskit.quantum_info import Operator
+
+angle = Parameter(&quot;theta&quot;)
+def rotation(theta):
+    qc = QuantumCircuit(1, name=&quot;rotation&quot;)
+    qc.ry(theta, 0)
+    return qc
+
+component = rotation(angle)
+bound = component.assign_parameters({angle: 0.7})
+identity = bound.compose(bound.inverse())
+assert np.allclose(Operator(identity).data, np.eye(2))
+controlled = bound.to_gate().control(1)
+qc = QuantumCircuit(2)
+qc.append(controlled, [0, 1])
+print(qc.draw(output=&quot;text&quot;))
+</code></pre>
+<div class="exercise"><p><strong>Problem 5.3.</strong> Can a symbolic circuit be sampled before all necessary parameters are bound?</p><details class="problem-solution"><summary>Worked solution</summary><p>Only if parameter values are supplied through a supported execution interface. Otherwise its numerical evolution is unspecified and execution should reject it.</p></details></div>
+<p>Reusable parameterized circuits become numerical experiments through sampling and estimation primitives.</p>
+<p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.QuantumCircuit">IBM, QuantumCircuit API</a>.</p>
+</section>

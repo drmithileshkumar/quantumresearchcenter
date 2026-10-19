@@ -1,0 +1,754 @@
+[
+  {
+    "stem": "01-quantum-programming-languages",
+    "title": "Quantum Programming Languages",
+    "question": "How should a programming language express quantum computation and its classical control?",
+    "example": "Compare descriptions of the same controlled operation and measurement in different programming styles.",
+    "prerequisites": "Quantum Computing and Quantum Algorithms, or equivalent knowledge. Python is developed through examples in Chapter 2.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "title": "Language Families",
+        "number": "1.1",
+        "subsections": [
+          "Imperative and functional approaches",
+          "Standalone languages and embedded frameworks"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "title": "Design Principles",
+        "number": "1.2",
+        "subsections": [
+          "Types, ownership, and no-cloning",
+          "Reversibility, measurement, and classical control"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "title": "Abstraction and Execution",
+        "number": "1.3",
+        "subsections": [
+          "Circuit languages and intermediate representations",
+          "Qiskit as a Python SDK"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A circuit drawing can say “apply H, then controlled-X, then measure.” A programming system must also decide what the qubits refer to, when measurements occur, and which instructions the hardware can execute. Language design makes these choices explicit.",
+      "worked_examples": [
+        "Does assigning <code>other = circuit</code> create an independent circuit?",
+        "Can every quantum function have an automatic inverse?",
+        "Why distinguish construction time from execution time?"
+      ],
+      "handoff": "We will use Python to build circuits and explicit execution interfaces to run them. The next chapter constructs a reproducible local environment.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "02-the-qiskit-environment",
+    "title": "The Qiskit Environment",
+    "question": "How do we make a quantum program reproducible and executable locally?",
+    "example": "Construct and run a one-qubit circuit in a clean Python environment.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "title": "Python and Environments",
+        "number": "2.1",
+        "subsections": [
+          "Python through circuit examples",
+          "Packages, versions, and isolated environments"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "title": "The Qiskit Ecosystem",
+        "number": "2.2",
+        "subsections": [
+          "SDK, Aer, and Runtime",
+          "Notebooks and executable scripts"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "title": "A First Program",
+        "number": "2.3",
+        "subsections": [
+          "Build, run, and inspect",
+          "Predictions and reproducible results"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A first program should have a result we can predict without the computer. Starting from zero, H makes equal amplitudes; measurement should give a fair coin. We will separate that prediction from random fluctuations in a finite run.",
+      "worked_examples": [
+        "Why should a fair coin not be tested by demanding exactly 2048 ones?",
+        "What does changing the seed change?",
+        "Where are amplitudes measured in this example?"
+      ],
+      "handoff": "The next circuit has two qubits. Its correlations are simple, but its bit ordering must be made explicit.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "03-circuit-construction",
+    "title": "Circuit Construction",
+    "question": "How do circuit diagrams translate into unambiguous programs?",
+    "example": "Prepare a Bell pair and predict its measured bit strings.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "title": "Registers and Gates",
+        "number": "3.1",
+        "subsections": [
+          "Quantum and classical registers",
+          "Gate order and circuit composition"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "title": "Measurement",
+        "number": "3.2",
+        "subsections": [
+          "Mapping qubits to classical bits",
+          "Bit strings and tensor-product ordering"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "title": "Circuit Inspection",
+        "number": "3.3",
+        "subsections": [
+          "Drawing and decomposing circuits",
+          "Comparing code with predicted evolution"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Prepare a Bell pair and measure it. Only equal bits should appear, but that symmetric example can conceal an ordering mistake. We will add an asymmetric test before trusting the program.",
+      "worked_examples": [
+        "Would counts containing only 00 and 11 prove entanglement?",
+        "What state results from X on qubit one alone?",
+        "Why include a text drawing in a runnable example?"
+      ],
+      "handoff": "With the indexing fixed, we can compare circuits directly with their mathematical states and operators.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "04-states-and-operators",
+    "title": "States and Operators",
+    "question": "How can simulation expose a program’s mathematical action?",
+    "example": "Compare a small circuit with its matrix and state-vector predictions.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "title": "State Representations",
+        "number": "4.1",
+        "subsections": [
+          "State vectors and density matrices",
+          "Composite systems and subsystem order"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "title": "Operators and Observables",
+        "number": "4.2",
+        "subsections": [
+          "Unitary operators",
+          "Pauli observables and expectation values"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "title": "Simulation",
+        "number": "4.3",
+        "subsections": [
+          "Exact evolution and sampled results",
+          "Simulator access versus physical measurement"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A simulator can show the state hidden inside a circuit. Used carefully, this is a debugging instrument: it lets us compare the program with the predicted mathematical action before introducing sampling or hardware noise.",
+      "worked_examples": [
+        "What does partial_trace(state,[1]) keep for two qubits?",
+        "Does a zero expectation of Z imply a maximally mixed state?",
+        "Why avoid dense matrices in the large-instance benchmark?"
+      ],
+      "handoff": "Next we give circuit fragments explicit interfaces so they can be safely reused and inverted.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "05-reusable-quantum-programs",
+    "title": "Reusable Quantum Programs",
+    "question": "How can a circuit become a reliable reusable component?",
+    "example": "Build a parameterized controlled subroutine with explicit workspace requirements.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "title": "Circuit Interfaces",
+        "number": "5.1",
+        "subsections": [
+          "Python circuit factories",
+          "Register contracts and composition"
+        ]
+      },
+      {
+        "id": "section-5-2",
+        "title": "Reusable Operations",
+        "number": "5.2",
+        "subsections": [
+          "Custom gates and controlled gates",
+          "Inverses and parameter binding"
+        ]
+      },
+      {
+        "id": "section-5-3",
+        "title": "Workspace Contracts",
+        "number": "5.3",
+        "subsections": [
+          "Ancilla allocation",
+          "Uncomputation and cleanup checks"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A useful circuit fragment should behave predictably when embedded in a larger computation. Its interface must specify wire order, parameters, and workspace, just as a classical function specifies its inputs and outputs.",
+      "worked_examples": [
+        "Why return a fresh circuit instead of a shared global one?",
+        "Does U followed by U† test the intended specification?",
+        "Can a symbolic circuit be sampled before all necessary parameters are bound?"
+      ],
+      "handoff": "Reusable parameterized circuits become numerical experiments through sampling and estimation primitives.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "06-sampling-and-estimation",
+    "title": "Sampling and Estimation",
+    "question": "How does a circuit produce the numerical result a program needs?",
+    "example": "Compare sampling and observable estimation for a parameterized qubit.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "title": "Execution Primitives",
+        "number": "6.1",
+        "subsections": [
+          "V2 Sampler and Estimator",
+          "Local implementations and result structures"
+        ]
+      },
+      {
+        "id": "section-6-2",
+        "title": "Statistical Readout",
+        "number": "6.2",
+        "subsections": [
+          "Shots, precision, and uncertainty",
+          "Bit strings and classical postprocessing"
+        ]
+      },
+      {
+        "id": "section-6-3",
+        "title": "Repeated Workloads",
+        "number": "6.3",
+        "subsections": [
+          "Parameter sweeps",
+          "Batching inputs and interpreting results"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "For Ry(θ)|0〉, the probability of one is sin²(θ/2), while the mean of Z is cos θ. These are two ways to ask about the same circuit, and they correspond to two execution interfaces.",
+      "worked_examples": [
+        "At θ=π/3, predict p(1) and the Z mean.",
+        "How does doubling shots change a standard error?",
+        "Why keep a circuit without measurements for the Estimator?"
+      ],
+      "handoff": "We can now run and interpret a circuit. The next step is to construct the input-dependent oracle that an algorithm assumes.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "07-oracles-and-arithmetic",
+    "title": "Oracles and Arithmetic",
+    "question": "How do we implement an oracle rather than assume it exists?",
+    "example": "Construct and verify a reversible predicate and its phase-oracle form.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-7-1",
+        "title": "Reversible Predicates",
+        "number": "7.1",
+        "subsections": [
+          "Boolean evaluation",
+          "Answer registers and retained inputs"
+        ]
+      },
+      {
+        "id": "section-7-2",
+        "title": "Arithmetic Circuits",
+        "number": "7.2",
+        "subsections": [
+          "Addition and comparison",
+          "Precision and workspace requirements"
+        ]
+      },
+      {
+        "id": "section-7-3",
+        "title": "Phase Oracles",
+        "number": "7.3",
+        "subsections": [
+          "Compute, phase, and uncompute",
+          "Superposition tests and resource counts"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "The oracle f(a,b,c)=ab XOR c is small enough to verify exhaustively and rich enough to expose the distinction between a Boolean truth table and a coherent circuit.",
+      "worked_examples": [
+        "What happens to an answer target initially one when f=1?",
+        "Why test a target minus state?",
+        "Is a four-bit adder an implementation of arbitrary-precision integer addition?"
+      ],
+      "handoff": "With verified oracles, the algorithms course can be translated into executable constructions.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "08-algorithm-implementation",
+    "title": "Algorithm Implementation",
+    "question": "How do the techniques of Quantum Algorithms become working programs?",
+    "example": "Implement a phase-estimation circuit and compare its outputs with a known phase.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-8-1",
+        "title": "Fourier Methods",
+        "number": "8.1",
+        "subsections": [
+          "Constructing the Fourier circuit",
+          "Controlled powers and phase estimation"
+        ]
+      },
+      {
+        "id": "section-8-2",
+        "title": "Amplitude Manipulation",
+        "number": "8.2",
+        "subsections": [
+          "Preparation and reflections",
+          "Search and amplification"
+        ]
+      },
+      {
+        "id": "section-8-3",
+        "title": "Quantum Walks",
+        "number": "8.3",
+        "subsections": [
+          "Position and coin registers",
+          "Implementation and classical baselines"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Implement two familiar transformations and compare their matrices or output probabilities with independent formulas. Small examples are useful for debugging, but the construction must keep its conventions explicit.",
+      "worked_examples": [
+        "Why compare QFT matrices instead of only transforming zero?",
+        "What happens after a second Grover iteration in the four-item example?",
+        "Can the position register alone generally implement a reversible coined shift?"
+      ],
+      "handoff": "The examples suggest a testing discipline. The next chapter makes that discipline systematic.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "09-testing-and-verification",
+    "title": "Testing and Verification",
+    "question": "What evidence establishes that a quantum program implements its specification?",
+    "example": "Find a circuit bug that passes basis-probability tests but fails on superpositions.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-9-1",
+        "title": "Functional Tests",
+        "number": "9.1",
+        "subsections": [
+          "Basis inputs and superpositions",
+          "Equivalence and global phase"
+        ]
+      },
+      {
+        "id": "section-9-2",
+        "title": "State and Workspace Checks",
+        "number": "9.2",
+        "subsections": [
+          "Register ordering and ancilla cleanup",
+          "Inverse and composition tests"
+        ]
+      },
+      {
+        "id": "section-9-3",
+        "title": "Statistical Tests",
+        "number": "9.3",
+        "subsections": [
+          "Numerical tolerances",
+          "Sampling uncertainty and regression tests"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A wrong circuit can pass every computational-basis probability test. Identity and Z are the simplest example: they preserve basis labels but disagree on plus. Verification must test the kind of behavior the component promises.",
+      "worked_examples": [
+        "Why does testing Z on zero miss the bug?",
+        "Can two individually global-equivalent gates always be substituted under control?",
+        "Is a larger tolerance always safer?"
+      ],
+      "handoff": "The next transformation is performed by a compiler. Its output needs the same semantic checks, with layout taken into account.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "10-compilation-and-transpilation",
+    "title": "Compilation and Transpilation",
+    "question": "How does a logical program become executable on a specific device?",
+    "example": "Compile one circuit onto different connectivity constraints and compare costs.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-10-1",
+        "title": "Backend Targets",
+        "number": "10.1",
+        "subsections": [
+          "Native operations",
+          "Connectivity and device constraints"
+        ]
+      },
+      {
+        "id": "section-10-2",
+        "title": "Transpilation",
+        "number": "10.2",
+        "subsections": [
+          "Decomposition and synthesis",
+          "Layout, routing, and optimization"
+        ]
+      },
+      {
+        "id": "section-10-3",
+        "title": "Compiler Inspection",
+        "number": "10.3",
+        "subsections": [
+          "Pass managers",
+          "Logical equivalence and physical resource counts"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A circuit requests CNOT between qubits zero and two, but the device has only a line of neighboring qubits. Compilation must change the implementation while preserving the logical computation.",
+      "worked_examples": [
+        "Why may a native gate count exceed a logical count?",
+        "What does an optimization level guarantee?",
+        "Why record the layout with an experiment?"
+      ],
+      "handoff": "Compilation prepares a device-compatible workload. Hardware execution adds account access, budgets, and provenance.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "11-quantum-hardware-execution",
+    "title": "Quantum Hardware Execution",
+    "question": "How do we run a tested program on hardware and interpret the result?",
+    "example": "Execute a small validated circuit and compare hardware measurements with local predictions.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-11-1",
+        "title": "Execution Setup",
+        "number": "11.1",
+        "subsections": [
+          "Backend selection and credentials",
+          "Executable circuits and mapped observables"
+        ]
+      },
+      {
+        "id": "section-11-2",
+        "title": "Runtime Workloads",
+        "number": "11.2",
+        "subsections": [
+          "Submitting and retrieving jobs",
+          "Execution modes and budgets"
+        ]
+      },
+      {
+        "id": "section-11-3",
+        "title": "Result Analysis",
+        "number": "11.3",
+        "subsections": [
+          "Metadata and provenance",
+          "Simulation, hardware, and uncertainty"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "The same Bell circuit can be tested locally and submitted remotely. The two executions need different claims: a local simulation predicts an ideal model, while a hardware result reports a particular device at a particular time.",
+      "worked_examples": [
+        "Does importing the Runtime package submit a circuit?",
+        "Why map an Estimator observable after layout?",
+        "What is missing from a claim that hardware “gave 95% success”?"
+      ],
+      "handoff": "Hardware can sometimes act on measurement results before a circuit finishes. We next program that feedback explicitly.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "12-dynamic-circuits",
+    "title": "Dynamic Circuits",
+    "question": "How can a measurement change the remaining computation?",
+    "example": "Implement teleportation with measurement-dependent corrections.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-12-1",
+        "title": "Mid-Circuit Operations",
+        "number": "12.1",
+        "subsections": [
+          "Measurement and reset",
+          "Classical conditions and feedback"
+        ]
+      },
+      {
+        "id": "section-12-2",
+        "title": "Conditional Programs",
+        "number": "12.2",
+        "subsections": [
+          "Teleportation",
+          "Iterative procedures"
+        ]
+      },
+      {
+        "id": "section-12-3",
+        "title": "Execution Constraints",
+        "number": "12.3",
+        "subsections": [
+          "Simulator and backend capabilities",
+          "Latency, branches, and correctness"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Teleportation is a demanding program test because every measurement branch must recover the same input state. Averaging only the easiest branch would hide a broken correction rule.",
+      "worked_examples": [
+        "Why apply Z controlled by c0 rather than c1?",
+        "Does Bob receive the state before Alice communicates her outcomes?",
+        "Why test a nontrivial phase as well as real amplitudes?"
+      ],
+      "handoff": "Correct dynamic logic can still fail under noise. The next chapter separates noise models from sampling and approximation.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "13-noise-and-reliability",
+    "title": "Noise and Reliability",
+    "question": "How can we distinguish a noisy experiment from an incorrect program?",
+    "example": "Compare ideal, noisy simulated, and hardware outcomes for the same circuit.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-13-1",
+        "title": "Noise Models",
+        "number": "13.1",
+        "subsections": [
+          "Gate and readout errors",
+          "Constructing noisy simulations"
+        ]
+      },
+      {
+        "id": "section-13-2",
+        "title": "Reliability Techniques",
+        "number": "13.2",
+        "subsections": [
+          "Error suppression",
+          "Error mitigation and its assumptions"
+        ]
+      },
+      {
+        "id": "section-13-3",
+        "title": "Interpreting Discrepancies",
+        "number": "13.3",
+        "subsections": [
+          "Noise, approximation, and sampling",
+          "Bias, uncertainty, and reporting limits"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "An X gate should produce one from zero, yet a noisy device sometimes reports zero. Before attempting a correction, distinguish an erroneous gate from an erroneous readout and from finite sampling fluctuations.",
+      "worked_examples": [
+        "For depolarization strength 0.2 after X, predict P(1).",
+        "At readout flip rate e=0.1, how does inverse correction scale variance?",
+        "Can error mitigation certify a fault-tolerant computation?"
+      ],
+      "handoff": "The next program uses repeated estimates to choose parameters, making the statistical budget part of the optimization loop.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "14-hybrid-quantum-programs",
+    "title": "Hybrid Quantum Programs",
+    "question": "How do quantum measurements guide a classical optimization loop?",
+    "example": "Build a small variational eigensolver with an explicit measurement budget.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-14-1",
+        "title": "Parameterized Workflows",
+        "number": "14.1",
+        "subsections": [
+          "Parameter binding and objectives",
+          "Repeated estimation"
+        ]
+      },
+      {
+        "id": "section-14-2",
+        "title": "Optimization Loops",
+        "number": "14.2",
+        "subsections": [
+          "Gradients and classical updates",
+          "Stopping criteria and reproducibility"
+        ]
+      },
+      {
+        "id": "section-14-3",
+        "title": "Applications",
+        "number": "14.3",
+        "subsections": [
+          "Variational eigensolvers",
+          "QAOA and performance comparisons"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A variational program repeatedly prepares a parameterized state and asks for its energy. Start with an objective whose entire curve is known, so the optimizer cannot conceal an implementation mistake.",
+      "worked_examples": [
+        "Why is the energy at θ=0 equal to −1?",
+        "Can a measured energy below −2 be accepted as a better solution?",
+        "Why keep a grid baseline?"
+      ],
+      "handoff": "The next chapter implements operator constructions whose approximation and normalization must be tested as carefully as their code.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "15-advanced-algorithm-construction",
+    "title": "Advanced Algorithm Construction",
+    "question": "How do we implement operator transformations with explicit resource costs?",
+    "example": "Construct a small matrix embedding and verify its encoded action.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-15-1",
+        "title": "Hamiltonian Simulation",
+        "number": "15.1",
+        "subsections": [
+          "Product-formula circuits",
+          "Time and approximation error"
+        ]
+      },
+      {
+        "id": "section-15-2",
+        "title": "Operator Embeddings",
+        "number": "15.2",
+        "subsections": [
+          "Ancillas and normalization",
+          "Linear combinations of unitaries"
+        ]
+      },
+      {
+        "id": "section-15-3",
+        "title": "Polynomial Transformations",
+        "number": "15.3",
+        "subsections": [
+          "Phase sequences",
+          "Verification and compilation costs"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "Advanced circuit boxes often hide two separate issues: how accurately they implement a target transformation, and how often a selected auxiliary outcome occurs. We will expose both with small matrices.",
+      "worked_examples": [
+        "Why is the rotation angle 2/r rather than 1/r?",
+        "What is the success probability of the LCU example on system zero?",
+        "Why cannot a degree count alone specify total cost?"
+      ],
+      "handoff": "The final chapter packages these habits into a reproducible project rather than an isolated successful run.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  },
+  {
+    "stem": "16-reproducible-quantum-projects",
+    "title": "Reproducible Quantum Projects",
+    "question": "What makes a quantum programming result independently reproducible?",
+    "example": "Package a complete algorithm implementation with tests, execution records, and analysis.",
+    "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
+    "sections": [
+      {
+        "id": "section-16-1",
+        "title": "Project Structure",
+        "number": "16.1",
+        "subsections": [
+          "Modules, notebooks, and tests",
+          "Dependencies and version control"
+        ]
+      },
+      {
+        "id": "section-16-2",
+        "title": "Experiment Records",
+        "number": "16.2",
+        "subsections": [
+          "Saved circuits and configurations",
+          "Results, metadata, and execution costs"
+        ]
+      },
+      {
+        "id": "section-16-3",
+        "title": "Capstone Project",
+        "number": "16.3",
+        "subsections": [
+          "Specification and implementation",
+          "Evaluation, limitations, and documentation"
+        ]
+      }
+    ],
+    "status": "draft",
+    "development": {
+      "construction": "A project is reproducible when another reader can reconstruct its task, circuit, assumptions, and evidence. A plot without the program and execution record is not enough.",
+      "worked_examples": [
+        "Why does the target bit vary in the capstone output?",
+        "What changes if the secret is all zeros?",
+        "What evidence would be needed for a runtime advantage claim?"
+      ],
+      "handoff": "This completes the programming sequence. The companion examples form a locally tested starting point for projects, with hardware submission kept explicit and separately documented.",
+      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
+    }
+  }
+]

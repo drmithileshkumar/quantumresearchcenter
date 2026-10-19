@@ -1,0 +1,45 @@
+<section class="book-section" id="section-15-1" aria-labelledby="section-15-1-heading"><h2 id="section-15-1-heading">15.1 Hamiltonian Simulation</h2>
+<p>Advanced circuit boxes often hide two separate issues: how accurately they implement a target transformation, and how often a selected auxiliary outcome occurs. We will expose both with small matrices.</p>
+<h3>15.1.1 Product-formula circuits</h3><p>For H=X+Z and time one, alternate Rz(2/r) then Rx(2/r), repeated r times. Since Rz(θ)=exp(−iθZ/2), this realizes (exp(−iX/r)exp(−iZ/r))^r. Compare its operator with exp(−i(X+Z)), computed classically only for this small verification instance. The gate order is chosen deliberately to match the formula.</p>
+<h3>15.1.2 Time and approximation error</h3><p>The first-order norm bound is at most 1/r for this example. The companion checks r=10,20,40 against that bound. It reports approximation error separately from sampling and hardware noise. Increasing r reduces the formula error but adds gates, so on hardware the best r can be finite rather than as large as possible.</p>
+<div class="exercise"><p><strong>Problem 15.1.</strong> Why is the rotation angle 2/r rather than 1/r?</p><details class="problem-solution"><summary>Worked solution</summary><p>Qiskit’s Pauli rotation convention has a factor one half in the exponential. Using 1/r would simulate half the intended term strength.</p></details></div>
+</section>
+<section class="book-section" id="section-15-2" aria-labelledby="section-15-2-heading"><h2 id="section-15-2-heading">15.2 Operator Embeddings</h2>
+<h3>15.2.1 Ancillas and normalization</h3><p>A block encoding of A/α places that transformation in the zero-ancilla block of a unitary. The scale α and ancilla count are part of the interface. Successful projection produces A|ψ〉/α before normalization. A matrix entry check verifies the encoding, while a state-specific probability check tells how expensive selection will be.</p>
+<h3>15.2.2 Linear combinations of unitaries</h3><p>For A=(I+X)/2, use an auxiliary H, controlled-X, then H. In the companion, auxiliary q1 is the high bit, so the selected block is the top-left two-by-two block. Reversing the ancilla and system indices changes which matrix slice is correct. Randomly choosing I or X would not implement this coherent sum.</p>
+<div class="exercise"><p><strong>Problem 15.2.</strong> What is the success probability of the LCU example on system zero?</p><details class="problem-solution"><summary>Worked solution</summary><p>The selected vector is (|0〉+|1〉)/2, with squared norm one half. The normalized conditional state is plus.</p></details></div>
+<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/lcu.svg" alt="An encoding of (I+X)/2. Select ancilla outcome zero to obtain the desired sum on the system; success depends on the input state." style="max-width:100%;height:auto"></div><figcaption>An encoding of (I+X)/2. Select ancilla outcome zero to obtain the desired sum on the system; success depends on the input state.</figcaption></figure></section>
+<section class="book-section" id="section-15-3" aria-labelledby="section-15-3-heading"><h2 id="section-15-3-heading">15.3 Polynomial Transformations</h2>
+<h3>15.3.1 Phase sequences</h3><p>Signal processing alternates an encoded signal with phase rotations. Fix the sign convention, ordering, selected auxiliary block, and admissible polynomial before importing a phase list. For the scalar signal W(x)=xI+i√(1−x²)X, two calls give response 2x²−1. Repeating a block encoding does not generally square its selected block, because unselected amplitudes can return.</p>
+<h3>15.3.2 Verification and compilation costs</h3><p>Validate a candidate polynomial at sample points and at its promised interval boundaries, then test the matrix action on small encoded examples. Sampling is not a proof of a uniform approximation bound, which must come from the construction. Charge encoding calls, normalization, success amplification, phase synthesis, and compilation. The companion verifies product formulas and the basic LCU block used by those more advanced constructions.</p><p>The complete companion below can be <a href="examples/chapter_15.py" download>downloaded as chapter_15.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 15.&quot;&quot;&quot;
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+from scipy.linalg import expm
+
+X = np.array([[0, 1], [1, 0]])
+Z = np.diag([1, -1])
+errors = []
+for steps in (10, 20, 40):
+    qc = QuantumCircuit(1)
+    for _ in range(steps):
+        qc.rz(2/steps, 0)
+        qc.rx(2/steps, 0)
+    error = np.linalg.norm(Operator(qc).data - expm(-1j*(X+Z)), 2)
+    assert error &lt;= 1/steps + 1e-12
+    errors.append(error)
+# An LCU encoding of (I+X)/2: ancilla q1, system q0.
+lcu = QuantumCircuit(2)
+lcu.h(1); lcu.cx(1, 0); lcu.h(1)
+assert np.allclose(Operator(lcu).data[:2, :2], (np.eye(2)+X)/2)
+print(&quot;Product-formula errors:&quot;, errors)
+
+# Verify the low-degree signal response independently of a synthesis package.
+for x in np.linspace(-1, 1, 21):
+    W = x*np.eye(2) + 1j*np.sqrt(max(0, 1-x*x))*X
+    assert np.allclose(W.conj().T @ W, np.eye(2))
+    assert np.isclose((W @ W)[0, 0], 2*x*x-1)
+</code></pre>
+<div class="exercise"><p><strong>Problem 15.3.</strong> Why cannot a degree count alone specify total cost?</p><details class="problem-solution"><summary>Worked solution</summary><p>Each signal call may contain a large encoding circuit, and success amplification or gate synthesis adds work. The access implementation matters.</p></details></div>
+<p>The final chapter packages these habits into a reproducible project rather than an isolated successful run.</p>
+</section>

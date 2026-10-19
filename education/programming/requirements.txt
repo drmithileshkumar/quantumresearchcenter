@@ -1,0 +1,6 @@
+# Direct dependencies tested with Python 3.14.4 on Linux x86_64.
+qiskit==2.6.0
+qiskit-aer==0.17.2
+qiskit-ibm-runtime==0.50.0
+numpy==2.5.4
+scipy==1.18.1

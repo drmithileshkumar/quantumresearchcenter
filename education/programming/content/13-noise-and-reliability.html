@@ -1,0 +1,33 @@
+<section class="book-section" id="section-13-1" aria-labelledby="section-13-1-heading"><h2 id="section-13-1-heading">13.1 Noise Models</h2>
+<p>An X gate should produce one from zero, yet a noisy device sometimes reports zero. Before attempting a correction, distinguish an erroneous gate from an erroneous readout and from finite sampling fluctuations.</p>
+<h3>13.1.1 Gate and readout errors</h3><p>A gate error changes the quantum state before measurement; a readout error changes the reported classical label. The example attaches a depolarizing channel to X: E(ρ)=0.9ρ+0.1I/2. On the intended one state, the measured probability of one is 0.95. The parameter 0.1 is not itself the probability of a wrong reported bit under this convention.</p>
+<h3>13.1.2 Constructing noisy simulations</h3><p>NoiseModel assigns errors to instruction names and qubits. If transpilation removes or renames an instruction, a model attached to its old name may no longer act where intended. Inspect the compiled circuit. The companion uses optimization_level=0 and an explicit X experiment so the attachment remains clear. A chosen model is a hypothesis about errors, not a calibrated device by itself.</p>
+<div class="exercise"><p><strong>Problem 13.1.</strong> For depolarization strength 0.2 after X, predict P(1).</p><details class="problem-solution"><summary>Worked solution</summary><p>The state is 0.8|1〉〈1|+0.2I/2, so P(1)=0.9.</p></details></div>
+</section>
+<section class="book-section" id="section-13-2" aria-labelledby="section-13-2-heading"><h2 id="section-13-2-heading">13.2 Reliability Techniques</h2>
+<h3>13.2.1 Error suppression</h3><p>Suppression attempts to reduce errors during execution: better layouts, shorter circuits, or properly scheduled decoupling can help under appropriate noise assumptions. Adding gates can also make errors worse. Compare a controlled baseline and count the added duration and operations rather than assuming that a named technique always helps.</p>
+<h3>13.2.2 Error mitigation and its assumptions</h3><p>Mitigation estimates an ideal quantity from noisy data, often by calibration, inversion, or extrapolation. For symmetric readout flip probability e, the observed Z mean is (1−2e) times the true mean; dividing by that factor corrects the mean if the model is right. Its variance grows by 1/(1−2e)^2, diverging as e approaches one half. Calibration uncertainty and drift must also be included.</p>
+<div class="exercise"><p><strong>Problem 13.2.</strong> At readout flip rate e=0.1, how does inverse correction scale variance?</p><details class="problem-solution"><summary>Worked solution</summary><p>It multiplies variance by 1/0.8²=1.5625, even if e is known exactly.</p></details></div>
+</section>
+<section class="book-section" id="section-13-3" aria-labelledby="section-13-3-heading"><h2 id="section-13-3-heading">13.3 Interpreting Discrepancies</h2>
+<h3>13.3.1 Noise, approximation, and sampling</h3><p>A discrepancy can come from a wrong program, an approximate circuit, random shots, or a misspecified noise model. Check them in that order with increasingly realistic experiments. More shots reduce random fluctuation but do not fix a biased model. Comparing an exact simulator with noisy hardware without those distinctions is not a diagnosis.</p>
+<h3>13.3.2 Bias, uncertainty, and reporting limits</h3><p>The companion runs 8192 simulated shots and checks the frequency against 0.95 with a conservative tolerance. It does not claim that depolarization describes every device or that the same tolerance is a confidence interval for all experiments. Report the model, parameter convention, compiled gate attachment, seed, and shot count with the output.</p><p>The complete companion below can be <a href="examples/chapter_13.py" download>downloaded as chapter_13.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 13.&quot;&quot;&quot;
+from qiskit_aer import AerSimulator
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+
+qc = QuantumCircuit(1)
+qc.x(0); qc.measure_all()
+noise = NoiseModel()
+noise.add_all_qubit_quantum_error(depolarizing_error(0.1, 1), [&quot;x&quot;])
+sim = AerSimulator(noise_model=noise, seed_simulator=31, max_parallel_threads=1)
+counts = sim.run(transpile(qc, sim, optimization_level=0), shots=8192).result().get_counts()
+p1 = counts.get(&quot;1&quot;, 0) / 8192
+# E(rho) = .9 rho + .1 I/2, so expected P(1) = .95.
+assert abs(p1 - 0.95) &lt; 0.03
+print(&quot;Simulated P(1):&quot;, p1, &quot;analytic prediction: 0.95&quot;)
+</code></pre>
+<div class="exercise"><p><strong>Problem 13.3.</strong> Can error mitigation certify a fault-tolerant computation?</p><details class="problem-solution"><summary>Worked solution</summary><p>No. Mitigation depends on a noise model and statistical processing. It does not supply an error-correcting logical computation or a general guarantee against arbitrary errors.</p></details></div>
+<p>The next program uses repeated estimates to choose parameters, making the statistical budget part of the optimization loop.</p>
+<p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/guides/build-noise-models">IBM, noise model construction</a>.</p>
+</section>

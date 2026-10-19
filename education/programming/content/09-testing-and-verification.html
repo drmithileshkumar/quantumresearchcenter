@@ -1,0 +1,36 @@
+<section class="book-section" id="section-9-1" aria-labelledby="section-9-1-heading"><h2 id="section-9-1-heading">9.1 Functional Tests</h2>
+<p>A wrong circuit can pass every computational-basis probability test. Identity and Z are the simplest example: they preserve basis labels but disagree on plus. Verification must test the kind of behavior the component promises.</p>
+<h3>9.1.1 Basis inputs and superpositions</h3><p>A basis test should compare complex output amplitudes when checking a coherent contract. If it compares only measured labels, it may miss input-dependent phases. Superpositions make those phases visible. The companion first confirms that I and Z have identical basis output probabilities, then shows that their actions on plus are inequivalent.</p>
+<h3>9.1.2 Equivalence and global phase</h3><p>A whole circuit can differ by one global phase without changing its standalone output statistics. Operator.equiv recognizes that freedom. An independent phase on each input column is not a global phase. Moreover, controlling a unitary turns its global phase into a relative control phase. The companion checks both cases, so a tolerance or equivalence shortcut does not erase meaningful distinctions.</p>
+<div class="exercise"><p><strong>Problem 9.1.</strong> Why does testing Z on zero miss the bug?</p><details class="problem-solution"><summary>Worked solution</summary><p>Zero is an eigenstate of Z with eigenvalue one. Test plus to expose the relative sign between zero and one.</p></details></div>
+</section>
+<section class="book-section" id="section-9-2" aria-labelledby="section-9-2-heading"><h2 id="section-9-2-heading">9.2 State and Workspace Checks</h2>
+<h3>9.2.1 Register ordering and ancilla cleanup</h3><p>Use asymmetric inputs to test ordering. Check the probability of nonzero scratch outcomes, the reduced target state, and the final joint state when small enough. A clean workspace should factor from the useful registers. Basis tests for a fixed initialized workspace certify only that subspace, which is appropriate if the interface explicitly requires that initialization.</p>
+<h3>9.2.2 Inverse and composition tests</h3><p>Test inverse and composition identities, but pair them with a specification test. U followed by its computed inverse is identity even if U implements the wrong function. Composition can also reveal incompatible wire contracts or omitted phase conventions. Random complex inputs are useful additional checks, not a substitute for a proof or a complete small matrix test.</p>
+<div class="exercise"><p><strong>Problem 9.2.</strong> Can two individually global-equivalent gates always be substituted under control?</p><details class="problem-solution"><summary>Worked solution</summary><p>No. Their differing phase acts only in the control-one branch and becomes observable relative to the control-zero branch.</p></details></div>
+</section>
+<section class="book-section" id="section-9-3" aria-labelledby="section-9-3-heading"><h2 id="section-9-3-heading">9.3 Statistical Tests</h2>
+<h3>9.3.1 Numerical tolerances</h3><p>Numerical tolerances should reflect floating-point accumulation and approximation error. Exact small gates can use tight absolute tolerances such as 10^-12; an intentionally approximate product formula needs its analytic error budget. Relative tolerance alone is unsuitable near a zero amplitude. Report which equivalence notion and norm the test uses.</p>
+<h3>9.3.2 Sampling uncertainty and regression tests</h3><p>Sampling tests need statistical tolerances and can occasionally fail even for correct code. Fix seeds for regression reproducibility, but also check deterministic state or operator predictions. Avoid demanding exact counts from an ideal probabilistic experiment. The companion intentionally includes a wrong circuit and verifies that the meaningful coherent test rejects it.</p><p>The complete companion below can be <a href="examples/chapter_09.py" download>downloaded as chapter_09.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 9.&quot;&quot;&quot;
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator, Statevector
+
+identity = QuantumCircuit(1)
+wrong = QuantumCircuit(1)
+wrong.z(0)
+# Basis output probabilities match, but relative phase differs.
+for label in (&quot;0&quot;, &quot;1&quot;):
+    state = Statevector.from_label(label)
+    assert np.allclose(state.evolve(identity).probabilities(), state.evolve(wrong).probabilities())
+assert not Statevector.from_label(&quot;+&quot;).evolve(identity).equiv(Statevector.from_label(&quot;+&quot;).evolve(wrong))
+assert not Operator(identity).equiv(Operator(wrong))
+phase = QuantumCircuit(1)
+phase.global_phase = 0.3
+assert Operator(identity).equiv(Operator(phase))
+assert not Operator(identity.to_gate().control()).equiv(Operator(phase.to_gate().control()))
+print(&quot;Relative-phase bug detected; controlled global phase also checked&quot;)
+</code></pre>
+<div class="exercise"><p><strong>Problem 9.3.</strong> Is a larger tolerance always safer?</p><details class="problem-solution"><summary>Worked solution</summary><p>It reduces false failures but can accept real bugs. Choose it from the numerical and approximation budgets, and include known incorrect examples that should fail.</p></details></div>
+<p>The next transformation is performed by a compiler. Its output needs the same semantic checks, with layout taken into account.</p>
+</section>

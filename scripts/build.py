@@ -165,7 +165,11 @@ def render(book):
     page(student_source,'Students and Contributions',student_body,[('contributions','Student contributions')])
     used=list(dict.fromkeys(ref for item in entries for ref in item['papers']))
     page('references/index.html','Bibliography','<p class="kicker">Reference material</p><h1>Bibliography</h1><p class="lead">Papers cited in the research handbook.</p><section id="papers"><h2>Research papers and reviews</h2>'+bibliography(used)+'</section>',[('papers','Papers and reviews')])
-    outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc></url>' for p in [*[name for name in outputs if name.endswith('.html')], 'education/computing/index.html', 'education/computing/glossary.html', 'education/computing/study-guide.html', 'education/computing/revisions.html', *['education/computing/'+chapter[0]+'.html' for chapter in json.loads((ROOT/'education/computing/chapters.json').read_text())]])+'</urlset>\n'
+    followup_pages=[]
+    for course in ('algorithms','programming','information','hardware'):
+        followup_pages.append(f'education/{course}/index.html')
+        followup_pages.extend(f'education/{course}/'+chapter['stem']+'.html' for chapter in json.loads((ROOT/f'education/{course}/chapters.json').read_text()))
+    outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc></url>' for p in [*[name for name in outputs if name.endswith('.html')], *followup_pages, 'education/computing/index.html', 'education/computing/glossary.html', 'education/computing/study-guide.html', 'education/computing/revisions.html', *['education/computing/'+chapter[0]+'.html' for chapter in json.loads((ROOT/'education/computing/chapters.json').read_text())]])+'</urlset>\n'
     outputs['robots.txt']='User-agent: *\nAllow: /\nSitemap: '+book['url']+'/sitemap.xml\n'
     return outputs
 

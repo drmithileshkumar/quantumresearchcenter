@@ -1,0 +1,49 @@
+<section class="book-section" id="section-11-1" aria-labelledby="section-11-1-heading"><h2 id="section-11-1-heading">11.1 Execution Setup</h2>
+<p>The same Bell circuit can be tested locally and submitted remotely. The two executions need different claims: a local simulation predicts an ideal model, while a hardware result reports a particular device at a particular time.</p>
+<h3>11.1.1 Backend selection and credentials</h3><p>Choose an accessible backend that supports the circuit’s width, instructions, and control requirements. Account setup and credentials belong outside source files. The companion uses a synthetic local backend by default. It does not access an account or submit a job unless the user explicitly supplies --submit and an exact --backend name.</p>
+<h3>11.1.2 Executable circuits and mapped observables</h3><p>Compile against the selected backend’s target before submission. For an Estimator workload, map each logical observable through the compiled circuit’s layout, for example with observable.apply_layout(compiled.layout). Otherwise the observable may refer to the wrong physical wires. The example uses a Sampler, whose measurement mapping is carried by the compiled circuit.</p>
+<div class="exercise"><p><strong>Problem 11.1.</strong> Does importing the Runtime package submit a circuit?</p><details class="problem-solution"><summary>Worked solution</summary><p>No. A run call on a remote execution object is the submission action. Keep that action separated from module import and local testing.</p></details></div>
+</section>
+<section class="book-section" id="section-11-2" aria-labelledby="section-11-2-heading"><h2 id="section-11-2-heading">11.2 Runtime Workloads</h2>
+<h3>11.2.1 Submitting and retrieving jobs</h3><p>A Runtime Sampler is constructed with the selected backend as its mode. Calling run submits the workload and returns a job handle. Save the job identifier immediately so a later process can recover the record. The submit branch below uses configured account access; it has not been run on hardware for this course edition.</p>
+<h3>11.2.2 Execution modes and budgets</h3><p>Job, session, and batch modes organize execution differently. Their availability and accounting depend on the service and account. Estimate circuits, shots, and expected device usage before submission; do not infer a fixed free quota. A short Python statement can launch substantial work. Keep the explicit submission boundary visible in reusable teaching code.</p>
+<div class="exercise"><p><strong>Problem 11.2.</strong> Why map an Estimator observable after layout?</p><details class="problem-solution"><summary>Worked solution</summary><p>The logical qubits may have moved. Measuring Z on a different physical qubit can answer a different question even when the compiled state is correct.</p></details></div>
+</section>
+<section class="book-section" id="section-11-3" aria-labelledby="section-11-3-heading"><h2 id="section-11-3-heading">11.3 Result Analysis</h2>
+<h3>11.3.1 Metadata and provenance</h3><p>Save the backend name, execution time, package versions, compiled circuit, layout, shots, options, and returned metadata. A count table without those facts cannot be reliably compared with another run. Device calibration drifts, so a later result may differ even with the same source circuit. Report what was actually executed rather than an intended logical circuit alone.</p>
+<h3>11.3.2 Simulation, hardware, and uncertainty</h3><p>The local path compiles against GenericBackendV2 and prints its resource counts. The remote path constructs an ISA circuit, submits 1024 shots, prints the job ID, and retrieves counts. Only the local path is included in automated checks. No hardware outcomes are invented; the example’s Bell-state ideal prediction remains 00 and 11 with equal probability, while a device may also produce errors.</p><p>The complete companion below can be <a href="examples/chapter_11.py" download>downloaded as chapter_11.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 11.&quot;&quot;&quot;
+import argparse
+from qiskit import QuantumCircuit
+from qiskit.transpiler import generate_preset_pass_manager
+from qiskit.providers.fake_provider import GenericBackendV2
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2
+
+def build(backend):
+    circuit = QuantumCircuit(2)
+    circuit.h(0); circuit.cx(0, 1); circuit.measure_all()
+    return generate_preset_pass_manager(backend=backend, optimization_level=1,
+                                        seed_transpiler=17).run(circuit)
+
+if __name__ == &quot;__main__&quot;:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&quot;--submit&quot;, action=&quot;store_true&quot;, help=&quot;Explicitly submit a paid/allocated hardware job&quot;)
+    parser.add_argument(&quot;--backend&quot;, help=&quot;Exact accessible hardware backend name&quot;)
+    args = parser.parse_args()
+    if not args.submit:
+        compiled = build(GenericBackendV2(2, seed=3))
+        print(&quot;Local compilation only; no account accessed and no job submitted.&quot;)
+        print(compiled.count_ops())
+    else:
+        if not args.backend:
+            parser.error(&quot;--backend is required with --submit&quot;)
+        service = QiskitRuntimeService()  # Uses a separately configured account.
+        backend = service.backend(args.backend)
+        compiled = build(backend)
+        job = SamplerV2(mode=backend).run([compiled], shots=1024)
+        print(&quot;Submitted job:&quot;, job.job_id())
+        print(job.result()[0].data.meas.get_counts())
+</code></pre>
+<div class="exercise"><p><strong>Problem 11.3.</strong> What is missing from a claim that hardware “gave 95% success”?</p><details class="problem-solution"><summary>Worked solution</summary><p>The task, success definition, shots and uncertainty, device and time, circuit and layout, execution options, and comparison baseline are all needed.</p></details></div>
+<p>Hardware can sometimes act on measurement results before a circuit finishes. We next program that feedback explicitly.</p>
+<p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit-ibm-runtime/sampler-v2">IBM, Runtime SamplerV2</a>.</p>
+</section>

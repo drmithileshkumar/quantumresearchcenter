@@ -1,0 +1,39 @@
+<section class="book-section" id="section-12-1" aria-labelledby="section-12-1-heading"><h2 id="section-12-1-heading">12.1 Mid-Circuit Operations</h2>
+<p>Teleportation is a demanding program test because every measurement branch must recover the same input state. Averaging only the easiest branch would hide a broken correction rule.</p>
+<h3>12.1.1 Measurement and reset</h3><p>A mid-circuit measurement writes a classical bit while other quantum wires remain available. Reset prepares a wire in zero but can destroy its previous correlations. These are physical operations, not Python variable assignments. The reference StatevectorSampler is intended for suitable final-measurement workloads; the companion uses Aer for measurement-conditioned circuit execution.</p>
+<h3>12.1.2 Classical conditions and feedback</h3><p>The with circuit.if_test((bit,1)) context appends an operation conditioned on a classical record. A host-language if cannot inspect the result of an unexecuted circuit. The condition refers to a classical bit or register, so use the exact object and encoding intended by the measurement map.</p>
+<div class="exercise"><p><strong>Problem 12.1.</strong> Why apply Z controlled by c0 rather than c1?</p><details class="problem-solution"><summary>Worked solution</summary><p>The H measurement on the original input determines the phase correction. The Bell-half measurement determines the bit-flip correction. Swapping these records fails on general input states.</p></details></div>
+</section>
+<section class="book-section" id="section-12-2" aria-labelledby="section-12-2-heading"><h2 id="section-12-2-heading">12.2 Conditional Programs</h2>
+<h3>12.2.1 Teleportation</h3><p>The example places the input on q0, Alice’s Bell half on q1, and Bob’s on q2. After CX(0,1) and H(0), Alice measures q0 into c0 and q1 into c1. Bob applies X when c1 is one and then Z when c0 is one. These corrections invert the branch operator X^c1 Z^c0 up to an irrelevant branch phase.</p>
+<h3>12.2.2 Iterative procedures</h3><p>For a known test input prepared by Ry(0.7) then Rz(0.4), apply its inverse on Bob after correction. Measuring Bob should then give zero in every branch. This verifies a state with nontrivial amplitudes and relative phase. Repeat with other preparations or an entangled reference for stronger channel validation; one test state is not complete process tomography.</p>
+<div class="exercise"><p><strong>Problem 12.2.</strong> Does Bob receive the state before Alice communicates her outcomes?</p><details class="problem-solution"><summary>Worked solution</summary><p>Without the records his state is averaged over the four Pauli branches. The corrections require those classical bits, so the protocol does not signal instantly.</p></details></div>
+<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/teleport.svg" alt="Teleportation with classical feedforward. Alice’s top measurement gives m and the middle gives n; Bob applies X^n then Z^m using the communicated records. No quantum control from the measured wires is implied." style="max-width:100%;height:auto"></div><figcaption>Teleportation with classical feedforward. Alice’s top measurement gives m and the middle gives n; Bob applies X^n then Z^m using the communicated records. No quantum control from the measured wires is implied.</figcaption></figure></section>
+<section class="book-section" id="section-12-3" aria-labelledby="section-12-3-heading"><h2 id="section-12-3-heading">12.3 Execution Constraints</h2>
+<h3>12.3.1 Simulator and backend capabilities</h3><p>A simulator accepting if_test does not prove a selected device supports the same dynamic circuit. Check backend capabilities, supported conditions, reset behavior, and timing constraints before submission. The companion runs locally and does not imply hardware availability. A controller’s limited classical expressions may require rewriting a high-level condition.</p>
+<h3>12.3.2 Latency, branches, and correctness</h3><p>Feedback can save qubits or coherent depth, but adds measurement and classical latency. In the counts below, bit strings are c2 c1 c0; c2 is the final verification result and must be zero. The lower two bits vary because Alice’s Bell measurement is random. We assert correctness of every observed branch, not only the aggregate fraction of convenient outcomes.</p><p>The complete companion below can be <a href="examples/chapter_12.py" download>downloaded as chapter_12.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 12.&quot;&quot;&quot;
+from qiskit_aer import AerSimulator
+from qiskit import QuantumCircuit, transpile
+
+# q0=input, q1=Alice&#x27;s half, q2=Bob&#x27;s half; c0,c1 are correction records.
+qc = QuantumCircuit(3, 3)
+qc.ry(0.7, 0); qc.rz(0.4, 0)
+qc.h(1); qc.cx(1, 2)
+qc.cx(0, 1); qc.h(0)
+qc.measure(0, 0); qc.measure(1, 1)
+with qc.if_test((qc.clbits[1], 1)):
+    qc.x(2)
+with qc.if_test((qc.clbits[0], 1)):
+    qc.z(2)
+# Inverse of the known test preparation verifies the recovered state.
+qc.rz(-0.4, 2); qc.ry(-0.7, 2)
+qc.measure(2, 2)
+sim = AerSimulator(seed_simulator=23, max_parallel_threads=1)
+counts = sim.run(transpile(qc, sim), shots=1024).result().get_counts()
+assert all(key[0] == &quot;0&quot; for key in counts)
+print(&quot;c2 c1 c0:&quot;, counts)
+</code></pre>
+<div class="exercise"><p><strong>Problem 12.3.</strong> Why test a nontrivial phase as well as real amplitudes?</p><details class="problem-solution"><summary>Worked solution</summary><p>A missing Z correction may be invisible on a basis state. A phase-sensitive input exposes that error.</p></details></div>
+<p>Correct dynamic logic can still fail under noise. The next chapter separates noise models from sampling and approximation.</p>
+<p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/guides/classical-feedforward-and-control-flow">IBM, classical feedforward</a>.</p>
+</section>

@@ -1,0 +1,34 @@
+<section class="book-section" id="section-10-1" aria-labelledby="section-10-1-heading"><h2 id="section-10-1-heading">10.1 Backend Targets</h2>
+<p>A circuit requests CNOT between qubits zero and two, but the device has only a line of neighboring qubits. Compilation must change the implementation while preserving the logical computation.</p>
+<h3>10.1.1 Native operations</h3><p>A backend target describes supported operations and the qubits on which they can act, often with timing and calibration information. A list of native gate names is not enough to describe all device constraints. The example uses a simple line coupling graph and an explicit gate basis so the routing problem is visible without contacting hardware.</p>
+<h3>10.1.2 Connectivity and device constraints</h3><p>Connectivity can force swaps or equivalent routing operations. Native entangling directions may also require extra gates. These costs depend on both the circuit and the chosen placement. Logical qubits are variables in the algorithm; physical qubits are execution locations. Their correspondence can change during compilation.</p>
+<div class="exercise"><p><strong>Problem 10.1.</strong> Why may a native gate count exceed a logical count?</p><details class="problem-solution"><summary>Worked solution</summary><p>A logical gate may require decomposition or routing. The two counts use different operation vocabularies.</p></details></div>
+</section>
+<section class="book-section" id="section-10-2" aria-labelledby="section-10-2-heading"><h2 id="section-10-2-heading">10.2 Transpilation</h2>
+<h3>10.2.1 Decomposition and synthesis</h3><p>Decomposition breaks a composite operation into smaller pieces. Synthesis constructs a sequence approximating a specified transformation within an error target. Transpilation can combine these with layout, routing, and simplification. Optimization levels select strategies; a larger level is not a proof of a smaller or better circuit for every instance.</p>
+<h3>10.2.2 Layout, routing, and optimization</h3><p>An initial layout assigns logical wires to physical positions. Routing may leave a final permutation. Comparing compiled matrices without accounting for that mapping can report a false error. The companion uses Operator.from_circuit so the circuit’s layout is interpreted, then checks equivalence with the original logical operator.</p>
+<div class="exercise"><p><strong>Problem 10.2.</strong> What does an optimization level guarantee?</p><details class="problem-solution"><summary>Worked solution</summary><p>It selects a compilation strategy; it does not certify a globally minimal circuit or better physical performance on every backend.</p></details></div>
+</section>
+<section class="book-section" id="section-10-3" aria-labelledby="section-10-3-heading"><h2 id="section-10-3-heading">10.3 Compiler Inspection</h2>
+<h3>10.3.1 Pass managers</h3><p>A pass manager organizes analysis and transformation passes. Fixing seed_transpiler makes randomized choices reproducible within the tested implementation. Inspect the resulting layout, operation counts, and depth rather than treating compilation as a black box. Run several seeds only if that search effort is included in the reported classical cost.</p>
+<h3>10.3.2 Logical equivalence and physical resource counts</h3><p>The example compiles a three-qubit circuit to rz, sx, x, and cx on a line. It prints logical and compiled counts and checks semantic equivalence. For larger circuits, full matrices may be impossible; use component proofs, structured tests, and observable checks with stated limits. Resource estimates should include added ancillas, routing, synthesis precision, and the target model.</p><p>The complete companion below can be <a href="examples/chapter_10.py" download>downloaded as chapter_10.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 10.&quot;&quot;&quot;
+import numpy as np
+from qiskit import QuantumCircuit, transpile
+from qiskit.transpiler import CouplingMap
+from qiskit.quantum_info import Operator
+
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 2)
+compiled = transpile(qc, basis_gates=[&quot;rz&quot;, &quot;sx&quot;, &quot;x&quot;, &quot;cx&quot;],
+    coupling_map=CouplingMap.from_line(3), initial_layout=[0, 1, 2],
+    optimization_level=1, seed_transpiler=19)
+logical = Operator.from_circuit(compiled)
+assert logical.equiv(Operator(qc))
+print(&quot;Logical&quot;, qc.count_ops(), &quot;compiled&quot;, compiled.count_ops())
+print(&quot;Layout:&quot;, compiled.layout)
+</code></pre>
+<div class="exercise"><p><strong>Problem 10.3.</strong> Why record the layout with an experiment?</p><details class="problem-solution"><summary>Worked solution</summary><p>It tells which physical wires realize the logical ones and is needed to interpret observables and sometimes output mappings correctly.</p></details></div>
+<p>Compilation prepares a device-compatible workload. Hardware execution adds account access, budgets, and provenance.</p>
+<p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/transpiler">IBM, transpiler API</a>.</p>
+<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/bell.svg" alt="Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control." style="max-width:100%;height:auto"></div><figcaption>Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control.</figcaption></figure></section>

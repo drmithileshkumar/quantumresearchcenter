@@ -1,0 +1,39 @@
+<section class="book-section" id="section-8-1" aria-labelledby="section-8-1-heading"><h2 id="section-8-1-heading">8.1 Fourier Methods</h2>
+<p>Implement two familiar transformations and compare their matrices or output probabilities with independent formulas. Small examples are useful for debugging, but the construction must keep its conventions explicit.</p>
+<h3>8.1.1 Constructing the Fourier circuit</h3><p>Our two-qubit Fourier transform uses the positive exponential exp(2πixy/4)/2. The code applies H to qubit one, a controlled π/2 phase, H to qubit zero, and a swap. The matrix assertion compares every entry with the mathematical transform. Omitting the swap changes output bit order; taking the inverse changes the exponent sign.</p>
+<h3>8.1.2 Controlled powers and phase estimation</h3><p>Phase estimation prepares a control register, applies controlled powers of a chosen unitary, then inverse QFT. A power implemented by repeating U costs that many U uses. When testing, choose an eigenstate with an exactly representable phase before testing approximate phases or superpositions. Decode the control bits using the register mapping, not the visual wire order alone.</p>
+<div class="exercise"><p><strong>Problem 8.1.</strong> Why compare QFT matrices instead of only transforming zero?</p><details class="problem-solution"><summary>Worked solution</summary><p>Both forward and inverse Fourier transforms map zero to the same uniform state. A zero-input test misses the sign convention.</p></details></div>
+<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/qft-two.svg" alt="Positive-sign two-qubit Fourier circuit. The final SWAP exchanges the two wires; its connected endpoints are a two-wire operation. The controlled phase applies only when both bits are one." style="max-width:100%;height:auto"></div><figcaption>Positive-sign two-qubit Fourier circuit. The final SWAP exchanges the two wires; its connected endpoints are a two-wire operation. The controlled phase applies only when both bits are one.</figcaption></figure></section>
+<section class="book-section" id="section-8-2" aria-labelledby="section-8-2-heading"><h2 id="section-8-2-heading">8.2 Amplitude Manipulation</h2>
+<h3>8.2.1 Preparation and reflections</h3><p>For four items with only 11 marked, begin uniformly and apply CZ to negate the marked amplitude. A prepared-state reflection follows. The reflection sequence used in the companion differs by a global sign from one common convention; the success probability is unaffected. This phase convention would matter if the whole iteration were later coherently controlled.</p>
+<h3>8.2.2 Search and amplification</h3><p>One Grover iteration gives unit success for one marked item out of four. The companion checks probability at index three. For larger instances, choose iterations from the initial success probability or use a justified unknown-success schedule. More iterations can reduce success, so a loop that runs “until enough gates” is not an algorithm.</p>
+<div class="exercise"><p><strong>Problem 8.2.</strong> What happens after a second Grover iteration in the four-item example?</p><details class="problem-solution"><summary>Worked solution</summary><p>The success returns to one quarter. The rotation has passed the good direction.</p></details></div>
+</section>
+<section class="book-section" id="section-8-3" aria-labelledby="section-8-3-heading"><h2 id="section-8-3-heading">8.3 Quantum Walks</h2>
+<h3>8.3.1 Position and coin registers</h3><p>A coined walk uses a coin register and a position register. Implement a coin rotation followed by reversible conditional increment and decrement modulo the graph size. Keep the coin: discarding its direction information after each step changes the evolution. A non-power-of-two position space also needs a policy for unused basis states so the full circuit remains unitary.</p>
+<h3>8.3.2 Implementation and classical baselines</h3><p>A meaningful benchmark compares the same access and output tasks. Verify small matrices, then measure compiled gates, depth, qubits, oracle calls, and readout costs as size grows. A classical simulator runtime is a property of the simulation method, not evidence that the quantum algorithm is slow or fast on quantum hardware. The two examples below establish correctness checks, not a performance advantage.</p><p>The complete companion below can be <a href="examples/chapter_08.py" download>downloaded as chapter_08.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 8.&quot;&quot;&quot;
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator, Statevector
+
+# Positive-sign QFT on integer labels |q1 q0&gt;.
+qft = QuantumCircuit(2)
+qft.h(1)
+qft.cp(np.pi / 2, 0, 1)
+qft.h(0)
+qft.swap(0, 1)
+expected = np.array([[np.exp(2j*np.pi*x*y/4)/2 for x in range(4)] for y in range(4)])
+assert np.allclose(Operator(qft).data, expected)
+# One Grover step for marked state |11&gt; in four items.
+search = QuantumCircuit(2)
+search.h([0, 1])
+search.cz(0, 1)
+search.h([0, 1]); search.x([0, 1]); search.cz(0, 1)
+search.x([0, 1]); search.h([0, 1])
+assert np.isclose(Statevector.from_instruction(search).probabilities()[3], 1)
+print(qft.draw(output=&quot;text&quot;))
+</code></pre>
+<div class="exercise"><p><strong>Problem 8.3.</strong> Can the position register alone generally implement a reversible coined shift?</p><details class="problem-solution"><summary>Worked solution</summary><p>The direction label is needed to distinguish the routes. Removing it without another reversible encoding can merge states and invalidate the proposed unitary.</p></details></div>
+<p>The examples suggest a testing discipline. The next chapter makes that discipline systematic.</p>
+<p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/quantum_info">IBM, quantum information operators</a>.</p>
+</section>
