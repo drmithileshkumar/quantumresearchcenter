@@ -1,0 +1,95 @@
+{
+ "reviewed_on": "2026-10-19",
+ "papers": [
+  {
+   "id": "2609.16364",
+   "url": "2609.16364/index.html",
+   "title": "Pump-Free Microwave-Optical Bell Pair Generation for Teleportation-Based Quantum Transduction",
+   "authors": "Fangxin Li et al.",
+   "topic": "information",
+   "submitted": "2026-09-14",
+   "approved_on": "2026-10-19",
+   "problem": "How can superconducting processors connect to optical networks while avoiding complications from optical pumping?",
+   "result": "Spin-mediated sources are predicted to herald microwave–optical Bell pairs at roughly 1–28 kHz, with fidelities of 0.86–0.99 depending on the platform. The pairs are intended for teleportation-based transduction.",
+   "techniques": [
+    "Separate resource generation from state transfer",
+    "Use an intermediate spin as an interface"
+   ]
+  },
+  {
+   "id": "2609.10508",
+   "url": "2609.10508/index.html",
+   "title": "Information Causality Characterizes the Set of Quantum Correlations in the Simplest Bell Scenario",
+   "authors": "Mariami Gachechiladze; Nikolai Miklin",
+   "topic": "foundations",
+   "submitted": "2026-09-09",
+   "approved_on": "2026-10-19",
+   "problem": "Can an information principle recover the quantum boundary in the simplest Bell experiment?",
+   "result": "Generalized information causality implies the Tsirelson–Landau–Masanes criterion on the four renormalized correlators, so it recovers the quantum boundary of that correlator projection. A separate example shows that it also excludes some correlations that macroscopic locality allows.",
+   "techniques": [
+    "Keep the full measurement record",
+    "Expand around zero capacity"
+   ]
+  },
+  {
+   "id": "2609.04157",
+   "url": "2609.04157/index.html",
+   "title": "Spurious quantum correlations",
+   "authors": "Shashaank Khanna; Matthew F. Pusey; Roger Colbeck",
+   "topic": "foundations",
+   "submitted": "2026-09-03",
+   "approved_on": "2026-10-19",
+   "problem": "Can correlations that appear nonclassical acquire a classical explanation when the assumed causal structure changes?",
+   "result": "The authors identify correlations with classical explanations in alternative causal structures without fine tuning, and other correlations that resist such explanations.",
+   "techniques": [
+    "Search over causal explanations",
+    "Separate statistical fit from physical admissibility"
+   ]
+  },
+  {
+   "id": "2608.02773",
+   "url": "2608.02773/index.html",
+   "title": "Quantum error correction at ultra-low overhead",
+   "authors": "Zhide Lu; Weikang Li; Dong-Ling Deng",
+   "topic": "computing",
+   "submitted": "2026-08-03",
+   "approved_on": "2026-10-19",
+   "problem": "Can quantum error-correcting codes combine high encoding rates, tolerable noise, and feasible neutral-atom operations?",
+   "result": "Cornucopia codes reach encoding rates just above 1/2 at distances 6 to 18 and pseudo-thresholds above 0.4% under circuit-level noise. Their 12-layer syndrome cycle is carried out by rigid moves of whole atom blocks.",
+   "techniques": [
+    "Design the code and its circuit together",
+    "Certify distance and count resources consistently"
+   ]
+  },
+  {
+   "id": "2607.21367",
+   "url": "2607.21367/index.html",
+   "title": "A solution to 2-copy distillability of Werner states",
+   "authors": "Jinshi Fu; Li Gao; Sang-Jun Park",
+   "topic": "information",
+   "submitted": "2026-07-23",
+   "approved_on": "2026-10-19",
+   "problem": "Can two copies of a Werner state yield distillable entanglement when one copy cannot?",
+   "result": "For every local dimension \\(d\\), a Werner state \\(\\rho_\\alpha\\) is two-copy distillable exactly when it is one-copy distillable (\\(\\alpha<-\\tfrac12\\)). States with \\(-\\tfrac12\\le\\alpha<-\\tfrac1d\\) are therefore NPT but not two-copy distillable.",
+   "techniques": [
+    "Turn distillation into an operator test",
+    "Use symmetry to isolate a boundary case"
+   ]
+  },
+  {
+   "id": "2606.04079",
+   "url": "2606.04079/index.html",
+   "title": "Quantum error correction with the toric code",
+   "authors": "Atom Computing and Collaborators",
+   "topic": "computing",
+   "submitted": "2026-06-02",
+   "approved_on": "2026-10-19",
+   "problem": "Can neutral-atom logical memories sustain repeated error correction while replacing lost atoms?",
+   "result": "Twisted toric-code memories on 32 and 64 atoms (\\([[16,1,(4,3)]]\\) and \\([[32,1,(6,4)]]\\)) run for up to 90 and 70 syndrome cycles with atom reloading. Over four to eight cycles, the larger code has the lower logical error.",
+   "techniques": [
+    "Rotate data and ancilla roles",
+    "Make replenishment part of the computation"
+   ]
+  }
+ ]
+}

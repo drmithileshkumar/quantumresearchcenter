@@ -1,0 +1,280 @@
+{
+  "reviewed_on": "2026-10-19",
+  "papers": [
+    {
+      "id": "2609.10508",
+      "topic": "foundations",
+      "title": "Information Causality Characterizes the Set of Quantum Correlations in the Simplest Bell Scenario",
+      "authors": "Mariami Gachechiladze; Nikolai Miklin",
+      "submitted": "2026-09-09",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "Can an information principle recover the quantum boundary in the simplest Bell experiment?",
+      "result": "Generalized information causality implies the Tsirelson–Landau–Masanes criterion on the four renormalized correlators, so it recovers the quantum boundary of that correlator projection. A separate example shows that it also excludes some correlations that macroscopic locality allows.",
+      "significance": "Connects limits on communication to limits on nonlocal correlations.",
+      "limitations": "The stated characterization concerns the simplest bipartite scenario; it is not a characterization of all Bell scenarios.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-19; equations follow the paper’s notation.",
+      "verified_on": "2026-10-19",
+      "approved_on": "2026-10-19",
+      "methods": [
+        {
+          "technique": "Keep the full measurement record",
+          "explanation": "Information causality was first stated using a guess \\(g\\) for \\(x_y\\). The authors instead score the full record \\((m^{\\prime},b)\\) that Bob holds, and they condition the second term on \\(x_0\\) because the inputs may be correlated.",
+          "math": [
+            "Why does keeping the record help? Any guess is a function \\(g=f(m^{\\prime},b)\\), so the data-processing inequality gives \\[I(x_i;g\\,|\\,y=i)\\le I(x_i;m^{\\prime},b\\,|\\,y=i).\\] The generalized left-hand side is therefore never smaller than the original, while the right-hand side \\(I(m;m^{\\prime})\\le\\mathcal C\\) is unchanged. A larger left-hand side under the same budget rules out more correlations.",
+            "Why condition on \\(x_0\\)? Alice’s bits are drawn with \\(\\mathbb P(x_0,x_1)=\\tfrac14\\bigl(1+(-1)^{x_0\\oplus x_1}\\varepsilon\\bigr)\\), so each bit is uniform, but the pair is correlated when \\(\\varepsilon\\ne0\\). Part of what Bob could learn about \\(x_1\\) is then already in \\(x_0\\). The template is the chain rule \\(I(x_0,x_1;M)=I(x_0;M)+I(x_1;M\\,|\\,x_0)\\): the conditioned term counts only new information. The correlation \\(\\varepsilon\\) becomes a free parameter, optimized in the next technique."
+          ],
+          "transfer": "When bounding a protocol, apply the data-processing inequality as late as possible. Every coarse-graining (decoding to a bit, discarding side information) can only lower the information being scored, so postponing it gives the strongest bound the principle allows. Correlated inputs, scored with conditional terms, are a further parameter worth optimizing."
+        },
+        {
+          "technique": "Expand around zero capacity",
+          "explanation": "The channel biases its binary output by a small parameter \\(e_c\\): \\(\\mathbb P(m^{\\prime}|m)=\\tfrac12+\\tfrac12(-1)^{m^{\\prime}}e_cf_m\\), with \\(f_{x_0,x_1,a}=(-1)^{a\\oplus x_0}\\kappa_{x_0\\oplus x_1}/\\sqrt{1-\\langle a_{x_0\\oplus x_1}\\rangle^2}\\) and free real \\(\\kappa_0,\\kappa_1\\). As \\(e_c\\to0\\) both sides of the inequality vanish, and the authors compare their leading terms.",
+          "math": [
+            "Every probability in the problem has the form \\(P_e(z)=\\xi(z)+e\\,\\eta(z)\\) with \\(\\sum_z\\eta(z)=0\\). Mutual information is an average of relative entropies, and relative entropy is second order near equality: \\[D(P_e\\Vert\\xi)=\\frac{e^2}{2\\ln2}\\sum_z\\frac{\\eta(z)^2}{\\xi(z)}+O(e^3).\\] This is the content of the limit \\(\\lim_{e\\to0}\\partial_e^2(\\xi+e\\eta)\\log(\\xi+e\\eta)=\\eta^2/\\xi\\) used in the paper. Dividing the information-causality inequality by \\(e_c^2\\) and letting \\(e_c\\to0\\) turns entropies into a quadratic \\(\\chi^2\\)-type expression in \\(\\kappa_0,\\kappa_1\\).",
+            "With \\(p=\\tfrac{1+\\varepsilon}2\\) and \\(q=\\tfrac{1-\\varepsilon}2\\), the leading-order condition (the paper’s Eq. 35) reads \\(\\kappa^{\\mathsf T}M\\kappa\\le0\\) for \\(\\kappa=(\\kappa_0,\\kappa_1)\\), where \\[M=\\begin{pmatrix}-p\\bigl(p(1-D_{0,0}^2)+q(1-D_{0,1}^2)\\bigr)&pq\\,\\Delta\\\\ pq\\,\\Delta&-q\\bigl(q(1-D_{1,0}^2)+p(1-D_{1,1}^2)\\bigr)\\end{pmatrix},\\] with \\(\\Delta=D_{0,0}D_{1,0}-D_{0,1}D_{1,1}\\). Alice may choose any \\(\\kappa\\), so the principle demands \\(-M\\succeq0\\). The diagonal entries are non-positive automatically; the remaining condition is \\(\\det M\\ge0\\), i.e. \\[\\Delta^2\\le\\bigl(u(1-D_{0,0}^2)+1-D_{0,1}^2\\bigr)\\bigl(u^{-1}(1-D_{1,0}^2)+1-D_{1,1}^2\\bigr),\\qquad u=\\tfrac{1+\\varepsilon}{1-\\varepsilon}.\\]",
+            "The principle must hold for every source, so the strongest constraint uses the \\(u>0\\) that minimizes the right-hand side. With \\(\\alpha=1-D_{0,0}^2\\), \\(\\beta=1-D_{0,1}^2\\), \\(\\gamma=1-D_{1,0}^2\\) and \\(\\delta=1-D_{1,1}^2\\), the right-hand side is \\(\\alpha\\gamma+\\beta\\delta+u\\alpha\\delta+\\beta\\gamma/u\\). By the AM–GM inequality it is minimized at \\(u=\\sqrt{\\beta\\gamma/(\\alpha\\delta)}\\), where it equals \\((\\sqrt{\\alpha\\gamma}+\\sqrt{\\beta\\delta})^2\\). Hence \\[\\bigl|D_{0,0}D_{1,0}-D_{0,1}D_{1,1}\\bigr|\\le\\sqrt{(1-D_{0,0}^2)(1-D_{1,0}^2)}+\\sqrt{(1-D_{0,1}^2)(1-D_{1,1}^2)}.\\] This is the algebraic form of TLM. It is equivalent to the arcsine inequality together with its relabellings (we checked the equivalence numerically on random points). Check: at the Tsirelson point \\(D_{0,0}=D_{0,1}=D_{1,0}=-D_{1,1}=1/\\sqrt2\\) both sides equal 1. The PR box (\\(D_{1,1}=-1\\), the others 1) gives \\(2\\le0\\), which fails."
+          ],
+          "transfer": "This pipeline applies to any entropic inequality that is hard to optimize directly. (i) Perturb around a point where both sides vanish. (ii) Expand to second order, where relative entropy becomes the \\(\\chi^2\\) form \\(\\tfrac12\\sum\\eta^2/\\xi\\). (iii) If free parameters enter linearly in \\(\\eta\\), the condition becomes positivity of a matrix, which can be checked through its minors. (iv) Optimize the remaining parameters in closed form. The cost is that only the leading order is captured. The paper’s Theorem 2 shows that finite-capacity protocols impose constraints this limit misses."
+        }
+      ],
+      "methods_source_section": "Information causality principle; Results, Theorem 1 and Appendix A",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "The scenario is the simplest Bell experiment. Alice and Bob receive bits \\(x,y\\in\\{0,1\\}\\) and output bits \\(a,b\\in\\{0,1\\}\\). Writing outcomes as signs \\((-1)^a,(-1)^b\\), the behaviour is fixed by marginals and correlators: \\[\\mathbb P(a,b|x,y)=\\tfrac14\\bigl(1+(-1)^a\\langle a_x\\rangle+(-1)^b\\langle b_y\\rangle+(-1)^{a\\oplus b}\\langle a_xb_y\\rangle\\bigr).\\] The paper works with the renormalized correlators \\[D_{x,y}=\\frac{\\langle a_xb_y\\rangle-\\langle a_x\\rangle\\langle b_y\\rangle}{\\sqrt{(1-\\langle a_x\\rangle^2)(1-\\langle b_y\\rangle^2)}},\\] which remove the part of each correlation that the marginals already explain.",
+        "Which values of the four \\(D_{x,y}\\) can quantum mechanics produce? The answer is the Tsirelson–Landau–Masanes (TLM) criterion \\[\\bigl|\\arcsin D_{0,0}+\\arcsin D_{0,1}+\\arcsin D_{1,0}-\\arcsin D_{1,1}\\bigr|\\le\\pi,\\] together with its relabellings, which move the minus sign to each of the other correlators. With vanishing marginals this is exactly the quantum boundary. In general, the quantum, macroscopically local and almost-quantum sets all have this same projection onto the four \\(D_{x,y}\\). Can a principle about communication, rather than about Hilbert spaces, single out this boundary?",
+        "The principle is information causality: a message through a channel of capacity \\(\\mathcal C\\) cannot give Bob more than \\(\\mathcal C\\) bits of information about Alice’s data, whatever no-signalling correlations they share. The authors use a generalized form, \\[I(x_0;m^{\\prime},b\\,|\\,y=0)+I(x_1;m^{\\prime},b\\,|\\,y=1,x_0)\\le I(m;m^{\\prime})\\le\\mathcal C.\\] Alice holds two bits \\(x_0,x_1\\), and Bob tries to learn \\(x_y\\). Alice measures \\(x=x_0\\oplus x_1\\) on her half of the correlation and sends a noisy encoding \\(m\\) of \\((x_0,x_1,a)\\). Bob receives the channel output \\(m^{\\prime}\\) and also uses his own outcome \\(b\\).",
+        "Theorem 1 states that generalized information causality implies the TLM criterion. In this scenario it therefore reproduces the quantum boundary of the correlator projection. Theorem 2 states that the principle is strictly stronger than macroscopic locality. The point with \\(\\langle a_0\\rangle=\\langle a_1\\rangle=\\tfrac35\\), \\(\\langle b_0\\rangle=\\tfrac12\\), \\(\\langle b_1\\rangle=0\\) and suitable correlators satisfies TLM. Yet with a perfect one-bit channel and uncorrelated inputs, the left-hand side equals \\(\\tfrac14\\log_25+\\tfrac3{10}\\log_23\\approx1.056>1\\). It remains open whether information causality picks out exactly the quantum set in the full eight-parameter space of behaviours."
+      ]
+    },
+    {
+      "id": "2609.04157",
+      "topic": "foundations",
+      "title": "Spurious quantum correlations",
+      "authors": "Shashaank Khanna; Matthew F. Pusey; Roger Colbeck",
+      "submitted": "2026-09-03",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "Can correlations that appear nonclassical acquire a classical explanation when the assumed causal structure changes?",
+      "result": "The authors identify correlations with classical explanations in alternative causal structures without fine tuning, and other correlations that resist such explanations.",
+      "significance": "Clarifies which causal assumptions underpin claims of quantum nonclassicality.",
+      "limitations": "A preliminary theoretical draft; this does not invalidate Bell’s theorem under its usual assumptions.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-19; equations follow the paper’s notation.",
+      "verified_on": "2026-10-19",
+      "approved_on": "2026-10-19",
+      "methods": [
+        {
+          "technique": "Search over causal explanations",
+          "explanation": "Starting from the observed conditional independences, the authors use the IC* causal-discovery algorithm to list classical graphs with the same independence constraints. A short set-inclusion argument then decides whether every non-classical correlation of \\(H\\) is spurious.",
+          "math": [
+            "The key argument is the paper’s Theorem 1. Suppose a second graph \\(G\\) satisfies \\[\\mathcal I_G=\\mathcal I_H,\\qquad\\mathcal C_H\\subsetneq\\mathcal I_H,\\qquad\\mathcal C_G=\\mathcal I_G.\\] Take any \\(P\\) that is NCNFT in \\(H\\). Then \\(P\\in\\mathcal I_H=\\mathcal I_G=\\mathcal C_G\\), so \\(G\\) explains \\(P\\) classically. Because \\(H\\) and \\(G\\) imply the same independences, an independence of \\(P\\) is implied by d-separation in \\(G\\) exactly when it is implied in \\(H\\), so faithfulness carries over. Every NCNFT correlation of \\(H\\) is therefore spurious.",
+            "The work lies in finding \\(G\\). Independence data determine a graph only up to an equivalence class, and IC* returns its members: graphs whose d-separation relations among the observed nodes match exactly the independences of \\(P\\). The condition \\(\\mathcal C_G=\\mathcal I_G\\) says that the independences alone characterize the classical set of \\(G\\), so no Bell-type inequality constrains \\(G\\). The paper proves this for its graph \\(G_1\\) (Lemma 1)."
+          ],
+          "transfer": "Treat a nonclassicality witness as a statement about a pair \\((P,H)\\), not about \\(P\\) alone. Before claiming a quantum advantage from \\(P\\notin\\mathcal C_H\\), list graphs \\(G\\) with the same d-separation relations and check whether \\(\\mathcal C_G=\\mathcal I_G\\). If such a \\(G\\) exists, the violation refutes the causal hypothesis but not classicality. Structures with no such \\(G\\) (the paper’s \\(H_4\\) and bilocality) are those where nonclassicality is robust."
+        },
+        {
+          "technique": "Separate statistical fit from physical admissibility",
+          "explanation": "A candidate explanation must do more than reproduce the data. It must not rely on finely tuned parameters, and, when locations are known, its arrows must respect spacetime order.",
+          "math": [
+            "Faithfulness. \\(P\\) is fine-tuned with respect to a graph if it satisfies an independence \\(P(X|Y,Z)=P(X|Z)\\) that d-separation does not imply. In a classical model, such an independence holds only if the conditionals \\(Q(x_i|\\mathrm{pa}(x_i))\\) satisfy extra polynomial equations, which pick out a measure-zero subset of parameter space. This is the standard reason causal discovery excludes fine tuning. Requiring \\(G\\) to explain \\(P\\) faithfully prevents \\(G\\) from reproducing an independence by cancellation.",
+            "Spacetime. If each variable has a location, a graph is admissible only when every edge points forward in a partial order \\(\\prec_{\\mathrm{st}}\\) compatible with light cones: \\(X\\to Y\\in G\\Rightarrow X\\prec_{\\mathrm{st}}Y\\). The strongest results in the paper require \\(G\\) to have the same causal partial order as \\(H\\), so the classical explanation needs no influence that \\(H\\) itself forbids."
+          ],
+          "transfer": "Use independence tests and experimental timing together to assess alternative explanations. Matching independences alone does not prove that a graph reproduces the full distribution. The paper’s analysis also assumes exact distributions, unlike finite experimental samples."
+        }
+      ],
+      "methods_source_section": "Introduction and Sections II–III: causal structures and spurious correlations",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "A causal structure is a directed acyclic graph \\(H\\) whose nodes are observed variables and latent common causes. A distribution \\(P\\) over the observed nodes is classically compatible with \\(H\\) if it is the marginal of a joint distribution that factorizes along the graph, \\[Q(x_1,\\dots,x_m)=\\prod_iQ\\bigl(x_i\\,\\big|\\,\\mathrm{pa}(x_i)\\bigr),\\] where \\(\\mathrm{pa}(x_i)\\) are the parents of \\(x_i\\). It is quantum compatible if latent nodes are quantum states shared among their children and observed nodes are measurements. Every compatible \\(P\\) obeys the conditional independences that d-separation reads off the graph: if \\(Z\\) d-separates \\(X\\) from \\(Y\\), then \\(P(X|Y,Z)=P(X|Z)\\). Writing \\(\\mathcal C_H\\), \\(\\mathcal Q_H\\) and \\(\\mathcal I_H\\) for the classical, quantum and independence-respecting sets, \\[\\mathcal C_H\\subseteq\\mathcal Q_H\\subseteq\\mathcal I_H,\\] and \\(H\\) is called non-classical when \\(\\mathcal C_H\\subsetneq\\mathcal I_H\\).",
+        "A violated causal inequality shows \\(P\\notin\\mathcal C_H\\). But is \\(H\\) the right graph? The authors call \\(P\\) non-classical and not fine-tuned (NCNFT) in \\(H\\) if it lies in \\(\\mathcal I_H\\setminus\\mathcal C_H\\) and every independence it satisfies is implied by d-separation in \\(H\\). Such a \\(P\\) is spurious if some other graph \\(G\\) explains it classically, again without fine tuning. A spurious quantum correlation is evidence against the classical model on \\(H\\), but not against classical physics.",
+        "Results. Consider a structure \\(H_1\\) with latents \\(A,B\\) and observed \\(C,D,E,F\\), factorizing as \\(Q(a)Q(b)Q(d)Q(c|ab)Q(e|bd)Q(f|ace)\\). Every NCNFT correlation in \\(H_1\\) is spurious, with an alternative graph that respects the same causal order. A quantum example with angles \\(7\\pi/32\\), \\(6\\pi/32\\) and \\(\\pi/32\\) reaches about \\(2.128\\) on the instrumental-type bound \\[P(E{=}F|D{=}0)+P(F{=}0|D{=}1)+P(E{=}0,F{=}1|D{=}2)\\le2,\\] so it is genuinely NCNFT in \\(H_1\\). The authors report spurious quantum correlations for further structures, including the triangle and instrumental scenarios. In contrast, NCNFT correlations are not spurious for a structure \\(H_4\\) or for bilocality. For the Bell structure, the paper relies on Wood and Spekkens, who showed that it admits no spurious quantum correlations.",
+        "The analysis assumes the exact distribution is known (i.i.d. sampling with no statistical error). It restricts candidate explanations in the same way as the IC* algorithm: latent common causes have at most two children and no parents."
+      ]
+    },
+    {
+      "id": "2608.02773",
+      "topic": "computing",
+      "title": "Quantum error correction at ultra-low overhead",
+      "authors": "Zhide Lu; Weikang Li; Dong-Ling Deng",
+      "submitted": "2026-08-03",
+      "version": "v2",
+      "kind": "Theory and numerical analysis",
+      "problem": "Can quantum error-correcting codes combine high encoding rates, tolerable noise, and feasible neutral-atom operations?",
+      "result": "Cornucopia codes reach encoding rates just above 1/2 at distances 6 to 18 and pseudo-thresholds above 0.4% under circuit-level noise. Their 12-layer syndrome cycle is carried out by rigid moves of whole atom blocks.",
+      "significance": "A candidate route to reducing the physical-qubit cost of fault tolerance.",
+      "limitations": "Idle errors are neglected, and logical gates and real-time decoding are left open. The smallest logical error rates are extrapolations from a fitted ansatz. This is not a hardware demonstration.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-19; equations follow the paper’s notation.",
+      "verified_on": "2026-10-19",
+      "approved_on": "2026-10-19",
+      "methods": [
+        {
+          "technique": "Design the code and its circuit together",
+          "explanation": "The permutations that define the checks are also the moves the atoms make. Each of the twelve CNOT layers couples whole check blocks to whole data blocks through one permutation, so a layer is one rigid rearrangement followed by one global gate pulse.",
+          "math": [
+            "Why do the checks commute? Permutation matrices satisfy \\(P^{-1}=P^{\\mathsf T}\\), so \\((\\tilde{\\mathbf B}^{\\mathsf T})_{jk}=B_{k-j}\\) and \\((\\tilde{\\mathbf A}^{\\mathsf T})_{jk}=A_{k-j}\\). Then \\[(H_XH_Z^{\\mathsf T})_{ik}=\\sum_{j\\in\\mathbb Z_6}\\bigl(A_{j-i}B_{k-j}+B_{j-i}A_{k-j}\\bigr).\\] Substituting \\(j\\mapsto i+k-j\\) in the second sum turns \\(B_{j-i}A_{k-j}\\) into \\(B_{k-j}A_{j-i}\\). Each \\(j\\) then contributes \\(A_{j-i}B_{k-j}+B_{k-j}A_{j-i}\\), which vanishes mod 2 whenever the two permutations commute.",
+            "When do they fail to commute? Translations in \\(y\\) always commute, and the \\(x\\)-parts are \\(x\\mapsto x\\), \\(x\\mapsto x+1\\) and \\(x\\mapsto2x+2\\) on \\(\\mathbb Z_3\\). Only a row cycle and a row reversal fail to commute: \\((x+1)\\circ(2x+2)=2x\\), but \\((2x+2)\\circ(x+1)=2x+1\\). Among pairs \\((A_a,B_b)\\), the non-commuting ones are \\((A_1,B_2)\\) and \\((A_0,B_3)\\), both with \\(a+b=3\\). In the sum above, \\(a+b=k-i\\in\\{-2,\\dots,2\\}\\), which is never \\(3\\bmod6\\). Hence \\(H_XH_Z^{\\mathsf T}=0\\). (Editorial expansion of the paper’s argument.)",
+            "Why is the circuit cheap? Each permutation means “reorder three rows, then shift all columns by \\(s\\)”, a motion that crossed acousto-optic deflectors apply to a whole block at once. The time cost is set by kinematics. Moving a distance \\(D\\) at maximum acceleration \\(a_{\\max}\\), accelerating for half the trip and braking for the other half, gives \\(D/2=\\tfrac12a_{\\max}(t/2)^2\\), so \\(t_{\\mathrm{fly}}(D)=2\\sqrt{D/a_{\\max}}\\). Column shifts grow in length with \\(q\\), so ancilla motion per cycle grows as \\(O(\\sqrt q)\\) in time. The data-block moves take about 6.07 ms per cycle, independent of code size."
+          ],
+          "transfer": "Start from the moves the hardware performs cheaply, here the affine maps of \\(\\mathbb Z_3\\times\\mathbb Z_q\\), and build checks from them. Then verify \\(H_XH_Z^{\\mathsf T}=0\\) algebraically by tracking which generators commute and which index sums can occur. The same bookkeeping applies to any quasi-cyclic or group-algebra code: commuting block entries make the CSS condition automatic. The cost model must include motion time, which grows as \\(\\sqrt{\\text{distance}}\\), not only gate counts."
+        },
+        {
+          "technique": "Certify distance and count resources consistently",
+          "explanation": "The paper certifies distance from both sides, uses the code’s symmetries to make the search feasible, and reports error rates per logical qubit per cycle. Its tabulated rate counts data qubits only.",
+          "math": [
+            "For a CSS code, \\(d=\\min(d_X,d_Z)\\) with \\[d_Z=\\min\\{|v|:H_Xv=0,\\ v\\notin\\operatorname{rowspace}H_Z\\},\\] and \\(d_X\\) defined symmetrically. Certification has two halves. An exhaustive search shows that no logical operator has weight below \\(d\\) (the lower bound), and an explicit logical operator of weight \\(d\\) gives the upper bound. Lemma 1 shows \\(d_X=d_Z\\) through a weight-preserving map \\(\\mathcal T\\) with \\(H_Z\\mathcal T=\\mathcal JH_X\\) for an invertible \\(\\mathcal J\\). The map carries one type of logical operator onto the other, so only one Pauli basis needs searching.",
+            "Structure prunes the search. Each data qubit meets exactly one check per check block, because each block of \\(H_X\\) is a permutation matrix. Zero-syndrome candidates therefore decompose row by row, and the \\(q\\)-fold column symmetry reduces the starting configurations to 198 orbit representatives. Parity gives another cut. The all-ones vector lies in the stabilizer group, and any \\(v\\) commuting with it satisfies \\(\\mathbf 1\\cdot v=|v|\\equiv0\\pmod2\\). All logical weights are therefore even, consistent with the even distances in Table 1.",
+            "Error rates are reported per logical qubit per cycle, \\[p_L=1-(1-P_{\\mathrm{fail}})^{1/(kN_c)},\\] which converts the probability that a block of \\(k\\) logical qubits fails over \\(N_c\\) cycles into an equivalent independent rate. The fit \\(p_L\\propto p^{d/2}\\) encodes the expectation that about \\(d/2\\) faults are needed to cause a logical error. A circuit distance below \\(d\\) (at most 11 for the \\(d=12\\) code) can lower the effective exponent. Counting the \\(n/2\\) check qubits, the physical cost is \\((n+n/2)/k\\approx3\\) atoms per logical qubit, rather than the \\(n/k\\approx2\\) that the rate alone suggests."
+          ],
+          "transfer": "Back any distance claim with both halves: an exclusion search for the lower bound and an explicit witness for the upper bound. Use symmetries (automorphisms, stabilizer parity) to cut the search. When comparing codes, state physical atoms per logical qubit including ancillas, the per-cycle error per logical qubit, and whether low-noise values were simulated or extrapolated. Exhaustive certification grows quickly with distance, and extrapolated rates depend on the noise model."
+        }
+      ],
+      "methods_source_section": "Figure 1 and Table 1: construction, circuit scheduling, and distance certification",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "Quantum LDPC codes can protect many logical qubits per block, but their long-range checks are hard to wire on fixed hardware. Neutral atoms can be moved, so the question becomes: which codes have checks that atom motion carries out cheaply? Cornucopia codes answer with checks built from coordinate permutations of a \\(3\\times q\\) torus, \\((x,y)\\in\\mathbb Z_3\\times\\mathbb Z_q\\) with \\(\\gcd(q,3)=1\\).",
+        "There are twelve data blocks \\(L_0,\\dots,L_5,R_0,\\dots,R_5\\) and six check blocks \\(X_0,X_1,X_2,Z_0,Z_1,Z_2\\), each holding \\(3q\\) atoms. This gives \\(n=36q\\) data qubits and \\(18q=n/2\\) check qubits. With \\(3q\\times3q\\) permutation matrices \\(A_k,B_k\\) (\\(k\\in\\mathbb Z_6\\)), \\[H_X=[\\mathbf A\\mid\\mathbf B],\\qquad H_Z=[\\tilde{\\mathbf B}\\mid\\tilde{\\mathbf A}],\\] \\[(\\mathbf A)_{ij}=A_{j-i},\\quad(\\mathbf B)_{ij}=B_{j-i},\\quad(\\tilde{\\mathbf B})_{ij}=B_{i-j}^{-1},\\quad(\\tilde{\\mathbf A})_{ij}=A_{i-j}^{-1},\\] for \\(i\\in\\{0,1,2\\}\\) and \\(j\\in\\mathbb Z_6\\). Each permutation is one of three moves. \\(A_1,B_3\\) reverse the rows, \\((x,y)\\mapsto(2x+2,y+s)\\). \\(A_0,B_2\\) cycle the rows, \\((x,y)\\mapsto(x+1,y+s)\\). The rest only shift columns, \\((x,y)\\mapsto(x,y+s)\\). The twelve shifts \\(s\\) are free and are optimized numerically. Every check has weight 12.",
+        "Each of \\(H_X,H_Z\\) has \\(9q\\) rows, so \\(k\\ge n-18q=n/2\\). Reported instances run from \\([[252,130,6]]\\) to \\([[2844,1426,18]]\\), all with rate \\(k/n\\) slightly above \\(1/2\\). Counting check qubits, the largest code uses \\(2844+1422=4266\\) atoms for 1426 logical qubits, about 3 atoms per logical qubit. The authors compare this with bivariate bicycle codes: \\([[288,12,18]]\\) would need \\(\\lceil1426/12\\rceil=119\\) blocks of 576 qubits, about 68,544 atoms.",
+        "The noise model is circuit-level depolarizing noise of strength \\(p\\): two-qubit Pauli errors after each CNOT with probability \\(p/15\\) each, preparation and measurement faults with probability \\(p\\), and no idling noise. Decoding uses relay-BP with a BP-OSD fallback. Every simulated code exceeds a pseudo-threshold of 0.4%, the point where the logical error rate per logical qubit per cycle equals \\(p\\). Values at \\(p=10^{-3}\\) and \\(10^{-4}\\) come from fitting \\(p_L=p^{d/2}\\exp(c_0+c_1p+c_2p^2)\\) and extrapolating; one example is \\(2.6\\times10^{-16}\\) at \\(d=18\\), \\(p=10^{-3}\\). The modelled cycle takes 10.4 ms at \\(d=6\\) and 16.2 ms at \\(d=18\\), well inside the coherence time of about 10 s assumed for neutral atoms."
+      ]
+    },
+    {
+      "id": "2606.04079",
+      "topic": "computing",
+      "title": "Quantum error correction with the toric code",
+      "authors": "Atom Computing and Collaborators",
+      "submitted": "2026-06-02",
+      "version": "v1",
+      "kind": "Experiment",
+      "problem": "Can neutral-atom logical memories sustain repeated error correction while replacing lost atoms?",
+      "result": "Twisted toric-code memories on 32 and 64 atoms (\\([[16,1,(4,3)]]\\) and \\([[32,1,(6,4)]]\\)) run for up to 90 and 70 syndrome cycles with atom reloading. Over four to eight cycles, the larger code has the lower logical error.",
+      "significance": "Addresses sustained operation and atom loss, practical obstacles to scalable logical memories.",
+      "limitations": "The larger code’s advantage is modest (\\(\\Lambda\\approx1.3\\) averaged over bases), and the distance comparison covers at most eight cycles. The larger code’s data do not follow a fixed error per cycle, and the simulations omit coherent errors, heating and reload errors. The result does not demonstrate arbitrary-depth fault-tolerant computation.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-19; equations follow the paper’s notation.",
+      "verified_on": "2026-10-19",
+      "approved_on": "2026-10-19",
+      "methods": [
+        {
+          "technique": "Rotate data and ancilla roles",
+          "explanation": "In each cycle the fresh atoms end up holding the code state, while the old data atoms carry the syndrome and are measured. Every atom is therefore measured, and can be cooled or replaced, once every two cycles.",
+          "math": [
+            "The paper says the exchange is compiled into the gates but does not spell out the circuit. The standard identity behind such schemes (an editorial illustration) is that a SWAP next to an entangling gate costs at most one extra gate. Since \\(\\mathrm{SWAP}=\\mathrm{CNOT}_{a\\to b}\\,\\mathrm{CNOT}_{b\\to a}\\,\\mathrm{CNOT}_{a\\to b}\\) and \\(\\mathrm{CNOT}_{a\\to b}^2=I\\), \\[\\mathrm{SWAP}\\cdot\\mathrm{CNOT}_{a\\to b}=\\mathrm{CNOT}_{a\\to b}\\,\\mathrm{CNOT}_{b\\to a}.\\] Appending a swap to the last data–ancilla coupling of a check therefore leaves the syndrome on the old data atom and the data on the old ancilla, for one more two-qubit gate. On CZ hardware, that gate is a CZ between Hadamards.",
+            "Why rotate? With fixed roles a data atom is never measured, so loss and heating accumulate undetected. The paper reports the detection probability rising steeply without swapping and staying near 0.2 with it. With rotation, every atom is measured every second cycle, so the age of any undetected loss is at most two cycles. The price is that each measured atom has undergone 8 two-qubit gates since its previous measurement, rather than 4."
+          ],
+          "transfer": "When a register suffers leakage or loss that only measurement reveals, ask whether the circuit can move the code state so that every physical carrier is measured periodically. The swap-absorption identity bounds the extra gate cost, and the rotation period bounds how long damage can go undetected."
+        },
+        {
+          "technique": "Make replenishment part of the computation",
+          "explanation": "A separate storage zone supplies replacement atoms and is itself replenished during operation. Detected losses are converted into weighted Pauli errors, so the decoder can use them.",
+          "math": [
+            "A lost atom is not a Pauli error, but its effect can be modelled by one. If an atom vanishes before a CZ, the gate acts like a control in an unknown basis state: its partner receives either nothing or a \\(Z\\), and the lost atom has no \\(\\langle Z\\rangle\\) to report. For each CZ between initialization and measurement, the paper adds a \\(Z\\) error on the partner with probability \\[\\epsilon_t=\\tfrac12L_t,\\] where \\(L_t\\) is the likelihood that the atom was lost at gate \\(t\\). It also assigns a 50% readout error to the lost atom. Matching decoders weight each error mechanism by \\(w=\\log\\frac{1-\\epsilon}{\\epsilon}\\), so these shot-specific probabilities make edges near a known loss cheap, and the decoder prefers explanations there.",
+            "Why the per-cycle fit has its form: if each cycle independently flips the logical value with probability \\(\\epsilon\\), the logical value is wrong after \\(c\\) cycles exactly when an odd number of flips occurred. Since \\(\\sum_k\\binom ck\\epsilon^k(1-\\epsilon)^{c-k}(-1)^k=(1-2\\epsilon)^c\\), \\[\\Pr[\\text{odd}]=\\tfrac12\\bigl(1-(1-2\\epsilon)^c\\bigr).\\] A constant \\(\\epsilon\\) is a model assumption, and the paper notes that the larger code’s data do not follow one.",
+            "The reservoir is a scheduling constraint (editorial budget). If each cycle loses \\(\\ell\\) atoms on average and a reservoir of \\(R\\) sites is refilled every \\(T\\) cycles to a filling fraction \\(f\\), sustained operation needs \\(fR\\ge\\ell T\\), plus margin for fluctuations. The paper uses \\(T=10\\) cycles with roughly 50% loading. Each refill costs about 1.6% contrast and raises the detection probability for about three cycles, so refilling also has an error cost in the budget."
+          ],
+          "transfer": "Convert any heralded but non-Pauli fault into a Pauli error model with shot-specific probabilities, and let the decoder’s weights carry that side information. Budget reservoirs like any other resource. Transfer requires transport, measurement and loading that preserve coherence in the remaining register. Replacement restores the atom count but does not itself correct the errors induced on neighbouring qubits."
+        }
+      ],
+      "methods_source_section": "Figure 1; Sections II–IV; Supplement SIII.1",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "The experiment runs a toric-code memory on a twisted torus. A \\(2\\times2\\) integer matrix in Hermite normal form, \\(M=\\begin{pmatrix}a&b\\\\0&c\\end{pmatrix}\\), defines the lattice \\(\\Gamma=\\{xM:x\\in\\mathbb Z^2\\}\\), and points of the plane that differ by an element of \\(\\Gamma\\) are identified. The fundamental domain has \\(ac=\\det M\\) vertices, each carrying a horizontal and a vertical edge qubit, so \\(n=2\\det M\\). X-type vertex checks and Z-type plaquette checks have weight 4. The shortest non-contractible loop sets the distance, \\(d=\\min_{v\\in\\Gamma\\setminus\\{0\\}}\\|v\\|_1\\). The codes use \\(M=\\begin{pmatrix}1&2\\\\0&8\\end{pmatrix}\\) and \\(M=\\begin{pmatrix}1&3\\\\0&16\\end{pmatrix}\\), giving \\([[16,1,(4,3)]]\\) and \\([[32,1,(6,4)]]\\) with \\((d_X,d_Z)\\) listed. The torus encodes two qubits; one is treated as a gauge qubit.",
+        "Each syndrome cycle initializes fresh atoms, applies four layers of CZ gates, and measures the former data atoms, so data and ancilla roles swap once per cycle. X- and Z-type checks are interleaved to avoid hook errors, and a dynamical-decoupling echo sits at mid-cycle. Imaging distinguishes a lost atom from either qubit state. Lost atoms are replaced from a storage zone, which is refilled every 10 cycles from a magneto-optical trap 30 cm below the array.",
+        "The logical error per cycle \\(\\epsilon\\) is fitted from \\(\\mathrm{LER}(c)=\\tfrac12\\bigl(1-(1-2\\epsilon)^c\\bigr)\\). Without reloading, \\(\\epsilon^Z=0.74\\%\\) for the 16-qubit code and \\(0.56\\%\\) for the 32-qubit code. The suppression factors over four cycles are \\(\\Lambda^Z=1.9\\), \\(\\Lambda^X=1.20\\) and \\(\\Lambda^{\\mathrm{avg}}=1.30\\). With reloading, the smaller code runs for 90 cycles and the larger for 70, with fitted \\(\\epsilon^Z\\approx0.63\\text{–}0.64\\%\\) and \\(\\epsilon^X\\approx3\\%\\). A separate repetition-code memory reaches logical lifetimes of 44 s (\\(d=3\\)) and 225 s (\\(d=7\\)), against physical lifetimes of 10–16 s. Decoding uses minimum-weight perfect matching (PyMatching) on a Stim error model reweighted shot by shot for atom loss."
+      ]
+    },
+    {
+      "id": "2607.21367",
+      "topic": "information",
+      "title": "A solution to 2-copy distillability of Werner states",
+      "authors": "Jinshi Fu; Li Gao; Sang-Jun Park",
+      "submitted": "2026-07-23",
+      "version": "v3",
+      "kind": "Theory",
+      "problem": "Can two copies of a Werner state yield distillable entanglement when one copy cannot?",
+      "result": "For every local dimension \\(d\\), a Werner state \\(\\rho_\\alpha\\) is two-copy distillable exactly when it is one-copy distillable (\\(\\alpha<-\\tfrac12\\)). States with \\(-\\tfrac12\\le\\alpha<-\\tfrac1d\\) are therefore NPT but not two-copy distillable.",
+      "significance": "Targets a longstanding subproblem in understanding bound entanglement.",
+      "limitations": "The general question of whether all states with non-positive partial transpose are distillable remains open.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-19; equations follow the paper’s notation.",
+      "verified_on": "2026-10-19",
+      "approved_on": "2026-10-19",
+      "methods": [
+        {
+          "technique": "Turn distillation into an operator test",
+          "explanation": "The authors write the Schmidt-rank-two test vector in terms of two pairs of vectorized matrices. The distillability condition then becomes an inequality between matrix norms, and finally a positivity condition for a block operator.",
+          "math": [
+            "Start from the partial transpose. With the unnormalized \\(\\ket\\Omega=\\sum_i\\ket{ii}\\), one has \\(F^\\Gamma=\\ketbra\\Omega\\Omega\\), so \\(\\rho_\\alpha^\\Gamma\\propto I+\\alpha\\ketbra\\Omega\\Omega\\). One copy already shows where \\(-\\tfrac12\\) comes from. For a normalized \\(\\ket\\psi\\) with Schmidt coefficients \\(\\lambda_1,\\lambda_2\\), \\(|\\braket\\Omega\\psi|^2\\le(\\sqrt{\\lambda_1}+\\sqrt{\\lambda_2})^2\\le2\\), with equality for \\((\\ket{11}+\\ket{22})/\\sqrt2\\). Hence \\(\\min_\\psi\\bra\\psi\\rho_\\alpha^\\Gamma\\ket\\psi\\propto1+2\\alpha\\), which is negative exactly when \\(\\alpha<-\\tfrac12\\). (Editorial illustration.)",
+            "For two copies, write \\(\\ket\\psi=\\ket{v_1}\\ket{w_1}+\\ket{v_2}\\ket{w_2}\\), with \\(\\ket{v_i}=\\ket{\\operatorname{vec}V_i}\\), \\(\\ket{w_i}=\\overline{\\ket{\\operatorname{vec}W_i}}\\) and \\(\\tr(V_i^*V_j)=\\delta_{ij}\\). Vectorization identities such as \\(\\braket{\\operatorname{vec}A}{\\operatorname{vec}B}=\\tr(A^*B)\\) turn \\(\\bra\\psi(\\rho_{-1/2}^\\Gamma)^{\\otimes2}\\ket\\psi\\ge0\\) into \\[\\Bigl\\|\\sum_iV_i^*W_i\\Bigr\\|_2^2+\\Bigl\\|\\sum_iW_iV_i^*\\Bigr\\|_2^2\\le2\\sum_i\\|W_i\\|_2^2+\\tfrac12\\Bigl|\\sum_i\\tr(V_i^*W_i)\\Bigr|^2\\] for all Hilbert–Schmidt-orthonormal \\(V=(V_1,V_2)\\) and all \\(W=(W_1,W_2)\\). In operator form, with \\(S_VW=\\bigl(\\sum_iV_i^*W_i,\\ \\sum_iW_iV_i^*\\bigr)\\) and \\(P_V=\\tfrac12\\ketbra VV\\), the condition is \\(S_V^*S_V\\le2I+P_V\\).",
+            "Next, split along the rank-one direction. Decomposing the space as \\(\\mathbb CV\\oplus V^\\perp\\), the condition becomes positivity of \\[\\begin{pmatrix}3-h_V&-\\bra{g_V}\\\\-\\ket{g_V}&2I-K_V\\end{pmatrix},\\] where \\(h_V\\), \\(\\ket{g_V}\\) and \\(K_V\\) are the compressions of \\(S_V^*S_V\\) to the blocks. A Hermitian block matrix \\(\\begin{pmatrix}a&-g^*\\\\-g&B\\end{pmatrix}\\) with \\(a\\ge0\\) and \\(B\\ge0\\) is positive if and only if \\(|\\langle g,w\\rangle|^2\\le a\\,\\langle w,Bw\\rangle\\) for all \\(w\\). Minimizing the quadratic form over the first coordinate gives this Schur-complement condition, which needs no inverse of \\(B\\). The proof establishes the three pieces separately: \\(h_V\\le3\\) from a norm identity, \\(2I-K_V\\ge0\\) from a second-variation bound, and the coupling inequality by Cauchy–Schwarz."
+          ],
+          "transfer": "When a property is defined by optimizing over protocols, look for an equivalent statement of the form “a quadratic form is non-negative on a restricted set of vectors”. Vectorization turns vectors of bounded Schmidt rank into short tuples of matrices, so the rank restriction becomes the number of matrices. A rank-one perturbation (\\(P_V\\) here) is then best handled by splitting off its direction and checking the Schur-complement condition with Cauchy–Schwarz."
+        },
+        {
+          "technique": "Use symmetry to isolate a boundary case",
+          "explanation": "Only the endpoint \\(\\alpha=-\\tfrac12\\) needs checking, and that case is controlled by a sharp inequality for antisymmetric projectors.",
+          "math": [
+            "Why the endpoint suffices (an editorial argument in the spirit of the paper’s reduction). Write \\(N=I-\\tfrac12\\ketbra\\Omega\\Omega\\). For \\(-\\tfrac12\\le\\alpha\\le0\\), \\[I+\\alpha\\ketbra\\Omega\\Omega=(1-2|\\alpha|)\\,I+2|\\alpha|\\,N,\\] a convex combination. The tensor square expands into \\(I\\otimes I\\), \\(I\\otimes N\\), \\(N\\otimes I\\) and \\(N\\otimes N\\) with non-negative weights. For a Schmidt-rank-two \\(\\psi\\), \\(\\bra\\psi I\\otimes N\\ket\\psi=\\tr(N\\sigma)\\), where \\(\\sigma\\) is the reduced state on the second copy. \\(\\sigma\\) is a mixture of vectors of Schmidt rank at most 2, because local projections cannot raise Schmidt rank, so the one-copy result gives \\(\\tr(N\\sigma)\\ge0\\). If the \\(N\\otimes N\\) term is also non-negative, which is exactly the statement at \\(\\alpha=-\\tfrac12\\), every \\(\\alpha\\ge-\\tfrac12\\) follows. For \\(\\alpha>0\\), \\(I+\\alpha\\ketbra\\Omega\\Omega\\ge0\\) outright.",
+            "The sharp estimate (Theorem 2.4). On four copies of \\(\\mathbb C^d\\), labelled 1–4, let \\(\\ket\\psi\\) be a unit vector of Schmidt rank at most 2 across \\(12|34\\). Then \\[\\bra\\psi\\,\\Pi_{\\mathcal A}^{(13)}\\otimes\\Pi_{\\mathcal A}^{(24)}\\,\\ket\\psi\\le\\tfrac12,\\] with equality for \\(\\tfrac1{\\sqrt2}(\\ket{11}\\ket{22}+\\ket{22}\\ket{11})\\). The constant matches an elementary bound: for product vectors, \\(\\bra{\\phi\\chi}\\Pi_{\\mathcal A}\\ket{\\phi\\chi}=\\tfrac12(1-|\\braket\\phi\\chi|^2)\\le\\tfrac12\\). The theorem shows that pairing two antisymmetric projections and allowing Schmidt rank 2 does not raise it. In the proof, it bounds the second variation \\(\\|D\\mathcal Q_V[W]\\|^2\\le\\langle W,(2I-K_V)W\\rangle\\), the hardest block of the Schur-complement condition."
+          ],
+          "transfer": "Before searching a whole parameter family, ask whether convexity and a locality argument reduce it to one extremal member. Then decompose along invariant subspaces (symmetric and antisymmetric parts) and look for a sharp inequality whose extremizer you can write down; an explicit extremizer certifies that the constant cannot be improved. These reductions rely on the Werner symmetry and do not give a test for three or more copies."
+        }
+      ],
+      "methods_source_section": "Introduction, proof outline; Sections 2–3",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "Can every entangled state whose partial transpose is not positive (NPT) be distilled into pure entanglement? The question is one of the oldest open problems in quantum information, and it reduces to a single family, the Werner states. For local dimension \\(d\\ge2\\), with the flip operator \\(F\\ket{ij}=\\ket{ji}\\) and \\(\\alpha\\in[-1,1]\\), \\[\\rho_\\alpha=\\frac{I+\\alpha F}{d^2+\\alpha d}=\\frac{(1+\\alpha)\\Pi_{\\mathcal S}+(1-\\alpha)\\Pi_{\\mathcal A}}{d^2+\\alpha d},\\] where \\(\\Pi_{\\mathcal S}=\\tfrac{I+F}2\\) and \\(\\Pi_{\\mathcal A}=\\tfrac{I-F}2\\) project onto the symmetric and antisymmetric subspaces. \\(\\rho_\\alpha\\) is separable exactly when it has positive partial transpose (PPT), namely when \\(\\alpha\\ge-\\tfrac1d\\). It is one-copy distillable exactly when \\(\\alpha<-\\tfrac12\\).",
+        "A state is \\(r\\)-copy distillable if some vector \\(\\ket\\psi\\) of Schmidt rank at most 2, across Alice’s \\(r\\) systems versus Bob’s, gives \\[\\bra\\psi(\\rho^\\Gamma)^{\\otimes r}\\ket\\psi<0,\\] where \\(\\Gamma\\) is partial transposition on Bob’s side. A state is distillable exactly when it is \\(r\\)-copy distillable for some \\(r\\). For \\(d\\ge3\\), the window \\(-\\tfrac12\\le\\alpha<-\\tfrac1d\\) contains NPT states that fail the one-copy test. If they failed for every \\(r\\), NPT bound entanglement would exist.",
+        "Theorem 1.1: for every \\(d\\ge2\\), \\(\\rho_\\alpha\\) is two-copy undistillable if and only if \\(-\\tfrac12\\le\\alpha\\le1\\). The two-copy test therefore adds nothing to the one-copy test, settling a long-standing question. This does not yet prove bound entanglement; three or more copies, and the asymptotic question, remain open.",
+        "The proof reduces the question to the endpoint \\(\\alpha=-\\tfrac12\\). It rewrites the two-copy condition as an operator inequality for pairs of matrices and splits that inequality with a Schur complement. The hard estimate is a sharp bound on products of antisymmetric projections, restricted to vectors of Schmidt rank two."
+      ]
+    },
+    {
+      "id": "2609.16364",
+      "topic": "information",
+      "title": "Pump-Free Microwave-Optical Bell Pair Generation for Teleportation-Based Quantum Transduction",
+      "authors": "Fangxin Li et al.",
+      "submitted": "2026-09-14",
+      "version": "v1",
+      "kind": "Proposal",
+      "problem": "How can superconducting processors connect to optical networks while avoiding complications from optical pumping?",
+      "result": "Spin-mediated sources are predicted to herald microwave–optical Bell pairs at roughly 1–28 kHz, with fidelities of 0.86–0.99 depending on the platform. The pairs are intended for teleportation-based transduction.",
+      "significance": "Offers a potential interface between microwave quantum processors and optical communication.",
+      "limitations": "These are proposed operating regimes, not an experimental network demonstration.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-19; equations follow the paper’s notation.",
+      "verified_on": "2026-10-19",
+      "approved_on": "2026-10-19",
+      "methods": [
+        {
+          "technique": "Separate resource generation from state transfer",
+          "explanation": "The proposal first creates microwave–optical entanglement. A Bell measurement and a communicated correction then transfer the input state by teleportation.",
+          "math": [
+            "The teleportation identity. Let \\(\\ket{\\beta_{jk}}=(I\\otimes X^jZ^k)\\ket{\\Phi^+}\\) be the four Bell states. For an input \\(\\ket\\psi\\) on system 1 and a pair \\(\\ket{\\Phi^+}\\) on systems 2 (microwave) and 3 (optical), \\[\\ket\\psi_1\\ket{\\Phi^+}_{23}=\\tfrac12\\sum_{j,k\\in\\{0,1\\}}\\ket{\\beta_{jk}}_{12}\\otimes X^jZ^k\\ket\\psi_3\\] up to signs on individual terms. Outcome \\((j,k)\\) therefore leaves the optical photon in \\(X^jZ^k\\ket\\psi\\), and applying \\((X^jZ^k)^{-1}\\) recovers \\(\\ket\\psi\\). The source’s state \\(\\tfrac1{\\sqrt2}(\\ket E\\ket1+\\ket L\\ket0)\\) is \\(\\ket{\\Phi^+}\\) up to a local relabelling. (Editorial; identity checked numerically.)",
+            "Figures of merit. A heralded source is characterized by a rate and a conditional fidelity, \\[R=\\frac{P_{\\mathrm{succ}}}{\\tau+T_{\\mathrm{exe}}},\\qquad\\mathcal F=\\bra\\Phi\\rho_{\\mathrm{herald}}\\ket\\Phi,\\] where \\(\\tau\\) is the detection window, \\(T_{\\mathrm{exe}}\\) the rest of the protocol time, and \\(P_{\\mathrm{succ}}=\\tfrac12\\frac{C^2}{(1+C)^2}P_{\\mathrm{mw}}\\). For qubit teleportation with ideal Bell measurement and a pair of fidelity \\(\\mathcal F\\), the average transfer fidelity is \\(f=(2\\mathcal F+1)/3\\) (the teleportation channel is a Pauli channel with identity weight \\(\\mathcal F\\)). Thus \\(\\mathcal F=0.92\\) gives \\(f\\approx0.95\\), above the classical limit \\(2/3\\). (Editorial.)"
+          ],
+          "transfer": "Evaluate a heterogeneous interface first as a source of entangled pairs, with a rate \\(R\\) and a conditional fidelity \\(\\mathcal F\\), and only then as a transducer via \\(f=(2\\mathcal F+1)/3\\). This separates what the source must deliver from the cost of the Bell measurement, which is a demanding microwave operation in its own right and is not analysed here."
+        },
+        {
+          "technique": "Use an intermediate spin as an interface",
+          "explanation": "A reflected optical photon becomes entangled with a spin, and cavity-enhanced emission then maps the spin state to a microwave photon. Timed control produces time-bin entanglement.",
+          "math": [
+            "The optical step. For a one-sided cavity at critical coupling on resonance, the empty cavity reflects nothing. A coupled spin with cooperativity \\(C=g^2/(\\kappa\\gamma)\\) gives amplitude \\(r=1-\\frac1{1+C}=\\frac C{1+C}\\). Hence \\[\\mathcal R_{\\max}=\\frac{C^2}{(1+C)^2},\\qquad P_{\\mathrm{opt}}=\\tfrac12\\mathcal R_{\\max}.\\] The \\(\\tfrac12\\) is the fraction of time-bin and spin branches in which the photon meets the reflecting spin state. A large \\(C\\) is essential; \\(C=3\\) already loses 44% of the reflected intensity.",
+            "The microwave step. Purcell emission at rate \\(\\Gamma_0=4g_{se}^2/\\kappa_e\\) for a single spin, or a collectively enhanced \\(\\Gamma\\sim\\sqrt Ng_{se}\\) for an ensemble, gives emission probability \\(p_{\\mathrm{mw}}=1-e^{-\\Gamma\\tau/2}\\) within the window \\(\\tau\\). A transmon with error \\(\\epsilon\\) heralds a click with probability \\(P_{\\mathrm{mw}}=p_{\\mathrm{mw}}(1-\\epsilon)+\\epsilon(1-p_{\\mathrm{mw}})\\), where the second term counts false heralds. The heralded fidelity is \\[\\mathcal F_{\\mathrm{herald}}=\\frac{F_M}4\\Bigl(1+e^{-\\tau/T_{1,t}}+2e^{-\\tau/2T_{1,t}}e^{-\\tau/T_{2,s}}\\Bigr),\\qquad F_M=\\frac{(1-\\epsilon)p_{\\mathrm{mw}}}{P_{\\mathrm{mw}}}.\\] Read it as the Bell overlap \\(\\tfrac12(\\rho_{aa}+\\rho_{bb}+2|\\rho_{ab}|)\\) with \\(\\rho_{aa}=\\tfrac12\\), \\(\\rho_{bb}=\\tfrac12e^{-\\tau/T_{1,t}}\\) (the branch holding an excitation decays) and \\(|\\rho_{ab}|=\\tfrac12e^{-\\tau/2T_{1,t}}e^{-\\tau/T_{2,s}}\\) (coherence lost to relaxation and spin dephasing), scaled by the true-herald fraction \\(F_M\\).",
+            "The trade-off. A longer \\(\\tau\\) raises \\(p_{\\mathrm{mw}}\\) and the true-herald fraction. It also lowers the fidelity through decoherence and lowers the rate through the denominator \\(\\tau+T_{\\mathrm{exe}}\\). Taking \\(\\tau\\approx2/\\Gamma\\), the paper estimates \\[R_{\\max}\\sim\\frac12\\frac{C^2}{(1+C)^2}\\,\\frac1{2/\\Gamma+T_{\\mathrm{exe}}}.\\] The fidelity optimum lies elsewhere, so no single window maximizes both."
+          ],
+          "transfer": "Compare candidate mediators by three quantities: the cooperativity, through \\(\\mathcal R_{\\max}=C^2/(1+C)^2\\); the retrieval rate \\(\\Gamma\\) relative to the coherence times \\(T_{2,s}\\) and \\(T_{1,t}\\); and the dead time \\(T_{\\mathrm{exe}}\\). Then choose the window \\(\\tau\\) for the rate–fidelity balance the application needs. Heralding discards failed attempts, but it does not remove false heralds (the \\(\\epsilon\\) term) or decoherence within the window."
+        }
+      ],
+      "methods_source_section": "Figures 1–2 and the main-text protocol; Appendices A–B",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "A superconducting processor works with microwave photons at gigahertz frequencies, and optical fibres carry photons at hundreds of terahertz. Direct conversion typically uses a strong optical pump, whose light near the superconducting circuit adds heat and noise. The proposal avoids the pump: first create an entangled microwave–optical pair, then transfer quantum states by teleportation.",
+        "The optical half uses a spin in a cavity. An optical photon in an equal superposition of early and late time bins, \\(\\tfrac1{\\sqrt2}(\\ket E+\\ket L)\\), reflects off a cavity containing a spin in \\(\\tfrac1{\\sqrt2}(\\ket0+\\ket1)\\). Spin state \\(\\ket0\\) couples to the cavity and reflects the photon with probability \\(\\mathcal R_{\\max}\\); \\(\\ket1\\) does not reflect it. A spin \\(\\pi\\)-pulse is applied between the two time bins. Keeping only events in which the photon returns gives \\[\\ket\\Phi=\\tfrac1{\\sqrt2}\\bigl(\\ket E\\ket1+\\ket L\\ket0\\bigr).\\] The spin is then mapped to a microwave photon by Purcell-enhanced emission into a microwave resonator, and a transmon heralds that photon’s arrival.",
+        "Four platforms are analysed: single colour centres in diamond (NV⁻ and SnV⁻), an ensemble of ⁸⁷Rb atoms, and a phonon-mediated variant in which the spin couples to a mechanical mode that couples piezoelectrically to the microwave resonator. The analysis assumes transmon relaxation time \\(T_{1,t}=300\\ \\mu\\mathrm s\\) and measurement error \\(\\epsilon=0.01\\). The predicted maximum fidelities and heralding rates are 0.92 and 3.0 kHz (NV⁻), 0.86 and 1.1 kHz (SnV⁻), 0.97 and 3.7 kHz (⁸⁷Rb), and 0.99 and 28.3 kHz (phonon-mediated). Rate and fidelity peak at different detection windows, so the two maxima are not reached at the same operating point.",
+        "Teleportation turns the pair into a transducer. A Bell measurement acts on the microwave input and the microwave half of the pair. Its two classical outcome bits select a Pauli correction on the optical photon, which then carries the input state. The paper describes this step qualitatively; its quantitative analysis concerns the entangled-pair source."
+      ]
+    }
+  ]
+}
