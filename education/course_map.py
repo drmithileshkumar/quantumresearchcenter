@@ -50,9 +50,7 @@ def render_chapter_map(title, chapter):
             f'{escape(section["title"])}</a>' + (f'<ul>{links}</ul>' if links else '') + '</li>'
         )
     return (
-        '<nav class="chapter-topic-map" aria-labelledby="topic-map-heading">'
-        '<h2 id="topic-map-heading">Chapter map</h2>'
-        '<p class="topic-map-hint">Select a topic to jump to its explanation.</p>'
+        '<nav class="chapter-topic-map" aria-label="Chapter map">'
         f'<div class="topic-map-root">{escape(title)}</div>'
         '<ul class="topic-map-branches">' + ''.join(branches) + '</ul></nav>'
     )
