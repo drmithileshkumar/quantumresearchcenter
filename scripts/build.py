@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the research handbook using only the Python standard library."""
 import argparse
+import hashlib
 import html
 import json
 import os
@@ -185,7 +186,17 @@ def render(book):
         followup_pages.extend(f'education/{course}/'+chapter['stem']+'.html' for chapter in json.loads((ROOT/f'education/{course}/chapters.json').read_text()))
     outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc></url>' for p in [*[name for name in outputs if name.endswith('.html') and name not in UNLISTED], *followup_pages, 'education/computing/index.html', 'education/computing/glossary.html', 'education/computing/study-guide.html', 'education/computing/revisions.html', *['education/computing/'+chapter[0]+'.html' for chapter in json.loads((ROOT/'education/computing/chapters.json').read_text())]])+'</urlset>\n'
     outputs['robots.txt']='User-agent: *\nAllow: /\nSitemap: '+book['url']+'/sitemap.xml\n'
-    return outputs
+    return {name:(version_assets(name,source) if name.endswith('.html') else source) for name,source in outputs.items()}
+
+def version_assets(name,source):
+    # Stylesheets and scripts are cached for hours by the CDN and browsers; a content
+    # hash in the URL makes each deploy fetch exactly the files its HTML expects.
+    def stamp(match):
+        attribute,url=match.group(1),match.group(2)
+        target=ROOT/os.path.normpath(str(Path(name).parent/url))
+        if not target.is_file():return match.group(0)
+        return f'{attribute}="{url}?v={hashlib.sha256(target.read_bytes()).hexdigest()[:10]}"'
+    return re.sub(r'(href|src)="((?![a-z]+:)[^"?#]+\.(?:css|js))"',stamp,source)
 
 class Page(HTMLParser):
     def __init__(self,source):
