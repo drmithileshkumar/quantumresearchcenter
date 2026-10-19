@@ -20,7 +20,7 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){toggle(false)}if(e.key==='/'&&!e.target.closest('input,textarea,select,[contenteditable]')){e.preventDefault();if(!dialog.open)openSearch()}});
   input.addEventListener('input',()=>{
     const query=input.value.trim().toLowerCase(),words=query.split(/\s+/);results.replaceChildren();
-    if(!query){status.textContent='Search the course outline.';return}
+    if(!query){status.textContent='Search the course.';return}
     const hits=(window.BOOK_SEARCH||[]).filter(x=>words.every(w=>(x.title+' '+x.text).toLowerCase().includes(w))).sort((a,b)=>Number(b.title.toLowerCase().includes(query))-Number(a.title.toLowerCase().includes(query)));
     status.textContent=hits.length?`${hits.length} matching sections${hits.length>30?' · showing the first 30':''}.`:'No matching sections. Try a shorter phrase.';
     hits.slice(0,30).forEach(hit=>{const li=document.createElement('li'),a=document.createElement('a'),small=document.createElement('small'),p=document.createElement('p');a.href=hit.url;a.textContent=hit.title;a.onclick=()=>dialog.close();small.textContent=hit.chapter;const pos=hit.text.toLowerCase().indexOf(words[0]);p.textContent=(pos>70?'…':'')+hit.text.slice(Math.max(0,pos-60),Math.max(0,pos-60)+170)+'…';li.append(a,small,p);results.append(li)});
@@ -36,4 +36,18 @@
   function followHash(){if(!location.hash)return;let id;try{id=decodeURIComponent(location.hash.slice(1))}catch{return}const el=document.getElementById(id);if(el){for(let p=el.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;el.scrollIntoView({behavior:'instant',block:'start'});}track()}
   addEventListener('hashchange',followHash);
   if(window.MathJax?.startup?.promise)MathJax.startup.promise.then(followHash);else addEventListener('load',followHash);
+  const printButton=document.querySelector('#print-chapter');
+  if(printButton){printButton.hidden=false;printButton.onclick=()=>window.print()}
+  let printDetails=null;
+  function expandForPrint(){
+    if(printDetails)return;
+    printDetails=[...document.querySelectorAll('main details')].map(el=>[el,el.open]);
+    printDetails.forEach(([el])=>{el.open=true});
+  }
+  function restoreAfterPrint(){
+    if(!printDetails)return;
+    printDetails.forEach(([el,open])=>{el.open=open});printDetails=null;
+  }
+  addEventListener('beforeprint',expandForPrint);
+  addEventListener('afterprint',restoreAfterPrint);
 })();

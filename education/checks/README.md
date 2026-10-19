@@ -13,6 +13,7 @@ python3 education/hardware/checks/worked_examples.py
 python3 education/checks/check_courses.py
 python3 education/checks/check_mathematics.py
 python3 education/algorithms/checks/worked_examples.py
+python3 education/algorithms/checks/chapter_examples.py
 python3 -m unittest discover -s tests
 ```
 

@@ -1,0 +1,60 @@
+/* Course-specific additions to the Computing reader. */
+.ebook .chapter-direction {margin:1.3em 0;color:var(--muted);font-size:.9em;}
+.ebook .chapter-direction summary {cursor:pointer;color:var(--accent);}
+.ebook #book-navigation .nav-topic {padding-left:2.2em;font-size:.85em;}
+.ebook .book-part>.reading-topic {margin-top:1.8em;}
+.ebook .book-part>.reading-topic:first-of-type {margin-top:1.4em;}
+.ebook .book-part .probing-question .exercise {border:0;padding:.5em 0;}
+.ebook .book-part .exercise details {border:0;border-left:2px solid var(--line);padding:0 .9em;border-radius:0;}
+.ebook .table-scroll {max-width:100%;overflow-x:auto;margin:1.4em 0;}
+.ebook .table-scroll table {width:100%;font-size:.9em;line-height:1.55;}
+.ebook .table-scroll caption {text-align:left;margin-bottom:.6em;font-style:italic;}
+.ebook .table-scroll th,.ebook .table-scroll td {padding:.5em .65em;}
+.ebook .information-lab .lab-controls {display:flex;flex-wrap:wrap;gap:1em;align-items:center;}
+.ebook .information-lab label {display:grid;gap:.45em;flex:1 1 180px;}
+.ebook .information-lab input[type=range] {width:100%;min-height:30px;}
+.ebook .information-lab button {padding:.5em .8em;min-height:40px;}
+.ebook .information-lab .lab-state {font-variant-numeric:tabular-nums;line-height:1.6;}
+.ebook .information-lab .probability-bars {display:grid;gap:.65em;margin:1.3em 0;}
+.ebook .information-lab .bar-label {font:14px/1.5 var(--sans);}
+.ebook .information-lab .bar-track {height:14px;background:#dce4df;margin-top:.3em;}
+.ebook .information-lab .bar-fill {height:100%;background:#2e6b5d;}
+@media print {
+ .ebook .chapter-direction {display:none;}
+ .ebook .table-scroll {overflow:visible;}
+ .ebook .information-lab .lab-controls {display:none;}
+ .ebook .information-lab .bar-fill {print-color-adjust:exact;}
+}
+
+.ebook .book-part {border-bottom:0;padding-bottom:0!important;}
+.ebook .chapter-contents {border-top:0;margin-top:0;padding-top:0;}
+.ebook .prediction>.prediction-answer {border:0;background:transparent;padding:0;margin:1em 0 0;}
+.ebook .topic-heading:hover .heading-link {opacity:1;}
+
+/* A branching mind map with a native text alternative. */
+.ebook .landscape-mindmap {margin:1.6em 0;container-type:inline-size;}
+.ebook .mindmap-canvas {width:100%;}
+.ebook .chapter-mindmap figcaption {font:13px/1.55 var(--sans);color:var(--muted);margin:1em 0 0;}
+.ebook .landscape-mindmap svg {display:block;width:100%;min-width:0;height:auto;max-width:100%;max-height:none!important;}
+.ebook .landscape-mindmap .mindmap-compact {display:none;}
+@container (max-width:560px) {
+ .ebook .landscape-mindmap .mindmap-wide {display:none;}
+ .ebook .landscape-mindmap .mindmap-compact {display:block;}
+}
+.ebook .mindmap-open {font-size:.85em;text-align:right;}
+.ebook .landscape-text>summary {color:var(--accent);padding:.6em 0;}
+.ebook .landscape-domains {list-style:none;padding:0;margin:1em 0;}
+.ebook .landscape-domains>li {padding:1em 0;border-bottom:1px solid var(--line);scroll-margin-top:85px;}
+.ebook .landscape-domains h3 {font-size:1.12em;margin:0 0 .7em;}
+.ebook .landscape-domains p {font-size:.9em;line-height:1.6;margin:0 0 .8em;}
+.ebook .landscape-domains ul {padding-left:1.1em;}
+.ebook .landscape-domains li li {font-size:.9em;line-height:1.6;margin:.45em 0;}
+.ebook .landscape-domains .landscape-connection {color:var(--muted);font-size:.85em;}
+.ebook .landscape-bridges dt {font-weight:600;margin:1.2em 0 .3em;}
+.ebook .landscape-bridges dd {margin:0;font-size:.92em;line-height:1.65;}
+@media print {
+ .ebook .landscape-mindmap {break-inside:avoid;}
+ .ebook .landscape-mindmap .mindmap-wide {display:block!important;}
+ .ebook .landscape-mindmap .mindmap-compact {display:none!important;}
+ .ebook .landscape-mindmap svg {min-width:0;}
+}

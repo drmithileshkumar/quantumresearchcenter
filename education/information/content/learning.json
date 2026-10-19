@@ -1,0 +1,66 @@
+{
+  "01-information-and-distinguishability": {
+    "prediction": "A detector reports red. Should Bob guess the more common preparation A, or the preparation B that produces red more often?",
+    "explanation": "Use both pieces of information: the prior and the detector response. Red events have weights 3/20 from A and 4/20 from B, so guess B."
+  },
+  "02-classical-information": {
+    "prediction": "Can a source of biased bits be compressed just by deleting its frequent zeros?",
+    "explanation": "No. Their positions are part of the message. An encoder must retain enough information to reconstruct the entire string, using a specified code."
+  },
+  "03-quantum-states": {
+    "prediction": "A relative phase changes no original 0/1 probabilities. Can it change a later experiment?",
+    "explanation": "Yes. H combines amplitudes from the two configurations. Their relative phase changes the sum before its magnitude is squared."
+  },
+  "04-composite-systems": {
+    "prediction": "Do equal 0/1 outcomes at both ends prove that a pair is entangled?",
+    "explanation": "No. An equal classical mixture of 00 and 11 has those same outcomes. Compare a second basis or the full joint state."
+  },
+  "05-mixed-states": {
+    "prediction": "Can a local mixed state tell you whether a coin was tossed during preparation?",
+    "explanation": "No. The same matrix can arise from several ensembles or from discarding part of an entangled pure state."
+  },
+  "06-quantum-operations": {
+    "prediction": "Does a noise probability of one always mean a maximally mixed output?",
+    "explanation": "No. A phase flip applied with certainty is a known unitary. Randomness in the applied operation, and which operation is used, matter."
+  },
+  "07-quantum-measurement": {
+    "prediction": "If two apparatuses have the same outcome probabilities for every input, must their outputs agree?",
+    "explanation": "No. Equal POVMs specify equal statistics for the first record, but the branch state updates may differ."
+  },
+  "08-state-discrimination": {
+    "prediction": "Should a receiver always use the ordinary 0/1 basis to distinguish zero from plus?",
+    "explanation": "No. That basis succeeds with probability 3/4; a rotated basis reaches approximately 0.8536 under equal priors."
+  },
+  "09-information-constraints": {
+    "prediction": "Can Alice use her choice of Bell-pair measurement basis to send Bob a bit without a classical message?",
+    "explanation": "No. Both choices give Bob I/2 when her outcome is not announced."
+  },
+  "10-entanglement-protocols": {
+    "prediction": "Can Bob learn a teleportation input before Alice’s two-bit record arrives?",
+    "explanation": "No. Averaging its four equally likely Pauli branches gives I/2 on Bob for every input."
+  },
+  "11-quantum-entropy": {
+    "prediction": "Is the entropy of a pure plus state one bit because its Z record is fair?",
+    "explanation": "Its state entropy is zero. The chosen measurement generates a record with entropy one; these refer to different objects."
+  },
+  "12-quantum-compression": {
+    "prediction": "Does measuring and preserving the average source matrix guarantee faithful compression?",
+    "explanation": "No. Measuring can leave the average matrix unchanged while disturbing each nonorthogonal source signal or its reference correlations."
+  },
+  "13-entanglement-transformations": {
+    "prediction": "Can postselection produce a Bell pair from a weakly entangled pair on some trials?",
+    "explanation": "Yes, with declared failures. The success probability and failed branches are essential parts of the resource account."
+  },
+  "14-quantum-error-correction": {
+    "prediction": "Can reading every data qubit and taking a majority correct an unknown superposition?",
+    "explanation": "That reads the logical value and destroys coherence. Read only parity syndromes to identify an error without measuring the logical amplitudes."
+  },
+  "15-quantum-communication": {
+    "prediction": "If a quarter of qubits are flagged as erased, is the unassisted quantum capacity three quarters?",
+    "explanation": "No. The unassisted qubit erasure capacity is one half in that case. Preserving unknown quantum correlations is a stronger task than recovering classical labels."
+  },
+  "16-quantum-cryptography": {
+    "prediction": "Do zero observed test errors prove that a finite raw key is secret?",
+    "explanation": "No. A sample supports a statistical bound under a specified protocol model. Authentication, reconciliation leakage, and privacy amplification remain necessary."
+  }
+}

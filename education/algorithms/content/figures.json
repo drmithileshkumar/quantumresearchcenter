@@ -1,0 +1,9475 @@
+{
+ "deutsch-family": {
+  "kind": "table",
+  "title": "The complete input family for Deutsch’s problem",
+  "caption": "Each row is one hidden device. The algorithm must output \\(d=f(0)\\oplus f(1)\\): it must separate the rows into two classes, not identify the row.",
+  "headers": [
+   "\\(f(0)\\)",
+   "\\(f(1)\\)",
+   "Answer \\(d\\)",
+   "Class"
+  ],
+  "rows": [
+   [
+    "0",
+    "0",
+    "0",
+    "constant"
+   ],
+   [
+    "0",
+    "1",
+    "1",
+    "balanced"
+   ],
+   [
+    "1",
+    "0",
+    "1",
+    "balanced"
+   ],
+   [
+    "1",
+    "1",
+    "0",
+    "constant"
+   ]
+  ]
+ },
+ "query-superposition": {
+  "kind": "circuit",
+  "title": "One coherent query on a superposition of inputs",
+  "caption": "\\(U_f\\) is the two-register oracle, a composite operation. After the query both values of \\(f\\) appear in the state, but measuring both registers returns one input with its value.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)"
+    ],
+    "outputs": [
+     "\\(x\\)",
+     "\\(f(x)\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(U_f\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ],
+    "slices": [
+     [
+      1.5,
+      "\\(\\ket{0,f(0)}+\\ket{1,f(1)}\\)"
+     ]
+    ]
+   }
+  ]
+ },
+ "deutsch-circuit": {
+  "kind": "circuit",
+  "title": "Deutsch’s algorithm with one query",
+  "caption": "Register order is input, then target. The Hadamards prepare \\(\\ket+\\ket-\\); the query kicks \\((-1)^{f(x)}\\) onto the input; the final Hadamard turns the relative sign into the bit \\(d\\). The target is not measured.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket1\\)"
+    ],
+    "outputs": [
+     "\\(d\\)",
+     "\\(\\ket-\\)"
+    ],
+    "headers": [
+     "Prepare",
+     "",
+     "Query",
+     "",
+     "Read out",
+     ""
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [],
+     [
+      {
+       "label": "\\(U_f\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "slices": [
+     [
+      1,
+      "\\(\\ket+\\ket-\\)"
+     ],
+     [
+      3,
+      "\\((-1)^{f(x)}\\) on the input"
+     ]
+    ]
+   }
+  ]
+ },
+ "record-circuit": {
+  "kind": "circuit",
+  "title": "A target record prevents cancellation",
+  "caption": "With target \\(\\ket0\\) and \\(f(x)=x\\), the query makes the target a copy of the input. After the Hadamard, the minus sign sits on \\(\\ket{11}\\) and cannot cancel the plus sign on \\(\\ket{10}\\); the input outcome is a fair coin.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)"
+    ],
+    "outputs": [
+     "fair coin",
+     "record"
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0
+       ],
+       "target": 1
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(\\tfrac{1}{\\sqrt2}(\\ket{00}+\\ket{11})\\ \\xrightarrow{H\\otimes I}\\ \\tfrac12(\\ket{00}+\\ket{10}+\\ket{01}-\\ket{11})\\)"
+    ]
+   }
+  ]
+ },
+ "readout-plane": {
+  "kind": "plane",
+  "title": "The answer states before the final Hadamard",
+  "caption": "Constant functions leave the input along \\(\\ket+\\) and balanced functions along \\(\\ket-\\), up to sign. These states are orthogonal, so a measurement in their basis separates them with certainty; the Hadamard rotates that basis onto \\(\\ket0,\\ket1\\).",
+  "axes": [
+   "amplitude of \\(\\ket0\\)",
+   "amplitude of \\(\\ket1\\)"
+  ],
+  "angles": [
+   45,
+   -45
+  ],
+  "labels": [
+   "\\(\\ket+\\): constant, \\(H\\ket+=\\ket0\\)",
+   "\\(\\ket-\\): balanced, \\(H\\ket-=\\ket1\\)"
+  ]
+ },
+ "majority-curve": {
+  "kind": "curve",
+  "title": "Majority voting amplifies a bounded advantage",
+  "caption": "Probability that the majority of \\(R\\) independent runs is correct, when each run is correct with probability \\(p\\). Above \\(p=1/2\\) the curves steepen as \\(R\\) grows; at \\(p=1/2\\) voting cannot help.",
+  "xrange": [
+   0.3,
+   1
+  ],
+  "yrange": [
+   0,
+   1
+  ],
+  "xticks": [
+   0.3,
+   0.5,
+   0.75,
+   1
+  ],
+  "yticks": [
+   0,
+   0.25,
+   0.5,
+   0.75,
+   1
+  ],
+  "xlabel": "single-run success probability \\(p\\)",
+  "ylabel": "majority correct",
+  "series": [
+   {
+    "label": "\\(R=1\\)",
+    "expr": "x"
+   },
+   {
+    "label": "\\(R=3\\)",
+    "expr": "3*x**2-2*x**3"
+   },
+   {
+    "label": "\\(R=15\\)",
+    "expr": "sum(comb(15,k)*x**k*(1-x)**(15-k) for k in range(8,16))"
+   }
+  ],
+  "legend": "lr"
+ },
+ "access-table": {
+  "kind": "table",
+  "title": "Forms of access and what they do not include",
+  "caption": "Each form of access is a separate assumption. Possessing one does not provide the others, and each must be implemented and paid for in an end-to-end cost.",
+  "headers": [
+   "Given",
+   "Allows",
+   "Does not by itself provide"
+  ],
+  "rows": [
+   [
+    "Oracle \\(U\\) as a sealed box",
+    "Applying \\(U\\), also on superpositions",
+    "\\(U^\\dagger\\), controlled-\\(U\\), a gate count"
+   ],
+   [
+    "Gate sequence for \\(U\\)",
+    "Inverse and controlled versions, cost",
+    "Cheap implementation if the sequence is long"
+   ],
+   [
+    "One copy of \\(\\ket\\psi\\)",
+    "One use of the state",
+    "More copies; a preparation circuit"
+   ],
+   [
+    "Classical table of \\(N\\) entries",
+    "Reading entries",
+    "A quantum state or oracle without loading cost"
+   ]
+  ]
+ },
+ "dj-circuit": {
+  "kind": "circuit",
+  "title": "The Deutsch–Jozsa circuit on \\(n\\) input qubits",
+  "caption": "The slash marks an \\(n\\)-qubit register; each \\(H\\) box is \\(n\\) Hadamards. The zero outcome has amplitude \\(2^{-n}\\sum_x(-1)^{f(x)}\\): magnitude one for a constant function and zero for a balanced one.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{0^n}\\)",
+     "\\(\\ket1\\)"
+    ],
+    "outputs": [
+     "\\(z\\)",
+     "\\(\\ket-\\)"
+    ],
+    "bundles": [
+     0
+    ],
+    "bundle_sizes": {
+     "0": "\\(n\\)"
+    },
+    "steps": [
+     [
+      {
+       "label": "\\(H^{\\otimes n}\\)",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(U_f\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(H^{\\otimes n}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "deutsch-resources": {
+  "kind": "table",
+  "title": "Resources for the Deutsch circuit as drawn",
+  "caption": "Ideal oracle access is assumed. A concrete implementation must add the cost of building the oracle, which the query count deliberately excludes.",
+  "headers": [
+   "Resource",
+   "Cost or assumption"
+  ],
+  "rows": [
+   [
+    "Queries",
+    "One application of \\(U_f\\)"
+   ],
+   [
+    "Qubits",
+    "Two, plus any workspace inside the oracle"
+   ],
+   [
+    "Other gates",
+    "Three Hadamards, and one \\(X\\) if both qubits start in \\(\\ket0\\)"
+   ],
+   [
+    "Measurement",
+    "One computational-basis measurement"
+   ],
+   [
+    "Repetitions",
+    "One: the ideal circuit is exact"
+   ],
+   [
+    "Oracle construction",
+    "Excluded from the query count; charged in a gate count"
+   ]
+  ]
+ },
+ "design-checklist": {
+  "kind": "table",
+  "title": "The design process applied to Deutsch’s problem",
+  "caption": "Each row is a design question that applies to every algorithm in the course. The answers for Deutsch’s problem are developed in Sections 1.1–1.5.",
+  "headers": [
+   "Design step",
+   "Question",
+   "Deutsch’s answer"
+  ],
+  "rows": [
+   [
+    "Problem",
+    "What output, for which inputs, with what success?",
+    "\\(d=f(0)\\oplus f(1)\\), all four \\(f\\), exact"
+   ],
+   [
+    "Access",
+    "How may the input be consulted?",
+    "Coherent oracle \\(U_f\\), one use per query"
+   ],
+   [
+    "Encoding",
+    "How does the property enter amplitudes?",
+    "Phase kickback: \\((-1)^{f(x)}\\) via target \\(\\ket-\\)"
+   ],
+   [
+    "Interference",
+    "Which branches meet, and what blocks them?",
+    "Both inputs meet under \\(H\\); no target record"
+   ],
+   [
+    "Readout",
+    "Which measurement separates the answers?",
+    "\\(H\\) then computational basis: \\(\\ket\\pm\\to\\ket{0},\\ket1\\)"
+   ],
+   [
+    "Proof",
+    "Why is it correct on every input?",
+    "Amplitudes \\(\\tfrac12((-1)^{f(0)}\\pm(-1)^{f(1)})\\)"
+   ],
+   [
+    "Resources",
+    "What does it cost, against which baseline?",
+    "1 query vs 2 classical; 2 qubits; 3–4 gates"
+   ]
+  ]
+ },
+ "technique-map": {
+  "kind": "table",
+  "title": "Techniques of the course and where they are used",
+  "caption": "Named algorithms are applications or compositions of techniques. Later chapters reuse the analysis of earlier ones rather than repeating it.",
+  "headers": [
+   "Chapter",
+   "Technique",
+   "Representative uses"
+  ],
+  "rows": [
+   [
+    "2",
+    "Coherent computation",
+    "Clean oracles, reversible arithmetic, reflections"
+   ],
+   [
+    "3",
+    "Phase encoding",
+    "Bernstein–Vazirani, Deutsch–Jozsa, phase arithmetic"
+   ],
+   [
+    "4",
+    "Fourier methods",
+    "Phase estimation, period finding, factoring"
+   ],
+   [
+    "5",
+    "Amplitude manipulation",
+    "Amplification, amplitude estimation, minimum finding"
+   ],
+   [
+    "6",
+    "Quantum walks",
+    "Walk search, element distinctness"
+   ],
+   [
+    "7",
+    "Operator embedding",
+    "Block encodings, linear combinations of unitaries"
+   ],
+   [
+    "8",
+    "Polynomial transformations",
+    "Signal processing, filtering, matrix inversion"
+   ],
+   [
+    "9",
+    "Evolution engineering",
+    "Product formulas, simulation, adiabatic evolution"
+   ],
+   [
+    "10",
+    "Variational methods",
+    "Variational eigensolver, QAOA"
+   ],
+   [
+    "11",
+    "Adaptive measurement",
+    "Iterative phase estimation, measurement-based computation"
+   ]
+  ]
+ },
+ "clean-contract": {
+  "kind": "circuit",
+  "title": "The clean oracle contract",
+  "caption": "Slashes mark registers of \\(n\\), \\(m\\), and \\(w\\) qubits. The box may contain many gates and use the workspace freely, but it must return the workspace to \\(\\ket{0^w}\\) on every basis input, with no input-dependent phase.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket x\\)",
+     "\\(\\ket y\\)",
+     "\\(\\ket{0^w}\\)"
+    ],
+    "outputs": [
+     "\\(\\ket x\\)",
+     "\\(\\ket{y\\oplus f(x)}\\)",
+     "\\(\\ket{0^w}\\)"
+    ],
+    "bundles": [
+     0,
+     1,
+     2
+    ],
+    "bundle_sizes": {
+     "0": "\\(n\\)",
+     "1": "\\(m\\)",
+     "2": "\\(w\\)"
+    },
+    "steps": [
+     [
+      {
+       "label": "\\(U_f\\)",
+       "wires": [
+        0,
+        1,
+        2
+       ],
+       "width": 120
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "garbage-circuit": {
+  "kind": "circuit",
+  "title": "Direct reversible translation leaves garbage",
+  "caption": "A Toffoli computes \\(g=a\\land b\\); two CNOTs compute \\(t=g\\oplus c\\). The answer \\(t=f(a,b,c)\\) is accompanied by the input-dependent garbage bit \\(g\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket a\\)",
+     "\\(\\ket b\\)",
+     "\\(\\ket c\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)"
+    ],
+    "outputs": [
+     "\\(\\ket a\\)",
+     "\\(\\ket b\\)",
+     "\\(\\ket c\\)",
+     "\\(\\ket{ab}\\) garbage",
+     "\\(\\ket{f(a,b,c)}\\)"
+    ],
+    "steps": [
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0,
+        1
+       ],
+       "target": 3
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        3
+       ],
+       "target": 4
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        2
+       ],
+       "target": 4
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "incrementer": {
+  "kind": "circuit",
+  "title": "Adding one modulo four",
+  "caption": "The high bit \\(b_1\\) is drawn first. The CNOT adds the carry from the low bit; the \\(X\\) flips the low bit. The map is \\(0\\to1\\to2\\to3\\to0\\), a permutation, so it acts on superpositions without measurement.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{b_1}\\)",
+     "\\(\\ket{b_0}\\)"
+    ],
+    "outputs": [
+     "high bit",
+     "low bit"
+    ],
+    "steps": [
+     [
+      {
+       "kind": "x",
+       "controls": [
+        1
+       ],
+       "target": 0
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [],
+       "target": 1
+      }
+     ]
+    ],
+    "notes": [
+     "\\(\\ket{00}\\to\\ket{01}\\to\\ket{10}\\to\\ket{11}\\to\\ket{00}\\)"
+    ]
+   }
+  ]
+ },
+ "uncompute-circuit": {
+  "kind": "circuit",
+  "title": "Compute, copy, uncompute",
+  "caption": "Register order \\(a,b,c,g,t,y\\). The first three gates compute \\(g=ab\\) and \\(t=f\\); one CNOT copies \\(t\\) into the external target \\(y\\); the last three gates are the first three in reverse order, returning \\(g\\) and \\(t\\) to \\(\\ket0\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket a\\)",
+     "\\(\\ket b\\)",
+     "\\(\\ket c\\)",
+     "\\(g:\\ket0\\)",
+     "\\(t:\\ket0\\)",
+     "\\(\\ket y\\)"
+    ],
+    "outputs": [
+     "\\(\\ket a\\)",
+     "\\(\\ket b\\)",
+     "\\(\\ket c\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket{y\\oplus f}\\)"
+    ],
+    "headers": [
+     "",
+     "Compute",
+     "",
+     "Copy",
+     "",
+     "Uncompute",
+     ""
+    ],
+    "steps": [
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0,
+        1
+       ],
+       "target": 3
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        3
+       ],
+       "target": 4
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        2
+       ],
+       "target": 4
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        4
+       ],
+       "target": 5
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        2
+       ],
+       "target": 4
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        3
+       ],
+       "target": 4
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0,
+        1
+       ],
+       "target": 3
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "phase-from-clean": {
+  "kind": "circuit",
+  "title": "A phase oracle from a clean computation",
+  "caption": "\\(C\\) computes \\(f(x)\\) into the qubit \\(t\\) together with garbage in the workspace. A \\(Z\\) on \\(t\\) multiplies by \\((-1)^{f(x)}\\); \\(C^{-1}\\) then clears both \\(t\\) and the workspace, leaving only the sign on the input.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket x\\)",
+     "\\(\\ket{0^w}\\)",
+     "\\(t:\\ket0\\)"
+    ],
+    "outputs": [
+     "\\((-1)^{f(x)}\\ket x\\)",
+     "\\(\\ket{0^w}\\)",
+     "\\(\\ket0\\)"
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(C\\)",
+       "wires": [
+        0,
+        1,
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(Z\\)",
+       "wires": [
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(C^{-1}\\)",
+       "wires": [
+        0,
+        1,
+        2
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "garbage-test": {
+  "kind": "table",
+  "title": "An interference test separates clean from dirty oracles",
+  "caption": "Input \\((\\ket{000}+\\ket{110})/\\sqrt2\\); apply the phase oracle, then a CNOT from the first input bit to the second and a Hadamard on the first. Columns show input register and workspace.",
+  "headers": [
+   "Step",
+   "Clean oracle",
+   "Dirty oracle (no uncompute)"
+  ],
+  "rows": [
+   [
+    "After phase oracle",
+    "\\(\\tfrac{1}{\\sqrt2}(\\ket{000}-\\ket{110})\\ket{00}\\)",
+    "\\(\\tfrac{1}{\\sqrt2}(\\ket{000}\\ket{00}-\\ket{110}\\ket{11})\\)"
+   ],
+   [
+    "After CNOT",
+    "\\(\\ket-\\ket{00}\\ket{00}\\)",
+    "\\(\\tfrac{1}{\\sqrt2}(\\ket{000}\\ket{00}-\\ket{100}\\ket{11})\\)"
+   ],
+   [
+    "After H on first bit",
+    "\\(\\ket1\\ket{00}\\ket{00}\\)",
+    "four terms of amplitude \\(\\pm\\tfrac12\\)"
+   ],
+   [
+    "First bit reads 1",
+    "with probability 1",
+    "with probability 1/2"
+   ]
+  ]
+ },
+ "cost-table": {
+  "kind": "table",
+  "title": "What one gate costs depends on the gate set",
+  "caption": "Typical constructions in the Clifford+\\(T\\) gate set. Counts are for standard textbook circuits and can be reduced in context, for example when a Toffoli is later uncomputed.",
+  "headers": [
+   "Operation",
+   "Elementary cost",
+   "Remark"
+  ],
+  "rows": [
+   [
+    "CNOT, \\(H\\), \\(S\\)",
+    "1 gate each",
+    "Clifford gates; cheap in most error-corrected schemes"
+   ],
+   [
+    "\\(T=\\mathrm{diag}(1,e^{i\\pi/4})\\)",
+    "1 gate",
+    "Usually the dominant cost"
+   ],
+   [
+    "Toffoli",
+    "7 \\(T\\), 6 CNOT, 2 \\(H\\)",
+    "Exact decomposition without ancilla"
+   ],
+   [
+    "\\(k\\)-controlled \\(X\\)",
+    "about \\(2k\\) Toffolis",
+    "With \\(k-2\\) clean ancillas"
+   ],
+   [
+    "Clean oracle from \\(T\\)-gate \\(C\\)",
+    "\\(2T+m\\) gates",
+    "Compute, copy \\(m\\) bits, uncompute"
+   ]
+  ]
+ },
+ "pebble-table": {
+  "kind": "table",
+  "title": "Trading time for space in reversible computation",
+  "caption": "For a chain of \\(k\\) stages, each computed from the previous one. A pebble is a stored intermediate value. The recursive strategy holds fewer values at once but recomputes some of them.",
+  "headers": [
+   "Strategy",
+   "Pebbles held at once",
+   "Moves",
+   "Example \\(k=4\\)"
+  ],
+  "rows": [
+   [
+    "Keep everything, then uncompute",
+    "\\(k\\)",
+    "\\(2k-1\\)",
+    "4 pebbles, 7 moves"
+   ],
+   [
+    "Recursive (Bennett)",
+    "about \\(\\log_2k+1\\)",
+    "about \\(k^{\\log_2 3}\\approx k^{1.58}\\)",
+    "3 pebbles, 9 moves"
+   ],
+   [
+    "Minimum possible",
+    "\\(\\lceil\\log_2(k+1)\\rceil\\)",
+    "grows quickly as pebbles shrink",
+    "2 pebbles: impossible"
+   ]
+  ]
+ },
+ "reflection-circuit": {
+  "kind": "circuit",
+  "title": "Reflection about a prepared state",
+  "caption": "Top: \\(R_\\psi=A S_0 A^\\dagger\\) with \\(A\\ket{0^n}=\\ket\\psi\\); the matrix product is read right to left, the circuit left to right. Bottom: one construction of \\(S_0\\) on three qubits, up to a global sign: \\(X\\) on every qubit, a doubly controlled \\(Z\\), and \\(X\\) again.",
+  "circuits": [
+   {
+    "label": "\\(R_\\psi=2\\ket\\psi\\bra\\psi-I\\)",
+    "inputs": [
+     "\\(n\\) qubits"
+    ],
+    "bundles": [
+     0
+    ],
+    "outputs": [
+     ""
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(A^\\dagger\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(S_0\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(A\\)",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   },
+   {
+    "label": "\\(-S_0=I-2\\ket{000}\\bra{000}\\) on three qubits",
+    "inputs": [
+     "",
+     "",
+     ""
+    ],
+    "outputs": [
+     "",
+     "",
+     ""
+    ],
+    "steps": [
+     [
+      {
+       "label": "X",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "X",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "label": "X",
+       "wires": [
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cz",
+       "wires": [
+        0,
+        1,
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "label": "X",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "X",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "label": "X",
+       "wires": [
+        2
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "controlled-construction": {
+  "kind": "circuit",
+  "title": "Controlling a known circuit gate by gate",
+  "caption": "If \\(U=G_2G_1\\), then controlled-\\(U\\) is controlled-\\(G_1\\) followed by controlled-\\(G_2\\). On the control-0 branch nothing acts; on the control-1 branch both gates act. The global phase of \\(U\\) must be fixed first, because it becomes a phase on the control.",
+  "circuits": [
+   {
+    "label": "Controlled-\\(U\\)",
+    "inputs": [
+     "control",
+     "target"
+    ],
+    "steps": [
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(U\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   },
+   {
+    "label": "Built from controlled gates",
+    "inputs": [
+     "control",
+     "target"
+    ],
+    "steps": [
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(G_1\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(G_2\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "output-forms": {
+  "kind": "table",
+  "title": "A coherent output is not a table of values",
+  "caption": "A subroutine’s contract should state which output form it delivers. Converting a state into classical data costs repetitions that grow with the amount of data and the precision required.",
+  "headers": [
+   "Output form",
+   "What a user can collect",
+   "Example"
+  ],
+  "rows": [
+   [
+    "Classical bit string",
+    "The string itself",
+    "Bernstein–Vazirani returns \\(s\\)"
+   ],
+   [
+    "Sample from a distribution",
+    "One draw per run",
+    "Measuring \\(\\sum_x\\alpha_x\\ket x\\ket{f(x)}\\)"
+   ],
+   [
+    "Estimate of one number",
+    "Value within \\(\\epsilon\\) after many runs",
+    "Amplitude estimation (Chapter 5)"
+   ],
+   [
+    "State for a later routine",
+    "Nothing directly; it feeds a further circuit",
+    "Linear-system solution states (Chapter 8)"
+   ]
+  ]
+ },
+ "kickback-controlled": {
+  "kind": "circuit",
+  "title": "Phase kickback from an eigenstate",
+  "caption": "With the target in an eigenstate \\(\\ket u\\) of \\(V\\), controlled-\\(V\\) leaves the target unchanged and attaches the eigenvalue \\(e^{i\\phi}\\) to the control’s \\(\\ket1\\) branch, where it is a relative phase.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket+\\)",
+     "\\(\\ket u\\)"
+    ],
+    "outputs": [
+     "\\(\\tfrac{1}{\\sqrt2}(\\ket0+e^{i\\phi}\\ket1)\\)",
+     "\\(\\ket u\\)"
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(V\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(V\\ket u=e^{i\\phi}\\ket u\\)"
+    ]
+   }
+  ]
+ },
+ "hadamard-test": {
+  "kind": "circuit",
+  "title": "The Hadamard test",
+  "caption": "Top: \\(\\Pr[0]=\\tfrac12(1+\\operatorname{Re}\\bra\\psi U\\ket\\psi)\\). Bottom: inserting \\(S^\\dagger\\) on the control gives \\(\\tfrac12(1+\\operatorname{Im}\\bra\\psi U\\ket\\psi)\\). The controlled-\\(U\\) is a composite operation and requires controlled access.",
+  "circuits": [
+   {
+    "label": "Real part",
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(U\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   },
+   {
+    "label": "Imaginary part",
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(U\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(S^\\dagger\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "hadamard-test-curve": {
+  "kind": "curve",
+  "title": "A phase becomes a bias",
+  "caption": "For an eigenstate with eigenvalue \\(e^{i\\phi}\\), the Hadamard test outputs 0 with probability \\((1+\\cos\\phi)/2\\) (solid) and the \\(S^\\dagger\\) variant with probability \\((1+\\sin\\phi)/2\\) (dashed). Together they determine \\(\\phi\\).",
+  "xrange": [
+   0,
+   6.2832
+  ],
+  "yrange": [
+   0,
+   1
+  ],
+  "xticks": [
+   [
+    0,
+    "0"
+   ],
+   [
+    1.5708,
+    "π/2"
+   ],
+   [
+    3.1416,
+    "π"
+   ],
+   [
+    4.7124,
+    "3π/2"
+   ],
+   [
+    6.2832,
+    "2π"
+   ]
+  ],
+  "yticks": [
+   0,
+   0.5,
+   1
+  ],
+  "xlabel": "eigenphase \\(\\phi\\)",
+  "ylabel": "\\(\\Pr[0]\\)",
+  "series": [
+   {
+    "label": "real part",
+    "expr": "(1+cos(x))/2"
+   },
+   {
+    "label": "imaginary part",
+    "expr": "(1+sin(x))/2",
+    "style": "dashed"
+   }
+  ],
+  "legend": "ll"
+ },
+ "bit-from-phase": {
+  "kind": "circuit",
+  "title": "A bit oracle from a controlled phase oracle",
+  "caption": "The target \\(\\ket y\\) is moved to the Hadamard basis, used as the control of the phase oracle \\(O_f\\), and moved back. The control-0 branch receives no sign, which fixes the global phase that an uncontrolled \\(O_f\\) leaves ambiguous.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket x\\)",
+     "\\(\\ket y\\)"
+    ],
+    "outputs": [
+     "\\(\\ket x\\)",
+     "\\(\\ket{y\\oplus f(x)}\\)"
+    ],
+    "bundles": [
+     0
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        1
+       ],
+       "label": "\\(O_f\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "hadamard-signs": {
+  "kind": "table",
+  "title": "The signs of the two-qubit Hadamard transform",
+  "caption": "Entry \\((x,z)\\) is the sign of \\(\\ket z\\) in \\(H^{\\otimes2}\\ket x\\), namely \\((-1)^{x\\cdot z}\\); every entry also carries the factor \\(1/2\\). Distinct rows are orthogonal, so a row pattern is mapped back to its label.",
+  "headers": [
+   "\\(x\\) \\ \\(z\\)",
+   "00",
+   "01",
+   "10",
+   "11"
+  ],
+  "rows": [
+   [
+    "00",
+    "+",
+    "+",
+    "+",
+    "+"
+   ],
+   [
+    "01",
+    "+",
+    "−",
+    "+",
+    "−"
+   ],
+   [
+    "10",
+    "+",
+    "+",
+    "−",
+    "−"
+   ],
+   [
+    "11",
+    "+",
+    "−",
+    "−",
+    "+"
+   ]
+  ]
+ },
+ "bv-circuit": {
+  "kind": "circuit",
+  "title": "The Bernstein–Vazirani circuit for three input bits",
+  "caption": "One query to the oracle for \\(f_s(x)=s\\cdot x\\), with the target in \\(\\ket-\\), writes the sign pattern \\((-1)^{s\\cdot x}\\). The final Hadamard layer maps that pattern to \\(\\ket s\\), so the measured bits are \\(s_1s_2s_3\\) with certainty.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket1\\)"
+    ],
+    "outputs": [
+     "\\(s_1\\)",
+     "\\(s_2\\)",
+     "\\(s_3\\)",
+     "\\(\\ket-\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        2
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        3
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(U_{f_s}\\)",
+       "wires": [
+        0,
+        1,
+        2,
+        3
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "kind": "measure",
+       "wires": [
+        2
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "dj-zero-probability": {
+  "kind": "curve",
+  "title": "The zero outcome outside the promise",
+  "caption": "For \\(n=3\\), probability of the all-zero outcome when \\(f\\) takes the value 1 on \\(k\\) of the 8 inputs: \\((1-k/4)^2\\). Only \\(k=0,8\\) (constant) and \\(k=4\\) (balanced) give certain answers.",
+  "xrange": [
+   -0.5,
+   8.5
+  ],
+  "yrange": [
+   0,
+   1
+  ],
+  "xticks": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "yticks": [
+   0,
+   0.25,
+   0.5,
+   0.75,
+   1
+  ],
+  "xlabel": "number of inputs with \\(f(x)=1\\)",
+  "ylabel": "probability of all-zero outcome",
+  "series": [
+   {
+    "style": "bars",
+    "width": 30,
+    "points": [
+     [
+      0,
+      1.0
+     ],
+     [
+      1,
+      0.5625
+     ],
+     [
+      2,
+      0.25
+     ],
+     [
+      3,
+      0.0625
+     ],
+     [
+      4,
+      0.0
+     ],
+     [
+      5,
+      0.0625
+     ],
+     [
+      6,
+      0.25
+     ],
+     [
+      7,
+      0.5625
+     ],
+     [
+      8,
+      1.0
+     ]
+    ]
+   }
+  ]
+ },
+ "simon-circuit": {
+  "kind": "circuit",
+  "title": "One run of Simon’s algorithm",
+  "caption": "Both registers have \\(n\\) qubits. Measuring the output collapses the input onto a pair \\(\\{x_0,x_0\\oplus s\\}\\); the Hadamard layer turns the unknown \\(x_0\\) into a phase and returns a random \\(z\\) with \\(s\\cdot z=0\\). The output measurement may be omitted without changing the statistics of \\(z\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{0^n}\\)",
+     "\\(\\ket{0^n}\\)"
+    ],
+    "outputs": [
+     "\\(z\\)",
+     "\\(f(x_0)\\)"
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(H^{\\otimes n}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(U_f\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(H^{\\otimes n}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "slices": [
+     [
+      2.5,
+      "\\(\\tfrac{1}{\\sqrt2}(\\ket{x_0}+\\ket{x_0\\oplus s})\\)"
+     ]
+    ]
+   }
+  ]
+ },
+ "simon-example": {
+  "kind": "table",
+  "title": "Simon’s algorithm for n = 3 and s = 110",
+  "caption": "Collision pairs \\(\\{x,x\\oplus s\\}\\), the strings \\(z\\) the circuit can return, and how two independent samples determine \\(s\\) by linear algebra modulo two.",
+  "headers": [
+   "Collision pairs",
+   "Possible outputs \\(z\\)",
+   "Example run"
+  ],
+  "rows": [
+   [
+    "\\(\\{000,110\\}\\), \\(\\{001,111\\}\\)",
+    "\\(000\\), \\(001\\)",
+    "sample \\(z=001\\): \\(s_3=0\\)"
+   ],
+   [
+    "\\(\\{010,100\\}\\), \\(\\{011,101\\}\\)",
+    "\\(110\\), \\(111\\)",
+    "sample \\(z=111\\): \\(s_1\\oplus s_2\\oplus s_3=0\\)"
+   ],
+   [
+    "each pair shares one value of \\(f\\)",
+    "each with probability \\(1/4\\)",
+    "nonzero solution \\(s=110\\)"
+   ]
+  ]
+ },
+ "phase-gates": {
+  "kind": "circuit",
+  "title": "A phase from a computed integer",
+  "caption": "\\(C\\) computes a three-bit value \\(v=4v_2+2v_1+v_0\\) from \\(x\\). Phase gates \\(Z\\), \\(S\\), \\(T\\) on the bits multiply by \\(e^{2\\pi iv/8}\\); \\(C^{-1}\\) then clears the register so that only the phase remains on \\(\\ket x\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket x\\)",
+     "\\(v_2:\\ket0\\)",
+     "\\(v_1:\\ket0\\)",
+     "\\(v_0:\\ket0\\)"
+    ],
+    "outputs": [
+     "\\(e^{2\\pi iv(x)/8}\\ket x\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)"
+    ],
+    "bundles": [
+     0
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(C\\)",
+       "wires": [
+        0,
+        1,
+        2,
+        3
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(Z\\)",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "label": "\\(S\\)",
+       "wires": [
+        2
+       ]
+      },
+      {
+       "label": "\\(T\\)",
+       "wires": [
+        3
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(C^{-1}\\)",
+       "wires": [
+        0,
+        1,
+        2,
+        3
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "fourier-kickback": {
+  "kind": "circuit",
+  "title": "Phase kickback from modular addition",
+  "caption": "The register holding \\(\\ket\\chi=M^{-1/2}\\sum_ye^{-2\\pi iy/M}\\ket y\\) is an eigenstate of adding \\(v\\) modulo \\(M\\), with eigenvalue \\(e^{2\\pi iv/M}\\). A clean addition of a computed \\(v(x)\\) therefore kicks the phase back onto \\(\\ket x\\) and leaves \\(\\ket\\chi\\) unchanged for reuse.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket x\\)",
+     "\\(\\ket\\chi\\)"
+    ],
+    "outputs": [
+     "\\(e^{2\\pi iv(x)/M}\\ket x\\)",
+     "\\(\\ket\\chi\\)"
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "add \\(v(x)\\) mod \\(M\\)",
+       "wires": [
+        0,
+        1
+       ],
+       "width": 150
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "precision-table": {
+  "kind": "table",
+  "title": "Phase precision as a resource",
+  "caption": "Errors are measured in operator norm, the largest change to any normalized state. Because unitaries preserve length, errors of composed operations add.",
+  "headers": [
+   "Quantity",
+   "Bound",
+   "Consequence"
+  ],
+  "rows": [
+   [
+    "One phase, error \\(\\delta\\) in angle",
+    "\\(|e^{i\\phi}-e^{i\\tilde\\phi}|\\le\\delta\\)",
+    "State error at most \\(\\delta\\)"
+   ],
+   [
+    "Rounding to \\(m\\) bits",
+    "\\(\\delta\\le\\pi/2^m\\)",
+    "Error halves per extra bit"
+   ],
+   [
+    "\\(q\\) approximate operations",
+    "total error \\(\\le q\\delta\\)",
+    "Need \\(\\delta\\le\\epsilon/q\\)"
+   ],
+   [
+    "Bits per operation",
+    "\\(m\\approx\\log_2(\\pi q/\\epsilon)\\)",
+    "Logarithmic in \\(q/\\epsilon\\)"
+   ]
+  ]
+ },
+ "roots-of-unity": {
+  "kind": "roots",
+  "n": 8,
+  "title": "The eighth roots of unity",
+  "caption": "The powers of \\(\\omega=e^{2\\pi i/8}\\) are eight equally spaced unit arrows. Their sum is zero, and so is the sum of \\(\\omega^{kx}\\) over \\(x\\) for any \\(k\\) not divisible by 8: the arrows are evenly spread, possibly winding several times around the circle.",
+  "notes": [
+   "\\(\\omega=e^{2\\pi i/8}\\), \\(\\omega^8=1\\)",
+   "\\(\\sum_{x=0}^{7}\\omega^{x}=0\\)",
+   "\\(\\sum_{x=0}^{7}\\omega^{2x}=0\\)",
+   "\\(\\sum_{x=0}^{7}\\omega^{8x}=8\\)"
+  ]
+ },
+ "periodic-fourier": {
+  "kind": "curve",
+  "title": "A period-2 pattern becomes two frequencies",
+  "caption": "Probabilities before and after \\(F_8\\) for the state \\(\\tfrac12(\\ket0+\\ket2+\\ket4+\\ket6)\\). Four positions spaced by 2 become two frequencies spaced by \\(8/2=4\\). Shifting the input pattern by one changes only phases of the output, not these probabilities.",
+  "xrange": [
+   -0.6,
+   7.6
+  ],
+  "yrange": [
+   0,
+   0.6
+  ],
+  "xticks": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "yticks": [
+   0,
+   0.25,
+   0.5
+  ],
+  "xlabel": "basis label \\(x\\) or \\(y\\)",
+  "ylabel": "probability",
+  "legend": "ur",
+  "series": [
+   {
+    "label": "before: \\(|\\psi_0\\rangle\\)",
+    "style": "bars",
+    "width": 16,
+    "points": [
+     [
+      -0.17,
+      0.25
+     ],
+     [
+      0.83,
+      0
+     ],
+     [
+      1.83,
+      0.25
+     ],
+     [
+      2.83,
+      0
+     ],
+     [
+      3.83,
+      0.25
+     ],
+     [
+      4.83,
+      0
+     ],
+     [
+      5.83,
+      0.25
+     ],
+     [
+      6.83,
+      0
+     ]
+    ]
+   },
+   {
+    "label": "after \\(F_8\\)",
+    "style": "bars",
+    "width": 16,
+    "points": [
+     [
+      0.17,
+      0.5
+     ],
+     [
+      1.17,
+      0
+     ],
+     [
+      2.17,
+      0
+     ],
+     [
+      3.17,
+      0
+     ],
+     [
+      4.17,
+      0.5
+     ],
+     [
+      5.17,
+      0
+     ],
+     [
+      6.17,
+      0
+     ],
+     [
+      7.17,
+      0
+     ]
+    ]
+   }
+  ]
+ },
+ "qft-three": {
+  "kind": "circuit",
+  "title": "The quantum Fourier transform on three qubits",
+  "caption": "Inputs \\(x_2x_1x_0\\), high bit on top. Each wire receives a Hadamard and controlled phase gates \\(P(\\pi/2)\\), \\(P(\\pi/4)\\) from lower bits, building the factors of the product representation in reverse order; the final swap restores the order. Output \\(y_2y_1y_0\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{x_2}\\)",
+     "\\(\\ket{x_1}\\)",
+     "\\(\\ket{x_0}\\)"
+    ],
+    "outputs": [
+     "\\(y_2\\)",
+     "\\(y_1\\)",
+     "\\(y_0\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        1
+       ],
+       "label": "\\(P_{\\pi/2}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        2
+       ],
+       "label": "\\(P_{\\pi/4}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        2
+       ],
+       "label": "\\(P_{\\pi/2}\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "swap",
+       "wires": [
+        0,
+        2
+       ]
+      }
+     ]
+    ]
+   }
+  ],
+  "width": 920
+ },
+ "aqft-table": {
+  "kind": "table",
+  "title": "Exact and approximate Fourier transforms",
+  "caption": "Dropping controlled rotations with angle below \\(2\\pi/2^b\\) changes the transform by less than \\(2\\pi n/2^b\\) in operator norm. Counts are for \\(n\\) qubits; each kept rotation must still be synthesized in a fault-tolerant gate set.",
+  "headers": [
+   "Version",
+   "Controlled rotations",
+   "Error"
+  ],
+  "rows": [
+   [
+    "Exact QFT",
+    "\\(n(n-1)/2\\)",
+    "0"
+   ],
+   [
+    "Keep rotations \\(\\ge 2\\pi/2^b\\)",
+    "at most \\(n(b-1)\\)",
+    "\\(<2\\pi n/2^b\\)"
+   ],
+   [
+    "Target error \\(\\epsilon\\)",
+    "\\(O(n\\log(n/\\epsilon))\\)",
+    "\\(\\le\\epsilon\\) with \\(b\\approx\\log_2(2\\pi n/\\epsilon)\\)"
+   ]
+  ]
+ },
+ "qpe-circuit": {
+  "kind": "circuit",
+  "title": "Phase estimation with three control qubits",
+  "caption": "The target holds an eigenstate \\(\\ket u\\) of \\(U\\) with eigenvalue \\(e^{2\\pi i\\phi}\\). Control \\(j\\) applies \\(U^{2^j}\\) and receives the phase \\(e^{2\\pi i2^j\\phi}\\); the inverse Fourier transform \\(F^\\dagger\\) (a composite operation) maps the resulting phase ramp to the digits of \\(\\phi\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)",
+     "\\(\\ket u\\)"
+    ],
+    "outputs": [
+     "\\(j_2\\)",
+     "\\(j_1\\)",
+     "\\(j_0\\)",
+     "\\(\\ket u\\)"
+    ],
+    "bundles": [
+     3
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "label": "H",
+       "wires": [
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        2
+       ],
+       "label": "\\(U\\)",
+       "wires": [
+        3
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        1
+       ],
+       "label": "\\(U^2\\)",
+       "wires": [
+        3
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(U^4\\)",
+       "wires": [
+        3
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(F^\\dagger\\)",
+       "wires": [
+        0,
+        1,
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      },
+      {
+       "kind": "measure",
+       "wires": [
+        2
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "qpe-bits": {
+  "kind": "table",
+  "title": "Phase estimation for φ = 3/8 = 0.011 in binary",
+  "caption": "Each control qubit carries the phase \\(2^j\\phi\\) modulo one, which depends only on the digits of \\(\\phi\\) after position \\(j\\). The highest control holds the last digit as a sign; the inverse Fourier transform removes the known contributions and reads every digit exactly.",
+  "headers": [
+   "Control",
+   "Applies",
+   "Phase \\(2^j\\phi\\) mod 1",
+   "Binary"
+  ],
+  "rows": [
+   [
+    "\\(j=0\\) (lowest)",
+    "\\(U\\)",
+    "\\(3/8\\)",
+    "\\(0.011\\)"
+   ],
+   [
+    "\\(j=1\\)",
+    "\\(U^2\\)",
+    "\\(6/8\\)",
+    "\\(0.11\\)"
+   ],
+   [
+    "\\(j=2\\) (highest)",
+    "\\(U^4\\)",
+    "\\(4/8\\)",
+    "\\(0.1\\)"
+   ]
+  ]
+ },
+ "qpe-distribution": {
+  "kind": "curve",
+  "title": "Phase estimation for a phase between grid points",
+  "caption": "Outcome probabilities for \\(M=8\\) and \\(\\phi=0.3\\), so \\(M\\phi=2.4\\). The two nearest grid points 2 and 3 carry probability about 0.84; the distribution falls off roughly as the inverse square of the distance from \\(M\\phi\\).",
+  "xrange": [
+   -0.6,
+   7.6
+  ],
+  "yrange": [
+   0,
+   0.7
+  ],
+  "xticks": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "yticks": [
+   0,
+   0.2,
+   0.4,
+   0.6
+  ],
+  "xlabel": "outcome \\(j\\)",
+  "ylabel": "probability",
+  "series": [
+   {
+    "style": "bars",
+    "width": 34,
+    "points": [
+     [
+      0,
+      0.0216
+     ],
+     [
+      1,
+      0.0518
+     ],
+     [
+      2,
+      0.5775
+     ],
+     [
+      3,
+      0.2593
+     ],
+     [
+      4,
+      0.0409
+     ],
+     [
+      5,
+      0.0194
+     ],
+     [
+      6,
+      0.0145
+     ],
+     [
+      7,
+      0.0149
+     ]
+    ]
+   }
+  ],
+  "notes": [
+   {
+    "x": 330,
+    "y": 118,
+    "text": "\\(M\\phi=2.4\\)",
+    "width": 120
+   }
+  ]
+ },
+ "qpe-mixture": {
+  "kind": "table",
+  "title": "Phase estimation on a superposition of eigenstates",
+  "caption": "For \\(\\ket\\psi=\\sum_sc_s\\ket{u_s}\\), phase estimation returns an estimate of one eigenphase \\(\\phi_s\\), chosen with probability \\(|c_s|^2\\), and leaves the target close to \\(\\ket{u_s}\\). It samples eigenvalues; it does not list them.",
+  "headers": [
+   "Target component",
+   "Outcome",
+   "Probability",
+   "Target afterwards"
+  ],
+  "rows": [
+   [
+    "\\(c_0\\ket{u_0}\\)",
+    "estimate of \\(\\phi_0\\)",
+    "\\(|c_0|^2\\)",
+    "\\(\\approx\\ket{u_0}\\)"
+   ],
+   [
+    "\\(c_1\\ket{u_1}\\)",
+    "estimate of \\(\\phi_1\\)",
+    "\\(|c_1|^2\\)",
+    "\\(\\approx\\ket{u_1}\\)"
+   ],
+   [
+    "\\(\\vdots\\)",
+    "\\(\\vdots\\)",
+    "\\(\\vdots\\)",
+    "\\(\\vdots\\)"
+   ]
+  ]
+ },
+ "orbit-table": {
+  "kind": "table",
+  "title": "The orbit of 1 under multiplication by 7 modulo 15",
+  "caption": "\\(U_7\\) cycles \\(1\\to7\\to4\\to13\\to1\\), so the order is \\(r=4\\). Classically, finding \\(r\\) by following the orbit can take a number of steps comparable to \\(L\\).",
+  "headers": [
+   "\\(k\\)",
+   "0",
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "rows": [
+   [
+    "\\(7^k\\bmod15\\)",
+    "1",
+    "7",
+    "4",
+    "13",
+    "1"
+   ]
+  ]
+ },
+ "order-finding-circuit": {
+  "kind": "circuit",
+  "title": "Order finding by phase estimation",
+  "caption": "The control register has \\(m\\approx2n\\) qubits; the target has \\(n\\) qubits and starts in \\(\\ket1\\), an equal superposition of the eigenstates \\(\\ket{u_s}\\). The modular exponentiation box, \\(\\ket k\\ket y\\mapsto\\ket k\\ket{a^ky\\bmod L}\\), is the controlled powers and contains most of the gates.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{0^m}\\)",
+     "\\(\\ket1\\)"
+    ],
+    "outputs": [
+     "\\(j\\approx2^m s/r\\)",
+     ""
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(H^{\\otimes m}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(a^k y \\bmod L\\)",
+       "wires": [
+        0,
+        1
+       ],
+       "width": 120
+      }
+     ],
+     [
+      {
+       "label": "\\(F^\\dagger\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "continued-fraction": {
+  "kind": "table",
+  "title": "Recovering r = 6 from the outcome 85/512",
+  "caption": "Euclid’s algorithm gives \\(85/512=[0;6,42,2]\\). The last convergent with denominator below \\(L=21\\) is \\(1/6\\), so the candidate order is 6, confirmed by \\(2^6\\equiv1\\pmod{21}\\).",
+  "headers": [
+   "Euclid step",
+   "Quotient",
+   "Convergent"
+  ],
+  "rows": [
+   [
+    "\\(85/512\\): \\(0\\) whole parts",
+    "\\(a_0=0\\)",
+    "\\(0/1\\)"
+   ],
+   [
+    "\\(512=6\\cdot85+2\\)",
+    "\\(a_1=6\\)",
+    "\\(1/6\\)"
+   ],
+   [
+    "\\(85=42\\cdot2+1\\)",
+    "\\(a_2=42\\)",
+    "\\(42/253\\)"
+   ],
+   [
+    "\\(2=2\\cdot1\\)",
+    "\\(a_3=2\\)",
+    "\\(85/512\\)"
+   ]
+  ]
+ },
+ "factoring-flow": {
+  "kind": "flow",
+  "title": "Shor’s reduction from factoring to order finding",
+  "caption": "Only the order-finding step is quantum. For odd \\(L\\) with at least two distinct prime factors, each random \\(a\\) succeeds with probability at least 1/2; failures lead back to a new random choice.",
+  "rows": [
+   [
+    "Pick random \\(a\\); if \\(\\gcd(a,L)>1\\), done",
+    "Quantum order finding: \\(r\\)",
+    "Is \\(r\\) even and \\(a^{r/2}\\not\\equiv-1\\)?",
+    "\\(\\gcd(a^{r/2}\\pm1,L)\\) are factors"
+   ],
+   [
+    "If not, pick a new \\(a\\)",
+    "Example: \\(L=21\\), \\(a=2\\), \\(r=6\\)",
+    "\\(2^3=8\\not\\equiv-1\\)",
+    "\\(\\gcd(7,21)=7\\), \\(\\gcd(9,21)=3\\)"
+   ]
+  ]
+ },
+ "shor-resources": {
+  "kind": "table",
+  "title": "Where the cost of Shor’s algorithm goes",
+  "caption": "Asymptotic counts for an \\(n\\)-bit modulus with schoolbook arithmetic. Concrete estimates for cryptographic sizes also depend on the error-correction scheme, physical error rates, and arithmetic optimizations.",
+  "headers": [
+   "Component",
+   "Gates",
+   "Qubits"
+  ],
+  "rows": [
+   [
+    "Modular exponentiation",
+    "\\(O(n^3)\\)",
+    "\\(n\\) plus \\(O(n)\\) workspace"
+   ],
+   [
+    "Inverse QFT",
+    "\\(O(n^2)\\), or \\(O(n\\log n)\\) approximate",
+    "\\(2n\\), or 1 recycled"
+   ],
+   [
+    "Continued fractions, gcd",
+    "classical, polynomial",
+    "none"
+   ],
+   [
+    "Repetitions",
+    "a few runs",
+    "none"
+   ]
+  ]
+ },
+ "hsp-table": {
+  "kind": "table",
+  "title": "Hidden subgroup problems",
+  "caption": "The same pattern, superposition, evaluation, coset collapse, Fourier transform, sampling, solves the problem efficiently for abelian groups. For the nonabelian cases shown, no efficient quantum algorithm is known.",
+  "headers": [
+   "Problem",
+   "Group",
+   "Hidden subgroup",
+   "Status"
+  ],
+  "rows": [
+   [
+    "Simon",
+    "\\(\\{0,1\\}^n\\) under XOR",
+    "\\(\\{0,s\\}\\)",
+    "efficient"
+   ],
+   [
+    "Order finding",
+    "integers under \\(+\\)",
+    "multiples of \\(r\\)",
+    "efficient"
+   ],
+   [
+    "Discrete logarithm",
+    "\\(\\mathbb Z_N\\times\\mathbb Z_N\\)",
+    "a line",
+    "efficient"
+   ],
+   [
+    "Dihedral HSP",
+    "dihedral group",
+    "reflection subgroup",
+    "subexponential"
+   ],
+   [
+    "Graph isomorphism",
+    "symmetric group",
+    "automorphisms",
+    "open"
+   ]
+  ]
+ },
+ "good-bad-plane": {
+  "kind": "plane",
+  "title": "Amplification in the good–bad plane",
+  "caption": "The prepared state \\(\\ket\\psi\\) lies at angle \\(\\theta\\) above the bad axis, with \\(\\sin^2\\theta=p\\). The predicate reflection \\(S_G\\) sends it to angle \\(-\\theta\\); the reflection about \\(\\ket\\psi\\) then sends it to \\(3\\theta\\). Each iteration rotates by \\(2\\theta\\) toward \\(\\ket G\\). Drawn for \\(\\theta=20^\\circ\\).",
+  "axes": [
+   "bad direction \\(\\ket B\\)",
+   "good direction \\(\\ket G\\)"
+  ],
+  "angles": [
+   20,
+   -20,
+   60
+  ],
+  "labels": [
+   "\\(\\ket\\psi\\) at \\(\\theta\\)",
+   "\\(S_G\\ket\\psi\\) at \\(-\\theta\\)",
+   "\\(Q\\ket\\psi\\) at \\(3\\theta\\)"
+  ]
+ },
+ "iteration-circuit": {
+  "kind": "circuit",
+  "title": "One amplification iteration",
+  "caption": "\\(S_G\\) is the clean phase oracle for the predicate; \\(A^\\dagger\\), the zero-state reflection \\(S_0\\), and \\(A\\) together reflect about \\(\\ket\\psi=A\\ket{0^n}\\). Each box can contain many gates; \\(A\\) is often the most expensive part.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{0^n}\\)"
+    ],
+    "outputs": [
+     "\\(Q^k\\ket\\psi\\)"
+    ],
+    "bundles": [
+     0
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(A\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(S_G\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(A^\\dagger\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(S_0\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(A\\)",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "headers": [
+     "prepare",
+     "",
+     "reflect about \\(\\ket\\psi\\)",
+     "",
+     ""
+    ],
+    "notes": [
+     "iteration \\(Q=R_\\psi S_G\\), repeated \\(k\\) times"
+    ]
+   }
+  ]
+ },
+ "success-oscillation": {
+  "kind": "curve",
+  "title": "Success probability oscillates with the number of iterations",
+  "caption": "For \\(p=0.01\\), the success probability after \\(k\\) iterations is \\(\\sin^2((2k+1)\\theta)\\) with \\(\\theta=\\arcsin0.1\\). It peaks near \\(k=7\\), returns almost to zero near \\(k=15\\), and keeps oscillating. More iterations are not always better.",
+  "xrange": [
+   0,
+   30
+  ],
+  "yrange": [
+   0,
+   1
+  ],
+  "xticks": [
+   0,
+   7,
+   15,
+   22,
+   30
+  ],
+  "yticks": [
+   0,
+   0.5,
+   1
+  ],
+  "xlabel": "iterations \\(k\\)",
+  "ylabel": "success probability",
+  "series": [
+   {
+    "style": "bars",
+    "width": 6,
+    "points": [
+     [
+      0,
+      0.010000000000000002
+     ],
+     [
+      1,
+      0.08761599999999999
+     ],
+     [
+      2,
+      0.23055362559999998
+     ],
+     [
+      3,
+      0.4161715569049601
+     ],
+     [
+      4,
+      0.6150679135961743
+     ],
+     [
+      5,
+      0.7957375127737547
+     ],
+     [
+      6,
+      0.9295622899279723
+     ],
+     [
+      7,
+      0.9953444003575992
+     ],
+     [
+      8,
+      0.982663957770582
+     ],
+     [
+      9,
+      0.8935295442727049
+     ],
+     [
+      10,
+      0.7420600509620313
+     ],
+     [
+      11,
+      0.5522482455789719
+     ],
+     [
+      12,
+      0.3541603180962035
+     ],
+     [
+      13,
+      0.17917339622699638
+     ],
+     [
+      14,
+      0.05500540839543283
+     ],
+     [
+      15,
+      0.0013245638740329668
+     ],
+     [
+      16,
+      0.026633908434986194
+     ],
+     [
+      17,
+      0.12692444189983754
+     ],
+     [
+      18,
+      0.28631014376775493
+     ],
+     [
+      19,
+      0.4795443188628597
+     ],
+     [
+      20,
+      0.6760186738500877
+     ],
+     [
+      21,
+      0.8446116708994615
+     ],
+     [
+      22,
+      0.9586181792783608
+     ],
+     [
+      23,
+      0.9999795680595677
+     ],
+     [
+      24,
+      0.962144193260139
+     ],
+     [
+      25,
+      0.8511051782483047
+     ],
+     [
+      26,
+      0.6844511030019387
+     ],
+     [
+      27,
+      0.48857997304006573
+     ],
+     [
+      28,
+      0.2945177753486456
+     ],
+     [
+      29,
+      0.13300396204200077
+     ],
+     [
+      30,
+      0.029622321147902995
+     ]
+    ]
+   }
+  ]
+ },
+ "iteration-table": {
+  "kind": "table",
+  "title": "Optimal iteration counts",
+  "caption": "\\(k=\\operatorname{round}(\\pi/(4\\theta)-1/2)\\) and the resulting success probability, compared with the expected number of independent classical tries, \\(1/p\\), before the first success. For \\(p=1/2\\) no iteration helps.",
+  "headers": [
+   "\\(p\\)",
+   "\\(\\theta\\)",
+   "iterations \\(k\\)",
+   "success",
+   "expected classical tries \\(1/p\\)"
+  ],
+  "rows": [
+   [
+    "0.5",
+    "45.00°",
+    "0",
+    "0.5000",
+    "2"
+   ],
+   [
+    "0.25",
+    "30.00°",
+    "1",
+    "1.0000",
+    "4"
+   ],
+   [
+    "0.1",
+    "18.43°",
+    "2",
+    "0.9986",
+    "10"
+   ],
+   [
+    "0.01",
+    "5.74°",
+    "7",
+    "0.9953",
+    "100"
+   ],
+   [
+    "0.001",
+    "1.81°",
+    "24",
+    "0.9996",
+    "1000"
+   ]
+  ]
+ },
+ "exact-amplification": {
+  "kind": "table",
+  "title": "Exact amplification by lowering the angle",
+  "caption": "With \\(p\\) known, choose \\(k=\\lceil\\pi/(4\\theta)-1/2\\rceil\\) and \\(\\theta'=\\pi/(4k+2)\\le\\theta\\). A flag qubit with probability \\(p'/p\\) of being 1 reduces the success probability to \\(p'=\\sin^2\\theta'\\), and \\(k\\) iterations on the joint preparation then succeed with certainty.",
+  "headers": [
+   "Quantity",
+   "General",
+   "Example \\(p=1/2\\)"
+  ],
+  "rows": [
+   [
+    "angle",
+    "\\(\\theta=\\arcsin\\sqrt p\\)",
+    "\\(45^\\circ\\)"
+   ],
+   [
+    "iterations",
+    "\\(k=\\lceil\\pi/(4\\theta)-1/2\\rceil\\)",
+    "\\(1\\)"
+   ],
+   [
+    "lowered angle",
+    "\\(\\theta'=\\pi/(4k+2)\\)",
+    "\\(30^\\circ\\)"
+   ],
+   [
+    "flag probability",
+    "\\(p'/p\\)",
+    "\\(1/2\\)"
+   ],
+   [
+    "final success",
+    "\\(\\sin^2((2k+1)\\theta')=1\\)",
+    "\\(1\\)"
+   ]
+  ]
+ },
+ "fixed-point-curve": {
+  "kind": "curve",
+  "title": "Ordinary versus fixed-point amplification",
+  "caption": "Success probability after one step as a function of the initial success probability \\(p\\). An ordinary iteration (\\(\\sin^2(3\\theta)\\)) is excellent near \\(p=1/4\\) but overshoots for larger \\(p\\). One \\(\\pi/3\\) fixed-point step (\\(1-(1-p)^3\\)) never decreases success. Both use three calls to \\(A\\) or \\(A^\\dagger\\).",
+  "xrange": [
+   0,
+   1
+  ],
+  "yrange": [
+   0,
+   1
+  ],
+  "xticks": [
+   0,
+   0.25,
+   0.5,
+   0.75,
+   1
+  ],
+  "yticks": [
+   0,
+   0.5,
+   1
+  ],
+  "xlabel": "initial success probability \\(p\\)",
+  "ylabel": "success after one step",
+  "legend": "out",
+  "series": [
+   {
+    "label": "no amplification",
+    "expr": "x",
+    "style": "dashed"
+   },
+   {
+    "label": "ordinary iteration",
+    "expr": "sin(3*asin(sqrt(x)))**2"
+   },
+   {
+    "label": "\\(\\pi/3\\) fixed point",
+    "expr": "1-(1-x)**3"
+   }
+  ]
+ },
+ "ae-eigen": {
+  "kind": "table",
+  "title": "The Grover iterate as a rotation with complex eigenvectors",
+  "caption": "In the good–bad plane, \\(Q\\) rotates by \\(2\\theta\\). Its eigenvectors \\(\\ket{v_\\pm}=(\\ket G\\pm i\\ket B)/\\sqrt2\\) have eigenphases \\(\\pm2\\theta\\), and \\(\\ket\\psi\\) has equal weight on both, so phase estimation returns \\(\\theta/\\pi\\) or \\(1-\\theta/\\pi\\), each with probability 1/2.",
+  "headers": [
+   "Eigenvector",
+   "Eigenvalue",
+   "Fraction of a turn",
+   "Weight in \\(\\ket\\psi\\)"
+  ],
+  "rows": [
+   [
+    "\\(\\ket{v_+}\\)",
+    "\\(e^{2i\\theta}\\)",
+    "\\(\\theta/\\pi\\)",
+    "\\(1/2\\)"
+   ],
+   [
+    "\\(\\ket{v_-}\\)",
+    "\\(e^{-2i\\theta}\\)",
+    "\\(1-\\theta/\\pi\\)",
+    "\\(1/2\\)"
+   ]
+  ]
+ },
+ "ae-circuit": {
+  "kind": "circuit",
+  "title": "Amplitude estimation",
+  "caption": "Phase estimation applied to the Grover iterate \\(Q\\), starting from \\(A\\ket{0^n}\\). The controlled powers of \\(Q\\) cost \\(M-1\\) controlled iterations for \\(M=2^m\\); each contains \\(A\\), \\(A^\\dagger\\), and an oracle call. The outcome \\(j\\) gives \\(\\tilde p=\\sin^2(\\pi j/M)\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{0^m}\\)",
+     "\\(\\ket{0^n}\\)"
+    ],
+    "outputs": [
+     "\\(j\\)",
+     ""
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(H^{\\otimes m}\\)",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "\\(A\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(Q^{k}\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(F^\\dagger\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(\\tilde p=\\sin^2(\\pi j/2^m)\\)"
+    ]
+   }
+  ]
+ },
+ "ae-cost": {
+  "kind": "table",
+  "title": "Sampling versus amplitude estimation",
+  "caption": "Calls to \\(A\\) needed to estimate \\(p\\approx0.3\\) to additive precision \\(\\epsilon\\) with constant confidence. Sampling uses many short independent runs; amplitude estimation uses one long coherent circuit with controlled access to \\(A\\) and \\(A^\\dagger\\).",
+  "headers": [
+   "Precision \\(\\epsilon\\)",
+   "Sampling, order \\(p(1-p)/\\epsilon^2\\)",
+   "Amplitude estimation, order \\(1/\\epsilon\\)"
+  ],
+  "rows": [
+   [
+    "\\(10^{-2}\\)",
+    "about \\(2\\times10^3\\)",
+    "about \\(3\\times10^2\\)"
+   ],
+   [
+    "\\(10^{-3}\\)",
+    "about \\(2\\times10^5\\)",
+    "about \\(3\\times10^3\\)"
+   ],
+   [
+    "\\(10^{-4}\\)",
+    "about \\(2\\times10^7\\)",
+    "about \\(3\\times10^4\\)"
+   ]
+  ]
+ },
+ "mean-estimation": {
+  "kind": "circuit",
+  "title": "Encoding a mean as a success probability",
+  "caption": "\\(P\\) prepares \\(\\sum_x\\sqrt{q(x)}\\ket x\\). The rotation, controlled on a clean computation of \\(v(x)\\in[0,1]\\), puts amplitude \\(\\sqrt{v(x)}\\) on the flag value 1, so the flag is 1 with probability \\(\\mathbb E[v]\\). This whole circuit is the \\(A\\) handed to amplitude estimation.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket{0^n}\\)",
+     "flag \\(\\ket0\\)"
+    ],
+    "outputs": [
+     "\\(\\ket x\\)",
+     "1 w.p. \\(\\mathbb E[v]\\)"
+    ],
+    "bundles": [
+     0
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(P\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(R_{v(x)}\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(R_{v}\\ket0=\\sqrt{1-v}\\,\\ket0+\\sqrt v\\,\\ket1\\)"
+    ]
+   }
+  ]
+ },
+ "min-finding": {
+  "kind": "flow",
+  "title": "Minimum finding as amplification in a classical loop",
+  "caption": "Each round uses exponential search with a comparator predicate. The expected total number of queries is O(√N); the comparator and the oracle for T are charged per query.",
+  "rows": [
+   [
+    "Random candidate \\(y\\)",
+    "Threshold search for \\(T(x)<T(y)\\)",
+    "Found? Set \\(y\\leftarrow x\\)",
+    "Budget exhausted: output \\(y\\)"
+   ]
+  ]
+ },
+ "search-limits": {
+  "kind": "table",
+  "title": "What amplification can and cannot do",
+  "caption": "Query counts in the black-box model. The \\(\\Omega(\\sqrt N)\\) bound holds for every quantum algorithm that accesses the input only through the oracle; larger speedups need structure.",
+  "headers": [
+   "Task",
+   "Classical queries",
+   "Quantum queries"
+  ],
+  "rows": [
+   [
+    "Find 1 of \\(N\\) marked",
+    "\\(\\Theta(N)\\)",
+    "\\(\\Theta(\\sqrt N)\\), optimal"
+   ],
+   [
+    "Find minimum of \\(N\\)",
+    "\\(\\Theta(N)\\)",
+    "\\(\\Theta(\\sqrt N)\\)"
+   ],
+   [
+    "Estimate \\(p\\) to \\(\\epsilon\\)",
+    "\\(\\Theta(1/\\epsilon^2)\\) samples",
+    "\\(\\Theta(1/\\epsilon)\\)"
+   ],
+   [
+    "Brute-force SAT, \\(n\\) variables",
+    "\\(2^n\\)",
+    "\\(2^{n/2}\\), still exponential"
+   ],
+   [
+    "Period finding",
+    "superpolynomial (best known)",
+    "polynomial, uses structure"
+   ]
+  ]
+ },
+ "classical-walk": {
+  "kind": "network",
+  "height": 330,
+  "title": "A random walk on a four-cycle",
+  "caption": "Each step moves to one of the two neighbours with probability 1/2. Probabilities of routes multiply along a route and add across routes; nothing can cancel. After \\(t\\) steps on the line, the spread is about \\(\\sqrt t\\).",
+  "nodes": [
+   {
+    "id": "0",
+    "x": 250,
+    "y": 90,
+    "label": "0"
+   },
+   {
+    "id": "1",
+    "x": 510,
+    "y": 90,
+    "label": "1"
+   },
+   {
+    "id": "2",
+    "x": 510,
+    "y": 250,
+    "label": "2"
+   },
+   {
+    "id": "3",
+    "x": 250,
+    "y": 250,
+    "label": "3"
+   }
+  ],
+  "edges": [
+   {
+    "start": "0",
+    "end": "1",
+    "label": "1/2",
+    "x": 380,
+    "y": 78
+   },
+   {
+    "start": "1",
+    "end": "2",
+    "label": "1/2",
+    "x": 540,
+    "y": 175
+   },
+   {
+    "start": "2",
+    "end": "3",
+    "label": "1/2",
+    "x": 380,
+    "y": 275
+   },
+   {
+    "start": "3",
+    "end": "0",
+    "label": "1/2",
+    "x": 222,
+    "y": 175
+   }
+  ],
+  "notes": [
+   {
+    "x": 380,
+    "y": 318,
+    "text": "each vertex also steps the other way with probability 1/2 (arrows show one direction)"
+   }
+  ]
+ },
+ "coined-step": {
+  "kind": "circuit",
+  "title": "One step of a coined walk on a cycle",
+  "caption": "The coin qubit is rotated by \\(H\\); then the position register is decremented if the coin is 0 (open control) and incremented if it is 1 (filled control), modulo \\(N\\). Each shift box is reversible arithmetic built as in Chapter 2.",
+  "circuits": [
+   {
+    "inputs": [
+     "coin",
+     "position \\(\\ket x\\)"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "open": [
+        0
+       ],
+       "label": "\\(x-1\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(x+1\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(W=S(H\\otimes I)\\), with \\(S\\ket{0,x}=\\ket{0,x-1}\\) and \\(S\\ket{1,x}=\\ket{1,x+1}\\)"
+    ]
+   }
+  ]
+ },
+ "walk-spread": {
+  "kind": "curve",
+  "title": "Quantum and classical walks after 60 steps",
+  "caption": "Position distributions on the line after \\(T=60\\) steps (even positions only; odd positions have probability zero). The Hadamard walk (bars) spreads to about \\(\\pm T/\\sqrt2\\) with standard deviation about \\(0.54T\\approx32\\); the classical walk (curve) has standard deviation \\(\\sqrt T\\approx7.7\\).",
+  "xrange": [
+   -62,
+   62
+  ],
+  "yrange": [
+   0,
+   0.21
+  ],
+  "xticks": [
+   -60,
+   -42,
+   -20,
+   0,
+   20,
+   42,
+   60
+  ],
+  "yticks": [
+   0,
+   0.05,
+   0.1,
+   0.15,
+   0.2
+  ],
+  "xlabel": "position after 60 steps",
+  "ylabel": "probability",
+  "legend": "ur",
+  "series": [
+   {
+    "label": "quantum (Hadamard coin)",
+    "style": "bars",
+    "width": 3,
+    "points": [
+     [
+      -60,
+      0.0
+     ],
+     [
+      -58,
+      0.0
+     ],
+     [
+      -56,
+      0.0
+     ],
+     [
+      -54,
+      0.0
+     ],
+     [
+      -52,
+      0.0
+     ],
+     [
+      -50,
+      0.0
+     ],
+     [
+      -48,
+      0.00012
+     ],
+     [
+      -46,
+      0.00192
+     ],
+     [
+      -44,
+      0.0165
+     ],
+     [
+      -42,
+      0.06686
+     ],
+     [
+      -40,
+      0.10146
+     ],
+     [
+      -38,
+      0.02596
+     ],
+     [
+      -36,
+      0.03132
+     ],
+     [
+      -34,
+      0.02696
+     ],
+     [
+      -32,
+      0.02535
+     ],
+     [
+      -30,
+      0.01306
+     ],
+     [
+      -28,
+      0.02593
+     ],
+     [
+      -26,
+      0.01328
+     ],
+     [
+      -24,
+      0.01223
+     ],
+     [
+      -22,
+      0.01767
+     ],
+     [
+      -20,
+      0.01513
+     ],
+     [
+      -18,
+      0.01117
+     ],
+     [
+      -16,
+      0.01076
+     ],
+     [
+      -14,
+      0.01187
+     ],
+     [
+      -12,
+      0.01228
+     ],
+     [
+      -10,
+      0.01187
+     ],
+     [
+      -8,
+      0.01125
+     ],
+     [
+      -6,
+      0.0108
+     ],
+     [
+      -4,
+      0.01056
+     ],
+     [
+      -2,
+      0.01046
+     ],
+     [
+      0,
+      0.01043
+     ],
+     [
+      2,
+      0.01046
+     ],
+     [
+      4,
+      0.01056
+     ],
+     [
+      6,
+      0.0108
+     ],
+     [
+      8,
+      0.01125
+     ],
+     [
+      10,
+      0.01187
+     ],
+     [
+      12,
+      0.01228
+     ],
+     [
+      14,
+      0.01187
+     ],
+     [
+      16,
+      0.01076
+     ],
+     [
+      18,
+      0.01117
+     ],
+     [
+      20,
+      0.01513
+     ],
+     [
+      22,
+      0.01767
+     ],
+     [
+      24,
+      0.01223
+     ],
+     [
+      26,
+      0.01328
+     ],
+     [
+      28,
+      0.02593
+     ],
+     [
+      30,
+      0.01306
+     ],
+     [
+      32,
+      0.02535
+     ],
+     [
+      34,
+      0.02696
+     ],
+     [
+      36,
+      0.03132
+     ],
+     [
+      38,
+      0.02596
+     ],
+     [
+      40,
+      0.10146
+     ],
+     [
+      42,
+      0.06686
+     ],
+     [
+      44,
+      0.0165
+     ],
+     [
+      46,
+      0.00192
+     ],
+     [
+      48,
+      0.00012
+     ],
+     [
+      50,
+      0.0
+     ],
+     [
+      52,
+      0.0
+     ],
+     [
+      54,
+      0.0
+     ],
+     [
+      56,
+      0.0
+     ],
+     [
+      58,
+      0.0
+     ],
+     [
+      60,
+      0.0
+     ]
+    ]
+   },
+   {
+    "label": "classical random walk",
+    "points": [
+     [
+      -60,
+      0.0
+     ],
+     [
+      -58,
+      0.0
+     ],
+     [
+      -56,
+      0.0
+     ],
+     [
+      -54,
+      0.0
+     ],
+     [
+      -52,
+      0.0
+     ],
+     [
+      -50,
+      0.0
+     ],
+     [
+      -48,
+      0.0
+     ],
+     [
+      -46,
+      0.0
+     ],
+     [
+      -44,
+      0.0
+     ],
+     [
+      -42,
+      0.0
+     ],
+     [
+      -40,
+      0.0
+     ],
+     [
+      -38,
+      0.0
+     ],
+     [
+      -36,
+      0.0
+     ],
+     [
+      -34,
+      0.0
+     ],
+     [
+      -32,
+      2e-05
+     ],
+     [
+      -30,
+      5e-05
+     ],
+     [
+      -28,
+      0.00013
+     ],
+     [
+      -26,
+      0.00034
+     ],
+     [
+      -24,
+      0.0008
+     ],
+     [
+      -22,
+      0.00177
+     ],
+     [
+      -20,
+      0.00364
+     ],
+     [
+      -18,
+      0.00693
+     ],
+     [
+      -16,
+      0.01228
+     ],
+     [
+      -14,
+      0.02028
+     ],
+     [
+      -12,
+      0.03127
+     ],
+     [
+      -10,
+      0.04503
+     ],
+     [
+      -8,
+      0.06062
+     ],
+     [
+      -6,
+      0.07633
+     ],
+     [
+      -4,
+      0.08996
+     ],
+     [
+      -2,
+      0.09927
+     ],
+     [
+      0,
+      0.10258
+     ],
+     [
+      2,
+      0.09927
+     ],
+     [
+      4,
+      0.08996
+     ],
+     [
+      6,
+      0.07633
+     ],
+     [
+      8,
+      0.06062
+     ],
+     [
+      10,
+      0.04503
+     ],
+     [
+      12,
+      0.03127
+     ],
+     [
+      14,
+      0.02028
+     ],
+     [
+      16,
+      0.01228
+     ],
+     [
+      18,
+      0.00693
+     ],
+     [
+      20,
+      0.00364
+     ],
+     [
+      22,
+      0.00177
+     ],
+     [
+      24,
+      0.0008
+     ],
+     [
+      26,
+      0.00034
+     ],
+     [
+      28,
+      0.00013
+     ],
+     [
+      30,
+      5e-05
+     ],
+     [
+      32,
+      2e-05
+     ],
+     [
+      34,
+      0.0
+     ],
+     [
+      36,
+      0.0
+     ],
+     [
+      38,
+      0.0
+     ],
+     [
+      40,
+      0.0
+     ],
+     [
+      42,
+      0.0
+     ],
+     [
+      44,
+      0.0
+     ],
+     [
+      46,
+      0.0
+     ],
+     [
+      48,
+      0.0
+     ],
+     [
+      50,
+      0.0
+     ],
+     [
+      52,
+      0.0
+     ],
+     [
+      54,
+      0.0
+     ],
+     [
+      56,
+      0.0
+     ],
+     [
+      58,
+      0.0
+     ],
+     [
+      60,
+      0.0
+     ]
+    ]
+   }
+  ]
+ },
+ "two-vertex-walk": {
+  "kind": "curve",
+  "title": "Coherent oscillation versus classical mixing",
+  "caption": "Probability of finding the walker at the second vertex. The quantum walk with \\(H=\\gamma X\\) oscillates as \\(\\sin^2(\\gamma t)\\) and never settles; the classical continuous random walk approaches 1/2 monotonically.",
+  "xrange": [
+   0,
+   6.2832
+  ],
+  "yrange": [
+   0,
+   1
+  ],
+  "xticks": [
+   [
+    0,
+    "0"
+   ],
+   [
+    1.5708,
+    "π/2"
+   ],
+   [
+    3.1416,
+    "π"
+   ],
+   [
+    4.7124,
+    "3π/2"
+   ],
+   [
+    6.2832,
+    "2π"
+   ]
+  ],
+  "yticks": [
+   0,
+   0.5,
+   1
+  ],
+  "xlabel": "time \\(\\gamma t\\)",
+  "ylabel": "probability at vertex 1",
+  "legend": "ur",
+  "series": [
+   {
+    "label": "quantum",
+    "expr": "sin(x)**2"
+   },
+   {
+    "label": "classical",
+    "expr": "(1-exp(-2*x))/2",
+    "style": "dashed"
+   }
+  ]
+ },
+ "spectral-evolution": {
+  "kind": "table",
+  "title": "Evolving through eigenvectors",
+  "caption": "For \\(H=\\gamma X\\), expand \\(\\ket0\\) in eigenvectors, give each its phase \\(e^{-i\\lambda t}\\), and recombine. Motion comes from the difference between the two phases.",
+  "headers": [
+   "Eigenvector",
+   "Eigenvalue",
+   "Coefficient in \\(\\ket0\\)",
+   "Coefficient at time \\(t\\)"
+  ],
+  "rows": [
+   [
+    "\\(\\ket+\\)",
+    "\\(\\gamma\\)",
+    "\\(1/\\sqrt2\\)",
+    "\\(e^{-i\\gamma t}/\\sqrt2\\)"
+   ],
+   [
+    "\\(\\ket-\\)",
+    "\\(-\\gamma\\)",
+    "\\(1/\\sqrt2\\)",
+    "\\(e^{i\\gamma t}/\\sqrt2\\)"
+   ],
+   [
+    "result",
+    "",
+    "\\(\\ket0\\)",
+    "\\(\\cos\\gamma t\\,\\ket0-i\\sin\\gamma t\\,\\ket1\\)"
+   ]
+  ]
+ },
+ "cycle-spectrum": {
+  "kind": "curve",
+  "title": "Eigenvalues of a cycle are cosines",
+  "caption": "The adjacency matrix of a cycle of \\(N=12\\) vertices has Fourier modes as eigenvectors, with eigenvalues \\(2\\cos(2\\pi k/N)\\) (bars). The curve shows the continuous dispersion relation; its slope sets the speed of a wave packet.",
+  "xrange": [
+   -0.5,
+   12
+  ],
+  "yrange": [
+   -2.2,
+   2.2
+  ],
+  "xticks": [
+   0,
+   3,
+   6,
+   9,
+   12
+  ],
+  "yticks": [
+   -2,
+   -1,
+   0,
+   1,
+   2
+  ],
+  "xlabel": "mode \\(k\\)",
+  "ylabel": "eigenvalue",
+  "series": [
+   {
+    "style": "bars",
+    "width": 14,
+    "points": [
+     [
+      0,
+      2.0
+     ],
+     [
+      1,
+      1.7320508075688774
+     ],
+     [
+      2,
+      1.0000000000000002
+     ],
+     [
+      3,
+      1.2246467991473532e-16
+     ],
+     [
+      4,
+      -0.9999999999999996
+     ],
+     [
+      5,
+      -1.7320508075688774
+     ],
+     [
+      6,
+      -2.0
+     ],
+     [
+      7,
+      -1.7320508075688776
+     ],
+     [
+      8,
+      -1.0000000000000009
+     ],
+     [
+      9,
+      -3.6739403974420594e-16
+     ],
+     [
+      10,
+      1.0000000000000002
+     ],
+     [
+      11,
+      1.7320508075688767
+     ]
+    ]
+   },
+   {
+    "expr": "2*cos(2*pi*x/12)",
+    "domain": [
+     0,
+     12
+    ],
+    "style": "dashed"
+   }
+  ]
+ },
+ "szegedy-step": {
+  "kind": "circuit",
+  "width": 920,
+  "title": "One step of Szegedy’s walk",
+  "caption": "\\(V\\ket x\\ket0=\\ket x\\sum_y\\sqrt{P_{xy}}\\ket y\\). The first three boxes reflect about the span of the states \\(\\ket{\\psi_x}\\) (\\(R_A\\)); swapping the registers and repeating gives \\(R_B\\). Each \\(V\\) needs coherent access to the neighbours of a vertex.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket x\\)",
+     "\\(\\ket y\\)"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "headers": [
+     "",
+     "\\(R_A\\)",
+     "",
+     "",
+     "",
+     "\\(R_B\\)",
+     "",
+     ""
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(V^\\dagger\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(S_0\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(V\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "swap",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(V^\\dagger\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(S_0\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(V\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "swap",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "gap-curve": {
+  "kind": "curve",
+  "title": "A spectral gap becomes a larger phase gap",
+  "caption": "For a classical gap \\(\\delta\\), the walk’s phase gap is \\(2\\arccos(1-\\delta)\\) (solid), at least \\(2\\sqrt\\delta\\) (dashed). For small \\(\\delta\\) the phase gap is much larger than \\(\\delta\\) itself (dotted), which is why phase estimation can detect it in order \\(1/\\sqrt\\delta\\) steps.",
+  "xrange": [
+   0,
+   0.1
+  ],
+  "yrange": [
+   0,
+   1
+  ],
+  "xticks": [
+   0,
+   0.025,
+   0.05,
+   0.075,
+   0.1
+  ],
+  "yticks": [
+   0,
+   0.25,
+   0.5,
+   0.75,
+   1
+  ],
+  "xlabel": "classical spectral gap \\(\\delta\\)",
+  "ylabel": "gap",
+  "legend": "ul",
+  "series": [
+   {
+    "label": "phase gap",
+    "expr": "2*acos(1-x)"
+   },
+   {
+    "label": "\\(2\\sqrt\\delta\\)",
+    "expr": "2*sqrt(x)",
+    "style": "dashed"
+   },
+   {
+    "label": "\\(\\delta\\)",
+    "expr": "x",
+    "style": "dashed"
+   }
+  ]
+ },
+ "walk-search-table": {
+  "kind": "table",
+  "title": "Classical and quantum walk search",
+  "caption": "Costs in walk steps and checks, with setup omitted. \\(\\varepsilon\\) is the marked fraction and \\(\\delta\\) the spectral gap. The quantum framework square-roots both factors.",
+  "headers": [
+   "Graph",
+   "\\(\\delta\\)",
+   "\\(\\varepsilon\\)",
+   "Classical",
+   "Quantum"
+  ],
+  "rows": [
+   [
+    "Complete graph, 1 marked",
+    "\\(\\approx1\\)",
+    "\\(1/N\\)",
+    "\\(N\\)",
+    "\\(\\sqrt N\\) (Grover)"
+   ],
+   [
+    "2D grid, 1 marked",
+    "\\(\\approx1/N\\)",
+    "\\(1/N\\)",
+    "\\(N\\log N\\) (hitting)",
+    "\\(\\sqrt N\\log N\\)"
+   ],
+   [
+    "General",
+    "\\(\\delta\\)",
+    "\\(\\varepsilon\\)",
+    "\\(\\frac1\\varepsilon(\\frac1\\delta\\mathsf U+\\mathsf C)\\)",
+    "\\(\\frac{1}{\\sqrt\\varepsilon}(\\frac{1}{\\sqrt\\delta}\\mathsf U+\\mathsf C)\\)"
+   ]
+  ]
+ },
+ "element-distinctness": {
+  "kind": "table",
+  "title": "Element distinctness on the Johnson graph",
+  "caption": "Vertices are \\(r\\)-subsets with their stored values. Choosing \\(r=N^{2/3}\\) balances setup against search and gives \\(O(N^{2/3})\\) queries, which is optimal. The algorithm stores \\(r\\) values in coherent memory.",
+  "headers": [
+   "Parameter",
+   "Value",
+   "Reason"
+  ],
+  "rows": [
+   [
+    "Setup \\(\\mathsf S\\)",
+    "\\(r\\) queries",
+    "query every element of the first subset"
+   ],
+   [
+    "Update \\(\\mathsf U\\)",
+    "\\(O(1)\\) queries",
+    "swap one element, reuse the rest"
+   ],
+   [
+    "Check \\(\\mathsf C\\)",
+    "0 queries",
+    "stored values reveal a collision"
+   ],
+   [
+    "Marked fraction \\(\\varepsilon\\)",
+    "\\(\\approx r^2/N^2\\)",
+    "subset must contain both colliding indices"
+   ],
+   [
+    "Spectral gap \\(\\delta\\)",
+    "\\(\\approx1/r\\)",
+    "property of the Johnson graph"
+   ],
+   [
+    "Total",
+    "\\(r+N/\\sqrt r\\)",
+    "minimized at \\(r=N^{2/3}\\)"
+   ]
+  ]
+ },
+ "walk-results": {
+  "kind": "table",
+  "title": "What quantum walks achieve",
+  "caption": "Query complexities with coherent neighbour access. Time complexity adds the cost of implementing that access and any coherent data structures.",
+  "headers": [
+   "Problem",
+   "Classical",
+   "Quantum walk"
+  ],
+  "rows": [
+   [
+    "Search, complete graph",
+    "\\(N\\)",
+    "\\(\\sqrt N\\)"
+   ],
+   [
+    "Search, 2D grid",
+    "\\(N\\log N\\)",
+    "\\(\\sqrt N\\log N\\)"
+   ],
+   [
+    "Element distinctness",
+    "\\(N\\)",
+    "\\(N^{2/3}\\), optimal"
+   ],
+   [
+    "Glued trees traversal",
+    "exponential",
+    "polynomial"
+   ],
+   [
+    "General Markov chain hitting",
+    "\\(1/(\\varepsilon\\delta)\\)",
+    "\\(1/\\sqrt{\\varepsilon\\delta}\\)"
+   ]
+  ]
+ },
+ "nonunitary-stretch": {
+  "kind": "plane",
+  "title": "A non-unitary matrix changes lengths unevenly",
+  "caption": "\\(A=\\mathrm{diag}(1,\\tfrac12)\\) leaves \\(\\ket0\\) unchanged, halves \\(\\ket1\\), and maps \\(\\ket+\\) to a vector of length \\(\\sqrt{5/8}\\) pointing closer to \\(\\ket0\\). No unitary, which preserves every length, can do this. (Vectors are drawn at unit length; the legend gives the true lengths.)",
+  "axes": [
+   "\\(\\ket0\\)",
+   "\\(\\ket1\\)"
+  ],
+  "angles": [
+   45,
+   26.57
+  ],
+  "labels": [
+   "\\(\\ket+\\), length 1",
+   "\\(A\\ket+\\), length \\(\\sqrt{5/8}\\approx0.79\\)"
+  ]
+ },
+ "block-encoding-circuit": {
+  "kind": "circuit",
+  "title": "A block encoding with one ancilla",
+  "caption": "\\(U\\) acts on the ancilla and the system. With the ancilla starting in \\(\\ket0\\), the ancilla-0 branch of the output is \\(A\\ket\\psi/\\alpha\\) and the ancilla-1 branch carries the remaining length. Measuring the ancilla and keeping outcome 0 applies \\(A\\) up to normalization.",
+  "circuits": [
+   {
+    "inputs": [
+     "ancilla \\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "keep 0",
+     "\\(\\propto A\\ket\\psi\\)"
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(U\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(U\\ket0\\ket\\psi=\\ket0\\tfrac{A}{\\alpha}\\ket\\psi+\\ket1\\ket{\\ast}\\)"
+    ]
+   }
+  ]
+ },
+ "postselection-table": {
+  "kind": "table",
+  "title": "Postselection for A = diag(1, 1/2)",
+  "caption": "Success probability \\(\\|A\\psi\\|^2/\\alpha^2\\) (here \\(\\alpha=1\\)) and the normalized output on success. The success probability depends on the input; it is the price of applying a non-unitary map.",
+  "headers": [
+   "Input \\(\\ket\\psi\\)",
+   "\\(A\\ket\\psi\\)",
+   "Success probability",
+   "Output on success"
+  ],
+  "rows": [
+   [
+    "\\(\\ket0\\)",
+    "\\(\\ket0\\)",
+    "1",
+    "\\(\\ket0\\)"
+   ],
+   [
+    "\\(\\ket1\\)",
+    "\\(\\tfrac12\\ket1\\)",
+    "1/4",
+    "\\(\\ket1\\)"
+   ],
+   [
+    "\\(\\ket+\\)",
+    "\\(\\tfrac{1}{\\sqrt2}(\\ket0+\\tfrac12\\ket1)\\)",
+    "5/8",
+    "\\(\\tfrac{1}{\\sqrt5}(2\\ket0+\\ket1)\\)"
+   ]
+  ]
+ },
+ "lcu-circuit": {
+  "kind": "circuit",
+  "title": "Linear combination of unitaries",
+  "caption": "PREPARE loads the weights \\(\\sqrt{a_j/\\alpha}\\) into the ancilla register; SELECT applies \\(U_j\\) on the branch \\(\\ket j\\); un-preparing and keeping ancilla outcome 0 leaves \\(\\sum_ja_jU_j\\ket\\psi/\\alpha\\). SELECT is a multiplexed controlled operation and is usually the most expensive part.",
+  "circuits": [
+   {
+    "inputs": [
+     "ancillas \\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "keep 0",
+     "\\(\\propto A\\ket\\psi\\)"
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "PREP",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "SELECT",
+       "wires": [
+        0,
+        1
+       ],
+       "width": 96
+      }
+     ],
+     [
+      {
+       "label": "PREP\\(^\\dagger\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "lcu-example": {
+  "kind": "circuit",
+  "title": "A block encoding of (I + X)/2",
+  "caption": "PREPARE is a Hadamard on the ancilla; SELECT is a CNOT. On system input \\(\\ket0\\), ancilla outcome 0 occurs with probability 1/2 and leaves \\(\\ket+\\). A random choice between \\(I\\) and \\(X\\) would instead give a mixture of \\(\\ket0\\) and \\(\\ket1\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "ancilla \\(\\ket0\\)",
+     "system \\(\\ket0\\)"
+    ],
+    "outputs": [
+     "keep 0",
+     "\\(\\ket+\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0
+       ],
+       "target": 1
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(\\tfrac12\\big(\\ket0(\\ket0+\\ket1)+\\ket1(\\ket0-\\ket1)\\big)\\) before measurement"
+    ]
+   }
+  ]
+ },
+ "pauli-lcu": {
+  "kind": "table",
+  "title": "An LCU block encoding of a two-qubit Hamiltonian",
+  "caption": "For \\(H=0.5\\,Z\\otimes Z-0.3\\,X\\otimes I\\), the 1-norm is \\(\\lambda=0.8\\). The sign of the second coefficient is absorbed into its unitary. The circuit encodes \\(H/0.8\\).",
+  "headers": [
+   "Term \\(j\\)",
+   "Coefficient",
+   "Unitary \\(U_j\\)",
+   "PREPARE amplitude"
+  ],
+  "rows": [
+   [
+    "0",
+    "\\(0.5\\)",
+    "\\(Z\\otimes Z\\)",
+    "\\(\\sqrt{0.5/0.8}=\\sqrt{5/8}\\)"
+   ],
+   [
+    "1",
+    "\\(0.3\\)",
+    "\\(-X\\otimes I\\)",
+    "\\(\\sqrt{0.3/0.8}=\\sqrt{3/8}\\)"
+   ],
+   [
+    "total",
+    "\\(\\lambda=0.8\\)",
+    "",
+    "squared amplitudes sum to 1"
+   ]
+  ]
+ },
+ "product-encoding": {
+  "kind": "circuit",
+  "title": "Multiplying encoded matrices",
+  "caption": "\\(U_B\\) encodes \\(B/\\beta\\) with its own ancillas and \\(U_A\\) encodes \\(A/\\alpha\\) with others. Keeping both ancilla registers at 0 applies \\(AB/(\\alpha\\beta)\\). Reusing one ancilla register for both would let failure amplitude return to the selected block.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(a\\) ancillas \\(\\ket0\\)",
+     "\\(b\\) ancillas \\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "keep 0",
+     "keep 0",
+     "\\(\\propto AB\\ket\\psi\\)"
+    ],
+    "bundles": [
+     0,
+     1,
+     2
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(U_B\\)",
+       "wires": [
+        1,
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(U_A\\)",
+       "wires": [
+        0,
+        1,
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "error-table": {
+  "kind": "table",
+  "title": "How block-encoding errors combine",
+  "caption": "Errors are operator-norm distances between the implemented and intended blocks. Because blocks have norm at most one, errors add to first order. An error in the block \\(A/\\alpha\\) corresponds to an error \\(\\alpha\\) times larger in \\(A\\).",
+  "headers": [
+   "Operation",
+   "Intended block",
+   "Error bound"
+  ],
+  "rows": [
+   [
+    "Product of two encodings",
+    "\\(AB/(\\alpha\\beta)\\)",
+    "\\(\\epsilon+\\delta+\\epsilon\\delta\\)"
+   ],
+   [
+    "Product of \\(k\\) encodings",
+    "\\(\\prod A_i/\\alpha_i\\)",
+    "about \\(\\sum\\epsilon_i\\)"
+   ],
+   [
+    "Encoded \\(A\\) itself",
+    "\\(A\\)",
+    "\\(\\alpha\\epsilon\\)"
+   ],
+   [
+    "PREPARE amplitude error \\(\\eta\\)",
+    "\\(\\sum a_jU_j/\\alpha\\)",
+    "about \\(2\\eta\\sum_j\\sqrt{a_j/\\alpha}\\)"
+   ]
+  ]
+ },
+ "oaa-circuit": {
+  "kind": "circuit",
+  "title": "Oblivious amplitude amplification",
+  "caption": "If \\(W\\) block-encodes \\(\\tfrac12V\\) with \\(V\\) unitary, one round, \\(W\\), the ancilla reflection \\(R\\), \\(W^\\dagger\\), \\(R\\), \\(W\\), yields \\(\\ket0V\\ket\\psi\\) exactly for every input. \\(R\\) acts only on the ancillas, so no knowledge of \\(\\ket\\psi\\) is needed.",
+  "circuits": [
+   {
+    "inputs": [
+     "ancillas \\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "\\(\\ket0\\)",
+     "\\(V\\ket\\psi\\)"
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(W\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(R\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(W^\\dagger\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(R\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(W\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(R=(2\\ket0\\bra0-I)\\otimes I\\); overall sign \\(-1\\) omitted"
+    ]
+   }
+  ]
+ },
+ "access-models": {
+  "kind": "table",
+  "title": "How a matrix can be given",
+  "caption": "The subnormalization and cost of a block encoding depend on the access model. Query counts of later algorithms are multiplied by the cost of one block encoding.",
+  "headers": [
+   "Access",
+   "Block encoding of",
+   "Typical cost of one use"
+  ],
+  "rows": [
+   [
+    "Sum of \\(L\\) Pauli strings",
+    "\\(H/\\lambda\\), \\(\\lambda=\\sum|h_j|\\)",
+    "\\(O(L)\\) controlled Paulis"
+   ],
+   [
+    "\\(s\\)-sparse, entry oracles",
+    "\\(H/(s\\|H\\|_{\\max})\\)",
+    "\\(O(1)\\) oracle calls plus arithmetic"
+   ],
+   [
+    "Dense classical table",
+    "\\(A/\\|A\\|_F\\)",
+    "QRAM over \\(N^2\\) entries"
+   ],
+   [
+    "Product of encodings",
+    "\\(AB/(\\alpha\\beta)\\)",
+    "sum of the two costs"
+   ]
+  ]
+ },
+ "dequantization-table": {
+  "kind": "table",
+  "title": "Speedups under compatible access",
+  "caption": "When quantum algorithms assume data structures that support efficient state preparation, classical algorithms given the matching sampling access can sometimes match them up to polynomial factors.",
+  "headers": [
+   "Setting",
+   "Quantum assumption",
+   "Classical comparison"
+  ],
+  "rows": [
+   [
+    "Low-rank recommendation",
+    "QRAM-style state preparation",
+    "sampling access: polynomial gap only"
+   ],
+   [
+    "Sparse, implicitly defined \\(H\\)",
+    "entry oracles from a formula",
+    "no comparable shortcut known"
+   ],
+   [
+    "Dense classical matrix",
+    "block encoding given",
+    "reading the input already costs \\(N^2\\)"
+   ]
+  ]
+ },
+ "chebyshev": {
+  "kind": "curve",
+  "title": "Responses of repeated signal calls",
+  "caption": "The top-left entry of \\(W(x)^d\\) is the Chebyshev polynomial \\(T_d(x)=\\cos(d\\arccos x)\\). Each is bounded by 1 on \\([-1,1]\\) and oscillates more as \\(d\\) grows. Note \\(T_2(x)=2x^2-1\\), not \\(x^2\\).",
+  "xrange": [
+   -1,
+   1
+  ],
+  "yrange": [
+   -1.05,
+   1.05
+  ],
+  "xticks": [
+   -1,
+   -0.5,
+   0,
+   0.5,
+   1
+  ],
+  "yticks": [
+   -1,
+   0,
+   1
+  ],
+  "xlabel": "signal \\(x\\)",
+  "ylabel": "top-left entry",
+  "legend": "out",
+  "series": [
+   {
+    "label": "\\(T_1=x\\)",
+    "expr": "x"
+   },
+   {
+    "label": "\\(T_2\\)",
+    "expr": "2*x**2-1"
+   },
+   {
+    "label": "\\(T_3\\)",
+    "expr": "4*x**3-3*x"
+   },
+   {
+    "label": "\\(T_4\\)",
+    "expr": "8*x**4-8*x**2+1"
+   }
+  ]
+ },
+ "qsp-circuit": {
+  "kind": "circuit",
+  "title": "A quantum signal processing sequence",
+  "caption": "Signal calls \\(W(x)\\) alternate with \\(Z\\)-rotations by the phase factors \\(\\phi_0,\\ldots,\\phi_d\\). The top-left entry of the product is a polynomial \\(P(x)\\) of degree at most \\(d\\); the phases select which polynomial.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)"
+    ],
+    "outputs": [
+     "\\(P(x)\\ket0+\\cdots\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(e^{i\\phi_0Z}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(W(x)\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(e^{i\\phi_1Z}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(W(x)\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(e^{i\\phi_2Z}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "two calls: \\(\\bra0W\\,e^{i\\phi Z}\\,W\\ket0=\\cos\\phi\\,(2x^2-1)+i\\sin\\phi\\)"
+    ]
+   }
+  ],
+  "width": 900
+ },
+ "parity-table": {
+  "kind": "table",
+  "title": "Constraints on achievable responses",
+  "caption": "With \\(d\\) signal calls the response is a polynomial of degree at most \\(d\\) with the parity of \\(d\\), bounded by 1 on \\([-1,1]\\). Functions without these properties are split, scaled, or restricted.",
+  "headers": [
+   "Target",
+   "Problem",
+   "Remedy"
+  ],
+  "rows": [
+   [
+    "\\(e^{-ixt}\\)",
+    "no definite parity",
+    "implement \\(\\cos(xt)\\) and \\(\\sin(xt)\\), combine by LCU"
+   ],
+   [
+    "\\(1/x\\)",
+    "unbounded near 0",
+    "approximate \\(1/(\\kappa x)\\) on \\(|x|\\ge1/\\kappa\\)"
+   ],
+   [
+    "step at \\(\\mu\\)",
+    "discontinuous",
+    "smooth across a gap of width \\(\\Delta\\)"
+   ],
+   [
+    "\\(2x\\)",
+    "exceeds 1",
+    "scale to \\(x\\), or restrict the interval"
+   ]
+  ]
+ },
+ "eigen-transform": {
+  "kind": "table",
+  "title": "Functions of a Hermitian matrix",
+  "caption": "A function acts on each eigenvalue separately, \\(f(H)=\\sum_jf(\\lambda_j)\\ket{v_j}\\bra{v_j}\\), and so on every component of a superposition at once, without measuring which eigenvector is present.",
+  "headers": [
+   "Function \\(f\\)",
+   "\\(f(H)\\) does",
+   "Application"
+  ],
+  "rows": [
+   [
+    "step at \\(\\mu\\)",
+    "projects onto eigenvalues below \\(\\mu\\)",
+    "ground-state preparation, filtering"
+   ],
+   [
+    "\\(1/x\\)",
+    "inverts \\(H\\)",
+    "linear systems"
+   ],
+   [
+    "\\(e^{-ixt}\\)",
+    "evolves for time \\(t\\)",
+    "Hamiltonian simulation"
+   ],
+   [
+    "\\(x^k\\)",
+    "powers",
+    "moments, power methods"
+   ]
+  ]
+ },
+ "qubitization-circuit": {
+  "kind": "circuit",
+  "title": "The qubitized walk",
+  "caption": "\\(U\\) is a Hermitian block encoding of \\(H/\\alpha\\); \\(R\\) reflects about the ancillas being zero. For each eigenvalue \\(\\lambda_j\\), \\(W=RU\\) rotates within its own plane by \\(\\theta_j=\\arccos(\\lambda_j/\\alpha)\\), so phase rotations on the ancilla between steps implement signal processing on every eigenvalue at once.",
+  "circuits": [
+   {
+    "inputs": [
+     "ancillas \\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "bundles": [
+     0,
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(U\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(R\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(e^{i\\phi_1}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(U\\)",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(R\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(e^{i\\phi_2}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(W=RU\\): eigenvalues \\(e^{\\pm i\\theta_j}\\) with \\(\\cos\\theta_j=\\lambda_j/\\alpha\\)"
+    ]
+   }
+  ],
+  "width": 900
+ },
+ "svd-picture": {
+  "kind": "table",
+  "title": "Singular value transformation",
+  "caption": "QSVT replaces each singular value \\(\\sigma_j\\) of \\(A/\\alpha\\) by \\(P(\\sigma_j/\\alpha)\\). Odd polynomials map input directions to output directions; even polynomials map input directions to themselves.",
+  "headers": [
+   "Polynomial parity",
+   "Encoded operator",
+   "Example"
+  ],
+  "rows": [
+   [
+    "odd",
+    "\\(\\sum_jP(\\sigma_j/\\alpha)\\ket{u_j}\\bra{w_j}\\)",
+    "amplification, pseudoinverse"
+   ],
+   [
+    "even",
+    "\\(\\sum_jP(\\sigma_j/\\alpha)\\ket{w_j}\\bra{w_j}\\)",
+    "projector onto large singular values"
+   ],
+   [
+    "Hermitian \\(A\\)",
+    "eigenvalue transformation",
+    "simulation, filtering"
+   ]
+  ]
+ },
+ "filter-curve": {
+  "kind": "curve",
+  "title": "A polynomial filter",
+  "caption": "A degree-24 even polynomial (solid) approximating a smoothed filter that keeps eigenvalues with \\(|x|<0.3\\) and removes those with \\(|x|>0.5\\) (the gap between is shaded by the transition). The polynomial stays within \\([-1,1]\\) everywhere, as any achievable response must.",
+  "xrange": [
+   -1,
+   1
+  ],
+  "yrange": [
+   -0.1,
+   1.05
+  ],
+  "xticks": [
+   -1,
+   -0.5,
+   -0.3,
+   0,
+   0.3,
+   0.5,
+   1
+  ],
+  "yticks": [
+   0,
+   0.5,
+   1
+  ],
+  "xlabel": "eigenvalue of \\(H/\\alpha\\)",
+  "ylabel": "filter value",
+  "legend": "ur",
+  "series": [
+   {
+    "label": "degree-24 polynomial",
+    "points": [
+     [
+      -1.0,
+      -0.003042595473413734
+     ],
+     [
+      -0.9933333333333333,
+      0.0029846741227472773
+     ],
+     [
+      -0.9866666666666667,
+      0.0018821530725992575
+     ],
+     [
+      -0.98,
+      -0.0008449792230230679
+     ],
+     [
+      -0.9733333333333334,
+      -0.0027637749168292203
+     ],
+     [
+      -0.9666666666666667,
+      -0.00319185181692061
+     ],
+     [
+      -0.96,
+      -0.0023324960389135008
+     ],
+     [
+      -0.9533333333333334,
+      -0.0007361485621042441
+     ],
+     [
+      -0.9466666666666667,
+      0.0010107640454765643
+     ],
+     [
+      -0.94,
+      0.0024437856571281613
+     ],
+     [
+      -0.9333333333333333,
+      0.0032796912479026163
+     ],
+     [
+      -0.9266666666666666,
+      0.003416288042436877
+     ],
+     [
+      -0.92,
+      0.002900229280033806
+     ],
+     [
+      -0.9133333333333333,
+      0.0018813857087091046
+     ],
+     [
+      -0.9066666666666666,
+      0.0005656608448885714
+     ],
+     [
+      -0.9,
+      -0.0008267271560367107
+     ],
+     [
+      -0.8933333333333333,
+      -0.002093930948037448
+     ],
+     [
+      -0.8866666666666667,
+      -0.0030749302575940884
+     ],
+     [
+      -0.88,
+      -0.0036621045110605266
+     ],
+     [
+      -0.8733333333333333,
+      -0.0038051914385294205
+     ],
+     [
+      -0.8666666666666667,
+      -0.003508374774956524
+     ],
+     [
+      -0.86,
+      -0.0028223994649980155
+     ],
+     [
+      -0.8533333333333333,
+      -0.001833553072749683
+     ],
+     [
+      -0.8466666666666667,
+      -0.0006511566779054401
+     ],
+     [
+      -0.84,
+      0.0006050628840892358
+     ],
+     [
+      -0.8333333333333333,
+      0.0018166511377186167
+     ],
+     [
+      -0.8266666666666667,
+      0.0028763906491092728
+     ],
+     [
+      -0.82,
+      0.0036960728112024333
+     ],
+     [
+      -0.8133333333333334,
+      0.00421184811282882
+     ],
+     [
+      -0.8066666666666666,
+      0.004387136332769992
+     ],
+     [
+      -0.8,
+      0.004213244575601349
+     ],
+     [
+      -0.7933333333333333,
+      0.0037079644209631613
+     ],
+     [
+      -0.7866666666666666,
+      0.0029125024311545955
+     ],
+     [
+      -0.78,
+      0.0018871450779198162
+     ],
+     [
+      -0.7733333333333333,
+      0.0007060748974110354
+     ],
+     [
+      -0.7666666666666666,
+      -0.0005482551606749153
+     ],
+     [
+      -0.76,
+      -0.0017908121529417453
+     ],
+     [
+      -0.7533333333333333,
+      -0.002939406038013459
+     ],
+     [
+      -0.7466666666666666,
+      -0.003919567456892814
+     ],
+     [
+      -0.74,
+      -0.004668663142755325
+     ],
+     [
+      -0.7333333333333334,
+      -0.005139093949858453
+     ],
+     [
+      -0.7266666666666666,
+      -0.005300481544405489
+     ],
+     [
+      -0.72,
+      -0.005140807181284346
+     ],
+     [
+      -0.7133333333333334,
+      -0.004666517812157767
+     ],
+     [
+      -0.7066666666666667,
+      -0.003901659694440729
+     ],
+     [
+      -0.7,
+      -0.002886136854439336
+     ],
+     [
+      -0.6933333333333334,
+      -0.0016732207929867626
+     ],
+     [
+      -0.6866666666666666,
+      -0.0003264586707333317
+     ],
+     [
+      -0.6799999999999999,
+      0.0010838598577757597
+     ],
+     [
+      -0.6733333333333333,
+      0.0024845114625329234
+     ],
+     [
+      -0.6666666666666666,
+      0.00380325908207102
+     ],
+     [
+      -0.6599999999999999,
+      0.004972725505305642
+     ],
+     [
+      -0.6533333333333333,
+      0.005934075091870272
+     ],
+     [
+      -0.6466666666666667,
+      0.006640374109185776
+     ],
+     [
+      -0.6399999999999999,
+      0.007059519166345063
+     ],
+     [
+      -0.6333333333333333,
+      0.007176644311805536
+     ],
+     [
+      -0.6266666666666667,
+      0.00699593964554901
+     ],
+     [
+      -0.62,
+      0.0065418369588672864
+     ],
+     [
+      -0.6133333333333333,
+      0.0058595402233371785
+     ],
+     [
+      -0.6066666666666667,
+      0.0050149000668187615
+     ],
+     [
+      -0.6,
+      0.004093651161176881
+     ],
+     [
+      -0.5933333333333333,
+      0.003200049269547922
+     ],
+     [
+      -0.5866666666666667,
+      0.0024549602281394023
+     ],
+     [
+      -0.58,
+      0.0019934661351772576
+     ],
+     [
+      -0.5733333333333333,
+      0.001962064347136361
+     ],
+     [
+      -0.5666666666666667,
+      0.0025155424851179276
+     ],
+     [
+      -0.56,
+      0.003813617554756621
+     ],
+     [
+      -0.5533333333333332,
+      0.006017429571965327
+     ],
+     [
+      -0.5466666666666666,
+      0.009285979912916575
+     ],
+     [
+      -0.54,
+      0.013772602166771786
+     ],
+     [
+      -0.5333333333333333,
+      0.019621548798732458
+     ],
+     [
+      -0.5266666666666666,
+      0.02696477069237352
+     ],
+     [
+      -0.52,
+      0.035918958916361154
+     ],
+     [
+      -0.5133333333333333,
+      0.04658290914458407
+     ],
+     [
+      -0.5066666666666666,
+      0.0590352593460135
+     ],
+     [
+      -0.5,
+      0.07333264094245723
+     ],
+     [
+      -0.4933333333333333,
+      0.08950827288927216
+     ],
+     [
+      -0.4866666666666666,
+      0.10757101733065833
+     ],
+     [
+      -0.48,
+      0.1275049048616529
+     ],
+     [
+      -0.4733333333333333,
+      0.14926912721385321
+     ],
+     [
+      -0.4666666666666667,
+      0.17279848556531247
+     ],
+     [
+      -0.45999999999999996,
+      0.19800427382293717
+     ],
+     [
+      -0.45333333333333325,
+      0.22477556827472378
+     ],
+     [
+      -0.44666666666666666,
+      0.2529808880666723
+     ],
+     [
+      -0.43999999999999995,
+      0.2824701851032271
+     ],
+     [
+      -0.43333333333333335,
+      0.3130771172505722
+     ],
+     [
+      -0.42666666666666664,
+      0.34462155516207554
+     ],
+     [
+      -0.41999999999999993,
+      0.3769122706425911
+     ],
+     [
+      -0.41333333333333333,
+      0.40974975319831725
+     ],
+     [
+      -0.4066666666666666,
+      0.4429291012359754
+     ],
+     [
+      -0.3999999999999999,
+      0.47624293521577754
+     ],
+     [
+      -0.3933333333333333,
+      0.5094842818483636
+     ],
+     [
+      -0.3866666666666666,
+      0.5424493810652651
+     ],
+     [
+      -0.38,
+      0.5749403708845309
+     ],
+     [
+      -0.3733333333333333,
+      0.6067678093297659
+     ],
+     [
+      -0.3666666666666666,
+      0.6377529971292337
+     ],
+     [
+      -0.36,
+      0.6677300699071826
+     ],
+     [
+      -0.3533333333333333,
+      0.6965478338674922
+     ],
+     [
+      -0.3466666666666667,
+      0.7240713244478412
+     ],
+     [
+      -0.33999999999999997,
+      0.750183072982691
+     ],
+     [
+      -0.33333333333333326,
+      0.7747840719529758
+     ],
+     [
+      -0.32666666666666666,
+      0.7977944348243453
+     ],
+     [
+      -0.31999999999999995,
+      0.8191537516970658
+     ],
+     [
+      -0.31333333333333324,
+      0.838821146931598
+     ],
+     [
+      -0.30666666666666664,
+      0.8567750495065992
+     ],
+     [
+      -0.29999999999999993,
+      0.8730126910531326
+     ],
+     [
+      -0.29333333333333333,
+      0.8875493502433237
+     ],
+     [
+      -0.2866666666666666,
+      0.9004173654572778
+     ],
+     [
+      -0.2799999999999999,
+      0.9116649403828437
+     ],
+     [
+      -0.2733333333333333,
+      0.9213547694031232
+     ],
+     [
+      -0.2666666666666666,
+      0.9295625112903059
+     ],
+     [
+      -0.2599999999999999,
+      0.9363751408545107
+     ],
+     [
+      -0.2533333333333333,
+      0.9418892088041357
+     ],
+     [
+      -0.2466666666666666,
+      0.9462090401787279
+     ],
+     [
+      -0.24,
+      0.9494449013422319
+     ],
+     [
+      -0.23333333333333328,
+      0.9517111647052333
+     ],
+     [
+      -0.22666666666666657,
+      0.953124499115905
+     ],
+     [
+      -0.21999999999999997,
+      0.9538021122613434
+     ],
+     [
+      -0.21333333333333326,
+      0.9538600694974017
+     ],
+     [
+      -0.20666666666666667,
+      0.9534117113218568
+     ],
+     [
+      -0.19999999999999996,
+      0.9525661892699472
+     ],
+     [
+      -0.19333333333333325,
+      0.9514271373907641
+     ],
+     [
+      -0.18666666666666665,
+      0.9500914937052257
+     ],
+     [
+      -0.17999999999999994,
+      0.948648483198103
+     ],
+     [
+      -0.17333333333333323,
+      0.9471787710030133
+     ],
+     [
+      -0.16666666666666663,
+      0.945753791543587
+     ],
+     [
+      -0.15999999999999992,
+      0.9444352565368666
+     ],
+     [
+      -0.15333333333333332,
+      0.9432748419841414
+     ],
+     [
+      -0.1466666666666666,
+      0.9423140516044627
+     ],
+     [
+      -0.1399999999999999,
+      0.9415842516381527
+     ],
+     [
+      -0.1333333333333333,
+      0.9411068695892266
+     ],
+     [
+      -0.1266666666666666,
+      0.9408937473106032
+     ],
+     [
+      -0.12,
+      0.9409476368843309
+     ],
+     [
+      -0.11333333333333329,
+      0.9412628260271281
+     ],
+     [
+      -0.10666666666666658,
+      0.9418258782719313
+     ],
+     [
+      -0.09999999999999998,
+      0.9426164719479878
+     ],
+     [
+      -0.09333333333333327,
+      0.9436083210109106
+     ],
+     [
+      -0.08666666666666656,
+      0.9447701600625084
+     ],
+     [
+      -0.07999999999999996,
+      0.9460667754474199
+     ],
+     [
+      -0.07333333333333325,
+      0.9474600641162165
+     ],
+     [
+      -0.06666666666666665,
+      0.9489101019965908
+     ],
+     [
+      -0.05999999999999994,
+      0.9503762039071372
+     ],
+     [
+      -0.05333333333333323,
+      0.9518179575714865
+     ],
+     [
+      -0.046666666666666634,
+      0.9531962150317366
+     ],
+     [
+      -0.039999999999999925,
+      0.9544740257051288
+     ],
+     [
+      -0.033333333333333326,
+      0.9556174964611315
+     ],
+     [
+      -0.026666666666666616,
+      0.9565965654007199
+     ],
+     [
+      -0.019999999999999907,
+      0.9573856774777285
+     ],
+     [
+      -0.013333333333333308,
+      0.9579643516949111
+     ],
+     [
+      -0.006666666666666599,
+      0.9583176313152011
+     ],
+     [
+      0.0,
+      0.9584364103314709
+     ],
+     [
+      0.006666666666666821,
+      0.9583176313152009
+     ],
+     [
+      0.01333333333333342,
+      0.9579643516949108
+     ],
+     [
+      0.020000000000000018,
+      0.9573856774777282
+     ],
+     [
+      0.02666666666666684,
+      0.9565965654007194
+     ],
+     [
+      0.03333333333333344,
+      0.9556174964611309
+     ],
+     [
+      0.040000000000000036,
+      0.9544740257051282
+     ],
+     [
+      0.046666666666666634,
+      0.9531962150317358
+     ],
+     [
+      0.053333333333333455,
+      0.9518179575714856
+     ],
+     [
+      0.06000000000000005,
+      0.9503762039071363
+     ],
+     [
+      0.06666666666666665,
+      0.9489101019965898
+     ],
+     [
+      0.07333333333333347,
+      0.9474600641162155
+     ],
+     [
+      0.08000000000000007,
+      0.9460667754474189
+     ],
+     [
+      0.08666666666666667,
+      0.9447701600625075
+     ],
+     [
+      0.09333333333333349,
+      0.9436083210109096
+     ],
+     [
+      0.10000000000000009,
+      0.9426164719479869
+     ],
+     [
+      0.10666666666666669,
+      0.9418258782719305
+     ],
+     [
+      0.11333333333333351,
+      0.9412628260271272
+     ],
+     [
+      0.1200000000000001,
+      0.9409476368843301
+     ],
+     [
+      0.1266666666666667,
+      0.9408937473106024
+     ],
+     [
+      0.1333333333333333,
+      0.9411068695892261
+     ],
+     [
+      0.14000000000000012,
+      0.9415842516381522
+     ],
+     [
+      0.14666666666666672,
+      0.9423140516044622
+     ],
+     [
+      0.15333333333333332,
+      0.943274841984141
+     ],
+     [
+      0.16000000000000014,
+      0.9444352565368662
+     ],
+     [
+      0.16666666666666674,
+      0.9457537915435867
+     ],
+     [
+      0.17333333333333334,
+      0.9471787710030133
+     ],
+     [
+      0.18000000000000016,
+      0.9486484831981031
+     ],
+     [
+      0.18666666666666676,
+      0.9500914937052254
+     ],
+     [
+      0.19333333333333336,
+      0.9514271373907643
+     ],
+     [
+      0.20000000000000018,
+      0.9525661892699473
+     ],
+     [
+      0.20666666666666678,
+      0.9534117113218568
+     ],
+     [
+      0.21333333333333337,
+      0.9538600694974017
+     ],
+     [
+      0.21999999999999997,
+      0.9538021122613431
+     ],
+     [
+      0.2266666666666668,
+      0.9531244991159049
+     ],
+     [
+      0.2333333333333334,
+      0.9517111647052331
+     ],
+     [
+      0.24,
+      0.949444901342232
+     ],
+     [
+      0.2466666666666668,
+      0.9462090401787278
+     ],
+     [
+      0.2533333333333334,
+      0.9418892088041355
+     ],
+     [
+      0.26,
+      0.9363751408545105
+     ],
+     [
+      0.26666666666666683,
+      0.9295625112903055
+     ],
+     [
+      0.27333333333333343,
+      0.9213547694031228
+     ],
+     [
+      0.28,
+      0.9116649403828436
+     ],
+     [
+      0.28666666666666685,
+      0.9004173654572772
+     ],
+     [
+      0.29333333333333345,
+      0.8875493502433234
+     ],
+     [
+      0.30000000000000004,
+      0.8730126910531325
+     ],
+     [
+      0.30666666666666664,
+      0.8567750495065996
+     ],
+     [
+      0.31333333333333346,
+      0.8388211469315978
+     ],
+     [
+      0.32000000000000006,
+      0.8191537516970656
+     ],
+     [
+      0.32666666666666666,
+      0.7977944348243455
+     ],
+     [
+      0.3333333333333335,
+      0.7747840719529755
+     ],
+     [
+      0.3400000000000001,
+      0.7501830729826913
+     ],
+     [
+      0.3466666666666667,
+      0.7240713244478418
+     ],
+     [
+      0.3533333333333335,
+      0.696547833867492
+     ],
+     [
+      0.3600000000000001,
+      0.6677300699071831
+     ],
+     [
+      0.3666666666666667,
+      0.6377529971292342
+     ],
+     [
+      0.3733333333333335,
+      0.606767809329766
+     ],
+     [
+      0.3800000000000001,
+      0.5749403708845315
+     ],
+     [
+      0.3866666666666667,
+      0.542449381065266
+     ],
+     [
+      0.3933333333333333,
+      0.509484281848365
+     ],
+     [
+      0.40000000000000013,
+      0.476242935215778
+     ],
+     [
+      0.40666666666666673,
+      0.4429291012359762
+     ],
+     [
+      0.41333333333333333,
+      0.4097497531983187
+     ],
+     [
+      0.42000000000000015,
+      0.3769122706425913
+     ],
+     [
+      0.42666666666666675,
+      0.34462155516207654
+     ],
+     [
+      0.43333333333333335,
+      0.31307711725057347
+     ],
+     [
+      0.44000000000000017,
+      0.2824701851032275
+     ],
+     [
+      0.44666666666666677,
+      0.25298088806667285
+     ],
+     [
+      0.45333333333333337,
+      0.22477556827472422
+     ],
+     [
+      0.4600000000000002,
+      0.19800427382293706
+     ],
+     [
+      0.4666666666666668,
+      0.17279848556531274
+     ],
+     [
+      0.4733333333333334,
+      0.14926912721385321
+     ],
+     [
+      0.4800000000000002,
+      0.12750490486165222
+     ],
+     [
+      0.4866666666666668,
+      0.10757101733065727
+     ],
+     [
+      0.4933333333333334,
+      0.08950827288927149
+     ],
+     [
+      0.5,
+      0.07333264094245662
+     ],
+     [
+      0.5066666666666668,
+      0.05903525934601217
+     ],
+     [
+      0.5133333333333334,
+      0.046582909144582796
+     ],
+     [
+      0.52,
+      0.03591895891635999
+     ],
+     [
+      0.5266666666666668,
+      0.026964770692371853
+     ],
+     [
+      0.5333333333333334,
+      0.01962154879873096
+     ],
+     [
+      0.54,
+      0.013772602166770231
+     ],
+     [
+      0.5466666666666669,
+      0.009285979912914966
+     ],
+     [
+      0.5533333333333335,
+      0.006017429571963717
+     ],
+     [
+      0.56,
+      0.0038136175547551776
+     ],
+     [
+      0.5666666666666669,
+      0.0025155424851165953
+     ],
+     [
+      0.5733333333333335,
+      0.0019620643471352506
+     ],
+     [
+      0.5800000000000001,
+      0.001993466135176425
+     ],
+     [
+      0.5866666666666667,
+      0.002454960228138736
+     ],
+     [
+      0.5933333333333335,
+      0.003200049269547478
+     ],
+     [
+      0.6000000000000001,
+      0.00409365116117677
+     ],
+     [
+      0.6066666666666667,
+      0.005014900066818873
+     ],
+     [
+      0.6133333333333335,
+      0.005859540223337567
+     ],
+     [
+      0.6200000000000001,
+      0.006541836958868008
+     ],
+     [
+      0.6266666666666667,
+      0.006995939645549842
+     ],
+     [
+      0.6333333333333335,
+      0.007176644311806701
+     ],
+     [
+      0.6400000000000001,
+      0.00705951916634634
+     ],
+     [
+      0.6466666666666667,
+      0.006640374109187275
+     ],
+     [
+      0.6533333333333335,
+      0.005934075091871827
+     ],
+     [
+      0.6600000000000001,
+      0.004972725505307252
+     ],
+     [
+      0.6666666666666667,
+      0.0038032590820725187
+     ],
+     [
+      0.6733333333333333,
+      0.0024845114625343667
+     ],
+     [
+      0.6800000000000002,
+      0.001083859857776981
+     ],
+     [
+      0.6866666666666668,
+      -0.00032645867073222146
+     ],
+     [
+      0.6933333333333334,
+      -0.00167322079298593
+     ],
+     [
+      0.7000000000000002,
+      -0.002886136854438892
+     ],
+     [
+      0.7066666666666668,
+      -0.0039016596944405624
+     ],
+     [
+      0.7133333333333334,
+      -0.004666517812157933
+     ],
+     [
+      0.7200000000000002,
+      -0.005140807181284901
+     ],
+     [
+      0.7266666666666668,
+      -0.005300481544406432
+     ],
+     [
+      0.7333333333333334,
+      -0.005139093949859619
+     ],
+     [
+      0.7400000000000002,
+      -0.004668663142756768
+     ],
+     [
+      0.7466666666666668,
+      -0.003919567456894479
+     ],
+     [
+      0.7533333333333334,
+      -0.0029394060380152354
+     ],
+     [
+      0.76,
+      -0.0017908121529436327
+     ],
+     [
+      0.7666666666666668,
+      -0.0005482551606768027
+     ],
+     [
+      0.7733333333333334,
+      0.0007060748974092035
+     ],
+     [
+      0.78,
+      0.0018871450779180954
+     ],
+     [
+      0.7866666666666668,
+      0.0029125024311532632
+     ],
+     [
+      0.7933333333333334,
+      0.0037079644209619955
+     ],
+     [
+      0.8,
+      0.004213244575600517
+     ],
+     [
+      0.8066666666666669,
+      0.004387136332769492
+     ],
+     [
+      0.8133333333333335,
+      0.004211848112828487
+     ],
+     [
+      0.8200000000000001,
+      0.0036960728112025443
+     ],
+     [
+      0.8266666666666669,
+      0.002876390649109495
+     ],
+     [
+      0.8333333333333335,
+      0.0018166511377191163
+     ],
+     [
+      0.8400000000000001,
+      0.0006050628840898464
+     ],
+     [
+      0.8466666666666667,
+      -0.000651156677904885
+     ],
+     [
+      0.8533333333333335,
+      -0.0018335530727492388
+     ],
+     [
+      0.8600000000000001,
+      -0.0028223994649975714
+     ],
+     [
+      0.8666666666666667,
+      -0.0035083747749563576
+     ],
+     [
+      0.8733333333333335,
+      -0.0038051914385295316
+     ],
+     [
+      0.8800000000000001,
+      -0.0036621045110608597
+     ],
+     [
+      0.8866666666666667,
+      -0.003074930257594588
+     ],
+     [
+      0.8933333333333335,
+      -0.002093930948038003
+     ],
+     [
+      0.9000000000000001,
+      -0.0008267271560370437
+     ],
+     [
+      0.9066666666666667,
+      0.0005656608448885159
+     ],
+     [
+      0.9133333333333336,
+      0.0018813857087094932
+     ],
+     [
+      0.9200000000000002,
+      0.002900229280034916
+     ],
+     [
+      0.9266666666666667,
+      0.0034162880424387088
+     ],
+     [
+      0.9333333333333333,
+      0.0032796912479051143
+     ],
+     [
+      0.9400000000000002,
+      0.002443785657131159
+     ],
+     [
+      0.9466666666666668,
+      0.001010764045479673
+     ],
+     [
+      0.9533333333333334,
+      -0.0007361485621015795
+     ],
+     [
+      0.9600000000000002,
+      -0.002332496038912002
+     ],
+     [
+      0.9666666666666668,
+      -0.003191851816920943
+     ],
+     [
+      0.9733333333333334,
+      -0.0027637749168317183
+     ],
+     [
+      0.9800000000000002,
+      -0.0008449792230270092
+     ],
+     [
+      0.9866666666666668,
+      0.0018821530725960933
+     ],
+     [
+      0.9933333333333334,
+      0.002984674122750497
+     ],
+     [
+      1.0,
+      -0.0030425954733935834
+     ]
+    ]
+   },
+   {
+    "label": "smoothed target",
+    "expr": "0.95*0.5*(erf(10*(x+0.4))-erf(10*(x-0.4)))",
+    "style": "dashed"
+   }
+  ]
+ },
+ "inverse-curve": {
+  "kind": "curve",
+  "title": "A bounded approximation to the inverse",
+  "caption": "For \\(\\kappa=5\\), the target \\(0.9/(\\kappa x)\\) (dashed) on \\(|x|\\ge1/\\kappa\\), and an odd degree-41 polynomial (solid) that follows it there and stays bounded near zero, where no singular values lie. The success amplitude is at least about \\(1/\\kappa\\).",
+  "xrange": [
+   -1,
+   1
+  ],
+  "yrange": [
+   -1.05,
+   1.05
+  ],
+  "xticks": [
+   -1,
+   -0.2,
+   0,
+   0.2,
+   1
+  ],
+  "yticks": [
+   -1,
+   -0.5,
+   0,
+   0.5,
+   1
+  ],
+  "xlabel": "singular value \\(x\\) (signed)",
+  "ylabel": "response",
+  "legend": "lr",
+  "series": [
+   {
+    "label": "polynomial",
+    "points": [
+     [
+      -1.0,
+      -0.180006326961026
+     ],
+     [
+      -0.9933333333333333,
+      -0.1812092515822088
+     ],
+     [
+      -0.9866666666666667,
+      -0.18243758650710307
+     ],
+     [
+      -0.98,
+      -0.18366958286783489
+     ],
+     [
+      -0.9733333333333334,
+      -0.18492545231869376
+     ],
+     [
+      -0.9666666666666667,
+      -0.18620678439053948
+     ],
+     [
+      -0.96,
+      -0.18750570252734902
+     ],
+     [
+      -0.9533333333333334,
+      -0.18881721735422258
+     ],
+     [
+      -0.9466666666666667,
+      -0.19014234371718453
+     ],
+     [
+      -0.94,
+      -0.19148540674474038
+     ],
+     [
+      -0.9333333333333333,
+      -0.19285042513568182
+     ],
+     [
+      -0.9266666666666666,
+      -0.19423911045088466
+     ],
+     [
+      -0.92,
+      -0.19565081494836398
+     ],
+     [
+      -0.9133333333333333,
+      -0.19708365587856863
+     ],
+     [
+      -0.9066666666666666,
+      -0.1985358649089323
+     ],
+     [
+      -0.9,
+      -0.20000671482684348
+     ],
+     [
+      -0.8933333333333333,
+      -0.20149679400718035
+     ],
+     [
+      -0.8866666666666667,
+      -0.20300772439675066
+     ],
+     [
+      -0.88,
+      -0.20454158138307005
+     ],
+     [
+      -0.8733333333333333,
+      -0.20610029040039818
+     ],
+     [
+      -0.8666666666666667,
+      -0.20768519938918226
+     ],
+     [
+      -0.86,
+      -0.20929691599959957
+     ],
+     [
+      -0.8533333333333333,
+      -0.21093539754091103
+     ],
+     [
+      -0.8466666666666667,
+      -0.21260021441973453
+     ],
+     [
+      -0.84,
+      -0.2142908807908363
+     ],
+     [
+      -0.8333333333333333,
+      -0.21600715361343034
+     ],
+     [
+      -0.8266666666666667,
+      -0.2177492311585319
+     ],
+     [
+      -0.82,
+      -0.21951782084261845
+     ],
+     [
+      -0.8133333333333334,
+      -0.2213140827811219
+     ],
+     [
+      -0.8066666666666666,
+      -0.22313948221519683
+     ],
+     [
+      -0.8,
+      -0.22499559769475155
+     ],
+     [
+      -0.7933333333333333,
+      -0.22688393289287662
+     ],
+     [
+      -0.7866666666666666,
+      -0.2288057709374089
+     ],
+     [
+      -0.78,
+      -0.23076209517114452
+     ],
+     [
+      -0.7733333333333333,
+      -0.23275358344852837
+     ],
+     [
+      -0.7666666666666666,
+      -0.23478066796097882
+     ],
+     [
+      -0.76,
+      -0.2368436415726828
+     ],
+     [
+      -0.7533333333333333,
+      -0.2389427859112419
+     ],
+     [
+      -0.7466666666666666,
+      -0.24107849600831718
+     ],
+     [
+      -0.74,
+      -0.24325138024823983
+     ],
+     [
+      -0.7333333333333334,
+      -0.2454623213287096
+     ],
+     [
+      -0.7266666666666666,
+      -0.24771249223095398
+     ],
+     [
+      -0.72,
+      -0.25000332929076374
+     ],
+     [
+      -0.7133333333333334,
+      -0.2523364711182116
+     ],
+     [
+      -0.7066666666666667,
+      -0.2547136765274834
+     ],
+     [
+      -0.7,
+      -0.2571367364739779
+     ],
+     [
+      -0.6933333333333334,
+      -0.25960739435093794
+     ],
+     [
+      -0.6866666666666666,
+      -0.26212728631153465
+     ],
+     [
+      -0.6799999999999999,
+      -0.26469790921547476
+     ],
+     [
+      -0.6733333333333333,
+      -0.26732061910676874
+     ],
+     [
+      -0.6666666666666666,
+      -0.26999665854296023
+     ],
+     [
+      -0.6599999999999999,
+      -0.27272720723067906
+     ],
+     [
+      -0.6533333333333333,
+      -0.2755134477130742
+     ],
+     [
+      -0.6466666666666667,
+      -0.27835663652768666
+     ],
+     [
+      -0.6399999999999999,
+      -0.281258171327179
+     ],
+     [
+      -0.6333333333333333,
+      -0.2842196457677214
+     ],
+     [
+      -0.6266666666666667,
+      -0.28724288622238897
+     ],
+     [
+      -0.62,
+      -0.29032996718964954
+     ],
+     [
+      -0.6133333333333333,
+      -0.2934832052347713
+     ],
+     [
+      -0.6066666666666667,
+      -0.29670513404573523
+     ],
+     [
+      -0.6,
+      -0.29999846539367175
+     ],
+     [
+      -0.5933333333333333,
+      -0.3033660422454398
+     ],
+     [
+      -0.5866666666666667,
+      -0.3068107908768206
+     ],
+     [
+      -0.58,
+      -0.3103356785824012
+     ],
+     [
+      -0.5733333333333333,
+      -0.3139436825731594
+     ],
+     [
+      -0.5666666666666667,
+      -0.3176377740712885
+     ],
+     [
+      -0.56,
+      -0.32142091967861863
+     ],
+     [
+      -0.5533333333333332,
+      -0.3252961000539337
+     ],
+     [
+      -0.5466666666666666,
+      -0.3292663440202643
+     ],
+     [
+      -0.54,
+      -0.3333347746372113
+     ],
+     [
+      -0.5333333333333333,
+      -0.33750466266511353
+     ],
+     [
+      -0.5266666666666666,
+      -0.3417794823041381
+     ],
+     [
+      -0.52,
+      -0.3461629641321983
+     ],
+     [
+      -0.5133333333333333,
+      -0.35065914074787224
+     ],
+     [
+      -0.5066666666666666,
+      -0.35527238165123476
+     ],
+     [
+      -0.5,
+      -0.3600074152299441
+     ],
+     [
+      -0.4933333333333333,
+      -0.36486933719998976
+     ],
+     [
+      -0.4866666666666666,
+      -0.3698636063145838
+     ],
+     [
+      -0.48,
+      -0.37499602944609134
+     ],
+     [
+      -0.4733333333333333,
+      -0.3802727391353243
+     ],
+     [
+      -0.4666666666666667,
+      -0.3857001672967308
+     ],
+     [
+      -0.45999999999999996,
+      -0.39128501891638473
+     ],
+     [
+      -0.45333333333333325,
+      -0.39703424927629805
+     ],
+     [
+      -0.44666666666666666,
+      -0.4029550475199448
+     ],
+     [
+      -0.43999999999999995,
+      -0.4090548283128047
+     ],
+     [
+      -0.43333333333333335,
+      -0.4153412320483857
+     ],
+     [
+      -0.42666666666666664,
+      -0.4218221326211374
+     ],
+     [
+      -0.41999999999999993,
+      -0.42850565035421134
+     ],
+     [
+      -0.41333333333333333,
+      -0.4354001663468873
+     ],
+     [
+      -0.4066666666666666,
+      -0.44251433339174867
+     ],
+     [
+      -0.3999999999999999,
+      -0.4498570777791776
+     ],
+     [
+      -0.3933333333333333,
+      -0.4574375858008809
+     ],
+     [
+      -0.3866666666666666,
+      -0.465265268598195
+     ],
+     [
+      -0.38,
+      -0.47334969915808967
+     ],
+     [
+      -0.3733333333333333,
+      -0.48170051569740974
+     ],
+     [
+      -0.3666666666666666,
+      -0.49032728633177947
+     ],
+     [
+      -0.36,
+      -0.49923933072621796
+     ],
+     [
+      -0.3533333333333333,
+      -0.5084454952939416
+     ],
+     [
+      -0.3466666666666667,
+      -0.5179538793787761
+     ],
+     [
+      -0.33999999999999997,
+      -0.5277715106705901
+     ],
+     [
+      -0.33333333333333326,
+      -0.5379039688290644
+     ],
+     [
+      -0.32666666666666666,
+      -0.5483549569216811
+     ],
+     [
+      -0.31999999999999995,
+      -0.559125820837224
+     ],
+     [
+      -0.31333333333333324,
+      -0.5702150173631411
+     ],
+     [
+      -0.30666666666666664,
+      -0.5816175321831384
+     ],
+     [
+      -0.29999999999999993,
+      -0.5933242497459511
+     ],
+     [
+      -0.29333333333333333,
+      -0.6053212778706397
+     ],
+     [
+      -0.2866666666666666,
+      -0.6175892311790178
+     ],
+     [
+      -0.2799999999999999,
+      -0.6301024790600441
+     ],
+     [
+      -0.2733333333333333,
+      -0.6428283659289709
+     ],
+     [
+      -0.2666666666666666,
+      -0.6557264140675129
+     ],
+     [
+      -0.2599999999999999,
+      -0.6687475223015386
+     ],
+     [
+      -0.2533333333333333,
+      -0.6818331771250989
+     ],
+     [
+      -0.2466666666666666,
+      -0.6949146965013159
+     ],
+     [
+      -0.24,
+      -0.7079125303021858
+     ],
+     [
+      -0.23333333333333328,
+      -0.7207356449890397
+     ],
+     [
+      -0.22666666666666657,
+      -0.7332810234474799
+     ],
+     [
+      -0.21999999999999997,
+      -0.7454333136167057
+     ],
+     [
+      -0.21333333333333326,
+      -0.7570646614257571
+     ],
+     [
+      -0.20666666666666667,
+      -0.768034764307713
+     ],
+     [
+      -0.19999999999999996,
+      -0.7781911809698605
+     ],
+     [
+      -0.19333333333333325,
+      -0.7873699309559137
+     ],
+     [
+      -0.18666666666666665,
+      -0.795396413703726
+     ],
+     [
+      -0.17999999999999994,
+      -0.8020866712061314
+     ],
+     [
+      -0.17333333333333323,
+      -0.807249011031218
+     ],
+     [
+      -0.16666666666666663,
+      -0.8106859974464568
+     ],
+     [
+      -0.15999999999999992,
+      -0.8121968079038627
+     ],
+     [
+      -0.15333333333333332,
+      -0.8115799404545295
+     ],
+     [
+      -0.1466666666666666,
+      -0.8086362451263462
+     ],
+     [
+      -0.1399999999999999,
+      -0.8031722393454118
+     ],
+     [
+      -0.1333333333333333,
+      -0.7950036545923023
+     ],
+     [
+      -0.1266666666666666,
+      -0.7839591491782487
+     ],
+     [
+      -0.12,
+      -0.7698841108377357
+     ],
+     [
+      -0.11333333333333329,
+      -0.7526444632883662
+     ],
+     [
+      -0.10666666666666658,
+      -0.732130383498218
+     ],
+     [
+      -0.09999999999999998,
+      -0.7082598315601287
+     ],
+     [
+      -0.09333333333333327,
+      -0.6809817931565951
+     ],
+     [
+      -0.08666666666666656,
+      -0.6502791358642458
+     ],
+     [
+      -0.07999999999999996,
+      -0.6161709851340322
+     ],
+     [
+      -0.07333333333333325,
+      -0.5787145337073171
+     ],
+     [
+      -0.06666666666666665,
+      -0.5380062093717881
+     ],
+     [
+      -0.05999999999999994,
+      -0.49418214007559247
+     ],
+     [
+      -0.05333333333333323,
+      -0.4474178721282275
+     ],
+     [
+      -0.046666666666666634,
+      -0.3979273160327491
+     ],
+     [
+      -0.039999999999999925,
+      -0.34596091482866065
+     ],
+     [
+      -0.033333333333333326,
+      -0.2918030510150056
+     ],
+     [
+      -0.026666666666666616,
+      -0.23576872945473812
+     ],
+     [
+      -0.019999999999999907,
+      -0.17819959439781075
+     ],
+     [
+      -0.013333333333333308,
+      -0.1194593581716181
+     ],
+     [
+      -0.006666666666666599,
+      -0.05992873648026116
+     ],
+     [
+      0.0,
+      -4.638779481156479e-16
+     ],
+     [
+      0.006666666666666821,
+      0.05992873648026225
+     ],
+     [
+      0.01333333333333342,
+      0.11945935817161822
+     ],
+     [
+      0.020000000000000018,
+      0.17819959439781088
+     ],
+     [
+      0.02666666666666684,
+      0.23576872945473923
+     ],
+     [
+      0.03333333333333344,
+      0.29180305101500587
+     ],
+     [
+      0.040000000000000036,
+      0.3459609148286609
+     ],
+     [
+      0.046666666666666634,
+      0.39792731603274856
+     ],
+     [
+      0.053333333333333455,
+      0.44741787212822853
+     ],
+     [
+      0.06000000000000005,
+      0.4941821400755927
+     ],
+     [
+      0.06666666666666665,
+      0.5380062093717876
+     ],
+     [
+      0.07333333333333347,
+      0.578714533707318
+     ],
+     [
+      0.08000000000000007,
+      0.6161709851340322
+     ],
+     [
+      0.08666666666666667,
+      0.6502791358642457
+     ],
+     [
+      0.09333333333333349,
+      0.6809817931565953
+     ],
+     [
+      0.10000000000000009,
+      0.7082598315601283
+     ],
+     [
+      0.10666666666666669,
+      0.7321303834982171
+     ],
+     [
+      0.11333333333333351,
+      0.7526444632883655
+     ],
+     [
+      0.1200000000000001,
+      0.7698841108377346
+     ],
+     [
+      0.1266666666666667,
+      0.7839591491782473
+     ],
+     [
+      0.1333333333333333,
+      0.7950036545923004
+     ],
+     [
+      0.14000000000000012,
+      0.80317223934541
+     ],
+     [
+      0.14666666666666672,
+      0.8086362451263444
+     ],
+     [
+      0.15333333333333332,
+      0.8115799404545275
+     ],
+     [
+      0.16000000000000014,
+      0.8121968079038607
+     ],
+     [
+      0.16666666666666674,
+      0.8106859974464548
+     ],
+     [
+      0.17333333333333334,
+      0.8072490110312162
+     ],
+     [
+      0.18000000000000016,
+      0.8020866712061296
+     ],
+     [
+      0.18666666666666676,
+      0.7953964137037244
+     ],
+     [
+      0.19333333333333336,
+      0.7873699309559122
+     ],
+     [
+      0.20000000000000018,
+      0.7781911809698593
+     ],
+     [
+      0.20666666666666678,
+      0.7680347643077121
+     ],
+     [
+      0.21333333333333337,
+      0.7570646614257567
+     ],
+     [
+      0.21999999999999997,
+      0.7454333136167056
+     ],
+     [
+      0.2266666666666668,
+      0.7332810234474797
+     ],
+     [
+      0.2333333333333334,
+      0.7207356449890397
+     ],
+     [
+      0.24,
+      0.707912530302186
+     ],
+     [
+      0.2466666666666668,
+      0.6949146965013159
+     ],
+     [
+      0.2533333333333334,
+      0.6818331771250992
+     ],
+     [
+      0.26,
+      0.6687475223015388
+     ],
+     [
+      0.26666666666666683,
+      0.655726414067513
+     ],
+     [
+      0.27333333333333343,
+      0.6428283659289711
+     ],
+     [
+      0.28,
+      0.6301024790600442
+     ],
+     [
+      0.28666666666666685,
+      0.6175892311790174
+     ],
+     [
+      0.29333333333333345,
+      0.6053212778706395
+     ],
+     [
+      0.30000000000000004,
+      0.5933242497459509
+     ],
+     [
+      0.30666666666666664,
+      0.5816175321831383
+     ],
+     [
+      0.31333333333333346,
+      0.5702150173631405
+     ],
+     [
+      0.32000000000000006,
+      0.5591258208372235
+     ],
+     [
+      0.32666666666666666,
+      0.5483549569216808
+     ],
+     [
+      0.3333333333333335,
+      0.5379039688290639
+     ],
+     [
+      0.3400000000000001,
+      0.5277715106705898
+     ],
+     [
+      0.3466666666666667,
+      0.5179538793787761
+     ],
+     [
+      0.3533333333333335,
+      0.5084454952939412
+     ],
+     [
+      0.3600000000000001,
+      0.49923933072621796
+     ],
+     [
+      0.3666666666666667,
+      0.49032728633177947
+     ],
+     [
+      0.3733333333333335,
+      0.4817005156974097
+     ],
+     [
+      0.3800000000000001,
+      0.4733496991580898
+     ],
+     [
+      0.3866666666666667,
+      0.4652652685981951
+     ],
+     [
+      0.3933333333333333,
+      0.457437585800881
+     ],
+     [
+      0.40000000000000013,
+      0.44985707777917744
+     ],
+     [
+      0.40666666666666673,
+      0.4425143333917484
+     ],
+     [
+      0.41333333333333333,
+      0.4354001663468869
+     ],
+     [
+      0.42000000000000015,
+      0.4285056503542105
+     ],
+     [
+      0.42666666666666675,
+      0.42182213262113644
+     ],
+     [
+      0.43333333333333335,
+      0.4153412320483848
+     ],
+     [
+      0.44000000000000017,
+      0.4090548283128032
+     ],
+     [
+      0.44666666666666677,
+      0.4029550475199432
+     ],
+     [
+      0.45333333333333337,
+      0.39703424927629644
+     ],
+     [
+      0.4600000000000002,
+      0.39128501891638284
+     ],
+     [
+      0.4666666666666668,
+      0.3857001672967291
+     ],
+     [
+      0.4733333333333334,
+      0.3802727391353226
+     ],
+     [
+      0.4800000000000002,
+      0.3749960294460898
+     ],
+     [
+      0.4866666666666668,
+      0.3698636063145825
+     ],
+     [
+      0.4933333333333334,
+      0.36486933719998865
+     ],
+     [
+      0.5,
+      0.3600074152299434
+     ],
+     [
+      0.5066666666666668,
+      0.35527238165123415
+     ],
+     [
+      0.5133333333333334,
+      0.35065914074787197
+     ],
+     [
+      0.52,
+      0.3461629641321984
+     ],
+     [
+      0.5266666666666668,
+      0.3417794823041382
+     ],
+     [
+      0.5333333333333334,
+      0.3375046626651139
+     ],
+     [
+      0.54,
+      0.33333477463721184
+     ],
+     [
+      0.5466666666666669,
+      0.3292663440202648
+     ],
+     [
+      0.5533333333333335,
+      0.32529610005393417
+     ],
+     [
+      0.56,
+      0.3214209196786193
+     ],
+     [
+      0.5666666666666669,
+      0.31763777407128896
+     ],
+     [
+      0.5733333333333335,
+      0.3139436825731598
+     ],
+     [
+      0.5800000000000001,
+      0.3103356785824016
+     ],
+     [
+      0.5866666666666667,
+      0.3068107908768209
+     ],
+     [
+      0.5933333333333335,
+      0.30336604224543995
+     ],
+     [
+      0.6000000000000001,
+      0.2999984653936719
+     ],
+     [
+      0.6066666666666667,
+      0.2967051340457354
+     ],
+     [
+      0.6133333333333335,
+      0.29348320523477145
+     ],
+     [
+      0.6200000000000001,
+      0.29032996718964976
+     ],
+     [
+      0.6266666666666667,
+      0.28724288622238936
+     ],
+     [
+      0.6333333333333335,
+      0.28421964576772185
+     ],
+     [
+      0.6400000000000001,
+      0.2812581713271795
+     ],
+     [
+      0.6466666666666667,
+      0.27835663652768733
+     ],
+     [
+      0.6533333333333335,
+      0.2755134477130747
+     ],
+     [
+      0.6600000000000001,
+      0.2727272072306796
+     ],
+     [
+      0.6666666666666667,
+      0.2699966585429608
+     ],
+     [
+      0.6733333333333333,
+      0.2673206191067693
+     ],
+     [
+      0.6800000000000002,
+      0.2646979092154751
+     ],
+     [
+      0.6866666666666668,
+      0.2621272863115348
+     ],
+     [
+      0.6933333333333334,
+      0.259607394350938
+     ],
+     [
+      0.7000000000000002,
+      0.2571367364739777
+     ],
+     [
+      0.7066666666666668,
+      0.2547136765274831
+     ],
+     [
+      0.7133333333333334,
+      0.2523364711182113
+     ],
+     [
+      0.7200000000000002,
+      0.25000332929076324
+     ],
+     [
+      0.7266666666666668,
+      0.2477124922309536
+     ],
+     [
+      0.7333333333333334,
+      0.24546232132870935
+     ],
+     [
+      0.7400000000000002,
+      0.24325138024823972
+     ],
+     [
+      0.7466666666666668,
+      0.2410784960083174
+     ],
+     [
+      0.7533333333333334,
+      0.23894278591124238
+     ],
+     [
+      0.76,
+      0.23684364157268362
+     ],
+     [
+      0.7666666666666668,
+      0.23478066796097974
+     ],
+     [
+      0.7733333333333334,
+      0.23275358344852945
+     ],
+     [
+      0.78,
+      0.23076209517114574
+     ],
+     [
+      0.7866666666666668,
+      0.22880577093740997
+     ],
+     [
+      0.7933333333333334,
+      0.22688393289287775
+     ],
+     [
+      0.8,
+      0.22499559769475266
+     ],
+     [
+      0.8066666666666669,
+      0.22313948221519764
+     ],
+     [
+      0.8133333333333335,
+      0.2213140827811226
+     ],
+     [
+      0.8200000000000001,
+      0.21951782084261912
+     ],
+     [
+      0.8266666666666669,
+      0.21774923115853245
+     ],
+     [
+      0.8333333333333335,
+      0.21600715361343084
+     ],
+     [
+      0.8400000000000001,
+      0.2142908807908369
+     ],
+     [
+      0.8466666666666667,
+      0.21260021441973534
+     ],
+     [
+      0.8533333333333335,
+      0.21093539754091187
+     ],
+     [
+      0.8600000000000001,
+      0.20929691599960049
+     ],
+     [
+      0.8666666666666667,
+      0.20768519938918317
+     ],
+     [
+      0.8733333333333335,
+      0.2061002904003989
+     ],
+     [
+      0.8800000000000001,
+      0.2045415813830707
+     ],
+     [
+      0.8866666666666667,
+      0.2030077243967511
+     ],
+     [
+      0.8933333333333335,
+      0.20149679400718054
+     ],
+     [
+      0.9000000000000001,
+      0.2000067148268437
+     ],
+     [
+      0.9066666666666667,
+      0.19853586490893266
+     ],
+     [
+      0.9133333333333336,
+      0.19708365587856932
+     ],
+     [
+      0.9200000000000002,
+      0.19565081494836514
+     ],
+     [
+      0.9266666666666667,
+      0.19423911045088635
+     ],
+     [
+      0.9333333333333333,
+      0.19285042513568387
+     ],
+     [
+      0.9400000000000002,
+      0.19148540674474265
+     ],
+     [
+      0.9466666666666668,
+      0.19014234371718658
+     ],
+     [
+      0.9533333333333334,
+      0.1888172173542241
+     ],
+     [
+      0.9600000000000002,
+      0.1875057025273496
+     ],
+     [
+      0.9666666666666668,
+      0.18620678439053917
+     ],
+     [
+      0.9733333333333334,
+      0.18492545231869292
+     ],
+     [
+      0.9800000000000002,
+      0.18366958286783416
+     ],
+     [
+      0.9866666666666668,
+      0.1824375865071029
+     ],
+     [
+      0.9933333333333334,
+      0.18120925158220885
+     ],
+     [
+      1.0,
+      0.18000632696102245
+     ]
+    ]
+   },
+   {
+    "label": "\\(0.9/(\\kappa x)\\)",
+    "expr": "0.9/(5*x)",
+    "domain": [
+     0.2,
+     1
+    ],
+    "style": "dashed"
+   },
+   {
+    "expr": "0.9/(5*x)",
+    "domain": [
+     -1,
+     -0.2
+    ],
+    "style": "dashed"
+   }
+  ]
+ },
+ "simulation-degree": {
+  "kind": "curve",
+  "title": "Why simulation degree is about αt",
+  "caption": "\\(\\log_{10}|J_k(\\tau)|\\) for \\(\\tau=\\alpha t=20\\). The Jacobi–Anger coefficients of \\(e^{-i\\tau x}\\) stay of moderate size up to \\(k\\approx\\tau\\) and then fall off faster than exponentially, so truncating at \\(k\\approx\\tau+O(\\log(1/\\epsilon))\\) costs little extra degree for high precision.",
+  "xrange": [
+   -1,
+   51
+  ],
+  "yrange": [
+   -16,
+   0
+  ],
+  "xticks": [
+   0,
+   10,
+   20,
+   30,
+   40,
+   50
+  ],
+  "yticks": [
+   -15,
+   -10,
+   -5,
+   0
+  ],
+  "xlabel": "Chebyshev degree \\(k\\)",
+  "ylabel": "\\(\\log_{10}|J_k(20)|\\)",
+  "series": [
+   {
+    "style": "bars",
+    "width": 6,
+    "points": [
+     [
+      0,
+      -0.7772193923488705
+     ],
+     [
+      1,
+      -1.1750082369068473
+     ],
+     [
+      2,
+      -0.7949544589560258
+     ],
+     [
+      3,
+      -1.004797584584439
+     ],
+     [
+      4,
+      -0.8838210061501495
+     ],
+     [
+      5,
+      -0.820535053485678
+     ],
+     [
+      6,
+      -1.2589583714679868
+     ],
+     [
+      7,
+      -0.7346599269499055
+     ],
+     [
+      8,
+      -1.1315381985548116
+     ],
+     [
+      9,
+      -0.9026515547955918
+     ],
+     [
+      10,
+      -0.7293617821297771
+     ],
+     [
+      11,
+      -1.212140813853524
+     ],
+     [
+      12,
+      -0.9244872568483903
+     ],
+     [
+      13,
+      -0.6900611407321792
+     ],
+     [
+      14,
+      -0.8344650224211587
+     ],
+     [
+      15,
+      -3.0904070384964752
+     ],
+     [
+      16,
+      -0.8380936853044373
+     ],
+     [
+      17,
+      -0.6324580735297036
+     ],
+     [
+      18,
+      -0.6001708550083442
+     ],
+     [
+      19,
+      -0.6598298278802253
+     ],
+     [
+      20,
+      -0.7831804452840195
+     ],
+     [
+      21,
+      -0.9561127826676838
+     ],
+     [
+      22,
+      -1.1701633134399652
+     ],
+     [
+      23,
+      -1.4196603017184908
+     ],
+     [
+      24,
+      -1.700512178600507
+     ],
+     [
+      25,
+      -2.009609379659548
+     ],
+     [
+      26,
+      -2.3444958083856213
+     ],
+     [
+      27,
+      -2.7031734602512976
+     ],
+     [
+      28,
+      -3.083978858571188
+     ],
+     [
+      29,
+      -3.4855009789009186
+     ],
+     [
+      30,
+      -3.90652450907249
+     ],
+     [
+      31,
+      -4.345989302131781
+     ],
+     [
+      32,
+      -4.8029605807986115
+     ],
+     [
+      33,
+      -5.276606515113018
+     ],
+     [
+      34,
+      -5.766180998986024
+     ],
+     [
+      35,
+      -6.271010181451047
+     ],
+     [
+      36,
+      -6.790481768632772
+     ],
+     [
+      37,
+      -7.324036405913158
+     ],
+     [
+      38,
+      -7.871160654573289
+     ],
+     [
+      39,
+      -8.431381185432842
+     ],
+     [
+      40,
+      -9.004260045860425
+     ],
+     [
+      41,
+      -9.589390204370522
+     ],
+     [
+      42,
+      -10.186393235796947
+     ],
+     [
+      43,
+      -10.794913476936584
+     ],
+     [
+      44,
+      -11.414623405874881
+     ],
+     [
+      45,
+      -12.045171226231487
+     ],
+     [
+      46,
+      -12.68632011755526
+     ],
+     [
+      47,
+      -13.337174994371841
+     ],
+     [
+      48,
+      -14.000190416084225
+     ],
+     [
+      49,
+      -14.652926119154735
+     ],
+     [
+      50,
+      -15.362436269081714
+     ]
+    ]
+   }
+  ]
+ },
+ "simulation-problem": {
+  "kind": "table",
+  "title": "The Hamiltonian simulation problem",
+  "caption": "Inputs, output, and the resources a simulation method is charged for. The time dependence is at least linear in general (no fast-forwarding).",
+  "headers": [
+   "Item",
+   "Specification"
+  ],
+  "rows": [
+   [
+    "Input",
+    "\\(H=\\sum_{j=1}^LH_j\\), time \\(t\\), error \\(\\epsilon\\)"
+   ],
+   [
+    "Output",
+    "circuit \\(V\\) with \\(\\|V-e^{-iHt}\\|\\le\\epsilon\\)"
+   ],
+   [
+    "Access",
+    "term exponentials, or a block encoding of \\(H/\\lambda\\)"
+   ],
+   [
+    "Costs",
+    "gates, ancillas, rotation precision, depth"
+   ],
+   [
+    "Lower bound",
+    "order \\(\\|H\\|t\\) in general"
+   ]
+  ]
+ },
+ "trotter-circuit": {
+  "kind": "circuit",
+  "title": "First-order product formula for X + Z",
+  "caption": "One step applies \\(e^{-i\\delta X}\\) and then \\(e^{-i\\delta Z}\\) with \\(\\delta=t/r\\); the step is repeated \\(r\\) times. As a matrix product, the step is \\(e^{-i\\delta Z}e^{-i\\delta X}\\) read right to left.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "\\(\\approx e^{-it(X+Z)}\\ket\\psi\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(e^{-i\\delta X}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(e^{-i\\delta Z}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(e^{-i\\delta X}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(e^{-i\\delta Z}\\)",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "headers": [
+     "step 1",
+     "",
+     "step 2",
+     ""
+    ],
+    "notes": [
+     "\\(\\cdots\\) repeated \\(r\\) times, \\(\\delta=t/r\\)"
+    ]
+   }
+  ]
+ },
+ "trotter-error": {
+  "kind": "curve",
+  "title": "First-order Trotter error: bound and reality",
+  "caption": "Operator-norm error of \\((e^{-iX/r}e^{-iZ/r})^r\\) against \\(e^{-i(X+Z)}\\) (solid), and the commutator bound \\(t^2\\|[X,Z]\\|/(2r)=1/r\\) (dashed), on logarithmic axes. Both fall as \\(1/r\\); the bound is about 40% above the actual error.",
+  "xrange": [
+   0,
+   2
+  ],
+  "yrange": [
+   -2.5,
+   0
+  ],
+  "xticks": [
+   [
+    0,
+    "1"
+   ],
+   [
+    1,
+    "10"
+   ],
+   [
+    2,
+    "100"
+   ]
+  ],
+  "yticks": [
+   [
+    -2,
+    "0.01"
+   ],
+   [
+    -1,
+    "0.1"
+   ],
+   [
+    0,
+    "1"
+   ]
+  ],
+  "xlabel": "number of steps \\(r\\) (log scale)",
+  "ylabel": "error (log scale)",
+  "legend": "ur",
+  "series": [
+   {
+    "label": "actual error",
+    "points": [
+     [
+      0.0,
+      -0.09733682255402029
+     ],
+     [
+      0.3010299956639812,
+      -0.44079991853132844
+     ],
+     [
+      0.47712125471966244,
+      -0.6257568109521737
+     ],
+     [
+      0.6020599913279624,
+      -0.7538438500660377
+     ],
+     [
+      0.6989700043360189,
+      -0.8522180095514276
+     ],
+     [
+      0.7781512503836436,
+      -0.932196328828192
+     ],
+     [
+      0.9030899869919435,
+      -1.0579287801586301
+     ],
+     [
+      1.0,
+      -1.1552065561396814
+     ],
+     [
+      1.1139433523068367,
+      -1.2694169955744095
+     ],
+     [
+      1.2041199826559248,
+      -1.3597252197707472
+     ],
+     [
+      1.3010299956639813,
+      -1.4567272757240217
+     ],
+     [
+      1.3979400086720377,
+      -1.553696203969267
+     ],
+     [
+      1.505149978319906,
+      -1.6609469882322887
+     ],
+     [
+      1.6020599913279625,
+      -1.7578800182763203
+     ],
+     [
+      1.6989700043360187,
+      -1.8548047626697106
+     ],
+     [
+      1.806179973983887,
+      -1.9620249370915328
+     ],
+     [
+      1.9030899869919435,
+      -2.058940704750936
+     ],
+     [
+      2.0,
+      -2.1558544007659752
+     ]
+    ]
+   },
+   {
+    "label": "bound \\(1/r\\)",
+    "expr": "-x",
+    "style": "dashed"
+   }
+  ]
+ },
+ "trotter-orders": {
+  "kind": "curve",
+  "title": "First- and second-order formulas",
+  "caption": "Error for \\(e^{-i(X+Z)}\\) with \\(r\\) steps of the first-order formula (falls as \\(1/r\\)) and of the symmetric second-order formula (falls as \\(1/r^2\\)), on logarithmic axes. At \\(r=10\\) the errors are about 0.07 and 0.003.",
+  "xrange": [
+   0,
+   2
+  ],
+  "yrange": [
+   -5,
+   0
+  ],
+  "xticks": [
+   [
+    0,
+    "1"
+   ],
+   [
+    1,
+    "10"
+   ],
+   [
+    2,
+    "100"
+   ]
+  ],
+  "yticks": [
+   [
+    -4,
+    "1e-4"
+   ],
+   [
+    -3,
+    "1e-3"
+   ],
+   [
+    -2,
+    "0.01"
+   ],
+   [
+    -1,
+    "0.1"
+   ],
+   [
+    0,
+    "1"
+   ]
+  ],
+  "xlabel": "number of steps \\(r\\) (log scale)",
+  "ylabel": "error (log scale)",
+  "legend": "ur",
+  "series": [
+   {
+    "label": "first order",
+    "points": [
+     [
+      0.0,
+      -0.09733682255402029
+     ],
+     [
+      0.3010299956639812,
+      -0.44079991853132844
+     ],
+     [
+      0.47712125471966244,
+      -0.6257568109521737
+     ],
+     [
+      0.6020599913279624,
+      -0.7538438500660377
+     ],
+     [
+      0.6989700043360189,
+      -0.8522180095514276
+     ],
+     [
+      0.7781512503836436,
+      -0.932196328828192
+     ],
+     [
+      0.9030899869919435,
+      -1.0579287801586301
+     ],
+     [
+      1.0,
+      -1.1552065561396814
+     ],
+     [
+      1.1139433523068367,
+      -1.2694169955744095
+     ],
+     [
+      1.2041199826559248,
+      -1.3597252197707472
+     ],
+     [
+      1.3010299956639813,
+      -1.4567272757240217
+     ],
+     [
+      1.3979400086720377,
+      -1.553696203969267
+     ],
+     [
+      1.505149978319906,
+      -1.6609469882322887
+     ],
+     [
+      1.6020599913279625,
+      -1.7578800182763203
+     ],
+     [
+      1.6989700043360187,
+      -1.8548047626697106
+     ],
+     [
+      1.806179973983887,
+      -1.9620249370915328
+     ],
+     [
+      1.9030899869919435,
+      -2.058940704750936
+     ],
+     [
+      2.0,
+      -2.1558544007659752
+     ]
+    ]
+   },
+   {
+    "label": "second order (symmetric)",
+    "points": [
+     [
+      0.0,
+      -0.5035319703742761
+     ],
+     [
+      0.3010299956639812,
+      -1.1479448796379934
+     ],
+     [
+      0.47712125471966244,
+      -1.50942827736868
+     ],
+     [
+      0.6020599913279624,
+      -1.7626360757556365
+     ],
+     [
+      0.6989700043360189,
+      -1.9580095539737972
+     ],
+     [
+      0.7781512503836436,
+      -2.11721895529806
+     ],
+     [
+      0.9030899869919435,
+      -2.3679406138790697
+     ],
+     [
+      1.0,
+      -2.562152071984162
+     ],
+     [
+      1.1139433523068367,
+      -2.7903231655101988
+     ],
+     [
+      1.2041199826559248,
+      -2.9708165792540164
+     ],
+     [
+      1.3010299956639813,
+      -3.1647346484786634
+     ],
+     [
+      1.3979400086720377,
+      -3.3586174362576044
+     ],
+     [
+      1.505149978319906,
+      -3.5730808575966253
+     ],
+     [
+      1.6020599913279625,
+      -3.766925405886286
+     ],
+     [
+      1.6989700043360187,
+      -3.9607611270369687
+     ],
+     [
+      1.806179973983887,
+      -4.175191938885896
+     ],
+     [
+      1.9030899869919435,
+      -4.369018096187047
+     ],
+     [
+      2.0,
+      -4.5628420462734915
+     ]
+    ]
+   }
+  ]
+ },
+ "pauli-exponential": {
+  "kind": "circuit",
+  "title": "Exponential of a Pauli string",
+  "caption": "\\(e^{-i\\theta X_1Z_2Z_3}\\): a Hadamard turns \\(X_1\\) into \\(Z_1\\); a CNOT ladder computes the parity of the three bits into the last qubit; \\(R_z(2\\theta)=e^{-i\\theta Z}\\) applies the phase; the ladder and basis change are undone.",
+  "circuits": [
+   {
+    "inputs": [
+     "1",
+     "2",
+     "3"
+    ],
+    "outputs": [
+     "",
+     "",
+     ""
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0
+       ],
+       "target": 1
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        1
+       ],
+       "target": 2
+      }
+     ],
+     [
+      {
+       "label": "\\(R_z(2\\theta)\\)",
+       "wires": [
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        1
+       ],
+       "target": 2
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0
+       ],
+       "target": 1
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   }
+  ],
+  "width": 860
+ },
+ "method-table": {
+  "kind": "table",
+  "title": "Three families of simulation methods",
+  "caption": "Costs for \\(H=\\sum_jh_jP_j\\) with \\(L\\) terms and 1-norm \\(\\lambda\\), up to constants and logarithmic factors. Block-encoding calls each cost a PREPARE and SELECT over all terms.",
+  "headers": [
+   "Method",
+   "Cost",
+   "Ancillas",
+   "Strength"
+  ],
+  "rows": [
+   [
+    "Product formula, order \\(2k\\)",
+    "\\(L\\,t^{1+1/2k}/\\epsilon^{1/2k}\\) exponentials",
+    "none",
+    "simple; exploits commuting terms"
+   ],
+   [
+    "Truncated Taylor (LCU)",
+    "\\(\\lambda t\\log(\\lambda t/\\epsilon)\\) calls",
+    "\\(O(\\log L)\\)+",
+    "log precision"
+   ],
+   [
+    "Qubitization + QSP",
+    "\\(\\lambda t+\\log(1/\\epsilon)\\) calls",
+    "\\(O(\\log L)\\)",
+    "optimal scaling"
+   ]
+  ]
+ },
+ "error-budget": {
+  "kind": "table",
+  "title": "An error budget for a simulation",
+  "caption": "Each source must be estimated separately; tightening one beyond the others wastes resources.",
+  "headers": [
+   "Source",
+   "Controlled by",
+   "Typical cost of reduction"
+  ],
+  "rows": [
+   [
+    "Model",
+    "basis set, discretization, active space",
+    "classical modelling, more qubits"
+   ],
+   [
+    "Algorithmic",
+    "Trotter steps or polynomial degree",
+    "gates linear or polylogarithmic in \\(1/\\epsilon\\)"
+   ],
+   [
+    "Rotation synthesis",
+    "\\(T\\) gates per rotation",
+    "about \\(3\\log_2(1/\\epsilon_{\\rm rot})\\) each"
+   ],
+   [
+    "Hardware",
+    "error correction or mitigation",
+    "qubit and time overhead"
+   ],
+   [
+    "Statistical",
+    "repetitions, or phase/amplitude estimation",
+    "\\(1/\\delta^2\\) or \\(1/\\delta\\)"
+   ]
+  ]
+ },
+ "adiabatic-spectrum": {
+  "kind": "curve",
+  "title": "Energies along an adiabatic path",
+  "caption": "Eigenvalues \\(\\pm\\sqrt{(1-s)^2+s^2}\\) of \\(H(s)=-(1-s)X-sZ\\). The gap is smallest at \\(s=1/2\\), where it equals \\(\\sqrt2\\). The ground state rotates from \\(\\ket+\\) at \\(s=0\\) to \\(\\ket0\\) at \\(s=1\\).",
+  "xrange": [
+   0,
+   1
+  ],
+  "yrange": [
+   -1.1,
+   1.1
+  ],
+  "xticks": [
+   0,
+   0.5,
+   1
+  ],
+  "yticks": [
+   -1,
+   0,
+   1
+  ],
+  "xlabel": "path parameter \\(s\\)",
+  "ylabel": "energy",
+  "legend": "out",
+  "series": [
+   {
+    "label": "excited state",
+    "expr": "sqrt((1-x)**2+x**2)"
+   },
+   {
+    "label": "ground state",
+    "expr": "-sqrt((1-x)**2+x**2)"
+   }
+  ]
+ },
+ "adiabatic-fidelity": {
+  "kind": "curve",
+  "title": "Slow enough evolution follows the ground state",
+  "caption": "Probability of ending in \\(\\ket0\\) after evolving under \\(H(s)\\) with \\(s=t/T\\), starting from \\(\\ket+\\), as a function of total time \\(T\\) (numerical simulation). It rises from the sudden value 1/2 to nearly 1 once \\(T\\) is several times \\(1/g_{\\min}^2\\).",
+  "xrange": [
+   0,
+   10
+  ],
+  "yrange": [
+   0.4,
+   1.02
+  ],
+  "xticks": [
+   0,
+   2,
+   4,
+   6,
+   8,
+   10
+  ],
+  "yticks": [
+   0.5,
+   0.75,
+   1
+  ],
+  "xlabel": "total time \\(T\\)",
+  "ylabel": "final ground-state probability",
+  "series": [
+   {
+    "points": [
+     [
+      0.25,
+      0.5051851458171165
+     ],
+     [
+      0.5,
+      0.520465109820088
+     ],
+     [
+      0.75,
+      0.545034398242836
+     ],
+     [
+      1.0,
+      0.5776183488229472
+     ],
+     [
+      1.25,
+      0.6165683241406048
+     ],
+     [
+      1.5,
+      0.6599825845459801
+     ],
+     [
+      1.75,
+      0.7058419909935632
+     ],
+     [
+      2.0,
+      0.752148604326499
+     ],
+     [
+      2.25,
+      0.7970553591162414
+     ],
+     [
+      2.5,
+      0.8389762577443349
+     ],
+     [
+      2.75,
+      0.8766687907298789
+     ],
+     [
+      3.0,
+      0.9092832759830691
+     ],
+     [
+      3.25,
+      0.9363771856425278
+     ],
+     [
+      3.5,
+      0.9578959264825105
+     ],
+     [
+      3.75,
+      0.9741246020952642
+     ],
+     [
+      4.0,
+      0.985617706998502
+     ],
+     [
+      4.25,
+      0.9931152632072977
+     ],
+     [
+      4.5,
+      0.9974544929507803
+     ],
+     [
+      4.75,
+      0.9994857255474285
+     ],
+     [
+      5.0,
+      0.9999999693856294
+     ],
+     [
+      5.25,
+      0.9996736400940707
+     ],
+     [
+      5.5,
+      0.9990335853905085
+     ],
+     [
+      5.75,
+      0.9984430773375473
+     ],
+     [
+      6.0,
+      0.998107139116905
+     ],
+     [
+      6.25,
+      0.9980936818494568
+     ],
+     [
+      6.5,
+      0.9983656273129872
+     ],
+     [
+      6.75,
+      0.9988185813893045
+     ],
+     [
+      7.0,
+      0.9993187083493965
+     ],
+     [
+      7.25,
+      0.9997361614769538
+     ],
+     [
+      7.5,
+      0.9999706063297675
+     ],
+     [
+      7.75,
+      0.9999668387211363
+     ],
+     [
+      8.0,
+      0.9997200411558623
+     ],
+     [
+      8.25,
+      0.9992716387400864
+     ],
+     [
+      8.5,
+      0.9986978416975966
+     ],
+     [
+      8.75,
+      0.9980936817870618
+     ],
+     [
+      9.0,
+      0.9975556119556425
+     ],
+     [
+      9.25,
+      0.9971655546717072
+     ],
+     [
+      9.5,
+      0.9969787242989188
+     ],
+     [
+      9.75,
+      0.9970167260734152
+     ],
+     [
+      10.0,
+      0.9972664872772432
+     ]
+    ]
+   }
+  ]
+ },
+ "adiabatic-limits": {
+  "kind": "table",
+  "title": "What adiabatic optimization achieves",
+  "caption": "Runtimes are governed by the minimum gap along the path. Small worked examples and proofs for search do not establish efficiency for hard optimization problems.",
+  "headers": [
+   "Problem",
+   "Minimum gap",
+   "Runtime"
+  ],
+  "rows": [
+   [
+    "One-qubit example",
+    "\\(\\sqrt2\\)",
+    "constant"
+   ],
+   [
+    "Unstructured search, linear schedule",
+    "\\(\\sim1/\\sqrt N\\)",
+    "\\(\\sim N\\)"
+   ],
+   [
+    "Unstructured search, local schedule",
+    "\\(\\sim1/\\sqrt N\\)",
+    "\\(\\sim\\sqrt N\\) (optimal)"
+   ],
+   [
+    "Hard optimization instances",
+    "can be exponentially small",
+    "can be exponential"
+   ]
+  ]
+ },
+ "ansatz-circuit": {
+  "kind": "circuit",
+  "title": "A one-parameter entangled ansatz",
+  "caption": "\\(R_y(\\theta)=e^{-i\\theta Y/2}\\) followed by a CNOT prepares \\(\\cos\\tfrac\\theta2\\ket{00}+\\sin\\tfrac\\theta2\\ket{11}\\). Measure directly to estimate \\(\\langle ZZ\\rangle\\), or after \\(H\\) on both qubits to estimate \\(\\langle XX\\rangle\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "steps": [
+     [
+      {
+       "label": "\\(R_y(\\theta)\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0
+       ],
+       "target": 1
+      }
+     ],
+     [
+      {
+       "label": "basis",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "label": "basis",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      },
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "basis: nothing for \\(ZZ\\); \\(H\\) for \\(XX\\)"
+    ]
+   }
+  ]
+ },
+ "vqe-landscape": {
+  "kind": "curve",
+  "title": "The energy landscape of the example",
+  "caption": "\\(E(\\theta)=\\langle ZZ\\rangle\\cdot(-1)+\\langle XX\\rangle\\cdot(-1)=-1-\\sin\\theta\\) for \\(H=-Z\\otimes Z-X\\otimes X\\). The minimum \\(-2\\) at \\(\\theta=\\pi/2\\) is the exact ground energy, reached because the family contains the Bell state.",
+  "xrange": [
+   0,
+   6.2832
+  ],
+  "yrange": [
+   -2.1,
+   0.1
+  ],
+  "xticks": [
+   [
+    0,
+    "0"
+   ],
+   [
+    1.5708,
+    "π/2"
+   ],
+   [
+    3.1416,
+    "π"
+   ],
+   [
+    4.7124,
+    "3π/2"
+   ],
+   [
+    6.2832,
+    "2π"
+   ]
+  ],
+  "yticks": [
+   -2,
+   -1,
+   0
+  ],
+  "xlabel": "parameter \\(\\theta\\)",
+  "ylabel": "\\(E(\\theta)\\)",
+  "legend": "lr",
+  "series": [
+   {
+    "label": "\\(E(\\theta)\\)",
+    "expr": "-1-sin(x)"
+   },
+   {
+    "label": "exact ground energy",
+    "expr": "-2+0*x",
+    "style": "dashed"
+   }
+  ]
+ },
+ "shot-table": {
+  "kind": "table",
+  "title": "Shots needed to estimate an energy",
+  "caption": "With optimal shot allocation \\(R_j\\propto|h_j|\\sigma_j\\), the variance is at most \\(\\lambda^2/R\\), so precision \\(\\epsilon\\) needs about \\(\\lambda^2/\\epsilon^2\\) shots per energy evaluation. An optimization needs many evaluations.",
+  "headers": [
+   "1-norm \\(\\lambda\\)",
+   "Precision \\(\\epsilon\\)",
+   "Shots \\(\\lambda^2/\\epsilon^2\\)"
+  ],
+  "rows": [
+   [
+    "2",
+    "\\(10^{-2}\\)",
+    "\\(4\\times10^4\\)"
+   ],
+   [
+    "2",
+    "\\(10^{-3}\\)",
+    "\\(4\\times10^6\\)"
+   ],
+   [
+    "50",
+    "\\(10^{-3}\\)",
+    "\\(2.5\\times10^9\\)"
+   ],
+   [
+    "500",
+    "\\(10^{-3}\\)",
+    "\\(2.5\\times10^{11}\\)"
+   ]
+  ]
+ },
+ "parameter-shift": {
+  "kind": "curve",
+  "title": "Exact gradients from shifted circuits",
+  "caption": "For a single Pauli rotation, \\(E(\\theta)\\) is a sinusoid, and \\(\\tfrac12[E(\\theta+\\pi/2)-E(\\theta-\\pi/2)]\\) equals the derivative exactly. In the example, \\(E=-1-\\sin\\theta\\) (solid) and \\(dE/d\\theta=-\\cos\\theta\\) (dashed).",
+  "xrange": [
+   0,
+   6.2832
+  ],
+  "yrange": [
+   -2.1,
+   1.1
+  ],
+  "xticks": [
+   [
+    0,
+    "0"
+   ],
+   [
+    1.5708,
+    "π/2"
+   ],
+   [
+    3.1416,
+    "π"
+   ],
+   [
+    4.7124,
+    "3π/2"
+   ],
+   [
+    6.2832,
+    "2π"
+   ]
+  ],
+  "yticks": [
+   -2,
+   -1,
+   0,
+   1
+  ],
+  "xlabel": "parameter \\(\\theta\\)",
+  "ylabel": "value",
+  "legend": "out",
+  "series": [
+   {
+    "label": "\\(E(\\theta)\\)",
+    "expr": "-1-sin(x)"
+   },
+   {
+    "label": "\\(dE/d\\theta\\)",
+    "expr": "-cos(x)",
+    "style": "dashed"
+   }
+  ]
+ },
+ "noise-table": {
+  "kind": "table",
+  "title": "Two kinds of noise in variational methods",
+  "caption": "Shot noise is statistical and averages away with more measurements; hardware noise biases the estimate and does not.",
+  "headers": [
+   "",
+   "Shot noise",
+   "Hardware noise"
+  ],
+  "rows": [
+   [
+    "Origin",
+    "finite number of measurements",
+    "decoherence and gate errors"
+   ],
+   [
+    "Effect",
+    "random error, mean zero",
+    "systematic bias"
+   ],
+   [
+    "Scaling",
+    "standard deviation \\(\\propto1/\\sqrt R\\)",
+    "grows with circuit size"
+   ],
+   [
+    "Remedy",
+    "more shots, better allocation",
+    "shorter circuits, mitigation, error correction"
+   ]
+  ]
+ },
+ "barren-plateau": {
+  "kind": "table",
+  "title": "Barren plateaus: causes and responses",
+  "caption": "A barren plateau makes gradients exponentially small in the number of qubits, so estimating them needs exponentially many shots. Avoiding one is necessary for training but does not guarantee success.",
+  "headers": [
+   "Cause",
+   "Why gradients vanish",
+   "Response"
+  ],
+  "rows": [
+   [
+    "Deep random circuits",
+    "states concentrate near the average",
+    "problem-inspired, shallow ansätze"
+   ],
+   [
+    "Global cost functions",
+    "observable spans all qubits",
+    "local cost functions"
+   ],
+   [
+    "Excess entanglement",
+    "information spread to unmeasured qubits",
+    "structured entanglement"
+   ],
+   [
+    "Hardware noise",
+    "state approaches the maximally mixed state",
+    "fewer gates, mitigation"
+   ]
+  ]
+ },
+ "vqe-loop": {
+  "kind": "flow",
+  "title": "The variational loop",
+  "caption": "The quantum computer prepares trial states and measures Pauli groups; the classical computer estimates \\(E(\\theta)\\) and its gradient and chooses new parameters. The loop repeats until improvements fall below their statistical uncertainty.",
+  "rows": [
+   [
+    "Prepare \\(U(\\theta)\\ket{0^n}\\)",
+    "Measure grouped Pauli strings",
+    "Estimate \\(E(\\theta)\\) and gradient",
+    "Update \\(\\theta\\) classically"
+   ]
+  ]
+ },
+ "qaoa-landscape": {
+  "kind": "curve",
+  "title": "Depth-1 QAOA on a single edge",
+  "caption": "Expected cut \\(F(\\gamma,\\beta)=\\tfrac12+\\tfrac12\\sin(4\\beta)\\sin\\gamma\\). Varying \\(\\beta\\) at \\(\\gamma=\\pi/2\\) (solid) and varying \\(\\gamma\\) at \\(\\beta=\\pi/8\\) (dashed); both reach 1 at \\(\\gamma=\\pi/2\\), \\(\\beta=\\pi/8\\). Other parameters can also minimize the cut.",
+  "xrange": [
+   0,
+   3.1416
+  ],
+  "yrange": [
+   0,
+   1.05
+  ],
+  "xticks": [
+   [
+    0,
+    "0"
+   ],
+   [
+    0.3927,
+    "π/8"
+   ],
+   [
+    0.7854,
+    "π/4"
+   ],
+   [
+    1.5708,
+    "π/2"
+   ],
+   [
+    3.1416,
+    "π"
+   ]
+  ],
+  "yticks": [
+   0,
+   0.5,
+   1
+  ],
+  "xlabel": "angle",
+  "ylabel": "expected cut",
+  "legend": "out",
+  "series": [
+   {
+    "label": "vary \\(\\beta\\), \\(\\gamma=\\pi/2\\)",
+    "expr": "0.5+0.5*sin(4*x)",
+    "domain": [
+     0,
+     1.5708
+    ]
+   },
+   {
+    "label": "vary \\(\\gamma\\), \\(\\beta=\\pi/8\\)",
+    "expr": "0.5+0.5*sin(x)",
+    "style": "dashed"
+   }
+  ]
+ },
+ "evidence-table": {
+  "kind": "table",
+  "title": "What kind of evidence supports a claim",
+  "caption": "Variational algorithms are heuristics. Different claims need different kinds of evidence; small successful instances support only the weakest.",
+  "headers": [
+   "Claim",
+   "Evidence needed"
+  ],
+  "rows": [
+   [
+    "The ansatz contains a good state",
+    "exact classical optimization over the ansatz on small instances"
+   ],
+   [
+    "The optimizer finds it",
+    "success rates across random initializations and instances"
+   ],
+   [
+    "Performance scales well",
+    "results across a range of sizes, with fitted scaling"
+   ],
+   [
+    "Quantum advantage",
+    "beats the best classical methods at matched quality, total cost counted"
+   ],
+   [
+    "Guaranteed performance",
+    "a proof, such as an approximation ratio"
+   ]
+  ]
+ },
+ "feedforward-circuit": {
+  "kind": "circuit",
+  "title": "Measurement with feedforward",
+  "caption": "The first qubit of \\(\\tfrac{1}{\\sqrt2}(\\ket{00}+\\ket{11})\\) is measured; the outcome, carried on the double line, controls an \\(X\\) on the second qubit. Both branches end with the second qubit in \\(\\ket0\\): a random outcome has been turned into a deterministic state.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket0\\)"
+    ],
+    "outputs": [
+     "\\(m\\)",
+     "\\(\\ket0\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0
+       ],
+       "target": 1
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cbox",
+       "from": 0,
+       "label": "\\(X^m\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "deferred-measurement": {
+  "kind": "circuit",
+  "title": "Deferring a measurement",
+  "caption": "Top: measure, then apply \\(V\\) if the outcome is 1. Bottom: apply controlled-\\(V\\) coherently and measure the control at the end. The joint distribution of all final outcomes is the same; the resources are not.",
+  "circuits": [
+   {
+    "label": "measure, then classically controlled V",
+    "inputs": [
+     "control",
+     "target"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cbox",
+       "from": 0,
+       "label": "\\(V\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   },
+   {
+    "label": "coherently controlled V, measure last",
+    "inputs": [
+     "control",
+     "target"
+    ],
+    "outputs": [
+     "",
+     ""
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(V\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "correction-circuit": {
+  "kind": "circuit",
+  "title": "A measurement-dependent Pauli correction",
+  "caption": "The Hadamard-test circuit with controlled-\\(e^{i\\theta X}\\). Outcome 0 applies \\(e^{i\\theta X/2}\\); outcome 1 applies \\(e^{i\\theta X/2}X\\), which the classically controlled \\(X\\) corrects. The data ends in \\(e^{i\\theta X/2}\\ket\\psi\\) for every input, and the outcome reveals nothing about \\(\\ket\\psi\\).",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket\\psi\\)"
+    ],
+    "outputs": [
+     "\\(m\\)",
+     "\\(e^{i\\theta X/2}\\ket\\psi\\)"
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(e^{i\\theta X}\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cbox",
+       "from": 0,
+       "label": "\\(X^m\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ],
+  "width": 860
+ },
+ "iterative-pe-circuit": {
+  "kind": "circuit",
+  "title": "One stage of iterative phase estimation",
+  "caption": "At stage \\(k\\), the single control qubit applies \\(U^{2^{k-1}}\\), receives a phase-gate correction \\(P(-\\omega_k)\\) computed from the bits already measured, and is read in the Hadamard basis to give \\(b_k\\). It is then reset for the next stage.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket0\\)",
+     "\\(\\ket u\\)"
+    ],
+    "outputs": [
+     "\\(b_k\\)",
+     "\\(\\ket u\\)"
+    ],
+    "bundles": [
+     1
+    ],
+    "steps": [
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "ctrl",
+       "controls": [
+        0
+       ],
+       "label": "\\(U^{2^{k-1}}\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(P(-\\omega_k)\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ],
+    "notes": [
+     "\\(\\omega_k=2\\pi\\,(0.0\\,b_{k+1}\\cdots b_m)\\) from earlier outcomes"
+    ]
+   }
+  ],
+  "width": 860
+ },
+ "iterative-table": {
+  "kind": "table",
+  "title": "Iterative phase estimation for φ = 3/8 = 0.011 in binary",
+  "caption": "Bits are acquired from last to first. Each correction subtracts the contribution of the bits already known, leaving a phase of 0 or \\(\\pi\\) that a Hadamard reads exactly.",
+  "headers": [
+   "Stage",
+   "Power",
+   "Phase / \\(2\\pi\\)",
+   "Correction / \\(2\\pi\\)",
+   "Remaining",
+   "Bit"
+  ],
+  "rows": [
+   [
+    "3",
+    "\\(U^4\\)",
+    "\\(1/2\\)",
+    "0",
+    "\\(1/2\\)",
+    "\\(b_3=1\\)"
+   ],
+   [
+    "2",
+    "\\(U^2\\)",
+    "\\(3/4\\)",
+    "\\(1/4\\)",
+    "\\(1/2\\)",
+    "\\(b_2=1\\)"
+   ],
+   [
+    "1",
+    "\\(U\\)",
+    "\\(3/8\\)",
+    "\\(3/8\\)",
+    "0",
+    "\\(b_1=0\\)"
+   ]
+  ]
+ },
+ "heisenberg-curve": {
+  "kind": "curve",
+  "title": "Two scalings of phase estimation",
+  "caption": "Error in an estimated phase against total uses \\(N\\) of \\(U\\), on logarithmic axes (constants omitted). Repeating independent single-use experiments gives the standard quantum limit \\(1/\\sqrt N\\); coherent powers with adaptive or Fourier processing reach the Heisenberg limit \\(1/N\\).",
+  "xrange": [
+   0,
+   8
+  ],
+  "yrange": [
+   -8,
+   0
+  ],
+  "xticks": [
+   [
+    0,
+    "1"
+   ],
+   [
+    2,
+    "10²"
+   ],
+   [
+    4,
+    "10⁴"
+   ],
+   [
+    6,
+    "10⁶"
+   ],
+   [
+    8,
+    "10⁸"
+   ]
+  ],
+  "yticks": [
+   [
+    0,
+    "1"
+   ],
+   [
+    -2,
+    "10⁻²"
+   ],
+   [
+    -4,
+    "10⁻⁴"
+   ],
+   [
+    -6,
+    "10⁻⁶"
+   ],
+   [
+    -8,
+    "10⁻⁸"
+   ]
+  ],
+  "xlabel": "total uses of \\(U\\), \\(N\\) (log scale)",
+  "ylabel": "error (log scale)",
+  "legend": "ll",
+  "series": [
+   {
+    "label": "standard limit \\(1/\\sqrt N\\)",
+    "expr": "-x/2"
+   },
+   {
+    "label": "Heisenberg limit \\(1/N\\)",
+    "expr": "-x",
+    "style": "dashed"
+   }
+  ]
+ },
+ "one-bit-teleport": {
+  "kind": "circuit",
+  "title": "Applying a gate by one-bit teleportation",
+  "caption": "Controlled-\\(Z\\) entangles the input with an auxiliary \\(\\ket+\\). Measuring the input in the basis \\(\\ket{\\pm_\\alpha}\\) (a phase gate \\(P(-\\alpha)\\), a Hadamard, and a computational-basis measurement) leaves \\(X^mHP(-\\alpha)\\ket\\psi\\) on the auxiliary qubit; the classically controlled \\(X\\) removes the byproduct.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket\\psi\\)",
+     "\\(\\ket+\\)"
+    ],
+    "outputs": [
+     "\\(m\\)",
+     "\\(HP(-\\alpha)\\ket\\psi\\)"
+    ],
+    "steps": [
+     [
+      {
+       "kind": "cz",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(P(-\\alpha)\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "label": "H",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cbox",
+       "from": 0,
+       "label": "\\(X^m\\)",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ],
+  "width": 860
+ },
+ "cluster-chain": {
+  "kind": "circuit",
+  "title": "Measurement-based computation on a chain",
+  "caption": "Qubits in \\(\\ket+\\) entangled by controlled-\\(Z\\) gates form a cluster chain. Measuring qubit 1 at angle \\(\\alpha_1\\) and qubit 2 at angle \\(\\alpha_2\\) (each a basis change followed by measurement) applies \\(HP(-\\alpha_2)HP(-\\alpha_1)\\) to the input, up to Pauli byproducts tracked in the Pauli frame. The second angle depends on the first outcome.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket\\psi\\)",
+     "\\(\\ket+\\)",
+     "\\(\\ket+\\)"
+    ],
+    "outputs": [
+     "\\(m_1\\)",
+     "\\(m_2\\)",
+     "output"
+    ],
+    "steps": [
+     [
+      {
+       "kind": "cz",
+       "wires": [
+        0,
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cz",
+       "wires": [
+        1,
+        2
+       ]
+      }
+     ],
+     [
+      {
+       "label": "\\(\\alpha_1\\)",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        0
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cbox",
+       "from": 0,
+       "label": "\\(\\pm\\alpha_2\\)",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      }
+     ]
+    ]
+   }
+  ],
+  "width": 860
+ },
+ "magic-injection": {
+  "kind": "circuit",
+  "title": "Injecting a T gate from a magic state",
+  "caption": "A CNOT from the data to the magic state \\(\\ket A=T\\ket+\\), a measurement of the magic qubit, and a classically controlled \\(S\\) apply \\(T\\) to the data. Only Clifford operations act; the non-Clifford resource is the state \\(\\ket A\\), prepared and distilled separately.",
+  "circuits": [
+   {
+    "inputs": [
+     "\\(\\ket\\psi\\)",
+     "\\(\\ket A\\)"
+    ],
+    "outputs": [
+     "\\(T\\ket\\psi\\)",
+     "\\(m\\)"
+    ],
+    "steps": [
+     [
+      {
+       "kind": "x",
+       "controls": [
+        0
+       ],
+       "target": 1
+      }
+     ],
+     [
+      {
+       "kind": "measure",
+       "wires": [
+        1
+       ]
+      }
+     ],
+     [
+      {
+       "kind": "cbox",
+       "from": 1,
+       "label": "\\(S^m\\)",
+       "wires": [
+        0
+       ]
+      }
+     ]
+    ]
+   }
+  ]
+ }
+}

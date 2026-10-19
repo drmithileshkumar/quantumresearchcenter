@@ -1,0 +1,522 @@
+{
+ "01-quantum-algorithmic-thinking": {
+  "purpose": "Learn the design process that the whole course follows: state the problem and access, encode the property, engineer interference, construct the readout, prove correctness, and account for resources.",
+  "before": "Use amplitudes, Hadamard gates, reversible oracles \\(U_f\\), measurement probabilities, and global versus relative phase, as developed in Quantum Computing.",
+  "outcomes": [
+   "State a computational problem with its input family, promise, output type, and success criterion.",
+   "Distinguish coherent oracle access from classical data and identify which related operations are separate assumptions.",
+   "Derive the output amplitudes of the Deutsch circuit and explain why a target record destroys interference.",
+   "Compute the effect of repetition on decision and estimation tasks.",
+   "Separate a fixed-size query separation from an asymptotic or end-to-end advantage."
+  ],
+  "example": "Deutsch’s problem: decide whether a hidden one-bit function has equal outputs, using one coherent query. The same design is then extended to the n-bit Deutsch–Jozsa family.",
+  "limits": "All gates and oracles are ideal. Query counts exclude oracle construction. The Deutsch–Jozsa separation is exact and worst-case; it disappears against bounded-error classical algorithms.",
+  "next": "Chapter 2 builds clean coherent subroutines: function evaluations that leave the answer and restore their scratch space, so that temporary records do not block interference.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "A one-bit oracle is used with target \\(\\ket0\\) and input \\(\\ket+\\), followed by a Hadamard on the input. For which of the four functions does the input measurement give the correct \\(d\\) with certainty?",
+    "hints": [
+     "Constant functions leave no record in the target.",
+     "For balanced functions, compute the state after the Hadamard."
+    ],
+    "answer": "For the two constant functions the target is the same on both branches, the input returns to \\(\\ket0\\), and the output 0 is correct with certainty. For the two balanced functions the target records the input, and the outcome is a fair coin. So only the constant functions are handled correctly.",
+    "review": "topic-1-3-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "For the Deutsch–Jozsa circuit with n = 3, a function has f(x) = 1 on exactly two of the eight inputs. Compute the probability that the circuit outputs the all-zero string. What should an algorithm relying on the promise do with this input?",
+    "hints": [
+     "The zero amplitude is \\(2^{-n}\\sum_x(-1)^{f(x)}\\).",
+     "Six inputs contribute +1 and two contribute −1."
+    ],
+    "answer": "The amplitude is (6 − 2)/8 = 1/2, so the all-zero outcome has probability 1/4. The function is neither constant nor balanced, so it lies outside the promise; the specification requires nothing on it, and the circuit's output carries no guaranteed meaning.",
+    "review": "topic-1-5-1"
+   },
+   {
+    "kind": "Extension",
+    "question": "A bounded-error quantum algorithm for a decision problem succeeds with probability 0.6 per run. How many runs make the majority vote fail with probability at most 0.01, using the bound that the majority of R runs fails with probability at most \\(e^{-2Rc^2}\\), where c = 0.1 is the advantage over 1/2? What does this imply about the definition of bounded error?",
+    "hints": [
+     "Solve \\(e^{-2R(0.01)}\\le0.01\\).",
+     "The number of runs does not depend on input size."
+    ],
+    "answer": "We need 0.02R ≥ ln 100 ≈ 4.61, so R = 231 runs suffice by this bound. The count depends only on the advantage and the target confidence, not on the input size. That is why any fixed advantage above 1/2 (often stated as success 2/3) defines the same class of efficiently solvable problems: amplifying to any constant confidence costs only a constant factor.",
+    "review": "topic-1-4-2"
+   }
+  ]
+ },
+ "02-coherent-computation": {
+  "purpose": "Build clean coherent subroutines: function evaluations and arithmetic that leave exactly the requested output, restore their workspace, and offer the inverse and controlled access later algorithms need.",
+  "before": "Use the oracle contract, phase kickback, and which-path records from Chapter 1, and the reversible gates (NOT, CNOT, Toffoli) from Quantum Computing.",
+  "outcomes": [
+   "State the clean oracle contract and check whether a circuit satisfies it.",
+   "Translate a Boolean circuit into reversible gates and identify the garbage it leaves.",
+   "Apply compute–copy–uncompute and convert a clean evaluation into a phase oracle.",
+   "Explain with a calculation why garbage destroys interference.",
+   "Count gates and qubits, and trade time for space by recomputation.",
+   "Construct reflections and controlled versions from known circuits, and identify when these are extra assumptions."
+  ],
+  "example": "The three-bit predicate f(a,b,c) = (a AND b) XOR c, built first with garbage, then cleanly by compute–copy–uncompute, then as a phase oracle tested by an interference experiment.",
+  "limits": "Gates are ideal and the input is a basis-state superposition. Gate counts are construction bounds in a stated gate set, not lower bounds. Controlled access to an unknown black box is not assumed.",
+  "next": "Chapter 3 uses clean phase oracles to encode a hidden linear function in signs and recovers it in one query with a layer of Hadamards, then extends the idea to hidden structure and numerical phases.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "A circuit maps |x⟩|0⟩|0⟩ to |x⟩|f(x)⟩|x₁⟩, where x₁ is the first bit of x. Does it satisfy the clean contract? What would it do to the Deutsch–Jozsa experiment for inputs that differ in x₁?",
+    "hints": [
+     "The contract requires the workspace to return to |0⟩ on every input.",
+     "A workspace bit that depends on x is a which-path record."
+    ],
+    "answer": "No: the workspace holds x₁, which depends on the input. In the Deutsch–Jozsa experiment, branches with different x₁ carry orthogonal workspace states and cannot interfere, so the final Hadamards no longer concentrate amplitude on the answer. Uncomputing x₁ (a CNOT from x₁ into the workspace) repairs it.",
+    "review": "topic-2-2-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Build a clean phase oracle for f(a,b,c) = a AND b AND c using one ancilla, and count Toffolis.",
+    "hints": [
+     "Compute g = a AND b into the ancilla with a Toffoli.",
+     "A controlled-Z between g and c applies (−1)^{abc}."
+    ],
+    "answer": "Toffoli from a,b into g; controlled-Z between g and c (phase −1 exactly when g = c = 1, i.e. a = b = c = 1); Toffoli from a,b into g again to uncompute. Two Toffolis and one CZ, with the ancilla returned to |0⟩. Equivalently, a doubly controlled Z on a,b,c decomposed with one ancilla.",
+    "review": "topic-2-2-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "A preparation circuit A uses 500 gates. Each amplification iteration in Chapter 5 uses one reflection about the prepared state and one phase oracle costing 300 gates. Estimate the gate cost of 20 iterations, including an initial preparation, and identify which access assumptions the count relies on.",
+    "hints": [
+     "The reflection about the prepared state uses A, A†, and a zero-state reflection.",
+     "The zero-state reflection on n qubits costs O(n) Toffolis; call it z gates."
+    ],
+    "answer": "Each iteration costs 300 (oracle) + 500 (A†) + z (zero reflection) + 500 (A) = 1300 + z gates. Twenty iterations plus the initial A cost 500 + 20(1300 + z) = 26,500 + 20z gates. The count assumes a known gate sequence for A, so that A† is available at equal cost, and a clean oracle; with only a sealed box for A, the reflection could not be built this way.",
+    "review": "topic-2-4-1"
+   }
+  ]
+ },
+ "03-phase-encoding": {
+  "purpose": "Encode information in relative phases and read it with interference: eigenstate kickback, the Hadamard test, sign patterns on many qubits, hidden-structure sampling, and finer phases from computed values.",
+  "before": "Use clean oracles and phase oracles from Chapter 2, and the Deutsch circuit and repetition bounds from Chapter 1.",
+  "outcomes": [
+   "Explain phase kickback for a general unitary and eigenstate, and what it requires.",
+   "Derive the Hadamard test probability and its cost to estimate a phase.",
+   "Convert between bit oracles and phase oracles, noting when controlled access is needed.",
+   "Use the Hadamard-transform formula to analyze Bernstein–Vazirani and Deutsch–Jozsa for every n.",
+   "Run Simon’s algorithm and recover the hidden string by linear algebra modulo two.",
+   "Produce phases e^{2πiv/M} from computed values and bound their precision error."
+  ],
+  "example": "The hidden linear function s·x: one query writes the sign pattern (−1)^{s·x} and one Hadamard layer reads s. Simon’s problem then replaces the perfect pattern by random constraints combined classically.",
+  "limits": "Separations are in the black-box query model with clean oracles. Deutsch–Jozsa’s exponential separation is exact-versus-exact; Simon’s holds against bounded-error classical algorithms. Phase gates of arbitrary angle are ideal unless synthesis error is stated.",
+  "next": "Chapter 4 replaces the binary sign patterns by phases e^{2πixy/N}, read by the quantum Fourier transform, and combines controlled powers with kickback into phase estimation and period finding.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "For n = 4 and s = 0110, give the sign of the |x⟩ term after the Bernstein–Vazirani query for x = 0101 and x = 0011.",
+    "hints": [
+     "The sign is (−1)^{s·x}.",
+     "Count positions where both s and x have a 1."
+    ],
+    "answer": "For x = 0101, s and x share a 1 only in the second position, so s·x = 1 and the sign is −. For x = 0011, they share a 1 only in the third position, so the sign is also −.",
+    "review": "topic-3-2-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "In Simon’s algorithm with n = 3, the samples are 011 and 101. Find s, and say whether a third sample is needed.",
+    "hints": [
+     "Write s₂ ⊕ s₃ = 0 and s₁ ⊕ s₃ = 0.",
+     "Two independent equations in three unknowns leave a one-dimensional solution space."
+    ],
+    "answer": "The equations give s₂ = s₃ and s₁ = s₃, so s ∈ {000, 111}; the nonzero solution is s = 111. The two samples are independent and n − 1 = 2, so no third sample is needed. Check: 111·011 = 0 and 111·101 = 0.",
+    "review": "topic-3-3-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "The Hadamard test is run on an eigenstate with unknown phase φ, estimating cos φ to within ε. Show that the resulting uncertainty in φ is largest near φ = 0 and φ = π, and explain why using controlled-U² does not remove the ambiguity between φ and −φ.",
+    "hints": [
+     "A change δ in φ changes cos φ by about sin φ · δ.",
+     "cos(2φ) is also even in φ."
+    ],
+    "answer": "Since d(cos φ)/dφ = −sin φ, an error ε in cos φ gives an error of about ε/|sin φ| in φ, which blows up near φ = 0 and π, where the cosine is flat. Using U² kicks back 2φ and measures cos 2φ, which is still an even function of φ, so φ and −φ remain indistinguishable; only the sin φ test (with S†) resolves the sign. Phase estimation in Chapter 4 avoids both problems by reading phases with a Fourier transform.",
+    "review": "topic-3-1-2"
+   }
+  ]
+ },
+ "04-fourier-methods": {
+  "purpose": "Build the quantum Fourier transform and use it with controlled powers and kickback to estimate eigenphases, find orders, and factor integers.",
+  "before": "Use phase kickback, controlled powers, the Hadamard test, and Simon’s algorithm from Chapter 3, and reversible arithmetic from Chapter 2.",
+  "outcomes": [
+   "Prove that the Fourier transform is unitary using root-of-unity cancellation.",
+   "Predict the Fourier transform of a periodic state.",
+   "Construct the QFT circuit from its product representation and bound the error of the approximate QFT.",
+   "Derive the phase estimation output for exact and inexact phases, and relate precision to the number of controlled-U uses.",
+   "Explain why phase estimation on |1⟩ yields s/r in order finding, and recover r by continued fractions.",
+   "Carry out the classical reduction from factoring to order finding and summarize its costs."
+  ],
+  "example": "Phase estimation with three control qubits on φ = 3/8, then order finding for a = 7 modulo 15 and for a = 2 modulo 21, the latter with continued fractions on the outcome 85/512.",
+  "limits": "Gates are ideal; controlled powers are assumed available, and their cost is counted explicitly. The factoring speedup is relative to the best known classical algorithm, not a proven separation.",
+  "next": "Chapter 5 turns small success probabilities into large ones with pairs of reflections, and combines amplification with phase estimation into amplitude estimation.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "Compute F₈ applied to (|1⟩ + |5⟩)/√2.",
+    "hints": [
+     "The amplitude of y is (ω^y + ω^{5y})/4 with ω = e^{2πi/8}.",
+     "ω^{4y} = (−1)^y."
+    ],
+    "answer": "The amplitude of y is ω^y(1 + (−1)^y)/4, which is ω^y/2 for even y and 0 for odd y. So the output is ½(|0⟩ + ω²|2⟩ + ω⁴|4⟩ + ω⁶|6⟩) = ½(|0⟩ + i|2⟩ − |4⟩ − i|6⟩): period 4 gives frequencies at multiples of 2, with phases set by the offset 1.",
+    "review": "topic-4-1-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Phase estimation with m = 4 is applied to an eigenstate with φ = 0.2. Which two outcomes are most likely, and approximately what are their probabilities?",
+    "hints": [
+     "Mφ = 3.2, so the nearest grid points are 3 and 4.",
+     "Use |a_j|² = sin²(πMΔ)/(M² sin²(πΔ)) with Δ = φ − j/16."
+    ],
+    "answer": "For j = 3, Δ = 0.0125: sin²(0.2π)/(256 sin²(0.0125π)) ≈ 0.3455/(256 × 0.001541) ≈ 0.876. For j = 4, Δ = −0.05: sin²(0.8π)/(256 sin²(0.05π)) ≈ 0.3455/(256 × 0.02447) ≈ 0.055. So outcome 3 (estimate 0.1875) has probability about 0.88 and outcome 4 about 0.06.",
+    "review": "topic-4-2-3"
+   },
+   {
+    "kind": "Extension",
+    "question": "Factor L = 33 using a = 5, by finding the order of 5 modulo 33 classically and applying the reduction. Then explain how many control qubits phase estimation would use.",
+    "hints": [
+     "Compute powers of 5 modulo 33 until you reach 1.",
+     "33 has 6 bits, so m ≈ 2n."
+    ],
+    "answer": "Powers of 5 mod 33: 5, 25, 26, 31, 23, 16, 14, 4, 20, 1, so r = 10. Then 5⁵ ≡ 23 (not −1 ≡ 32), and gcd(22, 33) = 11, gcd(24, 33) = 3, so 33 = 3 × 11. With n = 6 bits, m ≈ 2n = 12 (or 13) control qubits ensure 2^m ≥ L², so that continued fractions recover s/10 from a successful run.",
+    "review": "topic-4-4-1"
+   }
+  ]
+ },
+ "05-amplitude-manipulation": {
+  "purpose": "Raise small success probabilities by composing reflections, control the rotation with phase sequences, estimate probabilities with amplitude estimation, and know the limits of these speedups.",
+  "before": "Use reflections about prepared states and clean phase oracles (Chapter 2), and phase estimation on superpositions of eigenstates (Chapter 4).",
+  "outcomes": [
+   "Reduce amplification of any preparation and predicate to a rotation in a two-dimensional plane.",
+   "Compute the success probability after k iterations and choose k, including with unknown p.",
+   "Construct exact amplification for known p and fixed-point amplification for unknown p, and compare their costs.",
+   "Derive the eigenvalues of the Grover iterate and use phase estimation to estimate p with O(1/ε) calls.",
+   "Encode a mean as a success probability and state the conditions for a quadratic Monte Carlo speedup.",
+   "Explain minimum finding and the optimality of quadratic search speedups."
+  ],
+  "example": "A preparation with success probability p = 0.01: seven iterations reach success 0.995, fourteen nearly undo it, and amplitude estimation reads p from the eigenphases of the same iterate.",
+  "limits": "Reflections are ideal and require both A and A†. Speedups are in queries or calls to A; each call may be expensive. Amplitude estimation requires long coherent circuits and controlled access.",
+  "next": "Chapter 6 composes reflections chosen from the local structure of a graph, giving quantum walks whose speed is governed by spectral gaps.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "A preparation succeeds with probability p = 1/9. What is the success probability after one and after two amplification iterations?",
+    "hints": [
+     "sin θ = 1/3, so θ ≈ 19.47°.",
+     "Compute sin²(3θ) and sin²(5θ)."
+    ],
+    "answer": "3θ ≈ 58.4°, so one iteration gives sin²(58.4°) ≈ 0.727. 5θ ≈ 97.4°, so two iterations give sin²(97.4°) ≈ 0.984. Two is optimal here: round(π/(4θ) − 1/2) = round(1.81) = 2.",
+    "review": "topic-5-1-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Amplitude estimation with m = 6 control qubits returns j = 11. What is the estimate of p, and what does the error bound say if p is near this estimate?",
+    "hints": [
+     "θ̃ = πj/2^m.",
+     "Use |p̃ − p| ≤ 2π√(p(1−p))/M + π²/M²."
+    ],
+    "answer": "θ̃ = 11π/64 ≈ 0.540 rad, so p̃ = sin²(0.540) ≈ 0.264. With M = 64 and p ≈ 0.264, the bound is 2π√(0.194)/64 + π²/4096 ≈ 0.0433 + 0.0024 ≈ 0.046, with probability at least 8/π² ≈ 0.81. The estimate is p ∈ [0.22, 0.31] with that confidence, from 63 controlled-Q calls.",
+    "review": "topic-5-3-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "A classical randomized algorithm for a search problem runs in time T and succeeds with probability p. Describe how to obtain a quantum algorithm with success probability at least 1/2 and estimate its running time. What must be true of the classical algorithm?",
+    "hints": [
+     "Make the classical algorithm reversible: its random bits become a uniform superposition prepared by Hadamards.",
+     "Each call to A costs about T, and about 1/√p calls are needed."
+    ],
+    "answer": "Treat the random bits as an input register prepared in uniform superposition; the reversible version of the algorithm (Chapter 2) is the preparation A, and checking the output is the predicate. Amplification with unknown p (exponential search) reaches success 1/2 with O(1/√p) calls to A and A†, for total time O(T/√p) versus O(T/p) classically. This requires a reversible implementation of the algorithm and a coherent checker, and the overhead of reversibility (garbage removal, roughly a factor of two plus workspace) is included in T.",
+    "review": "topic-5-1-1"
+   }
+  ]
+ },
+ "06-quantum-walks": {
+  "purpose": "Replace random walks by coherent walks, analyze them through their spectra, and use the square-root relation between classical spectral gaps and quantum phase gaps to build search algorithms.",
+  "before": "Use reversible arithmetic (Chapter 2), Fourier states (Chapters 3–4), reflections and amplitude amplification (Chapter 5), and phase estimation (Chapter 4).",
+  "outcomes": [
+   "Explain why a coherent walk needs a coin or an edge register, and compute small coined walks by hand.",
+   "Contrast ballistic quantum spreading with diffusive classical spreading.",
+   "Compute matrix exponentials through power series and eigenvalues, and simulate the continuous walk on a cycle with Fourier modes.",
+   "Construct Szegedy’s walk from reflections and relate its phase gap to the classical spectral gap.",
+   "Apply the walk-search cost formula, including to element distinctness.",
+   "State the assumptions behind walk speedups and the limits of what they show."
+  ],
+  "example": "A coined walk on the four-cycle, where three steps send the walker to vertex 3 with certainty, and element distinctness, where storing N^{2/3} values on a Johnson-graph walk gives an optimal O(N^{2/3}) query algorithm.",
+  "limits": "Walks are ideal and coherent; neighbour access is assumed as an oracle. Query bounds do not include the cost of coherent memory. The glued-trees speedup is an oracle separation for a contrived problem.",
+  "next": "Chapter 7 embeds matrices that are not unitary inside larger unitaries, so that their actions, and later their spectra, can be manipulated by circuits.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "For the coined Hadamard walk on the line starting at |0, 0⟩, compute the state after two steps and the position probabilities.",
+    "hints": [
+     "One step gives (|0, −1⟩ + |1, 1⟩)/√2.",
+     "Apply H to each coin, then shift."
+    ],
+    "answer": "After the coin on the one-step state: ½(|0,−1⟩ + |1,−1⟩ + |0,1⟩ − |1,1⟩). Shifting: ½(|0,−2⟩ + |1,0⟩ + |0,0⟩ − |1,2⟩). Positions −2, 0, 2 have probabilities 1/4, 1/2, 1/4, the same as classically. Differences from the classical walk appear from the third step on.",
+    "review": "topic-6-1-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "The continuous walk on a cycle of N = 4 vertices with γ = 1 starts at vertex 0. Using Fourier modes, find the amplitude at vertex 2 at time t.",
+    "hints": [
+     "The eigenvalues are 2, 0, −2, 0 for k = 0, 1, 2, 3.",
+     "|0⟩ = ½ Σ_k |k̃⟩, and ⟨2|k̃⟩ = ½ (−1)^k."
+    ],
+    "answer": "The amplitude is ¼ Σ_k (−1)^k e^{−iλ_k t} = ¼(e^{−2it} − 1 + e^{2it} − 1) = ½(cos 2t − 1) = −sin² t. So the probability at vertex 2 is sin⁴ t, reaching 1 at t = π/2: the walker transfers perfectly to the opposite vertex.",
+    "review": "topic-6-2-3"
+   },
+   {
+    "kind": "Extension",
+    "question": "A walk on r-subsets of an N-element set has setup cost r, update cost 1, checking cost √r, marked fraction (r/N)², and spectral gap 1/r. Use the walk-search formula to find the optimal r and the total cost.",
+    "hints": [
+     "The cost is r + (N/r)(√r + √r).",
+     "Balance r against N/√r."
+    ],
+    "answer": "The cost is r + (N/r)(√r·1 + √r) = r + 2N/√r, minimized when r ≈ N^{2/3}, giving O(N^{2/3}). Checking at cost √r does not change the order here because it is no larger than the update term √r·U. If checking cost grew faster than √r, it would dominate and change the optimum.",
+    "review": "topic-6-4-2"
+   }
+  ]
+ },
+ "07-operator-embedding": {
+  "purpose": "Represent matrices that are not unitary as blocks of unitaries, build such block encodings from sums of unitaries, compose them, and account for subnormalization, success probability, and access costs.",
+  "before": "Use clean subroutines and controlled operations (Chapter 2), operator-norm error bounds (Chapter 3), and amplitude amplification (Chapter 5).",
+  "outcomes": [
+   "Explain why a non-unitary matrix cannot be applied deterministically and define its operator norm.",
+   "Verify a block encoding and compute postselection success probabilities.",
+   "Construct LCU block encodings with PREPARE and SELECT and compute their 1-norm subnormalization.",
+   "Distinguish a coherent linear combination from a random choice of unitaries.",
+   "Compose block encodings with separate ancillas and bound their errors.",
+   "Apply oblivious amplitude amplification when the encoded matrix is proportional to a unitary.",
+   "Identify the access assumptions behind a block encoding and when dequantization applies."
+  ],
+  "example": "The one-ancilla encoding of diag(1, 1/2), and the LCU encoding of (I + X)/2, which turns |0⟩ into |+⟩ with probability 1/2 where a random choice would give a mixture.",
+  "limits": "Block encodings are assumed exact unless an error is stated. Costs depend on the access model; the cost of QRAM or data loading is not included in query counts.",
+  "next": "Chapter 8 applies polynomials of a block-encoded matrix with one extra qubit and a sequence of phases, giving filters, inversion, and simulation.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "Give an LCU block encoding of A = (I + Z)/2 on one qubit and the success probability for input |+⟩.",
+    "hints": [
+     "PREPARE is H; SELECT is controlled-Z.",
+     "A is the projector onto |0⟩."
+    ],
+    "answer": "PREPARE = H on an ancilla, SELECT = controlled-Z from the ancilla to the system, then H on the ancilla; keep outcome 0. A|+⟩ = |0⟩/√2, so the success probability is 1/2, and the output is |0⟩.",
+    "review": "topic-7-2-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "A Hamiltonian H = 2 Z₁ + Z₁Z₂ − 0.5 X₂ is block-encoded by LCU. What is λ, what is the success probability of postselecting H|00⟩/λ, and what state results?",
+    "hints": [
+     "λ is the sum of the absolute values of the coefficients.",
+     "Compute H|00⟩ term by term."
+    ],
+    "answer": "λ = 2 + 1 + 0.5 = 3.5. H|00⟩ = 2|00⟩ + |00⟩ − 0.5|01⟩ = 3|00⟩ − 0.5|01⟩, with squared norm 9.25. The success probability is 9.25/12.25 ≈ 0.755, and the output is (3|00⟩ − 0.5|01⟩)/√9.25.",
+    "review": "topic-7-2-3"
+   },
+   {
+    "kind": "Extension",
+    "question": "The first-order Taylor approximation e^{−iHδ} ≈ I − iδH, with H = Σ h_j P_j and λδ small, is a linear combination of unitaries. Write its LCU coefficients and subnormalization, and explain why oblivious amplitude amplification can be used to apply it deterministically.",
+    "hints": [
+     "Write −iδH = Σ δ|h_j| (−i sign(h_j) P_j).",
+     "The subnormalization is 1 + δλ; it can be adjusted to exactly 2 by adding a multiple of I with a compensating term or by choosing δ."
+    ],
+    "answer": "I − iδH = 1·I + Σ_j δ|h_j|·(−i sign(h_j)P_j), a combination of unitaries with coefficients 1 and δ|h_j|, so α = 1 + δλ. The encoded matrix (I − iδH)/α is close to a unitary (e^{−iHδ}/α, up to O(δ²)), so its success amplitude is nearly input independent. Choosing the step so that α = 2 (or padding the combination to α = 2) makes one round of oblivious amplitude amplification succeed, up to the O(δ²) truncation error. Higher-order truncated Taylor series reduce this error, which is the basis of the Berry–Childs–Cleve–Kothari–Somma simulation method.",
+    "review": "topic-7-3-3"
+   }
+  ]
+ },
+ "08-polynomial-transformations": {
+  "purpose": "Apply polynomial functions to the eigenvalues or singular values of a block-encoded matrix, and design algorithms for filtering, inversion, and simulation by choosing polynomials.",
+  "before": "Use block encodings and LCU (Chapter 7), the spectral decomposition and matrix exponentials (Chapter 6), amplitude amplification (Chapter 5), and phase estimation (Chapter 4).",
+  "outcomes": [
+   "Compute the response of repeated signal calls and recognize Chebyshev polynomials.",
+   "State the conditions for a polynomial to be achievable by quantum signal processing, and handle parity and boundedness.",
+   "Define functions of a Hermitian matrix and explain how qubitization applies them to all eigenvalues at once.",
+   "Describe singular value transformation and identify amplitude amplification as a special case.",
+   "Estimate the polynomial degree and success probability for filters, matrix inversion, and Hamiltonian simulation.",
+   "List the conditions under which quantum linear-systems algorithms give an end-to-end advantage."
+  ],
+  "example": "Two signal calls with one phase in between give the response cos φ (2x² − 1) + i sin φ; qubitizing H = 0.5 Z⊗Z − 0.3 X⊗I gives walk eigenphases arccos(±0.583/0.8).",
+  "limits": "The general signal-processing and QSVT statements are cited theorems; phase factors are assumed computed classically. Costs are in block-encoding calls; each call’s gate cost and subnormalization must be added.",
+  "next": "Chapter 9 compares polynomial simulation with product formulas, which build evolution from short evolutions of simple terms, and with adiabatic evolution, which changes the Hamiltonian itself.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "What is the top-left entry of W(x)³, and its value at x = 0.5?",
+    "hints": [
+     "W^d has top-left entry T_d(x).",
+     "T₃(x) = 4x³ − 3x."
+    ],
+    "answer": "T₃(0.5) = 4(0.125) − 1.5 = −1. Equivalently, x = cos(π/3), and cos(3·π/3) = cos π = −1.",
+    "review": "topic-8-1-1"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "A block encoding of H/α has α = 50, and the eigenvalues of H of interest are 1.0 and 1.2. Phase estimation on the qubitized walk is used to distinguish them. Estimate the walk eigenphase difference and the number of walk steps needed.",
+    "hints": [
+     "θ = arccos(λ/α), and near λ/α ≈ 0 the derivative of arccos is about −1.",
+     "Distinguishing phases separated by Δθ needs about 1/Δθ steps."
+    ],
+    "answer": "θ₁ = arccos(0.02) and θ₂ = arccos(0.024), differing by about 0.004 radians. Phase estimation must resolve 0.004, which needs on the order of 1/0.004 = 250 walk steps (a few times more for good confidence). Equivalently, α/Δλ = 50/0.2 = 250.",
+    "review": "topic-8-2-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "A linear system has κ = 100. Estimate the number of block-encoding calls for the polynomial-inversion algorithm with amplitude amplification, taking the polynomial degree to be κ ln(κ/ε) with ε = 10⁻³, and the amplification count to be κ. Then state what output the algorithm produces.",
+    "hints": [
+     "Degree ≈ 100 × ln(10⁵).",
+     "Total ≈ degree × amplification count."
+    ],
+    "answer": "Degree ≈ 100 × 11.5 ≈ 1150; amplification needs about 100 rounds, each using the polynomial sequence and its inverse, so about 2 × 1150 × 100 ≈ 2.3 × 10⁵ block-encoding calls (methods with optimal κ log(1/ε) scaling reduce this to about 10³–10⁴). The output is a quantum state proportional to A⁻¹|b⟩, not the vector of solution entries; extracting a classical quantity such as ⟨x|M|x⟩ to precision δ costs further repetitions of order 1/δ with amplitude estimation.",
+    "review": "topic-8-3-2"
+   }
+  ]
+ },
+ "09-evolution-engineering": {
+  "purpose": "Engineer time evolution: build e^{−iHt} from short evolutions of simple terms with controlled error, compare simulation strategies fairly, and use slowly changing Hamiltonians to prepare ground states.",
+  "before": "Use matrix exponentials and spectral decompositions (Chapter 6), operator-norm error composition (Chapter 3), Pauli-sum block encodings (Chapter 7), and polynomial simulation (Chapter 8).",
+  "outcomes": [
+   "State the simulation problem and the no-fast-forwarding limit.",
+   "Compute commutators and explain why noncommuting terms cause product-formula error.",
+   "Choose the number of Trotter steps from the first-order bound and compare with actual errors.",
+   "Explain how symmetric and higher-order formulas reduce error.",
+   "Implement exponentials of Pauli strings with parity circuits and count gates.",
+   "Compare product formulas and block-encoding methods under matched assumptions.",
+   "Analyze adiabatic evolution through the minimum gap, and state what it does and does not achieve for optimization."
+  ],
+  "example": "H = X + Z: first-order Trotter with r steps has error about 0.7/r against the bound 1/r, and the adiabatic path from −X to −Z succeeds once the total time is a few units.",
+  "limits": "Error bounds are worst-case operator-norm bounds for bounded generators. Hardware noise is not modelled. Adiabatic runtimes depend on gaps that are rarely known for large instances.",
+  "next": "Chapter 10 drops guaranteed constructions: it optimizes the parameters of short circuits against measured objectives, and asks what such heuristics can and cannot establish.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "For H = Z₁Z₂ + X₁, compute the commutator [Z₁Z₂, X₁] and its norm, and give the first-order step count for t = 2, ε = 0.01.",
+    "hints": [
+     "Z₁ and X₁ anticommute; Z₂ is untouched.",
+     "r ≥ t²‖[A,B]‖/(2ε)."
+    ],
+    "answer": "Z₁Z₂X₁ − X₁Z₁Z₂ = (Z₁X₁ − X₁Z₁)Z₂ = 2iY₁Z₂, with norm 2. So r ≥ 4·2/(2·0.01) = 400 first-order steps by the bound.",
+    "review": "topic-9-1-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Write a circuit for e^{−iθ Y₁ Y₂} and count its CNOTs and single-qubit gates.",
+    "hints": [
+     "Map Y to Z with S† followed by H on each qubit.",
+     "Then use CNOT, R_z(2θ), CNOT."
+    ],
+    "answer": "On each qubit apply S† then H (mapping Y to Z); CNOT from qubit 1 to qubit 2; R_z(2θ) on qubit 2; CNOT from qubit 1 to 2; then H then S on each qubit. Two CNOTs, one rotation, and eight Clifford single-qubit gates (some of which may cancel with neighbouring terms in a full Trotter step).",
+    "review": "topic-9-2-1"
+   },
+   {
+    "kind": "Extension",
+    "question": "An adiabatic algorithm for a family of instances has minimum gap g(n) = 1/n² for n qubits. Estimate the runtime with a linear schedule and with a local schedule, and explain whether this would give a polynomial-time algorithm. What would you need to know to trust the gap estimate?",
+    "hints": [
+     "Linear schedule: T ~ 1/g².",
+     "Local schedule: T ~ 1/g in favourable cases."
+    ],
+    "answer": "Linear: T ~ n⁴; local: T ~ n². Both are polynomial, so if the gap really scales as 1/n² for the whole family, the adiabatic algorithm runs in polynomial time (and can be simulated by a polynomial-size circuit). To trust it, one needs a proof of the gap bound for all instances, or at least strong evidence across sizes, because numerical gaps on small n can miss exponentially small avoided crossings that appear only at larger n.",
+    "review": "topic-9-3-2"
+   }
+  ]
+ },
+ "10-variational-methods": {
+  "purpose": "Understand variational algorithms as heuristics: parameterized circuits, measured objectives, classical optimization, and the evidence needed to judge their performance.",
+  "before": "Use expectation values, Pauli decompositions and the 1-norm (Chapter 7), measurement statistics (Chapter 1), and adiabatic evolution (Chapter 9).",
+  "outcomes": [
+   "Describe an ansatz and the trade-off between expressiveness and cost.",
+   "Estimate an energy from Pauli measurements and compute shot budgets with optimal allocation.",
+   "Derive and apply the parameter-shift rule.",
+   "Distinguish shot noise from hardware bias and explain barren plateaus.",
+   "State the variational principle and its overlap consequence, and the three gaps in a variational eigensolver result.",
+   "Compute a depth-1 QAOA example and explain the role of the mixer.",
+   "List the evidence required to support claims about heuristic quantum algorithms."
+  ],
+  "example": "The two-qubit ansatz cos(θ/2)|00⟩ + sin(θ/2)|11⟩ minimizing E(θ) = −1 − sin θ for H = −ZZ − XX, and depth-1 QAOA on a single edge with expected cut ½ + ½ sin 4β sin γ.",
+  "limits": "Calculations are noiseless unless stated. Variational methods carry no general performance guarantee; the stated QAOA approximation ratio is a cited result for a specific graph class.",
+  "next": "Chapter 11 brings measurement inside the computation: mid-circuit outcomes control later operations, trade coherent resources for classical feedback, and drive measurement-based computation.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "For the ansatz cos(θ/2)|00⟩ + sin(θ/2)|11⟩, compute ⟨Z₁⟩ and ⟨Z₁Z₂⟩ as functions of θ.",
+    "hints": [
+     "Z₁ gives +1 on |00⟩ and −1 on |11⟩.",
+     "Z₁Z₂ gives +1 on both."
+    ],
+    "answer": "⟨Z₁⟩ = cos²(θ/2) − sin²(θ/2) = cos θ, and ⟨Z₁Z₂⟩ = 1 for every θ. So a Hamiltonian H = −Z₁ would have E(θ) = −cos θ, minimized at θ = 0 (the state |00⟩).",
+    "review": "topic-10-1-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Use the parameter-shift rule to compute the gradient of E(θ) = −1 − sin θ at θ = π/3, and take one gradient-descent step with η = 0.5.",
+    "hints": [
+     "E(θ ± π/2) = −1 − sin(θ ± π/2) = −1 ∓ cos θ.",
+     "θ_new = θ − η · dE/dθ."
+    ],
+    "answer": "E(π/3 + π/2) = −1 − cos(π/3) = −1.5 and E(π/3 − π/2) = −1 + cos(π/3) = −0.5, so dE/dθ = (−1.5 + 0.5)/2 = −0.5 = −cos(π/3). The step gives θ = π/3 + 0.25 ≈ 1.297, closer to the optimum π/2 ≈ 1.571; the energy falls from −1.866 to about −1.963.",
+    "review": "topic-10-2-1"
+   },
+   {
+    "kind": "Extension",
+    "question": "A Hamiltonian has λ = 20, and each optimizer iteration estimates the energy and a 50-component gradient by parameter shift, each energy to precision 10⁻². Estimate the shots per iteration, and comment on 500 iterations.",
+    "hints": [
+     "Each energy estimate needs about λ²/ε² shots.",
+     "A gradient by parameter shift needs 2 × 50 energy estimates (with the same precision per component as a rough guide)."
+    ],
+    "answer": "One energy: 400/10⁻⁴ = 4 × 10⁶ shots. Gradient: 100 energies, 4 × 10⁸ shots. Per iteration about 4 × 10⁸ shots; 500 iterations need about 2 × 10¹¹ shots. At 10⁴ shots per second that is about 230 days, illustrating why measurement cost dominates variational methods and why shot-frugal optimizers and measurement grouping matter.",
+    "review": "topic-10-1-3"
+   }
+  ]
+ },
+ "11-adaptive-measurement": {
+  "purpose": "Use measurement inside a computation: branch on outcomes, defer or advance measurements, estimate phases adaptively with one qubit, and compute by measurement with teleported gates and injected magic states.",
+  "before": "Use phase estimation and the inverse QFT (Chapter 4), the Hadamard test (Chapter 3), postselection (Chapter 7), and gate costs in Clifford+T (Chapter 2).",
+  "outcomes": [
+   "Track branch probabilities, conditional states, and classical records through mid-circuit measurements.",
+   "Apply the deferred measurement principle in both directions and compare the resources.",
+   "Construct measurement-dependent Pauli corrections and analyze repeat-until-success costs.",
+   "Run iterative phase estimation with feedback and explain the semiclassical Fourier transform.",
+   "Distinguish the standard quantum limit from the Heisenberg limit.",
+   "Derive one-bit gate teleportation and the angle adaptation in measurement-based computation.",
+   "Explain magic-state injection and why distillation dominates fault-tolerant costs."
+  ],
+  "example": "Iterative estimation of φ = 3/8 with one control qubit and two classical corrections, and T-gate injection from the magic state T|+⟩ with a single CNOT, measurement, and conditional S.",
+  "limits": "Measurements are ideal and feedback is instantaneous unless stated. The iterative-estimation analysis assumes an exact eigenstate and exactly representable phases; general phases need repetition and statistical processing.",
+  "next": "This completes the technique sequence. The Quantum Programming course turns these constructions into executable circuits, with tests that check contracts, amplitudes, and resource counts.",
+  "exercises": [
+   {
+    "kind": "Quick check",
+    "question": "In one-bit teleportation with α = π/2, what gate is applied (after correcting the byproduct)?",
+    "hints": [
+     "The applied gate is HP(−α).",
+     "P(−π/2) = S†."
+    ],
+    "answer": "HP(−π/2) = HS†. On outcome 1, apply X to remove the byproduct; the auxiliary qubit then holds HS†|ψ⟩.",
+    "review": "topic-11-3-1"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Run iterative phase estimation for φ = 7/8 = 0.111 in binary, giving each stage’s phase, correction, and outcome.",
+    "hints": [
+     "Stage 3 uses U⁴, stage 2 uses U², stage 1 uses U.",
+     "The correction at stage k is 2π(0.0 b_{k+1} … b_m)."
+    ],
+    "answer": "Stage 3: phase 2π·(28/8) ≡ 2π·½, no correction, b₃ = 1. Stage 2: phase 2π·(14/8) ≡ 2π·¾, subtract 2π·¼, leaving π: b₂ = 1. Stage 1: phase 2π·⅞, subtract 2π·(0.011)₂ = 2π·⅜, leaving 2π·½ = π: b₁ = 1. Result 0.111 = 7/8.",
+    "review": "topic-11-2-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "A fault-tolerant algorithm needs 10⁸ T gates with total failure probability below 1%. Raw magic states have error 10⁻³, and the 15-to-1 protocol maps error p to 35p³. How many rounds of distillation are needed, and roughly how many raw magic states per T gate?",
+    "hints": [
+     "Each T gate may fail with probability at most about 10⁻¹⁰.",
+     "One round gives 3.5 × 10⁻⁸; two rounds give about 1.5 × 10⁻²¹."
+    ],
+    "answer": "Per-gate error must be below about 10⁻²/10⁸ = 10⁻¹⁰. One round gives 3.5 × 10⁻⁸, not enough; two rounds give about 1.5 × 10⁻²¹, more than enough. Two rounds consume about 15² = 225 raw states per output T gate (more with failed rounds), so about 2 × 10¹⁰ raw magic states in total. In practice protocols are mixed and tuned to avoid overshooting the target, which is why T counts dominate resource estimates.",
+    "review": "topic-11-3-3"
+   }
+  ]
+ }
+}

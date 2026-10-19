@@ -5,7 +5,7 @@
 These instructions govern `education/algorithms/`. This is a continuation of
 Quantum Computing. Assume the knowledge developed in that course, but no further
 mathematics or physics courses. Follow the user's current instructions when the
-scope changes. All eleven chapters now contain initial draft lessons. Keep development status
+scope changes. All eleven chapters contain expanded draft lessons. Keep development status
 and chapter metadata current as explanations and validation improve.
 Do not present outline pages as completed instruction.
 
@@ -97,16 +97,23 @@ to make an unfinished outline look complete.
 
 ## Files and build
 
-- `chapters.json`: chapter order, titles, questions, prerequisite notes, examples,
-  and section/subsection plans.
-- `content/*.html`: canonical chapter manuscripts. Edit these, not generated pages.
-- `build.py`: reader generation; references shared CSS and MathJax from
-  `../computing/assets/` and generates local search data.
+- `chapters.json`: chapter order, titles, opening paragraphs, questions, and the
+  section/subsection outline. It must match the manuscripts exactly.
+- `content/*.html`: canonical manuscripts in the compact authoring form described
+  in `README.md` (parts, topics, figures, predictions, three problems per topic).
+  Edit these, not generated pages. Escape `<` as `&lt;` inside TeX.
+- `content/learning.json`, `content/glossary.json`, `content/figures.json`:
+  reading guides and exercises, glossary definitions, and figure specifications.
+  Keep figures as specifications rendered by `figures.py`; do not hand-edit SVGs.
+- `build.py`: reader generation with the computing course's design; it validates
+  the outline, problems, figure names, exercise links, glossary keywords, and IDs.
 - `assets/book.js`: reader controls with an independent `qa-book-` storage namespace.
-- Build using `python3 education/algorithms/build.py`.
+- Build using `python3 education/algorithms/build.py`; check with
+  `python3 education/checks/check_courses.py` and the scripts in `checks/`.
 - Keep chapter metadata, headings, links, navigation, and search in sync.
 - The course is listed in `content/courses.json`; `scripts/build.py` includes its
   pages in the site sitemap. Preserve manually edited student pages when updating
   site-level outputs; do not blindly regenerate unrelated pages.
-- Check local links, duplicate IDs, chapter order, and JavaScript syntax. Preserve
-  unrelated user edits. Do not commit or publish unless asked.
+- Check local links, duplicate IDs, chapter order, MathJax errors, and narrow-screen
+  overflow. Inspect new figures visually. Preserve unrelated user edits. Do not
+  commit or publish unless asked.

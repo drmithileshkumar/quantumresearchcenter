@@ -15,9 +15,9 @@ def soup(path):
     return parsed[path]
 
 
-def main():
+def main(courses=None):
     pages=0;chapters_count=0
-    for course in COURSES:
+    for course in COURSES if courses is None else courses:
         folder=ROOT/'education'/course
         manifest=json.loads((folder/'chapters.json').read_text())
         assert len({c['stem'] for c in manifest})==len(manifest)
@@ -28,21 +28,34 @@ def main():
             assert index.find('a',href=path.name),path
             manuscript=soup(folder/'content'/path.name)
             assert c['status']=='draft'
+            if course=='algorithms':
+                # Parts and topics are authored compactly and expanded by build.py.
+                reader=soup(path)
+                for sec in c['sections']:
+                    part=manuscript.find('section',id=sec['id']);assert part and part['data-title']==sec['title'],(path,sec['id'])
+                    for topic in sec['topics']:
+                        art=manuscript.find('article',id=topic['id']);assert art and art['data-title']==topic['title'],(path,topic['id'])
+                        assert len(art.get_text().split())>200,(path,topic['id'])
+                        rendered=reader.find(id=topic['id']);assert rendered,(path,topic['id'])
+                        assert len(rendered.select('.probing-question li details.problem-solution'))==3,(path,topic['id'])
+                assert len(reader.select('#practice .exercise'))>=3,path
+                continue
             for sec in c['sections']:
                 el=manuscript.find(id=sec['id']);assert el,(path,sec)
                 assert el.h2.get_text()==sec['number']+' '+sec['title']
                 headings=el.find_all('h3')
-                assert [h.get_text().split(' ',1)[1] for h in headings]==sec['subsections']
+                assert [h.get_text().removesuffix('§').split(' ',1)[1] for h in headings]==sec['subsections']
                 for heading in headings:
                     following=heading.find_next_sibling()
                     assert following and following.name not in ('h2','h3'),(path,heading)
                 assert len(el.get_text().split())>100,(path,sec['id'])
-            assert len(manuscript.select('details.problem-solution'))>=3,path
+            if course!='algorithms':assert len(manuscript.select('details.problem-solution'))>=3,path
             if course=='programming':
                 number=manifest.index(c)+1
                 source=(folder/f'examples/chapter_{number:02}.py').read_text()
                 assert any(source==code.get_text() for code in manuscript.select('pre code')),path
-        for page in [folder/'index.html',*[folder/f'{c["stem"]}.html' for c in manifest]]:
+        extra=[folder/'glossary.html',folder/'study-guide.html'] if course=='algorithms' else []
+        for page in [folder/'index.html',*[folder/f'{c["stem"]}.html' for c in manifest],*extra]:
             pages+=1;doc=soup(page)
             ids=[n['id'] for n in doc.select('[id]')]
             assert len(ids)==len(set(ids)),page
@@ -59,4 +72,9 @@ def main():
     print(f'PASS: {chapters_count} developed chapters; {pages} reader pages; headings, solutions, embedded code, local links, fragments, and image alternatives.')
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--course',action='append',choices=COURSES,
+                        help='Check only this course; may be repeated.')
+    main(parser.parse_args().course)

@@ -1,0 +1,87 @@
+<section aria-labelledby="landscape-heading" class="book-section course-landscape" id="landscape">
+<h2 id="landscape-heading">Landscape of quantum information</h2>
+<p>Quantum information branches into seven connected domains. Follow the branches from the central idea to a domain and then to its topics. Select any topic to open its explanation in the course.</p><figure aria-labelledby="mindmap-caption" class="landscape-mindmap">
+<p class="mindmap-open"><a href="topic-map.svg" rel="noopener" target="_blank">Open the full mind map ↗</a></p>
+<div class="mindmap-canvas"><div data-topic-map></div></div>
+<figcaption id="mindmap-caption">Read outward from Quantum information to the seven domains and their topics. Branch colors distinguish domains; the map groups topics rather than prescribing a reading order. The branches stack on narrower screens so every topic stays visible. A full-size view and topic index are also available below.</figcaption>
+</figure>
+<details class="landscape-text"><summary>Topic links by domain</summary><ol aria-label="Domains and topics" class="landscape-domains">
+<li id="landscape-foundations">
+<h3>Information and states</h3>
+<p>Describe an encoding and calculate what a receiver can observe.</p>
+<ul>
+<li><a href="01-information-and-distinguishability.html">Physical messages and distinguishability</a></li>
+<li><a href="02-classical-information.html">Probability, classical entropy, and coding</a></li>
+<li><a href="03-quantum-states.html">Amplitudes, interference, and quantum states</a></li>
+</ul><p class="landscape-connection">Supplies the language for every other domain.</p>
+</li>
+<li id="landscape-correlations">
+<h3>Composite systems and correlations</h3>
+<p>Separate what belongs to a whole system from what is accessible to one part.</p>
+<ul>
+<li><a href="04-composite-systems.html#section-4-1">Tensor products and joint states</a></li>
+<li><a href="04-composite-systems.html#section-4-2">Entanglement and Bell pairs</a></li>
+<li><a href="05-mixed-states.html">Ensembles, density operators, and reduced states</a></li>
+<li><a href="05-mixed-states.html#section-5-3">Purification and preparation records</a></li>
+</ul><p class="landscape-connection">Connects local predictions to shared resources.</p>
+</li>
+<li id="landscape-processing">
+<h3>Dynamics and observation</h3>
+<p>Model an interaction, the loss of a system, or the retention of a measurement record.</p>
+<ul>
+<li><a href="06-quantum-operations.html#section-6-1">Ancillas, interaction, and discarding</a></li>
+<li><a href="06-quantum-operations.html#section-6-2">Quantum channels and complete positivity</a></li>
+<li><a href="06-quantum-operations.html#section-6-3">Noise and channel composition</a></li>
+<li><a href="07-quantum-measurement.html">Measurement effects, instruments, and disturbance</a></li>
+</ul><p class="landscape-connection">Provides the allowed operations for every protocol.</p>
+</li>
+<li id="landscape-inference">
+<h3>Learning and physical limits</h3>
+<p>Choose a measurement for a decision, then establish what no device can accomplish.</p>
+<ul>
+<li><a href="08-state-discrimination.html#section-8-2">Minimum-error and unambiguous discrimination</a></li>
+<li><a href="08-state-discrimination.html#section-8-3">Accessible classical information</a></li>
+<li><a href="09-information-constraints.html#section-9-1">No-cloning and no-broadcasting</a></li>
+<li><a href="09-information-constraints.html#section-9-2">No-signalling and conditional predictions</a></li>
+</ul><p class="landscape-connection">Sets the limits that communication and security must respect.</p>
+</li>
+<li id="landscape-entanglement">
+<h3>Entanglement as a resource</h3>
+<p>Account for shared pairs, transmitted systems, classical records, and conversion failures.</p>
+<ul>
+<li><a href="10-entanglement-protocols.html">Teleportation, dense coding, and swapping</a></li>
+<li><a href="13-entanglement-transformations.html#section-13-1">Local operations, Schmidt coefficients, and majorization</a></li>
+<li><a href="13-entanglement-transformations.html#section-13-2">Concentration and dilution</a></li>
+<li><a href="13-entanglement-transformations.html#section-13-3">Mixed-state entanglement and irreversibility</a></li>
+</ul><p class="landscape-connection">Uses entropy to turn shared states into quantitative resource accounts.</p>
+</li>
+<li id="landscape-entropy">
+<h3>Entropy and compression</h3>
+<p>Quantify uncertainty and correlation, then determine how much quantum memory a source needs.</p>
+<ul>
+<li><a href="11-quantum-entropy.html#section-11-1">Spectra and von Neumann entropy</a></li>
+<li><a href="11-quantum-entropy.html#section-11-2">Mutual information and conditional entropy</a></li>
+<li><a href="11-quantum-entropy.html#section-11-3">Relative entropy, data processing, and the Holevo bound</a></li>
+<li><a href="12-quantum-compression.html">Fidelity, typical subspaces, and Schumacher compression</a></li>
+</ul><p class="landscape-connection">Links the structure of a state to asymptotic storage and communication rates.</p>
+</li>
+<li id="landscape-communication">
+<h3>Reliable and secure communication</h3>
+<p>Preserve an unknown state through noise, compare transmission rates, and define a secrecy claim.</p>
+<ul>
+<li><a href="14-quantum-error-correction.html">Quantum codes, syndromes, and recovery</a></li>
+<li><a href="15-quantum-communication.html#section-15-2">Classical and entanglement-assisted capacities</a></li>
+<li><a href="15-quantum-communication.html#section-15-3">Coherent information and quantum capacity</a></li>
+<li><a href="16-quantum-cryptography.html">BB84, parameter estimation, and privacy amplification</a></li>
+<li><a href="16-quantum-cryptography.html#section-16-3">Authentication and composable security</a></li>
+</ul><p class="landscape-connection">Brings states, channels, entanglement, and entropy together under explicit resource and error criteria.</p>
+</li>
+</ol><h3>Connections across the landscape</h3><dl class="landscape-bridges">
+<dt>Distinguishability → information bounds</dt>
+<dd>The <a href="08-state-discrimination.html">zero-versus-plus decision</a> becomes a comparison between a measurement’s information and the <a href="11-quantum-entropy.html#section-11-3">Holevo bound</a>.</dd>
+<dt>Bell pairs → resource rates</dt>
+<dd>The same pair used in <a href="10-entanglement-protocols.html#section-10-1">teleportation</a> becomes a unit for <a href="13-entanglement-transformations.html">entanglement conversion</a> and a resource in <a href="15-quantum-communication.html">assisted communication</a>.</dd>
+<dt>Environmental records → protection</dt>
+<dd><a href="06-quantum-operations.html">Noise</a> can move information into an inaccessible system. <a href="14-quantum-error-correction.html">Error correction</a> protects the logical state; <a href="16-quantum-cryptography.html">cryptography</a> asks how much an adversary could learn.</dd>
+</dl></details>
+</section>

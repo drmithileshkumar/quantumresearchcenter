@@ -1,542 +1,1152 @@
 [
-  {
-    "stem": "01-quantum-algorithmic-thinking",
-    "title": "Quantum Algorithmic Thinking",
-    "question": "How do we turn a computational problem into a quantum procedure whose answer can actually be read?",
-    "example": "Revisit Deutsch’s problem as a design exercise: identify the required property, explain why immediate measurement fails, and construct the interference that reveals the answer.",
-    "prerequisites": "Quantum Computing: amplitudes, circuits, measurement, reversible oracles, and elementary search.",
-    "sections": [
-      {
-        "id": "section-1-1",
-        "title": "Defining the Problem",
-        "number": "1.1",
-        "subsections": [
-          "Inputs, promises, and desired outputs",
-          "Decision, search, estimation, and sampling"
-        ]
-      },
-      {
-        "id": "section-1-2",
-        "title": "Specifying Access",
-        "number": "1.2",
-        "subsections": [
-          "Classical data, quantum states, and oracles",
-          "Available operations and hidden preparation costs"
-        ]
-      },
-      {
-        "id": "section-1-3",
-        "title": "Designing Interference",
-        "number": "1.3",
-        "subsections": [
-          "Encoding the property that matters",
-          "Removing records that prevent cancellation"
-        ]
-      },
-      {
-        "id": "section-1-4",
-        "title": "Constructing the Readout",
-        "number": "1.4",
-        "subsections": [
-          "Distinguishable answers and measurement",
-          "Success probability, precision, and repetition"
-        ]
-      },
-      {
-        "id": "section-1-5",
-        "title": "Establishing an Advantage",
-        "number": "1.5",
-        "subsections": [
-          "Correctness for a family of inputs",
-          "Classical baselines and complete resource costs"
-        ]
-      },
-      {
-        "id": "section-1-6",
-        "title": "Combining Techniques",
-        "number": "1.6",
-        "subsections": [
-          "Deutsch’s algorithm as a design case study",
-          "From reusable constructions to new algorithms"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "obstacle": "Immediate measurement exposes one value; a target record can prevent interference.",
-      "calculation": "Derive both output amplitudes of the exact Deutsch circuit and verify all four functions.",
-      "application": "Exact one-query decision of the XOR of two function values.",
-      "limits": "A fixed-size query separation is not an asymptotic runtime speedup.",
-      "handoff": "Construct clean coherent subroutines that restore temporary records.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+ {
+  "stem": "01-quantum-algorithmic-thinking",
+  "title": "Quantum Algorithmic Thinking",
+  "question": "How do we turn a computational problem into a quantum procedure whose answer can actually be read?",
+  "example": "Revisit Deutsch’s problem as a design exercise: identify the required property, explain why immediate measurement fails, and construct the interference that reveals the answer.",
+  "prerequisites": "Quantum Computing: amplitudes, circuits, measurement, reversible oracles, and elementary search.",
+  "sections": [
+   {
+    "id": "section-1-1",
+    "number": "1.1",
+    "title": "Defining the Problem",
+    "topics": [
+     {
+      "id": "topic-1-1-1",
+      "number": "1.1.1",
+      "title": "Inputs, promises, and desired outputs"
+     },
+     {
+      "id": "topic-1-1-2",
+      "number": "1.1.2",
+      "title": "Decision, search, estimation, and sampling"
+     }
+    ]
+   },
+   {
+    "id": "section-1-2",
+    "number": "1.2",
+    "title": "Specifying Access",
+    "topics": [
+     {
+      "id": "topic-1-2-1",
+      "number": "1.2.1",
+      "title": "Classical data, quantum states, and oracles"
+     },
+     {
+      "id": "topic-1-2-2",
+      "number": "1.2.2",
+      "title": "Available operations and hidden preparation costs"
+     }
+    ]
+   },
+   {
+    "id": "section-1-3",
+    "number": "1.3",
+    "title": "Designing Interference",
+    "topics": [
+     {
+      "id": "topic-1-3-1",
+      "number": "1.3.1",
+      "title": "Encoding the property that matters"
+     },
+     {
+      "id": "topic-1-3-2",
+      "number": "1.3.2",
+      "title": "Removing records that prevent cancellation"
+     }
+    ]
+   },
+   {
+    "id": "section-1-4",
+    "number": "1.4",
+    "title": "Constructing the Readout",
+    "topics": [
+     {
+      "id": "topic-1-4-1",
+      "number": "1.4.1",
+      "title": "Distinguishable answers and measurement"
+     },
+     {
+      "id": "topic-1-4-2",
+      "number": "1.4.2",
+      "title": "Success probability, precision, and repetition"
+     }
+    ]
+   },
+   {
+    "id": "section-1-5",
+    "number": "1.5",
+    "title": "Establishing an Advantage",
+    "topics": [
+     {
+      "id": "topic-1-5-1",
+      "number": "1.5.1",
+      "title": "Correctness for a family of inputs"
+     },
+     {
+      "id": "topic-1-5-2",
+      "number": "1.5.2",
+      "title": "Classical baselines and complete resource costs"
+     }
+    ]
+   },
+   {
+    "id": "section-1-6",
+    "number": "1.6",
+    "title": "Combining Techniques",
+    "topics": [
+     {
+      "id": "topic-1-6-1",
+      "number": "1.6.1",
+      "title": "Deutsch’s algorithm as a design case study"
+     },
+     {
+      "id": "topic-1-6-2",
+      "number": "1.6.2",
+      "title": "From reusable constructions to new algorithms"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "obstacle": "Immediate measurement exposes one value; a target record can prevent interference.",
+   "calculation": "Derive both output amplitudes of the exact Deutsch circuit and verify all four functions.",
+   "application": "Exact one-query decision of the XOR of two function values.",
+   "limits": "A fixed-size query separation is not an asymptotic runtime speedup.",
+   "handoff": "Construct clean coherent subroutines that restore temporary records.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "02-coherent-computation",
-    "title": "Coherent Computation",
-    "question": "How can a classical calculation become a reusable coherent subroutine?",
-    "example": "A reversible predicate evaluation whose workspace must be cleared.",
-    "prerequisites": "Quantum Computing: reversible embeddings, controlled gates, and uncomputation.",
-    "sections": [
-      {
-        "id": "section-2-1",
-        "title": "Reversible Evaluation",
-        "number": "2.1",
-        "subsections": [
-          "Input and output contracts",
-          "Arithmetic on superpositions"
-        ]
-      },
-      {
-        "id": "section-2-2",
-        "title": "Workspace Management",
-        "number": "2.2",
-        "subsections": [
-          "Compute, use, and uncompute",
-          "Time and space tradeoffs"
-        ]
-      },
-      {
-        "id": "section-2-3",
-        "title": "Algorithmic Access",
-        "number": "2.3",
-        "subsections": [
-          "Preparation and inverse access",
-          "Gate costs and output requirements"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "obstacle": "Temporary function values can retain which-input information.",
-      "calculation": "Trace a six-wire predicate circuit through compute, copy, and uncompute on basis and superposed inputs.",
-      "application": "Clean bit oracles, phase oracles, and prepared-state reflections.",
-      "limits": "Uncomputation costs gates and requires preserved inputs; state access does not imply circuit access.",
-      "handoff": "Use clean phase encoding for hidden-string and promise problems.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "A quantum computer does not try every answer at once and hand you the best one. It manipulates amplitudes, and at the end a measurement returns one outcome. An algorithm is useful only if the outcome it is likely to return answers the question you asked.",
+   "This chapter takes the smallest problem with a quantum advantage, deciding whether a hidden one-bit function has equal outputs, and treats it as a design exercise. We fix the problem and the form of access, find the encoding that makes the answer an amplitude, see what blocks interference, choose the measurement, prove correctness, and count the cost. Then we ask what the one-query result does and does not establish."
+  ],
+  "intro": "Every quantum algorithm in this course is built by the same sequence of decisions; Deutsch’s problem shows each one in its simplest form."
+ },
+ {
+  "stem": "02-coherent-computation",
+  "title": "Coherent Computation",
+  "question": "How can a classical calculation become a reusable coherent subroutine?",
+  "example": "A reversible predicate evaluation whose workspace must be cleared.",
+  "prerequisites": "Quantum Computing: reversible embeddings, controlled gates, and uncomputation.",
+  "sections": [
+   {
+    "id": "section-2-1",
+    "number": "2.1",
+    "title": "Reversible Evaluation",
+    "topics": [
+     {
+      "id": "topic-2-1-1",
+      "number": "2.1.1",
+      "title": "Input and output contracts"
+     },
+     {
+      "id": "topic-2-1-2",
+      "number": "2.1.2",
+      "title": "From Boolean circuits to reversible circuits"
+     },
+     {
+      "id": "topic-2-1-3",
+      "number": "2.1.3",
+      "title": "Arithmetic on superpositions"
+     }
+    ]
+   },
+   {
+    "id": "section-2-2",
+    "number": "2.2",
+    "title": "Workspace Management",
+    "topics": [
+     {
+      "id": "topic-2-2-1",
+      "number": "2.2.1",
+      "title": "Compute, copy, uncompute"
+     },
+     {
+      "id": "topic-2-2-2",
+      "number": "2.2.2",
+      "title": "Phase oracles from clean evaluation"
+     },
+     {
+      "id": "topic-2-2-3",
+      "number": "2.2.3",
+      "title": "What garbage does to interference"
+     }
+    ]
+   },
+   {
+    "id": "section-2-3",
+    "number": "2.3",
+    "title": "Costs and Tradeoffs",
+    "topics": [
+     {
+      "id": "topic-2-3-1",
+      "number": "2.3.1",
+      "title": "Counting gates, qubits, and Toffolis"
+     },
+     {
+      "id": "topic-2-3-2",
+      "number": "2.3.2",
+      "title": "Time–space tradeoffs"
+     }
+    ]
+   },
+   {
+    "id": "section-2-4",
+    "number": "2.4",
+    "title": "Algorithmic Access",
+    "topics": [
+     {
+      "id": "topic-2-4-1",
+      "number": "2.4.1",
+      "title": "Preparation and inverse access"
+     },
+     {
+      "id": "topic-2-4-2",
+      "number": "2.4.2",
+      "title": "Controlled versions and phase conventions"
+     },
+     {
+      "id": "topic-2-4-3",
+      "number": "2.4.3",
+      "title": "Output requirements"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "obstacle": "Temporary function values can retain which-input information.",
+   "calculation": "Trace a six-wire predicate circuit through compute, copy, and uncompute on basis and superposed inputs.",
+   "application": "Clean bit oracles, phase oracles, and prepared-state reflections.",
+   "limits": "Uncomputation costs gates and requires preserved inputs; state access does not imply circuit access.",
+   "handoff": "Use clean phase encoding for hidden-string and promise problems.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "03-phase-encoding",
-    "title": "Phase Encoding",
-    "question": "How can a function change relative phases without leaving a record of its input?",
-    "example": "A Boolean predicate encoded as a sign and read through a Hadamard.",
-    "prerequisites": "Chapter 2 and the phase-kickback construction in Quantum Computing.",
-    "sections": [
-      {
-        "id": "section-3-1",
-        "title": "Controlled Phases",
-        "number": "3.1",
-        "subsections": [
-          "Eigenstate targets",
-          "Bit oracles and phase oracles"
-        ]
-      },
-      {
-        "id": "section-3-2",
-        "title": "Interference Readout",
-        "number": "3.2",
-        "subsections": [
-          "Bernstein–Vazirani",
-          "Deutsch–Jozsa and promise assumptions"
-        ]
-      },
-      {
-        "id": "section-3-3",
-        "title": "Phase Arithmetic",
-        "number": "3.3",
-        "subsections": [
-          "Encoding numerical values",
-          "Workspace restoration and phase precision"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "An oracle hides a string of bits. Reading the string one bit at a time seems unavoidable, until we ask whether an entire pattern of relative signs can reveal it in one measurement. The challenge is to encode a relationship without retaining the intermediate values that would prevent interference.",
-      "worked_examples": [
-        "For \\(s=11\\), predict the four signs before the last Hadamards.",
-        "A Boolean function is one on three of eight inputs. What is the probability of zero after phase encoding and Hadamards?",
-        "Why does changing every function value by one leave the phase-oracle experiment unchanged?"
-      ],
-      "handoff": "Phase encoding gives us a pattern of complex amplitudes. Fourier methods next turn structured phase patterns into measurable frequencies.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "In Chapter 1 the oracle was a perfect box. Real algorithms build their oracles from gates, usually from an ordinary classical description of a function. That raises a problem classical programmers never face: intermediate results cannot simply be thrown away, and any that remain can silently destroy the interference the algorithm depends on.",
+   "This chapter turns function evaluation into a reliable quantum subroutine. We write down the contract a clean evaluation must satisfy, translate classical logic into reversible gates, remove the garbage by running the computation backwards, and count what that costs. We then build the related operations later chapters assume: phase oracles, reflections about prepared states, and controlled versions."
+  ],
+  "intro": "Compute, copy the answer, uncompute: with that pattern, any classical function becomes a clean quantum oracle at about twice its classical cost."
+ },
+ {
+  "stem": "03-phase-encoding",
+  "title": "Phase Encoding",
+  "question": "How can a function change relative phases without leaving a record of its input?",
+  "example": "A Boolean predicate encoded as a sign and read through a Hadamard.",
+  "prerequisites": "Chapter 2 and the phase-kickback construction in Quantum Computing.",
+  "sections": [
+   {
+    "id": "section-3-1",
+    "number": "3.1",
+    "title": "Controlled Phases",
+    "topics": [
+     {
+      "id": "topic-3-1-1",
+      "number": "3.1.1",
+      "title": "Eigenstate targets"
+     },
+     {
+      "id": "topic-3-1-2",
+      "number": "3.1.2",
+      "title": "The Hadamard test"
+     },
+     {
+      "id": "topic-3-1-3",
+      "number": "3.1.3",
+      "title": "Bit oracles and phase oracles"
+     }
+    ]
+   },
+   {
+    "id": "section-3-2",
+    "number": "3.2",
+    "title": "Interference Readout",
+    "topics": [
+     {
+      "id": "topic-3-2-1",
+      "number": "3.2.1",
+      "title": "The Hadamard transform on many qubits"
+     },
+     {
+      "id": "topic-3-2-2",
+      "number": "3.2.2",
+      "title": "Bernstein–Vazirani"
+     },
+     {
+      "id": "topic-3-2-3",
+      "number": "3.2.3",
+      "title": "Deutsch–Jozsa and promise assumptions"
+     }
+    ]
+   },
+   {
+    "id": "section-3-3",
+    "number": "3.3",
+    "title": "Hidden Structure",
+    "topics": [
+     {
+      "id": "topic-3-3-1",
+      "number": "3.3.1",
+      "title": "Simon’s problem"
+     },
+     {
+      "id": "topic-3-3-2",
+      "number": "3.3.2",
+      "title": "Recovering the string"
+     }
+    ]
+   },
+   {
+    "id": "section-3-4",
+    "number": "3.4",
+    "title": "Phase Arithmetic",
+    "topics": [
+     {
+      "id": "topic-3-4-1",
+      "number": "3.4.1",
+      "title": "Phases from computed values"
+     },
+     {
+      "id": "topic-3-4-2",
+      "number": "3.4.2",
+      "title": "Phase kickback from modular addition"
+     },
+     {
+      "id": "topic-3-4-3",
+      "number": "3.4.3",
+      "title": "Precision and workspace restoration"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "An oracle hides a string of bits. Reading the string one bit at a time seems unavoidable, until we ask whether an entire pattern of relative signs can reveal it in one measurement. The challenge is to encode a relationship without retaining the intermediate values that would prevent interference.",
+   "worked_examples": [
+    "For \\(s=11\\), predict the four signs before the last Hadamards.",
+    "A Boolean function is one on three of eight inputs. What is the probability of zero after phase encoding and Hadamards?",
+    "Why does changing every function value by one leave the phase-oracle experiment unchanged?"
+   ],
+   "handoff": "Phase encoding gives us a pattern of complex amplitudes. Fourier methods next turn structured phase patterns into measurable frequencies.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "04-fourier-methods",
-    "title": "Fourier Methods",
-    "question": "How does a repeated pattern become a measurable frequency?",
-    "example": "A periodic amplitude pattern on an eight-label register.",
-    "prerequisites": "Chapters 2–3; modular arithmetic and Fourier mathematics are developed in this chapter.",
-    "sections": [
-      {
-        "id": "section-4-1",
-        "title": "The Fourier Transform",
-        "number": "4.1",
-        "subsections": [
-          "Roots of unity and cancellation",
-          "Circuit construction and approximation"
-        ]
-      },
-      {
-        "id": "section-4-2",
-        "title": "Phase Estimation",
-        "number": "4.2",
-        "subsections": [
-          "Controlled powers and phase kickback",
-          "Resolution, readout, and success probability"
-        ]
-      },
-      {
-        "id": "section-4-3",
-        "title": "Algebraic Algorithms",
-        "number": "4.3",
-        "subsections": [
-          "Period finding and order finding",
-          "Factoring and hidden subgroup structure"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "Consider a register whose amplitudes repeat every two positions. Reading one position does not announce that period. We need a change of basis in which repeated patterns reinforce particular frequencies.",
-      "worked_examples": [
-        "What does \\(F_8\\) do to \\((\\ket1+\\ket3+\\ket5+\\ket7)/2\\)?",
-        "With three control bits and \\(\\phi=3/8\\), what is the result, and how many base controlled-U calls are needed by repetition?",
-        "Why is the factoring reduction unsuccessful for \\(a=14,L=15\\)?"
-      ],
-      "handoff": "Frequency readout can estimate useful quantities, but useful outcomes may still have small probability. The next chapter makes their amplitudes larger.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "Deutsch’s algorithm turned two function values into two signs and let them interfere. That is a special case of something far more general: whenever an operation changes a state only by a phase, the phase can be moved onto a control register, and interference can read it.",
+   "This chapter develops phase encoding as a technique. We state kickback for any unitary, build a circuit that measures a phase, and then read entire sign patterns on n qubits with one layer of Hadamards. Bernstein–Vazirani recovers a hidden string in one query. Simon’s problem shows how random constraints, combined by classical algebra, reveal hidden structure that no classical algorithm can find efficiently. Finally we produce finer phases from computed numbers and account for their precision."
+  ],
+  "intro": "A phase is invisible until it is relative; once it is relative, interference can turn it into a measurement outcome."
+ },
+ {
+  "stem": "04-fourier-methods",
+  "title": "Fourier Methods",
+  "question": "How does a repeated pattern become a measurable frequency?",
+  "example": "A periodic amplitude pattern on an eight-label register.",
+  "prerequisites": "Chapters 2–3; modular arithmetic and Fourier mathematics are developed in this chapter.",
+  "sections": [
+   {
+    "id": "section-4-1",
+    "number": "4.1",
+    "title": "The Fourier Transform",
+    "topics": [
+     {
+      "id": "topic-4-1-1",
+      "number": "4.1.1",
+      "title": "Roots of unity and cancellation"
+     },
+     {
+      "id": "topic-4-1-2",
+      "number": "4.1.2",
+      "title": "Periodic states and frequency peaks"
+     },
+     {
+      "id": "topic-4-1-3",
+      "number": "4.1.3",
+      "title": "Circuit construction"
+     },
+     {
+      "id": "topic-4-1-4",
+      "number": "4.1.4",
+      "title": "Approximation and cost"
+     }
+    ]
+   },
+   {
+    "id": "section-4-2",
+    "number": "4.2",
+    "title": "Phase Estimation",
+    "topics": [
+     {
+      "id": "topic-4-2-1",
+      "number": "4.2.1",
+      "title": "Controlled powers and kickback"
+     },
+     {
+      "id": "topic-4-2-2",
+      "number": "4.2.2",
+      "title": "Exact phases"
+     },
+     {
+      "id": "topic-4-2-3",
+      "number": "4.2.3",
+      "title": "Resolution and success probability"
+     },
+     {
+      "id": "topic-4-2-4",
+      "number": "4.2.4",
+      "title": "Superpositions of eigenstates"
+     }
+    ]
+   },
+   {
+    "id": "section-4-3",
+    "number": "4.3",
+    "title": "Order Finding",
+    "topics": [
+     {
+      "id": "topic-4-3-1",
+      "number": "4.3.1",
+      "title": "Modular multiplication as a unitary"
+     },
+     {
+      "id": "topic-4-3-2",
+      "number": "4.3.2",
+      "title": "Eigenstates and the sample s/r"
+     },
+     {
+      "id": "topic-4-3-3",
+      "number": "4.3.3",
+      "title": "Continued fractions"
+     }
+    ]
+   },
+   {
+    "id": "section-4-4",
+    "number": "4.4",
+    "title": "Factoring and Hidden Structure",
+    "topics": [
+     {
+      "id": "topic-4-4-1",
+      "number": "4.4.1",
+      "title": "From order to factors"
+     },
+     {
+      "id": "topic-4-4-2",
+      "number": "4.4.2",
+      "title": "Resources"
+     },
+     {
+      "id": "topic-4-4-3",
+      "number": "4.4.3",
+      "title": "Hidden subgroup problems"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "Consider a register whose amplitudes repeat every two positions. Reading one position does not announce that period. We need a change of basis in which repeated patterns reinforce particular frequencies.",
+   "worked_examples": [
+    "What does \\(F_8\\) do to \\((\\ket1+\\ket3+\\ket5+\\ket7)/2\\)?",
+    "With three control bits and \\(\\phi=3/8\\), what is the result, and how many base controlled-U calls are needed by repetition?",
+    "Why is the factoring reduction unsuccessful for \\(a=14,L=15\\)?"
+   ],
+   "handoff": "Frequency readout can estimate useful quantities, but useful outcomes may still have small probability. The next chapter makes their amplitudes larger.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "05-amplitude-manipulation",
-    "title": "Amplitude Manipulation",
-    "question": "How can a useful but unlikely outcome be made observable without knowing the answer?",
-    "example": "Amplifying a nonuniform preparation with a known success test.",
-    "prerequisites": "Chapters 2–4 and the introductory course’s search and amplification arguments.",
-    "sections": [
-      {
-        "id": "section-5-1",
-        "title": "Reflections",
-        "number": "5.1",
-        "subsections": [
-          "Prepared-state reflections",
-          "Amplification beyond uniform search"
-        ]
-      },
-      {
-        "id": "section-5-2",
-        "title": "Phase Sequences",
-        "number": "5.2",
-        "subsections": [
-          "Exact amplification",
-          "Fixed-point constructions and uncertainty"
-        ]
-      },
-      {
-        "id": "section-5-3",
-        "title": "Estimation and Search",
-        "number": "5.3",
-        "subsections": [
-          "Amplitude estimation as a composition of techniques",
-          "Minimum finding and variable-time extensions"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "A preparation circuit produces a valid answer only one time in ten. If validity can be tested coherently, can we improve this without already knowing the answer? The useful geometry lives in a plane defined by successful and unsuccessful components.",
-      "worked_examples": [
-        "If p=1/4, what happens after two ordinary iterations?",
-        "Apply one π/3 construction when the initial failure is 1/2.",
-        "Can amplitude estimation read a probability to arbitrary precision using a fixed number of controlled-Q calls?"
-      ],
-      "handoff": "Pairing reflections turns overlap into a rotation angle. Quantum walks extend this idea by choosing reflections from a graph’s local structure.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "The Hadamard transform reads sign patterns. Many problems produce a richer pattern: phases that advance steadily, like the hand of a clock, e^{2πixy/N}. Periodic functions produce them. So do controlled powers of a unitary, applied to one of its eigenstates.",
+   "This chapter builds the transform that reads such patterns, the quantum Fourier transform, and shows that it needs only O(n²) gates on n qubits. Combining it with controlled powers and kickback gives phase estimation, which reads the eigenvalues of a unitary to many digits. Applied to modular multiplication, phase estimation finds orders, and a short classical argument turns orders into factors: Shor’s algorithm. We count its costs and place it in the family of hidden subgroup problems."
+  ],
+  "intro": "The Fourier transform turns an unknown shift into an invisible phase and a hidden period into a visible frequency."
+ },
+ {
+  "stem": "05-amplitude-manipulation",
+  "title": "Amplitude Manipulation",
+  "question": "How can a useful but unlikely outcome be made observable without knowing the answer?",
+  "example": "Amplifying a nonuniform preparation with a known success test.",
+  "prerequisites": "Chapters 2–4 and the introductory course’s search and amplification arguments.",
+  "sections": [
+   {
+    "id": "section-5-1",
+    "number": "5.1",
+    "title": "Reflections",
+    "topics": [
+     {
+      "id": "topic-5-1-1",
+      "number": "5.1.1",
+      "title": "The good–bad plane"
+     },
+     {
+      "id": "topic-5-1-2",
+      "number": "5.1.2",
+      "title": "Two reflections make a rotation"
+     },
+     {
+      "id": "topic-5-1-3",
+      "number": "5.1.3",
+      "title": "Choosing the number of iterations"
+     }
+    ]
+   },
+   {
+    "id": "section-5-2",
+    "number": "5.2",
+    "title": "Phase Sequences",
+    "topics": [
+     {
+      "id": "topic-5-2-1",
+      "number": "5.2.1",
+      "title": "Exact amplification"
+     },
+     {
+      "id": "topic-5-2-2",
+      "number": "5.2.2",
+      "title": "Fixed-point amplification"
+     }
+    ]
+   },
+   {
+    "id": "section-5-3",
+    "number": "5.3",
+    "title": "Amplitude Estimation",
+    "topics": [
+     {
+      "id": "topic-5-3-1",
+      "number": "5.3.1",
+      "title": "Eigenvalues of the iterate"
+     },
+     {
+      "id": "topic-5-3-2",
+      "number": "5.3.2",
+      "title": "Estimation by phase estimation"
+     },
+     {
+      "id": "topic-5-3-3",
+      "number": "5.3.3",
+      "title": "Mean estimation"
+     }
+    ]
+   },
+   {
+    "id": "section-5-4",
+    "number": "5.4",
+    "title": "Search Applications",
+    "topics": [
+     {
+      "id": "topic-5-4-1",
+      "number": "5.4.1",
+      "title": "Minimum finding"
+     },
+     {
+      "id": "topic-5-4-2",
+      "number": "5.4.2",
+      "title": "Optimality and limits"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "A preparation circuit produces a valid answer only one time in ten. If validity can be tested coherently, can we improve this without already knowing the answer? The useful geometry lives in a plane defined by successful and unsuccessful components.",
+   "worked_examples": [
+    "If p=1/4, what happens after two ordinary iterations?",
+    "Apply one π/3 construction when the initial failure is 1/2.",
+    "Can amplitude estimation read a probability to arbitrary precision using a fixed number of controlled-Q calls?"
+   ],
+   "handoff": "Pairing reflections turns overlap into a rotation angle. Quantum walks extend this idea by choosing reflections from a graph’s local structure.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "06-quantum-walks",
-    "title": "Quantum Walks",
-    "question": "How can graph structure organize useful interference?",
-    "example": "A reversible walk around a small cycle with a marked vertex.",
-    "prerequisites": "Coherent control and reflections from Chapters 2 and 5; graph and spectral notions developed locally.",
-    "sections": [
-      {
-        "id": "section-6-1",
-        "title": "Discrete Walks",
-        "number": "6.1",
-        "subsections": [
-          "Position and coin registers",
-          "Reflection-based walks"
-        ]
-      },
-      {
-        "id": "section-6-2",
-        "title": "Continuous Walks",
-        "number": "6.2",
-        "subsections": [
-          "Evolution from graph connections",
-          "Discrete and continuous access models"
-        ]
-      },
-      {
-        "id": "section-6-3",
-        "title": "Walk Algorithms",
-        "number": "6.3",
-        "subsections": [
-          "Marked-vertex search",
-          "Element distinctness and backtracking"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "A walker on a graph can reach a vertex by several routes. A classical walk adds the probabilities of those routes. A quantum walk carries amplitudes and a reversible record of the direction, allowing some routes to cancel. The graph becomes part of the interference design.",
-      "worked_examples": [
-        "Why must the coin remain in the state description?",
-        "At time \\(t=\\pi/(4\\gamma)\\), what is the two-vertex state?",
-        "Why does a walk query bound not specify a runtime?"
-      ],
-      "handoff": "Walks implement structured unitary transformations. To process matrices that are not unitary, we next represent them as part of a larger unitary.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "Quantum Computing developed Grover search for one marked item among N. This chapter asks a stronger question. Suppose any procedure, a heuristic, a sampler, a randomized algorithm made reversible, produces a good answer with small probability, and good answers can be recognized. Can we raise the success probability without already knowing a good answer?",
+   "Two reflections, composed, make a rotation, and the rotation moves the state toward success. We work out the geometry in a plane, decide how many rotations to apply, and see how changing the phases of the reflections gives exact or overshoot-free amplification. Then we turn the rotation angle into a measurement: amplitude estimation reads probabilities with quadratically fewer calls than sampling. We end with an algorithm built from these pieces and with the lower bound that limits them."
+  ],
+  "intro": "Amplification and estimation are two uses of one rotation: apply it to raise a probability, or measure its angle to learn the probability."
+ },
+ {
+  "stem": "06-quantum-walks",
+  "title": "Quantum Walks",
+  "question": "How can graph structure organize useful interference?",
+  "example": "A reversible walk around a small cycle with a marked vertex.",
+  "prerequisites": "Coherent control and reflections from Chapters 2 and 5; graph and spectral notions developed locally.",
+  "sections": [
+   {
+    "id": "section-6-1",
+    "number": "6.1",
+    "title": "Discrete Walks",
+    "topics": [
+     {
+      "id": "topic-6-1-1",
+      "number": "6.1.1",
+      "title": "Classical random walks"
+     },
+     {
+      "id": "topic-6-1-2",
+      "number": "6.1.2",
+      "title": "Coin and shift registers"
+     },
+     {
+      "id": "topic-6-1-3",
+      "number": "6.1.3",
+      "title": "Ballistic spreading"
+     }
+    ]
+   },
+   {
+    "id": "section-6-2",
+    "number": "6.2",
+    "title": "Continuous Walks",
+    "topics": [
+     {
+      "id": "topic-6-2-1",
+      "number": "6.2.1",
+      "title": "Evolution generated by a graph"
+     },
+     {
+      "id": "topic-6-2-2",
+      "number": "6.2.2",
+      "title": "Matrix exponentials through eigenvalues"
+     },
+     {
+      "id": "topic-6-2-3",
+      "number": "6.2.3",
+      "title": "Walks on a cycle and Fourier modes"
+     }
+    ]
+   },
+   {
+    "id": "section-6-3",
+    "number": "6.3",
+    "title": "Walks from Reflections",
+    "topics": [
+     {
+      "id": "topic-6-3-1",
+      "number": "6.3.1",
+      "title": "Szegedy’s walk"
+     },
+     {
+      "id": "topic-6-3-2",
+      "number": "6.3.2",
+      "title": "Phase gap and spectral gap"
+     }
+    ]
+   },
+   {
+    "id": "section-6-4",
+    "number": "6.4",
+    "title": "Walk Algorithms",
+    "topics": [
+     {
+      "id": "topic-6-4-1",
+      "number": "6.4.1",
+      "title": "Searching with a walk"
+     },
+     {
+      "id": "topic-6-4-2",
+      "number": "6.4.2",
+      "title": "Element distinctness"
+     },
+     {
+      "id": "topic-6-4-3",
+      "number": "6.4.3",
+      "title": "Exponential speedups and limits"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "A walker on a graph can reach a vertex by several routes. A classical walk adds the probabilities of those routes. A quantum walk carries amplitudes and a reversible record of the direction, allowing some routes to cancel. The graph becomes part of the interference design.",
+   "worked_examples": [
+    "Why must the coin remain in the state description?",
+    "At time \\(t=\\pi/(4\\gamma)\\), what is the two-vertex state?",
+    "Why does a walk query bound not specify a runtime?"
+   ],
+   "handoff": "Walks implement structured unitary transformations. To process matrices that are not unitary, we next represent them as part of a larger unitary.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "07-operator-embedding",
-    "title": "Operator Embedding",
-    "question": "How can a unitary circuit represent a transformation that is not unitary?",
-    "example": "Embedding a scaled two-by-two matrix using an auxiliary qubit.",
-    "prerequisites": "Chapters 2 and 5; operator norms and normalization are developed through the embedding.",
-    "sections": [
-      {
-        "id": "section-7-1",
-        "title": "Unitary Embeddings",
-        "number": "7.1",
-        "subsections": [
-          "Ancilla blocks and normalization",
-          "Success probabilities and postselection"
-        ]
-      },
-      {
-        "id": "section-7-2",
-        "title": "Linear Combinations",
-        "number": "7.2",
-        "subsections": [
-          "Preparation and coherent selection",
-          "Constructing weighted sums"
-        ]
-      },
-      {
-        "id": "section-7-3",
-        "title": "Composing Encodings",
-        "number": "7.3",
-        "subsections": [
-          "Products and sums of encoded matrices",
-          "Access costs and approximation errors"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "We would like a circuit to multiply a vector by the matrix diag(1, 1/2). That transformation shrinks some vectors more than others, so it cannot be a deterministic unitary on the same register. An auxiliary system gives a precise way to make it a conditional part of a legal evolution.",
-      "worked_examples": [
-        "What happens for system input one in the diagonal example?",
-        "Can an encoding of \\(2I\\) have α=1?",
-        "Why does classical random selection fail to implement \\((I+X)/2\\) coherently?"
-      ],
-      "handoff": "Once a matrix is encoded in a unitary, repeated use and carefully chosen phases can transform its spectral values. The next chapter constructs the simplest such responses.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "Random walks are one of the most versatile tools of classical algorithms. Wander randomly on a graph and you sample, explore, and find things, with costs governed by how quickly the walk mixes. A quantum walk wanders in superposition: routes to the same vertex carry amplitudes, and they can cancel or reinforce.",
+   "This chapter builds quantum walks in three forms: a coined walk on a line or cycle, a continuous-time walk generated by a graph, and Szegedy’s walk built from two reflections determined by a classical Markov chain. The first spreads quadratically faster than a random walk. The last converts a classical spectral gap δ into a quantum phase gap of order √δ, which yields a general quadratic speedup for search on graphs and the optimal algorithm for element distinctness."
+  ],
+  "intro": "A quantum walk is amplitude amplification with reflections chosen by a graph: a gap δ becomes √δ."
+ },
+ {
+  "stem": "07-operator-embedding",
+  "title": "Operator Embedding",
+  "question": "How can a unitary circuit represent a transformation that is not unitary?",
+  "example": "Embedding a scaled two-by-two matrix using an auxiliary qubit.",
+  "prerequisites": "Chapters 2 and 5; operator norms and normalization are developed through the embedding.",
+  "sections": [
+   {
+    "id": "section-7-1",
+    "number": "7.1",
+    "title": "Unitary Embeddings",
+    "topics": [
+     {
+      "id": "topic-7-1-1",
+      "number": "7.1.1",
+      "title": "Matrices that are not unitary"
+     },
+     {
+      "id": "topic-7-1-2",
+      "number": "7.1.2",
+      "title": "Block encodings"
+     },
+     {
+      "id": "topic-7-1-3",
+      "number": "7.1.3",
+      "title": "Postselection and success probability"
+     }
+    ]
+   },
+   {
+    "id": "section-7-2",
+    "number": "7.2",
+    "title": "Linear Combinations of Unitaries",
+    "topics": [
+     {
+      "id": "topic-7-2-1",
+      "number": "7.2.1",
+      "title": "PREPARE and SELECT"
+     },
+     {
+      "id": "topic-7-2-2",
+      "number": "7.2.2",
+      "title": "A worked sum"
+     },
+     {
+      "id": "topic-7-2-3",
+      "number": "7.2.3",
+      "title": "Hamiltonians as sums of Pauli strings"
+     }
+    ]
+   },
+   {
+    "id": "section-7-3",
+    "number": "7.3",
+    "title": "Composing Encodings",
+    "topics": [
+     {
+      "id": "topic-7-3-1",
+      "number": "7.3.1",
+      "title": "Products of encoded matrices"
+     },
+     {
+      "id": "topic-7-3-2",
+      "number": "7.3.2",
+      "title": "Error propagation"
+     },
+     {
+      "id": "topic-7-3-3",
+      "number": "7.3.3",
+      "title": "Oblivious amplitude amplification"
+     }
+    ]
+   },
+   {
+    "id": "section-7-4",
+    "number": "7.4",
+    "title": "Access Models",
+    "topics": [
+     {
+      "id": "topic-7-4-1",
+      "number": "7.4.1",
+      "title": "Sparse access"
+     },
+     {
+      "id": "topic-7-4-2",
+      "number": "7.4.2",
+      "title": "Classical data and dequantization"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "We would like a circuit to multiply a vector by the matrix diag(1, 1/2). That transformation shrinks some vectors more than others, so it cannot be a deterministic unitary on the same register. An auxiliary system gives a precise way to make it a conditional part of a legal evolution.",
+   "worked_examples": [
+    "What happens for system input one in the diagonal example?",
+    "Can an encoding of \\(2I\\) have α=1?",
+    "Why does classical random selection fail to implement \\((I+X)/2\\) coherently?"
+   ],
+   "handoff": "Once a matrix is encoded in a unitary, repeated use and carefully chosen phases can transform its spectral values. The next chapter constructs the simplest such responses.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "08-polynomial-transformations",
-    "title": "Polynomial Transformations",
-    "question": "How can a short circuit transform an entire spectrum without reading its eigenvalues?",
-    "example": "Constructing a low-degree filter on an encoded two-level operator.",
-    "prerequisites": "Chapters 5–7; polynomial approximation introduced through the required filter.",
-    "sections": [
-      {
-        "id": "section-8-1",
-        "title": "Signal Processing",
-        "number": "8.1",
-        "subsections": [
-          "Phase sequences and polynomial response",
-          "Parity and boundedness constraints"
-        ]
-      },
-      {
-        "id": "section-8-2",
-        "title": "Spectral Transformations",
-        "number": "8.2",
-        "subsections": [
-          "Qubitization and encoded eigenphases",
-          "Singular value transformation"
-        ]
-      },
-      {
-        "id": "section-8-3",
-        "title": "Algorithm Construction",
-        "number": "8.3",
-        "subsections": [
-          "Filtering and matrix inversion",
-          "Hamiltonian simulation and precision costs"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "An encoded operator may have one spectral component we want to keep and another we want to suppress. Measuring every component first would be costly and destructive. Instead, build a circuit whose response is a polynomial in the unknown component value.",
-      "worked_examples": [
-        "Evaluate the response of W² at x=0, 1/2, and 1.",
-        "Why is the polynomial 2x not a valid unit-amplitude response on the entire interval [−1,1]?",
-        "What prevents an inverse filter from treating a zero singular value like every other value?"
-      ],
-      "handoff": "We now have two ways to describe evolution: its response on spectral values and the product of available small operations. Evolution engineering makes the latter construction quantitative.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "Every operation so far has been unitary, yet many of the problems we would like to solve are about matrices that are not: Hamiltonians to be exponentiated, systems of equations to be inverted, projectors to be applied. A quantum circuit preserves lengths. How can it apply a matrix that does not?",
+   "The answer is to embed the matrix as one block of a larger unitary, acting on the system together with ancilla qubits. On the branch where the ancillas return to zero, the system has been multiplied by the matrix; the missing length went into other branches. This chapter builds such block encodings from sums of unitaries, composes them, amplifies them, and asks what it costs to supply one, a question that decides whether a claimed speedup survives."
+  ],
+  "intro": "A block encoding is the interface between matrices and circuits: it makes clear what an algorithm consumes, and what supplying that costs."
+ },
+ {
+  "stem": "08-polynomial-transformations",
+  "title": "Polynomial Transformations",
+  "question": "How can a short circuit transform an entire spectrum without reading its eigenvalues?",
+  "example": "Constructing a low-degree filter on an encoded two-level operator.",
+  "prerequisites": "Chapters 5–7; polynomial approximation introduced through the required filter.",
+  "sections": [
+   {
+    "id": "section-8-1",
+    "number": "8.1",
+    "title": "Signal Processing",
+    "topics": [
+     {
+      "id": "topic-8-1-1",
+      "number": "8.1.1",
+      "title": "The signal rotation"
+     },
+     {
+      "id": "topic-8-1-2",
+      "number": "8.1.2",
+      "title": "Phase sequences"
+     },
+     {
+      "id": "topic-8-1-3",
+      "number": "8.1.3",
+      "title": "Parity and boundedness"
+     }
+    ]
+   },
+   {
+    "id": "section-8-2",
+    "number": "8.2",
+    "title": "Spectral Transformations",
+    "topics": [
+     {
+      "id": "topic-8-2-1",
+      "number": "8.2.1",
+      "title": "Acting on eigenvalues"
+     },
+     {
+      "id": "topic-8-2-2",
+      "number": "8.2.2",
+      "title": "Qubitization"
+     },
+     {
+      "id": "topic-8-2-3",
+      "number": "8.2.3",
+      "title": "Singular value transformation"
+     }
+    ]
+   },
+   {
+    "id": "section-8-3",
+    "number": "8.3",
+    "title": "Algorithm Construction",
+    "topics": [
+     {
+      "id": "topic-8-3-1",
+      "number": "8.3.1",
+      "title": "Filters and projectors"
+     },
+     {
+      "id": "topic-8-3-2",
+      "number": "8.3.2",
+      "title": "Matrix inversion"
+     },
+     {
+      "id": "topic-8-3-3",
+      "number": "8.3.3",
+      "title": "Hamiltonian simulation by polynomials"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "An encoded operator may have one spectral component we want to keep and another we want to suppress. Measuring every component first would be costly and destructive. Instead, build a circuit whose response is a polynomial in the unknown component value.",
+   "worked_examples": [
+    "Evaluate the response of W² at x=0, 1/2, and 1.",
+    "Why is the polynomial 2x not a valid unit-amplitude response on the entire interval [−1,1]?",
+    "What prevents an inverse filter from treating a zero singular value like every other value?"
+   ],
+   "handoff": "We now have two ways to describe evolution: its response on spectral values and the product of available small operations. Evolution engineering makes the latter construction quantitative.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "09-evolution-engineering",
-    "title": "Evolution Engineering",
-    "question": "How can simple available evolutions reproduce a desired dynamics?",
-    "example": "Alternating evolutions generated by X and Z, then tracking their error.",
-    "prerequisites": "Chapters 4, 7, and 8; Hamiltonians and the needed series expansions are developed within the examples.",
-    "sections": [
-      {
-        "id": "section-9-1",
-        "title": "Product Formulas",
-        "number": "9.1",
-        "subsections": [
-          "Commuting and noncommuting terms",
-          "Error bounds and step selection"
-        ]
-      },
-      {
-        "id": "section-9-2",
-        "title": "Simulation Strategies",
-        "number": "9.2",
-        "subsections": [
-          "Product formulas and spectral methods",
-          "Access, time, and precision"
-        ]
-      },
-      {
-        "id": "section-9-3",
-        "title": "Adiabatic Evolution",
-        "number": "9.3",
-        "subsections": [
-          "Following an evolving eigenspace",
-          "Ground-state preparation and gap dependence"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "Available gates can implement evolution generated by X and by Z separately. Suppose the desired generator is X+Z. Alternating the two seems natural, but the order matters. We must calculate the error before calling the sequence a simulation.",
-      "worked_examples": [
-        "For t=1, how many first-order steps does the stated X+Z bound require for error at most 0.01?",
-        "If A=B=X, what product-formula error remains?",
-        "Why does finding a final Hamiltonian with the correct ground state not complete an adiabatic algorithm?"
-      ],
-      "handoff": "When a guaranteed preparation is too expensive, one can restrict the state family and optimize its parameters. The next chapter distinguishes what that strategy proves from what it merely tries.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "A block encoding applies a matrix once. Most algorithms want a function of it: an inverse to solve equations, an exponential to simulate dynamics, a projector to isolate the ground state. Measuring the eigenvalues first would collapse the superposition the algorithm depends on.",
+   "This chapter shows how to apply a polynomial to every eigenvalue at once. The idea starts with one qubit: repeated rotations by an unknown angle, interleaved with chosen phase shifts, produce a response that is a polynomial in the unknown. Qubitization turns any block encoding into such a rotation, one plane per eigenvalue, and singular value transformation extends the idea to arbitrary matrices. Algorithm design then becomes polynomial approximation, and the degree of the polynomial is the cost."
+  ],
+  "intro": "Choose a polynomial, and the phases that implement it act on every eigenvalue of an encoded matrix in parallel; degree is cost."
+ },
+ {
+  "stem": "09-evolution-engineering",
+  "title": "Evolution Engineering",
+  "question": "How can simple available evolutions reproduce a desired dynamics?",
+  "example": "Alternating evolutions generated by X and Z, then tracking their error.",
+  "prerequisites": "Chapters 4, 7, and 8; Hamiltonians and the needed series expansions are developed within the examples.",
+  "sections": [
+   {
+    "id": "section-9-1",
+    "number": "9.1",
+    "title": "Product Formulas",
+    "topics": [
+     {
+      "id": "topic-9-1-1",
+      "number": "9.1.1",
+      "title": "The simulation problem"
+     },
+     {
+      "id": "topic-9-1-2",
+      "number": "9.1.2",
+      "title": "Commuting and noncommuting terms"
+     },
+     {
+      "id": "topic-9-1-3",
+      "number": "9.1.3",
+      "title": "First-order error and step selection"
+     },
+     {
+      "id": "topic-9-1-4",
+      "number": "9.1.4",
+      "title": "Higher-order formulas"
+     }
+    ]
+   },
+   {
+    "id": "section-9-2",
+    "number": "9.2",
+    "title": "Simulation Strategies",
+    "topics": [
+     {
+      "id": "topic-9-2-1",
+      "number": "9.2.1",
+      "title": "Pauli exponentials as circuits"
+     },
+     {
+      "id": "topic-9-2-2",
+      "number": "9.2.2",
+      "title": "Comparing methods"
+     },
+     {
+      "id": "topic-9-2-3",
+      "number": "9.2.3",
+      "title": "Errors beyond the circuit"
+     }
+    ]
+   },
+   {
+    "id": "section-9-3",
+    "number": "9.3",
+    "title": "Adiabatic Evolution",
+    "topics": [
+     {
+      "id": "topic-9-3-1",
+      "number": "9.3.1",
+      "title": "Following an eigenstate"
+     },
+     {
+      "id": "topic-9-3-2",
+      "number": "9.3.2",
+      "title": "Gap and runtime"
+     },
+     {
+      "id": "topic-9-3-3",
+      "number": "9.3.3",
+      "title": "Adiabatic optimization and its limits"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "Available gates can implement evolution generated by X and by Z separately. Suppose the desired generator is X+Z. Alternating the two seems natural, but the order matters. We must calculate the error before calling the sequence a simulation.",
+   "worked_examples": [
+    "For t=1, how many first-order steps does the stated X+Z bound require for error at most 0.01?",
+    "If A=B=X, what product-formula error remains?",
+    "Why does finding a final Hamiltonian with the correct ground state not complete an adiabatic algorithm?"
+   ],
+   "handoff": "When a guaranteed preparation is too expensive, one can restrict the state family and optimize its parameters. The next chapter distinguishes what that strategy proves from what it merely tries.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "10-variational-methods",
-    "title": "Variational Methods",
-    "question": "What can be learned by repeatedly adjusting and measuring a small quantum circuit?",
-    "example": "A parameterized two-qubit circuit minimizing a specified energy.",
-    "prerequisites": "Measurement, circuit costs, and Hamiltonians from earlier chapters; optimization introduced here.",
-    "sections": [
-      {
-        "id": "section-10-1",
-        "title": "Parameterized Circuits",
-        "number": "10.1",
-        "subsections": [
-          "Expressiveness and circuit structure",
-          "Objectives and measurement budgets"
-        ]
-      },
-      {
-        "id": "section-10-2",
-        "title": "Optimization",
-        "number": "10.2",
-        "subsections": [
-          "Parameter derivatives",
-          "Noise, sampling, and trainability"
-        ]
-      },
-      {
-        "id": "section-10-3",
-        "title": "Variational Algorithms",
-        "number": "10.3",
-        "subsections": [
-          "Variational eigensolvers",
-          "QAOA and evidence for performance"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "Choose a two-qubit circuit with one adjustable angle. Can repeated measurement guide that angle toward a low-energy state? This small case lets us solve the objective exactly before relying on a classical optimizer.",
-      "worked_examples": [
-        "Predict E at θ=0, π/2, and π.",
-        "If the estimate of each of two independent Pauli means uses R shots, bound the variance of their sum.",
-        "Why can C alone not improve the MaxCut sampling distribution from the uniform state?"
-      ],
-      "handoff": "Classical optimization already uses measurement to decide later actions. The final chapter moves that feedback inside the computation and tracks its branches explicitly.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
+  "opening": [
+   "Simulating quantum systems was the first reason anyone wanted a quantum computer, and it remains the application with the clearest case for an advantage. A classical computer tracking n qubits needs 2ⁿ numbers; a quantum computer needs n qubits and a circuit for e^{−iHt}.",
+   "This chapter builds that circuit from pieces. A Hamiltonian is a sum of simple terms, each easy to exponentiate; the difficulty is that they do not commute. We bound the error of alternating short evolutions, improve it by symmetry, implement each piece with gates, and compare the result fairly with the polynomial methods of Chapter 8. Then we change the Hamiltonian itself, slowly, to carry an easy ground state into a useful one, and find that the success of that strategy depends on an energy gap that is rarely known."
+  ],
+  "intro": "Evolution can be assembled from short steps whose error is set by commutators, or steered by slow change whose success is set by a gap."
+ },
+ {
+  "stem": "10-variational-methods",
+  "title": "Variational Methods",
+  "question": "What can be learned by repeatedly adjusting and measuring a small quantum circuit?",
+  "example": "A parameterized two-qubit circuit minimizing a specified energy.",
+  "prerequisites": "Measurement, circuit costs, and Hamiltonians from earlier chapters; optimization introduced here.",
+  "sections": [
+   {
+    "id": "section-10-1",
+    "number": "10.1",
+    "title": "Parameterized Circuits",
+    "topics": [
+     {
+      "id": "topic-10-1-1",
+      "number": "10.1.1",
+      "title": "Trial states and expressiveness"
+     },
+     {
+      "id": "topic-10-1-2",
+      "number": "10.1.2",
+      "title": "Objectives as expectation values"
+     },
+     {
+      "id": "topic-10-1-3",
+      "number": "10.1.3",
+      "title": "Measurement budgets"
+     }
+    ]
+   },
+   {
+    "id": "section-10-2",
+    "number": "10.2",
+    "title": "Optimization",
+    "topics": [
+     {
+      "id": "topic-10-2-1",
+      "number": "10.2.1",
+      "title": "Parameter-shift gradients"
+     },
+     {
+      "id": "topic-10-2-2",
+      "number": "10.2.2",
+      "title": "Shot noise and hardware noise"
+     },
+     {
+      "id": "topic-10-2-3",
+      "number": "10.2.3",
+      "title": "Barren plateaus and trainability"
+     }
+    ]
+   },
+   {
+    "id": "section-10-3",
+    "number": "10.3",
+    "title": "Variational Algorithms",
+    "topics": [
+     {
+      "id": "topic-10-3-1",
+      "number": "10.3.1",
+      "title": "The variational eigensolver"
+     },
+     {
+      "id": "topic-10-3-2",
+      "number": "10.3.2",
+      "title": "The quantum approximate optimization algorithm"
+     },
+     {
+      "id": "topic-10-3-3",
+      "number": "10.3.3",
+      "title": "Evidence and benchmarking"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "Choose a two-qubit circuit with one adjustable angle. Can repeated measurement guide that angle toward a low-energy state? This small case lets us solve the objective exactly before relying on a classical optimizer.",
+   "worked_examples": [
+    "Predict E at θ=0, π/2, and π.",
+    "If the estimate of each of two independent Pauli means uses R shots, bound the variance of their sum.",
+    "Why can C alone not improve the MaxCut sampling distribution from the uniform state?"
+   ],
+   "handoff": "Classical optimization already uses measurement to decide later actions. The final chapter moves that feedback inside the computation and tracks its branches explicitly.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
-  {
-    "stem": "11-adaptive-measurement",
-    "title": "Adaptive Measurement",
-    "question": "When should the result of a measurement change the rest of the computation?",
-    "example": "Reading a phase one bit at a time using a reusable auxiliary qubit.",
-    "prerequisites": "Chapters 2–5 and conditional measurement and teleportation from Quantum Computing.",
-    "sections": [
-      {
-        "id": "section-11-1",
-        "title": "Conditional Computation",
-        "number": "11.1",
-        "subsections": [
-          "Branches and classical records",
-          "Deferred measurement and coherent control"
-        ]
-      },
-      {
-        "id": "section-11-2",
-        "title": "Adaptive Estimation",
-        "number": "11.2",
-        "subsections": [
-          "Iterative phase estimation",
-          "Feedback and confidence"
-        ]
-      },
-      {
-        "id": "section-11-3",
-        "title": "Measurement-Based Methods",
-        "number": "11.3",
-        "subsections": [
-          "Teleportation as a computational step",
-          "Resource states and measurement-dependent corrections"
-        ]
-      }
-    ],
-    "status": "draft",
-    "development": {
-      "construction": "A measurement need not be the last instruction. A recorded bit can select the next basis or correction. The task is to track both the conditional quantum state and the classical record, so that adaptation changes the computation in a controlled way.",
-      "worked_examples": [
-        "In iterative estimation of φ=1/4 with two bits, which bit is learned first?",
-        "What gate appears in the one-bit teleportation step at α=0?",
-        "Why cannot a branch selected by an unknown measurement outcome simply be assumed successful?"
-      ],
-      "handoff": "The course now supplies a connected set of algorithmic techniques. Quantum Programming turns these contracts and calculations into executable, tested circuits.",
-      "review_status": "Initial teaching draft; worked small examples checked; general theorems identified and sourced."
-    }
-  }
+  "opening": [
+   "Every algorithm so far came with a guarantee, and every guarantee came with a cost: long, precise, coherent circuits. Variational methods make a different bargain. Take a short circuit with adjustable angles, measure how good its output is, and let a classical optimizer turn the knobs.",
+   "This chapter works through that bargain carefully. We set up an example small enough to solve exactly, count the measurements an energy estimate needs, compute gradients from shifted circuits, and meet the noise and flat landscapes that make optimization hard at scale. Then we examine the variational eigensolver and the quantum approximate optimization algorithm for what can be proved, what can only be tested, and what evidence would establish an advantage."
+  ],
+  "intro": "A variational algorithm is a heuristic: it can be useful, but only evidence of the right kind can show that it is."
+ },
+ {
+  "stem": "11-adaptive-measurement",
+  "title": "Adaptive Measurement",
+  "question": "When should the result of a measurement change the rest of the computation?",
+  "example": "Reading a phase one bit at a time using a reusable auxiliary qubit.",
+  "prerequisites": "Chapters 2–5 and conditional measurement and teleportation from Quantum Computing.",
+  "sections": [
+   {
+    "id": "section-11-1",
+    "number": "11.1",
+    "title": "Conditional Computation",
+    "topics": [
+     {
+      "id": "topic-11-1-1",
+      "number": "11.1.1",
+      "title": "Branches and classical records"
+     },
+     {
+      "id": "topic-11-1-2",
+      "number": "11.1.2",
+      "title": "Deferred measurement"
+     },
+     {
+      "id": "topic-11-1-3",
+      "number": "11.1.3",
+      "title": "Measurement-dependent corrections"
+     }
+    ]
+   },
+   {
+    "id": "section-11-2",
+    "number": "11.2",
+    "title": "Adaptive Estimation",
+    "topics": [
+     {
+      "id": "topic-11-2-1",
+      "number": "11.2.1",
+      "title": "Iterative phase estimation"
+     },
+     {
+      "id": "topic-11-2-2",
+      "number": "11.2.2",
+      "title": "A worked example with feedback"
+     },
+     {
+      "id": "topic-11-2-3",
+      "number": "11.2.3",
+      "title": "Precision limits and robust estimation"
+     }
+    ]
+   },
+   {
+    "id": "section-11-3",
+    "number": "11.3",
+    "title": "Measurement-Based Methods",
+    "topics": [
+     {
+      "id": "topic-11-3-1",
+      "number": "11.3.1",
+      "title": "Teleporting a gate"
+     },
+     {
+      "id": "topic-11-3-2",
+      "number": "11.3.2",
+      "title": "Cluster states and adaptive bases"
+     },
+     {
+      "id": "topic-11-3-3",
+      "number": "11.3.3",
+      "title": "Magic-state injection"
+     }
+    ]
+   }
+  ],
+  "status": "draft",
+  "development": {
+   "construction": "A measurement need not be the last instruction. A recorded bit can select the next basis or correction. The task is to track both the conditional quantum state and the classical record, so that adaptation changes the computation in a controlled way.",
+   "worked_examples": [
+    "In iterative estimation of φ=1/4 with two bits, which bit is learned first?",
+    "What gate appears in the one-bit teleportation step at α=0?",
+    "Why cannot a branch selected by an unknown measurement outcome simply be assumed successful?"
+   ],
+   "handoff": "The course now supplies a connected set of algorithmic techniques. Quantum Programming turns these contracts and calculations into executable, tested circuits.",
+   "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
+  },
+  "opening": [
+   "So far a measurement has been the end of a computation, or a report sent to a classical optimizer between runs. It need not be. A measurement outcome is a classical bit, available immediately, and it can choose what happens next: which correction to apply, which basis to measure in, whether to try again.",
+   "This chapter develops measurement as a technique. We track computations that branch on outcomes, and learn when branching can be traded for coherent control. Feedback then rebuilds phase estimation with a single qubit, and clarifies the ultimate limit on estimating a phase. Finally measurement performs the computation itself: gates teleported through entangled states, whole computations driven by adaptive measurements, and the non-Clifford gates of fault-tolerant machines supplied by injected magic states."
+  ],
+  "intro": "A measurement outcome is information available mid-computation; used well, it saves qubits, removes randomness, and even applies gates."
+ }
 ]

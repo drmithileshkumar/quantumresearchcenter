@@ -4,19 +4,25 @@ from pathlib import Path
 from html import escape as esc
 import json
 from bs4 import BeautifulSoup
+from landscape import render as render_landscape, chapter_map
 ROOT=Path(__file__).resolve().parent
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
+LEARNING=json.loads((ROOT/'content/learning.json').read_text())
 def navigation(current,data):
- out='<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Information<span>States, resources, and communication</span></a><a class="nav-introduction" href="index.html">About this course</a>'
+ out='<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Information<span>States, resources, and communication</span></a><a class="nav-introduction" href="index.html">About this course</a><a href="index.html#landscape">Domains and topics</a>'
  for i,c in enumerate(CHAPTERS,1):
   stem=c['stem'];active=' open' if stem==current else ''
   out+=f'<details class="nav-chapter"{active}><summary><span>{i:02}</span> {esc(c["title"])}</summary><a class="chapter-start" href="{stem}.html"'+(' aria-current="page"' if stem==current else '')+'>Chapter overview</a>'
-  for sec in c['sections']:out+=f'<a href="{stem}.html#{sec["id"]}" data-topic="{sec["id"]}"><span>{sec["number"]}</span> {esc(sec["title"])}</a>'
+  for sec in c['sections']:
+   out+=f'<a href="{stem}.html#{sec["id"]}" data-topic="{sec["id"]}"><span>{sec["number"]}</span> {esc(sec["title"])}</a>'
+   for j,title in enumerate(sec['subsections'],1):
+    topic=sec['id'].replace('section-','topic-')+f'-{j}'
+    out+=f'<a class="nav-topic" href="{stem}.html#{topic}" data-topic="{topic}"><span>{sec["number"]}.{j}</span> {esc(title)}</a>'
   out+='</details>'
  return out+'<nav class="book-resources" aria-label="Related courses"><a href="../computing/index.html">Quantum Computing</a><a href="../algorithms/index.html">Quantum Algorithms</a></nav>'
 def shell(stem,title,body,data,styles=(),scripts=(),classes=()):
- css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['../computing/assets/source/slides.css','../computing/assets/source/classical.css','../computing/assets/source/math.css',*styles,'../computing/assets/book.css','../../styles.css','../computing/assets/learning.css','../course.css']))
- js=''.join(f'<script defer src="{s}"></script>' for s in ['../computing/assets/source/mathjax-config.js','../computing/assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/search-index.js','assets/book.js'])
+ css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['../computing/assets/source/slides.css','../computing/assets/source/classical.css','../computing/assets/source/math.css',*styles,'../computing/assets/book.css','../../styles.css','../computing/assets/learning.css','../course.css','assets/information.css']))
+ js=''.join(f'<script defer src="{s}"></script>' for s in ['../computing/assets/source/mathjax-config.js','../computing/assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/search-index.js','assets/book.js','assets/experiments.js'])
  return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="An interactive introduction to quantum information by Mithilesh Kumar."><title>{esc(title)} · Quantum Information</title><link rel="icon" href="../../icons/icon.svg"><link rel="canonical" href="https://quantumresearch.center/education/information/{"" if stem=="index" else stem+".html"}">{css}{js}</head>
 <body class="ebook {' '.join(classes)}" data-chapter="{stem}"><a class="skip-link" href="#main">Skip to content</a>
@@ -30,7 +36,7 @@ COURSE_TITLE = 'Quantum Information'
 COURSE_SUBTITLE = 'From distinguishable messages to quantum communication'
 COURSE_ABOUT = 'What can we learn, preserve, transform, and communicate when information is carried by quantum systems? Develop states, measurements, entanglement, entropy, and communication through concrete tasks, returning to nonorthogonal states, a Bell pair, and a noisy channel.'
 COURSE_PREREQUISITES = 'No prior quantum mechanics, information theory, or linear algebra course is assumed. Probability and mathematics are introduced in context. <a href="../computing/index.html">Quantum Computing</a> is a complementary course, not a prerequisite.'
-COURSE_EXTRA = ''
+COURSE_EXTRA = '<p>Read in order on your first pass. Pause at each prediction, reproduce the worked calculations, and try the Problems before opening their solutions. Interactive figures compare phase, noise, and measurement choices; every figure also has a static explanation.</p><p>The recurring examples are two nonorthogonal states, a Bell pair, and a noisy qubit. Their purpose changes as the course develops: first predict an observation, then distinguish, preserve, transmit, or protect a state.</p>'
 
 def main():
  search=[]
@@ -38,11 +44,16 @@ def main():
  for i,c in enumerate(CHAPTERS,1):
   stem=c['stem'];manuscript=(ROOT/'content'/f'{stem}.html').read_text()
   soup=BeautifulSoup(manuscript,'html.parser')
-  status=c.get('status','outline')
-  label='Draft lesson' if status=='draft' else 'Outline'
-  notice='This lesson includes explanations, worked examples, and problems with solutions. Advanced results whose proofs are outside the chapter are identified explicitly.' if status=='draft' else 'This chapter is an outline; its lesson remains to be developed.'
-  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{COURSE_TITLE} · Chapter {i} · {label}</p><h1>{esc(c["title"])}</h1><p class="chapter-subtitle">{esc(c["question"])}</p></header><section class="learning-guide"><h2>Chapter direction</h2><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Anchor example:</strong> {esc(c["example"])}</p><p>{notice}</p></section>'
-  body+='<nav aria-label="Chapter contents"><ol>'+''.join(f'<li><a href="#{s["id"]}">{s["number"]} {esc(s["title"])}</a></li>' for s in c['sections'])+'</ol></nav>'+manuscript
+  guide=LEARNING[stem]
+  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{COURSE_TITLE} · Chapter {i}</p><h1>{esc(c["title"])}</h1><p class="chapter-subtitle">{esc(c["question"])}</p></header>{chapter_map(c)}<details class="chapter-contents"><summary>Contents of this chapter</summary><ol>'
+  for sec in c['sections']:
+   body+=f'<li class="contents-part"><a href="#{sec["id"]}">{sec["number"]} {esc(sec["title"])}</a><ol>'
+   for j,title in enumerate(sec['subsections'],1):
+    topic=sec['id'].replace('section-','topic-')+f'-{j}'
+    body+=f'<li><a href="#{topic}"><span>{sec["number"]}.{j}</span> {esc(title)}</a></li>'
+   body+='</ol></li>'
+  body+='</ol></details>'
+  body+=f'<details class="chapter-direction"><summary>Before you begin</summary><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Keep in view:</strong> {esc(c["example"])}</p></details><aside class="prediction"><p><strong>Predict first.</strong> {guide["prediction"]}</p><details class="prediction-answer"><summary>Compare your reasoning</summary><p>{guide["explanation"]}</p></details></aside>'+manuscript
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
   body+='<nav class="page-navigation" aria-label="Chapter navigation"><a href="'+(prev['stem']+'.html' if prev else 'index.html')+'">← '+esc(prev['title'] if prev else 'Course overview')+'</a>'
   if nxt:body+='<a href="'+nxt['stem']+'.html">'+esc(nxt['title'])+' →</a>'
@@ -50,13 +61,24 @@ def main():
   (ROOT/f'{stem}.html').write_text(shell(stem,c['title'],body,[],classes=['revised-book']))
   ids=[el['id'] for el in soup.select('[id]')]
   if len(ids)!=len(set(ids)):raise ValueError('Duplicate manuscript IDs: '+stem)
+  for element in soup.select('.book-part, .reading-topic'):
+   excerpt=BeautifulSoup(str(element),'html.parser')
+   for solution in excerpt.select('.problem-solution'):solution.decompose()
+   heading=element.find(['h2','h3'])
+   search.append(dict(title=heading.get_text(' ',strip=True).replace('§','').strip(),chapter=c['title'],url=stem+'.html#'+element['id'],text=excerpt.get_text(' ',strip=True)))
   for sec in c['sections']:
-   element=soup.find(id=sec['id'])
-   if element is None:raise ValueError('Missing planned section: '+sec['id'])
-   search.append(dict(title=sec['title'],chapter=c['title'],url=stem+'.html#'+sec['id'],text=element.get_text(' ',strip=True)))
+   if soup.find(id=sec['id']) is None:raise ValueError('Missing planned section: '+sec['id'])
+   for j in range(1,len(sec['subsections'])+1):
+    topic=sec['id'].replace('section-','topic-')+f'-{j}'
+    if soup.find(id=topic) is None:raise ValueError('Missing subsection anchor: '+topic)
  body=f'<header class="chapter-header book-cover" id="chapter-top"><p class="book-kicker">Course manuscript · By Mithilesh Kumar</p><h1>{COURSE_TITLE}</h1><p class="chapter-subtitle">{COURSE_SUBTITLE}</p></header><section class="book-section"><h2>About this course</h2><p>{COURSE_ABOUT}</p><p><strong>Prerequisites:</strong> {COURSE_PREREQUISITES}</p><p>{drafts} of {len(CHAPTERS)} chapters contain draft lessons with worked examples and solved problems. These are teaching manuscripts in development; advanced results are stated with their assumptions and sources where a full proof lies beyond the course.</p>{COURSE_EXTRA}<p><a href="{CHAPTERS[0]["stem"]}.html">Begin with {esc(CHAPTERS[0]["title"])} →</a></p><a id="resume-reading" hidden>Resume reading →</a></section><section class="book-section"><h2>Chapters</h2><ol class="topic-list">'
  for c in CHAPTERS:body+=f'<li><a href="{c["stem"]}.html">{esc(c["title"])}</a><p>{esc(c["question"])}</p></li>'
  body+='</ol></section>'
+ landscape,map_svg=render_landscape((ROOT/'content/landscape.html').read_text())
+ (ROOT/'topic-map.svg').write_text(map_svg+'\n')
+ body=body.replace('<section class="book-section"><h2>Chapters</h2>',landscape+'<section class="book-section"><h2>Chapters</h2>',1)
+ for domain in BeautifulSoup(landscape,'html.parser').select('.landscape-domains > li'):
+  search.append(dict(title=domain.h3.get_text(' ',strip=True),chapter=COURSE_TITLE+' · Landscape',url='index.html#'+domain['id'],text=domain.get_text(' ',strip=True)))
  (ROOT/'index.html').write_text(shell('index',COURSE_TITLE,body,[],classes=['revised-book']))
  (ROOT/'assets/search-index.js').write_text('window.BOOK_SEARCH = '+json.dumps(search,ensure_ascii=False)+';\n')
  print(f'Built {COURSE_TITLE}: {drafts} draft lessons, {len(CHAPTERS)-drafts} outlines.')
