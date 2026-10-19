@@ -1,16 +1,64 @@
 {
   "students": [
     {
+      "name": "Yusuf Tahir",
+      "affiliation": "Krea University",
+      "contributions": [
+        {
+          "title": "Congestion-free Routing on Quantum Chips",
+          "topic": "https://journals.aps.org/pra/abstract/10.1103/v3gd-1xhv",
+          "problem": "Can long range interation be achieved without congestion?",
+          "description": "Research paper",
+          "period": "2026",
+          "outputs": []
+        },
+        {
+          "title": "Dealing with locality in QAOA",
+          "topic": "https://arxiv.org/abs/2606.14447",
+          "problem": "Can distant nodes impact each other in short iterations in QAOA?",
+          "description": "Preprint",
+          "period": "2026",
+          "outputs": []
+        }
+      ]
+    },
+    {
+      "name": "Varun Daiya",
+      "affiliation": "Krea University",
+      "contributions": [
+        {
+          "title": "Congestion-free Routing on Quantum Chips",
+          "topic": "https://journals.aps.org/pra/abstract/10.1103/v3gd-1xhv",
+          "problem": "Can long range interation be achieved without congestion?",
+          "description": "Research paper",
+          "period": "2026",
+          "outputs": []
+        }
+      ]
+    },
+    {
+      "name": "Kaavya Iyer",
+      "affiliation": "Krea University",
+      "contributions": [
+        {
+          "title": "Assisted Quantum Teleportation",
+          "topic": "https://arxiv.org/abs/2605.18896",
+          "problem": "How can quantum teleportation be assisted by a third party?",
+          "description": "Preprint",
+          "period": "2026",
+          "outputs": []
+        }
+      ]
+    },
+    {
       "name": "Vivek Madoori",
       "affiliation": "Krea University",
       "contributions": [
         {
-          "title": "CNOT cost of unitary operations",
-          "topic": "research/quantum-computation/algorithms/index.html",
-          "problem": "How does the number of Grover iterations affect the probability of finding a marked item?",
-          "description": "Illustrative contribution: simulate four- and sixteen-item searches, compare the results with the predicted success probabilities, and explain why additional iterations can reduce success. Replace this sample with the student’s actual work.",
-          "period": "2026 (example)",
-          "status": "Example only",
+          "title": "Minimizing the number of CNOT gates in unitary operations",
+          "problem": "Minimizing the number of CNOT gates in unitary operations",
+          "description": "Capstone project",
+          "period": "2025-2026",
           "outputs": []
         }
       ]
