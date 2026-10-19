@@ -47,6 +47,98 @@ print("All basis columns and coherent signs verified")
 <p>With verified oracles, the algorithms course can be translated into executable constructions.</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/circuit">IBM, circuit API</a>.</p>
 <figure class="lesson-circuit"><div aria-label="Circuit diagram; scroll horizontally on narrow screens" class="drawing-scroll" role="group" tabindex="0"><img alt="Phase-oracle readout. U_f is the reversible bit oracle on the input register and the minus target, not an elementary gate. The final input measurement reads the encoded pattern." src="assets/phase-readout.svg" style="max-width:100%;height:auto"/></div><figcaption>Phase-oracle readout. U_f is the reversible bit oracle on the input register and the minus target, not an elementary gate. The final input measurement reads the encoded pattern.</figcaption></figure></section>
-<nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="06-sampling-and-estimation.html"><small>Previous chapter</small>Sampling and Estimation ←</a><a rel="next" href="08-algorithm-implementation.html"><small>Next chapter</small>Algorithm Implementation →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
+<section class="chapter-practice" id="practice"><h2>Questions and worked problems</h2><p>These exercises draw on the whole chapter. Attempt each question before opening a hint, explain your reasoning, then compare it with the worked solution.</p><article class="exercise" id="exercise-1"><h3>1. Quick check <a class="heading-link" href="#exercise-1" aria-label="Link to exercise 1">§</a></h3><p>For the oracle \(f(a,b,c)=ab\oplus c\) (qubits 0, 1, 2 hold \(a,b,c\); qubit 3 is the target), which basis state does the input \(a=b=c=1\) with target \(0\) map to? Give its index.</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(f(1,1,1)=1\oplus1\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Index \(=a+2b+4c+8t\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>\(f(1,1,1)=1\oplus1=0\), so the target stays \(0\) and the state is unchanged: index \(7\) maps to index \(7\). The Toffoli and the CNOT each flip the target, and the two flips cancel. Exhaustive checks over all sixteen columns catch mistakes in exactly these cancelling cases.</p></details><p><a href="#topic-7-1-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-2"><h3>2. Quick check <a class="heading-link" href="#exercise-2" aria-label="Link to exercise 2">§</a></h3><p>The two-bit incrementer applies cx(0, 1) and then x(0). Tabulate its action on the four inputs \(0,1,2,3\). What happens to \(3\), and why does that keep the circuit reversible?</p><details class="exercise-hint"><summary>Hint 1</summary><p>The CNOT flips the high bit when the low bit is \(1\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Arithmetic modulo \(4\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>\(0\to1\), \(1\to2\), \(2\to3\), and \(3\to0\). The overflow wraps around: this is addition modulo \(4\), a permutation of the four labels, and therefore reversible. Producing \(4\) would need a third bit; the width is part of the function’s definition.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+def increment():
+    circuit = QuantumCircuit(2)
+    circuit.cx(0, 1)
+    circuit.x(0)
+    return circuit
+
+for value in range(4):
+    circuit = QuantumCircuit(2)
+    for qubit in range(2):
+        if value &gt;&gt; qubit &amp; 1:
+            circuit.x(qubit)
+    circuit.compose(increment(), inplace=True)
+    probabilities = Statevector.from_instruction(circuit).probabilities_dict()
+    assert int(max(probabilities, key=probabilities.get), 2) == (value + 1) % 4</code></pre></details><p><a href="#topic-7-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-3"><h3>3. Quick check <a class="heading-link" href="#exercise-3" aria-label="Link to exercise 3">§</a></h3><p>The oracle uses one Toffoli and one CNOT. Transpile it to the basis cx, rz, sx, x with all-to-all connectivity, and then on a line of four qubits. Report the CNOT counts.</p><details class="exercise-hint"><summary>Hint 1</summary><p>A Toffoli needs six CNOTs in this basis.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>A line forces routing for non-adjacent qubits.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>With all-to-all connectivity the compiled oracle has \(7\) CNOTs (six for the Toffoli, one for the CNOT). On a line it needs more, about \(10\) in this run, because qubits 0, 1, and 3 are not all adjacent and swaps are inserted. Report both the logical count and the compiled count for a stated target.</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+from qiskit.transpiler import CouplingMap
+
+oracle = QuantumCircuit(4)
+oracle.ccx(0, 1, 3)
+oracle.cx(2, 3)
+basis = [&quot;cx&quot;, &quot;rz&quot;, &quot;sx&quot;, &quot;x&quot;]
+full = transpile(oracle, basis_gates=basis, optimization_level=1)
+line = transpile(oracle, basis_gates=basis, coupling_map=CouplingMap.from_line(4), optimization_level=1, seed_transpiler=1)
+assert full.count_ops()[&quot;cx&quot;] == 7 and line.count_ops()[&quot;cx&quot;] &gt; 7</code></pre></details><p><a href="#topic-7-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-4"><h3>4. Worked problem <a class="heading-link" href="#exercise-4" aria-label="Link to exercise 4">§</a></h3><p>A buggy oracle appends cz(3, 0) after the correct gates. (a) Show that its output probabilities match the correct oracle on every basis input. (b) Show that the full operator comparison fails. (c) What kind of error does this represent, and which test in the chapter catches it?</p><details class="exercise-hint"><summary>Hint 1</summary><p>A CZ only multiplies some basis states by \(-1\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compare probabilities column by column, then compare operators.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) CZ changes only signs, so every basis input produces the same output label with the same probability as the correct oracle. (b) The operators differ: the bug multiplies outputs with \(a=1\) and target \(1\) by \(-1\). (c) It is a phase error. When the oracle is used coherently, as in a phase-kickback algorithm, it corrupts interference. The chapter’s coherent sign test on a uniform superposition with target \(\ket-\), and the full column comparison including phases, both catch it; histograms do not.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+
+good = QuantumCircuit(4)
+good.ccx(0, 1, 3)
+good.cx(2, 3)
+bad = good.copy()
+bad.cz(3, 0)
+g, b = Operator(good).data, Operator(bad).data
+assert all(np.allclose(np.abs(g[:, i]) ** 2, np.abs(b[:, i]) ** 2) for i in range(16))
+assert not Operator(good).equiv(Operator(bad))</code></pre></details><p><a href="#topic-7-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-5"><h3>5. Worked problem <a class="heading-link" href="#exercise-5" aria-label="Link to exercise 5">§</a></h3><p>Build a two-bit equality test: qubits 0, 1 hold \(a\), qubits 2, 3 hold \(b\), and qubit 4 receives \([a=b]\), with \(b\) restored. Use CNOTs to compute \(a\oplus b\) into \(b\), X gates and a Toffoli to set the flag when both XOR bits are \(0\), and then uncompute. Verify all \(16\) inputs.</p><details class="exercise-hint"><summary>Hint 1</summary><p>After cx(0, 2) and cx(1, 3), qubits 2, 3 hold \(a_0\oplus b_0\) and \(a_1\oplus b_1\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Flip them with X so that the Toffoli fires when both XORs are \(0\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Compute \(a\oplus b\) into qubits 2 and 3 with two CNOTs, flip both with X, and apply a Toffoli from qubits 2, 3 to the flag, which fires exactly when both XOR bits were \(0\). Then undo the X gates and the CNOTs in reverse order, restoring \(b\). The check below confirms that every input maps to itself with the correct flag. The comparison reuses \(b\) as workspace instead of a separate scratch register, at the cost of a careful uncompute.</p><pre><code class="language-python">from itertools import product
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+def equal_2bit():
+    circuit = QuantumCircuit(5)
+    circuit.cx(0, 2)
+    circuit.cx(1, 3)
+    circuit.x([2, 3])
+    circuit.ccx(2, 3, 4)
+    circuit.x([2, 3])
+    circuit.cx(1, 3)
+    circuit.cx(0, 2)
+    return circuit
+
+for a0, a1, b0, b1 in product([0, 1], repeat=4):
+    circuit = QuantumCircuit(5)
+    for qubit, value in enumerate([a0, a1, b0, b1]):
+        if value:
+            circuit.x(qubit)
+    circuit.compose(equal_2bit(), inplace=True)
+    probabilities = Statevector.from_instruction(circuit).probabilities_dict()
+    flag = int(a0 == b0 and a1 == b1)
+    assert probabilities[f&quot;{flag}{b1}{b0}{a1}{a0}&quot;] &gt; 0.999</code></pre></details><p><a href="#topic-7-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-6"><h3>6. Worked problem <a class="heading-link" href="#exercise-6" aria-label="Link to exercise 6">§</a></h3><p>For \(f(a,b,c)=ab\oplus c\), the phase \((-1)^{f}\) factors as \((-1)^{ab}(-1)^{c}\). (a) Implement the phase oracle with cz(0, 1) and z(2), using no target qubit. (b) Verify that, on the uniform input with the target in \(\ket-\), it produces the same state as the bit oracle. (c) What does this save?</p><details class="exercise-hint"><summary>Hint 1</summary><p>CZ applies \((-1)^{ab}\); Z applies \((-1)^{c}\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compare statevectors on the same prepared input.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) cz(0, 1) multiplies by \((-1)^{ab}\) and z(2) by \((-1)^c\), together \((-1)^{f}\). (b) Applying them to the uniform input, with the unused target prepared in \(\ket-\), gives the same state as the bit oracle with target \(\ket-\). (c) It removes the Toffoli entirely (six CNOTs after compilation) and the target qubit. When a function is an XOR of simple terms, writing the phase directly is far cheaper than computing the bit and kicking it back.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+def prepared():
+    circuit = QuantumCircuit(4)
+    circuit.h([0, 1, 2])
+    circuit.x(3)
+    circuit.h(3)
+    return circuit
+
+bit_oracle = prepared()
+bit_oracle.ccx(0, 1, 3)
+bit_oracle.cx(2, 3)
+phase_oracle = prepared()
+phase_oracle.cz(0, 1)
+phase_oracle.z(2)
+assert Statevector.from_instruction(bit_oracle).equiv(Statevector.from_instruction(phase_oracle))</code></pre></details><p><a href="#topic-7-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-7"><h3>7. Worked problem <a class="heading-link" href="#exercise-7" aria-label="Link to exercise 7">§</a></h3><p>An oracle must apply the phase \(e^{2\pi i\,0.3}\) using a fixed-point register. (a) With \(3\) fractional bits, which representable value is closest to \(0.3\), and what is the phase error? (b) Repeat with \(5\) bits. (c) How many bits keep the phase error below \(10^{-3}\) rad?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Representable values are multiples of \(2^{-m}\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Phase error \(=2\pi\times\)(value error).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) \(0.3\times8=2.4\), so the nearest value is \(2/8=0.25\), an error of \(0.05\) and a phase error of \(0.31\) rad. (b) \(0.3\times32=9.6\), nearest \(10/32=0.3125\): error \(0.0125\), phase error \(0.079\) rad. (c) Rounding error is at most \(2^{-m-1}\), so the phase error is at most \(\pi2^{-m}\); requiring \(\le10^{-3}\) gives \(m\ge12\). Each bit halves the error but adds a wire and its arithmetic.</p></details><p><a href="#topic-7-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-8"><h3>8. Misconception <a class="heading-link" href="#exercise-8" aria-label="Link to exercise 8">§</a></h3><p>A student uses the two-bit incrementer to compute \(3+1\) and reports a bug when the output is \(0\). Is it a bug? What should the program have specified, and how would you obtain \(4\)?</p><details class="exercise-hint"><summary>Hint 1</summary><p>The incrementer is defined modulo \(4\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Representing \(4\) needs three bits.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>It is not a bug in the circuit: the two-bit incrementer computes \(x+1\bmod4\), and \(3+1\equiv0\). The bug is a mismatch between the specification and the intended use. To obtain \(4\), use a three-bit register (and a three-bit incrementer) or an explicit carry output; every arithmetic component must state its width and its overflow behavior.</p></details><p><a href="#topic-7-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-9"><h3>9. Extension <a class="heading-link" href="#exercise-9" aria-label="Link to exercise 9">§</a></h3><p>Build a three-bit incrementer using a multi-controlled X: first flip bit 2 if bits 0 and 1 are both \(1\), then flip bit 1 if bit 0 is \(1\), then flip bit 0. Verify it on all eight inputs, and explain why the order must go from the high bit down.</p><details class="exercise-hint"><summary>Hint 1</summary><p>Use mcx([0, 1], 2), then cx(0, 1), then x(0).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Each conditional flip reads lower bits before they change.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Each bit should flip exactly when all lower bits are \(1\) in the original input. Processing from the high bit down ensures every controlled flip reads the lower bits before they are modified; the reverse order would read already-incremented bits. The check confirms \(v\to v+1\bmod8\) for all inputs. Larger widths need multi-controlled X gates with many controls, whose decomposition cost grows with \(n\).</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+def increment3():
+    circuit = QuantumCircuit(3)
+    circuit.mcx([0, 1], 2)
+    circuit.cx(0, 1)
+    circuit.x(0)
+    return circuit
+
+for value in range(8):
+    circuit = QuantumCircuit(3)
+    for qubit in range(3):
+        if value &gt;&gt; qubit &amp; 1:
+            circuit.x(qubit)
+    circuit.compose(increment3(), inplace=True)
+    probabilities = Statevector.from_instruction(circuit).probabilities_dict()
+    assert int(max(probabilities, key=probabilities.get), 2) == (value + 1) % 8</code></pre></details><p><a href="#topic-7-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-10"><h3>10. Extension <a class="heading-link" href="#exercise-10" aria-label="Link to exercise 10">§</a></h3><p>An oracle is specified only by its truth table on \(n\) inputs. (a) How many basis columns must an exhaustive operator check compare, including both target values? (b) For which \(n\) does a dense Operator check become impractical? (c) What alternative checks scale better, and what do they give up?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Inputs times target values: \(2^{n+1}\) columns.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Each column has \(2^{n+1}\) entries.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) \(2^{n+1}\) columns (all inputs, both target values), each of length \(2^{n+1}\). (b) Around \(n=12\) to \(14\), the dense matrix has \(4^{n+1}\) entries, hundreds of millions to billions, too large for routine testing. (c) Check each basis input with a statevector or a classical reversible simulation (\(2^{n+1}\) runs, each cheap), plus a few coherent superposition tests for phases; or verify the construction compositionally, component by component. These scale further but no longer examine every matrix entry at once, so phase checks must be designed deliberately.</p></details><p><a href="#topic-7-1-2">Revisit the relevant explanation</a></p></article></section><nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="06-sampling-and-estimation.html"><small>Previous chapter</small>Sampling and Estimation ←</a><a rel="next" href="08-algorithm-implementation.html"><small>Next chapter</small>Algorithm Implementation →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Qiskit, measurement, or transpilation"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>
 </body></html>

@@ -41,6 +41,137 @@ print(qc.draw(output="text"))
 <p>Reusable parameterized circuits become numerical experiments through sampling and estimation primitives.</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.QuantumCircuit">IBM, QuantumCircuit API</a>.</p>
 </section>
-<nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="04-states-and-operators.html"><small>Previous chapter</small>States and Operators ←</a><a rel="next" href="06-sampling-and-estimation.html"><small>Next chapter</small>Sampling and Estimation →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
+<section class="chapter-practice" id="practice"><h2>Questions and worked problems</h2><p>These exercises draw on the whole chapter. Attempt each question before opening a hint, explain your reasoning, then compare it with the worked solution.</p><article class="exercise" id="exercise-1"><h3>1. Quick check <a class="heading-link" href="#exercise-1" aria-label="Link to exercise 1">§</a></h3><p>The factory below appends to a module-level circuit and returns it. What does each returned object contain after two calls, and why is this a bug?</p><pre><code class="language-python">from qiskit import QuantumCircuit
+
+shared = QuantumCircuit(1)
+
+def hadamard_layer():
+    shared.h(0)
+    return shared
+
+first = hadamard_layer()
+second = hadamard_layer()
+print(first is second, first.size(), second.size())</code></pre><details class="exercise-hint"><summary>Hint 1</summary><p>Both calls return the same Python object.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compare with a factory that creates a new QuantumCircuit each time.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Both names refer to the same circuit, which now holds two H gates, so the first result changed after it was returned. Any experiment that used it silently ran the wrong circuit. A factory should construct and return a fresh circuit on every call, as the chapter’s rotation factory does.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+
+shared = QuantumCircuit(1)
+
+def hadamard_layer():
+    shared.h(0)
+    return shared
+
+first = hadamard_layer()
+second = hadamard_layer()
+assert first is second and first.size() == 2
+
+def fresh_hadamard_layer():
+    circuit = QuantumCircuit(1)
+    circuit.h(0)
+    return circuit
+
+assert fresh_hadamard_layer() is not fresh_hadamard_layer()</code></pre></details><p><a href="#topic-5-1-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-2"><h3>2. Quick check <a class="heading-link" href="#exercise-2" aria-label="Link to exercise 2">§</a></h3><p>After bound = component.assign_parameters({theta: 0.7}), which circuit still has a free parameter: component or bound? What does that imply for reusing component?</p><details class="exercise-hint"><summary>Hint 1</summary><p>assign_parameters returns a new circuit by default.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Inspect each circuit’s parameters attribute.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>component still lists theta in its parameters; bound has none. assign_parameters returns a new, bound circuit and leaves the template symbolic, so the same component can be bound to many values in a sweep without being rebuilt.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.circuit import Parameter
+
+theta = Parameter(&quot;theta&quot;)
+component = QuantumCircuit(1)
+component.ry(theta, 0)
+bound = component.assign_parameters({theta: 0.7})
+assert len(component.parameters) == 1 and len(bound.parameters) == 0</code></pre></details><p><a href="#topic-5-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-3"><h3>3. Quick check <a class="heading-link" href="#exercise-3" aria-label="Link to exercise 3">§</a></h3><p>Package ry(0.7) as a gate, add one control, and transpile the two-qubit circuit to the basis cx, rz, sx, x. How many CNOTs does the controlled rotation need?</p><details class="exercise-hint"><summary>Hint 1</summary><p>A controlled single-qubit rotation needs two CNOTs.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Use transpile with basis_gates and count_ops.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The transpiled circuit uses \(2\) CNOTs plus single-qubit gates. Adding a control turned one rotation into an entangling subcircuit; for a controlled multi-gate routine the cost grows with every gate controlled. control() is a mathematical construction with a real price, not a free flag.</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+
+rotation = QuantumCircuit(1)
+rotation.ry(0.7, 0)
+circuit = QuantumCircuit(2)
+circuit.append(rotation.to_gate().control(1), [0, 1])
+compiled = transpile(circuit, basis_gates=[&quot;cx&quot;, &quot;rz&quot;, &quot;sx&quot;, &quot;x&quot;], optimization_level=1)
+assert compiled.count_ops()[&quot;cx&quot;] == 2</code></pre></details><p><a href="#topic-5-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-4"><h3>4. Worked problem <a class="heading-link" href="#exercise-4" aria-label="Link to exercise 4">§</a></h3><p>The chapter checks that a bound rotation composed with its inverse is the identity. (a) Show that this test also passes for a wrong rotation, ry(\(-0.7\)). (b) Write a test that checks the specification itself: the state prepared from \(\ket0\) should be \(\cos(0.35)\ket0+\sin(0.35)\ket1\). (c) What does the \(UU^\dagger\) test actually establish?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Every unitary composed with its own inverse is the identity.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compare Statevector.from_instruction with the expected amplitudes.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) For any unitary \(U\), \(UU^\dagger=I\), so ry(\(-0.7\)) passes just as ry(\(0.7\)) does. (b) Compare the prepared statevector with the expected amplitudes; the wrong rotation gives \(\cos(0.35)\ket0-\sin(0.35)\ket1\) and fails. (c) The inverse test checks only that the circuit is unitary and that inverse() is consistent with it. It says nothing about whether the circuit implements the intended operation; tests must compare against an independent specification.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator, Statevector
+
+def rotation(angle):
+    circuit = QuantumCircuit(1)
+    circuit.ry(angle, 0)
+    return circuit
+
+wrong = rotation(-0.7)
+assert np.allclose(Operator(wrong.compose(wrong.inverse())).data, np.eye(2))
+expected = Statevector([np.cos(0.35), np.sin(0.35)])
+assert Statevector.from_instruction(rotation(0.7)).equiv(expected)
+assert not Statevector.from_instruction(wrong).equiv(expected)</code></pre></details><p><a href="#topic-5-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-5"><h3>5. Worked problem <a class="heading-link" href="#exercise-5" aria-label="Link to exercise 5">§</a></h3><p>A predicate factory computes \(x_0\land x_1\) into a scratch qubit (2) with a Toffoli, copies it into a target (3) with a CNOT, and forgets to uncompute. (a) For the inputs in uniform superposition, find the probability that the scratch qubit is left in \(\ket1\). (b) Fix the factory and verify that the scratch qubit returns to \(\ket0\) on this coherent input. (c) Why test with a superposition rather than with each basis input separately?</p><details class="exercise-hint"><summary>Hint 1</summary><p>The scratch holds \(x_0x_1\), which is \(1\) for one input in four.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Uncompute with a second Toffoli after the copy.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) The scratch qubit holds \(x_0x_1\), so it is \(\ket1\) with probability \(\frac14\), and it is entangled with the inputs. (b) Applying the Toffoli again after the copy returns the scratch to \(\ket0\) for every input, and its reduced state is exactly \(\ket0\bra0\). (c) Each basis input alone would show a definite scratch value and might pass a check that only looks at the target. The coherent input reveals whether the scratch factors out, which is what later interference requires.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector, partial_trace
+
+def and_predicate(clean):
+    circuit = QuantumCircuit(4)
+    circuit.ccx(0, 1, 2)
+    circuit.cx(2, 3)
+    if clean:
+        circuit.ccx(0, 1, 2)
+    return circuit
+
+def scratch_state(clean):
+    circuit = QuantumCircuit(4)
+    circuit.h([0, 1])
+    circuit.compose(and_predicate(clean), inplace=True)
+    return partial_trace(Statevector.from_instruction(circuit), [0, 1, 3]).data
+
+assert np.isclose(scratch_state(False)[1, 1].real, 0.25)
+assert np.allclose(scratch_state(True), np.diag([1, 0]))</code></pre></details><p><a href="#topic-5-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-6"><h3>6. Worked problem <a class="heading-link" href="#exercise-6" aria-label="Link to exercise 6">§</a></h3><p>A circuit applies ry(theta) and then rz(alpha) to one qubit. A student passes the parameter values [0.0, \(\pi/2\)] to an Estimator, intending theta \(=0\) and alpha \(=\pi/2\), and measures \(\langle X\rangle\). (a) What value do they expect? (b) Qiskit orders a circuit’s parameters by name. What value is returned, and why? (c) How should the values be supplied to avoid this?</p><details class="exercise-hint"><summary>Hint 1</summary><p>list(circuit.parameters) is [alpha, theta].</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>ry(\(\pi/2\)) prepares \(\ket+\), and rz(0) leaves it alone.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) With theta \(=0\) the qubit stays \(\ket0\), so \(\langle X\rangle=0\). (b) The circuit’s parameters are ordered alpha, theta, so the values assign alpha \(=0\) and theta \(=\pi/2\): ry(\(\pi/2\)) prepares \(\ket+\) and the result is \(1\). (c) Inspect circuit.parameters before building value arrays, or bind with an explicit dictionary such as {theta: 0.0, alpha: \(\pi/2\)}. Positional parameter arrays are a frequent source of silent errors.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.circuit import Parameter
+from qiskit.primitives import StatevectorEstimator
+from qiskit.quantum_info import SparsePauliOp
+
+theta, alpha = Parameter(&quot;theta&quot;), Parameter(&quot;alpha&quot;)
+circuit = QuantumCircuit(1)
+circuit.ry(theta, 0)
+circuit.rz(alpha, 0)
+assert list(circuit.parameters) == [alpha, theta]
+value = StatevectorEstimator().run([(circuit, SparsePauliOp(&quot;X&quot;), [[0.0, np.pi / 2]])]).result()[0].data.evs
+assert np.allclose(value, [1.0])
+explicit = circuit.assign_parameters({theta: 0.0, alpha: np.pi / 2})
+assert np.allclose(StatevectorEstimator().run([(explicit, SparsePauliOp(&quot;X&quot;))]).result()[0].data.evs, 0.0)</code></pre></details><p><a href="#topic-5-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-7"><h3>7. Worked problem <a class="heading-link" href="#exercise-7" aria-label="Link to exercise 7">§</a></h3><p>rz(\(\lambda\)) and p(\(\lambda\)) differ only by a global phase. Compare their controlled versions crz(0.9) and cp(0.9) with Operator equivalence. Then find the one-qubit gate on the control that makes them equal.</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(R_z(\lambda)=e^{-i\lambda/2}P(\lambda)\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>The global phase \(e^{-i\lambda/2}\) becomes a phase on the control-1 branch.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The controlled versions are not equivalent: the phase \(e^{-i\lambda/2}\) that was global for the single-qubit gate now multiplies only the control-1 branch. Adding p(\(0.45\)) on the control to crz(0.9) restores the factor and makes it equal to cp(0.9). A routine correct “up to global phase” must have that phase fixed before it is controlled.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+
+phase = QuantumCircuit(2)
+phase.cp(0.9, 0, 1)
+rotation = QuantumCircuit(2)
+rotation.crz(0.9, 0, 1)
+assert not Operator(phase).equiv(Operator(rotation))
+rotation.p(0.45, 0)
+assert Operator(phase).equiv(Operator(rotation))</code></pre></details><p><a href="#topic-5-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-8"><h3>8. Misconception <a class="heading-link" href="#exercise-8" aria-label="Link to exercise 8">§</a></h3><p>A student believes inverse() cannot be applied until all parameters are bound, “because the inverse angle is not known yet.” Build ry(theta).inverse() with theta unbound, bind theta afterwards, and check the result.</p><details class="exercise-hint"><summary>Hint 1</summary><p>The inverse of ry(theta) is ry(\(-\)theta), a symbolic expression.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Bind after inverting and compare operators.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>inverse() works symbolically: it produces ry(\(-\)theta), whose angle is a parameter expression. Binding theta \(=0.7\) afterwards gives the same operator as inverting the bound circuit. Symbolic circuits can be composed, inverted, and controlled before binding, which is what lets one template serve a whole parameter sweep.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.circuit import Parameter
+from qiskit.quantum_info import Operator
+
+theta = Parameter(&quot;theta&quot;)
+circuit = QuantumCircuit(1)
+circuit.ry(theta, 0)
+symbolic_inverse = circuit.inverse().assign_parameters({theta: 0.7})
+bound_inverse = circuit.assign_parameters({theta: 0.7}).inverse()
+assert Operator(symbolic_inverse).equiv(Operator(bound_inverse))</code></pre></details><p><a href="#topic-5-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-9"><h3>9. Extension <a class="heading-link" href="#exercise-9" aria-label="Link to exercise 9">§</a></h3><p>Try to package a circuit that contains a measurement with to_gate(), and then with to_instruction(). Explain the difference between a gate and an instruction, and what it means for inverting or controlling the packaged object.</p><details class="exercise-hint"><summary>Hint 1</summary><p>A gate must be unitary.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Instructions may act on classical bits.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>to_gate() raises a QiskitError, because a gate represents a unitary and a measurement is not one. to_instruction() succeeds: an instruction may include classical bits and non-unitary steps. Consequently a gate can be inverted and controlled, while such an instruction generally cannot. Packaging should preserve this distinction so that later code cannot ask for an inverse that does not exist.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.exceptions import QiskitError
+
+circuit = QuantumCircuit(1, 1)
+circuit.h(0)
+circuit.measure(0, 0)
+try:
+    circuit.to_gate()
+    raise AssertionError(&quot;expected an error&quot;)
+except QiskitError:
+    pass
+instruction = circuit.to_instruction()
+assert instruction.num_clbits == 1</code></pre></details><p><a href="#topic-5-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-10"><h3>10. Extension <a class="heading-link" href="#exercise-10" aria-label="Link to exercise 10">§</a></h3><p>A borrowed (dirty) qubit \(b\) may start in any unknown state and must be returned unchanged. Show that the sequence cx(x, b), cx(b, t), cx(x, b), cx(b, t) adds \(x\) to the target \(t\) for every value of \(b\), and leaves \(b\) unchanged. Verify it on all eight basis inputs. Why is this useful?</p><details class="exercise-hint"><summary>Hint 1</summary><p>After the first CNOT, \(b\) holds \(b\oplus x\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>The target receives \(b\oplus x\), then \(b\): the \(b\) parts cancel.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Tracking values: \(b\to b\oplus x\); \(t\to t\oplus b\oplus x\); \(b\to b\); \(t\to t\oplus x\). The unknown \(b\) appears twice in the target and cancels, so the sequence implements \(t\mathrel{\oplus}=x\) and restores \(b\), on all eight inputs and, by linearity, on superpositions. Borrowed qubits let a circuit use idle wires as temporary workspace without requiring them to be clean, saving qubits in large constructions.</p><pre><code class="language-python">from itertools import product
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+for x, b, t in product([0, 1], repeat=3):
+    circuit = QuantumCircuit(3)  # qubit 0 = x, qubit 1 = b, qubit 2 = t
+    for qubit, value in enumerate([x, b, t]):
+        if value:
+            circuit.x(qubit)
+    circuit.cx(0, 1)
+    circuit.cx(1, 2)
+    circuit.cx(0, 1)
+    circuit.cx(1, 2)
+    probabilities = Statevector.from_instruction(circuit).probabilities_dict()
+    assert probabilities[f&quot;{t ^ x}{b}{x}&quot;] &gt; 0.999</code></pre></details><p><a href="#topic-5-3-1">Revisit the relevant explanation</a></p></article></section><nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="04-states-and-operators.html"><small>Previous chapter</small>States and Operators ←</a><a rel="next" href="06-sampling-and-estimation.html"><small>Next chapter</small>Sampling and Estimation →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Qiskit, measurement, or transpilation"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>
 </body></html>

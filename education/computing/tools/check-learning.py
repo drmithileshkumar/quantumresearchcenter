@@ -10,9 +10,10 @@ for stem,*_ in meta:
  soup=BeautifulSoup((ROOT/(stem+'.html')).read_text(),'html.parser')
  assert soup.select_one('.learning-guide'),stem
  if stem!='appendices':
-  assert len(soup.select('.exercise'))==3,stem
-  assert len(soup.select('.exercise-hint'))==6,stem
-  assert len(soup.select('.exercise-solution'))==3,stem
+  exercises=soup.select('#practice .exercise')
+  assert len(exercises)==10,stem
+  assert all(e.select('.exercise-hint') for e in exercises),stem
+  assert len(soup.select('#practice .exercise-solution'))==10,stem
   assert soup.select_one('.glossary-term'),stem
  for lab in soup.select('[data-lab]'):
   assert lab.find_previous_sibling().get('class')==['prediction'],stem

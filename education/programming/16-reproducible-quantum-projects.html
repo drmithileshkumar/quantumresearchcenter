@@ -50,6 +50,134 @@ print(json.dumps(record, indent=2))
 <p>This completes the programming sequence. The companion examples form a locally tested starting point for projects, with hardware submission kept explicit and separately documented.</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qpy">IBM, QPY serialization</a>.</p>
 <figure class="lesson-circuit"><div aria-label="Circuit diagram; scroll horizontally on narrow screens" class="drawing-scroll" role="group" tabindex="0"><img alt="Phase-oracle readout. U_f is the reversible bit oracle on the input register and the minus target, not an elementary gate. The final input measurement reads the encoded pattern." src="assets/phase-readout.svg" style="max-width:100%;height:auto"/></div><figcaption>Phase-oracle readout. U_f is the reversible bit oracle on the input register and the minus target, not an elementary gate. The final input measurement reads the encoded pattern.</figcaption></figure></section>
-<nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="15-advanced-algorithm-construction.html"><small>Previous chapter</small>Advanced Algorithm Construction ←</a><a href="index.html"><small>Return to</small>Course contents →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
+<section class="chapter-practice" id="practice"><h2>Questions and worked problems</h2><p>These exercises draw on the whole chapter. Attempt each question before opening a hint, explain your reasoning, then compare it with the worked solution.</p><article class="exercise" id="exercise-1"><h3>1. Quick check <a class="heading-link" href="#exercise-1" aria-label="Link to exercise 1">§</a></h3><p>For the capstone’s Bernstein–Vazirani construction, which input qubits receive CNOTs to the target for the secret 0110? What should the input register read?</p><details class="exercise-hint"><summary>Hint 1</summary><p>The secret is written high bit first and reversed when assigning qubits.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Qubit \(k\) gets a CNOT if bit \(k\) (from the right) is \(1\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Reading 0110 from the right, bits \(1\) and \(2\) are \(1\), so qubits 1 and 2 control CNOTs onto the target. The input register then reads 0110 with certainty (in Qiskit’s order, qubit 0 rightmost), and the full measured string has the target bit on the left.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.primitives import StatevectorSampler
+
+def bernstein_vazirani(secret):
+    n = len(secret)
+    circuit = QuantumCircuit(n + 1)
+    circuit.x(n)
+    circuit.h(range(n + 1))
+    for qubit, bit in enumerate(reversed(secret)):
+        if bit == &quot;1&quot;:
+            circuit.cx(qubit, n)
+    circuit.h(range(n))
+    return circuit
+
+circuit = bernstein_vazirani(&quot;0110&quot;)
+controls = [circuit.find_bit(i.qubits[0]).index for i in circuit.data if i.operation.name == &quot;cx&quot;]
+assert controls == [1, 2]
+circuit.measure_all()
+counts = StatevectorSampler(seed=1).run([circuit], shots=256).result()[0].data.meas.get_counts()
+assert all(bits[1:] == &quot;0110&quot; for bits in counts)</code></pre></details><p><a href="#topic-16-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-2"><h3>2. Quick check <a class="heading-link" href="#exercise-2" aria-label="Link to exercise 2">§</a></h3><p>For an \(n\)-bit secret with \(k\) ones, count the gates of the capstone circuit (before measurement). Check the counts and the depth for the all-ones secret with \(n=10\).</p><details class="exercise-hint"><summary>Hint 1</summary><p>One X, \(n+1\) Hadamards before, \(n\) after, and \(k\) CNOTs.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>All CNOTs share the target, so they run sequentially.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The circuit has \(1\) X, \(2n+1\) Hadamards, and \(k\) CNOTs. For \(n=10\), \(k=10\): \(21\) H, \(10\) CNOTs, depth \(13\), since the CNOTs all target the same qubit and run one after another. The query count is one, but the oracle’s gate count and depth grow with the secret, which a resource report must include.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+
+def bernstein_vazirani(secret):
+    n = len(secret)
+    circuit = QuantumCircuit(n + 1)
+    circuit.x(n)
+    circuit.h(range(n + 1))
+    for qubit, bit in enumerate(reversed(secret)):
+        if bit == &quot;1&quot;:
+            circuit.cx(qubit, n)
+    circuit.h(range(n))
+    return circuit
+
+circuit = bernstein_vazirani(&quot;1&quot; * 10)
+assert dict(circuit.count_ops()) == {&quot;h&quot;: 21, &quot;cx&quot;: 10, &quot;x&quot;: 1} and circuit.depth() == 13</code></pre></details><p><a href="#topic-16-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-3"><h3>3. Quick check <a class="heading-link" href="#exercise-3" aria-label="Link to exercise 3">§</a></h3><p>A project records the Qiskit version but not the versions of Aer, NumPy, or the Python interpreter. Which results could fail to reproduce, and what file in this course records the complete environment?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Simulators, random-number streams, and numerical libraries all have versions.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>The course keeps two dependency files.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Noisy-simulation results depend on the Aer version; numerical tolerances and random streams can change with NumPy and Python; even ideal sampling with a fixed seed can differ between versions of the primitives. requirements.txt pins the direct dependencies, and requirements-lock.txt records the full resolved environment, while TESTING.md notes the platform. A record should cite all of them.</p></details><p><a href="#topic-16-1-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-4"><h3>4. Worked problem <a class="heading-link" href="#exercise-4" aria-label="Link to exercise 4">§</a></h3><p>Turn the capstone into a tested function. (a) Write bernstein_vazirani(secret) and a check that samples the circuit and verifies the input register for every shot. (b) Apply it to 0000, 1111, and three random six-bit secrets from a seeded generator. (c) Why include the all-zero and all-one secrets?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Use bits[1:] to drop the target bit.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Edge cases test the empty oracle and the busiest oracle.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The function passes for all five secrets. The all-zero secret has no CNOTs at all, so it checks that the Hadamard layers alone return \(\ket{0^n}\) and that an empty oracle does not break the construction; the all-one secret exercises every CNOT and the longest sequential chain on the target. Random secrets cover typical cases. Edge cases and random cases together make a stronger test than the single secret in the companion.</p><pre><code class="language-python">import random
+from qiskit import QuantumCircuit
+from qiskit.primitives import StatevectorSampler
+
+def bernstein_vazirani(secret):
+    n = len(secret)
+    circuit = QuantumCircuit(n + 1)
+    circuit.x(n)
+    circuit.h(range(n + 1))
+    for qubit, bit in enumerate(reversed(secret)):
+        if bit == &quot;1&quot;:
+            circuit.cx(qubit, n)
+    circuit.h(range(n))
+    circuit.measure_all()
+    return circuit
+
+def recovers(secret, seed=41):
+    counts = StatevectorSampler(seed=seed).run([bernstein_vazirani(secret)], shots=256).result()[0].data.meas.get_counts()
+    return all(bits[1:] == secret for bits in counts)
+
+rng = random.Random(7)
+secrets = [&quot;0000&quot;, &quot;1111&quot;] + [&quot;&quot;.join(rng.choice(&quot;01&quot;) for _ in range(6)) for _ in range(3)]
+assert all(recovers(secret) for secret in secrets)</code></pre></details><p><a href="#topic-16-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-5"><h3>5. Worked problem <a class="heading-link" href="#exercise-5" aria-label="Link to exercise 5">§</a></h3><p>Verify the oracle’s phase contract directly: after the oracle acts on the uniform input with the target in \(\ket-\), the input amplitudes should be \((-1)^{s\cdot x}/2^{n/2}\). Implement the check for the secret 1011 by returning the target to \(\ket0\) and comparing the statevector with the predicted sign pattern.</p><details class="exercise-hint"><summary>Hint 1</summary><p>After the oracle, H and then X on the target return \(\ket-\) to \(\ket0\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(s\cdot x\) is the parity of the bitwise AND of the integers.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Undoing the target preparation leaves the state \(\sum_x(-1)^{s\cdot x}\ket x/4\otimes\ket0\). Comparing the first \(16\) amplitudes (target \(0\)) with \((-1)^{\mathrm{popcount}(s\,\&amp;\,x)}/4\) confirms the phase oracle exactly. This tests the oracle’s promised behavior independently of the final Hadamards, so a failure would point to the oracle rather than to the readout.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+secret = &quot;1011&quot;
+n = len(secret)
+s = int(secret, 2)
+circuit = QuantumCircuit(n + 1)
+circuit.x(n)
+circuit.h(range(n + 1))
+for qubit, bit in enumerate(reversed(secret)):
+    if bit == &quot;1&quot;:
+        circuit.cx(qubit, n)
+circuit.h(n)
+circuit.x(n)
+amplitudes = Statevector.from_instruction(circuit).data[: 2 ** n]
+expected = np.array([(-1) ** bin(s &amp; x).count(&quot;1&quot;) for x in range(2 ** n)]) / 2 ** (n / 2)
+assert np.allclose(amplitudes, expected)</code></pre></details><p><a href="#topic-16-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-6"><h3>6. Worked problem <a class="heading-link" href="#exercise-6" aria-label="Link to exercise 6">§</a></h3><p>Build an experiment record for the capstone that a reader can verify. Include the problem, secret, shots, seed, and package versions for qiskit, qiskit-aer, and numpy, and add a SHA-256 fingerprint of the QPY-serialized coherent circuit. Why is the fingerprint useful?</p><details class="exercise-hint"><summary>Hint 1</summary><p>importlib.metadata.version reads installed versions.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Hash the QPY bytes with hashlib.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The record below stores the descriptive fields, the versions, and a hash of the serialized circuit. The fingerprint identifies exactly which circuit produced the results: if someone later regenerates the circuit and the hash differs, something in the construction or the software changed. Storing the QPY file itself lets them load and rerun that exact circuit. (QPY files can depend on the Qiskit version, so the version belongs next to the hash.)</p><pre><code class="language-python">import hashlib, io, json
+from importlib.metadata import version
+from qiskit import QuantumCircuit, qpy
+
+secret = &quot;1011&quot;
+n = len(secret)
+circuit = QuantumCircuit(n + 1)
+circuit.x(n)
+circuit.h(range(n + 1))
+for qubit, bit in enumerate(reversed(secret)):
+    if bit == &quot;1&quot;:
+        circuit.cx(qubit, n)
+circuit.h(range(n))
+buffer = io.BytesIO()
+qpy.dump(circuit, buffer)
+record = {
+    &quot;problem&quot;: &quot;Bernstein-Vazirani&quot;, &quot;secret&quot;: secret, &quot;shots&quot;: 1024, &quot;seed&quot;: 41,
+    &quot;versions&quot;: {name: version(name) for name in (&quot;qiskit&quot;, &quot;qiskit-aer&quot;, &quot;numpy&quot;)},
+    &quot;circuit_sha256&quot;: hashlib.sha256(buffer.getvalue()).hexdigest(),
+    &quot;execution&quot;: &quot;local ideal StatevectorSampler&quot;,
+}
+assert len(record[&quot;circuit_sha256&quot;]) == 64
+print(json.dumps(record, indent=2))</code></pre></details><p><a href="#topic-16-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-7"><h3>7. Worked problem <a class="heading-link" href="#exercise-7" aria-label="Link to exercise 7">§</a></h3><p>Run the capstone (secret 1011) on a noisy simulator in which every CNOT suffers two-qubit depolarizing error \(0.02\). (a) Estimate the fraction of shots whose input register equals the secret. (b) Why is it below \(1\), and how would it change for a longer secret with more ones? (c) How should the result be labelled?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Three CNOTs each carry error \(0.02\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Errors grow with the number of ones in the secret.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) About \(0.96\) with \(8000\) shots. (b) Each of the three CNOTs fails with probability about \(0.02\), and many failures corrupt the readout, so success is roughly \(1-3\times0.02\times(\text{fraction harmful})\). A secret with \(k\) ones has \(k\) noisy CNOTs, so success falls roughly linearly in \(k\) for small errors. (c) As a noisy simulation with a stated, hypothetical noise model, distinct from both ideal simulation and hardware, with the model parameters, seed, and shots recorded.</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+
+secret = &quot;1011&quot;
+n = len(secret)
+circuit = QuantumCircuit(n + 1)
+circuit.x(n)
+circuit.h(range(n + 1))
+for qubit, bit in enumerate(reversed(secret)):
+    if bit == &quot;1&quot;:
+        circuit.cx(qubit, n)
+circuit.h(range(n))
+circuit.measure_all()
+noise = NoiseModel()
+noise.add_all_qubit_quantum_error(depolarizing_error(0.02, 2), [&quot;cx&quot;])
+sim = AerSimulator(noise_model=noise, seed_simulator=3, max_parallel_threads=1)
+shots = 8000
+counts = sim.run(transpile(circuit, sim, optimization_level=0), shots=shots).result().get_counts()
+success = sum(count for bits, count in counts.items() if bits[1:] == secret) / shots
+assert 0.9 &lt; success &lt; 0.99</code></pre></details><p><a href="#topic-16-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-8"><h3>8. Misconception <a class="heading-link" href="#exercise-8" aria-label="Link to exercise 8">§</a></h3><p>A student argues: “The capstone finds a \(50\)-bit secret with one query, while a classical algorithm needs \(50\), so this project demonstrates a quantum speedup.” List what the project actually demonstrates and what a speedup claim would require.</p><details class="exercise-hint"><summary>Hint 1</summary><p>The oracle was built from the known secret.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compare end-to-end costs under the same access model.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The project demonstrates a correct, reproducible implementation of the algorithm in the query model, where the oracle is a supplied interface. Here the oracle was constructed from the known secret, with one CNOT per one-bit, so reading the circuit reveals the secret and building it costs as many gates as the classical queries it replaces. A speedup claim would need a setting where the oracle is genuinely given as a black box, matched classical and quantum access, end-to-end costs including oracle construction and noise, and measured performance as \(n\) grows, not a single success.</p></details><p><a href="#topic-16-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-9"><h3>9. Extension <a class="heading-link" href="#exercise-9" aria-label="Link to exercise 9">§</a></h3><p>Extend the capstone study to \(n=50\). (a) Why is a statevector simulation impossible, and why can Aer’s stabilizer method still run the circuit? (b) Run it for the secret “10” repeated \(25\) times and check the result. (c) What does this say about choosing a simulation method in a scaling study?</p><details class="exercise-hint"><summary>Hint 1</summary><p>The circuit uses only X, H, and CNOT.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>A statevector of \(51\) qubits needs \(2^{51}\) amplitudes.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) \(51\) qubits need \(2^{51}\approx2\times10^{15}\) amplitudes, about \(36\) petabytes. The circuit uses only Clifford gates (X, H, CNOT), which the stabilizer method simulates with polynomial resources. (b) Every shot returns the secret in the input register. (c) The simulator must match the circuit class: stabilizer methods scale for Clifford circuits, tensor networks for low-entanglement ones, statevectors for small general circuits. A scaling study should state which was used, since simulation cost is a property of the method, not evidence about quantum hardware.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+
+secret = &quot;10&quot; * 25
+n = len(secret)
+circuit = QuantumCircuit(n + 1)
+circuit.x(n)
+circuit.h(range(n + 1))
+for qubit, bit in enumerate(reversed(secret)):
+    if bit == &quot;1&quot;:
+        circuit.cx(qubit, n)
+circuit.h(range(n))
+circuit.measure_all()
+counts = AerSimulator(method=&quot;stabilizer&quot;).run(circuit, shots=20, seed_simulator=1).result().get_counts()
+assert {bits[1:] for bits in counts} == {secret}</code></pre></details><p><a href="#topic-16-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-10"><h3>10. Extension <a class="heading-link" href="#exercise-10" aria-label="Link to exercise 10">§</a></h3><p>Design the directory layout and test plan for turning the capstone into a reusable project. Name the modules, what each test checks, and how hardware submission is kept from happening by accident.</p><details class="exercise-hint"><summary>Hint 1</summary><p>Separate circuit factories, experiment drivers, and tests.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Keep submission behind an explicit flag.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>A reasonable layout: a package module with the circuit factory (bernstein_vazirani) and the oracle; an experiment driver script that builds, compiles, runs, and writes a JSON record and QPY file; a tests directory with exact tests (phase contract, statevector output for small \(n\), edge-case secrets), seeded sampling tests, a noisy-simulation smoke test, and a serialization round-trip test; and requirements and lock files with a README describing the environment. The driver submits to hardware only with an explicit option and backend name, and importing any module never submits. Continuous testing reruns the suite whenever dependencies change.</p></details><p><a href="#topic-16-1-1">Revisit the relevant explanation</a></p></article></section><nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="15-advanced-algorithm-construction.html"><small>Previous chapter</small>Advanced Algorithm Construction ←</a><a href="index.html"><small>Return to</small>Course contents →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Qiskit, measurement, or transpilation"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>
 </body></html>

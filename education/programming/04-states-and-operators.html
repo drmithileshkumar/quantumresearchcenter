@@ -36,6 +36,96 @@ print("Local state:", local.data)
 <p>Next we give circuit fragments explicit interfaces so they can be safely reused and inverted.</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/quantum_info">IBM, quantum information API</a>.</p>
 <figure class="lesson-circuit"><div aria-label="Circuit diagram; scroll horizontally on narrow screens" class="drawing-scroll" role="group" tabindex="0"><img alt="Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control." src="assets/bell.svg" style="max-width:100%;height:auto"/></div><figcaption>Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control.</figcaption></figure></section>
-<nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="03-circuit-construction.html"><small>Previous chapter</small>Circuit Construction ←</a><a rel="next" href="05-reusable-quantum-programs.html"><small>Next chapter</small>Reusable Quantum Programs →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
+<section class="chapter-practice" id="practice"><h2>Questions and worked problems</h2><p>These exercises draw on the whole chapter. Attempt each question before opening a hint, explain your reasoning, then compare it with the worked solution.</p><article class="exercise" id="exercise-1"><h3>1. Quick check <a class="heading-link" href="#exercise-1" aria-label="Link to exercise 1">§</a></h3><p>Two qubits are prepared with H on qubit 0 only. Predict partial_trace(state, [1]) and partial_trace(state, [0]).</p><details class="exercise-hint"><summary>Hint 1</summary><p>The second argument lists the subsystems to discard.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>The state is \(\ket0_1\otimes\ket+_0\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>partial_trace(state, [1]) discards qubit 1 and keeps qubit 0, giving \(\ket+\bra+\), the matrix with all entries \(\frac12\). partial_trace(state, [0]) keeps qubit 1, giving \(\ket0\bra0\). For a product state each reduced state is pure; for the Bell state both would be \(I/2\).</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector, partial_trace
+
+circuit = QuantumCircuit(2)
+circuit.h(0)
+state = Statevector.from_instruction(circuit)
+assert np.allclose(partial_trace(state, [1]).data, np.full((2, 2), 0.5))
+assert np.allclose(partial_trace(state, [0]).data, np.diag([1, 0]))</code></pre></details><p><a href="#topic-4-1-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-2"><h3>2. Quick check <a class="heading-link" href="#exercise-2" aria-label="Link to exercise 2">§</a></h3><p>Predict the Bell-state expectation values of ZZ, XX, YY, and XZ before computing them.</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(\ket{\Phi^+}\) is a \(+1\) eigenstate of \(ZZ\) and \(XX\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(YY=-(XX)(ZZ)\) for these two-qubit Paulis.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>\(\langle ZZ\rangle=1\), \(\langle XX\rangle=1\), \(\langle YY\rangle=-1\), and \(\langle XZ\rangle=0\). The value of YY follows from \(Y\otimes Y=-(X\otimes X)(Z\otimes Z)\), and both factors are \(+1\) on the Bell state. Expectation values of several Paulis are a compact fingerprint of a state that can be checked exactly in simulation and estimated in experiment.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector, SparsePauliOp
+
+bell = QuantumCircuit(2)
+bell.h(0)
+bell.cx(0, 1)
+state = Statevector.from_instruction(bell)
+expected = {&quot;ZZ&quot;: 1, &quot;XX&quot;: 1, &quot;YY&quot;: -1, &quot;XZ&quot;: 0}
+for label, value in expected.items():
+    assert np.isclose(state.expectation_value(SparsePauliOp(label)), value)</code></pre></details><p><a href="#topic-4-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-3"><h3>3. Quick check <a class="heading-link" href="#exercise-3" aria-label="Link to exercise 3">§</a></h3><p>A dense operator on \(n\) qubits has \(4^n\) complex entries of \(16\) bytes each. Estimate its memory for \(n=10\) and \(n=20\). What does this imply for verifying circuits with Operator?</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(4^{10}\approx10^6\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(4^{20}\approx10^{12}\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>\(n=10\): about \(1.05\times10^6\) entries, \(17\) MB. \(n=20\): about \(1.1\times10^{12}\) entries, \(18\) TB. Operator is an excellent check for small subcircuits, a dozen qubits or so, but not a general simulation strategy; larger tests need statevectors, structured simulators, or properties checked on samples.</p></details><p><a href="#topic-4-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-4"><h3>4. Worked problem <a class="heading-link" href="#exercise-4" aria-label="Link to exercise 4">§</a></h3><p>Replace H by ry(\(\pi/3\)) in the chapter’s companion, followed by the same CNOT. Predict the reduced state of qubit 0 and the expectations of ZZ and XX, then verify them.</p><details class="exercise-hint"><summary>Hint 1</summary><p>The state is \(\cos\frac\pi6\ket{00}+\sin\frac\pi6\ket{11}\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(\langle XX\rangle=2\cos\frac\theta2\sin\frac\theta2=\sin\theta\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The state is \(\cos\frac\pi6\ket{00}+\sin\frac\pi6\ket{11}\). Qubit 0’s reduced state is \(\mathrm{diag}(0.75,0.25)\) with no off-diagonal terms. \(\langle ZZ\rangle=1\), since both terms have equal bits, and \(\langle XX\rangle=\sin\frac\pi3\approx0.866\). The reduced state alone looks like a classical mixture; the \(XX\) correlation reveals the coherent superposition.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector, SparsePauliOp, partial_trace
+
+circuit = QuantumCircuit(2)
+circuit.ry(np.pi / 3, 0)
+circuit.cx(0, 1)
+state = Statevector.from_instruction(circuit)
+assert np.allclose(partial_trace(state, [1]).data, np.diag([0.75, 0.25]))
+assert np.isclose(state.expectation_value(SparsePauliOp(&quot;ZZ&quot;)), 1)
+assert np.isclose(state.expectation_value(SparsePauliOp(&quot;XX&quot;)), np.sin(np.pi / 3))</code></pre></details><p><a href="#topic-4-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-5"><h3>5. Worked problem <a class="heading-link" href="#exercise-5" aria-label="Link to exercise 5">§</a></h3><p>Compute the purity \(\mathrm{tr}\rho^2\) of the Bell state and of its one-qubit reduced state using DensityMatrix.purity(). Interpret the two numbers.</p><details class="exercise-hint"><summary>Hint 1</summary><p>A pure state has purity \(1\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(I/2\) has purity \(\frac12\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The two-qubit Bell state has purity \(1\): it is pure. Its reduced state \(I/2\) has purity \(\frac12\), the minimum for a qubit. Purity is a convenient numerical check: a globally pure state whose parts are mixed must be entangled, and the purity of the parts measures how strongly.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector, DensityMatrix, partial_trace
+
+bell = QuantumCircuit(2)
+bell.h(0)
+bell.cx(0, 1)
+state = Statevector.from_instruction(bell)
+assert np.isclose(DensityMatrix(state).purity(), 1)
+assert np.isclose(partial_trace(state, [1]).purity(), 0.5)</code></pre></details><p><a href="#topic-4-1-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-6"><h3>6. Worked problem <a class="heading-link" href="#exercise-6" aria-label="Link to exercise 6">§</a></h3><p>Define \(H=0.5\,ZZ-0.3\,XI\) as a SparsePauliOp. Predict its expectation value in the Bell state and in \(\ket{++}\), and verify.</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(XI\) acts with \(X\) on qubit 1.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>In \(\ket{++}\), \(\langle ZZ\rangle=0\) and \(\langle XI\rangle=1\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Bell state: \(\langle ZZ\rangle=1\) and \(\langle XI\rangle=0\), so \(\langle H\rangle=0.5\). For \(\ket{++}\): \(\langle ZZ\rangle=0\) and \(\langle XI\rangle=1\), so \(\langle H\rangle=-0.3\). Linear combinations of Pauli strings are evaluated term by term, which is also how an experiment estimates them, one measurement setting per group of compatible terms.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector, SparsePauliOp
+
+hamiltonian = SparsePauliOp([&quot;ZZ&quot;, &quot;XI&quot;], [0.5, -0.3])
+bell = QuantumCircuit(2)
+bell.h(0)
+bell.cx(0, 1)
+assert np.isclose(Statevector.from_instruction(bell).expectation_value(hamiltonian), 0.5)
+assert np.isclose(Statevector.from_label(&quot;++&quot;).expectation_value(hamiltonian), -0.3)</code></pre></details><p><a href="#topic-4-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-7"><h3>7. Worked problem <a class="heading-link" href="#exercise-7" aria-label="Link to exercise 7">§</a></h3><p>Verify the identity “Hadamards on the target turn CX into CZ” with Operator equivalence. Then explain why Operator.equiv, rather than exact matrix equality, is the right comparison.</p><details class="exercise-hint"><summary>Hint 1</summary><p>Put H on qubit 1 before and after cx(0, 1).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>equiv ignores a global phase and allows floating-point tolerance.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The circuit H on qubit 1, CX from 0 to 1, H on qubit 1 has the same operator as CZ, and Operator.equiv confirms it. equiv tests equality up to a global phase within a numerical tolerance, which is what “the same gate” means physically. Exact equality would fail on harmless phase conventions or rounding, while a relative phase error would still be caught.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+
+left = QuantumCircuit(2)
+left.h(1)
+left.cx(0, 1)
+left.h(1)
+right = QuantumCircuit(2)
+right.cz(0, 1)
+assert Operator(left).equiv(Operator(right))</code></pre></details><p><a href="#topic-4-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-8"><h3>8. Misconception <a class="heading-link" href="#exercise-8" aria-label="Link to exercise 8">§</a></h3><p>A student calls Operator on a circuit that contains a measurement, expecting “the matrix of the circuit.” What happens, and what should they do to inspect the unitary part?</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+
+circuit = QuantumCircuit(1, 1)
+circuit.h(0)
+circuit.measure(0, 0)
+Operator(circuit)</code></pre><details class="exercise-hint"><summary>Hint 1</summary><p>A measurement is not a unitary operation.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>remove_final_measurements(inplace=False) strips terminal measurements.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Qiskit raises a QiskitError, “Cannot apply operation with classical bits: measure.” A measurement has no unitary matrix. To inspect the unitary part, remove the final measurements (remove_final_measurements(inplace=False)) and build the Operator of what remains; mid-circuit measurements need a channel or instrument description, not a unitary.</p></details><p><a href="#topic-4-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-9"><h3>9. Extension <a class="heading-link" href="#exercise-9" aria-label="Link to exercise 9">§</a></h3><p>Estimate \(\langle ZZ\rangle\) and \(\langle XX\rangle\) for the ry(\(\pi/3\)) state from sampled counts, as an experiment would: measure directly for ZZ, and apply H to both qubits before measuring for XX. Compare with the exact values \(1\) and \(0.866\), and explain the size of the discrepancy.</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(\langle ZZ\rangle=(n_{00}+n_{11}-n_{01}-n_{10})/N\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>The statistical error is about \(\sqrt{(1-\langle P\rangle^2)/N}\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>With \(8192\) shots, the ZZ estimate is exactly \(1\) (only 00 and 11 occur) and the XX estimate is near \(0.866\), within about \(\sqrt{(1-0.75)/8192}\approx0.006\). The XX measurement requires a different circuit: one setting per non-commuting observable. Exact expectations check the program; sampled estimates model what an experiment reports, with an uncertainty that must be carried along.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.primitives import StatevectorSampler
+
+def parity(counts, shots):
+    return (counts.get(&quot;00&quot;, 0) + counts.get(&quot;11&quot;, 0) - counts.get(&quot;01&quot;, 0) - counts.get(&quot;10&quot;, 0)) / shots
+
+prep = QuantumCircuit(2)
+prep.ry(np.pi / 3, 0)
+prep.cx(0, 1)
+z_basis = prep.copy()
+z_basis.measure_all()
+x_basis = prep.copy()
+x_basis.h([0, 1])
+x_basis.measure_all()
+shots = 8192
+results = StatevectorSampler(seed=5).run([z_basis, x_basis], shots=shots).result()
+zz = parity(results[0].data.meas.get_counts(), shots)
+xx = parity(results[1].data.meas.get_counts(), shots)
+assert np.isclose(zz, 1) and abs(xx - np.sin(np.pi / 3)) &lt; 0.03</code></pre></details><p><a href="#topic-4-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-10"><h3>10. Extension <a class="heading-link" href="#exercise-10" aria-label="Link to exercise 10">§</a></h3><p>A statevector of \(n\) qubits needs \(2^n\) amplitudes of \(16\) bytes. (a) Estimate the memory for \(n=30\) and \(n=100\). (b) Run a \(100\)-qubit GHZ circuit with Aer’s stabilizer method and check the outcomes. (c) Why is this possible, and what is its limit?</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(2^{30}\times16\approx17\) GB.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Clifford circuits (H, S, CNOT, Paulis) can be simulated efficiently.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) \(n=30\): about \(17\) GB; \(n=100\): about \(2\times10^{31}\) bytes, impossible. (b) The stabilizer simulator runs the \(100\)-qubit GHZ circuit in a fraction of a second, and every outcome is all zeros or all ones. (c) Clifford circuits keep the state in a form described by polynomially many bits (a stabilizer tableau), so they can be simulated efficiently. Adding non-Clifford gates such as \(T\) or arbitrary rotations removes this shortcut; a simulator’s capacity depends on the circuit’s structure, not only its width.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+
+n = 100
+ghz = QuantumCircuit(n)
+ghz.h(0)
+for k in range(n - 1):
+    ghz.cx(k, k + 1)
+ghz.measure_all()
+counts = AerSimulator(method=&quot;stabilizer&quot;).run(ghz, shots=100, seed_simulator=1).result().get_counts()
+assert set(counts) &lt;= {&quot;0&quot; * n, &quot;1&quot; * n}</code></pre></details><p><a href="#topic-4-3-1">Revisit the relevant explanation</a></p></article></section><nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="03-circuit-construction.html"><small>Previous chapter</small>Circuit Construction ←</a><a rel="next" href="05-reusable-quantum-programs.html"><small>Next chapter</small>Reusable Quantum Programs →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Qiskit, measurement, or transpilation"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>
 </body></html>

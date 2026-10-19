@@ -1,7 +1,7 @@
 {
   "01-information-and-distinguishability": {
-    "prediction": "A detector reports red. Should Bob guess the more common preparation A, or the preparation B that produces red more often?",
-    "explanation": "Use both pieces of information: the prior and the detector response. Red events have weights 3/20 from A and 4/20 from B, so guess B."
+    "prediction": "Alice chooses card A three times as often as B. Her detector lights red on one fifth of A trials and four fifths of B trials. Bob sees red. Which card should he guess?",
+    "explanation": "Guess B. In 100 trials with the model’s proportions, A contributes 15 red reports and B contributes 20. Among the 35 red reports, B accounts for 20, giving probability 4/7."
   },
   "02-classical-information": {
     "prediction": "Can a source of biased bits be compressed just by deleting its frequent zeros?",

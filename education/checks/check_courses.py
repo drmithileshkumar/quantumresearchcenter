@@ -38,7 +38,7 @@ def main(courses=None):
                         assert len(art.get_text().split())>200,(path,topic['id'])
                         rendered=reader.find(id=topic['id']);assert rendered,(path,topic['id'])
                         assert len(rendered.select('.probing-question li details.problem-solution'))==3,(path,topic['id'])
-                assert len(reader.select('#practice .exercise'))>=3,path
+                assert len(reader.select('#practice .exercise'))==10,path
                 continue
             for sec in c['sections']:
                 el=manuscript.find(id=sec['id']);assert el,(path,sec)
@@ -50,6 +50,8 @@ def main(courses=None):
                     assert following and following.name not in ('h2','h3'),(path,heading)
                 assert len(el.get_text().split())>100,(path,sec['id'])
             if course!='algorithms':assert len(manuscript.select('details.problem-solution'))>=3,path
+            exercises=soup(path).select('#practice .exercise')
+            assert len(exercises)==10 and all(e.select('.exercise-hint') and e.select('.exercise-solution') for e in exercises),path
             if course=='programming':
                 number=manifest.index(c)+1
                 source=(folder/f'examples/chapter_{number:02}.py').read_text()

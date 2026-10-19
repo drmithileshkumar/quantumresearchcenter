@@ -38,6 +38,99 @@ print(counts)
 <p>With the indexing fixed, we can compare circuits directly with their mathematical states and operators.</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/guides/bit-ordering">IBM, bit ordering</a>.</p>
 <figure class="lesson-circuit"><div aria-label="Circuit diagram; scroll horizontally on narrow screens" class="drawing-scroll" role="group" tabindex="0"><img alt="Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control." src="assets/bell.svg" style="max-width:100%;height:auto"/></div><figcaption>Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control.</figcaption></figure></section>
-<nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="02-the-qiskit-environment.html"><small>Previous chapter</small>The Qiskit Environment ←</a><a rel="next" href="04-states-and-operators.html"><small>Next chapter</small>States and Operators →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
+<section class="chapter-practice" id="practice"><h2>Questions and worked problems</h2><p>These exercises draw on the whole chapter. Attempt each question before opening a hint, explain your reasoning, then compare it with the worked solution.</p><article class="exercise" id="exercise-1"><h3>1. Quick check <a class="heading-link" href="#exercise-1" aria-label="Link to exercise 1">§</a></h3><p>A three-qubit circuit applies X only to qubit 2. Predict its bit-string label and its statevector index before running it.</p><details class="exercise-hint"><summary>Hint 1</summary><p>Qubit 0 is the rightmost (least significant) bit.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Label \(q_2q_1q_0\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The label is 100 and the index is \(4\): qubit 2 is the most significant of three bits. probabilities_dict returns {&#x27;100&#x27;: 1.0}. Reading labels left to right as qubits 0, 1, 2 would wrongly predict 001.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+circuit = QuantumCircuit(3)
+circuit.x(2)
+probabilities = Statevector.from_instruction(circuit).probabilities_dict()
+assert abs(probabilities[&quot;100&quot;] - 1) &lt; 1e-12</code></pre></details><p><a href="#topic-3-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-2"><h3>2. Quick check <a class="heading-link" href="#exercise-2" aria-label="Link to exercise 2">§</a></h3><p>Qubit 0 is flipped to 1, and qubit 1 is left at 0. The circuit then measures qubit 0 into classical bit 1 and qubit 1 into classical bit 0. What bit string appears in the counts?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Count strings are written with classical bit 0 on the right.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Classical bit 1 holds qubit 0’s value.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Classical bit 1 receives \(1\) and classical bit 0 receives \(0\), and count strings list classical bits from highest to lowest, so every shot gives 10. The physical state is the same \(\ket{q_1q_0}=\ket{01}\) as without the swapped mapping; only the storage changed. Decoding counts requires knowing the measurement map.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.primitives import StatevectorSampler
+
+circuit = QuantumCircuit(2, 2)
+circuit.x(0)
+circuit.measure(0, 1)
+circuit.measure(1, 0)
+counts = StatevectorSampler(seed=1).run([circuit], shots=10).result()[0].data.c.get_counts()
+assert counts == {&quot;10&quot;: 10}</code></pre></details><p><a href="#topic-3-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-3"><h3>3. Quick check <a class="heading-link" href="#exercise-3" aria-label="Link to exercise 3">§</a></h3><p>For the state prepared by X on qubit 0 of two qubits, predict the expectation values of the Pauli labels ZI and IZ.</p><details class="exercise-hint"><summary>Hint 1</summary><p>The rightmost character acts on qubit 0.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(\langle Z\rangle=+1\) on \(\ket0\) and \(-1\) on \(\ket1\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>ZI acts with \(Z\) on qubit 1, which is \(\ket0\): expectation \(+1\). IZ acts on qubit 0, which is \(\ket1\): expectation \(-1\). Swapping the two predictions is the typical symptom of reading Pauli labels in the wrong order.</p><pre><code class="language-python">import numpy as np
+from qiskit.quantum_info import Statevector, SparsePauliOp
+
+state = Statevector.from_label(&quot;01&quot;)
+assert np.isclose(state.expectation_value(SparsePauliOp(&quot;ZI&quot;)), 1)
+assert np.isclose(state.expectation_value(SparsePauliOp(&quot;IZ&quot;)), -1)</code></pre></details><p><a href="#topic-3-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-4"><h3>4. Worked problem <a class="heading-link" href="#exercise-4" aria-label="Link to exercise 4">§</a></h3><p>A Bell-pair subcircuit (H on its qubit 0, CX from 0 to 1) should be placed on qubits 2 and 0 of a three-qubit circuit. A student writes the code below and finds that big has no instructions. (a) Why? (b) Fix it. (c) Predict the resulting state’s labels.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+
+sub = QuantumCircuit(2)
+sub.h(0)
+sub.cx(0, 1)
+big = QuantumCircuit(3)
+big.compose(sub, qubits=[2, 0])
+print(big.size())</code></pre><details class="exercise-hint"><summary>Hint 1</summary><p>compose returns a new circuit unless told otherwise.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>qubits=[2, 0] maps subcircuit qubit 0 to qubit 2 and qubit 1 to qubit 0.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) compose returns a new circuit and leaves big unchanged unless inplace=True is given; the returned circuit was discarded. (b) Assign the result (or pass inplace=True). (c) The mapping puts H on qubit 2 and a CX from qubit 2 to qubit 0, entangling those two while qubit 1 stays \(\ket0\): the labels are 000 and 101, each with probability \(\frac12\).</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+sub = QuantumCircuit(2)
+sub.h(0)
+sub.cx(0, 1)
+big = QuantumCircuit(3).compose(sub, qubits=[2, 0])
+probabilities = Statevector.from_instruction(big).probabilities_dict()
+assert abs(probabilities[&quot;000&quot;] - 0.5) &lt; 1e-12 and abs(probabilities[&quot;101&quot;] - 0.5) &lt; 1e-12</code></pre></details><p><a href="#topic-3-1-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-5"><h3>5. Worked problem <a class="heading-link" href="#exercise-5" aria-label="Link to exercise 5">§</a></h3><p>A Toffoli gate is drawn as one box. Decompose it once and count the resulting instructions. What does the count suggest about judging circuit cost from a drawing?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Use circuit.decompose() and count_ops().</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Count the CNOTs and the \(T\)-type gates.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>One level of decomposition gives \(6\) CNOTs, \(4\) \(T\) gates, \(3\) \(T^\dagger\) gates, and \(2\) Hadamards: fifteen elementary instructions for one drawn box. On fault-tolerant hardware the seven \(T\)-type gates dominate the cost. A compact drawing says nothing about resources; counts must be taken after decomposition, ideally after transpiling to the target gate set.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+
+toffoli = QuantumCircuit(3)
+toffoli.ccx(0, 1, 2)
+counts = dict(toffoli.decompose().count_ops())
+assert counts == {&quot;cx&quot;: 6, &quot;t&quot;: 4, &quot;tdg&quot;: 3, &quot;h&quot;: 2}</code></pre></details><p><a href="#topic-3-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-6"><h3>6. Worked problem <a class="heading-link" href="#exercise-6" aria-label="Link to exercise 6">§</a></h3><p>Counts of only 00 and 11 do not distinguish a Bell state from a classical mixture of \(\ket{00}\) and \(\ket{11}\). Write a check that does: apply H to both qubits before measuring, and compute the exact outcome probabilities for both preparations, using DensityMatrix for the mixture.</p><details class="exercise-hint"><summary>Hint 1</summary><p>For the Bell state, \((H\otimes H)\ket{\Phi^+}=\ket{\Phi^+}\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>DensityMatrix.evolve applies a circuit to a mixed state.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>After \(H\otimes H\), the Bell state still gives only 00 and 11, each with probability \(\frac12\), while the mixture gives all four outcomes with probability \(\frac14\). Exact probabilities make the test deterministic; in an experiment, the same comparison is made with sampled counts and a tolerance. Checking a second basis is what certifies coherence.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector, DensityMatrix
+
+bell = QuantumCircuit(2)
+bell.h(0)
+bell.cx(0, 1)
+bell.h([0, 1])
+bell_probs = Statevector.from_instruction(bell).probabilities_dict()
+assert np.isclose(bell_probs[&quot;00&quot;], 0.5) and np.isclose(bell_probs[&quot;11&quot;], 0.5)
+
+rotate = QuantumCircuit(2)
+rotate.h([0, 1])
+mixture = 0.5 * DensityMatrix.from_label(&quot;00&quot;) + 0.5 * DensityMatrix.from_label(&quot;11&quot;)
+mix_probs = mixture.evolve(rotate).probabilities_dict()
+assert all(np.isclose(mix_probs[label], 0.25) for label in [&quot;00&quot;, &quot;01&quot;, &quot;10&quot;, &quot;11&quot;])</code></pre></details><p><a href="#topic-3-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-7"><h3>7. Worked problem <a class="heading-link" href="#exercise-7" aria-label="Link to exercise 7">§</a></h3><p>Prepare a five-qubit GHZ state \((\ket{00000}+\ket{11111})/\sqrt2\) in two ways: a chain of CNOTs \(0\to1\to2\to3\to4\), and a tree in which qubit 0 controls 1 and 2, then qubit 1 controls 3 while qubit 0 controls 4. Compare their depths and verify that the states agree.</p><details class="exercise-hint"><summary>Hint 1</summary><p>Gates on disjoint qubits can share a layer.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compare circuit.depth() and Statevector equivalence.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The chain has depth \(5\) (H plus four sequential CNOTs); the tree has depth \(4\), because the CNOTs \(0\to2\) and \(1\to3\) run in the same layer. Both prepare the same state. For \(n\) qubits a tree needs depth about \(1+\lceil\log_2n\rceil\), against \(n\) for a chain, so the same mathematical state can be much shallower, an important difference when qubits decohere while waiting.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+chain = QuantumCircuit(5)
+chain.h(0)
+for k in range(4):
+    chain.cx(k, k + 1)
+tree = QuantumCircuit(5)
+tree.h(0)
+tree.cx(0, 1)
+tree.cx(0, 2)
+tree.cx(1, 3)
+tree.cx(0, 4)
+assert chain.depth() == 5 and tree.depth() == 4
+assert Statevector.from_instruction(chain).equiv(Statevector.from_instruction(tree))</code></pre></details><p><a href="#topic-3-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-8"><h3>8. Misconception <a class="heading-link" href="#exercise-8" aria-label="Link to exercise 8">§</a></h3><p>A student reads count strings from left to right in the same order as the wires in the text drawing, top to bottom, and concludes that 01 means “qubit 0 is 0 and qubit 1 is 1.” Show with a one-gate example that this is backwards.</p><details class="exercise-hint"><summary>Hint 1</summary><p>The top wire in the drawing is qubit 0.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Apply X to qubit 0 and look at the label.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Apply X to qubit 0 only: the label is 01. The rightmost character is qubit 0, which is \(1\); the leftmost is qubit 1, which is \(0\). The drawing lists qubit 0 at the top, but the bit string lists it last, following the integer convention in which qubit 0 is the least significant bit. Every analysis that maps strings back to qubits must use this rule, or reverse the order explicitly.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+circuit = QuantumCircuit(2)
+circuit.x(0)
+assert Statevector.from_instruction(circuit).probabilities_dict() == {&quot;01&quot;: 1.0}</code></pre></details><p><a href="#topic-3-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-9"><h3>9. Extension <a class="heading-link" href="#exercise-9" aria-label="Link to exercise 9">§</a></h3><p>Some textbooks write the first qubit leftmost. Use Statevector.reverse_qargs() to convert the state of X on qubit 0 into that convention, and explain when such a conversion is appropriate and when it hides a bug.</p><details class="exercise-hint"><summary>Hint 1</summary><p>reverse_qargs reverses the order of subsystems.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Convert once, at a clearly marked boundary.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>In Qiskit’s convention the state is labelled 01; after reverse_qargs() it is labelled 10, matching a convention in which qubit 0 is written first. Converting is appropriate at a single, documented boundary, for example when comparing with a formula from a paper. Scattering conversions through a program, or reversing to make a failing test pass without understanding why, can mask a genuine wiring or measurement-map error.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+circuit = QuantumCircuit(2)
+circuit.x(0)
+state = Statevector.from_instruction(circuit)
+assert state.probabilities_dict() == {&quot;01&quot;: 1.0}
+assert state.reverse_qargs().probabilities_dict() == {&quot;10&quot;: 1.0}</code></pre></details><p><a href="#topic-3-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-10"><h3>10. Extension <a class="heading-link" href="#exercise-10" aria-label="Link to exercise 10">§</a></h3><p>A circuit has two classical registers: a (one bit) measuring qubit 0, and b (two bits) measuring qubits 1 and 2. Qubit 1 is flipped. Predict the counts stored for each register and the combined string returned by join_data(). Why is it safer to read registers by name?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Each register is reported separately, with its own bit order.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>In the joined string, the register added later appears on the left.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Register a reports 0 (qubit 0 is \(\ket0\)). Register b reports 01: its bit 0 holds qubit 1 (\(1\)) and its bit 1 holds qubit 2 (\(0\)). join_data() concatenates the registers, here as 010, with b on the left because it was added after a. Reading registers by name avoids depending on concatenation order, which changes if the circuit is built differently.</p><pre><code class="language-python">from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+from qiskit.primitives import StatevectorSampler
+
+q = QuantumRegister(3)
+a = ClassicalRegister(1, &quot;a&quot;)
+b = ClassicalRegister(2, &quot;b&quot;)
+circuit = QuantumCircuit(q, a, b)
+circuit.x(1)
+circuit.measure(0, a[0])
+circuit.measure([1, 2], b)
+result = StatevectorSampler(seed=1).run([circuit], shots=5).result()[0]
+assert result.data.a.get_counts() == {&quot;0&quot;: 5}
+assert result.data.b.get_counts() == {&quot;01&quot;: 5}
+assert result.join_data().get_counts() == {&quot;010&quot;: 5}</code></pre></details><p><a href="#topic-3-2-1">Revisit the relevant explanation</a></p></article></section><nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="02-the-qiskit-environment.html"><small>Previous chapter</small>The Qiskit Environment ←</a><a rel="next" href="04-states-and-operators.html"><small>Next chapter</small>States and Operators →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Qiskit, measurement, or transpilation"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>
 </body></html>

@@ -3,7 +3,7 @@
     "stem": "01-information-and-distinguishability",
     "title": "Information and Distinguishability",
     "question": "What makes two physical messages distinguishable?",
-    "example": "Two messages encoded in distinguishable physical alternatives.",
+    "example": "Cards A and B, chosen with probabilities 3/4 and 1/4, and a detector that reports red with probabilities 1/5 and 4/5.",
     "prerequisites": "No subject prerequisites; quantities and notation are introduced as needed.",
     "sections": [
       {
@@ -36,7 +36,7 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Alice sends Bob a physical object to mean either “yes” or “no.” If the two possible preparations always look identical to every permitted observation, no message has been conveyed. Information begins with distinguishable alternatives, a preparation rule, and a receiver’s procedure.",
+      "construction": "A message needs a physical carrier. But sending an object is only useful if the receiver can tell what it means. We will study a simple example: two cards, one imperfect detector, and a receiver trying to decide which card was sent.",
       "worked_examples": [
         "Problem 1.1. Alice uses two different physical preparations. What must Bob be able to do for them to encode a reliably readable bit?",
         "Problem 1.2. How well does the rule “red means B, otherwise A” perform?",
@@ -45,7 +45,10 @@
       ],
       "handoff": "We next quantify classical uncertainty and the resources needed to compress or protect messages.",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
-    }
+    },
+    "styles": [
+      "assets/chapter-one.css"
+    ]
   },
   {
     "stem": "02-classical-information",

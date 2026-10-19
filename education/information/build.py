@@ -9,8 +9,10 @@ ROOT=Path(__file__).resolve().parent
 import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
+import chapter_exercises
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 LEARNING=json.loads((ROOT/'content/learning.json').read_text())
+EXERCISES=chapter_exercises.load(ROOT)
 def navigation(current,data):
  out='<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Information<span>States, resources, and communication</span></a><a class="nav-introduction" href="index.html">About this course</a><a href="index.html#landscape">Domains and topics</a>'
  for i,c in enumerate(CHAPTERS,1):
@@ -57,9 +59,10 @@ def main():
    body+='</ol></li>'
   body+='</ol></details>'
   body+=f'<details class="chapter-direction"><summary>Before you begin</summary><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Keep in view:</strong> {esc(c["example"])}</p></details><aside class="prediction"><p><strong>Predict first.</strong> {guide["prediction"]}</p><details class="prediction-answer"><summary>Compare your reasoning</summary><p>{guide["explanation"]}</p></details></aside>'+manuscript
+  body+=chapter_exercises.render(stem,c['title'],EXERCISES.get(stem,[]),{el['id'] for el in soup.select('[id]')},search)
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
   body+='<nav class="chapter-pagination" aria-label="Chapter navigation">'+(f'<a rel="prev" href="{prev["stem"]}.html"><small>Previous chapter</small>{esc(prev["title"])} ←</a>' if prev else '<a href="index.html"><small>Course overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt["stem"]}.html"><small>Next chapter</small>{esc(nxt["title"])} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Course contents →</a>')+'</nav>'
-  (ROOT/f'{stem}.html').write_text(shell(stem,c['title'],body,[],classes=['revised-book']))
+  (ROOT/f'{stem}.html').write_text(shell(stem,c['title'],body,[],styles=c.get('styles',()),classes=['revised-book']))
   ids=[el['id'] for el in soup.select('[id]')]
   if len(ids)!=len(set(ids)):raise ValueError('Duplicate manuscript IDs: '+stem)
   for element in soup.select('.book-part, .reading-topic'):

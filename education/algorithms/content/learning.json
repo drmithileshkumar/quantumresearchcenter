@@ -24,6 +24,26 @@
     "review": "topic-1-3-2"
    },
    {
+    "kind": "Quick check",
+    "question": "Run the Deutsch circuit (input \\(\\ket0\\), target \\(\\ket1\\), Hadamards on both, one query, Hadamard on the input) for \\(f(x)=1\\oplus x\\). Write the two-qubit state after the query and after the final Hadamard. Which outcome is measured, and what does the overall sign mean?",
+    "hints": [
+     "Use \\(U_f\\ket x\\ket-=(-1)^{f(x)}\\ket x\\ket-\\) with \\(f(0)=1\\), \\(f(1)=0\\).",
+     "\\((-\\ket0+\\ket1)/\\sqrt2=-\\ket-\\)."
+    ],
+    "answer": "After the Hadamards the state is \\(\\ket+\\ket-\\). The query multiplies the \\(\\ket0\\) branch by \\((-1)^{1}=-1\\) and leaves the \\(\\ket1\\) branch alone, giving \\(\\frac{-\\ket0+\\ket1}{\\sqrt2}\\ket-=-\\ket-\\ket-\\). The final Hadamard maps \\(\\ket-\\) to \\(\\ket1\\), so the state is \\(-\\ket1\\ket-\\) and the input reads \\(1=d\\) with certainty, as it should for a balanced function. The factor \\(-1=(-1)^{f(0)}\\) multiplies the whole state: it is a global phase and changes no probability, which is why the circuit cannot tell \\(f(x)=1\\oplus x\\) from \\(f(x)=x\\).",
+    "review": "topic-1-3-1"
+   },
+   {
+    "kind": "Quick check",
+    "question": "You are handed a sealed box that applies \\(U_f\\ket x\\ket y=\\ket x\\ket{y\\oplus f(x)}\\) and nothing else. For each operation, say whether it comes free with the box, can be built from it, or is a separate assumption: (a) applying \\(U_f\\) to a superposition of inputs; (b) \\(U_f^{-1}\\); (c) controlled-\\(U_f\\); (d) a second copy of the state \\(U_f\\ket+\\ket0\\) produced by an earlier query.",
+    "hints": [
+     "Applying \\(U_f\\) twice restores every basis state.",
+     "For (c), try computing \\(f(x)\\) into a fresh qubit, using it, and computing it again."
+    ],
+    "answer": "(a) Free: coherent access is exactly the assumption that one use acts linearly on superpositions. (b) Free for this oracle, because \\(U_f^2=I\\), so \\(U_f^{-1}=U_f\\); for a general sealed unitary the inverse would be a separate assumption. (c) Buildable at a price: compute \\(f(x)\\) into a fresh qubit \\(\\ket0\\) with one query, apply a Toffoli gate controlled on the control qubit and that fresh qubit with the real target as its target, then query again to return the fresh qubit to \\(\\ket0\\). The cost is two queries and one extra qubit; it works because this oracle has no troublesome global phase. (d) Not available: no procedure copies an unknown state, so a second copy needs a second preparation and a second query.",
+    "review": "topic-1-2-2"
+   },
+   {
     "kind": "Worked problem",
     "question": "For the Deutsch–Jozsa circuit with n = 3, a function has f(x) = 1 on exactly two of the eight inputs. Compute the probability that the circuit outputs the all-zero string. What should an algorithm relying on the promise do with this input?",
     "hints": [
@@ -34,6 +54,46 @@
     "review": "topic-1-5-1"
    },
    {
+    "kind": "Worked problem",
+    "question": "For the two-bit Deutsch–Jozsa circuit, take the balanced function \\(f(x_1x_2)=x_1\\oplus x_2\\). Compute the amplitude of every outcome \\(z=z_1z_2\\), using the fact that the final amplitude is \\(\\frac14\\sum_x(-1)^{f(x)+x\\cdot z}\\), where \\(x\\cdot z=x_1z_1\\oplus x_2z_2\\). Repeat for \\(f(x)=1\\oplus x_1\\). What pattern do you see?",
+    "hints": [
+     "Write \\(f(x)=x\\cdot a\\) for a fixed string \\(a\\).",
+     "The sum is \\(4\\) when every term is \\(+1\\) and \\(0\\) when half the terms are \\(-1\\)."
+    ],
+    "answer": "For \\(f(x)=x_1\\oplus x_2=x\\cdot 11\\), the exponent is \\(x\\cdot(11\\oplus z)\\). When \\(z=11\\) every term is \\(+1\\) and the amplitude is \\(1\\); for any other \\(z\\) the string \\(11\\oplus z\\) is nonzero, exactly half the four inputs give \\(-1\\), and the amplitude is \\(0\\). The circuit outputs \\(11\\) with certainty. For \\(f(x)=1\\oplus x_1\\), the exponent is \\(1+x\\cdot(10\\oplus z)\\), so the outcome \\(10\\) has amplitude \\(-1\\) and all others \\(0\\). Both functions are balanced and both give a nonzero string, as the promise problem requires. But more is true: whenever \\(f(x)=a\\cdot x\\) (possibly complemented), the circuit returns \\(a\\) itself. That observation is the Bernstein–Vazirani algorithm developed in Chapter 3.",
+    "review": "topic-1-5-1"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "A decision algorithm is correct with probability \\(3/4\\) per run. Compute the exact success probability of a majority vote over five independent runs and compare it with the three-run value \\(27/32\\). Then a search procedure finds a checkable witness with probability \\(0.1\\) per run: how many runs bring the failure probability below \\(10^{-6}\\)?",
+    "hints": [
+     "The majority of five is correct when at least three runs are correct.",
+     "Use \\((1-p)^R\\le e^{-pR}\\)."
+    ],
+    "answer": "With \\(q=3/4\\), \\(\\Pr[\\ge3\\text{ correct}]=\\binom53q^3(1-q)^2+\\binom54q^4(1-q)+q^5=\\frac{270+405+243}{1024}=\\frac{918}{1024}=\\frac{459}{512}\\approx0.896\\). Three runs gave \\(27/32\\approx0.844\\); two more runs cut the failure probability from about \\(0.156\\) to about \\(0.104\\), and further runs keep shrinking it exponentially. For the search, \\(e^{-0.1R}\\le10^{-6}\\) requires \\(R\\ge10\\ln10^6\\approx138.2\\), so \\(139\\) runs suffice (the exact bound \\((0.9)^R\\le10^{-6}\\) gives \\(132\\)). Each run is checked with one extra evaluation of \\(f\\), which belongs in the total cost.",
+    "review": "topic-1-4-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Each run of an estimation circuit uses one query and \\(40\\) other gates and outputs a bit that is \\(1\\) with unknown probability \\(p\\). Using the Chebyshev bound, how many runs guarantee \\(|\\bar p-p|\\le0.02\\) with failure probability at most \\(0.1\\)? Give the total query and gate counts, and say what happens to both if the tolerance is halved.",
+    "hints": [
+     "Require \\(1/(4R\\epsilon^2)\\le\\delta\\).",
+     "Every repetition repeats the whole circuit, including its preparation."
+    ],
+    "answer": "We need \\(R\\ge1/(4\\delta\\epsilon^2)=1/(4\\times0.1\\times0.0004)=6250\\) runs. Each run is a fresh preparation, so the cost is \\(6250\\) queries and \\(6250\\times40=250\\,000\\) further gates, plus classical averaging. Halving the tolerance to \\(0.01\\) multiplies \\(R\\) by four: \\(25\\,000\\) queries and one million gates. The resource statement must therefore say which tolerance and confidence were assumed; quoting the cost of one circuit hides a factor that grows as \\(1/\\epsilon^2\\). (Chebyshev is loose: sharper bounds lower the constant, but not the \\(1/\\epsilon^2\\) dependence.)",
+    "review": "topic-1-4-2"
+   },
+   {
+    "kind": "Misconception",
+    "question": "After one query with target \\(\\ket-\\), a student discards the target qubit, reasoning that it may still hold information about \\(f\\). Another student wants to reuse it for a second query on a fresh input register. Who is right? Compare with the target \\(\\ket0\\).",
+    "hints": [
+     "Write the joint state after \\(U_f\\ket\\psi\\ket-\\) as a product.",
+     "With target \\(\\ket0\\), is the joint state a product?"
+    ],
+    "answer": "The second student. Since \\(U_f\\big(\\sum_x a_x\\ket x\\big)\\ket-=\\big(\\sum_x(-1)^{f(x)}a_x\\ket x\\big)\\otimes\\ket-\\), the target leaves the query in exactly the state it entered, unentangled with the input. It holds no record of \\(f\\) or of the input branch, so it can be reused for any number of later queries; throwing it away is harmless but wasteful. With target \\(\\ket0\\) the state after the query is \\(\\sum_xa_x\\ket x\\ket{f(x)}\\), which is generally entangled: the target is a which-path record. Reusing it would carry that record into the next computation, and discarding it does not undo the damage, because the branches it distinguishes can no longer interfere.",
+    "review": "topic-1-3-2"
+   },
+   {
     "kind": "Extension",
     "question": "A bounded-error quantum algorithm for a decision problem succeeds with probability 0.6 per run. How many runs make the majority vote fail with probability at most 0.01, using the bound that the majority of R runs fails with probability at most \\(e^{-2Rc^2}\\), where c = 0.1 is the advantage over 1/2? What does this imply about the definition of bounded error?",
     "hints": [
@@ -42,6 +102,16 @@
     ],
     "answer": "We need 0.02R ≥ ln 100 ≈ 4.61, so R = 231 runs suffice by this bound. The count depends only on the advantage and the target confidence, not on the input size. That is why any fixed advantage above 1/2 (often stated as success 2/3) defines the same class of efficiently solvable problems: amplifying to any constant confidence costs only a constant factor.",
     "review": "topic-1-4-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "Deutsch’s original approach used the target \\(\\ket0\\). After the query on \\(\\ket+\\ket0\\), apply a Hadamard to both qubits and measure both. Compute the probability of each outcome pair \\((a,b)\\). Show that when \\(b=1\\) the input outcome \\(a\\) equals \\(d\\) with certainty, while \\(b=0\\) carries no information. What is the overall success probability, and why is this weaker than the one-query circuit with target \\(\\ket-\\)?",
+    "hints": [
+     "The amplitude of \\((a,b)\\) is \\(\\frac{1}{2\\sqrt2}\\sum_x(-1)^{xa+f(x)b}\\).",
+     "Treat \\(b=0\\) and \\(b=1\\) separately."
+    ],
+    "answer": "Starting from \\(\\frac{1}{\\sqrt2}\\sum_x\\ket x\\ket{f(x)}\\), the Hadamards give amplitude \\(\\frac{1}{2\\sqrt2}\\big[(-1)^{f(0)b}+(-1)^{a+f(1)b}\\big]\\) for \\((a,b)\\). If \\(b=0\\) this is \\(\\frac{1}{2\\sqrt2}(1+(-1)^a)\\): outcome \\(a=0\\) with probability \\(1/2\\) whatever \\(f\\) is, so nothing is learned. If \\(b=1\\) it is nonzero only when \\(a=f(0)\\oplus f(1)=d\\), with probability \\(1/2\\). So half the time the procedure reports \\(d\\) with certainty and flags that it has done so; the other half it must report “don’t know” and query again. The expected number of queries is \\(2\\), no better than classical. The \\(\\ket-\\) target removes the useless \\(b=0\\) branch by preparing the target in the state that the \\(b=1\\) measurement selected, which is why it succeeds every time.",
+    "review": "topic-1-3-2"
    }
   ]
  },
@@ -71,6 +141,26 @@
     "review": "topic-2-2-3"
    },
    {
+    "kind": "Quick check",
+    "question": "A circuit maps \\(\\ket x\\ket0\\ket0\\mapsto\\ket x\\ket{f(x)}\\ket{f(x)}\\): it leaves a second copy of the answer in its one workspace qubit. Since the garbage is “only the answer,” is the oracle clean? Use it with the output target in \\(\\ket-\\) inside Deutsch’s algorithm and find the probability of the correct answer for a balanced \\(f\\).",
+    "hints": [
+     "The contract requires the workspace to return to \\(\\ket0\\) on every input.",
+     "After the query the two input branches carry workspace values \\(f(0)\\neq f(1)\\)."
+    ],
+    "answer": "No. The clean contract requires the workspace to return to \\(\\ket{0}\\); here it holds \\(f(x)\\), which depends on the input. With the target in \\(\\ket-\\), the query gives \\(\\frac{1}{\\sqrt2}\\big((-1)^{f(0)}\\ket0\\ket{f(0)}+(-1)^{f(1)}\\ket1\\ket{f(1)}\\big)\\ket-\\). For a balanced function the workspace values differ, so the workspace is a which-path record. After the final Hadamard the input outcomes \\(0\\) and \\(1\\) each have probability \\(1/2\\), so the answer is correct only half the time. For a constant function the workspace is the same on both branches and the circuit still works, which is why a test on constant inputs alone would not reveal the bug.",
+    "review": "topic-2-2-3"
+   },
+   {
+    "kind": "Quick check",
+    "question": "A clean oracle for a predicate with exactly one marked input among \\(N=2^{10}\\) is applied to the uniform superposition with target \\(\\ket0\\), and the target is measured. What is the probability of seeing \\(1\\)? If it is seen, what is the state of the input register, and why is this not yet a fast search algorithm?",
+    "hints": [
+     "The state is \\(2^{-5}\\sum_x\\ket x\\ket{f(x)}\\).",
+     "How many repetitions are expected before the target reads \\(1\\)?"
+    ],
+    "answer": "The marked branch has amplitude \\(2^{-5}\\), so the target reads \\(1\\) with probability \\(1/1024\\). When it does, the input collapses to the marked string \\(\\ket{x^*}\\), which can be read out. But a success probability of \\(1/N\\) means about \\(N\\) repetitions on average, the same as testing inputs one by one. The clean oracle has written the answer into the state without making it likely to be observed. Increasing the marked amplitude before measuring is the job of amplitude amplification in Chapter 5, which needs the reflections built from clean preparation and inverse access.",
+    "review": "topic-2-4-3"
+   },
+   {
     "kind": "Worked problem",
     "question": "Build a clean phase oracle for f(a,b,c) = a AND b AND c using one ancilla, and count Toffolis.",
     "hints": [
@@ -81,6 +171,46 @@
     "review": "topic-2-2-2"
    },
    {
+    "kind": "Worked problem",
+    "question": "The majority function on three bits is \\(\\mathrm{MAJ}(a,b,c)=ab\\oplus ac\\oplus bc\\). (a) Check this identity on all inputs with at least two ones. (b) Build a clean oracle \\(\\ket{abc}\\ket y\\mapsto\\ket{abc}\\ket{y\\oplus\\mathrm{MAJ}}\\) with no workspace and count Toffolis. (c) Build the phase oracle \\((-1)^{\\mathrm{MAJ}}\\) with no Toffolis at all.",
+    "hints": [
+     "Each product term can be added directly into the target.",
+     "\\((-1)^{u\\oplus v\\oplus w}=(-1)^u(-1)^v(-1)^w\\), and a controlled-\\(Z\\) applies \\((-1)^{ab}\\)."
+    ],
+    "answer": "(a) If exactly two bits are \\(1\\), exactly one product is \\(1\\), so the XOR is \\(1\\). If all three are \\(1\\), all three products are \\(1\\) and \\(1\\oplus1\\oplus1=1\\). With fewer than two ones every product is \\(0\\). (b) Apply three Toffolis into \\(y\\), controlled on \\((a,b)\\), \\((a,c)\\), and \\((b,c)\\). Each adds one term by XOR, so \\(y\\) receives \\(\\mathrm{MAJ}\\). No intermediate value is stored, so there is nothing to uncompute: three Toffolis and no ancilla, compared with three Toffolis, three ancillas, and an uncompute for a naive translation. (c) The phase factorizes as \\((-1)^{ab}(-1)^{ac}(-1)^{bc}\\), so three controlled-\\(Z\\) gates on the three pairs implement the phase oracle exactly. The lesson: when a function is an XOR of terms, computing each term straight into the target, or straight into a phase, avoids garbage altogether.",
+    "review": "topic-2-2-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Let \\(\\mathrm{INC}\\) be the two-bit incrementer, \\(\\ket j\\mapsto\\ket{j+1\\bmod4}\\), with \\(j=2b_1+b_0\\). Apply it to \\(\\ket{\\chi}=\\frac12(\\ket0-\\ket1+\\ket2-\\ket3)\\) and to \\(\\ket{\\eta}=\\frac12(\\ket0+i\\ket1-\\ket2-i\\ket3)\\). What do you find? Generalize to amplitudes \\(c_j=i^{jk}/2\\).",
+    "hints": [
+     "If the input amplitudes are \\(c_j\\), the output amplitude on \\(\\ket j\\) is \\(c_{j-1}\\).",
+     "Compare \\(c_{j-1}\\) with \\(c_j\\)."
+    ],
+    "answer": "Since \\(\\mathrm{INC}\\sum_jc_j\\ket j=\\sum_jc_{j-1}\\ket j\\) (indices mod 4), each output amplitude is the input amplitude of the previous label. For \\(\\ket\\chi\\), \\(c_j=(-1)^j/2\\) and \\(c_{j-1}=-c_j\\), so \\(\\mathrm{INC}\\ket\\chi=-\\ket\\chi\\). For \\(\\ket\\eta\\), \\(c_j=i^j/2\\) and \\(c_{j-1}=i^{-1}c_j\\), so \\(\\mathrm{INC}\\ket\\eta=-i\\ket\\eta\\). In general \\(c_j=i^{jk}/2\\) gives \\(c_{j-1}=i^{-k}c_j\\): the state is unchanged except for the factor \\(e^{-2\\pi ik/4}\\). These four states, one for each \\(k\\), are the eigenstates of modular addition; the arithmetic shows up only as a phase. Chapter 4 exploits exactly this: controlled powers of modular arithmetic, applied to such states, write \\(k/4\\) into a phase that the Fourier transform can read.",
+    "review": "topic-2-1-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "A computation has \\(k=8\\) stages \\(u_i=F_i(u_{i-1})\\), \\(u_0=x\\). Compare two reversible schedules that end holding only \\(x\\) and \\(u_8\\). (a) Keep everything: compute all stages, copy \\(u_8\\), uncompute the rest. (b) Recursive halving: to reach stage \\(k\\), pebble stage \\(k/2\\), use it to pebble stage \\(k\\), then unpebble stage \\(k/2\\). Count stage evaluations and the maximum number of stage values held at once in each.",
+    "hints": [
+     "For (b), the cost satisfies \\(P(k)=3P(k/2)\\) with \\(P(1)=1\\).",
+     "The peak memory satisfies \\(S(k)=S(k/2)+1\\) with \\(S(1)=1\\)."
+    ],
+    "answer": "(a) Computing \\(u_1,\\dots,u_8\\) takes \\(8\\) evaluations and uncomputing \\(u_7,\\dots,u_1\\) takes \\(7\\), so \\(15\\) evaluations with up to \\(8\\) stage values held. (b) Reaching stage \\(k\\) costs three half-size problems, so \\(P(8)=3P(4)=9P(2)=27P(1)=27\\) evaluations. While the second half runs, \\(u_{k/2}\\) must be kept in addition to that half’s own peak, so \\(S(8)=S(4)+1=S(2)+2=S(1)+3=4\\). Recursion halves the memory at the cost of almost doubling the work. In general it uses about \\(k^{\\log_23}\\approx k^{1.58}\\) evaluations and \\(\\log_2k+1\\) stored values. On a quantum computer, where each stored value occupies qubits that must stay coherent, trading evaluations for qubits is often worthwhile.",
+    "review": "topic-2-3-2"
+   },
+   {
+    "kind": "Misconception",
+    "question": "Circuit \\(C\\) computes \\(g=ab\\) into a workspace qubit (Toffoli), then \\(t=g\\oplus c\\). A programmer uncomputes with a different circuit \\(C'\\) for the same \\(f=ab\\oplus c\\): \\(C'\\) copies \\(a\\) into the workspace (CNOT), applies a Toffoli from the workspace and \\(b\\) into \\(t\\), then a CNOT from \\(c\\) into \\(t\\). They apply \\(C\\), copy \\(t\\) into \\(y\\), then \\(C'^{-1}\\). “Both circuits compute \\(f\\), so either can uncompute.” Trace a basis input and find what remains in the workspace.",
+    "hints": [
+     "\\(C'^{-1}\\) applies the gates of \\(C'\\) in reverse order.",
+     "After \\(C\\), the workspace holds \\(ab\\), not \\(a\\)."
+    ],
+    "answer": "After \\(C\\) and the copy, the registers hold \\((a,b,c,\\;w=ab,\\;t=ab\\oplus c,\\;y\\oplus f)\\). Now \\(C'^{-1}\\): the CNOT from \\(c\\) gives \\(t=ab\\); the Toffoli from \\(w=ab\\) and \\(b\\) adds \\(ab\\cdot b=ab\\), so \\(t=0\\); the CNOT from \\(a\\) gives \\(w=ab\\oplus a=a\\land\\lnot b\\). The target is cleared by coincidence, but the workspace holds \\(a\\land\\lnot b\\), which is \\(1\\) on inputs with \\(a=1,b=0\\). The oracle is dirty and will destroy interference between those inputs and the rest. The principle: an uncomputation must undo the particular intermediate values the computation produced. Using the exact reverse of \\(C\\) guarantees this; another circuit for \\(f\\) generally assumes different garbage.",
+    "review": "topic-2-2-1"
+   },
+   {
     "kind": "Extension",
     "question": "A preparation circuit A uses 500 gates. Each amplification iteration in Chapter 5 uses one reflection about the prepared state and one phase oracle costing 300 gates. Estimate the gate cost of 20 iterations, including an initial preparation, and identify which access assumptions the count relies on.",
     "hints": [
@@ -89,6 +219,16 @@
     ],
     "answer": "Each iteration costs 300 (oracle) + 500 (A†) + z (zero reflection) + 500 (A) = 1300 + z gates. Twenty iterations plus the initial A cost 500 + 20(1300 + z) = 26,500 + 20z gates. The count assumes a known gate sequence for A, so that A† is available at equal cost, and a clean oracle; with only a sealed box for A, the reflection could not be built this way.",
     "review": "topic-2-4-1"
+   },
+   {
+    "kind": "Extension",
+    "question": "Suppose uncomputation is imperfect, so the two input branches of the test in Section 2.2.3 carry workspace states \\(\\ket{g_0}\\) and \\(\\ket{g_1}\\) instead of identical ones. After the CNOT the state is \\(\\frac{1}{\\sqrt2}(\\ket{000}\\ket{g_0}-\\ket{100}\\ket{g_1})\\). Show that the Hadamard on the first bit gives outcome \\(1\\) with probability \\(\\frac12(1+\\mathrm{Re}\\braket{g_0}{g_1})\\). Evaluate it for \\(\\ket{g_0}=\\ket0,\\ket{g_1}=\\ket+\\), and interpret the clean and fully dirty cases.",
+    "hints": [
+     "Collect the terms with first bit \\(0\\): their vector is \\(\\frac12\\ket{00}(\\ket{g_0}-\\ket{g_1})\\).",
+     "\\(\\|\\ket{g_0}-\\ket{g_1}\\|^2=2-2\\,\\mathrm{Re}\\braket{g_0}{g_1}\\)."
+    ],
+    "answer": "After the Hadamard the state is \\(\\frac12\\big[\\ket0\\ket{00}(\\ket{g_0}-\\ket{g_1})+\\ket1\\ket{00}(\\ket{g_0}+\\ket{g_1})\\big]\\). The probability of first bit \\(1\\) is \\(\\frac14\\|\\ket{g_0}+\\ket{g_1}\\|^2=\\frac14(2+2\\,\\mathrm{Re}\\braket{g_0}{g_1})=\\frac12(1+\\mathrm{Re}\\braket{g_0}{g_1})\\). Clean (\\(\\ket{g_0}=\\ket{g_1}\\)): probability \\(1\\). Fully dirty, orthogonal garbage (as with \\(\\ket{00}\\) versus \\(\\ket{11}\\)): probability \\(1/2\\), a fair coin. For \\(\\ket0\\) and \\(\\ket+\\), the overlap is \\(1/\\sqrt2\\) and the probability is \\(\\frac12(1+1/\\sqrt2)\\approx0.854\\). Interference visibility is set by the overlap of the leftover records: partial garbage gives partial damage, and the error compounds when the oracle is called many times.",
+    "review": "topic-2-2-3"
    }
   ]
  },
@@ -118,6 +258,26 @@
     "review": "topic-3-2-2"
    },
    {
+    "kind": "Quick check",
+    "question": "The target of a Hadamard test is \\(\\ket1\\), an eigenstate of \\(T=\\mathrm{diag}(1,e^{i\\pi/4})\\). Compute \\(\\Pr[0]\\) when the controlled operation is controlled-\\(T\\), and again when it is controlled-\\(T^4\\). Which of the two runs tells you more about the phase, and why?",
+    "hints": [
+     "Use \\(\\Pr[0]=(1+\\cos\\phi)/2\\) with the kicked-back phase.",
+     "\\(T^4=Z\\)."
+    ],
+    "answer": "Controlled-\\(T\\) kicks back \\(\\phi=\\pi/4\\), so \\(\\Pr[0]=(1+\\cos\\frac\\pi4)/2\\approx0.854\\). Controlled-\\(T^4=\\)controlled-\\(Z\\) kicks back \\(4\\phi=\\pi\\), so \\(\\Pr[0]=0\\): the outcome is \\(1\\) with certainty. The second run is deterministic, so a single shot settles a question about the phase (that \\(4\\phi\\) is an odd multiple of \\(\\pi\\)), while the first run is a biased coin that needs many repetitions to estimate. Powers of the unitary multiply the phase, and choosing powers so that the outcome becomes nearly certain is the idea behind phase estimation.",
+    "review": "topic-3-1-2"
+   },
+   {
+    "kind": "Quick check",
+    "question": "After a phase query on the uniform superposition of three qubits, the signs on \\(x=000,001,\\dots,111\\) are \\(+,+,-,-,+,+,-,-\\). What does \\(H^{\\otimes3}\\) produce, and why is the outcome certain?",
+    "hints": [
+     "Which bit of \\(x\\) does the sign depend on?",
+     "Signs of the form \\((-1)^{s\\cdot x}\\) are mapped to \\(\\ket s\\)."
+    ],
+    "answer": "Writing \\(x=x_1x_2x_3\\), the sign is \\(-\\) exactly when the middle bit \\(x_2=1\\), so the pattern is \\((-1)^{s\\cdot x}\\) with \\(s=010\\). That is a row of the Hadamard table, and since \\(H^{\\otimes3}\\) is its own inverse it maps the state exactly to \\(\\ket{010}\\). The outcome is certain because the sign pattern is linear; this is a Bernstein–Vazirani oracle with hidden string \\(010\\).",
+    "review": "topic-3-2-1"
+   },
+   {
     "kind": "Worked problem",
     "question": "In Simon’s algorithm with n = 3, the samples are 011 and 101. Find s, and say whether a third sample is needed.",
     "hints": [
@@ -128,6 +288,46 @@
     "review": "topic-3-3-2"
    },
    {
+    "kind": "Worked problem",
+    "question": "Run the Bernstein–Vazirani circuit on a function that is not linear: \\(f(x_1x_2)=x_1\\land x_2\\). Compute the amplitude of each outcome \\(z\\) using \\(\\frac14\\sum_x(-1)^{f(x)+x\\cdot z}\\). What can the measurement tell you about \\(f\\)?",
+    "hints": [
+     "Write \\((-1)^{f(x)}=1-2[x=11]\\).",
+     "\\(\\sum_x(-1)^{x\\cdot z}\\) is \\(4\\) for \\(z=00\\) and \\(0\\) otherwise."
+    ],
+    "answer": "Since \\((-1)^{f(x)}=1-2[x=11]\\), the amplitude is \\(\\frac14\\big(\\sum_x(-1)^{x\\cdot z}-2(-1)^{z_1\\oplus z_2}\\big)=[z=00]-\\frac12(-1)^{z_1\\oplus z_2}\\). This gives \\(\\frac12,\\frac12,\\frac12,-\\frac12\\) for \\(z=00,01,10,11\\). Every outcome has probability \\(1/4\\): the measurement is a uniformly random string. The sign pattern \\(+,+,+,-\\) is equally far from all four linear patterns, overlapping each with magnitude \\(1/2\\), so no outcome is favored. The Hadamard readout is perfect only for linear phase patterns; for other functions it samples the overlaps with linear patterns, and here they are all equal.",
+    "review": "topic-3-2-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "In Simon’s algorithm with \\(n=3\\), each run returns a uniformly random string from the four strings orthogonal to \\(s\\), including \\(000\\). Compute the expected number of runs needed to collect two linearly independent samples. Compare with the bound \\(n+1\\) from the text.",
+    "hints": [
+     "The first useful sample must be nonzero.",
+     "With one nonzero sample \\(z_1\\), a new sample is useless if it is \\(000\\) or \\(z_1\\)."
+    ],
+    "answer": "The first stage waits for a nonzero sample, which appears with probability \\(3/4\\), so it takes \\(4/3\\) runs on average. Once a nonzero \\(z_1\\) is held, a new sample adds information unless it lies in \\(\\{000,z_1\\}\\), which has probability \\(2/4\\); the expected wait is \\(2\\) runs. The total expectation is \\(4/3+2=10/3\\approx3.3\\) runs, below \\(n+1=4\\). Each run uses one query, so about \\(3.3\\) queries on average, plus Gaussian elimination on two equations. For larger \\(n\\) the same staging gives \\(\\sum_{k=0}^{n-2}1/(1-2^{k-n+1})\\), which stays below \\(n+1\\).",
+    "review": "topic-3-3-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "For \\(M=8\\), write the phase-gradient state \\(\\ket\\chi=\\frac{1}{\\sqrt8}\\sum_ye^{-2\\pi iy/8}\\ket y\\) and verify that adding \\(v=3\\) modulo \\(8\\) multiplies it by \\(e^{3\\pi i/4}\\). Then suppose a library prepares \\(\\ket{\\chi'}=\\frac{1}{\\sqrt8}\\sum_ye^{+2\\pi iy/8}\\ket y\\) instead. What phase does adding \\(v\\) produce, and how can you obtain the intended phase using the same state?",
+    "hints": [
+     "Substitute \\(z=y+3\\bmod 8\\) and use \\(e^{-2\\pi i\\cdot8/8}=1\\).",
+     "Subtracting \\(v\\) is the inverse of adding \\(v\\)."
+    ],
+    "answer": "After adding \\(3\\), the amplitude on \\(\\ket z\\) is the old amplitude on \\(\\ket{z-3}\\), namely \\(e^{-2\\pi i(z-3)/8}/\\sqrt8=e^{6\\pi i/8}e^{-2\\pi iz/8}/\\sqrt8\\). So the state is \\(e^{3\\pi i/4}\\ket\\chi\\), as claimed; wrap-around is harmless because the phases repeat with period \\(8\\). With \\(\\ket{\\chi'}\\) the same substitution gives the factor \\(e^{-2\\pi iv/8}\\): the phase has the opposite sign. Running the adder backwards (subtracting \\(v\\)) then gives \\(e^{+2\\pi iv/8}\\). Sign conventions of Fourier states must be checked, because a reversed phase passes every test that only looks at probabilities of a single query.",
+    "review": "topic-3-4-2"
+   },
+   {
+    "kind": "Misconception",
+    "question": "A student writes: “Phase kickback never changes the target, so any target state will do.” Test the claim with controlled-\\(Z\\), control in \\(\\ket+\\), and target \\(\\ket+\\). Compute the joint state and the Hadamard-test probability \\(\\Pr[0]\\), and check it against \\(\\frac12(1+\\mathrm{Re}\\bra\\psi U\\ket\\psi)\\).",
+    "hints": [
+     "\\(Z\\ket+=\\ket-\\), which is orthogonal to \\(\\ket+\\).",
+     "Branches with orthogonal target states cannot interfere."
+    ],
+    "answer": "The controlled-\\(Z\\) gives \\(\\frac{1}{\\sqrt2}(\\ket0\\ket++\\ket1\\ket-)\\). The target is now entangled with the control and holds a perfect record of the control branch, because \\(\\ket+\\) and \\(\\ket-\\) are orthogonal. After the Hadamard on the control, both outcomes have probability \\(1/2\\). The formula agrees: \\(\\bra+Z\\ket+=0\\), so \\(\\Pr[0]=\\frac12\\). The claim fails because kickback leaves the target unchanged only when the target is an eigenstate. Here \\(\\ket+\\) is a superposition of the eigenstates \\(\\ket0\\) and \\(\\ket1\\), with eigenvalues \\(+1\\) and \\(-1\\), and the two phases land on different target components.",
+    "review": "topic-3-1-1"
+   },
+   {
     "kind": "Extension",
     "question": "The Hadamard test is run on an eigenstate with unknown phase φ, estimating cos φ to within ε. Show that the resulting uncertainty in φ is largest near φ = 0 and φ = π, and explain why using controlled-U² does not remove the ambiguity between φ and −φ.",
     "hints": [
@@ -136,6 +336,16 @@
     ],
     "answer": "Since d(cos φ)/dφ = −sin φ, an error ε in cos φ gives an error of about ε/|sin φ| in φ, which blows up near φ = 0 and π, where the cosine is flat. Using U² kicks back 2φ and measures cos 2φ, which is still an even function of φ, so φ and −φ remain indistinguishable; only the sin φ test (with S†) resolves the sign. Phase estimation in Chapter 4 avoids both problems by reading phases with a Fourier transform.",
     "review": "topic-3-1-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "In Simon’s algorithm the samples are uniform over the \\((n-1)\\)-dimensional space \\(s^\\perp\\) of strings orthogonal to \\(s\\). Show that \\(n-1+t\\) samples fail to span \\(s^\\perp\\) with probability less than \\(2^{-t}\\). Use the fact that samples fail to span exactly when they all lie in some subspace of \\(s^\\perp\\) of one lower dimension, and that \\(s^\\perp\\) has \\(2^{n-1}-1\\) such subspaces.",
+    "hints": [
+     "A fixed subspace of one lower dimension contains half of \\(s^\\perp\\).",
+     "Apply the union bound over all such subspaces."
+    ],
+    "answer": "Fix a subspace \\(W\\) of \\(s^\\perp\\) of dimension \\(n-2\\). It contains half of \\(s^\\perp\\), so a uniform sample lies in \\(W\\) with probability \\(1/2\\), and \\(n-1+t\\) independent samples all lie in \\(W\\) with probability \\(2^{-(n-1+t)}\\). If the samples fail to span, they lie in at least one such \\(W\\). There are \\(2^{n-1}-1\\) choices, so by the union bound \\(\\Pr[\\text{fail}]\\le(2^{n-1}-1)2^{-(n-1+t)}<2^{-t}\\). With \\(t=\\log_2(1/\\delta)\\) extra runs, failure is below \\(\\delta\\), giving the \\(n+O(\\log(1/\\delta))\\) query bound in the text. The bound is independent of which \\(s\\) is hidden.",
+    "review": "topic-3-3-2"
    }
   ]
  },
@@ -165,6 +375,26 @@
     "review": "topic-4-1-2"
    },
    {
+    "kind": "Quick check",
+    "question": "Use the product representation to write \\(F_8\\ket5\\) as a product of three one-qubit states, highest output bit first. Check one amplitude against the definition \\(F_8\\ket x=\\frac{1}{\\sqrt8}\\sum_y\\omega^{xy}\\ket y\\).",
+    "hints": [
+     "\\(5=101_2\\), so \\(x_2=1,x_1=0,x_0=1\\).",
+     "The factors carry the binary fractions \\(0.x_0\\), \\(0.x_1x_0\\), and \\(0.x_2x_1x_0\\)."
+    ],
+    "answer": "The three phases are \\(e^{2\\pi i\\,0.1_2}=-1\\), \\(e^{2\\pi i\\,0.01_2}=i\\), and \\(e^{2\\pi i\\,0.101_2}=e^{2\\pi i\\cdot5/8}\\). So \\(F_8\\ket5=\\frac{\\ket0-\\ket1}{\\sqrt2}\\otimes\\frac{\\ket0+i\\ket1}{\\sqrt2}\\otimes\\frac{\\ket0+e^{5\\pi i/4}\\ket1}{\\sqrt2}\\). Check \\(y=7=111_2\\): the product gives \\((-1)(i)e^{5\\pi i/4}/\\sqrt8=e^{i\\pi(1+1/2+5/4)}/\\sqrt8=e^{11\\pi i/4}/\\sqrt8=e^{3\\pi i/4}/\\sqrt8\\). The definition gives \\(\\omega^{35}/\\sqrt8=e^{2\\pi i\\cdot35/8}/\\sqrt8=e^{2\\pi i\\cdot3/8}/\\sqrt8=e^{3\\pi i/4}/\\sqrt8\\). They agree.",
+    "review": "topic-4-1-3"
+   },
+   {
+    "kind": "Quick check",
+    "question": "Take \\(L=15\\) and \\(a=4\\). Find the order \\(r\\), list the phase-estimation outcomes with \\(m=3\\) control qubits and their probabilities, and say whether the factoring reduction succeeds.",
+    "hints": [
+     "\\(4^2=16\\equiv1\\pmod{15}\\).",
+     "The eigenphases are \\(s/r\\), and with \\(m=3\\) they are grid points \\(j/8\\)."
+    ],
+    "answer": "The order is \\(r=2\\). Starting from \\(\\ket1\\), phase estimation returns \\(s/2\\) for \\(s\\in\\{0,1\\}\\), which are the exact grid points \\(0/8\\) and \\(4/8\\): outcomes \\(0\\) and \\(4\\), each with probability \\(1/2\\). Outcome \\(4\\) gives \\(1/2\\), so \\(r=2\\), confirmed by \\(4^2\\equiv1\\). Outcome \\(0\\) gives nothing and the run is repeated. For the reduction, \\(r\\) is even and \\(4^{1}=4\\not\\equiv-1\\pmod{15}\\), so \\(\\gcd(4-1,15)=3\\) and \\(\\gcd(4+1,15)=5\\) are the factors.",
+    "review": "topic-4-3-2"
+   },
+   {
     "kind": "Worked problem",
     "question": "Phase estimation with m = 4 is applied to an eigenstate with φ = 0.2. Which two outcomes are most likely, and approximately what are their probabilities?",
     "hints": [
@@ -175,6 +405,46 @@
     "review": "topic-4-2-3"
    },
    {
+    "kind": "Worked problem",
+    "question": "Phase estimation with \\(m=3\\) is applied to an eigenstate with \\(\\phi=5/16\\), exactly halfway between the grid points \\(2/8\\) and \\(3/8\\). Compute the probabilities of outcomes \\(2\\) and \\(3\\) from \\(|a_j|^2=\\sin^2(\\pi M\\Delta)/(M^2\\sin^2\\pi\\Delta)\\). Compare their sum with the nearest-grid-point bound \\(4/\\pi^2\\), and say what this worst case means for choosing \\(m\\).",
+    "hints": [
+     "For both outcomes \\(|\\Delta|=1/16\\), so \\(M\\Delta=\\pm1/2\\).",
+     "\\(\\sin(\\pi/16)\\approx0.1951\\)."
+    ],
+    "answer": "For \\(j=2\\) and \\(j=3\\), \\(|\\Delta|=1/16\\), so \\(\\sin^2(\\pi M\\Delta)=\\sin^2(\\pi/2)=1\\) and \\(|a_j|^2=1/(64\\sin^2(\\pi/16))\\approx1/(64\\times0.03806)\\approx0.411\\). Each nearest neighbor has probability about \\(0.41\\), just above \\(4/\\pi^2\\approx0.405\\), and together they have about \\(0.82\\). The remaining \\(0.18\\) spreads over outcomes farther away (\\(0.051\\) each for \\(1\\) and \\(4\\), less beyond). A phase halfway between grid points is the worst case: no single outcome is likely. So the guarantees are stated as “within one grid spacing”, and extra control qubits or repetitions with a median are added to raise the confidence.",
+    "review": "topic-4-2-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "In order finding with \\(L=21\\), \\(a=2\\) (\\(r=6\\)), and \\(m=9\\), the run with \\(s=5\\) most likely returns \\(j=427\\). Expand \\(427/512\\) as a continued fraction, list its convergents, and recover \\(r\\).",
+    "hints": [
+     "Run Euclid’s algorithm on \\((427,512)\\).",
+     "Keep the last convergent with denominator below \\(L=21\\)."
+    ],
+    "answer": "Euclid’s algorithm gives \\(427=0\\cdot512+427\\), \\(512=1\\cdot427+85\\), \\(427=5\\cdot85+2\\), \\(85=42\\cdot2+1\\), \\(2=2\\cdot1\\). So \\(427/512=[0;1,5,42,2]\\). The convergents are \\(0,\\ 1,\\ \\tfrac56,\\ \\tfrac{211}{253},\\ \\tfrac{427}{512}\\). The last one with denominator below \\(21\\) is \\(5/6\\), giving candidate \\(r=6\\); the check \\(2^6=64\\equiv1\\pmod{21}\\) confirms it. The approximation is close enough: \\(|427/512-5/6|=1/1536<1/(2\\cdot36)\\), as the continued-fraction theorem requires.",
+    "review": "topic-4-3-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "For \\(L=21\\), apply the factoring reduction with \\(a=4\\), \\(a=5\\), and \\(a=8\\). Find each order classically and say which choices give a factor.",
+    "hints": [
+     "List powers modulo \\(21\\) until you reach \\(1\\).",
+     "The reduction fails if \\(r\\) is odd or \\(a^{r/2}\\equiv-1\\equiv20\\)."
+    ],
+    "answer": "For \\(a=4\\): \\(4,16,64\\equiv1\\), so \\(r=3\\), which is odd. The reduction fails. For \\(a=5\\): \\(5,4,20,16,17,1\\), so \\(r=6\\), but \\(5^3\\equiv20\\equiv-1\\), so \\(\\gcd(5^3+1,21)=21\\) and \\(\\gcd(5^3-1,21)=\\gcd(124,21)=1\\), both trivial. It fails. For \\(a=8\\): \\(8^2=64\\equiv1\\), so \\(r=2\\), and \\(8\\not\\equiv-1\\). Then \\(\\gcd(7,21)=7\\) and \\(\\gcd(9,21)=3\\), so it succeeds. Two of three choices fail here, though the theorem only promises success with probability at least \\(1/2\\) over a random coprime \\(a\\). Each failure costs another run of order finding, and the classical checks reveal it.",
+    "review": "topic-4-4-1"
+   },
+   {
+    "kind": "Misconception",
+    "question": "A student runs phase estimation with \\(U=Z\\) on the target \\(\\ket+\\) and expects to obtain the “average phase” \\(\\phi=1/4\\), halfway between the eigenphases \\(0\\) and \\(1/2\\). Using two control qubits, compute what is actually observed and what the target is left in.",
+    "hints": [
+     "\\(\\ket+=(\\ket0+\\ket1)/\\sqrt2\\), and \\(Z\\) has eigenphases \\(0\\) on \\(\\ket0\\) and \\(1/2\\) on \\(\\ket1\\).",
+     "Phase estimation acts on each eigenstate term separately."
+    ],
+    "answer": "Write \\(\\ket+=\\frac{1}{\\sqrt2}(\\ket0+\\ket1)\\), eigenstates of \\(Z\\) with phases \\(0\\) and \\(1/2\\). Both are exact two-bit grid points, so phase estimation produces \\(\\frac{1}{\\sqrt2}(\\ket{00}\\ket0+\\ket{10}\\ket1)\\). Measuring the controls gives \\(00\\) (phase \\(0\\)) or \\(10\\) (phase \\(1/2\\)), each with probability \\(1/2\\), and the target collapses to the matching eigenstate. The outcome \\(01\\), phase \\(1/4\\), never occurs. Phase estimation samples one eigenphase with probability \\(|c_s|^2\\). An average over runs estimates \\(\\sum_s|c_s|^2\\phi_s\\), but no single run reports it, and the average is generally not an eigenphase at all.",
+    "review": "topic-4-2-4"
+   },
+   {
     "kind": "Extension",
     "question": "Factor L = 33 using a = 5, by finding the order of 5 modulo 33 classically and applying the reduction. Then explain how many control qubits phase estimation would use.",
     "hints": [
@@ -183,6 +453,16 @@
     ],
     "answer": "Powers of 5 mod 33: 5, 25, 26, 31, 23, 16, 14, 4, 20, 1, so r = 10. Then 5⁵ ≡ 23 (not −1 ≡ 32), and gcd(22, 33) = 11, gcd(24, 33) = 3, so 33 = 3 × 11. With n = 6 bits, m ≈ 2n = 12 (or 13) control qubits ensure 2^m ≥ L², so that continued fractions recover s/10 from a successful run.",
     "review": "topic-4-4-1"
+   },
+   {
+    "kind": "Extension",
+    "question": "Suppose the order is \\(r=12\\) and each order-finding run returns the reduced fraction \\(s/r\\) for a uniformly random \\(s\\in\\{0,\\dots,11\\}\\). (a) What is the probability that a single run reveals \\(r\\) directly, as the reduced denominator? (b) Two runs return \\(3/12=1/4\\) and \\(10/12=5/6\\). Show that the least common multiple of their denominators gives \\(r\\). (c) What is the probability that two independent runs determine \\(r\\) in this way?",
+    "hints": [
+     "The reduced denominator is \\(r/\\gcd(s,r)\\).",
+     "The lcm of the denominators is \\(r/\\gcd(s_1,s_2,r)\\); use \\(12=2^2\\cdot3\\)."
+    ],
+    "answer": "(a) The denominator equals \\(12\\) exactly when \\(\\gcd(s,12)=1\\), that is \\(s\\in\\{1,5,7,11\\}\\): probability \\(1/3\\). (b) The denominators are \\(4\\) and \\(6\\), and \\(\\mathrm{lcm}(4,6)=12=r\\). Check \\(a^{12}\\equiv1\\) to confirm. (c) The lcm of the two denominators is \\(12/\\gcd(s_1,s_2,12)\\), so it equals \\(12\\) unless both \\(s\\) are even or both are multiples of \\(3\\). Since \\(s\\) is uniform modulo \\(12\\), these events are independent: \\(\\Pr=(1-\\tfrac14)(1-\\tfrac19)=\\tfrac34\\cdot\\tfrac89=\\tfrac23\\). Combining samples doubles the success chance relative to a single run, which is why the procedure collects denominators from a few runs before testing.",
+    "review": "topic-4-3-3"
    }
   ]
  },
@@ -212,6 +492,26 @@
     "review": "topic-5-1-2"
    },
    {
+    "kind": "Quick check",
+    "question": "Grover search runs over \\(N=16\\) items with uniform preparation. (a) With one marked item, find \\(\\theta\\), the optimal number of iterations, and the success probability. (b) With four marked items, how many iterations give certainty?",
+    "hints": [
+     "\\(\\sin^2\\theta=t/N\\), and \\(k=\\mathrm{round}(\\pi/(4\\theta)-1/2)\\).",
+     "For \\(t=4\\), \\(\\sin\\theta=1/2\\)."
+    ],
+    "answer": "(a) \\(\\sin\\theta=1/4\\), so \\(\\theta\\approx0.2527\\) and \\(\\pi/(4\\theta)-1/2\\approx2.61\\), giving \\(k=3\\). The success probability is \\(\\sin^2(7\\theta)\\approx0.961\\). Classical guessing with checking needs about \\(16\\ln(1/0.039)\\approx52\\) tries for the same confidence, or \\(16\\) to be sure. (b) With \\(t=4\\), \\(\\theta=\\pi/6\\) and one iteration reaches \\(3\\theta=\\pi/2\\) exactly: certainty. A second iteration would give \\(\\sin^2(5\\pi/6)=1/4\\), so the number of iterations must be matched to \\(t\\).",
+    "review": "topic-5-1-3"
+   },
+   {
+    "kind": "Quick check",
+    "question": "A preparation already succeeds with probability \\(p=0.9\\). Compare one ordinary amplification iteration with one level of the \\(\\pi/3\\) fixed-point construction. Which should you use if you only know that \\(p\\) is “probably large”?",
+    "hints": [
+     "Ordinary: \\(\\sin^2(3\\theta)\\) with \\(\\sin^2\\theta=0.9\\).",
+     "Fixed point: the failure probability \\(\\epsilon\\) becomes \\(\\epsilon^3\\)."
+    ],
+    "answer": "The ordinary iterate rotates by \\(2\\theta\\), and here \\(\\theta\\approx1.249\\) is already close to \\(\\pi/2\\). One iteration overshoots to \\(\\sin^2(3\\theta)=0.9\\,(3-4\\times0.9)^2=0.324\\): the success probability drops from \\(0.9\\) to about \\(0.32\\). The fixed-point construction turns failure \\(0.1\\) into \\(0.1^3=0.001\\), giving success \\(0.999\\), at a cost of three calls to \\(A\\) or \\(A^\\dagger\\). When \\(p\\) is uncertain and possibly large, the fixed-point method is the safe choice: it never makes things worse. Its weakness is the small-\\(p\\) regime, where it loses the quadratic speedup.",
+    "review": "topic-5-2-2"
+   },
+   {
     "kind": "Worked problem",
     "question": "Amplitude estimation with m = 6 control qubits returns j = 11. What is the estimate of p, and what does the error bound say if p is near this estimate?",
     "hints": [
@@ -222,6 +522,46 @@
     "review": "topic-5-3-2"
    },
    {
+    "kind": "Worked problem",
+    "question": "Apply exact amplification to \\(p=0.1\\). Find \\(\\theta\\), the number of iterations \\(k\\), the reduced angle \\(\\theta'\\), the new success probability \\(p'\\), and the flag-qubit probability \\(p'/p\\). Check that the final success probability is \\(1\\).",
+    "hints": [
+     "\\(k=\\lceil\\pi/(4\\theta)-1/2\\rceil\\) and \\(\\theta'=\\pi/(4k+2)\\).",
+     "\\(\\sin(\\pi/10)=(\\sqrt5-1)/4\\approx0.309\\)."
+    ],
+    "answer": "\\(\\theta=\\arcsin\\sqrt{0.1}\\approx0.3218\\), so \\(\\pi/(4\\theta)-1/2\\approx1.94\\) and \\(k=2\\). Then \\(\\theta'=\\pi/10\\approx0.3142\\le\\theta\\), and \\(p'=\\sin^2(\\pi/10)\\approx0.0955\\). The flag qubit is rotated to \\(\\ket1\\) with probability \\(p'/p\\approx0.955\\), so \\(A'=A\\otimes R_{\\text{flag}}\\) succeeds with probability exactly \\(p'\\). Two iterations take the angle to \\(5\\theta'=\\pi/2\\), so the success probability is \\(\\sin^2(\\pi/2)=1\\). Without the flag, two iterations give \\(\\sin^2(5\\theta)\\approx\\sin^2(1.609)\\approx0.9985\\). Exactness matters when the amplified routine is used inside a larger coherent algorithm, where a small failure amplitude would propagate.",
+    "review": "topic-5-2-1"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Amplitude estimation with \\(m=4\\) (\\(M=16\\)) is applied to a preparation with \\(p=1/4\\). (a) Which eigenphases does phase estimation see, and which outcomes \\(j\\) are most likely? (b) List the estimates \\(\\sin^2(\\pi j/M)\\) available for \\(j=0,\\dots,8\\) and find the estimate produced. (c) Compare its error with the stated bound.",
+    "hints": [
+     "\\(\\theta=\\pi/6\\), and the eigenphases are \\(\\theta/\\pi\\) and \\(1-\\theta/\\pi\\).",
+     "\\(M\\theta/\\pi=16/6\\approx2.67\\)."
+    ],
+    "answer": "(a) \\(\\theta=\\pi/6\\), so the eigenphases are \\(1/6\\) and \\(5/6\\). Then \\(M/6\\approx2.67\\) and \\(5M/6\\approx13.33\\), and the most likely outcomes are \\(j=3\\) and \\(j=13\\). (b) For \\(j=0,\\dots,8\\) the estimates are \\(0,\\ 0.038,\\ 0.146,\\ 0.309,\\ 0.5,\\ 0.691,\\ 0.854,\\ 0.962,\\ 1\\). Both \\(j=3\\) and \\(j=13\\) give \\(\\tilde p=\\sin^2(3\\pi/16)\\approx0.309\\). (c) The error is about \\(0.059\\). The bound is \\(2\\pi\\sqrt{3/16}/16+\\pi^2/256\\approx0.209\\), so the result lies comfortably inside it. The estimates are not evenly spaced in \\(p\\): they are dense near \\(0\\) and \\(1\\) and sparse near \\(1/2\\), which is why the error bound contains \\(\\sqrt{p(1-p)}\\).",
+    "review": "topic-5-3-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Set up mean estimation for \\(x\\) uniform on \\(\\{0,1,2,3\\}\\) and \\(v(x)=x/3\\). Describe the preparation \\(A\\), compute the success probability \\(p\\), and show that amplitude estimation with \\(m=2\\) returns \\(\\mathbb E[v]\\) exactly.",
+    "hints": [
+     "\\(P=H\\otimes H\\), followed by a rotation of a flag qubit by \\(\\sqrt{v(x)}\\).",
+     "With \\(p=1/2\\), \\(\\theta=\\pi/4\\) and the eigenphases are \\(1/4\\) and \\(3/4\\)."
+    ],
+    "answer": "Let \\(P=H^{\\otimes2}\\) prepare \\(\\frac12\\sum_x\\ket x\\). Then compute \\(v(x)\\), rotate a flag to \\(\\sqrt{1-v(x)}\\ket0+\\sqrt{v(x)}\\ket1\\), and uncompute \\(v(x)\\). Success means the flag is \\(1\\), with probability \\(p=\\frac14\\sum_xv(x)=\\frac14(0+\\frac13+\\frac23+1)=\\frac12=\\mathbb E[v]\\). So \\(\\theta=\\pi/4\\), and \\(Q\\) has eigenphases \\(\\theta/\\pi=1/4\\) and \\(3/4\\). Both are exact grid points for \\(M=4\\), so phase estimation returns \\(j=1\\) or \\(j=3\\) with certainty. Either gives \\(\\tilde\\theta=\\pi/4\\) or \\(3\\pi/4\\), and \\(\\tilde p=\\sin^2\\tilde\\theta=1/2\\). The answer is exact here only because the phase happened to lie on the grid. In general, the rotation angles must also be computed to finite precision, and that error is added to the estimate.",
+    "review": "topic-5-3-3"
+   },
+   {
+    "kind": "Misconception",
+    "question": "A student proposes to amplify an amplified procedure: first build \\(A'=Q^kA\\), which succeeds with probability \\(\\sin^2((2k+1)\\theta)\\), then amplify \\(A'\\). “Each stage gives a square root, so two stages give a fourth-root speedup.” Count the total number of calls to \\(A\\) or \\(A^\\dagger\\) needed to reach constant success, for small \\(\\theta\\), and compare with direct amplification.",
+    "hints": [
+     "\\(A'\\) uses \\(2k+1\\) calls, and its angle is \\(\\theta'=(2k+1)\\theta\\).",
+     "Amplifying \\(A'\\) needs about \\(\\pi/(4\\theta')\\) iterations, each with one \\(A'\\) and one \\(A'^\\dagger\\)."
+    ],
+    "answer": "Direct amplification needs about \\(\\pi/(4\\theta)\\) iterations, each using \\(A\\) and \\(A^\\dagger\\) once: about \\(\\pi/(2\\theta)\\) calls. The nested scheme starts from angle \\(\\theta'=(2k+1)\\theta\\) and needs about \\(\\pi/(4\\theta')\\) outer iterations. Each uses \\(A'\\) and \\(A'^\\dagger\\), so \\(2(2k+1)\\) calls of \\(A\\) or \\(A^\\dagger\\). The total is \\(\\frac{\\pi}{4(2k+1)\\theta}\\cdot2(2k+1)=\\frac{\\pi}{2\\theta}\\), exactly the same. Nesting only regroups the rotation into larger steps. It cannot beat the \\(\\Omega(\\sqrt N)\\) lower bound, because the composite routine is itself an algorithm that calls the oracle.",
+    "review": "topic-5-4-2"
+   },
+   {
     "kind": "Extension",
     "question": "A classical randomized algorithm for a search problem runs in time T and succeeds with probability p. Describe how to obtain a quantum algorithm with success probability at least 1/2 and estimate its running time. What must be true of the classical algorithm?",
     "hints": [
@@ -230,6 +570,16 @@
     ],
     "answer": "Treat the random bits as an input register prepared in uniform superposition; the reversible version of the algorithm (Chapter 2) is the preparation A, and checking the output is the predicate. Amplification with unknown p (exponential search) reaches success 1/2 with O(1/√p) calls to A and A†, for total time O(T/√p) versus O(T/p) classically. This requires a reversible implementation of the algorithm and a coherent checker, and the overhead of reversibility (garbage removal, roughly a factor of two plus workspace) is included in T.",
     "review": "topic-5-1-1"
+   },
+   {
+    "kind": "Extension",
+    "question": "When \\(p\\) is small, the useful target is relative precision: \\(|\\tilde p-p|\\le\\epsilon_rp\\). (a) Show that classical sampling needs about \\(1/(\\epsilon_r^2p)\\) samples (using the variance \\(p(1-p)\\)), while amplitude estimation needs \\(M\\) of order \\(1/(\\epsilon_r\\sqrt p)\\). (b) Evaluate both for \\(p=10^{-4}\\) and \\(\\epsilon_r=0.1\\), ignoring constant confidence factors. (c) What extra assumption does the quantum count carry?",
+    "hints": [
+     "Set \\(\\sqrt{p/R}\\approx\\epsilon_rp\\) for sampling.",
+     "Set \\(2\\pi\\sqrt p/M\\approx\\epsilon_rp\\) for amplitude estimation."
+    ],
+    "answer": "(a) Sampling has standard deviation \\(\\sqrt{p(1-p)/R}\\approx\\sqrt{p/R}\\). Setting this equal to \\(\\epsilon_rp\\) gives \\(R\\approx1/(\\epsilon_r^2p)\\). For amplitude estimation the leading error is \\(2\\pi\\sqrt{p}/M\\), and setting it equal to \\(\\epsilon_rp\\) gives \\(M\\approx2\\pi/(\\epsilon_r\\sqrt p)\\). The \\(\\pi^2/M^2\\) term is then negligible. (b) Sampling: \\(1/(0.01\\times10^{-4})=10^6\\) samples. Amplitude estimation: \\(M\\approx2\\pi/(0.1\\times0.01)\\approx6.3\\times10^3\\), so \\(M=2^{13}=8192\\) and about \\(8\\times10^3\\) uses of \\(A\\). The ratio grows as \\(1/(\\epsilon_r\\sqrt p)\\). (c) The quantum count assumes coherent, controllable access to \\(A\\) and \\(A^\\dagger\\) and a circuit about \\(8000\\) iterations deep that stays coherent throughout, while sampling uses a million short independent runs. The comparison in calls is fair only after both sides price these differences.",
+    "review": "topic-5-3-2"
    }
   ]
  },
@@ -259,6 +609,26 @@
     "review": "topic-6-1-2"
    },
    {
+    "kind": "Quick check",
+    "question": "For the continuous walk on two vertices with \\(H=X\\) (\\(\\gamma=1\\)), starting at vertex \\(0\\), find the first time at which the probability of vertex \\(1\\) equals \\(3/4\\). Can the classical continuous walk, with probability \\(\\frac12(1-e^{-2t})\\), ever reach \\(3/4\\)?",
+    "hints": [
+     "The quantum probability is \\(\\sin^2t\\).",
+     "The classical probability increases toward a limit."
+    ],
+    "answer": "The quantum probability is \\(\\sin^2t\\), which equals \\(3/4\\) first at \\(t=\\pi/3\\) (\\(\\sin(\\pi/3)=\\sqrt3/2\\)). It reaches \\(1\\) at \\(t=\\pi/2\\) and then oscillates back. The classical probability \\(\\frac12(1-e^{-2t})\\) increases monotonically toward \\(1/2\\) and never exceeds it. The classical walk forgets its starting point and settles into the stationary distribution. The quantum walk is unitary, keeps oscillating, and has no stationary limit, so “run it long enough” is not a strategy. Quantum walk algorithms must choose their running time or randomize it.",
+    "review": "topic-6-2-1"
+   },
+   {
+    "kind": "Quick check",
+    "question": "List the eigenvalues of the adjacency matrix of the six-cycle, and of the simple random walk \\(P=A/2\\) on it. Why does this classical walk never converge to the uniform distribution from a single starting vertex, and how does a lazy walk \\(P'=\\frac12(I+P)\\) fix it?",
+    "hints": [
+     "The eigenvalues are \\(2\\cos(2\\pi k/6)\\) for \\(k=0,\\dots,5\\).",
+     "An eigenvalue \\(-1\\) of \\(P\\) corresponds to a pattern that alternates sign at every step."
+    ],
+    "answer": "The adjacency eigenvalues are \\(2,1,-1,-2,-1,1\\), so \\(P\\) has eigenvalues \\(1,\\frac12,-\\frac12,-1,-\\frac12,\\frac12\\). The eigenvalue \\(-1\\) comes from the alternating mode \\(k=3\\). The six-cycle is bipartite: from vertex \\(0\\) the walker is on even vertices after even steps and odd vertices after odd steps, so the distribution oscillates forever. The second-largest absolute eigenvalue is \\(1\\), so the gap is zero. The lazy walk has eigenvalues \\(\\frac12(1+\\lambda)\\in\\{1,\\frac34,\\frac14,0\\}\\), all nonnegative, with gap \\(\\delta=1/4\\). Staying put half the time costs a factor of two in speed and removes the oscillation.",
+    "review": "topic-6-3-2"
+   },
+   {
     "kind": "Worked problem",
     "question": "The continuous walk on a cycle of N = 4 vertices with γ = 1 starts at vertex 0. Using Fourier modes, find the amplitude at vertex 2 at time t.",
     "hints": [
@@ -269,6 +639,46 @@
     "review": "topic-6-2-3"
    },
    {
+    "kind": "Worked problem",
+    "question": "Run the Hadamard walk on the line for three steps from \\(\\ket{0,0}\\), where coin \\(0\\) moves left. Find the position distribution and compare it with the classical walk. Compute \\(\\mathbb E[x^2]\\) for both. What does the comparison say about using small examples to judge spreading speed?",
+    "hints": [
+     "The two-step state is \\(\\frac12(\\ket{0,-2}+\\ket{1,0}+\\ket{0,0}-\\ket{1,2})\\).",
+     "Apply \\(H\\) to the coin, then shift, and collect terms by position."
+    ],
+    "answer": "Applying \\(H\\) to the coin of the two-step state and shifting gives amplitudes at positions \\(-3,-1,1,3\\) with probabilities \\(\\frac18,\\frac58,\\frac18,\\frac18\\). For example, \\(\\ket{0,-1}\\) receives \\(\\frac{1}{2\\sqrt2}(1+1)\\) from \\(\\ket{1,0}\\) and \\(\\ket{0,0}\\), giving amplitude \\(\\frac{1}{\\sqrt2}\\) and probability \\(\\frac12\\). The classical walk gives \\(\\frac18,\\frac38,\\frac38,\\frac18\\). The quantum walk is lopsided toward the left, because the Hadamard coin gives the \\(\\ket1\\) branch a minus sign that causes cancellation on the right. Both distributions have \\(\\mathbb E[x^2]=3\\). After so few steps the ballistic \\(T^2\\) growth is invisible: it emerges only for large \\(T\\), where the quantum spread approaches \\(0.54\\,T\\) against the classical \\(\\sqrt T\\). A few steps check the calculation; they do not show the scaling.",
+    "review": "topic-6-1-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "The path graph on three vertices \\(1-2-3\\) has adjacency eigenvalues \\(\\sqrt2,0,-\\sqrt2\\), with eigenvectors \\(\\frac12(1,\\sqrt2,1)\\), \\(\\frac{1}{\\sqrt2}(1,0,-1)\\), and \\(\\frac12(1,-\\sqrt2,1)\\). For the continuous walk \\(e^{-iAt}\\) starting at vertex \\(1\\), find the amplitude at vertex \\(3\\) as a function of \\(t\\), and the first time it reaches probability \\(1\\).",
+    "hints": [
+     "Expand \\(\\ket1=\\frac12\\ket{v_+}+\\frac{1}{\\sqrt2}\\ket{v_0}+\\frac12\\ket{v_-}\\).",
+     "Multiply each coefficient by \\(e^{-i\\lambda t}\\) and read off the third component."
+    ],
+    "answer": "The overlaps of \\(\\ket1\\) with the three eigenvectors are \\(\\frac12,\\frac{1}{\\sqrt2},\\frac12\\). After time \\(t\\), the third component is \\(\\frac12e^{-i\\sqrt2t}\\cdot\\frac12+\\frac{1}{\\sqrt2}\\cdot\\big(-\\frac{1}{\\sqrt2}\\big)+\\frac12e^{i\\sqrt2t}\\cdot\\frac12=\\frac12\\big(\\cos\\sqrt2t-1\\big)\\). The probability is \\(\\frac14(1-\\cos\\sqrt2t)^2=\\sin^4(t/\\sqrt2)\\). It first equals \\(1\\) at \\(t=\\pi/\\sqrt2\\), when \\(\\cos\\sqrt2t=-1\\): the walker is transferred from one end to the other with certainty. This perfect transfer happens because the eigenvalues are evenly spaced, so all relative phases align at once. On longer paths the eigenvalues are not commensurate, and transfer is imperfect.",
+    "review": "topic-6-2-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Consider the lazy walk \\(P=\\frac12I+\\frac14A\\) on a cycle of \\(N=16\\) vertices. Its eigenvalues are \\(\\frac12(1+\\cos(2\\pi k/N))\\). Compute the spectral gap \\(\\delta\\), the angle \\(\\theta=\\arccos\\lambda_2\\) of Szegedy’s walk, and compare \\(1/\\delta\\) with \\(1/\\theta\\). How do the two scale with \\(N\\)?",
+    "hints": [
+     "\\(\\lambda_2=\\frac12(1+\\cos(\\pi/8))\\).",
+     "For small \\(\\delta\\), \\(\\theta\\approx\\sqrt{2\\delta}\\)."
+    ],
+    "answer": "\\(\\lambda_2=\\frac12(1+\\cos\\frac\\pi8)\\approx\\frac12(1+0.9239)=0.9619\\), so \\(\\delta\\approx0.0381\\) and \\(1/\\delta\\approx26\\). Then \\(\\theta=\\arccos0.9619\\approx0.277\\), close to \\(\\sqrt{2\\delta}\\approx0.276\\), and \\(1/\\theta\\approx3.6\\). For large \\(N\\), \\(\\delta\\approx\\pi^2/N^2\\), so classical mixing takes order \\(N^2\\) steps, while \\(\\theta\\approx\\sqrt2\\pi/N\\) and phase estimation resolves the walk’s gap with order \\(N\\) steps. On the cycle the quadratic improvement is the familiar ballistic-versus-diffusive difference. It applies to resolving the stationary eigenphase, which is what walk search uses, not to producing a classical sample from the uniform distribution.",
+    "review": "topic-6-3-2"
+   },
+   {
+    "kind": "Misconception",
+    "question": "To “watch the quantum walk work,” a programmer measures the position after every step of the four-cycle Hadamard walk from \\(\\ket{0,0}\\). The coherent walk reaches vertex \\(3\\) with certainty after three steps. What distribution over vertices does the monitored walk give after three steps, and why?",
+    "hints": [
+     "After a position measurement, branches at different positions can no longer interfere.",
+     "With only one route through each measured history, the probabilities simply multiply."
+    ],
+    "answer": "Monitoring the position gives vertices \\(1\\) and \\(3\\) with probability \\(\\frac12\\) each, the same as the classical random walk. Each measurement keeps one position and erases the coherence between positions. The later steps then add probabilities along histories instead of amplitudes. The certainty of the coherent walk came from the cancellation at vertex \\(1\\) of the third step, which needs the two routes to vertex \\(1\\) to coexist as amplitudes. A walk algorithm must run coherently and measure only at the end; a measured walk is a classical walk with extra steps.",
+    "review": "topic-6-1-2"
+   },
+   {
     "kind": "Extension",
     "question": "A walk on r-subsets of an N-element set has setup cost r, update cost 1, checking cost √r, marked fraction (r/N)², and spectral gap 1/r. Use the walk-search formula to find the optimal r and the total cost.",
     "hints": [
@@ -276,6 +686,16 @@
      "Balance r against N/√r."
     ],
     "answer": "The cost is r + (N/r)(√r·1 + √r) = r + 2N/√r, minimized when r ≈ N^{2/3}, giving O(N^{2/3}). Checking at cost √r does not change the order here because it is no larger than the update term √r·U. If checking cost grew faster than √r, it would dominate and change the optimum.",
+    "review": "topic-6-4-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "Before the walk algorithm, element distinctness had a simpler quantum algorithm: query a random set \\(S\\) of \\(r\\) values and store them, then Grover-search the remaining items for one whose value appears in \\(S\\), and wrap the whole procedure in amplitude amplification. (a) Estimate the success probability of one run when exactly one colliding pair exists. (b) Show that the amplified cost is about \\(\\sqrt{N/r}\\,(r+\\sqrt N)\\) and optimize \\(r\\). (c) Compare with the walk’s \\(N^{2/3}\\), and identify what the walk reuses that this algorithm does not.",
+    "hints": [
+     "A run succeeds if one member of the pair is in \\(S\\): probability about \\(2r/N\\).",
+     "Balance \\(\\sqrt{Nr}\\) against \\(N/\\sqrt r\\)."
+    ],
+    "answer": "(a) The run succeeds if \\(S\\) contains one member of the colliding pair, which happens with probability about \\(2r/N\\); Grover search then finds the other member with about \\(\\sqrt N\\) queries. (b) One run costs \\(r+O(\\sqrt N)\\) queries, and amplification needs about \\(\\sqrt{N/r}\\) repetitions. The total is \\(\\sqrt{N/r}\\,(r+\\sqrt N)=\\sqrt{Nr}+N/\\sqrt r\\). The two terms balance at \\(r=\\sqrt N\\), giving \\(O(N^{3/4})\\) queries. (c) \\(N^{3/4}\\) lies between the classical \\(N\\) and the walk’s optimal \\(N^{2/3}\\). This algorithm pays the full setup cost \\(r\\) inside every amplification round. The walk instead keeps its stored set and changes it by one element per step, so it pays the setup cost \\(r\\) only once, and each update costs \\(O(1)\\).",
     "review": "topic-6-4-2"
    }
   ]
@@ -307,6 +727,26 @@
     "review": "topic-7-2-2"
    },
    {
+    "kind": "Quick check",
+    "question": "The shear \\(A=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}\\) has both eigenvalues equal to \\(1\\). Compute \\(\\|A\\|\\) by maximizing \\(\\|A\\psi\\|^2\\) over unit vectors, and state the smallest subnormalization \\(\\alpha\\) any block encoding of \\(A\\) can have.",
+    "hints": [
+     "\\(\\|A\\psi\\|^2=\\bra\\psi A^\\dagger A\\ket\\psi\\), and \\(A^\\dagger A=\\begin{pmatrix}1&1\\\\1&2\\end{pmatrix}\\).",
+     "The maximum of \\(\\bra\\psi M\\ket\\psi\\) for Hermitian \\(M\\) is its largest eigenvalue."
+    ],
+    "answer": "\\(A^\\dagger A=\\begin{pmatrix}1&1\\\\1&2\\end{pmatrix}\\) has eigenvalues \\(\\frac{3\\pm\\sqrt5}{2}\\). So \\(\\|A\\|^2=\\frac{3+\\sqrt5}{2}\\approx2.618\\) and \\(\\|A\\|=\\frac{1+\\sqrt5}{2}\\approx1.618\\). A block of a unitary has norm at most \\(1\\), so any block encoding needs \\(\\alpha\\ge1.618\\). For a matrix that is not Hermitian (or, more generally, not normal), the eigenvalues do not determine the norm. Here every eigenvalue has magnitude \\(1\\), yet the matrix stretches some vectors by \\(62\\%\\). Resource estimates must use the norm, or a bound on it, not the eigenvalues.",
+    "review": "topic-7-1-1"
+   },
+   {
+    "kind": "Quick check",
+    "question": "Write \\(H=\\begin{pmatrix}1&2\\\\2&-1\\end{pmatrix}\\) as a sum of Pauli matrices. Find the LCU subnormalization \\(\\lambda\\) and the norm \\(\\|H\\|\\). By what factor does the excess subnormalization reduce the postselection success probability compared with an ideal encoding with \\(\\alpha=\\|H\\|\\)?",
+    "hints": [
+     "Diagonal part \\(Z\\), off-diagonal part \\(2X\\).",
+     "The eigenvalues of \\(aX+bZ\\) are \\(\\pm\\sqrt{a^2+b^2}\\)."
+    ],
+    "answer": "\\(H=2X+Z\\), so \\(\\lambda=2+1=3\\). The eigenvalues are \\(\\pm\\sqrt{4+1}=\\pm\\sqrt5\\), so \\(\\|H\\|=\\sqrt5\\approx2.236\\). Postselection succeeds with probability \\(\\|H\\psi\\|^2/\\alpha^2\\), so the ratio is \\((\\lambda/\\|H\\|)^2=9/5=1.8\\): the LCU encoding succeeds \\(1.8\\) times less often on every input. The excess arises because \\(X\\) and \\(Z\\) anticommute and their contributions add in quadrature, not linearly.",
+    "review": "topic-7-2-3"
+   },
+   {
     "kind": "Worked problem",
     "question": "A Hamiltonian H = 2 Z₁ + Z₁Z₂ − 0.5 X₂ is block-encoded by LCU. What is λ, what is the success probability of postselecting H|00⟩/λ, and what state results?",
     "hints": [
@@ -317,6 +757,46 @@
     "review": "topic-7-2-3"
    },
    {
+    "kind": "Worked problem",
+    "question": "Expand the projector \\(\\Pi=\\ket{00}\\bra{00}\\) on two qubits as a sum of Pauli strings, using \\(\\ket0\\bra0=\\frac12(I+Z)\\). Give the LCU subnormalization and the PREPARE state. Then compute the postselection success probability on input \\(\\ket{++}\\) and the resulting state.",
+    "hints": [
+     "\\(\\ket{00}\\bra{00}=\\frac12(I+Z)\\otimes\\frac12(I+Z)\\).",
+     "\\(\\Pi\\ket{++}=\\braket{00}{++}\\ket{00}\\)."
+    ],
+    "answer": "\\(\\Pi=\\frac14(I\\otimes I+I\\otimes Z+Z\\otimes I+Z\\otimes Z)\\). There are four terms of weight \\(\\frac14\\), so \\(\\lambda=1=\\|\\Pi\\|\\) and the encoding is as efficient as possible. PREPARE is the uniform superposition over two label qubits, \\(H\\otimes H\\), and SELECT applies \\(I\\), \\(Z_2\\), \\(Z_1\\), or \\(Z_1Z_2\\) according to the label. On \\(\\ket{++}\\), \\(\\Pi\\ket{++}=\\frac12\\ket{00}\\), so postselection succeeds with probability \\(\\frac14\\) and leaves \\(\\ket{00}\\). The same probability results from measuring \\(\\ket{++}\\) in the computational basis. A block-encoded projector applied to a state behaves like a filtering measurement that keeps only the successful branch.",
+    "review": "topic-7-2-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Let \\(A=\\frac12(U+V)\\) for unitaries \\(U,V\\), encoded by LCU with one ancilla: \\(H\\), controlled-\\(U\\) on ancilla \\(0\\) and controlled-\\(V\\) on ancilla \\(1\\), then \\(H\\). Show that the success probability on input \\(\\ket\\psi\\) is \\(\\frac12\\big(1+\\mathrm{Re}\\bra\\psi U^\\dagger V\\ket\\psi\\big)\\). Which circuit from Chapter 3 is this, and when is the success probability \\(0\\)?",
+    "hints": [
+     "\\(\\|A\\psi\\|^2=\\frac14\\big(2+\\bra\\psi U^\\dagger V\\ket\\psi+\\bra\\psi V^\\dagger U\\ket\\psi\\big)\\).",
+     "Compare with \\(\\Pr[0]\\) of the Hadamard test for \\(U^\\dagger V\\)."
+    ],
+    "answer": "The success probability is \\(\\|A\\psi\\|^2=\\frac14\\langle U\\psi+V\\psi,U\\psi+V\\psi\\rangle=\\frac14\\big(2+2\\,\\mathrm{Re}\\bra\\psi U^\\dagger V\\ket\\psi\\big)=\\frac12\\big(1+\\mathrm{Re}\\bra\\psi U^\\dagger V\\ket\\psi\\big)\\). That is exactly \\(\\Pr[0]\\) of the Hadamard test applied to \\(U^\\dagger V\\) on \\(\\ket\\psi\\). With \\(U=I\\) the circuit is the Hadamard test itself, so the Hadamard test is a two-term LCU in disguise. The success probability is \\(0\\) when \\(V\\ket\\psi=-U\\ket\\psi\\): the two terms cancel completely on that input, and \\(A\\ket\\psi=0\\). Cancellation between terms is why \\(\\|A\\|\\) can be much smaller than the 1-norm.",
+    "review": "topic-7-2-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "An LCU encodes \\(V/\\alpha\\) for a unitary \\(V\\) with \\(\\alpha=1.9\\). (a) What success probability does one round of oblivious amplitude amplification give? (b) Show how adding a cancelling pair of terms makes \\(\\alpha=2\\) exactly without changing the encoded matrix, and state the cost.",
+    "hints": [
+     "\\(\\sin\\theta=1/\\alpha\\), and one round gives \\(\\sin^2(3\\theta)\\).",
+     "\\(0.05\\,I+0.05\\,(-I)\\) adds \\(0.1\\) to the 1-norm and \\(0\\) to the matrix."
+    ],
+    "answer": "(a) \\(\\sin\\theta=1/1.9\\approx0.526\\), so \\(\\theta\\approx0.554\\), and one round gives \\(\\sin^2(3\\theta)\\approx\\sin^2(1.663)\\approx0.992\\), not certainty. (b) Add the terms \\(0.05\\,I\\) and \\(0.05\\,(-I)\\). They sum to zero, so the encoded matrix is still \\(V\\), but the 1-norm becomes \\(1.9+0.1=2\\). Then \\(\\sin\\theta=1/2\\), \\(3\\theta=\\pi/2\\), and one round succeeds exactly. The cost is two extra PREPARE amplitudes and two more (trivial) branches of SELECT. Deliberately increasing the subnormalization, normally something to avoid, here buys determinism, because oblivious amplification needs a particular angle.",
+    "review": "topic-7-3-3"
+   },
+   {
+    "kind": "Misconception",
+    "question": "After postselecting a block encoding of \\(A=\\mathrm{diag}(1,\\frac12)\\) on input \\(\\ket\\psi\\), a student writes “the register now holds \\(A\\ket\\psi\\).” For \\(\\ket\\psi=\\ket1\\), what does the register hold? Where did the factor \\(\\frac12\\) go, and why does this matter for an algorithm whose answer is the norm \\(\\|A\\psi\\|\\)?",
+    "hints": [
+     "Postselection leaves the normalized state \\(A\\psi/\\|A\\psi\\|\\).",
+     "The success probability is \\(\\|A\\psi\\|^2/\\alpha^2\\)."
+    ],
+    "answer": "A quantum state is always normalized, so the register holds \\(A\\ket1/\\|A\\ket1\\|=\\ket1\\), the same as the input. The factor \\(\\frac12\\) appears only in the success probability, \\(\\|A\\ket1\\|^2=\\frac14\\). The scale of \\(A\\psi\\) is not stored in the state; it shows up in how often the procedure succeeds. If an algorithm needs the norm, for example the length of a solution vector in a linear system, it must estimate the success probability, by repetition (order \\(1/\\epsilon^2\\) runs) or by amplitude estimation (order \\(1/\\epsilon\\)). That cost belongs in the resource count.",
+    "review": "topic-7-1-3"
+   },
+   {
     "kind": "Extension",
     "question": "The first-order Taylor approximation e^{−iHδ} ≈ I − iδH, with H = Σ h_j P_j and λδ small, is a linear combination of unitaries. Write its LCU coefficients and subnormalization, and explain why oblivious amplitude amplification can be used to apply it deterministically.",
     "hints": [
@@ -325,6 +805,16 @@
     ],
     "answer": "I − iδH = 1·I + Σ_j δ|h_j|·(−i sign(h_j)P_j), a combination of unitaries with coefficients 1 and δ|h_j|, so α = 1 + δλ. The encoded matrix (I − iδH)/α is close to a unitary (e^{−iHδ}/α, up to O(δ²)), so its success amplitude is nearly input independent. Choosing the step so that α = 2 (or padding the combination to α = 2) makes one round of oblivious amplitude amplification succeed, up to the O(δ²) truncation error. Higher-order truncated Taylor series reduce this error, which is the basis of the Berry–Childs–Cleve–Kothari–Somma simulation method.",
     "review": "topic-7-3-3"
+   },
+   {
+    "kind": "Extension",
+    "question": "The star graph has one centre joined to \\(N\\) leaves. (a) Find \\(\\|A\\|\\) for its adjacency matrix. (b) What subnormalization does the sparse-access construction give, with sparsity \\(s=N\\) and \\(\\|A\\|_{\\max}=1\\)? (c) Compute both for \\(N=9\\) and explain the factor between them. What does this mean for using sparse access on graphs with a few high-degree vertices?",
+    "hints": [
+     "Try a vector with amplitude \\(a\\) on the centre and \\(b\\) on every leaf.",
+     "\\(A\\) maps it to \\(Nb\\) on the centre and \\(a\\) on every leaf."
+    ],
+    "answer": "(a) A vector with \\(a\\) on the centre and \\(b\\) on each leaf is mapped to \\(Nb\\) on the centre and \\(a\\) on each leaf. It is an eigenvector when \\(Nb=\\lambda a\\) and \\(a=\\lambda b\\), so \\(\\lambda^2=N\\), and \\(\\|A\\|=\\sqrt N\\). (b) Sparse access gives \\(\\alpha=s\\|A\\|_{\\max}=N\\). (c) For \\(N=9\\), \\(\\|A\\|=3\\) while \\(\\alpha=9\\). The construction spreads amplitude uniformly over up to \\(s\\) neighbours of every row, as if each row could be as heavy as the heaviest, so it overestimates by a factor \\(\\sqrt N\\). Success probabilities drop by a further factor \\(N\\). Since simulation and phase-estimation costs scale with \\(\\alpha\\), one high-degree vertex makes the encoding expensive for the whole graph. Splitting the matrix into pieces, or using encodings adapted to row norms, can recover most of the loss.",
+    "review": "topic-7-4-1"
    }
   ]
  },
@@ -354,6 +844,26 @@
     "review": "topic-8-1-1"
    },
    {
+    "kind": "Quick check",
+    "question": "Which of these real targets can be the real part of a QSP response with exactly the stated number of signal calls? (a) \\(0.5x\\) with \\(d=1\\); (b) \\(x^3\\) with \\(d=2\\); (c) \\(1.2x^2-0.2\\) with \\(d=2\\); (d) \\(1.5x\\) with \\(d=1\\). Give the reason in each case.",
+    "hints": [
+     "Check degree, parity, and \\(|P(x)|\\le1\\) on all of \\([-1,1]\\).",
+     "For (c), find the extreme values on the interval."
+    ],
+    "answer": "(a) Yes: degree \\(1\\), odd like \\(d=1\\), and \\(|0.5x|\\le0.5\\). (b) No: the degree \\(3\\) exceeds \\(d\\), and the parity is odd while \\(d\\) is even. (c) Yes: degree \\(2\\), even, and on \\([-1,1]\\) it ranges from \\(-0.2\\) (at \\(x=0\\)) to \\(1\\) (at \\(x=\\pm1\\)), so it is bounded by \\(1\\). (d) No: \\(|1.5x|\\) reaches \\(1.5\\) at \\(x=\\pm1\\). A response is an entry of a unitary, so it can never exceed \\(1\\) anywhere on the interval, even at points the algorithm does not care about.",
+    "review": "topic-8-1-2"
+   },
+   {
+    "kind": "Quick check",
+    "question": "A Hermitian block encoding of \\(H/\\alpha\\) with \\(\\alpha=2\\) is qubitized. \\(H\\) has eigenvalues \\(1\\) and \\(-1\\). Find the eigenphases of the walk \\(W=RU\\) in each eigenvalue’s plane, and the phase separation that phase estimation must resolve to tell the eigenvalues apart.",
+    "hints": [
+     "\\(\\cos\\theta_j=\\lambda_j/\\alpha\\).",
+     "Each plane contributes the eigenvalues \\(e^{\\pm i\\theta_j}\\)."
+    ],
+    "answer": "\\(\\cos\\theta=1/2\\) gives \\(\\theta=\\pi/3\\), and \\(\\cos\\theta=-1/2\\) gives \\(\\theta=2\\pi/3\\). So the walk has eigenvalues \\(e^{\\pm i\\pi/3}\\) in the first plane and \\(e^{\\pm2\\pi i/3}\\) in the second. The nearest phases from different planes, \\(\\pi/3\\) and \\(2\\pi/3\\), differ by \\(\\pi/3\\), a sixth of a full turn. Phase estimation resolves that with only a few walk steps. Each estimate \\(\\tilde\\theta\\) gives \\(\\lambda=\\alpha\\cos\\tilde\\theta\\); the sign ambiguity \\(\\pm\\theta\\) does not matter, since cosine is even.",
+    "review": "topic-8-2-2"
+   },
+   {
     "kind": "Worked problem",
     "question": "A block encoding of H/α has α = 50, and the eigenvalues of H of interest are 1.0 and 1.2. Phase estimation on the qubitized walk is used to distinguish them. Estimate the walk eigenphase difference and the number of walk steps needed.",
     "hints": [
@@ -364,6 +874,46 @@
     "review": "topic-8-2-2"
    },
    {
+    "kind": "Worked problem",
+    "question": "The two-call sequence \\(W(x)e^{i\\phi Z}W(x)\\) has top-left entry \\(P_\\phi(x)=\\cos\\phi\\,(2x^2-1)+i\\sin\\phi\\). (a) Choose \\(\\phi\\) so the real part is \\(0.6\\,T_2(x)\\), and give the imaginary part. (b) Show that averaging the sequences with phases \\(\\phi\\) and \\(-\\phi\\) by a two-term LCU isolates the real part. (c) What is the subnormalization of the result?",
+    "hints": [
+     "\\(\\cos\\phi=0.6\\) gives \\(\\sin\\phi=0.8\\).",
+     "\\(P_{-\\phi}(x)=\\cos\\phi\\,T_2(x)-i\\sin\\phi\\)."
+    ],
+    "answer": "(a) With \\(\\cos\\phi=0.6\\), the real part is \\(0.6T_2(x)\\) and the imaginary part is the constant \\(\\sin\\phi=0.8\\), so \\(|P_\\phi|^2=0.36T_2^2+0.64\\). Measuring would mostly reflect the unwanted constant. (b) The sequence with \\(-\\phi\\) gives \\(P_{-\\phi}=0.6T_2-0.8i\\). An LCU with weights \\(\\frac12,\\frac12\\) block-encodes \\(\\frac12(P_\\phi+P_{-\\phi})=0.6\\,T_2(x)\\), the real part alone. (c) The LCU coefficients sum to \\(1\\), so the subnormalization is \\(1\\): the encoded number is exactly \\(0.6T_2(x)\\). The price is one extra ancilla and controlled phase rotations, and the success probability is \\(0.36\\,T_2(x)^2\\). This is the extra-qubit trick the theorem refers to when it promises real targets.",
+    "review": "topic-8-1-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Let \\(A=\\begin{pmatrix}0&1\\\\\\tfrac12&0\\end{pmatrix}\\). (a) Find its singular values and the input and output directions. (b) Compute \\(P^{(SV)}(A)\\) for the odd polynomial \\(P=T_3\\) and the even version \\(\\sum_jP(\\sigma_j)\\ket{w_j}\\bra{w_j}\\) for \\(P=T_2\\). Which spaces do the two results map between?",
+    "hints": [
+     "\\(A\\ket1=\\ket0\\) and \\(A\\ket0=\\frac12\\ket1\\).",
+     "\\(T_3(1)=1\\), \\(T_3(\\tfrac12)=-1\\); \\(T_2(1)=1\\), \\(T_2(\\tfrac12)=-\\tfrac12\\)."
+    ],
+    "answer": "(a) \\(A\\ket1=1\\cdot\\ket0\\) and \\(A\\ket0=\\frac12\\ket1\\). So \\(\\sigma_1=1\\) with \\(\\ket{w_1}=\\ket1\\), \\(\\ket{u_1}=\\ket0\\), and \\(\\sigma_2=\\frac12\\) with \\(\\ket{w_2}=\\ket0\\), \\(\\ket{u_2}=\\ket1\\). (b) For \\(T_3\\), \\(T_3(1)=1\\) and \\(T_3(\\frac12)=4\\cdot\\frac18-\\frac32=-1\\), so \\(T_3^{(SV)}(A)=\\ket0\\bra1-\\ket1\\bra0\\). It maps input directions to output directions, like \\(A\\) itself, with new stretch factors. For \\(T_2\\), \\(T_2(1)=1\\) and \\(T_2(\\frac12)=-\\frac12\\), giving \\(\\ket1\\bra1-\\frac12\\ket0\\bra0\\). It maps the input space to itself, as \\(A^\\dagger A\\) does. The odd transformation changed the singular value \\(\\frac12\\) to magnitude \\(1\\): QSVT can enlarge singular values, provided the polynomial stays bounded.",
+    "review": "topic-8-2-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "For \\(\\tau=\\alpha t=10\\), the Jacobi–Anger coefficients are \\(J_{10}(10)\\approx0.21\\), \\(J_{15}(10)\\approx4.5\\times10^{-3}\\), \\(J_{20}(10)\\approx1.2\\times10^{-5}\\), and \\(J_{25}(10)\\approx7\\times10^{-9}\\). (a) Estimate the truncation degree for error \\(10^{-6}\\) from the rule \\(d\\approx e\\tau/2+\\ln(1/\\epsilon)\\). (b) Using the listed values, judge where the series can actually be cut. (c) How does the degree change if \\(\\tau\\) doubles, or if \\(\\epsilon\\) becomes \\(10^{-12}\\)?",
+    "hints": [
+     "The tail of the series is dominated by its first omitted coefficient.",
+     "The cost is additive in \\(\\tau\\) and \\(\\log(1/\\epsilon)\\)."
+    ],
+    "answer": "(a) \\(e\\cdot10/2+\\ln10^6\\approx13.6+13.8\\approx27\\). (b) The coefficients fall from \\(0.2\\) at \\(k=10\\) to about \\(10^{-5}\\) at \\(k=20\\) and below \\(10^{-8}\\) at \\(k=25\\). The tail beyond degree \\(22\\) or so is already below \\(10^{-6}\\), so the rule is a safe overestimate. Up to \\(k\\approx\\tau\\) the coefficients are not small; beyond it they decay faster than exponentially. (c) Doubling \\(\\tau\\) roughly doubles the degree, because the cutoff sits a little beyond \\(k\\approx\\tau\\). Squaring the precision to \\(10^{-12}\\) adds only a few more terms, because of the super-exponential decay. This is the additive scaling \\(O(\\alpha t+\\log(1/\\epsilon))\\) in concrete numbers.",
+    "review": "topic-8-3-3"
+   },
+   {
+    "kind": "Misconception",
+    "question": "A student reasons: “Every QSP response satisfies \\(|P(x)|\\le1\\), so a polynomial transformation can only shrink singular values; it can never turn a small singular value into a large one.” Test this with \\(P(x)=3x-4x^3=-T_3(x)\\). What does it do to \\(x=\\frac12\\), and which earlier algorithm is this?",
+    "hints": [
+     "Check that \\(|3x-4x^3|\\le1\\) on \\([-1,1]\\).",
+     "Write \\(x=\\sin\\theta\\): \\(3\\sin\\theta-4\\sin^3\\theta=\\sin3\\theta\\)."
+    ],
+    "answer": "\\(P(\\frac12)=\\frac32-\\frac12=1\\), so a singular value \\(\\frac12\\) becomes \\(1\\). On \\([-1,1]\\), \\(P(\\sin\\theta)=\\sin3\\theta\\), so \\(|P|\\le1\\) everywhere. The bound limits the output, not the ratio of output to input. Near \\(0\\), \\(P(x)\\approx3x\\), so small values are tripled. Writing the input as \\(\\sin\\theta\\), the transformation \\(\\sin\\theta\\mapsto\\sin3\\theta\\) is exactly one round of amplitude amplification. Polynomials can amplify small values as long as they stay bounded on the whole interval; boundedness is why the amplification has to slow down near \\(1\\).",
+    "review": "topic-8-2-3"
+   },
+   {
     "kind": "Extension",
     "question": "A linear system has κ = 100. Estimate the number of block-encoding calls for the polynomial-inversion algorithm with amplitude amplification, taking the polynomial degree to be κ ln(κ/ε) with ε = 10⁻³, and the amplification count to be κ. Then state what output the algorithm produces.",
     "hints": [
@@ -372,6 +922,16 @@
     ],
     "answer": "Degree ≈ 100 × 11.5 ≈ 1150; amplification needs about 100 rounds, each using the polynomial sequence and its inverse, so about 2 × 1150 × 100 ≈ 2.3 × 10⁵ block-encoding calls (methods with optimal κ log(1/ε) scaling reduce this to about 10³–10⁴). The output is a quantum state proportional to A⁻¹|b⟩, not the vector of solution entries; extracting a classical quantity such as ⟨x|M|x⟩ to precision δ costs further repetitions of order 1/δ with amplitude estimation.",
     "review": "topic-8-3-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "A trial state has overlap \\(\\gamma=0.1\\) with the ground state of \\(H\\). The block encoding has \\(\\alpha=100\\), the gap is \\(\\Delta_E=0.5\\), and the target error is \\(\\epsilon=10^{-3}\\). Compare, up to constant factors: (a) repeated phase estimation on the qubitized walk, which succeeds with probability \\(\\gamma^2\\) per run and needs about \\(\\alpha/\\Delta_E\\) walk steps to resolve the gap; and (b) a spectral filter of degree \\((\\alpha/\\Delta_E)\\ln(1/\\epsilon)\\) combined with amplitude amplification. What does each method output, and which assumption do both share?",
+    "hints": [
+     "(a) costs about \\((1/\\gamma^2)(\\alpha/\\Delta_E)\\).",
+     "(b) costs about \\((1/\\gamma)(\\alpha/\\Delta_E)\\ln(1/\\epsilon)\\)."
+    ],
+    "answer": "(a) Each run costs about \\(\\alpha/\\Delta_E=200\\) walk steps and succeeds with probability \\(\\gamma^2=0.01\\), so about \\(100\\times200=2\\times10^4\\) calls are expected (more for high confidence). (b) The filter has degree about \\(200\\ln10^3\\approx1.4\\times10^3\\). Its success amplitude is about \\(\\gamma\\), so amplitude amplification needs about \\(1/\\gamma=10\\) rounds: about \\(1.4\\times10^4\\) calls. The advantage of (b) grows as \\(\\gamma\\) falls, since \\(1/\\gamma\\) replaces \\(1/\\gamma^2\\). Its \\(\\ln(1/\\epsilon)\\) factor is the cost of a sharp filter. Method (a) outputs an energy estimate and a collapsed state; method (b) outputs the ground state coherently, to precision \\(\\epsilon\\), ready for later processing. Both assume a trial state with known nonnegligible overlap and a known gap; neither helps if preparing such a state is the hard part.",
+    "review": "topic-8-3-1"
    }
   ]
  },
@@ -402,6 +962,26 @@
     "review": "topic-9-1-3"
    },
    {
+    "kind": "Quick check",
+    "question": "Using the rule that Pauli strings commute when they anticommute on an even number of positions, decide which pairs commute among \\(X_1X_2\\), \\(Y_1Y_2\\), \\(Z_1Z_2\\), and \\(X_1Z_2\\). What is the first-order Trotter error for the Heisenberg pair Hamiltonian \\(H=X_1X_2+Y_1Y_2+Z_1Z_2\\)?",
+    "hints": [
+     "Compare the strings position by position: distinct non-identity Paulis anticommute.",
+     "The first-order bound sums \\(\\|[H_j,H_k]\\|\\) over pairs."
+    ],
+    "answer": "\\(X_1X_2\\), \\(Y_1Y_2\\), and \\(Z_1Z_2\\) differ from each other at both positions, so every pair anticommutes twice and commutes. \\(X_1Z_2\\) anticommutes once with \\(X_1X_2\\) (position 2) and once with \\(Z_1Z_2\\) (position 1), so those pairs anticommute; with \\(Y_1Y_2\\) it differs at both positions and commutes. For the Heisenberg pair all commutators vanish, so \\(e^{-iHt}=e^{-iX_1X_2t}e^{-iY_1Y_2t}e^{-iZ_1Z_2t}\\) exactly, with no Trotter error for any \\(t\\). A single step suffices, which is fast-forwarding. On a chain of many sites, neighbouring bonds share a qubit and do not commute, and the error returns.",
+    "review": "topic-9-1-2"
+   },
+   {
+    "kind": "Quick check",
+    "question": "For \\(H=X+Z\\) and target error \\(\\epsilon=10^{-3}\\), how many first-order steps does the commutator bound require at \\(t=1\\) and at \\(t=10\\)? How does the second-order formula’s step count, of order \\(t^{3/2}/\\epsilon^{1/2}\\), scale between the same two times?",
+    "hints": [
+     "\\(r\\ge t^2\\|[X,Z]\\|/(2\\epsilon)=t^2/\\epsilon\\).",
+     "Multiplying \\(t\\) by \\(10\\) multiplies \\(t^{3/2}\\) by about \\(31.6\\)."
+    ],
+    "answer": "The first-order bound needs \\(r\\ge t^2/\\epsilon\\): \\(1000\\) steps at \\(t=1\\) and \\(100\\,000\\) at \\(t=10\\), a factor of \\(100\\) for ten times longer evolution. The second-order count grows by \\(10^{3/2}\\approx32\\). Each first-order step has fixed cost, so the first-order gate count grows as \\(t^2\\). The no-fast-forwarding theorem requires only linear growth, so the first-order formula pays an extra factor of \\(t\\). Higher-order formulas, or polynomial methods, close most of that gap.",
+    "review": "topic-9-1-4"
+   },
+   {
     "kind": "Worked problem",
     "question": "Write a circuit for e^{−iθ Y₁ Y₂} and count its CNOTs and single-qubit gates.",
     "hints": [
@@ -412,6 +992,46 @@
     "review": "topic-9-2-1"
    },
    {
+    "kind": "Worked problem",
+    "question": "For \\(H=X+Z\\), a single first-order step of length \\(\\delta=0.1\\) has actual error about \\(0.00998\\), while ten such steps (total time \\(1\\)) have actual error about \\(0.070\\). (a) Compare each with the bounds \\(\\frac{\\delta^2}{2}\\|[X,Z]\\|\\) and \\(\\frac{t^2}{2r}\\|[X,Z]\\|\\). (b) Why is the one-step bound nearly tight while the ten-step bound is loose? (c) Using the actual \\(1/r\\) scaling, estimate the steps needed for error \\(0.01\\).",
+    "hints": [
+     "\\(\\|[X,Z]\\|=2\\).",
+     "The triangle inequality adds error norms; it ignores directions."
+    ],
+    "answer": "(a) The one-step bound is \\(0.01\\cdot2/2=0.01\\), matching \\(0.00998\\) almost exactly. The ten-step bound is \\(1\\cdot2/20=0.1\\), against an actual \\(0.070\\). (b) For a single short step the leading error term \\(-\\frac{\\delta^2}{2}[X,Z]\\) dominates and the bound captures it. Over many steps the bound adds error norms as if every step erred in the worst direction, but the step errors are rotated by the evolution in between and partly cancel, so the total grows more slowly than the sum. (c) The actual error is about \\(0.70/r\\), so \\(r\\approx70\\) steps reach \\(0.01\\), against \\(100\\) from the bound. That difference translates directly into gate count.",
+    "review": "topic-9-1-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Adiabatic search over \\(N\\) items uses \\(H(s)=I-(1-s)\\ket u\\bra u-s\\ket m\\bra m\\), where \\(\\ket u\\) is the uniform superposition and \\(\\ket m\\) the marked item. For \\(N=4\\), compute the gap at \\(s=0\\), \\(s=\\frac14\\), and \\(s=\\frac12\\) using \\(g(s)=\\sqrt{1-4(1-1/N)s(1-s)}\\). Compare the runtimes suggested by the heuristic \\(1/g_{\\min}^2\\) for \\(N=4\\) and \\(N=2^{20}\\).",
+    "hints": [
+     "At \\(s=\\frac12\\), \\(g=1/\\sqrt N\\).",
+     "For \\(N=4\\), \\(1-1/N=\\frac34\\)."
+    ],
+    "answer": "For \\(N=4\\): \\(g(0)=1\\), \\(g(\\tfrac14)=\\sqrt{1-3\\cdot\\tfrac{3}{16}}=\\sqrt{7/16}\\approx0.661\\), and \\(g(\\tfrac12)=\\sqrt{1-\\tfrac34}=\\tfrac12=1/\\sqrt N\\). The heuristic \\(1/g_{\\min}^2=N\\) suggests time of order \\(4\\) here and \\(2^{20}\\approx10^6\\) for \\(N=2^{20}\\), no better than classical search. The gap is small only in a window near \\(s=\\frac12\\), of width about \\(1/\\sqrt N\\). A schedule that slows down only there, the local adiabatic schedule, needs time of order \\(\\sqrt N\\approx10^3\\), matching Grover search. The improvement comes from knowing where the gap is small.",
+    "review": "topic-9-3-3"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "A first-order simulation has \\(L=50\\) Pauli terms and \\(r=1000\\) steps, so \\(5\\times10^4\\) arbitrary rotations. The total error budget is \\(10^{-3}\\), half allotted to rotation synthesis. Using about \\(3\\log_2(1/\\epsilon_{\\mathrm{rot}})\\) \\(T\\) gates per rotation, find \\(\\epsilon_{\\mathrm{rot}}\\), the \\(T\\) count per rotation, and the total \\(T\\) count. How would halving the number of rotations change the answer?",
+    "hints": [
+     "Synthesis errors add: \\(5\\times10^4\\,\\epsilon_{\\mathrm{rot}}\\le5\\times10^{-4}\\).",
+     "\\(\\log_2(10^8)\\approx26.6\\)."
+    ],
+    "answer": "The rotation errors add, so \\(\\epsilon_{\\mathrm{rot}}\\le5\\times10^{-4}/(5\\times10^4)=10^{-8}\\). Each rotation then costs about \\(3\\times26.6\\approx80\\) \\(T\\) gates, and the total is about \\(5\\times10^4\\times80=4\\times10^6\\) \\(T\\) gates. Halving the number of rotations halves the count and also relaxes each rotation’s budget to \\(2\\times10^{-8}\\), saving about \\(3\\) \\(T\\) gates per rotation: roughly \\(2\\times10^6\\) in total. The logarithmic dependence means precision is cheap per gate, but the count of rotations, set by \\(L\\) and \\(r\\), drives the cost.",
+    "review": "topic-9-2-1"
+   },
+   {
+    "kind": "Misconception",
+    "question": "A student rescales a Hamiltonian, \\(H'=H/10\\), and argues that \\(e^{-iH't'}\\) with \\(t'=10t\\) equals \\(e^{-iHt}\\) while every commutator becomes \\(100\\) times smaller, so Trotterization gets much cheaper. Check the first-order step count and the qubitization cost before and after rescaling.",
+    "hints": [
+     "\\([A/10,B/10]=[A,B]/100\\), but the time is \\(10t\\).",
+     "Qubitization costs about \\(\\lambda t\\)."
+    ],
+    "answer": "For first order, \\(r\\ge t'^2\\|[A',B']\\|/(2\\epsilon)=(10t)^2\\cdot\\|[A,B]\\|/100/(2\\epsilon)=t^2\\|[A,B]\\|/(2\\epsilon)\\): unchanged. For qubitization, \\(\\lambda'=\\lambda/10\\) and \\(\\lambda't'=\\lambda t\\): unchanged. The evolution operator depends only on the product \\(Ht\\), and so does every honest cost formula. Rescaling changes units, not difficulty. A claimed speedup from “simulating for less time” must be checked against \\(\\|H\\|t\\) or \\(\\lambda t\\), the dimensionless quantities the costs depend on.",
+    "review": "topic-9-2-3"
+   },
+   {
     "kind": "Extension",
     "question": "An adiabatic algorithm for a family of instances has minimum gap g(n) = 1/n² for n qubits. Estimate the runtime with a linear schedule and with a local schedule, and explain whether this would give a polynomial-time algorithm. What would you need to know to trust the gap estimate?",
     "hints": [
@@ -420,6 +1040,16 @@
     ],
     "answer": "Linear: T ~ n⁴; local: T ~ n². Both are polynomial, so if the gap really scales as 1/n² for the whole family, the adiabatic algorithm runs in polynomial time (and can be simulated by a polynomial-size circuit). To trust it, one needs a proof of the gap bound for all instances, or at least strong evidence across sizes, because numerical gaps on small n can miss exponentially small avoided crossings that appear only at larger n.",
     "review": "topic-9-3-2"
+   },
+   {
+    "kind": "Extension",
+    "question": "Derive the gap formula used in adiabatic search. (a) Show that \\(H(s)=I-(1-s)\\ket u\\bra u-s\\ket m\\bra m\\) acts as \\(I\\) on states orthogonal to both \\(\\ket u\\) and \\(\\ket m\\), so the gap is set by the two-dimensional block they span. (b) In that block, find the trace and determinant of \\(M=(1-s)\\ket u\\bra u+s\\ket m\\bra m\\) using \\(|\\braket um|^2=1/N\\). (c) Deduce \\(g(s)=\\sqrt{1-4(1-1/N)s(1-s)}\\) and its minimum.",
+    "hints": [
+     "For a \\(2\\times2\\) Hermitian matrix the eigenvalue difference is \\(\\sqrt{(\\mathrm{tr})^2-4\\det}\\).",
+     "\\(\\det M=s(1-s)(1-|\\braket um|^2)\\)."
+    ],
+    "answer": "(a) A state orthogonal to \\(\\ket u\\) and \\(\\ket m\\) is annihilated by both projectors, so \\(H(s)\\) gives eigenvalue \\(1\\). The other eigenvalues live in the span of \\(\\ket u,\\ket m\\), where \\(H=I-M\\). (b) \\(\\mathrm{tr}M=(1-s)+s=1\\). For the determinant, write \\(M\\) in an orthonormal basis \\(\\{\\ket m,\\ket{m^\\perp}\\}\\) with \\(\\ket u=\\frac{1}{\\sqrt N}\\ket m+\\sqrt{1-\\frac1N}\\ket{m^\\perp}\\); a direct calculation gives \\(\\det M=s(1-s)(1-\\frac1N)\\). (c) The eigenvalues of \\(M\\) differ by \\(\\sqrt{1-4s(1-s)(1-\\frac1N)}\\), and so do those of \\(H=I-M\\). The smaller eigenvalue of \\(H\\), \\(\\frac12(1-\\sqrt{\\cdots})\\), is the ground energy. The larger, \\(\\frac12(1+\\sqrt{\\cdots})\\le1\\), is the first excited energy, below the eigenvalue \\(1\\) of the orthogonal states. So the gap is \\(g(s)=\\sqrt{1-4(1-1/N)s(1-s)}\\), minimized at \\(s=\\frac12\\) with \\(g_{\\min}=1/\\sqrt N\\).",
+    "review": "topic-9-3-3"
    }
   ]
  },
@@ -450,6 +1080,26 @@
     "review": "topic-10-1-2"
    },
    {
+    "kind": "Quick check",
+    "question": "In the running example at \\(\\theta=\\pi/6\\), \\(\\langle X_1X_2\\rangle=\\sin\\theta=\\frac12\\). Find the variance of one \\(\\pm1\\) shot of \\(X_1X_2\\) and the standard deviation of the average of \\(1000\\) shots. Why does \\(\\langle Z_1Z_2\\rangle\\) need no shots at all for this ansatz?",
+    "hints": [
+     "A \\(\\pm1\\) outcome with mean \\(\\mu\\) has variance \\(1-\\mu^2\\).",
+     "Every state in the family is supported on \\(\\ket{00}\\) and \\(\\ket{11}\\)."
+    ],
+    "answer": "The single-shot variance is \\(1-\\frac14=\\frac34\\), so \\(1000\\) shots give standard deviation \\(\\sqrt{0.75/1000}\\approx0.027\\). Every trial state is a combination of \\(\\ket{00}\\) and \\(\\ket{11}\\), both with \\(Z_1Z_2=+1\\), so every shot returns \\(+1\\). The variance is \\(0\\) and \\(\\langle Z_1Z_2\\rangle=1\\) is known exactly. Variances depend on the state, which is why the optimal shot allocation \\(R_j\\propto|h_j|\\sigma_j\\) can save far more than the worst-case bound \\(\\lambda^2/\\epsilon^2\\) suggests.",
+    "review": "topic-10-1-3"
+   },
+   {
+    "kind": "Quick check",
+    "question": "For depth-1 QAOA on a single edge, set \\(\\gamma=\\pi\\). Compute the state after the cost layer, starting from \\(\\ket{++}\\), and explain why no mixer angle \\(\\beta\\) can then improve the expected cut beyond \\(\\frac12\\). Compare with the formula \\(F=\\frac12+\\frac12\\sin4\\beta\\sin\\gamma\\).",
+    "hints": [
+     "\\(C\\) is \\(1\\) on \\(01\\) and \\(10\\), so \\(e^{-i\\pi C}\\) multiplies those components by \\(-1\\).",
+     "\\((\\ket{00}-\\ket{01}-\\ket{10}+\\ket{11})/2=\\ket{-}\\ket{-}\\)."
+    ],
+    "answer": "After the cost layer the state is \\(\\frac12(\\ket{00}-\\ket{01}-\\ket{10}+\\ket{11})=\\ket-\\ket-\\). That is an eigenstate of \\(X_1+X_2\\) (eigenvalue \\(-2\\)), so the mixer only multiplies it by a global phase. The measured distribution stays uniform, with expected cut \\(\\frac12\\) for every \\(\\beta\\). The formula agrees: \\(\\sin\\pi=0\\). The cost phases \\(e^{-i\\gamma C}\\) must create relative phases that the mixer can turn into probability differences; at \\(\\gamma=\\pi\\) the phases form a pattern the mixer cannot use.",
+    "review": "topic-10-3-2"
+   },
+   {
     "kind": "Worked problem",
     "question": "Use the parameter-shift rule to compute the gradient of E(θ) = −1 − sin θ at θ = π/3, and take one gradient-descent step with η = 0.5.",
     "hints": [
@@ -460,6 +1110,46 @@
     "review": "topic-10-2-1"
    },
    {
+    "kind": "Worked problem",
+    "question": "Add a field to the example: \\(H=-Z_1Z_2-X_1X_2+0.5\\,Z_1\\). (a) Show that for the ansatz \\(\\cos\\frac\\theta2\\ket{00}+\\sin\\frac\\theta2\\ket{11}\\), \\(E(\\theta)=-1-\\sin\\theta+0.5\\cos\\theta\\). (b) Find the minimum and its location. (c) Show that \\(H\\) maps the span of \\(\\ket{00},\\ket{11}\\) to itself and find its lowest eigenvalue there. Does the ansatz contain the ground state?",
+    "hints": [
+     "\\(\\langle Z_1\\rangle=\\cos^2\\frac\\theta2-\\sin^2\\frac\\theta2=\\cos\\theta\\).",
+     "Write \\(\\sin\\theta-0.5\\cos\\theta=\\sqrt{1.25}\\,\\sin(\\theta-\\varphi)\\) with \\(\\tan\\varphi=0.5\\)."
+    ],
+    "answer": "(a) As before \\(\\langle Z_1Z_2\\rangle=1\\) and \\(\\langle X_1X_2\\rangle=\\sin\\theta\\), and \\(\\langle Z_1\\rangle=\\cos\\theta\\), giving \\(E=-1-\\sin\\theta+0.5\\cos\\theta\\). (b) \\(E=-1-\\sqrt{1.25}\\sin(\\theta-\\varphi)\\) with \\(\\varphi=\\arctan0.5\\approx0.464\\). The minimum is \\(-1-\\sqrt{1.25}\\approx-2.118\\) at \\(\\theta=\\pi/2+\\varphi\\approx2.03\\). (c) Each term maps \\(\\ket{00}\\) and \\(\\ket{11}\\) into their span. In the basis \\((\\ket{00},\\ket{11})\\), \\(H=\\begin{pmatrix}-0.5&-1\\\\-1&-1.5\\end{pmatrix}\\), with eigenvalues \\(-1\\pm\\sqrt{1.25}\\). The odd sector \\(\\{\\ket{01},\\ket{10}\\}\\) has eigenvalues \\(1\\pm\\sqrt{1.25}\\), the lowest being \\(-0.118\\). So the true ground energy is \\(-2.118\\), and the ansatz attains it. It succeeds because it covers every real state in the symmetry sector that contains the ground state. Without that structure, the family could easily miss the ground state.",
+    "review": "topic-10-1-1"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "A variational run reports energy \\(-1.95\\) for a Hamiltonian with \\(E_0=-2\\). (a) If every excited energy is at least \\(0\\) (gap \\(\\Delta=2\\)), bound the ground-state overlap \\(|c_0|^2\\). (b) Repeat for a gap \\(\\Delta=0.1\\). (c) An observable \\(O\\) with \\(\\|O\\|\\le1\\) is computed from the variational state. Using \\(|c_0|^2\\), roughly how far can its value be from the ground-state value in each case?",
+    "hints": [
+     "\\(|c_0|^2\\ge1-\\delta/\\Delta\\) with \\(\\delta=0.05\\).",
+     "A state with overlap \\(|c_0|^2\\) has trace distance about \\(\\sqrt{1-|c_0|^2}\\) from the ground state."
+    ],
+    "answer": "(a) \\(|c_0|^2\\ge1-0.05/2=0.975\\). (b) \\(|c_0|^2\\ge1-0.05/0.1=0.5\\), so up to half the weight may lie on excited states. (c) For a pure state, the distance from the ground state is \\(\\sqrt{1-|c_0|^2}\\). This is at most about \\(0.16\\) in case (a) and up to about \\(0.71\\) in case (b), and expectation values of \\(O\\) can be off by twice that. The same energy error means very different things depending on the gap. A small gap makes energy a poor certificate of the state, so a reported variational energy does not validate other computed properties unless a gap bound is known.",
+    "review": "topic-10-3-1"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "Verify the depth-1 QAOA formula for one edge at \\(\\gamma=\\pi/2\\) by working in the two-dimensional space spanned by \\(\\ket{\\Phi^+}=\\frac{1}{\\sqrt2}(\\ket{00}+\\ket{11})\\) and \\(\\ket{\\Psi^+}=\\frac{1}{\\sqrt2}(\\ket{01}+\\ket{10})\\). (a) Write the state after the cost layer in this basis. (b) Show that \\(B=X_1+X_2\\) acts as \\(2\\sigma_x\\) there. (c) Compute the probability of an uncut outcome and the expected cut as a function of \\(\\beta\\).",
+    "hints": [
+     "\\(e^{-i\\pi C/2}\\) multiplies \\(\\ket{01},\\ket{10}\\) by \\(-i\\).",
+     "\\(e^{-i\\beta\\cdot2\\sigma_x}=\\cos2\\beta\\,I-i\\sin2\\beta\\,\\sigma_x\\)."
+    ],
+    "answer": "(a) \\(\\ket{++}=\\frac{1}{\\sqrt2}(\\ket{\\Phi^+}+\\ket{\\Psi^+})\\); after the cost layer it is \\(\\frac{1}{\\sqrt2}(\\ket{\\Phi^+}-i\\ket{\\Psi^+})\\). (b) \\(X_1+X_2\\) sends \\(\\ket{00}+\\ket{11}\\) to \\(2(\\ket{01}+\\ket{10})\\), so \\(B\\ket{\\Phi^+}=2\\ket{\\Psi^+}\\) and \\(B\\ket{\\Psi^+}=2\\ket{\\Phi^+}\\). (c) Applying \\(\\cos2\\beta\\,I-i\\sin2\\beta\\,\\sigma_x\\) gives the \\(\\ket{\\Phi^+}\\) amplitude \\(\\frac{1}{\\sqrt2}(\\cos2\\beta-\\sin2\\beta)\\). The uncut probability is \\(\\frac12(\\cos2\\beta-\\sin2\\beta)^2=\\frac12(1-\\sin4\\beta)\\), so the expected cut is \\(F=\\frac12(1+\\sin4\\beta)\\), matching the formula with \\(\\sin\\gamma=1\\). At \\(\\beta=\\pi/8\\) the uncut amplitude vanishes and \\(F=1\\). The symmetry of the problem reduced a four-dimensional calculation to a rotation in a plane.",
+    "review": "topic-10-3-2"
+   },
+   {
+    "kind": "Misconception",
+    "question": "An optimizer for \\(E(\\theta)=-1-\\sin\\theta\\) starts at \\(\\theta_0=3\\pi/2\\), computes an exact gradient of zero, and stops, reporting convergence. What has it found? What would happen with shot noise, and what does this say about using a zero gradient as a certificate?",
+    "hints": [
+     "\\(dE/d\\theta=-\\cos\\theta\\) vanishes at both \\(\\pi/2\\) and \\(3\\pi/2\\).",
+     "Evaluate \\(E\\) at both points."
+    ],
+    "answer": "\\(E(3\\pi/2)=-1+1=0\\), the maximum of the landscape, not the minimum \\(-2\\) at \\(\\theta=\\pi/2\\). The gradient vanishes at every stationary point: minima, maxima, and saddles. With shot noise the estimated gradient would be slightly nonzero, and the optimizer would drift away from this unstable point, so noise happens to help here. In larger landscapes, local minima are stable and noise does not rescue the run. A small gradient shows only that the optimizer has stopped moving. It says nothing about global optimality, and in a barren plateau it may simply reflect a landscape too flat to measure.",
+    "review": "topic-10-2-1"
+   },
+   {
     "kind": "Extension",
     "question": "A Hamiltonian has λ = 20, and each optimizer iteration estimates the energy and a 50-component gradient by parameter shift, each energy to precision 10⁻². Estimate the shots per iteration, and comment on 500 iterations.",
     "hints": [
@@ -467,6 +1157,16 @@
      "A gradient by parameter shift needs 2 × 50 energy estimates (with the same precision per component as a rough guide)."
     ],
     "answer": "One energy: 400/10⁻⁴ = 4 × 10⁶ shots. Gradient: 100 energies, 4 × 10⁸ shots. Per iteration about 4 × 10⁸ shots; 500 iterations need about 2 × 10¹¹ shots. At 10⁴ shots per second that is about 230 days, illustrating why measurement cost dominates variational methods and why shot-frugal optimizers and measurement grouping matter.",
+    "review": "topic-10-1-3"
+   },
+   {
+    "kind": "Extension",
+    "question": "For \\(H=-Z_1Z_2-X_1X_2\\) at \\(\\theta=\\pi/3\\), use the optimal allocation \\(R_j\\propto|h_j|\\sigma_j\\). (a) Compute \\(\\sigma_1,\\sigma_2\\) and the shots needed for standard error \\(10^{-3}\\) in the energy. (b) Compare with the worst-case estimate \\(\\lambda^2/\\epsilon^2\\). (c) The allocation uses the very expectation values being estimated. Propose a practical procedure, and say what it costs.",
+    "hints": [
+     "\\(\\langle Z_1Z_2\\rangle=1\\) and \\(\\langle X_1X_2\\rangle=\\sin(\\pi/3)\\approx0.866\\).",
+     "With optimal allocation, \\(\\mathrm{Var}=(\\sum_j|h_j|\\sigma_j)^2/R\\)."
+    ],
+    "answer": "(a) \\(\\sigma_1=\\sqrt{1-1}=0\\) and \\(\\sigma_2=\\sqrt{1-0.75}=0.5\\). The optimal allocation gives all shots to \\(X_1X_2\\), and \\(\\mathrm{Var}=(0.5)^2/R\\). Standard error \\(10^{-3}\\) needs \\(R=0.25/10^{-6}=2.5\\times10^5\\) shots. (b) The worst case \\(\\lambda^2/\\epsilon^2=4/10^{-6}=4\\times10^6\\) is sixteen times larger. (c) Spend a small pilot budget on every term to estimate each \\(\\sigma_j\\), then allocate the remaining shots proportionally to \\(|h_j|\\hat\\sigma_j\\), keeping a minimum for every term in case a pilot estimate was misleading. The pilot costs a modest fraction of the total. Since \\(\\sigma_j\\) changes slowly as \\(\\theta\\) moves during optimization, earlier estimates can be reused.",
     "review": "topic-10-1-3"
    }
   ]
@@ -498,6 +1198,26 @@
     "review": "topic-11-3-1"
    },
    {
+    "kind": "Quick check",
+    "question": "Prepare \\(\\frac{1}{\\sqrt2}(\\ket{00}+\\ket{11})\\) and measure the first qubit in the \\(\\{\\ket+,\\ket-\\}\\) basis. What is the second qubit’s state for each outcome, and which feedforward correction makes it \\(\\ket+\\) in both cases?",
+    "hints": [
+     "Rewrite the Bell state as \\(\\frac{1}{\\sqrt2}(\\ket{++}+\\ket{--})\\).",
+     "\\(Z\\ket-=\\ket+\\)."
+    ],
+    "answer": "Since \\(\\frac{1}{\\sqrt2}(\\ket{00}+\\ket{11})=\\frac{1}{\\sqrt2}(\\ket{++}+\\ket{--})\\), outcome \\(+\\) leaves the second qubit in \\(\\ket+\\) and outcome \\(-\\) leaves \\(\\ket-\\), each with probability \\(\\frac12\\). Applying \\(Z\\) after outcome \\(-\\) gives \\(\\ket+\\) deterministically. The choice of measurement basis determines which states the partner can be steered to; the correction is a Pauli gate chosen by the record.",
+    "review": "topic-11-1-1"
+   },
+   {
+    "kind": "Quick check",
+    "question": "A qubit carries a pending Pauli byproduct \\(X\\) in the Pauli frame. The program then applies \\(H\\) and \\(S\\), and measures in the computational basis. How does the byproduct propagate, and must the measured bit be flipped? What if no \\(H\\) had been applied?",
+    "hints": [
+     "\\(HX=ZH\\), and \\(S\\) commutes with \\(Z\\).",
+     "A \\(Z\\) just before a computational-basis measurement does not change the outcome."
+    ],
+    "answer": "Moving the byproduct through the gates: \\(SHX=SZH=ZSH\\), so just before the measurement the frame holds \\(Z\\). A \\(Z\\) does not change computational-basis probabilities, so the measured bit is reported unchanged. Without the \\(H\\), \\(SX=YS\\), and \\(Y=iXZ\\) contains an \\(X\\), which flips a computational-basis outcome, so the classical controller must invert the measured bit. Tracking the frame lets the hardware skip the correction gates; only the interpretation of later outcomes changes.",
+    "review": "topic-11-3-2"
+   },
+   {
     "kind": "Worked problem",
     "question": "Run iterative phase estimation for φ = 7/8 = 0.111 in binary, giving each stage’s phase, correction, and outcome.",
     "hints": [
@@ -508,6 +1228,46 @@
     "review": "topic-11-2-2"
    },
    {
+    "kind": "Worked problem",
+    "question": "Run two-stage iterative phase estimation on an eigenstate with \\(\\phi=1/3\\), which has no finite binary expansion. (a) Compute the probability of each outcome at stage 2 (controlled-\\(U^2\\), no correction). (b) For each stage-2 outcome, apply the correction \\(P(-\\omega_1)\\) with \\(\\omega_1=2\\pi(0.0b_2)\\) and compute the stage-1 probabilities. (c) Tabulate the probabilities of the four estimates \\(0.b_1b_2\\) and compare them with textbook phase estimation with \\(M=4\\).",
+    "hints": [
+     "With phase \\(\\varphi\\) on the control, \\(\\Pr[0]=(1+\\cos\\varphi)/2\\).",
+     "Stage 2 phase: \\(2\\pi\\cdot\\frac23\\). Stage 1 phase: \\(2\\pi\\cdot\\frac13-\\omega_1\\)."
+    ],
+    "answer": "(a) Stage 2 sees phase \\(4\\pi/3\\), so \\(\\Pr[b_2=0]=(1+\\cos\\frac{4\\pi}{3})/2=\\frac14\\) and \\(\\Pr[b_2=1]=\\frac34\\). (b) If \\(b_2=0\\), there is no correction and stage 1 sees \\(2\\pi/3\\): \\(\\Pr[b_1=0]=\\frac14\\). If \\(b_2=1\\), \\(\\omega_1=\\pi/2\\) and stage 1 sees \\(2\\pi/3-\\pi/2=\\pi/6\\): \\(\\Pr[b_1=0]=(1+\\cos\\frac\\pi6)/2\\approx0.933\\). (c) The estimates \\(0.00,0.01,0.10,0.11\\) (that is \\(0,\\frac14,\\frac12,\\frac34\\)) have probabilities \\(\\frac14\\cdot\\frac14=0.0625\\), \\(\\frac34\\times0.933\\approx0.700\\), \\(\\frac14\\cdot\\frac34=0.1875\\), and \\(\\frac34\\times0.067\\approx0.050\\). Textbook phase estimation with \\(M=4\\) gives exactly the same four numbers. The two procedures are related by deferred measurement, so their output statistics agree even when the phase is not exact.",
+    "review": "topic-11-2-1"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "In teleportation, the state just before Alice measures is \\(\\frac12\\sum_{m_1,m_2}\\ket{m_1m_2}\\,X^{m_2}Z^{m_1}\\ket\\psi\\). Apply the deferred-measurement principle: replace the classically controlled corrections by a CNOT from Alice’s second qubit and a controlled-\\(Z\\) from her first qubit to Bob’s. Find the final three-qubit state, and explain what Alice’s later measurements reveal.",
+    "hints": [
+     "The correction must undo \\(X^{m_2}Z^{m_1}\\): apply \\(X^{m_2}\\) first, then \\(Z^{m_1}\\).",
+     "\\(Z^{m_1}X^{m_2}X^{m_2}Z^{m_1}=I\\)."
+    ],
+    "answer": "On the branch \\(\\ket{m_1m_2}\\), the controlled gates apply \\(Z^{m_1}X^{m_2}\\) to Bob’s qubit, turning \\(X^{m_2}Z^{m_1}\\ket\\psi\\) into \\(\\ket\\psi\\). The final state is \\(\\frac12\\sum_{m_1,m_2}\\ket{m_1m_2}\\ket\\psi=\\ket+\\ket+\\ket\\psi\\). Bob holds \\(\\ket\\psi\\), unentangled with Alice, and Alice’s qubits are in a fixed state that carries no information about \\(\\psi\\). Measuring them gives two uniformly random bits. The deferred version gives the same statistics as the original, but it needs quantum control from Alice’s qubits to Bob’s, so it is no longer a protocol between distant parties. Classical communication is what lets teleportation work at a distance.",
+    "review": "topic-11-1-2"
+   },
+   {
+    "kind": "Worked problem",
+    "question": "On a three-qubit line cluster, the input sits on qubit 1. Measuring qubit 1 with angle \\(\\alpha_1\\) and qubit 2 with angle \\(\\alpha_2\\) applies \\(X^{m_2}HP(-\\alpha_2)X^{m_1}HP(-\\alpha_1)\\) to the input, which ends on qubit 3. (a) Choose \\(\\alpha_1,\\alpha_2\\) to apply \\(T\\), up to byproducts, when both outcomes are \\(0\\). (b) For \\(m_1=1\\), \\(m_2=0\\), find the byproduct on the output and say whether the second angle needs adapting.",
+    "hints": [
+     "\\(HP(0)HP(\\beta)=H^2P(\\beta)=P(\\beta)\\).",
+     "Use \\(HX=ZH\\); \\(P(0)=I\\) commutes with everything."
+    ],
+    "answer": "(a) With \\(\\alpha_2=0\\), the composite is \\(HHP(-\\alpha_1)=P(-\\alpha_1)\\). Choosing \\(\\alpha_1=-\\pi/4\\) gives \\(P(\\pi/4)=T\\). (b) With \\(m_1=1\\), the operation is \\(HP(0)XHT=HXHT=ZT\\), so the output is \\(ZT\\ket\\psi\\). A \\(Z\\) byproduct is recorded in the Pauli frame and corrected later, or absorbed into the interpretation of a final measurement. Because \\(\\alpha_2=0\\), flipping its sign changes nothing, so no adaptation is needed here. For a general \\(\\alpha_2\\), the outcome \\(m_1=1\\) would require measuring with \\(-\\alpha_2\\) instead, since \\(P(\\beta)X=e^{i\\beta}XP(-\\beta)\\).",
+    "review": "topic-11-3-2"
+   },
+   {
+    "kind": "Misconception",
+    "question": "A student writes: “Iterative phase estimation uses one control qubit and \\(m\\) measurements, so it needs only \\(m\\) applications of controlled-\\(U\\) instead of \\(2^m-1\\).” Correct the claim, state what iterative phase estimation actually saves, and say when the number of controlled-\\(U\\) applications really is small.",
+    "hints": [
+     "Stage \\(k\\) still applies controlled-\\(U^{2^{k-1}}\\).",
+     "Compare the cost of \\(U^{2^j}\\) for modular multiplication and for \\(e^{-iHt}\\)."
+    ],
+    "answer": "Stage \\(k\\) applies controlled-\\(U^{2^{k-1}}\\). Built from repeated controlled-\\(U\\), the stages cost \\(1+2+\\cdots+2^{m-1}=2^m-1\\) applications in total, exactly as in the textbook circuit. Iterative estimation saves width: one recycled control qubit instead of \\(m\\), and no coherent inverse QFT. It also shortens the required coherence time of the control. The count of controlled powers is small only when \\(U^{2^j}\\) has a shortcut, as for modular multiplication, where \\(U_a^{2^j}=U_{a^{2^j}\\bmod L}\\) costs the same as \\(U_a\\). For Hamiltonian evolution there is generally no such shortcut, and the total evolution time grows as \\(2^m\\), as the Heisenberg limit requires.",
+    "review": "topic-11-2-1"
+   },
+   {
     "kind": "Extension",
     "question": "A fault-tolerant algorithm needs 10⁸ T gates with total failure probability below 1%. Raw magic states have error 10⁻³, and the 15-to-1 protocol maps error p to 35p³. How many rounds of distillation are needed, and roughly how many raw magic states per T gate?",
     "hints": [
@@ -516,6 +1276,16 @@
     ],
     "answer": "Per-gate error must be below about 10⁻²/10⁸ = 10⁻¹⁰. One round gives 3.5 × 10⁻⁸, not enough; two rounds give about 1.5 × 10⁻²¹, more than enough. Two rounds consume about 15² = 225 raw states per output T gate (more with failed rounds), so about 2 × 10¹⁰ raw magic states in total. In practice protocols are mixed and tuned to avoid overshooting the target, which is why T counts dominate resource estimates.",
     "review": "topic-11-3-3"
+   },
+   {
+    "kind": "Extension",
+    "question": "A circuit contains \\(10^6\\) repeat-until-success gadgets, each succeeding with probability \\(p=3/4\\) per attempt, all running in parallel. (a) What is the expected total number of attempts? (b) For one gadget, how many attempts guarantee success with probability \\(1-10^{-9}\\)? (c) Roughly how many attempts does the slowest of the \\(10^6\\) gadgets typically need, and why does this matter for scheduling?",
+    "hints": [
+     "One gadget needs more than \\(k\\) attempts with probability \\((1-p)^k=4^{-k}\\).",
+     "The slowest of \\(G\\) gadgets exceeds \\(k\\) attempts with probability about \\(G\\cdot4^{-k}\\)."
+    ],
+    "answer": "(a) Each gadget needs \\(1/p=4/3\\) attempts on average, so about \\(1.33\\times10^6\\) attempts in total, which is the quantity that sets the expected \\(T\\) count. (b) \\(4^{-k}\\le10^{-9}\\) needs \\(k\\ge9\\log_410\\approx15\\) attempts. (c) The slowest gadget exceeds \\(k\\) attempts with probability about \\(10^6\\cdot4^{-k}\\), which is of order one at \\(k\\approx\\log_410^6\\approx10\\). So the slowest gadget typically needs about \\(10\\) attempts, although the average is \\(1.33\\). If later gates must wait for all gadgets, latency is set by this maximum, not the mean, and idle qubits decohere while they wait. Resource estimates for adaptive circuits should therefore report latency or depth separately from expected gate counts.",
+    "review": "topic-11-1-3"
    }
   ]
  }

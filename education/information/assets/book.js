@@ -2,7 +2,7 @@
 (() => {
   document.documentElement.classList.add('book-js');
   const storage={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
-  let size=Number(storage.get('qi-book-size'))||17;
+  let size=Number(storage.get('qi-book-size'))||parseFloat(getComputedStyle(document.body).fontSize)||17;
   function setSize(n){size=Math.max(16,Math.min(26,n));document.documentElement.style.setProperty('--book-text-size',size+'px');storage.set('qi-book-size',size);document.querySelector('#text-smaller').disabled=size===16;document.querySelector('#text-larger').disabled=size===26;}
   if(storage.get('qi-book-size'))setSize(size);
   document.querySelector('#text-smaller').onclick=()=>setSize(size-1);

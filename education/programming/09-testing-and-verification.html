@@ -39,6 +39,95 @@ print("Relative-phase bug detected; controlled global phase also checked")
 <div class="exercise"><p><strong>Problem 9.3.</strong> Is a larger tolerance always safer?</p><details class="problem-solution"><summary>Worked solution</summary><p>It reduces false failures but can accept real bugs. Choose it from the numerical and approximation budgets, and include known incorrect examples that should fail.</p></details></div>
 <p>The next transformation is performed by a compiler. Its output needs the same semantic checks, with layout taken into account.</p>
 </section>
-<nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="08-algorithm-implementation.html"><small>Previous chapter</small>Algorithm Implementation ←</a><a rel="next" href="10-compilation-and-transpilation.html"><small>Next chapter</small>Compilation and Transpilation →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
+<section class="chapter-practice" id="practice"><h2>Questions and worked problems</h2><p>These exercises draw on the whole chapter. Attempt each question before opening a hint, explain your reasoning, then compare it with the worked solution.</p><article class="exercise" id="exercise-1"><h3>1. Quick check <a class="heading-link" href="#exercise-1" aria-label="Link to exercise 1">§</a></h3><p>A circuit should do nothing to one qubit, but a bug inserts an S gate. Which of these tests detects the bug: (a) basis-state output probabilities for \(\ket0\) and \(\ket1\); (b) statevector equivalence on \(\ket+\); (c) Operator equivalence?</p><details class="exercise-hint"><summary>Hint 1</summary><p>S changes only the phase of \(\ket1\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(S\ket+=(\ket0+i\ket1)/\sqrt2\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) Misses it: S leaves the basis probabilities unchanged. (b) Catches it: \(S\ket+=(\ket0+i\ket1)/\sqrt2\) is not equivalent to \(\ket+\). (c) Catches it: diag\((1,i)\) is not the identity up to a global phase. Tests of coherent components must include superposition inputs or full operators.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator, Statevector
+
+identity = QuantumCircuit(1)
+buggy = QuantumCircuit(1)
+buggy.s(0)
+for label in (&quot;0&quot;, &quot;1&quot;):
+    state = Statevector.from_label(label)
+    assert np.allclose(state.evolve(identity).probabilities(), state.evolve(buggy).probabilities())
+plus = Statevector.from_label(&quot;+&quot;)
+assert not plus.evolve(identity).equiv(plus.evolve(buggy))
+assert not Operator(identity).equiv(Operator(buggy))</code></pre></details><p><a href="#topic-9-1-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-2"><h3>2. Quick check <a class="heading-link" href="#exercise-2" aria-label="Link to exercise 2">§</a></h3><p>Why does np.isclose(1e-17, 0, rtol=1e-9, atol=0) return False, while np.isclose(1e-17, 0, rtol=0, atol=1e-12) returns True? Which tolerance should an amplitude test use?</p><details class="exercise-hint"><summary>Hint 1</summary><p>A relative tolerance scales with the size of the reference value.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>The reference value here is \(0\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>With atol=0, the allowed difference is rtol times the magnitude of the reference value, which is \(0\), so even \(10^{-17}\) fails. An absolute tolerance of \(10^{-12}\) accepts floating-point noise. Amplitude tests should include an absolute tolerance, because many correct amplitudes are exactly zero and their computed values are tiny nonzero numbers (such as the \(10^{-33}\) entries seen in earlier chapters).</p><pre><code class="language-python">import numpy as np
+
+assert not np.isclose(1e-17, 0, rtol=1e-9, atol=0)
+assert np.isclose(1e-17, 0, rtol=0, atol=1e-12)</code></pre></details><p><a href="#topic-9-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-3"><h3>3. Quick check <a class="heading-link" href="#exercise-3" aria-label="Link to exercise 3">§</a></h3><p>rz(0.4) and p(0.4) differ by a global phase. Does np.allclose on their Operator matrices succeed? Does Operator.equiv? Which comparison answers “are these the same standalone gate?”</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(R_z(\lambda)=e^{-i\lambda/2}P(\lambda)\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>equiv ignores a global phase.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>np.allclose fails, because every entry differs by the factor \(e^{-0.2i}\). Operator.equiv succeeds, because it allows a global phase. equiv answers the standalone question; allclose answers the stricter question that matters when the gate will be controlled, where the two are genuinely different. A test must use the notion of equality that matches the gate’s intended use.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+
+rz = QuantumCircuit(1)
+rz.rz(0.4, 0)
+p = QuantumCircuit(1)
+p.p(0.4, 0)
+assert not np.allclose(Operator(rz).data, Operator(p).data)
+assert Operator(rz).equiv(Operator(p))</code></pre></details><p><a href="#topic-9-1-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-4"><h3>4. Worked problem <a class="heading-link" href="#exercise-4" aria-label="Link to exercise 4">§</a></h3><p>Write a test that compares an implementation with its specification on a few random input states, using random_statevector with fixed seeds. Apply it to the S-gate bug of the quick check. Why are random states useful, and what do they not replace?</p><details class="exercise-hint"><summary>Hint 1</summary><p>random_statevector(2, seed=...) gives a reproducible random state.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compare state.evolve(implementation) with state.evolve(specification).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>For each seeded random state, evolve it through both circuits and require equivalence; the S bug fails on every generic input, since a random state has both basis components. Random inputs exercise all relative phases at once and catch errors that special inputs such as \(\ket0\) hide. They do not replace an exhaustive operator check for small components, and they are not a proof: a bug confined to a tiny part of a large space may need many samples or a structured test.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import random_statevector
+
+def agrees(implementation, specification, trials=5):
+    n = specification.num_qubits
+    for seed in range(trials):
+        state = random_statevector(2 ** n, seed=seed)
+        if not state.evolve(implementation).equiv(state.evolve(specification)):
+            return False
+    return True
+
+specification = QuantumCircuit(1)
+buggy = QuantumCircuit(1)
+buggy.s(0)
+assert agrees(specification, specification)
+assert not agrees(buggy, specification)</code></pre></details><p><a href="#topic-9-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-5"><h3>5. Worked problem <a class="heading-link" href="#exercise-5" aria-label="Link to exercise 5">§</a></h3><p>A test suite runs \(20\) independent sampling tests, each with a two-sided tolerance of \(z\) standard deviations. (a) For \(z=3\), each correct test fails with probability about \(0.0027\). What is the chance that a run of the whole suite has at least one false failure? (b) Repeat for \(z=4\) (each \(6.3\times10^{-5}\)). (c) What else should be done instead of simply raising \(z\)?</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(P(\text{some failure})=1-(1-p)^{20}\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Higher \(z\) also makes real bugs harder to detect.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) \(1-0.9973^{20}\approx5.3\%\): one in twenty runs of a correct suite fails. (b) \(1-(1-6.3\times10^{-5})^{20}\approx0.13\%\). (c) Larger tolerances reduce false alarms but also hide small bugs. Better: test deterministic properties exactly with Statevector or Operator, use fixed seeds for regression tests of sampling code, and size the shot counts so that the bugs that matter remain detectable at the chosen \(z\).</p></details><p><a href="#topic-9-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-6"><h3>6. Worked problem <a class="heading-link" href="#exercise-6" aria-label="Link to exercise 6">§</a></h3><p>A product-formula simulation of \(e^{-i(X+Z)t}\) for \(t=1\) with \(r=10\) first-order steps has the error bound \(t^2\|[X,Z]\|/(2r)=0.1\). Write a test that compares the circuit’s operator with the exact exponential and uses this analytic bound as the tolerance. Check the actual error.</p><details class="exercise-hint"><summary>Hint 1</summary><p>Build each step as rx(\(2t/r\)) followed by rz(\(2t/r\)) or equivalent.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Compute the exact unitary from the eigen-decomposition of \(X+Z\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The circuit repeats ten steps of \(e^{-iX\delta}e^{-iZ\delta}\), implemented as rz(\(2\delta\)) then rx(\(2\delta\)), since \(R_x(\theta)=e^{-i\theta X/2}\). The exact unitary comes from diagonalizing \(X+Z\). The operator-norm error is about \(0.07\), within the bound \(0.1\), so the test passes. A tight tolerance such as \(10^{-12}\) would wrongly fail this correct approximate circuit; the tolerance must come from the approximation’s error budget.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+
+t, r = 1.0, 10
+delta = t / r
+circuit = QuantumCircuit(1)
+for _ in range(r):
+    circuit.rz(2 * delta, 0)  # exp(-i Z delta) acts first
+    circuit.rx(2 * delta, 0)  # then exp(-i X delta)
+H = np.array([[1, 1], [1, -1]], dtype=complex)
+values, vectors = np.linalg.eigh(H)
+exact = vectors @ np.diag(np.exp(-1j * values * t)) @ vectors.conj().T
+error = np.linalg.norm(Operator(circuit).data - exact, 2)
+bound = t ** 2 * 2 / (2 * r)
+assert error &lt;= bound and error &gt; 0.05</code></pre></details><p><a href="#topic-9-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-7"><h3>7. Worked problem <a class="heading-link" href="#exercise-7" aria-label="Link to exercise 7">§</a></h3><p>A biased-coin bug shifts \(P(1)\) from \(0.50\) to \(0.48\). How many shots are needed for a test with a three-standard-deviation false-alarm threshold to detect this bug with \(90\%\) probability? Use \(N\approx\big((z_\alpha+z_\beta)\sigma/\delta\big)^2\) with \(z_\alpha=3\), \(z_\beta=1.28\), \(\sigma=0.5\), \(\delta=0.02\).</p><details class="exercise-hint"><summary>Hint 1</summary><p>\((3+1.28)\times0.5/0.02\approx107\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Square it.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>\(N\approx107^2\approx1.1\times10^4\) shots. With the \(4096\) shots of earlier examples, the test would usually miss a \(2\%\) bias. Detection power must be planned: decide the smallest error that matters, then choose shots. When the property is deterministic, an exact Statevector check detects the bias without any shots.</p></details><p><a href="#topic-9-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-8"><h3>8. Misconception <a class="heading-link" href="#exercise-8" aria-label="Link to exercise 8">§</a></h3><p>A student argues: “If a test passes with a large tolerance, the circuit is correct; larger tolerances are just safer.” Using the S-gate bug, show a tolerance at which a statevector comparison on \(\ket+\) would pass, and explain why “safer” is the wrong word.</p><details class="exercise-hint"><summary>Hint 1</summary><p>The S bug changes the \(\ket+\) output by a vector of length \(|1-i|/\sqrt2=1\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Fidelity \(|\langle+|S|+\rangle|^2=\frac12\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The outputs \(\ket+\) and \(S\ket+\) have fidelity \(\frac12\); a test that accepts any fidelity above \(0.4\), or any amplitude difference below \(1\), would pass the bug. A tolerance is not a safety margin: it defines which differences count as errors. It must be larger than numerical noise or approximation error, and much smaller than the smallest bug the test exists to catch. Too large is as wrong as too small.</p></details><p><a href="#topic-9-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-9"><h3>9. Extension <a class="heading-link" href="#exercise-9" aria-label="Link to exercise 9">§</a></h3><p>A subroutine is supposed to act only on qubits 0 and 1 of a three-qubit register. Write a test that verifies its Operator equals \(I\otimes U_{\rm sub}\), so that qubit 2 is untouched. What kinds of bugs does this catch that tests of the two-qubit block alone would not?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Operator(QuantumCircuit(1)).tensor(Operator(sub)) places the identity on qubit 2.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>In Qiskit, the left tensor factor acts on the higher qubit index.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Comparing Operator(big) with Operator(I).tensor(Operator(sub)) checks that the embedded circuit acts as the subroutine on qubits 0, 1 and as the identity on qubit 2. It catches wrong wire mappings, gates accidentally applied to spectator qubits, and entanglement with the spectator (for example a stray CNOT onto qubit 2), none of which a test of the subroutine in isolation would see. The tensor order follows Qiskit’s convention that the left factor acts on the higher index.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Operator
+
+sub = QuantumCircuit(2)
+sub.h(0)
+sub.cx(0, 1)
+big = QuantumCircuit(3)
+big.compose(sub, qubits=[0, 1], inplace=True)
+assert Operator(big).equiv(Operator(QuantumCircuit(1)).tensor(Operator(sub)))
+leaky = big.copy()
+leaky.cx(1, 2)
+assert not Operator(leaky).equiv(Operator(QuantumCircuit(1)).tensor(Operator(sub)))</code></pre></details><p><a href="#topic-9-2-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-10"><h3>10. Extension <a class="heading-link" href="#exercise-10" aria-label="Link to exercise 10">§</a></h3><p>Mutation testing measures a test suite by injecting small bugs. For the Bell circuit, consider four mutants: swap control and target; append Z on qubit 0; replace H by SX; drop the CNOT. Compare two tests: (a) “the counts contain only 00 and 11”; (b) statevector equivalence with \((\ket{00}+\ket{11})/\sqrt2\). How many mutants does each detect?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Appending Z gives \((\ket{00}-\ket{11})/\sqrt2\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>SX then CNOT gives \((\ket{00}-i\ket{11})/\sqrt2\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Swapping control and target, or dropping the CNOT, produces outcomes 00 and 01, so test (a) catches both. Appending Z gives \((\ket{00}-\ket{11})/\sqrt2\), and SX gives \((\ket{00}-i\ket{11})/\sqrt2\): both still give only 00 and 11, so test (a) misses them. Test (b) catches all four. Mutation testing turns “my tests pass” into a measurable statement about which bugs they would catch, and shows that phase errors need phase-sensitive tests.</p><pre><code class="language-python">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+def bell(mutation=None):
+    circuit = QuantumCircuit(2)
+    circuit.sx(0) if mutation == &quot;sx&quot; else circuit.h(0)
+    if mutation == &quot;swap&quot;:
+        circuit.cx(1, 0)
+    elif mutation != &quot;drop&quot;:
+        circuit.cx(0, 1)
+    if mutation == &quot;z&quot;:
+        circuit.z(0)
+    return circuit
+
+target = Statevector([2 ** -0.5, 0, 0, 2 ** -0.5])
+def support_test(c):
+    probabilities = Statevector.from_instruction(c).probabilities_dict()
+    return all(p &lt; 1e-12 for k, p in probabilities.items() if k not in (&quot;00&quot;, &quot;11&quot;))
+def state_test(c):
+    return Statevector.from_instruction(c).equiv(target)
+
+mutants = [&quot;swap&quot;, &quot;z&quot;, &quot;sx&quot;, &quot;drop&quot;]
+assert support_test(bell()) and state_test(bell())
+assert sum(not support_test(bell(m)) for m in mutants) == 2
+assert sum(not state_test(bell(m)) for m in mutants) == 4</code></pre></details><p><a href="#topic-9-2-2">Revisit the relevant explanation</a></p></article></section><nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="08-algorithm-implementation.html"><small>Previous chapter</small>Algorithm Implementation ←</a><a rel="next" href="10-compilation-and-transpilation.html"><small>Next chapter</small>Compilation and Transpilation →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Qiskit, measurement, or transpilation"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>
 </body></html>

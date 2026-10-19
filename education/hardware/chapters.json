@@ -42,7 +42,12 @@
         "What assumption permits the estimate t/T1?",
         "Why distinguish physical and logical qubit counts?"
       ],
-      "handoff": "We begin by asking when a physical system with many states can be approximated by a qubit."
+      "handoff": "We begin by asking when a physical system with many states can be approximated by a qubit.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "bell-operations",
+        "repetition-error"
+      ]
     }
   },
   {
@@ -88,7 +93,12 @@
         "Does a zero computational-basis error guarantee no leakage?",
         "Why is an equally spaced oscillator not automatically a selective two-level qubit?"
       ],
-      "handoff": "With the subspace specified, we can calculate how a resonant drive rotates its amplitudes."
+      "handoff": "With the subspace specified, we can calculate how a resonant drive rotates its amplitudes.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "level-selectivity",
+        "detuning-bound"
+      ]
     }
   },
   {
@@ -134,7 +144,12 @@
         "If |Δ|=Ω, can a square pulse invert perfectly?",
         "Why is a successful zero-to-one pulse insufficient as a gate test?"
       ],
-      "handoff": "A single drive supplies rotations. Two-qubit gates require an interaction that cannot be written as separate local evolutions."
+      "handoff": "A single drive supplies rotations. Two-qubit gates require an interaction that cannot be written as separate local evolutions.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "rabi-detuning",
+        "pulse-spectrum"
+      ]
     }
   },
   {
@@ -180,7 +195,12 @@
         "Can separate Z rotations erase every ZZ conditional phase?",
         "Why must an auxiliary oscillator close its trajectory?"
       ],
-      "handoff": "We now have candidate gates. Initialization and measurement determine whether their inputs and outputs can be used reliably."
+      "handoff": "We now have candidate gates. Initialization and measurement determine whether their inputs and outputs can be used reliably.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "exchange-populations",
+        "mediator-overlap"
+      ]
     }
   },
   {
@@ -226,7 +246,12 @@
         "If e0=e1=1/2, can the assignment relation be inverted?",
         "Does a destructive detector with perfect labels qualify as reusable nondemolition readout?"
       ],
-      "handoff": "Noise changes the state even when we intend to do nothing. The next chapter separates energy loss from phase uncertainty."
+      "handoff": "Noise changes the state even when we intend to do nothing. The next chapter separates energy loss from phase uncertainty.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "readout-signals",
+        "thermal-preparation"
+      ]
     }
   },
   {
@@ -272,7 +297,12 @@
         "Does echo reverse a spontaneous emission event?",
         "After ten identical overrotations by ε, what coherent angle error remains?"
       ],
-      "handoff": "The next chapter constructs the experiments that infer these parameters and separates inference from proof of gate quality."
+      "handoff": "The next chapter constructs the experiments that infer these parameters and separates inference from proof of gate quality.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "echo-sign",
+        "relaxation-coherence"
+      ]
     }
   },
   {
@@ -318,7 +348,12 @@
         "For α=0.998, what is the single-qubit depolarizing-model error per Clifford?",
         "Why repeat a benchmark with simultaneous neighboring operations?"
       ],
-      "handoff": "We now apply this common language to concrete platforms, beginning with a nonlinear electrical oscillator."
+      "handoff": "We now apply this common language to concrete platforms, beginning with a nonlinear electrical oscillator.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "ramsey-fringes",
+        "benchmark-decay"
+      ]
     }
   },
   {
@@ -364,7 +399,12 @@
         "Why can a shorter pulse cause leakage?",
         "If \\(g/2\\pi=10\\) MHz and \\(\\Delta/2\\pi=200\\) MHz, what is the simple dispersive estimate?"
       ],
-      "handoff": "An atomic qubit starts with naturally occurring levels instead of a fabricated nonlinear oscillator. The next chapter asks how motion supplies the missing coupling."
+      "handoff": "An atomic qubit starts with naturally occurring levels instead of a fabricated nonlinear oscillator. The next chapter asks how motion supplies the missing coupling.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "josephson-circuit",
+        "transmon-spectrum"
+      ]
     }
   },
   {
@@ -410,7 +450,12 @@
         "Compare red-sideband couplings for \\(n=1\\) and \\(n=4\\).",
         "What remains if a gate leaves distinguishable bus states?"
       ],
-      "handoff": "Neutral atoms remove the electric charge that supports trapping and Coulomb coupling. Optical forces and highly excited electronic states replace those mechanisms."
+      "handoff": "Neutral atoms remove the electric charge that supports trapping and Coulomb coupling. Optical forces and highly excited electronic states replace those mechanisms.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "ion-sidebands",
+        "motion-closure"
+      ]
     }
   },
   {
@@ -456,7 +501,12 @@
         "For \\(B=20\\Omega\\), bound transfer in the simple blockade model.",
         "Why should detected atom loss not be recorded as measurement zero?"
       ],
-      "handoff": "In a semiconductor, electrostatic confinement plays the role of the trap, while electron spin supplies the two states."
+      "handoff": "In a semiconductor, electrostatic confinement plays the role of the trap, while electron spin supplies the two states.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "rydberg-pair",
+        "blockade-suppression"
+      ]
     }
   },
   {
@@ -502,7 +552,12 @@
         "If \\(J/h=10\\) MHz, how long is a SWAP exchange pulse?",
         "Can perfect charge detection guarantee perfect spin readout?"
       ],
-      "handoff": "A crystal defect can also localize an electronic spin, with an optical transition offering a route between stationary and flying information."
+      "handoff": "A crystal defect can also localize an electronic spin, with an optical transition offering a route between stationary and flying information.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "double-dot",
+        "spin-exchange"
+      ]
     }
   },
   {
@@ -548,7 +603,12 @@
         "What is the relative conditional phase between even and odd parity under the stated interaction?",
         "Why benchmark a memory during link attempts?"
       ],
-      "handoff": "We next let photons carry the computation itself. Their weak interaction is both an advantage for transmission and a difficulty for gates."
+      "handoff": "We next let photons carry the computation itself. Their weak interaction is both an advantage for transmission and a difficulty for gates.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "defect-levels",
+        "collection-rate"
+      ]
     }
   },
   {
@@ -594,14 +654,19 @@
         "What is the ideal coincidence probability for one identical photon in each balanced input?",
         "If independent sources succeed with probability 0.1, what is the chance that at least one of ten succeeds?"
       ],
-      "handoff": "A mode can hold more than a single photon. Using that larger space for encoding leads to bosonic error-protection strategies."
+      "handoff": "A mode can hold more than a single photon. Using that larger space for encoding leads to bosonic error-protection strategies.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "photonic-interferometer",
+        "hong-ou-mandel"
+      ]
     }
   },
   {
     "stem": "14-bosonic-encodings",
     "title": "Bosonic Encodings",
     "question": "How can many levels of one oscillator protect a single logical qubit?",
-    "example": "A photon-loss event detected through number parity.",
+    "example": "One photon loss on a binomial oscillator encoding, distinguished by parity without reading the logical amplitudes.",
     "prerequisites": "Chapters 1–13; physical concepts and approximations are introduced as needed.",
     "sections": [
       {
@@ -640,14 +705,19 @@
         "Why can parity measurement damage a superposition of an even and an odd cat?",
         "For \\(\\kappa=100\\) s⁻¹, mean occupation 4, and \\(t=10\\) μs, estimate loss probability."
       ],
-      "handoff": "Bosonic codes engineer redundancy in oscillator space. Topological approaches seek insensitivity to local disturbances through a different structure of physical states."
+      "handoff": "Bosonic codes engineer redundancy in oscillator space. Topological approaches seek insensitivity to local disturbances through a different structure of physical states.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "binomial-loss",
+        "finite-grid"
+      ]
     }
   },
   {
     "stem": "15-topological-approaches",
     "title": "Topological Approaches",
     "question": "What would it mean for quantum information to be protected by nonlocal physical structure?",
-    "example": "A pair of separated modes with a joint parity degree of freedom.",
+    "example": "Four ideal Majorana modes encoding one qubit in a fixed-total-parity sector.",
     "prerequisites": "Chapters 1–14; physical concepts and approximations are introduced as needed.",
     "sections": [
       {
@@ -686,7 +756,12 @@
         "Does a protected braid imply a universal processor?",
         "Compare Boltzmann factors for \\(\\Delta/k_BT=5\\) and 10."
       ],
-      "handoff": "Whatever the encoding, controls, cooling, and classical processing must support it. The next chapter counts those physical requirements."
+      "handoff": "Whatever the encoding, controls, cooling, and classical processing must support it. The next chapter counts those physical requirements.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "majorana-exchange",
+        "finite-size-splitting"
+      ]
     }
   },
   {
@@ -732,7 +807,12 @@
         "A syndrome round takes 1 μs and decoding latency is 5 μs. Must every round wait 5 μs?",
         "If calibration takes 15 minutes each hour, what fraction remains for data collection?"
       ],
-      "handoff": "Infrastructure limits which operations can happen together. Architecture translates these constraints into a schedule for an entire algorithm."
+      "handoff": "Infrastructure limits which operations can happen together. Architecture translates these constraints into a schedule for an entire algorithm.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "feedback-pipeline",
+        "cold-stage-budget"
+      ]
     }
   },
   {
@@ -778,7 +858,12 @@
         "A link succeeds with probability 0.02 per 10 μs attempt. Find its mean waiting time.",
         "For 1,000 independent components of yield 0.999, estimate perfect-array yield."
       ],
-      "handoff": "Error correction adds a structured workload of its own. The next chapter turns its parity checks into device-level operations."
+      "handoff": "Error correction adds a structured workload of its own. The next chapter turns its parity checks into device-level operations.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "routing-graph",
+        "link-wait"
+      ]
     }
   },
   {
@@ -824,7 +909,12 @@
         "How many arbitrary physical-qubit errors can a distance-5 code correct with perfect syndrome information?",
         "Use \\(A=0.1\\), \\(p/p_{\\rm th}=0.1\\). Compare distances 3 and 5 in the illustrative fit."
       ],
-      "handoff": "We can now evaluate a processor through the computation it can carry out, with the full preparation, control, measurement, and correction costs included."
+      "handoff": "We can now evaluate a processor through the computation it can carry out, with the full preparation, control, measurement, and correction costs included.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "parity-extraction",
+        "logical-fit"
+      ]
     }
   },
   {
@@ -870,7 +960,12 @@
         "In 10,000 independent trials, 9,000 succeed. Estimate one standard error.",
         "No failures occur in 1,000 independent trials. What upper error bound follows at 95% confidence?"
       ],
-      "handoff": "The full cycle is now visible: a computational task determines a circuit, the circuit demands physical operations, and the physical error and resource budgets determine whether the task succeeds. Return to the algorithms and programming courses with these budgets attached to every abstract operation."
+      "handoff": "The full cycle is now visible: a computational task determines a circuit, the circuit demands physical operations, and the physical error and resource budgets determine whether the task succeeds. Return to the algorithms and programming courses with these budgets attached to every abstract operation.",
+      "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
+      "figures": [
+        "zero-failure-bound",
+        "accepted-rate"
+      ]
     }
   }
 ]

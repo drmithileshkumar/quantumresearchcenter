@@ -8,7 +8,9 @@ ROOT=Path(__file__).resolve().parent
 import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
+import chapter_exercises
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
+EXERCISES=chapter_exercises.load(ROOT)
 def navigation(current,data):
  out='<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Hardware<span>Devices, control, and architecture</span></a><a class="nav-introduction" href="index.html">About this course</a>'
  for i,c in enumerate(CHAPTERS,1):
@@ -18,7 +20,7 @@ def navigation(current,data):
   out+='</details>'
  return out+'<nav class="book-resources" aria-label="Related courses"><a href="../computing/index.html">Quantum Computing</a><a href="../algorithms/index.html">Quantum Algorithms</a><a href="../programming/index.html">Quantum Programming</a><a href="../information/index.html">Quantum Information</a></nav>'
 def shell(stem,title,body,data,styles=(),scripts=(),classes=()):
- css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['../computing/assets/source/slides.css','../computing/assets/source/classical.css','../computing/assets/source/math.css',*styles,*(['../computing/assets/topic-map.css'] if stem=='index' or stem in {c['stem'] for c in CHAPTERS} else []),'../computing/assets/book.css','../../styles.css','../computing/assets/learning.css','../course.css']))
+ css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['../computing/assets/source/slides.css','../computing/assets/source/classical.css','../computing/assets/source/math.css',*styles,*(['../computing/assets/topic-map.css'] if stem=='index' or stem in {c['stem'] for c in CHAPTERS} else []),'../computing/assets/book.css','../../styles.css','../computing/assets/learning.css','../course.css','assets/hardware.css']))
  js=''.join(f'<script defer src="{s}"></script>' for s in ['../computing/assets/source/mathjax-config.js','../computing/assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/search-index.js','assets/book.js'])
  return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="An interactive introduction to quantum hardware by Mithilesh Kumar."><title>{esc(title)} · Quantum Hardware</title><link rel="icon" href="../../icons/icon.svg"><link rel="canonical" href="https://quantumresearch.center/education/hardware/{"" if stem=="index" else stem+".html"}">{css}{js}</head>
@@ -36,6 +38,10 @@ COURSE_PREREQUISITES = 'The <a href="../computing/index.html">Quantum Computing 
 COURSE_EXTRA = '<p>Each platform is examined through the same questions: what stores a qubit, how is it prepared, controlled, coupled, and measured, what causes errors, and what limits scaling? Numerical examples are illustrative models, not claims about a current commercial processor.</p>'
 
 def main():
+ figures=json.loads((ROOT/'content/figures.json').read_text())
+ for figure in figures:
+  if not (ROOT/'assets/figures'/f'{figure["name"]}.svg').is_file():
+   raise ValueError('Missing figure; regenerate using figures.py: '+figure['name'])
  search=[]
  drafts=sum(c.get('status')=='draft' for c in CHAPTERS)
  for i,c in enumerate(CHAPTERS,1):
@@ -53,6 +59,7 @@ def main():
   notice='This lesson includes explanations, worked examples, and problems with solutions. Advanced results whose proofs are outside the chapter are identified explicitly.' if status=='draft' else 'This chapter is an outline; its lesson remains to be developed.'
   toc=''.join(f'<li><a href="#{sec["id"]}"><span>{sec["number"]}</span> {esc(sec["title"])}</a></li>' for sec in c['sections'])
   body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">Chapter {i:02} · {label}</p><h1>{esc(c["title"])}</h1>{render_chapter_map(c["title"],c)}<p class="chapter-subtitle">{esc(c["question"])}</p><details class="chapter-contents"><summary>In this chapter · {len(c["sections"])} sections</summary><ol>{toc}</ol></details></header><details class="learning-guide"><summary>Reading guide · preparation and approach</summary><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Anchor example:</strong> {esc(c["example"])}</p><p>{notice}</p></details>'+manuscript
+  body+=chapter_exercises.render(stem,c['title'],EXERCISES.get(stem,[]),{el['id'] for el in soup.select('[id]')},search)
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
   body+='<nav class="chapter-pagination" aria-label="Chapter navigation">'+(f'<a rel="prev" href="{prev["stem"]}.html"><small>Previous chapter</small>{esc(prev["title"])} ←</a>' if prev else '<a href="index.html"><small>Course overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt["stem"]}.html"><small>Next chapter</small>{esc(nxt["title"])} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Course contents →</a>')+'</nav>'
   (ROOT/f'{stem}.html').write_text(shell(stem,c['title'],body,[],classes=['revised-book']))

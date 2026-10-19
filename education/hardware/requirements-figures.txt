@@ -1,0 +1,3 @@
+# Only required to regenerate figures; normal HTML builds use committed SVGs.
+matplotlib==3.11.2
+numpy==2.5.4

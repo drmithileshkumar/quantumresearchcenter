@@ -1,0 +1,57 @@
+/* Reading treatment under review in Quantum Information, Chapter 1. */
+html:root{--book-text-size:18px;}
+.ebook[data-chapter="01-information-and-distinguishability"]{--chapter-heading:#253d58;--section-heading:#285d65;--subsection-heading:#303e4c;}
+.ebook[data-chapter="01-information-and-distinguishability"] .chapter-header h1{font-size:clamp(2rem,3.4vw,2.8rem);line-height:1.16;letter-spacing:-.025em;color:var(--chapter-heading);text-wrap:balance;}
+.ebook[data-chapter="01-information-and-distinguishability"] .chapter-subtitle{font-size:1.15em;line-height:1.55;color:#586b78;max-width:32em;}
+.ebook[data-chapter="01-information-and-distinguishability"] .book-part{margin-top:3.5em;padding-top:1.5em;border-top-color:#d6e0e6;}
+.ebook[data-chapter="01-information-and-distinguishability"] .book-part>h2{font-size:1.55em;line-height:1.3;color:var(--section-heading);text-wrap:balance;}
+.ebook[data-chapter="01-information-and-distinguishability"] .reading-topic>.topic-heading{font-size:1.18em;line-height:1.45;color:var(--subsection-heading);margin-bottom:1em;text-wrap:pretty;}
+.ebook[data-chapter="01-information-and-distinguishability"] .topic-number{display:inline-block;font:12px/1.5 var(--sans);color:#6c7f8c;margin-right:10px;}
+.ebook[data-chapter="01-information-and-distinguishability"] .book-exposition>p{line-height:1.78;margin:0 0 1.15em;text-wrap:pretty;}
+.ebook[data-chapter="01-information-and-distinguishability"] .book-exposition em{color:#274f60;}
+.ebook[data-chapter="01-information-and-distinguishability"] .book-section.reading-topic{margin-top:2em;margin-bottom:2.6em;}
+.ebook[data-chapter="01-information-and-distinguishability"] .chapter-direction{padding:.8em 0;border-block:1px solid var(--line);font:13px/1.7 var(--sans);}
+.ebook[data-chapter="01-information-and-distinguishability"] .prediction{padding:20px 22px;border-left:2px solid #53828a;border-radius:0 5px 5px 0;background:#f3f7f8;font-size:.95em;}
+.ebook[data-chapter="01-information-and-distinguishability"] .prediction>p{margin:0;}
+.ebook[data-chapter="01-information-and-distinguishability"] .prediction>p>strong{display:block;margin-bottom:8px;color:var(--section-heading);font:600 12px/1.5 var(--sans);}
+.ebook[data-chapter="01-information-and-distinguishability"] .prediction-answer summary{font:13px/1.7 var(--sans);padding:5px 0;}
+.ebook[data-chapter="01-information-and-distinguishability"] .decisive-calculation{margin:1.5em 0;padding:.4em 1em;border-left:2px solid #8ba8b8;}
+.ebook[data-chapter="01-information-and-distinguishability"] .table-scroll{border-block:1px solid var(--line);padding:16px 0;margin:1.8em 0;}
+.ebook[data-chapter="01-information-and-distinguishability"] .table-scroll table{font:14px/1.65 var(--sans);margin:0;border-collapse:collapse;}
+.ebook[data-chapter="01-information-and-distinguishability"] .table-scroll caption{font:12px/1.6 var(--sans);font-style:normal;color:#61717f;margin-bottom:14px;}
+.ebook[data-chapter="01-information-and-distinguishability"] .table-scroll th{font-weight:600;color:#354e5c;}
+.ebook[data-chapter="01-information-and-distinguishability"] .table-scroll tbody th{border-bottom:1px solid var(--line);}
+.ebook[data-chapter="01-information-and-distinguishability"] .table-scroll :is(th,td){padding:10px 12px;}
+.ebook[data-chapter="01-information-and-distinguishability"] .table-scroll tbody tr:last-child{background:#edf3f6;}
+.ebook[data-chapter="01-information-and-distinguishability"] details.probing-question{padding-top:12px;border-top:1px solid var(--line);}
+.ebook[data-chapter="01-information-and-distinguishability"] details.probing-question>summary.question-label{font:500 13px/1.6 var(--sans);min-height:40px;padding:8px 0;}
+.ebook[data-chapter="01-information-and-distinguishability"] .probing-question .problem-solution summary{min-height:40px;padding:9px 0;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure{margin:2em 0;padding:24px 20px 18px;border:1px solid #dbe4e9;border-radius:6px;background:#fbfcfd;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure>svg{display:block;width:100%;height:auto;max-width:none;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure figcaption{font:13px/1.65 var(--sans);color:#586b78;margin-top:14px;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure text{font:16px var(--sans);fill:#344d5a;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-grid path{stroke:#e1e8ed;fill:none;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-axis text{font-size:13px;text-anchor:middle;fill:#667b88;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure .evidence-label{font-size:17px;font-weight:600;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure .evidence-small{font-size:13px;}
+.ebook[data-chapter="01-information-and-distinguishability"] .report-red{fill:#a4523f;}
+.ebook[data-chapter="01-information-and-distinguishability"] .report-dark{fill:#d4e1e7;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure .red-count{text-anchor:middle;fill:white;font-size:16px;}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure .dark-count{text-anchor:middle;fill:#2f4858;font-size:16px;}
+@media(max-width:800px){
+ html:root{--book-text-size:17px;}
+ .ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure{padding:16px 10px;}
+ .ebook[data-chapter="01-information-and-distinguishability"] .table-scroll :is(th,td){padding:9px 7px;}
+}
+.ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure>.evidence-compact{display:none;}
+@media(max-width:500px){
+ .ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure>.evidence-wide{display:none;}
+ .ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure>.evidence-compact{display:block;}
+}
+@media print{
+ html:root{--book-text-size:11pt;}
+ .ebook[data-chapter="01-information-and-distinguishability"] .chapter-header h1{font-size:26pt;}
+ .ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure{break-inside:avoid;overflow:visible;}
+ .ebook[data-chapter="01-information-and-distinguishability"] .evidence-figure>svg{min-width:0;}
+ .ebook[data-chapter="01-information-and-distinguishability"] .prediction{background:white;}
+}

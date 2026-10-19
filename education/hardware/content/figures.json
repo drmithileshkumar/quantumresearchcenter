@@ -1,0 +1,268 @@
+[
+  {
+    "chapter": 1,
+    "section": 1,
+    "name": "bell-operations",
+    "title": "A Bell-pair circuit becomes timed physical operations",
+    "caption": "The circuit is an ideal interface. A physical implementation must specify the encoded levels, reset, drive, interaction, and measurement. Time runs left to right."
+  },
+  {
+    "chapter": 2,
+    "section": 1,
+    "name": "level-selectivity",
+    "title": "Energy spacing determines spectral selectivity",
+    "caption": "The spacings, not just the existence of two selected states, determine whether a drive can address the qubit without exciting higher levels. Level positions are schematic."
+  },
+  {
+    "chapter": 6,
+    "section": 2,
+    "name": "echo-sign",
+    "title": "Echo reverses the sign of a static frequency error",
+    "caption": "The sign refers to the frequency term in a toggling frame. Echo refocuses a constant offset; it neither reverses relaxation nor cancels arbitrary rapidly varying noise."
+  },
+  {
+    "chapter": 8,
+    "section": 1,
+    "name": "josephson-circuit",
+    "title": "A nonlinear circuit and its selected levels",
+    "caption": "The capacitor stores charge energy and the Josephson junction supplies −EJ cos φ. The small ladder is schematic; the chapter derives its approximate transition spacings."
+  },
+  {
+    "chapter": 9,
+    "section": 2,
+    "name": "ion-sidebands",
+    "title": "Internal transitions can change shared motion",
+    "caption": "The carrier connects equal motional occupation; the red sideband changes |0,n⟩ to |1,n−1⟩ in the stated drive convention. The separated ladders suppress the large internal energy offset for readability."
+  },
+  {
+    "chapter": 10,
+    "section": 2,
+    "name": "rydberg-pair",
+    "title": "Blockade shifts the double excitation",
+    "caption": "The added energy of |rr⟩ changes the resonance condition for the second excitation. The levels and arrows are schematic; a full gate also needs pulse phases and local corrections."
+  },
+  {
+    "chapter": 11,
+    "section": 1,
+    "name": "double-dot",
+    "title": "Two confined spins and a tunable barrier",
+    "caption": "The orbital confinement and spin splitting are different energy scales. Exchange depends on wavefunction overlap across the barrier; physical dot positions alone do not specify the gate."
+  },
+  {
+    "chapter": 12,
+    "section": 1,
+    "name": "defect-levels",
+    "title": "A selected transition in a spin-one defect",
+    "caption": "Selecting two levels does not remove the third. The displayed frequencies follow from D Sz² + γe B Sz; strain, transverse fields, and optical levels require a fuller model."
+  },
+  {
+    "chapter": 13,
+    "section": 1,
+    "name": "photonic-interferometer",
+    "title": "Path phase becomes an output probability",
+    "caption": "The two horizontal lines are optical modes, not two photons. A single photon occupies a coherent superposition of paths. The probability formulas use the real beam-splitter convention stated in the text."
+  },
+  {
+    "chapter": 14,
+    "section": 2,
+    "name": "binomial-loss",
+    "title": "One loss changes parity without reading this code",
+    "caption": "The drawn arrows describe the lowering operator acting on the codewords, not deterministic recovery. Both logical alternatives have mean occupation two. No-jump evolution and higher-order errors still require analysis."
+  },
+  {
+    "chapter": 15,
+    "section": 2,
+    "name": "majorana-exchange",
+    "title": "An ideal exchange is a path through configuration space",
+    "caption": "Time runs downward. Dashed and solid trajectories distinguish the two exchanged modes; the stationary third mode shows why a subsequent neighboring exchange can have order-dependent action. This is an ideal braid diagram, not evidence for a device."
+  },
+  {
+    "chapter": 16,
+    "section": 2,
+    "name": "feedback-pipeline",
+    "title": "Feedback latency and throughput are different",
+    "caption": "Rectangles represent classical acquisition and processing intervals. Overlap shows pipelining, not instantaneous feedback. The times are schematic; a dependent gate must still wait for its result."
+  },
+  {
+    "chapter": 17,
+    "section": 1,
+    "name": "routing-graph",
+    "title": "A physical interaction graph constrains routing",
+    "caption": "The dashed curve is the requested operation, not a native interaction. For endpoints at distance three, the explicit move-and-restore strategy uses four SWAPs. Other compilers may retain a changed placement."
+  },
+  {
+    "chapter": 18,
+    "section": 1,
+    "name": "parity-extraction",
+    "title": "Measure joint parity using one auxiliary",
+    "caption": "The ideal circuit preserves coherence within each parity sector. Two data wires and one auxiliary wire are shown; gate faults and repeated noisy measurements require a separate analysis."
+  },
+  {
+    "chapter": 1,
+    "section": 2,
+    "name": "repetition-error",
+    "title": "Redundancy helps only for a specified noise model",
+    "caption": "Perfect majority decoding gives 3p²−2p³ under independent bit flips. This encoding does not protect arbitrary phase errors."
+  },
+  {
+    "chapter": 2,
+    "section": 2,
+    "name": "detuning-bound",
+    "title": "A detuning suppresses an isolated unwanted transition",
+    "caption": "The isolated constant-drive bound is 1/[1+(Δ/Ω)²]. It is not a complete multilevel leakage prediction."
+  },
+  {
+    "chapter": 3,
+    "section": 1,
+    "name": "rabi-detuning",
+    "title": "Detuning changes both frequency and oscillation height",
+    "caption": "All traces start in zero under the constant-drive two-state model. Resonance reaches full inversion; detuning imposes a ceiling that changing duration cannot remove."
+  },
+  {
+    "chapter": 3,
+    "section": 2,
+    "name": "pulse-spectrum",
+    "title": "A rectangular pulse has spectral sidelobes",
+    "caption": "The curve is sinc²(ΔT/2), normalized to its zero-detuning value. It describes a Fourier-weight estimate in weak excitation, not an exact resonant π-pulse probability."
+  },
+  {
+    "chapter": 4,
+    "section": 1,
+    "name": "exchange-populations",
+    "title": "Exchange transfers one excitation coherently",
+    "caption": "Under H/ℏ = g(XX+YY)/2, the 01 and 10 populations follow cos²(gt) and sin²(gt). Equal populations at gt=π/4 accompany the relative phase −i stated in the text."
+  },
+  {
+    "chapter": 4,
+    "section": 3,
+    "name": "mediator-overlap",
+    "title": "A residual mediator record lowers data coherence",
+    "caption": "The curve exp(−|Δα|²/2) is the magnitude of the coherent-state overlap. Correct data populations can coexist with this loss of phase-sensitive contrast."
+  },
+  {
+    "chapter": 5,
+    "section": 2,
+    "name": "readout-signals",
+    "title": "Overlapping signals require a decision rule",
+    "caption": "Equal-variance Gaussian models are centered two standard deviations apart. Their overlap causes assignment errors. A midpoint threshold is optimal here only for equally likely preparations and symmetric decision costs."
+  },
+  {
+    "chapter": 5,
+    "section": 1,
+    "name": "thermal-preparation",
+    "title": "The energy-to-temperature ratio controls thermal excitation",
+    "caption": "The normalized two-level Boltzmann population is 1/(1+exp[ℏω/kBT]). This assumes equilibrium of the qubit, not simply a stated refrigerator temperature."
+  },
+  {
+    "chapter": 6,
+    "section": 1,
+    "name": "relaxation-coherence",
+    "title": "Population and coherence have different decay rates",
+    "caption": "The relaxation-only coherence envelope is exp(−t/2T₁). Adding independent exponential pure dephasing at Tφ = 100 μs gives T₂ = 66.7 μs. These are model curves, not measured traces."
+  },
+  {
+    "chapter": 7,
+    "section": 1,
+    "name": "ramsey-fringes",
+    "title": "A Ramsey trace separates fringe frequency from contrast",
+    "caption": "The illustrative trace has period 2 μs, visibility 0.9, and an assumed exponential envelope. A cosine-only period gives detuning magnitude, not its sign."
+  },
+  {
+    "chapter": 7,
+    "section": 2,
+    "name": "benchmark-decay",
+    "title": "A sequence-length decay is a model-dependent inference",
+    "caption": "Both curves use A = 0.45 and B = 0.5. Under the effective single-qubit depolarizing model, infidelity per fitted element is (1−α)/2; it is not automatically per native pulse."
+  },
+  {
+    "chapter": 8,
+    "section": 2,
+    "name": "transmon-spectrum",
+    "title": "A weakly anharmonic transmon ladder",
+    "caption": "Quartic-approximation levels use EJ/h = 20 GHz and EC/h = 0.25 GHz. Neighboring gaps decrease by about 0.25 GHz. The plot is a low-level approximation, not an exact or measured spectrum."
+  },
+  {
+    "chapter": 9,
+    "section": 2,
+    "name": "motion-closure",
+    "title": "A single-mode force closes its displacement",
+    "caption": "For g/δ = 0.25, α = (g/δ)(1−exp[iδt]) returns to zero at δt = 2π. This closure removes the ideal mediator displacement while an S² phase remains. Other modes and heating are omitted."
+  },
+  {
+    "chapter": 10,
+    "section": 3,
+    "name": "blockade-suppression",
+    "title": "An isolated blockade estimate improves with |B|/Ω",
+    "caption": "At |B|/Ω = 20 the bound is 1/401. It excludes Rydberg decay, pulse phase error, motion, and multilevel structure; it is not a total gate infidelity."
+  },
+  {
+    "chapter": 11,
+    "section": 2,
+    "name": "spin-exchange",
+    "title": "A Heisenberg exchange pulse sets the SWAP time",
+    "caption": "The stated exchange-energy convention gives SWAP at 50 ns and an equal-weight entangling state at 25 ns. This differs from the angular-frequency g convention in Chapter 4."
+  },
+  {
+    "chapter": 12,
+    "section": 3,
+    "name": "collection-rate",
+    "title": "Two required photons make efficiency a quadratic resource",
+    "caption": "This two-photon toy rate assumes independent detection and accepted-pattern factor q = 1/2. Conditional state quality also depends on mode overlap and false detections."
+  },
+  {
+    "chapter": 13,
+    "section": 2,
+    "name": "hong-ou-mandel",
+    "title": "Wavepacket overlap suppresses coincidences",
+    "caption": "For the assumed squared overlap |μ|² = exp[−(delay/τ)²], the ideal probability is (1−|μ|²)/2. This is an analytical overlap model, not a fitted experimental dip."
+  },
+  {
+    "chapter": 14,
+    "section": 2,
+    "name": "finite-grid",
+    "title": "Finite-width peaks illustrate a grid encoding",
+    "caption": "The schematic density uses even multiples of √π, finite peak width, and a finite envelope. It is not an ideal infinite-energy codeword and does not by itself show the required momentum protection."
+  },
+  {
+    "chapter": 15,
+    "section": 3,
+    "name": "finite-size-splitting",
+    "title": "A conditional finite-size model suppresses splitting",
+    "caption": "The exponential is an illustrative finite-size model; real systems can include oscillations and other terms. Reduced splitting alone does not establish protected operations or suppress nonequilibrium parity changes."
+  },
+  {
+    "chapter": 16,
+    "section": 3,
+    "name": "cold-stage-budget",
+    "title": "Other heat loads reduce the line-count budget",
+    "caption": "All quantities refer to the same hypothetical temperature stage. The line-only bound is 500; a 4 μW fixed load reduces it to 300. This is accounting, not a refrigerator specification."
+  },
+  {
+    "chapter": 17,
+    "section": 2,
+    "name": "link-wait",
+    "title": "Retries convert per-attempt success into waiting probability",
+    "caption": "The curves are 1−(1−s)^N. Mean attempts are 1/s, while the distribution has a long tail that affects memory waiting and multi-link scheduling."
+  },
+  {
+    "chapter": 18,
+    "section": 3,
+    "name": "logical-fit",
+    "title": "A logical-error fit must name its physical regime",
+    "caption": "The illustrative fit A(p/pth)^((d+1)/2), with A = 0.1, improves with distance only below its assumed threshold. It is not a universal theorem or a prediction from one average gate fidelity."
+  },
+  {
+    "chapter": 19,
+    "section": 2,
+    "name": "zero-failure-bound",
+    "title": "Zero observed failures still leaves statistical uncertainty",
+    "caption": "The bound follows by solving (1−q)^N = 0.05 for q when no failures are seen. Independent identical trials are assumed; drift and systematic bias are not included."
+  },
+  {
+    "chapter": 19,
+    "section": 3,
+    "name": "accepted-rate",
+    "title": "Compare useful output rates with acceptance included",
+    "caption": "The illustrative rate is s/τ before calibration overhead. Faster accepted output does not establish adequate state quality; the output error target must also be met."
+  }
+]

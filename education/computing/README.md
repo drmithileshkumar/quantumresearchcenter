@@ -403,7 +403,9 @@ This checks the NAND construction, Bell preparation, the explicit Grover circuit
 
 ## Learning aids and offline edition
 
-`content/learning.json` supplies the nine chapter guides and 27 exercises. Keep the
+`content/learning.json` supplies the ten chapter guides and ten end-of-chapter
+exercises per chapter (quick checks, worked problems, a misconception, and
+extensions, each with hints and a worked solution). Keep the
 `review` anchor for each exercise pointed at its explanation. `content/glossary.json`
 contains short definitions and source links. `learning.py` renders these additions
 at build time; edit these sources instead of the generated pages. The chapter

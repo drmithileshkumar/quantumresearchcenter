@@ -36,6 +36,100 @@ print("Simulated P(1):", p1, "analytic prediction: 0.95")
 <p>The next program uses repeated estimates to choose parameters, making the statistical budget part of the optimization loop.</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/guides/build-noise-models">IBM, noise model construction</a>.</p>
 </section>
-<nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="12-dynamic-circuits.html"><small>Previous chapter</small>Dynamic Circuits ←</a><a rel="next" href="14-hybrid-quantum-programs.html"><small>Next chapter</small>Hybrid Quantum Programs →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
+<section class="chapter-practice" id="practice"><h2>Questions and worked problems</h2><p>These exercises draw on the whole chapter. Attempt each question before opening a hint, explain your reasoning, then compare it with the worked solution.</p><article class="exercise" id="exercise-1"><h3>1. Quick check <a class="heading-link" href="#exercise-1" aria-label="Link to exercise 1">§</a></h3><p>With the depolarizing convention \(\mathcal E(\rho)=(1-p)\rho+pI/2\) attached to X, predict \(P(1)\) after X on \(\ket0\) for \(p=0.3\), and check it with a noisy Aer simulation.</p><details class="exercise-hint"><summary>Hint 1</summary><p>\(P(1)=(1-p)\cdot1+p\cdot\frac12\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>The wrong-bit probability is \(p/2\), not \(p\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>\(P(1)=0.7+0.15=0.85\), so the bit is wrong with probability \(0.15=p/2\). The simulation with \(20\,000\) shots agrees to within sampling error. Reporting “\(30\%\) depolarizing” without its convention invites a factor-of-two misunderstanding of the error rate.</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+
+noise = NoiseModel()
+noise.add_all_qubit_quantum_error(depolarizing_error(0.3, 1), [&quot;x&quot;])
+circuit = QuantumCircuit(1)
+circuit.x(0)
+circuit.measure_all()
+sim = AerSimulator(noise_model=noise, seed_simulator=31, max_parallel_threads=1)
+shots = 20000
+counts = sim.run(transpile(circuit, sim, optimization_level=0), shots=shots).result().get_counts()
+assert abs(counts.get(&quot;1&quot;, 0) / shots - 0.85) &lt; 0.02</code></pre></details><p><a href="#topic-13-1-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-2"><h3>2. Quick check <a class="heading-link" href="#exercise-2" aria-label="Link to exercise 2">§</a></h3><p>A readout error reports 1 with probability \(0.03\) for a true \(0\) and reports 0 with probability \(0.05\) for a true \(1\). Predict the reported \(P(1)\) for an idle qubit and for X\(\ket0\), and check with Aer’s ReadoutError.</p><details class="exercise-hint"><summary>Hint 1</summary><p>The assignment matrix columns are the true states.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>No gate error is included.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>Idle qubit: reported \(P(1)=0.03\). After X: reported \(P(1)=0.95\). Readout errors change only the classical label, and their two directions can differ, so they must be calibrated with both preparations.</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, ReadoutError
+
+noise = NoiseModel()
+noise.add_all_qubit_readout_error(ReadoutError([[0.97, 0.03], [0.05, 0.95]]))
+sim = AerSimulator(noise_model=noise, seed_simulator=31, max_parallel_threads=1)
+shots = 20000
+def p1(flip):
+    circuit = QuantumCircuit(1)
+    if flip:
+        circuit.x(0)
+    circuit.measure_all()
+    return sim.run(transpile(circuit, sim, optimization_level=0), shots=shots).result().get_counts().get(&quot;1&quot;, 0) / shots
+assert abs(p1(False) - 0.03) &lt; 0.01 and abs(p1(True) - 0.95) &lt; 0.01</code></pre></details><p><a href="#topic-13-1-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-3"><h3>3. Quick check <a class="heading-link" href="#exercise-3" aria-label="Link to exercise 3">§</a></h3><p>Inverse correction of a symmetric readout error multiplies the variance of the estimated \(\langle Z\rangle\) by \(1/(1-2e)^2\). Evaluate this factor for \(e=0.05\) and \(e=0.3\). How many more shots are needed to keep the same precision?</p><details class="exercise-hint"><summary>Hint 1</summary><p>\((1-2e)^2\) is \(0.81\) and \(0.16\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Shots scale with the variance.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>\(e=0.05\): factor \(1/0.81\approx1.23\), so about \(23\%\) more shots. \(e=0.3\): factor \(1/0.16=6.25\), more than six times the shots. Mitigation trades bias for variance, and the cost grows rapidly as the error approaches \(\frac12\).</p></details><p><a href="#topic-13-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-4"><h3>4. Worked problem <a class="heading-link" href="#exercise-4" aria-label="Link to exercise 4">§</a></h3><p>A noise model contains both a depolarizing error (\(p=0.1\)) on X and the asymmetric readout error above. (a) Predict \(P(1)\) for an idle qubit and after X. (b) Explain how running both experiments separates gate error from readout error. (c) Check the predictions with Aer.</p><details class="exercise-hint"><summary>Hint 1</summary><p>After X, the true \(P(1)\) is \(0.95\) before readout.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Reported \(P(1)=0.03\,(1-q)+0.95\,q\) for true probability \(q\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) Idle: only readout acts, so \(P(1)=0.03\). After X: the true \(P(1)\) is \(0.95\), and readout reports \(0.03\times0.05+0.95\times0.95\approx0.904\). (b) The idle experiment measures readout error alone (no X applied); the X experiment combines both. With readout calibrated from idle and from a separately trusted preparation, the extra loss in the X experiment is attributed to the gate. (c) The simulation gives about \(0.031\) and \(0.902\).</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, ReadoutError, depolarizing_error
+
+noise = NoiseModel()
+noise.add_all_qubit_quantum_error(depolarizing_error(0.1, 1), [&quot;x&quot;])
+noise.add_all_qubit_readout_error(ReadoutError([[0.97, 0.03], [0.05, 0.95]]))
+sim = AerSimulator(noise_model=noise, seed_simulator=31, max_parallel_threads=1)
+shots = 20000
+def p1(flip):
+    circuit = QuantumCircuit(1)
+    if flip:
+        circuit.x(0)
+    circuit.measure_all()
+    return sim.run(transpile(circuit, sim, optimization_level=0), shots=shots).result().get_counts().get(&quot;1&quot;, 0) / shots
+assert abs(p1(False) - 0.03) &lt; 0.01
+assert abs(p1(True) - (0.03 * 0.05 + 0.95 * 0.95)) &lt; 0.01</code></pre></details><p><a href="#topic-13-3-1">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-5"><h3>5. Worked problem <a class="heading-link" href="#exercise-5" aria-label="Link to exercise 5">§</a></h3><p>Mitigate the readout error for the state ry(\(\pi/3\))\(\ket0\), whose ideal \(P(1)\) is \(0.25\). (a) Calibrate the assignment matrix from idle and X runs. (b) Measure the noisy distribution of the test state. (c) Solve the linear system for the corrected distribution and compare with \(0.25\).</p><details class="exercise-hint"><summary>Hint 1</summary><p>Assignment matrix \(A_{ij}=P(\text{report }i\mid\text{true }j)\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Solve \(A\,p_{\rm true}=p_{\rm measured}\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>The calibration gives \(A\approx\begin{pmatrix}0.97&amp;0.05\\0.03&amp;0.95\end{pmatrix}\). The noisy test distribution reports \(P(1)\approx0.26\). Solving \(Ap=p_{\rm meas}\) returns \(P(1)\approx0.251\), close to the ideal \(0.25\). The correction assumes that readout errors do not depend on what happened before measurement and that the calibration still describes the device; it removes readout bias but does nothing about gate errors.</p><pre><code class="language-python">import numpy as np
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, ReadoutError
+
+noise = NoiseModel()
+noise.add_all_qubit_readout_error(ReadoutError([[0.97, 0.03], [0.05, 0.95]]))
+sim = AerSimulator(noise_model=noise, seed_simulator=31, max_parallel_threads=1)
+shots = 50000
+def p1(prepare):
+    circuit = QuantumCircuit(1)
+    prepare(circuit)
+    circuit.measure_all()
+    return sim.run(transpile(circuit, sim, optimization_level=0), shots=shots).result().get_counts().get(&quot;1&quot;, 0) / shots
+r0 = p1(lambda c: None)
+r1 = p1(lambda c: c.x(0))
+A = np.array([[1 - r0, 1 - r1], [r0, r1]])
+measured = p1(lambda c: c.ry(np.pi / 3, 0))
+corrected = np.linalg.solve(A, [1 - measured, measured])
+assert abs(corrected[1] - 0.25) &lt; 0.01</code></pre></details><p><a href="#topic-13-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-6"><h3>6. Worked problem <a class="heading-link" href="#exercise-6" aria-label="Link to exercise 6">§</a></h3><p>A noise model attaches a strong depolarizing error to the instruction named h. A circuit applies H twice and measures. (a) Run it with the simulator’s default transpilation and with transpilation to the basis rz, sx, x. (b) Explain the different results. (c) What should be checked whenever a noise model is used?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Noise models attach errors by instruction name.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>In the rz, sx, x basis, no instruction is named h.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) With h preserved, the two noisy Hadamards give \(P(1)\approx0.37\); after transpiling to rz, sx, x, the result is \(P(1)=0\): no noise at all. (b) The error is attached to the name h, and in the second circuit every H was rewritten as RZ and SX gates, so the model never fires. (c) Inspect the compiled circuit that is actually simulated and confirm that every intended noisy instruction appears with the name used in the model; otherwise a “noisy” simulation can silently be ideal.</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+
+noise = NoiseModel()
+noise.add_all_qubit_quantum_error(depolarizing_error(0.5, 1), [&quot;h&quot;])
+circuit = QuantumCircuit(1)
+circuit.h(0)
+circuit.h(0)
+circuit.measure_all()
+sim = AerSimulator(noise_model=noise, seed_simulator=31, max_parallel_threads=1)
+shots = 20000
+kept = sim.run(transpile(circuit, sim, optimization_level=0), shots=shots).result().get_counts()
+rewritten = sim.run(transpile(circuit, basis_gates=[&quot;rz&quot;, &quot;sx&quot;, &quot;x&quot;], optimization_level=0), shots=shots).result().get_counts()
+assert kept.get(&quot;1&quot;, 0) / shots &gt; 0.3 and rewritten.get(&quot;1&quot;, 0) == 0</code></pre></details><p><a href="#topic-13-1-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-7"><h3>7. Worked problem <a class="heading-link" href="#exercise-7" aria-label="Link to exercise 7">§</a></h3><p>Zero-noise extrapolation: each X carries depolarizing error \(p=0.05\), so \(\langle Z\rangle\) after one X is \(-(0.95)\). Amplify the noise by inserting pairs of X gates (logically the identity) to get noise scales \(\lambda=1,3,5\). (a) Predict \(\langle Z\rangle(\lambda)\). (b) Estimate the zero-noise value from \(\lambda=1,3\) with the Richardson formula \((3E_1-E_3)/2\). (c) Check with Aer and state the assumptions.</p><details class="exercise-hint"><summary>Hint 1</summary><p>Each depolarizing step shrinks \(\langle Z\rangle\) by \(0.95\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>\(E(\lambda)=-(0.95)^\lambda\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) \(E(\lambda)=-(0.95)^\lambda\): \(-0.950\), \(-0.857\), \(-0.774\). (b) \((3(-0.950)-(-0.857))/2\approx-0.996\), close to the ideal \(-1\). (c) Sampling with \(2\times10^5\) shots reproduces these values. The method assumes the inserted gates scale the noise by exactly \(\lambda\) and that \(E(\lambda)\) is close to linear over the range used; the extrapolated value also has larger statistical error than the raw measurements.</p><pre><code class="language-python">from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+
+noise = NoiseModel()
+noise.add_all_qubit_quantum_error(depolarizing_error(0.05, 1), [&quot;x&quot;])
+sim = AerSimulator(noise_model=noise, seed_simulator=31, max_parallel_threads=1)
+shots = 200000
+def z_mean(scale):
+    circuit = QuantumCircuit(1)
+    circuit.x(0)
+    for _ in range((scale - 1) // 2):
+        circuit.x(0)
+        circuit.x(0)
+    circuit.measure_all()
+    p = sim.run(transpile(circuit, sim, optimization_level=0), shots=shots).result().get_counts().get(&quot;1&quot;, 0) / shots
+    return 1 - 2 * p
+e1, e3 = z_mean(1), z_mean(3)
+assert abs(e1 + 0.95) &lt; 0.01 and abs(e3 + 0.95 ** 3) &lt; 0.01
+assert abs((3 * e1 - e3) / 2 + 1) &lt; 0.02</code></pre></details><p><a href="#topic-13-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-8"><h3>8. Misconception <a class="heading-link" href="#exercise-8" aria-label="Link to exercise 8">§</a></h3><p>A student calibrates a symmetric readout flip rate of \(e=0.10\) and divides every measured \(\langle Z\rangle\) by \(1-2e\). By the time the experiment runs, the true rate has drifted to \(0.12\). (a) What fraction of the true value does the “mitigated” result report? (b) Why does collecting more shots not reveal the problem?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Measured mean \(=(1-2e_{\rm true})\langle Z\rangle\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Corrected \(=\) measured\(/(1-2e_{\rm cal})\).</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) The measured mean is \(0.76\langle Z\rangle\), and dividing by \(0.80\) gives \(0.95\langle Z\rangle\): a \(5\%\) bias remains after “mitigation.” (b) More shots shrink the statistical error around the biased value, making a wrong answer look more precise. Mitigation is only as good as its model and calibration; recalibrating close in time, interleaving calibration circuits, and reporting calibration uncertainty are part of the method.</p></details><p><a href="#topic-13-3-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-9"><h3>9. Extension <a class="heading-link" href="#exercise-9" aria-label="Link to exercise 9">§</a></h3><p>Full readout mitigation on \(n\) qubits calibrates a \(2^n\times2^n\) assignment matrix. (a) How many calibration circuits and matrix entries does this need for \(n=5\) and \(n=20\)? (b) If readout errors are independent per qubit, how does a tensor-product model reduce the cost? (c) What error does that assumption risk?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Full calibration prepares all \(2^n\) basis states.</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>Independent errors need one \(2\times2\) matrix per qubit.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) \(n=5\): \(32\) calibration circuits and \(1024\) entries. \(n=20\): about \(10^6\) circuits and \(10^{12}\) entries, infeasible. (b) With independent errors the matrix is a tensor product of \(n\) one-qubit matrices: two calibration circuits per qubit (or two in total, run in parallel) and \(4n\) numbers. (c) Correlated readout errors, such as crosstalk between neighbouring readout resonators, are ignored and leave residual bias. Scalable mitigation trades completeness for assumptions that must themselves be tested.</p></details><p><a href="#topic-13-2-2">Revisit the relevant explanation</a></p></article><article class="exercise" id="exercise-10"><h3>10. Extension <a class="heading-link" href="#exercise-10" aria-label="Link to exercise 10">§</a></h3><p>An idle qubit suffers quasi-static dephasing that a pair of X gates (an echo) would refocus, reducing the idle error from \(\epsilon_{\rm idle}\) to nearly zero, but each X adds error \(5\times10^{-4}\). (a) For which \(\epsilon_{\rm idle}\) does adding the echo help? (b) What if the dephasing noise changes quickly during the idle window? (c) What should a program report when it adds suppression gates?</p><details class="exercise-hint"><summary>Hint 1</summary><p>Two X gates add about \(10^{-3}\).</p></details><details class="exercise-hint"><summary>Hint 2</summary><p>An echo cancels only noise that is constant over the window.</p></details><details class="exercise-solution"><summary>Worked solution</summary><p>(a) The echo helps when \(\epsilon_{\rm idle}\) exceeds about \(10^{-3}\), the error added by its two gates. (b) If the noise varies during the window, the echo refocuses only part of it, and the break-even idle error is larger; for very fast noise the gates only add error. (c) A baseline without suppression, the added gate count and duration, and measured results for both, so that the benefit is demonstrated rather than assumed.</p></details><p><a href="#topic-13-2-1">Revisit the relevant explanation</a></p></article></section><nav class="chapter-pagination" aria-label="Chapter navigation"><a rel="prev" href="12-dynamic-circuits.html"><small>Previous chapter</small>Dynamic Circuits ←</a><a rel="next" href="14-hybrid-quantum-programs.html"><small>Next chapter</small>Hybrid Quantum Programs →</a></nav><footer class="book-footer">Mithilesh Kumar · Quantum Programming <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Qiskit, measurement, or transpilation"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>
 </body></html>

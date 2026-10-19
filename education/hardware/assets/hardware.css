@@ -1,0 +1,10 @@
+/* Physical figures share the reader's measure and retain a scrollable narrow view. */
+.ebook .hardware-figure{background:#fbfcfd;border-color:#d7e2e8;padding:18px;border-radius:4px;}
+.ebook .hardware-figure img{background:white;}
+.ebook .hardware-figure figcaption{line-height:1.65;}
+.ebook .hardware-model-check{margin-top:1.8em;padding-top:1.1em;border-top:1px solid var(--line);}
+@media(max-width:800px){.ebook .hardware-figure{padding:12px;}}
+@media print{.ebook .hardware-figure{background:white;break-inside:avoid;}.ebook .hardware-figure img{min-width:0;}}
+
+.ebook .hardware-prediction>.prediction-answer{border:0;background:transparent;padding:0;margin:1em 0 0;}
+.ebook .hardware-prediction>p{margin-bottom:0;}
