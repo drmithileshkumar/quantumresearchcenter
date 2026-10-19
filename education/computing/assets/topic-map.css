@@ -1,0 +1,26 @@
+/* Linked course mind map, generated from the chapter manifests. */
+.ebook .chapter-topic-map{margin:2.5em 0 3em;padding:24px 0;border-block:1px solid var(--line);font:14px/1.5 var(--sans);--map-line:#ccd8df;}
+.ebook .chapter-topic-map h2{font:normal 25px/1.3 var(--reading-font);margin:0 0 6px;}
+.ebook .topic-map-hint{font-size:12px;color:var(--muted);margin:0 0 24px;}
+.ebook .topic-map-root{position:relative;width:fit-content;max-width:100%;margin:0 auto;padding:10px 20px;border:1px solid var(--map-line);border-radius:24px;background:#f5f8fa;color:#233f73;font:normal 20px/1.4 var(--reading-font);text-align:center;}
+.ebook .topic-map-root::after{content:"";position:absolute;top:100%;left:50%;height:24px;border-left:1px solid var(--map-line);}
+.ebook .topic-map-branches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 32px;list-style:none;margin:24px 0 0;padding:0;}
+.ebook .topic-map-branch{position:relative;min-width:0;list-style:none;margin:0;padding:16px 0 0 15px;border-top:1px solid var(--map-line);border-left:1px solid var(--map-line);}
+.ebook .topic-map-section{display:flex;align-items:baseline;gap:8px;font-weight:600;line-height:1.45;}
+.ebook .topic-map-section>span{font-size:10px;font-weight:400;color:var(--muted);white-space:nowrap;}
+.ebook .topic-map-branch ul{list-style:none;padding:0;margin:12px 0 0 10px;border-left:1px solid var(--map-line);}
+.ebook .topic-map-branch li{position:relative;margin:0;padding:0 0 0 15px;}
+.ebook .topic-map-branch li::before{content:"";position:absolute;left:0;top:17px;width:12px;border-top:1px solid var(--map-line);}
+.ebook .topic-map-branch li a{display:block;padding:7px 3px;color:#596770;font-size:12px;line-height:1.6;}
+.ebook .topic-map-branch a:hover{color:var(--accent);}
+@media(max-width:600px){
+ .ebook .topic-map-branches{grid-template-columns:1fr;gap:0;margin-left:12px;}
+ .ebook .topic-map-branch{border-top:0;padding:20px 0 6px 20px;}
+ .ebook .topic-map-branch::before{content:"";position:absolute;left:0;top:30px;width:15px;border-top:1px solid var(--map-line);}
+ .ebook .topic-map-root{margin-left:0;font-size:19px;}
+ .ebook .topic-map-root::after{left:12px;}
+ .ebook .topic-map-branch li a{font-size:13px;}
+}
+@media print{.ebook .chapter-topic-map{break-inside:auto;}.ebook .topic-map-branch{break-inside:avoid;}.ebook .topic-map-branch a{color:inherit;}}
+
+.ebook .chapter-header>.chapter-topic-map{margin:1.5em 0 2em;padding-top:0;border-top:0;}

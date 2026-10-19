@@ -5,6 +5,9 @@ from html import escape as esc
 import json
 from bs4 import BeautifulSoup
 ROOT=Path(__file__).resolve().parent
+import sys
+sys.path.insert(0,str(ROOT.parent))
+from course_map import render_course_map, render_chapter_map
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 def navigation(current,data):
  out='<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Programming<span>Programs, circuits, and execution</span></a><a class="nav-introduction" href="index.html">About this course</a>'
@@ -15,7 +18,7 @@ def navigation(current,data):
   out+='</details>'
  return out+'<nav class="book-resources" aria-label="Prerequisite courses"><a href="../computing/index.html">Quantum Computing</a><a href="../algorithms/index.html">Quantum Algorithms</a></nav>'
 def shell(stem,title,body,data,styles=(),scripts=(),classes=()):
- css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['../computing/assets/source/slides.css','../computing/assets/source/classical.css','../computing/assets/source/math.css',*styles,'../computing/assets/book.css','../../styles.css','../computing/assets/learning.css','../course.css']))
+ css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['../computing/assets/source/slides.css','../computing/assets/source/classical.css','../computing/assets/source/math.css',*styles,*(['../computing/assets/topic-map.css'] if stem=='index' or stem in {c['stem'] for c in CHAPTERS} else []),'../computing/assets/book.css','../../styles.css','../computing/assets/learning.css','../course.css']))
  js=''.join(f'<script defer src="{s}"></script>' for s in ['../computing/assets/source/mathjax-config.js','../computing/assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/search-index.js','assets/book.js'])
  return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="An interactive introduction to quantum programming with Qiskit by Mithilesh Kumar."><title>{esc(title)} · Quantum Programming</title><link rel="icon" href="../../icons/icon.svg"><link rel="canonical" href="https://quantumresearch.center/education/programming/{"" if stem=="index" else stem+".html"}">{css}{js}</head>
@@ -38,15 +41,20 @@ def main():
  for i,c in enumerate(CHAPTERS,1):
   stem=c['stem'];manuscript=(ROOT/'content'/f'{stem}.html').read_text()
   soup=BeautifulSoup(manuscript,'html.parser')
+  # Stable subsection destinations for the chapter mind map.
+  for section in c['sections']:
+   headings=soup.find(id=section['id']).find_all('h3')
+   if len(headings)!=len(section['subsections']):raise ValueError('Subsection count differs: '+section['id'])
+   for j,heading in enumerate(headings,1):
+    heading['id']=section['id'].replace('section-','topic-')+f'-{j}'
+  manuscript=str(soup)
   status=c.get('status','outline')
   label='Draft lesson' if status=='draft' else 'Outline'
   notice='This lesson includes explanations, worked examples, and problems with solutions. Advanced results whose proofs are outside the chapter are identified explicitly.' if status=='draft' else 'This chapter is an outline; its lesson remains to be developed.'
-  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{COURSE_TITLE} · Chapter {i} · {label}</p><h1>{esc(c["title"])}</h1><p class="chapter-subtitle">{esc(c["question"])}</p></header><section class="learning-guide"><h2>Chapter direction</h2><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Anchor example:</strong> {esc(c["example"])}</p><p>{notice}</p></section>'
-  body+='<nav aria-label="Chapter contents"><ol>'+''.join(f'<li><a href="#{s["id"]}">{s["number"]} {esc(s["title"])}</a></li>' for s in c['sections'])+'</ol></nav>'+manuscript
+  toc=''.join(f'<li><a href="#{sec["id"]}"><span>{sec["number"]}</span> {esc(sec["title"])}</a></li>' for sec in c['sections'])
+  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">Chapter {i:02} · {label}</p><h1>{esc(c["title"])}</h1>{render_chapter_map(c["title"],c)}<p class="chapter-subtitle">{esc(c["question"])}</p><details class="chapter-contents"><summary>In this chapter · {len(c["sections"])} sections</summary><ol>{toc}</ol></details></header><details class="learning-guide"><summary>Reading guide · preparation and approach</summary><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Anchor example:</strong> {esc(c["example"])}</p><p>{notice}</p></details>'+manuscript
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
-  body+='<nav class="page-navigation" aria-label="Chapter navigation"><a href="'+(prev['stem']+'.html' if prev else 'index.html')+'">← '+esc(prev['title'] if prev else 'Course overview')+'</a>'
-  if nxt:body+='<a href="'+nxt['stem']+'.html">'+esc(nxt['title'])+' →</a>'
-  body+='</nav>'
+  body+='<nav class="chapter-pagination" aria-label="Chapter navigation">'+(f'<a rel="prev" href="{prev["stem"]}.html"><small>Previous chapter</small>{esc(prev["title"])} ←</a>' if prev else '<a href="index.html"><small>Course overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt["stem"]}.html"><small>Next chapter</small>{esc(nxt["title"])} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Course contents →</a>')+'</nav>'
   (ROOT/f'{stem}.html').write_text(shell(stem,c['title'],body,[],classes=['revised-book']))
   ids=[el['id'] for el in soup.select('[id]')]
   if len(ids)!=len(set(ids)):raise ValueError('Duplicate manuscript IDs: '+stem)
@@ -54,9 +62,9 @@ def main():
    element=soup.find(id=sec['id'])
    if element is None:raise ValueError('Missing planned section: '+sec['id'])
    search.append(dict(title=sec['title'],chapter=c['title'],url=stem+'.html#'+sec['id'],text=element.get_text(' ',strip=True)))
- body=f'<header class="chapter-header book-cover" id="chapter-top"><p class="book-kicker">Course manuscript · By Mithilesh Kumar</p><h1>{COURSE_TITLE}</h1><p class="chapter-subtitle">{COURSE_SUBTITLE}</p></header><section class="book-section"><h2>About this course</h2><p>{COURSE_ABOUT}</p><p><strong>Prerequisites:</strong> {COURSE_PREREQUISITES}</p><p>{drafts} of {len(CHAPTERS)} chapters contain draft lessons with worked examples and solved problems. These are teaching manuscripts in development; advanced results are stated with their assumptions and sources where a full proof lies beyond the course.</p>{COURSE_EXTRA}<p><a href="{CHAPTERS[0]["stem"]}.html">Begin with {esc(CHAPTERS[0]["title"])} →</a></p><a id="resume-reading" hidden>Resume reading →</a></section><section class="book-section"><h2>Chapters</h2><ol class="topic-list">'
- for c in CHAPTERS:body+=f'<li><a href="{c["stem"]}.html">{esc(c["title"])}</a><p>{esc(c["question"])}</p></li>'
- body+='</ol></section>'
+ body=f'''<header class="chapter-header book-cover" id="chapter-top"><p class="book-kicker">Course manuscript · Mithilesh Kumar</p><h1>{COURSE_TITLE}</h1><p class="chapter-subtitle">{COURSE_SUBTITLE}</p><p class="chapter-intro">{COURSE_ABOUT}</p><a class="start-reading" href="{CHAPTERS[0]["stem"]}.html">Begin reading <span aria-hidden="true">→</span></a><a id="resume-reading" hidden>Continue where you left off →</a></header>
+<section class="book-about"><h2>Prerequisites and approach</h2><p>{COURSE_PREREQUISITES}</p><p>{drafts} of {len(CHAPTERS)} chapters contain draft lessons with worked examples and solved problems. These are teaching manuscripts in development; advanced results are stated with their assumptions and sources where a full proof lies beyond the course.</p>{COURSE_EXTRA}</section>
+{render_course_map(COURSE_TITLE,CHAPTERS)}'''
  (ROOT/'index.html').write_text(shell('index',COURSE_TITLE,body,[],classes=['revised-book']))
  (ROOT/'assets/search-index.js').write_text('window.BOOK_SEARCH = '+json.dumps(search,ensure_ascii=False)+';\n')
  print(f'Built {COURSE_TITLE}: {drafts} draft lessons, {len(CHAPTERS)-drafts} outlines.')

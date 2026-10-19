@@ -6,6 +6,9 @@ import argparse, html, json, re
 import learning
 import illustrations
 ROOT=Path(__file__).resolve().parent
+import sys
+sys.path.insert(0,str(ROOT.parent))
+from course_map import render_course_map, render_chapter_map
 META=json.loads((ROOT/'chapters.json').read_text())
 def esc(s):return html.escape(str(s),quote=True)
 def chapter_redirect(previous,target):
@@ -47,7 +50,7 @@ def inline_figures(soup):
   svg=svg.replace('<svg ',f'<svg id="{prefix}svg" class="book-figure" ',1)
   img.replace_with(BeautifulSoup(svg,'html.parser'))
 def shell(stem,title,body,data,styles=(),scripts=(),classes=()):
- css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['assets/source/slides.css','assets/source/classical.css','assets/source/math.css',*styles,'assets/book.css','../../styles.css','assets/learning.css']))
+ css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['assets/source/slides.css','assets/source/classical.css','assets/source/math.css',*styles,*(['assets/topic-map.css'] if stem=='index' or stem in {m[0] for m in META} else []),'assets/book.css','../../styles.css','assets/learning.css']))
  js=''.join(f'<script defer src="{s}"></script>' for s in ['assets/source/mathjax-config.js','assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/experiments.js','assets/search-index.js','assets/book.js','assets/learning.js'])
  return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="An interactive introduction to quantum computing by Mithilesh Kumar, from classical foundations to quantum algorithms."><title>{esc(title)} · Quantum Computing</title><link rel="icon" href="../../icons/icon.svg"><link rel="canonical" href="https://quantumresearch.center/education/computing/{"" if stem=="index" else stem+".html"}">{css}{js}</head>
@@ -57,6 +60,11 @@ def shell(stem,title,body,data,styles=(),scripts=(),classes=()):
 <main id="main" tabindex="-1">{body}<footer class="book-footer">Mithilesh Kumar · Quantum Computing <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try interference, NAND, or measurement"><p id="search-status" role="status">Search all chapters and appendices.</p><ol id="search-results"></ol></dialog>
 </body></html>'''
+def course_map(data):
+ chapters=[dict(manifest,stem=meta[0],title=meta[1]) for meta,manifest in zip(META,data)]
+ return render_course_map('Quantum Computing',chapters)
+
+
 def main():
  ap=argparse.ArgumentParser(description=__doc__);ap.parse_args()
  illustrations.build()
@@ -88,15 +96,14 @@ def main():
   continuation=manifest.get('opening_continuation') or []
   for paragraph in ([continuation] if isinstance(continuation,str) else continuation): opening+=f'<p>{esc(paragraph)}</p>'
   intro_continuation=f'<p>{esc(manifest["intro_continuation"])}</p>' if manifest.get('intro_continuation') else ''
-  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+learning.exercises(stem,index,title)
+  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{render_chapter_map(title,manifest)}{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+learning.exercises(stem,index,title)
   prev=META[i-1] if i else None; nxt=META[i+1] if i+1<len(META) else None
   body+='<nav class="chapter-pagination" aria-label="Chapter navigation">'+(f'<a rel="prev" href="{prev[0]}.html"><small>Previous chapter</small>{prev[1]} ←</a>' if prev else '<a href="index.html"><small>Book overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt[0]}.html"><small>Next chapter</small>{nxt[1]} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Book contents →</a>')+'</nav>'
   (ROOT/f'{stem}.html').write_text(shell(stem,title,body,data,manifest['styles'],manifest['scripts'],manifest['classes']))
- cards=''.join(f'<li><a href="{m[0]}.html"><span class="chapter-number">{str(i+1).zfill(2) if m[0]!="appendices" else "A–E"}</span><div><h3>{m[1]}</h3><p>{m[3]}</p></div><span aria-hidden="true">→</span></a></li>' for i,m in enumerate(META))
  intro='''<header class="chapter-header book-cover" id="chapter-top"><p class="book-kicker">An interactive introduction · Mithilesh Kumar</p><h1>Quantum Computing</h1><p class="chapter-subtitle">From classical to quantum</p><p class="chapter-intro">What changes when computation follows the rules of quantum mechanics? This book builds the answer from the ground up: from mechanical reasoning and classical machines to quantum states, circuits, and algorithms.</p><a class="start-reading" href="01-logic-computability.html">Begin reading <span aria-hidden="true">→</span></a><a id="resume-reading" hidden>Continue where you left off →</a></header>
-<section class="book-about"><h2>Prerequisites and approach</h2><p>The exposition begins with motivation, develops a mathematical language, and connects it to examples. You do not need prior experience with models of computation. Basic linear algebra is the only subject prerequisite: vectors, matrices, bases, and linear transformations. Complex inner products, tensor products, discrete probability, and computational concepts are developed where they are needed.</p><p>Circuit drawings show how operations are assembled. Interactive figures let you prepare a Bell state, compare phase oracles, and watch how search redistributes amplitudes. Try predicting a result before moving a control, then explain what changed. Animations wait for you to start them.</p></section>
-<section class="book-chapters"><h2>Contents</h2><ol>'''+cards+'''</ol></section><section class="book-about"><h2>How to use this book</h2><p>Read the chapters in order for a continuous path through the subject, or use the expandable contents to revisit a topic. Search works throughout the book. The text-size controls adjust the reading view, and each section has a permanent link.</p><p>Diagrams, equations, and interactive experiments are included with the book. Use Print chapter for a reading copy, or download the complete offline edition. The <a href="study-guide.html">study guide</a> explains the exercises, reader controls, and sources; the <a href="glossary.html">glossary</a> collects key definitions. Interactive figures print their current state.</p></section>'''
- (ROOT/'index.html').write_text(shell('index','Introduction',intro,data))
+<section class="book-about"><h2>Prerequisites and approach</h2><p>You do not need a previous course in quantum mechanics, computer science, or linear algebra. The mathematics is introduced as it is used, with examples you can work through by hand.</p><p>We begin with ordinary computation: how a machine follows rules, and what it means to reverse a calculation. From there, we study quantum states and the operations that change them. Small examples carry much of the explanation. Follow each calculation, try the problems, and use the interactive figures to check your predictions.</p></section>
+'''+course_map(data)+'''<section class="book-about"><h2>How to use this book</h2><p>Read the chapters in order for a continuous path through the subject, or use the expandable contents to revisit a topic. Search works throughout the book. The text-size controls adjust the reading view, and each section has a permanent link.</p><p>Diagrams, equations, and interactive experiments are included with the book. Use Print chapter for a reading copy, or download the complete offline edition. The <a href="study-guide.html">study guide</a> explains the exercises, reader controls, and sources; the <a href="glossary.html">glossary</a> collects key definitions. Interactive figures print their current state.</p></section>'''
+ (ROOT/'index.html').write_text(shell('index','Introduction',intro,data,styles=['assets/topic-map.css']))
  legacy={'00-landscape':'index','01-classical-computation':'01-logic-computability','02-quantum-mechanics':'04-states-measurement','03-quantum-computation':'07-queries-phase-kickback','04-quantum-circuits':'08-circuits-universality','05-amplitude-amplification':'09-amplitude-amplification','06-black-box-model':'07-queries-phase-kickback','07-amplitude-amplification':'09-amplitude-amplification','08-circuits-universality':'08-circuits-universality'}
  legacy.update({'05-composite-systems': '06-composite-systems', '06-queries-phase-kickback': '07-queries-phase-kickback', '07-circuits-universality': '08-circuits-universality', '08-amplitude-amplification': '09-amplitude-amplification', '09-complexity-advantage': '10-complexity-advantage'})
  for previous,target in legacy.items():
