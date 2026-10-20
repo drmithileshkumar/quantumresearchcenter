@@ -16,6 +16,7 @@ class Drawing:
    description+='; '.join(' → '.join(row) if spec['kind']=='flow' else ', '.join(row) for row in spec['rows'])
   elif spec['kind']=='paths':description+='; '.join(path['label']+': '+' → '.join(path['states'])+'; weights '+', '.join(path['weights'])+'; '+path['result'] for path in spec['paths'])
   elif spec['kind']=='network':description+='; '.join(edge['start']+' → '+edge['end']+': '+edge['label'] for edge in spec['edges'])
+  elif spec['kind']=='unitary-rotation':description+='Two unit circles show two states before and after a common rotation of '+str(spec['rotation'])+' degrees. Both radii remain one and the angle between the states is unchanged.'
   elif spec['kind']=='phasor':description+='A vector from the origin, its phase angle, and its projections onto the real and imaginary axes.'
   elif spec['kind']=='bars':description+='; '.join(f'{label}: {value:g}' for label,value in zip(spec['labels'],spec['values']))
   elif spec['kind']=='decision':description+='; '.join(spec['nodes'])
@@ -144,6 +145,27 @@ def render(spec):
      if c==0 and len(cols)>1:d.text(x-hw-10,y+5,w,'',anchor='end',maxwidth=120)
      elif c==len(cols)-1:d.text(x+hw+10,y+5,w,'',anchor='start',maxwidth=120)
      else:d.text(x,y-hh-10,w,'',maxwidth=120)
+ elif kind=='unitary-rotation':
+  d=Drawing(spec,440);r=114;cy=230
+  for panel,cx in enumerate((190,570)):
+   d.text(cx,68,'Before' if panel==0 else 'After the same unitary U','heading',maxwidth=330)
+   d.parts.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="#f7fafc" stroke="#a7bccd" stroke-width="1.5"/>')
+   d.edge(cx-r-24,cy,cx+r+26,cy,'#a7bccd');d.edge(cx,cy+r+20,cx,cy-r-22,'#a7bccd')
+   d.text(cx+r+27,cy+22,r'\(v_0\)','small',maxwidth=35)
+   d.text(cx+19,cy-r-21,r'\(v_1\)','small',maxwidth=35)
+   offset=panel*spec['rotation']
+   for i,angle in enumerate(spec['angles']):
+    a=math.radians(angle+offset);x=cx+r*math.cos(a);y=cy-r*math.sin(a)
+    d.edge(cx,cy,x,y,COLORS[i],dashed=i==1)
+    d.parts.append(f'<circle cx="{x:g}" cy="{y:g}" r="3.5" fill="{COLORS[i]}"/>')
+    label=(r'\(\ket\psi\)' if i==0 else r'\(\ket\chi\)') if not panel else (r'\(U\ket\psi\)' if i==0 else r'\(U\ket\chi\)')
+    d.text(cx+(r+24)*math.cos(a),cy-(r+24)*math.sin(a)+5,label,maxwidth=68)
+   a,b=(math.radians(v+offset) for v in spec['angles']);ar=42
+   d.parts.append(f'<path d="M{cx+ar*math.cos(a):g} {cy-ar*math.sin(a):g} A{ar} {ar} 0 0 0 {cx+ar*math.cos(b):g} {cy-ar*math.sin(b):g}" fill="none" stroke="#6b7885" stroke-width="1.5"/>')
+   mid=(a+b)/2;d.text(cx+66*math.cos(mid),cy-66*math.sin(mid)+4,r'\(\gamma\)',maxwidth=28)
+   d.text(cx,380,'Unit radius · same angle γ','small',maxwidth=330)
+  d.edge(347,230,413,230);d.text(380,210,'U','heading',maxwidth=40)
+  d.text(380,420,r'\(\|U\psi\|=\|\psi\|=1,\qquad \braket{U\chi}{U\psi}=\braket\chi\psi\)',maxwidth=700)
  elif kind=='plane':
   d=Drawing(spec,430);cx=225;cy=230;r=115
   d.parts.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#c4d1dc"/>')

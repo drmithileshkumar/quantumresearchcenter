@@ -342,26 +342,14 @@
     ]
   },
   "topic-4-2-1": {
-    "kind": "table",
-    "title": "Normalization of a state vector",
-    "caption": "The vector \\((3,4)^T\\) has norm five. Dividing it by five gives a unit vector, whose squared coordinates sum to one.",
-    "headers": [
-      "Vector",
-      "Squared norm",
-      "Configuration probabilities"
+    "kind": "unitary-rotation",
+    "title": "Unitary evolution preserves state geometry",
+    "caption": "Every arrow ends on the unit circle: both states have length one before and after the operation. The same rotation carries \\(\\ket\\psi\\) to \\(U\\ket\\psi\\) and \\(\\ket\\chi\\) to \\(U\\ket\\chi\\), preserving the angle between them. This real-amplitude example shows a rotation in state space; general unitaries preserve inner products in complex state space.",
+    "angles": [
+      20,
+      65
     ],
-    "rows": [
-      [
-        "\\((3,4)^T\\)",
-        "\\(3^2+4^2=25\\)",
-        "Not normalized"
-      ],
-      [
-        "\\((3/5,4/5)^T\\)",
-        "\\(9/25+16/25=1\\)",
-        "\\(9/25,\\ 16/25\\)"
-      ]
-    ]
+    "rotation": 40
   },
   "topic-6-1-1": {
     "kind": "circuit",

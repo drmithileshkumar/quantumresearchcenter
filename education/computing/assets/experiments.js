@@ -251,29 +251,85 @@
  });
 
  document.querySelectorAll('[data-lab="measure"]').forEach(lab=>{
-  const angle=lab.querySelector('[data-angle]'),svg=stage(lab,520,300,'A state, its projections onto the basis directions, and outcome counts');
-  let psi,state,shown,outcome,counts,cancel=()=>{};
-  const sample=v=>Math.random()<v[0]**2?0:1;
+  const angle=lab.querySelector('[data-angle]'),basis=lab.querySelector('[data-basis-angle]');
+  const compact=matchMedia('(max-width:600px)');
+  const svg=stage(lab,660,360,'A fixed state and its projections onto selectable orthogonal measurement directions, with counts from fresh copies');
+  let psi,state,shown,outcome=null,counts=[0,0],fresh=true,cancel=()=>{},lastText='',basisSetting=Number(basis.value);
+  const dot=(a,b)=>a[0]*b[0]+a[1]*b[1];
+  const vectors=()=>{const b=Number(basis.value)*DEG;return [[Math.cos(b),Math.sin(b)],[-Math.sin(b),Math.cos(b)]]};
+  const probabilities=v=>vectors().map(b=>{const p=dot(b,v)**2;return p<1e-12?0:1-p<1e-12?1:p});
+  const names=()=>Number(basis.value)===0?['0','1']:Number(basis.value)===45?['+','−']:['b₀','b₁'];
+  const sample=v=>Math.random()<probabilities(v)[0]?0:1;
+  const tex=v=>`${fmt(v[0])}\\ket0 ${v[1]<0?'-':'+'} ${fmt(Math.abs(v[1]))}\\ket1`;
   function draw(){
-   const R=190,ox=58,oy=258,pt=(x,y)=>[ox+R*x,oy-R*y],[x,y]=shown,total=counts[0]+counts[1];svg.replaceChildren();
-   node(svg,'path',{d:`M${pt(1,0)}A${R} ${R} 0 0 0 ${pt(0,1)}`,class:'lf-ring'});
-   arrow(svg,ox,oy,...pt(1.12,0),'c-axis',1.5);arrow(svg,ox,oy,...pt(0,1.12),'c-axis',1.5);
-   label(svg,...pt(1.12,-.1),'|0⟩');label(svg,ox-24,oy-R*1.06,'|1⟩');
-   node(svg,'path',{d:`M${pt(x,y)}L${pt(x,0)}M${pt(x,y)}L${pt(0,y)}`,class:'lf-thin lf-dash c-axis'});
-   arrow(svg,ox,oy,...pt(x,0),'c-teal',5);arrow(svg,ox,oy,...pt(0,y),'c-neg',5);arrow(svg,ox,oy,...pt(x,y),'c-state',3);
-   if(x>.08)label(svg,...pt(x/2,-.09),fmt(x),{class:'tint c-teal'});if(y>.08)node(svg,'text',{x:ox+8,y:oy-R*y/2+5,class:'tint c-neg'},fmt(y));
-   node(svg,'text',{x:330,y:26,class:'lf-caption'},`Fresh copies measured: ${total}`);
-   [0,1].forEach(j=>{const bx=345+j*90,p=psi[j]**2,f=total?counts[j]/total:0;node(svg,'rect',{x:bx,y:70,width:56,height:170,class:'lf-track'});node(svg,'rect',{x:bx,y:240-170*f,width:56,height:170*f,class:j?'lf-bar c-neg':'lf-bar c-teal',style:'fill:currentColor'});node(svg,'path',{d:`M${bx-6} ${240-170*p}H${bx+62}`,class:'lf-thin lf-dash c-state'});label(svg,bx+28,262,`outcome ${j}`);label(svg,bx+28,284,total?`${counts[j]}`:'—',{class:'lf-caption'})});
-   math(lab.querySelector('[data-state]'),outcome===null?`\\(\\ket\\psi=${fmt(psi[0])}\\ket0+${fmt(psi[1])}\\ket1\\): \\(p(0)=${fmt(psi[0]**2)}\\), \\(p(1)=${fmt(psi[1]**2)}\\).`:`Last outcome ${outcome}; the system is now in \\(\\ket{${outcome}}\\).`);
+   const R=110,cx=170,cy=172,pt=(x,y)=>[cx+R*x,cy-R*y],bs=vectors(),current=probabilities(state),predicted=probabilities(psi),labels=names(),total=counts[0]+counts[1];
+   svg.setAttribute('viewBox',compact.matches?'0 0 340 690':'0 0 660 360');svg.replaceChildren();
+   label(svg,170,22,'Real state-vector plane',{class:'lf-caption'});
+   node(svg,'circle',{cx,cy,r:R,class:'lf-ring'});
+   node(svg,'path',{d:`M${pt(-1.1,0)}L${pt(1.1,0)}M${pt(0,-1.1)}L${pt(0,1.1)}`,class:'lf-thin c-axis'});
+   label(svg,...pt(1.12,-.23),'|0⟩',{class:'lf-caption'});label(svg,...pt(-.23,1.02),'|1⟩',{class:'lf-caption'});
+   bs.forEach((b,j)=>{
+    const tint=j?'c-neg':'c-teal',a=dot(b,shown),projection=b.map(v=>v*a);
+    arrow(svg,cx,cy,...pt(...b.map(v=>v*1.08)),tint,1.5);
+    node(svg,'path',{d:`M${pt(...shown)}L${pt(...projection)}`,class:`lf-thin lf-dash ${tint}`});
+    arrow(svg,cx,cy,...pt(...projection),tint,5);
+    label(svg,...pt(...b.map(v=>v*1.19)),`b${j?'₁':'₀'}`,{class:`tint ${tint}`});
+   });
+   arrow(svg,cx,cy,...pt(...shown),'c-state',3);
+   label(svg,170,322,'Blue: system state',{class:'lf-caption'});
+   label(svg,170,344,'Teal and orange: projected components',{class:'lf-caption'});
+   const panel=node(svg,'g',{transform:compact.matches?'translate(-310 340)':'translate(0 0)'});
+   label(panel,470,22,`Fresh copies measured: ${total}`,{class:'lf-caption'});
+   labels.forEach((name,j)=>{
+    const bx=380+j*100,f=total?counts[j]/total:0;
+    node(panel,'rect',{x:bx,y:80,width:60,height:190,class:'lf-track'});
+    node(panel,'rect',{x:bx,y:270-190*f,width:60,height:190*f,class:j?'c-neg':'c-teal',style:'fill:currentColor'});
+    node(panel,'path',{d:`M${bx-7} ${270-190*predicted[j]}H${bx+67}`,class:'lf-thin lf-dash c-state'});
+    label(panel,bx+30,294,`outcome ${name}`);
+    label(panel,bx+30,316,`${counts[j]} recorded`,{class:'lf-caption'});
+   });
+   label(panel,470,344,'Dashed: predicted fresh-copy fractions',{class:'lf-caption'});
+   const same=state.every((v,i)=>Math.abs(v-psi[i])<1e-10);
+   const text=`Current system: \\(\\ket\\psi=${tex(state)}\\). In this basis, \\(p(b_0)=${fmt(current[0])}\\) and \\(p(b_1)=${fmt(current[1])}\\). ${same?'Fresh copies use this same state.':`Fresh copies start from \\(${tex(psi)}\\), with probabilities ${percent(predicted[0])} and ${percent(predicted[1])}.`}`;
+   if(text!==lastText){lastText=text;math(lab.querySelector('[data-state]'),text)}
+   lab.querySelector('[data-angle-output]').value=`${angle.value}°`;
+   lab.querySelector('[data-basis-output]').value=`${basis.value}°`;
+   lab.querySelectorAll('[data-basis-preset]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.basisPreset)===Number(basis.value))));
    lab.dataset.counts=JSON.stringify(counts);lab.dataset.outcome=outcome??'';
+   lab.dataset.amplitudes=JSON.stringify(state);lab.dataset.prepared=JSON.stringify(psi);
+   lab.dataset.probabilities=JSON.stringify(current);lab.dataset.freshProbabilities=JSON.stringify(predicted);
+   lab.dataset.basisAngle=basis.value;
   }
-  function animate(to){cancel();const from=[...shown],proj=to[0]?[from[0],0]:[0,from[1]];state=to;cancel=tween(800,t=>{shown=t<.5?from.map((v,i)=>v+(proj[i]-v)*2*t):proj.map((v,i)=>v+(to[i]-v)*(2*t-1));draw()},()=>{shown=to;draw()})}
-  function prepare(clear){cancel();psi=[Math.cos(angle.value*DEG),Math.sin(angle.value*DEG)];state=[...psi];shown=[...psi];outcome=null;if(clear)counts=[0,0];draw()}
-  lab.querySelector('[data-measure]').onclick=()=>{const fresh=outcome===null,j=sample(state),repeat=!fresh;outcome=j;if(fresh)counts[j]++;lab.dataset.outcome=j;lab.dataset.counts=JSON.stringify(counts);animate(j?[0,1]:[1,0]);lab.querySelector('[data-status]').textContent=repeat?`Outcome ${j} again. The system was already in |${j}⟩, so the result is certain; this run is not counted as a fresh copy.`:`Outcome ${j}. Only the ${j?'orange':'teal'} component is kept and normalized. Measure again to test the same system, or prepare a fresh copy.`};
-  lab.querySelector('[data-batch]').onclick=()=>{for(let n=0;n<100;n++)counts[sample(psi)]++;draw();const total=counts[0]+counts[1];lab.querySelector('[data-status]').textContent=`${total} fresh copies: ${counts[0]} gave 0 (${percent(counts[0]/total)}) and ${counts[1]} gave 1 (${percent(counts[1]/total)}). The dashed lines mark the predicted fractions.`};
-  lab.querySelector('[data-fresh]').onclick=()=>{prepare(false);lab.querySelector('[data-status]').textContent='A fresh copy of the state is ready. Its outcome is not yet determined.'};
-  angle.oninput=lab.querySelector('[data-reset]').onclick=()=>{prepare(true);lab.querySelector('[data-status]').textContent='Measure the system, then measure it again, or measure many fresh copies.'};
-  angle.oninput();
+  function animate(to,projection){
+   cancel();const from=[...shown];state=to;draw();
+   cancel=tween(800,t=>{shown=t<.5?from.map((v,i)=>v+(projection[i]-v)*2*t):projection.map((v,i)=>v+(to[i]-v)*(2*t-1));draw()},()=>{shown=[...to];draw()});
+  }
+  function prepare(clear){
+   cancel();basisSetting=Number(basis.value);const a=Number(angle.value)*DEG;psi=[Math.cos(a),Math.sin(a)];state=[...psi];shown=[...psi];outcome=null;fresh=true;
+   if(clear)counts=[0,0];draw();
+  }
+  lab.querySelector('[data-measure]').onclick=()=>{
+   cancel();shown=[...state];const before=probabilities(state),j=sample(state),b=vectors()[j],a=dot(b,state),projection=b.map(v=>v*a),to=b.map(v=>v*(a<0?-1:1)),wasFresh=fresh,certain=before[j]===1;
+   outcome=j;if(wasFresh)counts[j]++;fresh=false;animate(to,projection);
+   lab.querySelector('[data-status]').textContent=`Outcome ${names()[j]}. ${certain?'This result was certain for the current state and basis.':'The selected component is kept and normalized.'} ${wasFresh?'This was one fresh preparation.':'This is the same system; it is not counted as another fresh copy.'} An immediate measurement in the same basis now repeats this outcome.`;
+  };
+  lab.querySelector('[data-batch]').onclick=()=>{
+   for(let n=0;n<100;n++)counts[sample(psi)]++;draw();
+   lab.querySelector('[data-status]').textContent=`${counts[0]+counts[1]} fresh copies measured in the selected basis. Each starts in the prepared state; this does not change the separate current system. The dashed lines show the predicted fractions.`;
+  };
+  lab.querySelector('[data-fresh]').onclick=()=>{prepare(false);lab.querySelector('[data-status]').textContent='A fresh copy of the prepared state is ready, using the same measurement basis.'};
+  angle.oninput=()=>{prepare(true);lab.querySelector('[data-status]').textContent='The preparation changed. Predict its outcomes in the selected measurement basis before measuring.'};
+  const changeBasis=()=>{
+   if(Number(basis.value)===basisSetting)return;
+   basisSetting=Number(basis.value);cancel();shown=[...state];counts=[0,0];outcome=null;draw();
+   lab.querySelector('[data-status]').textContent='Only the measurement basis changed. The current system and the fresh preparation stay unchanged. Fresh-copy counts are cleared because they referred to a different basis.';
+  };
+  basis.oninput=changeBasis;
+  lab.querySelectorAll('[data-prepare-state]').forEach(button=>button.onclick=()=>{angle.value=button.dataset.prepareState==='plus'?45:-45;angle.oninput()});
+  lab.querySelectorAll('[data-basis-preset]').forEach(button=>button.onclick=()=>{basis.value=button.dataset.basisPreset;changeBasis()});
+  lab.querySelector('[data-reset]').onclick=()=>{angle.value=30;basis.value=0;prepare(true);lab.querySelector('[data-status]').textContent='Reset: preparation angle 30°, Z-basis measurement. Predict an outcome, then compare one system with fresh copies.'};
+  compact.addEventListener('change',draw);
+  prepare(true);lab.querySelector('[data-status]').textContent='Prepare |+⟩, predict its outcomes in Z and X, then change only the measurement basis to compare.';
  });
 
  document.querySelectorAll('[data-lab="reflect"]').forEach(lab=>{

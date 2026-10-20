@@ -68,3 +68,22 @@ c=1/(1+1/np.sqrt(2));e0=c*np.outer(minus,minus);ep=c*np.outer(one,one);eq=I-e0-e
 assert np.linalg.eigvalsh(eq).min()>-1e-10
 close(plus@e0@plus,0);close(zero@ep@zero,0)
 print('Verified square root of NOT, coarse measurement, local ensembles, wrong-target kickback, and inconclusive discrimination.')
+
+# Rotated measurement bases: completeness, Born probabilities, and repeatability.
+for alpha in np.linspace(-np.pi/2,np.pi/2,19):
+ psi=np.array([np.cos(alpha),np.sin(alpha)])
+ for beta in np.linspace(0,np.pi/2,19):
+  basis=np.array([[np.cos(beta),-np.sin(beta)],[np.sin(beta),np.cos(beta)]])
+  close(basis.T@basis,I)
+  projectors=[np.outer(basis[:,j],basis[:,j]) for j in range(2)]
+  close(sum(projectors),I)
+  probabilities=np.array([np.linalg.norm(p@psi)**2 for p in projectors])
+  close(probabilities,[np.cos(alpha-beta)**2,np.sin(alpha-beta)**2])
+  for j,p in enumerate(projectors):
+   if probabilities[j]>1e-12:
+    collapsed=p@psi/np.sqrt(probabilities[j])
+    close(np.linalg.norm(collapsed),1)
+    close(np.linalg.norm(p@collapsed)**2,1)
+plus=(zero+one)/np.sqrt(2);minus=(zero-one)/np.sqrt(2)
+close(abs(H@plus)**2,[1,0]);close(abs(H@minus)**2,[0,1])
+print('Verified rotated-basis measurement probabilities, completeness, and conditional repeatability.')

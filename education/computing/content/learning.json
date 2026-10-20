@@ -351,11 +351,11 @@
     "outcomes": [
       "Write states as vectors and interpret inner products as final-state amplitudes.",
       "Represent operations as matrices and use adjoints to test unitarity.",
-      "Compute computational-basis measurement probabilities and conditional states.",
+      "Compute projective measurement probabilities and conditional states in the computational and rotated bases.",
       "Explain how tensor products describe composite systems and allow entangled pure states."
     ],
     "limits": "The main text treats finite-dimensional pure states and projective measurements. Mixed states and general measurements are in Appendix D.",
-    "example": "Compare state vectors by their inner products, then follow unitary evolution and the state update after a computational-basis measurement.",
+    "example": "Compare state vectors by their inner products, then predict how the same preparation responds to Z and X measurements and follow the conditional state update.",
     "next": "Chapter 5 combines these postulates into the quantum circuit model of computation.",
     "exercises": [
       {
