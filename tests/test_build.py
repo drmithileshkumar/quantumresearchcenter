@@ -2,8 +2,10 @@ import copy
 import importlib.util
 import json
 import unittest
+import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
 spec=importlib.util.spec_from_file_location('builder',ROOT/'scripts/build.py')
 builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
 class HandbookTests(unittest.TestCase):
@@ -37,25 +39,25 @@ class HandbookTests(unittest.TestCase):
         for category in self.book['categories']:
             root='research/'+category['id']+'/index.html'
             self.assertIn(root,output)
-            self.assertIn('class="research-keywords"',output[root])
+            self.assertIn('class="research-question-list"',output[root])
             for child in category['children']:
                 self.assertIn('href="'+child['id']+'/index.html"',output[root])
-        self.assertEqual([c['title'] for c in self.book['categories']],['Quantum Computation','Quantum Information','Quantum Technologies'])
+        self.assertEqual([c['title'] for c in self.book['categories']],['Foundations of Quantum Mechanics','Quantum Computation','Quantum Information','Quantum Technology'])
     def test_deeper_topics_and_breadcrumbs(self):
-        parent=self.book['categories'][0]['children'][0]['children'][0]
+        parent=self.book['categories'][1]['children'][0]
         leaf={'id':'new-subtopic','title':'New subtopic','keyword':'New keyword','summary':'Summary','paragraphs':['Overview'],'papers':[],'questions':[],'children':[]}
         parent['children']=[leaf]
         output=builder.render(self.book);builder.check_output(output)
-        target='research/quantum-computation/algorithms/variational-algorithms/new-subtopic/index.html'
+        target='research/quantum-computation/computational-power/new-subtopic/index.html'
         self.assertIn(target,output)
         self.assertIn('href="../index.html"',output[target])
         self.assertIn('href="../../index.html"',output[target])
         self.assertIn('aria-label="Breadcrumb"',output[target])
-        self.assertIn('href="../../../../../styles.css"',output[target])
+        self.assertRegex(output[target],r'href="../../../../styles\.css\?v=[0-9a-f]+"')
     def test_same_slug_in_different_branches(self):
         child=copy.deepcopy(self.book['categories'][0]['children'][0])
         self.book['categories'][1]['children'].append(child)
         output=builder.render(self.book);builder.check_output(output)
-        self.assertIn('research/quantum-information/algorithms/index.html',output)
-        self.assertIn('research/quantum-computation/algorithms/index.html',output)
+        self.assertIn('research/quantum-computation/measurement-outcomes/index.html',output)
+        self.assertIn('research/foundations-of-quantum-mechanics/measurement-outcomes/index.html',output)
 if __name__=='__main__':unittest.main()

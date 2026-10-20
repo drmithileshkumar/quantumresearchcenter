@@ -354,3 +354,19 @@ html[data-theme=dark] body.ebook .book-section pre{background:var(--surface);bor
 .research-figure figcaption{font:12px/1.7 system-ui,sans-serif;color:#4b5864;margin-top:12px}
 @media(max-width:760px){.research-heading h1{letter-spacing:-.7px}.research-heading .lead{font-size:18px}.research-question #investigation{padding:18px}.research-question article>section>h2{font-size:23px}.research-figure{padding:10px}.research-opening h1{font-size:37px}}
 @media print{.research-figure{break-inside:avoid}.research-figure img{min-width:0}.research-question #investigation{background:white!important;color:#222}.research-question mjx-container[display="true"]{overflow:visible}}
+
+/* Complete the appearance treatment for news filters and article callouts. */
+@media screen{
+ html[data-theme=dark] .news-toolbar [aria-current=page]{background:#1a3040;color:var(--blue)}
+ html[data-theme=dark] .news-index a{color:var(--muted)}
+ html[data-theme=dark] .news-index a:is(:hover,[aria-current]){color:var(--blue)}
+ html[data-theme=dark] .news-reader :is(.news-filters,.editorial-note){background:var(--surface);color:var(--ink);border-color:var(--line)}
+ html[data-theme=dark] .news-reader :is(input,select,textarea){background:var(--card);color:var(--ink);border-color:var(--line)}
+ html[data-theme=dark] #paper-tools :is(input,select,textarea){background:var(--card);color:var(--ink);border-color:var(--line)}
+ html[data-theme=dark] #paper-tools button{color:#0a1720}
+ html[data-theme=dark] .news-reader [data-topic]{--topic:#79dce9;--topic-soft:#19313d}
+ html[data-theme=dark] .news-reader [data-topic=foundations]{--topic:#c7a5f5;--topic-soft:#2a2039}
+ html[data-theme=dark] .news-reader [data-topic=information]{--topic:#91d9b5;--topic-soft:#18352c}
+ html[data-theme=dark] .news-reader :is(.paper-authors,.paper-entry-methods,.paper-summary dd,.paper-card p.paper-entry-methods){color:var(--muted)}
+ html[data-theme=dark] :is(.toolbar,.book-toolbar,.news-toolbar) button:hover{background:var(--surface);color:var(--ink)}
+}

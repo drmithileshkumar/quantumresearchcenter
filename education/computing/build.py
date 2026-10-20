@@ -9,6 +9,7 @@ ROOT=Path(__file__).resolve().parent
 import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
+from asset_versions import version_pages
 META=json.loads((ROOT/'chapters.json').read_text())
 def esc(s):return html.escape(str(s),quote=True)
 def chapter_redirect(previous,target):
@@ -113,6 +114,7 @@ def main():
  for stem,title,body in learning.resources(META,index):
   (ROOT/f'{stem}.html').write_text(shell(stem,title,body,data))
  (ROOT/'assets/search-index.js').write_text('window.BOOK_SEARCH = '+json.dumps(index,ensure_ascii=False).replace('</','<\\/')+';\n')
+ version_pages(ROOT)
  learning.package()
  print(f'Built {len(META)-1} chapters, appendices, {len(index)} topics, and the book introduction.')
 if __name__=='__main__':main()

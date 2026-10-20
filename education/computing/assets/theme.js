@@ -12,7 +12,16 @@
       button.title = value === 'dark' ? 'Switch to light appearance' : 'Switch to dark appearance';
     });
   };
-  apply(valid(saved) ? saved : preference.matches ? 'dark' : 'light');
+  const refreshPreference = () => {
+    try { saved = localStorage.getItem('qrc-theme'); } catch {}
+    apply(valid(saved) ? saved : preference.matches ? 'dark' : 'light');
+  };
+  refreshPreference();
+  // Back/Forward can restore a document whose appearance predates another page's choice.
+  addEventListener('pageshow', refreshPreference);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) refreshPreference();
+  });
   preference.addEventListener('change', () => {
     if (!valid(saved)) apply(preference.matches ? 'dark' : 'light');
   });

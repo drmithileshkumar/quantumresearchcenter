@@ -1,8 +1,8 @@
 <section id="perspective"><h2>The question in perspective</h2>
 <p>A noisy channel can preserve some states well and destroy others. Reliable quantum transmission asks for something stronger: an encoding and decoding that protect arbitrary quantum data, including its entanglement with a reference system. The rate must remain achievable as the number of channel uses grows and the error vanishes.</p></section>
 <section id="mathematics"><h2>Define the task before the rate</h2>
-<p>Let \(\mathcal N\) be a completely positive, trace-preserving map. For \(n\) independent uses, an encoder \(\mathcal E_n\) and decoder \(\mathcal D_n\) aim to transmit a system of dimension \(K_n\). With \(\Phi_{K_n}\) a maximally entangled state of that system and an untouched reference, require</p>
-<p>\[F_e=\bra{\Phi_{K_n}}(\operatorname{id}\otimes\mathcal D_n\circ\mathcal N^{\otimes n}\circ\mathcal E_n)(\Phi_{K_n})\ket{\Phi_{K_n}}\longrightarrow1.\]</p>
+<p>Let \(\mathcal N\) be a completely positive, trace-preserving map. For \(n\) independent uses, an encoder \(\mathcal E_n\) and decoder \(\mathcal D_n\) aim to transmit a system of dimension \(K_n\). With \(\Phi_{K_n}\) a maximally entangled state of that system and an untouched reference, write the complete encoded channel as \(\Lambda_n=\mathcal D_n\circ\mathcal N^{\otimes n}\circ\mathcal E_n\). Require</p>
+<p>\[F_e=\bra{\Phi_{K_n}}(\operatorname{id}\otimes\Lambda_n)(\Phi_{K_n})\ket{\Phi_{K_n}}\longrightarrow1.\]</p>
 <p>The unassisted quantum capacity \(Q(\mathcal N)\) is the supremum of achievable asymptotic rates \(\log_2K_n/n\), measured in qubits per use. Shared entanglement and two-way classical assistance define different capacities.</p>
 <p>To see why joint coding matters, purify an input \(\rho_A\) as \(\ket\psi_{RA}\), and set \(\omega_{RB}=(\operatorname{id}_R\otimes\mathcal N)(\ket\psi\bra\psi)\). The coherent information is \(I_c(\rho,\mathcal N)=S(B)_\omega-S(RB)_\omega\). For finite-dimensional memoryless channels, the coding theorem states</p>
 <p>\[Q(\mathcal N)=\sup_{n\geq1}\frac1n\max_{\rho_{A^n}}I_c(\rho_{A^n},\mathcal N^{\otimes n}).\]</p>

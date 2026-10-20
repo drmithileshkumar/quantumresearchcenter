@@ -1,0 +1,665 @@
+[
+ {
+  "stem": "01-physical-theories",
+  "title": "What a Physical Theory Must Say",
+  "question": "Why can experiments not fix a physical theory, and what kind of starting point can?",
+  "prerequisites": "None. This chapter fixes the language used in the rest of the course.",
+  "example": "The same table of Stern–Gerlach outcomes, explained by two incompatible theories.",
+  "principle": "Framework: a theory must predict the statistics of repeated, identically prepared experiments.",
+  "foil": "Any finite table of outcomes, which many theories fit equally well.",
+  "sections": [
+   {
+    "id": "section-1-1",
+    "title": "Principles and Construction",
+    "number": "1.1",
+    "subsections": [
+     "Why outcomes underdetermine theories",
+     "Principle theories and constructive theories"
+    ]
+   },
+   {
+    "id": "section-1-2",
+    "title": "The Operational Language",
+    "number": "1.2",
+    "subsections": [
+     "Preparations, transformations, and measurements",
+     "Repetition and relative frequencies"
+    ]
+   },
+   {
+    "id": "section-1-3",
+    "title": "The Plan of the Course",
+    "number": "1.3",
+    "subsections": [
+     "Framework, principles, and theorems",
+     "Foils: theories that break one principle"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "02-states",
+  "title": "States as Predictions",
+  "question": "What is a state, if it is defined only by what it predicts?",
+  "prerequisites": "Chapter 1: preparations, measurements, and relative frequencies.",
+  "example": "A coin, a die, and a polarizer, each described only by outcome probabilities.",
+  "principle": "Mixing: any two preparations can be combined by a random choice.",
+  "foil": "A theory in which mixing is forbidden, so that states need not form a convex set.",
+  "sections": [
+   {
+    "id": "section-2-1",
+    "title": "Mixing and Convexity",
+    "number": "2.1",
+    "subsections": [
+     "Random choices of preparations",
+     "Pure and mixed states"
+    ]
+   },
+   {
+    "id": "section-2-2",
+    "title": "Fiducial Measurements",
+    "number": "2.2",
+    "subsections": [
+     "Finitely many numbers fix a state",
+     "The dimension K"
+    ]
+   },
+   {
+    "id": "section-2-3",
+    "title": "Linearity of Probabilities",
+    "number": "2.3",
+    "subsections": [
+     "Why predictions respect mixtures",
+     "States as vectors"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "03-effects",
+  "title": "Effects and Measurements",
+  "question": "What does a measurement outcome do to a state, mathematically, and how many states can be told apart?",
+  "prerequisites": "Chapter 2: convex state spaces, fiducial measurements, and linearity.",
+  "example": "Four state spaces with two perfectly distinguishable states: a segment, a square, a disc, and a ball.",
+  "principle": "Outcome probabilities are linear functions of the state, and the outcomes of a measurement exhaust all possibilities.",
+  "foil": "The square bit (gbit), whose state space is a square.",
+  "sections": [
+   {
+    "id": "section-3-1",
+    "title": "Effects",
+    "number": "3.1",
+    "subsections": [
+     "Outcomes as linear functionals",
+     "The unit effect and complete measurements"
+    ]
+   },
+   {
+    "id": "section-3-2",
+    "title": "Distinguishability",
+    "number": "3.2",
+    "subsections": [
+     "Perfectly distinguishable states",
+     "The capacity N"
+    ]
+   },
+   {
+    "id": "section-3-3",
+    "title": "A Gallery of Theories",
+    "number": "3.3",
+    "subsections": [
+     "Classical bits and trits",
+     "Squares, discs, and balls"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "04-composition",
+  "title": "Composite Systems",
+  "question": "How must a theory describe two systems together if it describes each alone?",
+  "prerequisites": "Chapters 2 and 3: states, effects, the parameters K and N.",
+  "example": "Two separated laboratories that each measure one of two bits.",
+  "principle": "No-signaling and local tomography: joint states are fixed by local measurements and their correlations.",
+  "foil": "Boxworld, whose PR boxes reach the algebraic maximum of the CHSH expression.",
+  "sections": [
+   {
+    "id": "section-4-1",
+    "title": "Causality and No-Signaling",
+    "number": "4.1",
+    "subsections": [
+     "Local statistics cannot depend on distant choices",
+     "Product states and correlations"
+    ]
+   },
+   {
+    "id": "section-4-2",
+    "title": "Local Tomography",
+    "number": "4.2",
+    "subsections": [
+     "Joint states from local statistics",
+     "The rule K_AB = K_A K_B"
+    ]
+   },
+   {
+    "id": "section-4-3",
+    "title": "Correlations Beyond Products",
+    "number": "4.3",
+    "subsections": [
+     "The CHSH game",
+     "Boxworld and the PR box"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "05-classical-theory",
+  "title": "Classical Theory and Its Limits",
+  "question": "Classical probability satisfies every principle so far. What can it not do?",
+  "prerequisites": "Chapters 2–4: states, effects, distinguishability, and composition.",
+  "example": "A classical bit that must change from 0 to 1 within one second.",
+  "principle": "The question: can every pure state be reached from every other by a continuous reversible change?",
+  "foil": "Classical probability theory itself, whose reversible transformations are permutations.",
+  "sections": [
+   {
+    "id": "section-5-1",
+    "title": "The Simplex",
+    "number": "5.1",
+    "subsections": [
+     "Classical state spaces",
+     "Unique decomposition into pure states"
+    ]
+   },
+   {
+    "id": "section-5-2",
+    "title": "Reversibility in Classical Theory",
+    "number": "5.2",
+    "subsections": [
+     "Reversible maps permute pure states",
+     "No continuous path between pure states"
+    ]
+   },
+   {
+    "id": "section-5-3",
+    "title": "Counting Parameters",
+    "number": "5.3",
+    "subsections": [
+     "The relation between K and N",
+     "Hardy’s choice: K = N or K = N²"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "06-continuous-reversibility",
+  "title": "Continuous Reversibility",
+  "question": "What follows if every pure state can be turned into any other continuously and reversibly?",
+  "prerequisites": "Chapter 5: the classical simplex and why its reversible maps are discrete.",
+  "example": "A system that changes smoothly from one of two perfectly distinguishable states to the other.",
+  "principle": "Continuous reversibility: the reversible transformations form a connected group acting transitively on pure states.",
+  "foil": "Classical theory, which has distinguishable pure states but no continuous reversible path between them.",
+  "sections": [
+   {
+    "id": "section-6-1",
+    "title": "The Principle",
+    "number": "6.1",
+    "subsections": [
+     "Reversible change as a group",
+     "Why continuity is reasonable"
+    ]
+   },
+   {
+    "id": "section-6-2",
+    "title": "Intrinsic Randomness",
+    "number": "6.2",
+    "subsections": [
+     "States between distinguishable states",
+     "Randomness without ignorance"
+    ]
+   },
+   {
+    "id": "section-6-3",
+    "title": "The Shape of a Bit",
+    "number": "6.3",
+    "subsections": [
+     "Symmetry and the state space",
+     "Balls of every dimension"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "07-the-qubit",
+  "title": "The Qubit",
+  "question": "Which ball is the state space of the simplest system, and why does it need complex numbers?",
+  "prerequisites": "Chapter 6: the state space of a two-outcome system is a ball of some dimension.",
+  "example": "Two qubits that interact reversibly and continuously.",
+  "principle": "Local tomography together with continuous reversible interaction between two bits.",
+  "foil": "Real quantum theory (the disc) and quaternionic quantum theory (the five-dimensional ball).",
+  "sections": [
+   {
+    "id": "section-7-1",
+    "title": "Which Ball?",
+    "number": "7.1",
+    "subsections": [
+     "Counting parameters for two bits",
+     "Why three dimensions"
+    ]
+   },
+   {
+    "id": "section-7-2",
+    "title": "From the Ball to Matrices",
+    "number": "7.2",
+    "subsections": [
+     "Density matrices for a qubit",
+     "Why complex numbers appear"
+    ]
+   },
+   {
+    "id": "section-7-3",
+    "title": "The Probability Rule",
+    "number": "7.3",
+    "subsections": [
+     "Effects on the Bloch ball",
+     "The Born rule for a qubit"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "08-larger-systems",
+  "title": "Larger Systems",
+  "question": "How do qubits determine the description of every finite system?",
+  "prerequisites": "Chapter 7: the qubit, its density matrices, and the probability rule.",
+  "example": "A spin-1 particle with three perfectly distinguishable states.",
+  "principle": "Equivalence of subspaces, and the availability of all measurements consistent with the state space.",
+  "foil": "Theories with restricted measurements, and Hardy’s classical branch K = N.",
+  "sections": [
+   {
+    "id": "section-8-1",
+    "title": "Equivalence of Subspaces",
+    "number": "8.1",
+    "subsections": [
+     "Faces of the state space",
+     "Every two-outcome face is a qubit"
+    ]
+   },
+   {
+    "id": "section-8-2",
+    "title": "Hilbert Space",
+    "number": "8.2",
+    "subsections": [
+     "The rule K = N²",
+     "Density operators and pure states as rays"
+    ]
+   },
+   {
+    "id": "section-8-3",
+    "title": "All Measurements",
+    "number": "8.3",
+    "subsections": [
+     "Effects as positive operators",
+     "General measurements"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "09-symmetry-and-dynamics",
+  "title": "Symmetry and Dynamics",
+  "question": "What form must reversible change take, and where does the Schrödinger equation come from?",
+  "prerequisites": "Chapter 8: density operators, pure states, and transition probabilities.",
+  "example": "A spin in a uniform magnetic field.",
+  "principle": "Reversible transformations preserve transition probabilities and depend continuously on time.",
+  "foil": "Antiunitary evolution, which preserves probabilities but cannot be reached continuously from doing nothing.",
+  "sections": [
+   {
+    "id": "section-9-1",
+    "title": "Wigner’s Theorem",
+    "number": "9.1",
+    "subsections": [
+     "Symmetries preserve transition probabilities",
+     "Unitary and antiunitary maps"
+    ]
+   },
+   {
+    "id": "section-9-2",
+    "title": "Continuous Groups",
+    "number": "9.2",
+    "subsections": [
+     "One-parameter groups of unitaries",
+     "Generators and the Hamiltonian"
+    ]
+   },
+   {
+    "id": "section-9-3",
+    "title": "The Schrödinger Equation",
+    "number": "9.3",
+    "subsections": [
+     "Time translation and energy",
+     "The Heisenberg picture"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "10-observables",
+  "title": "Observables and Uncertainty",
+  "question": "Why are physical quantities represented by self-adjoint operators?",
+  "prerequisites": "Chapters 8 and 9: projective measurements and Hamiltonians as generators.",
+  "example": "Spin components along different axes.",
+  "principle": "An observable is a measurement whose outcomes are labelled by real numbers.",
+  "foil": "Hidden-value models in which every quantity has a value before it is measured.",
+  "sections": [
+   {
+    "id": "section-10-1",
+    "title": "Observables",
+    "number": "10.1",
+    "subsections": [
+     "Measurements with numerical outcomes",
+     "Self-adjoint operators and spectra"
+    ]
+   },
+   {
+    "id": "section-10-2",
+    "title": "Compatibility",
+    "number": "10.2",
+    "subsections": [
+     "Joint measurability",
+     "Commutation"
+    ]
+   },
+   {
+    "id": "section-10-3",
+    "title": "Uncertainty",
+    "number": "10.3",
+    "subsections": [
+     "The Robertson relation",
+     "Preparation and measurement uncertainty"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "11-state-update",
+  "title": "Measurement and State Update",
+  "question": "How does a state change when a measurement reveals an outcome?",
+  "prerequisites": "Chapter 10: projective measurements, compatibility, and commutation.",
+  "example": "Three Stern–Gerlach devices in sequence: z, then x, then z.",
+  "principle": "Repeatable measurements that disturb the state as little as their outcome requires.",
+  "foil": "Measurement as passive reading of pre-existing values.",
+  "sections": [
+   {
+    "id": "section-11-1",
+    "title": "Instruments",
+    "number": "11.1",
+    "subsections": [
+     "Outcomes and post-measurement states",
+     "Probabilities do not fix the update"
+    ]
+   },
+   {
+    "id": "section-11-2",
+    "title": "The Lüders Rule",
+    "number": "11.2",
+    "subsections": [
+     "Repeatability",
+     "Minimal disturbance"
+    ]
+   },
+   {
+    "id": "section-11-3",
+    "title": "Information and Disturbance",
+    "number": "11.3",
+    "subsections": [
+     "Sequences of measurements",
+     "No information without disturbance"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "12-contextuality",
+  "title": "Contextuality and the Born Rule",
+  "question": "Could measurement outcomes be fixed in advance, and are probabilities other than the Born rule possible?",
+  "prerequisites": "Chapters 8–11: projective measurements, observables, and compatibility.",
+  "example": "The Peres–Mermin square of nine two-qubit observables.",
+  "principle": "Probabilities are assigned to projectors independently of the measurement in which they occur.",
+  "foil": "Noncontextual hidden-variable models.",
+  "sections": [
+   {
+    "id": "section-12-1",
+    "title": "Noncontextual Values",
+    "number": "12.1",
+    "subsections": [
+     "Assigning outcomes in advance",
+     "The Peres–Mermin square"
+    ]
+   },
+   {
+    "id": "section-12-2",
+    "title": "Gleason’s Theorem",
+    "number": "12.2",
+    "subsections": [
+     "Frame functions",
+     "The Born rule without further assumptions"
+    ]
+   },
+   {
+    "id": "section-12-3",
+    "title": "What Contextuality Excludes",
+    "number": "12.3",
+    "subsections": [
+     "The Kochen–Specker theorem",
+     "Contextual hidden variables"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "13-entanglement",
+  "title": "Entanglement and Nonlocality",
+  "question": "What correlations do quantum composites allow, and why not more?",
+  "prerequisites": "Chapters 4, 7, and 8: composition, local tomography, and Hilbert space.",
+  "example": "A Bell pair shared by two distant laboratories.",
+  "principle": "Local tomography realized as the tensor product of Hilbert spaces.",
+  "foil": "Local hidden-variable models below, and boxworld above.",
+  "sections": [
+   {
+    "id": "section-13-1",
+    "title": "Reduced States",
+    "number": "13.1",
+    "subsections": [
+     "Partial trace from local statistics",
+     "Pure joint states with mixed parts"
+    ]
+   },
+   {
+    "id": "section-13-2",
+    "title": "Entanglement",
+    "number": "13.2",
+    "subsections": [
+     "Product and entangled states",
+     "The Schmidt decomposition"
+    ]
+   },
+   {
+    "id": "section-13-3",
+    "title": "Bell Inequalities",
+    "number": "13.3",
+    "subsections": [
+     "The CHSH bound for local models",
+     "Tsirelson’s bound, no-signaling, and no-cloning"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "14-identical-particles",
+  "title": "Indistinguishable Systems",
+  "question": "What changes when two systems cannot be told apart by any measurement?",
+  "prerequisites": "Chapters 9 and 13: symmetry and composite systems.",
+  "example": "Two photons meeting at a beam splitter.",
+  "principle": "Operational indistinguishability: no measurement can depend on which system carries which label.",
+  "foil": "Labelled particles, and the parastatistics that the principle alone does not exclude.",
+  "sections": [
+   {
+    "id": "section-14-1",
+    "title": "Indistinguishability",
+    "number": "14.1",
+    "subsections": [
+     "Labels that no measurement can read",
+     "Permutation symmetry"
+    ]
+   },
+   {
+    "id": "section-14-2",
+    "title": "Bosons and Fermions",
+    "number": "14.2",
+    "subsections": [
+     "Symmetric and antisymmetric states",
+     "Exclusion and bunching"
+    ]
+   },
+   {
+    "id": "section-14-3",
+    "title": "Limits of the Argument",
+    "number": "14.3",
+    "subsections": [
+     "Parastatistics",
+     "Spin and statistics"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "15-open-systems",
+  "title": "Purification and Open Systems",
+  "question": "How should a system be described when it interacts with an environment we ignore?",
+  "prerequisites": "Chapters 9, 11, and 13: unitary dynamics, instruments, and reduced states.",
+  "example": "A qubit coupled to a second qubit that is then discarded.",
+  "principle": "Purification: every state is the marginal of a pure state, unique up to reversible change of the purifying system.",
+  "foil": "Classical theory, in which mixed states have no purification.",
+  "sections": [
+   {
+    "id": "section-15-1",
+    "title": "Purification",
+    "number": "15.1",
+    "subsections": [
+     "Every mixed state has a pure extension",
+     "Uniqueness up to a reversible map"
+    ]
+   },
+   {
+    "id": "section-15-2",
+    "title": "Channels",
+    "number": "15.2",
+    "subsections": [
+     "Dilations and Kraus operators",
+     "Measurements as dilated unitaries"
+    ]
+   },
+   {
+    "id": "section-15-3",
+    "title": "Decoherence and Measurement",
+    "number": "15.3",
+    "subsections": [
+     "Loss of interference",
+     "What the principles do not settle"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "16-infinite-dimensions",
+  "title": "Infinite Dimensions",
+  "question": "Which parts of the finite-dimensional derivation survive for position and momentum, and what must be added?",
+  "prerequisites": "Chapters 8–10: Hilbert space, symmetry, and observables.",
+  "example": "A particle on a line, translated in space and boosted in velocity.",
+  "principle": "Galilean symmetry represented by continuous unitary groups.",
+  "foil": "Finite-dimensional theories, which cannot satisfy the canonical commutation relation.",
+  "sections": [
+   {
+    "id": "section-16-1",
+    "title": "Why Finite Dimensions Are Not Enough",
+    "number": "16.1",
+    "subsections": [
+     "The trace argument",
+     "Unbounded operators"
+    ]
+   },
+   {
+    "id": "section-16-2",
+    "title": "Spectra and Groups",
+    "number": "16.2",
+    "subsections": [
+     "Continuous spectra",
+     "Stone’s theorem"
+    ]
+   },
+   {
+    "id": "section-16-3",
+    "title": "Position and Momentum",
+    "number": "16.3",
+    "subsections": [
+     "Translations, boosts, and commutation",
+     "The Stone–von Neumann theorem"
+    ]
+   }
+  ],
+  "status": "draft"
+ },
+ {
+  "stem": "17-assumptions-and-alternatives",
+  "title": "What Was Assumed",
+  "question": "Which principles did the work, what would the world be like without each, and what remains open?",
+  "prerequisites": "The whole course.",
+  "example": "The gallery of foil theories, reviewed one last time.",
+  "principle": "All principles of the course, compared.",
+  "foil": "Every foil met in the course.",
+  "sections": [
+   {
+    "id": "section-17-1",
+    "title": "The Principles Reviewed",
+    "number": "17.1",
+    "subsections": [
+     "Each principle and its foil",
+     "Experimental tests of the principles"
+    ]
+   },
+   {
+    "id": "section-17-2",
+    "title": "Other Reconstructions",
+    "number": "17.2",
+    "subsections": [
+     "Purification and information",
+     "Quantum logic and other routes"
+    ]
+   },
+   {
+    "id": "section-17-3",
+    "title": "Open Questions",
+    "number": "17.3",
+    "subsections": [
+     "The measurement problem",
+     "Beyond finite dimensions and beyond quantum theory"
+    ]
+   }
+  ],
+  "status": "draft"
+ }
+]

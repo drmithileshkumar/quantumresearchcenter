@@ -23,12 +23,10 @@ Open `index.html` to navigate. Edit canonical manuscripts in `content/*.html`,
 not generated root pages. `chapters.json` records the order, headings, questions,
 and dependencies; `content/learning.json` supplies chapter prediction prompts and
 hidden explanations. Problems and their solutions live beside their chapter’s
-exposition. The About page includes a linked mind map with an expandable index of seven domains,
-with topic links covering all sixteen chapters; edit `content/landscape.html`
-to maintain its topic index. `landscape.py` renders the branches and the standalone
-`topic-map.svg` from those links. Every chapter also opens with a linked map of
-its sections and subsections, generated from `chapters.json`. Both maps fit the
-reader width and stack their branches on narrow screens. Follow [AGENTS.md](AGENTS.md) for the teaching philosophy.
+exposition. The About page includes a linked course map covering all sixteen chapters,
+generated from `chapters.json`. Every chapter also opens with a linked map of
+its sections and subsections. The maps fit the reader width and stack their
+branches on narrow screens. Follow [AGENTS.md](AGENTS.md) for the teaching philosophy.
 
 ```sh
 python3 education/information/build.py

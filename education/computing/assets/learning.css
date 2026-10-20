@@ -75,7 +75,7 @@
 .ebook .chapter-header {padding-bottom:1.6em;margin-bottom:2em;}
 .ebook .book-part {margin-top:3em;padding-top:1.4em;}
 .ebook .book-section.reading-topic {margin-bottom:2.4em;}
-.ebook .reading-topic .book-exposition>.principle {padding:.65em .9em;border-left:3px solid var(--accent);background:#f4f7f5;}
+.ebook .reading-topic .book-exposition>.principle {padding:.65em .9em;border-left:3px solid var(--accent);background:var(--surface,#f4f7f5);}
 .ebook .book-exposition>.observations {padding-left:1.5em;margin:1em 0;}
 .ebook .book-exposition>.observations li {padding-left:.3em;margin:.65em 0;}
 .ebook .book-exposition table {border-collapse:collapse;}

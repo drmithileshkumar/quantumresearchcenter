@@ -6,7 +6,7 @@ import json
 from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parents[2]
-COURSES=('algorithms','programming','information','hardware')
+COURSES=('algorithms','programming','information','hardware','foundations')
 parsed={}
 
 def soup(path):

@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parent
 import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
+from asset_versions import version_pages
 import chapter_exercises
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 EXERCISES=chapter_exercises.load(ROOT)
@@ -71,5 +72,6 @@ def main():
 {render_course_map(COURSE_TITLE,CHAPTERS)}'''
  (ROOT/'index.html').write_text(shell('index',COURSE_TITLE,body,[],classes=['revised-book']))
  (ROOT/'assets/search-index.js').write_text('window.BOOK_SEARCH = '+json.dumps(search,ensure_ascii=False)+';\n')
+ version_pages(ROOT)
  print(f'Built {COURSE_TITLE}: {drafts} draft lessons, {len(CHAPTERS)-drafts} outlines.')
 if __name__=='__main__':main()

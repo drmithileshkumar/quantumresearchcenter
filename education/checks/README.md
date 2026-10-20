@@ -1,7 +1,8 @@
 # Course validation
 
 The developed manuscript set comprises 11 Quantum Algorithms chapters,
-16 Quantum Programming chapters, 16 Quantum Information chapters, and 19 Quantum Hardware chapters.
+16 Quantum Programming chapters, 16 Quantum Information chapters, 19 Quantum Hardware chapters,
+and 17 Quantum Foundations chapters.
 Canonical text is in each course's `content/`; rebuild before checking readers.
 
 ```sh
@@ -10,6 +11,7 @@ python3 education/programming/build.py
 python3 education/information/build.py
 python3 education/hardware/build.py
 python3 education/hardware/checks/worked_examples.py
+python3 education/foundations/build.py
 python3 education/checks/check_courses.py
 python3 education/checks/check_mathematics.py
 python3 education/algorithms/checks/worked_examples.py
@@ -17,7 +19,7 @@ python3 education/algorithms/checks/chapter_examples.py
 python3 -m unittest discover -s tests
 ```
 
-`check_courses.py` requires Beautiful Soup and checks all 66 reader pages,
+`check_courses.py` requires Beautiful Soup and checks all 86 reader pages,
 section/subsection agreement with metadata, developed sections, solutions,
 embedded/downloadable code agreement, local references, fragments, IDs, and image
 alternatives. `check_mathematics.py` requires NumPy and verifies small instances

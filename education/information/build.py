@@ -4,17 +4,17 @@ from pathlib import Path
 from html import escape as esc
 import json
 from bs4 import BeautifulSoup
-from landscape import render as render_landscape
 ROOT=Path(__file__).resolve().parent
 import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
+from asset_versions import version_pages
 import chapter_exercises
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 LEARNING=json.loads((ROOT/'content/learning.json').read_text())
 EXERCISES=chapter_exercises.load(ROOT)
 def navigation(current,data):
- out='<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Information<span>States, resources, and communication</span></a><a class="nav-introduction" href="index.html">About this course</a><a href="index.html#landscape">Domains and topics</a>'
+ out='<nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><a class="book-home" href="index.html">Quantum Information<span>States, resources, and communication</span></a><a class="nav-introduction" href="index.html">About this course</a><a href="index.html#topic-map-heading">Course map</a>'
  for i,c in enumerate(CHAPTERS,1):
   stem=c['stem'];active=' open' if stem==current else ''
   out+=f'<details class="nav-chapter"{active}><summary><span>{i:02}</span> {esc(c["title"])}</summary><a class="chapter-start" href="{stem}.html"'+(' aria-current="page"' if stem==current else '')+'>Chapter overview</a>'
@@ -79,12 +79,8 @@ def main():
  body=f'''<header class="chapter-header book-cover" id="chapter-top"><p class="book-kicker">Course manuscript · Mithilesh Kumar</p><h1>{COURSE_TITLE}</h1><p class="chapter-subtitle">{COURSE_SUBTITLE}</p><p class="chapter-intro">{COURSE_ABOUT}</p><a class="start-reading" href="{CHAPTERS[0]["stem"]}.html">Begin reading <span aria-hidden="true">→</span></a><a id="resume-reading" hidden>Continue where you left off →</a></header>
 <section class="book-about"><h2>Prerequisites and approach</h2><p>{COURSE_PREREQUISITES}</p><p>{drafts} of {len(CHAPTERS)} chapters contain draft lessons with worked examples and solved problems. These are teaching manuscripts in development; advanced results are stated with their assumptions and sources where a full proof lies beyond the course.</p>{COURSE_EXTRA}</section>
 {render_course_map(COURSE_TITLE,CHAPTERS)}'''
- landscape,map_svg=render_landscape((ROOT/'content/landscape.html').read_text())
- (ROOT/'topic-map.svg').write_text(map_svg+'\n')
- body=body.replace('<nav class="chapter-topic-map"',landscape+'<nav class="chapter-topic-map"',1)
- for domain in BeautifulSoup(landscape,'html.parser').select('.landscape-domains > li'):
-  search.append(dict(title=domain.h3.get_text(' ',strip=True),chapter=COURSE_TITLE+' · Landscape',url='index.html#'+domain['id'],text=domain.get_text(' ',strip=True)))
  (ROOT/'index.html').write_text(shell('index',COURSE_TITLE,body,[],classes=['revised-book']))
  (ROOT/'assets/search-index.js').write_text('window.BOOK_SEARCH = '+json.dumps(search,ensure_ascii=False)+';\n')
+ version_pages(ROOT)
  print(f'Built {COURSE_TITLE}: {drafts} draft lessons, {len(CHAPTERS)-drafts} outlines.')
 if __name__=='__main__':main()

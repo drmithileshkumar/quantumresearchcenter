@@ -1,0 +1,1736 @@
+{
+ "01-physical-theories": [
+  {
+   "kind": "Quick check",
+   "question": "Sort each item into recipe, record, or theoretical description: (a) an oven of silver held at a fixed temperature; (b) a spot in the upper region of a screen; (c) a magnet rotated by \\(30^\\circ\\) from vertical; (d) “the atom’s spin points up.”",
+   "hints": [
+    "A recipe says what is done; a record is what is written down afterward.",
+    "Ask whether the item could be stated without any physical theory of the atom."
+   ],
+   "answer": "(a) and (c) are recipes: instructions for building and arranging equipment. (b) is a record, a classical outcome that anyone can read. (d) is a theoretical description: it interprets records using a concept, spin direction, that belongs to a theory. The operational language uses only the first two kinds, so that different theories can be compared on the same footing.",
+   "review": "topic-1-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "An outcome has probability \\(1/2\\). What is the standard deviation of its relative frequency in \\(400\\) runs? How many runs reduce it to \\(0.005\\)?",
+   "hints": [
+    "The standard deviation is \\(\\sqrt{p(1-p)/n}\\).",
+    "Solve \\(\\sqrt{0.25/n}=0.005\\)."
+   ],
+   "answer": "\\(\\sqrt{0.25/400}=0.025\\). To reach \\(0.005\\) we need \\(0.25/n=2.5\\times10^{-5}\\), so \\(n=10\\,000\\). Halving the statistical uncertainty costs four times as many runs.",
+   "review": "topic-1-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Classify each as a principle theory or a constructive theory: the kinetic theory of gases, thermodynamics, special relativity, the Bohr model of the hydrogen atom.",
+   "hints": [
+    "A constructive theory builds phenomena from assumed parts.",
+    "A principle theory starts from general constraints on all processes."
+   ],
+   "answer": "Kinetic theory and the Bohr model are constructive: they assume molecules or an orbiting electron and derive behavior from them. Thermodynamics and special relativity are principle theories: they derive constraints from general principles that hold whatever the system is made of. The course presents quantum theory in the second way.",
+   "review": "topic-1-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A “lookup-table theory” records the outcomes of the first \\(1000\\) runs of every experiment performed so far and predicts, for each, probabilities equal to the observed frequencies. (a) Does it fit the data? (b) What does it predict for a magnet tilted at an angle never tried? (c) Which obstacle of Section 1.1.1 does it illustrate?",
+   "hints": [
+    "It fits by construction.",
+    "A theory must say something about arrangements that have not been built."
+   ],
+   "answer": "(a) Perfectly, by construction, up to statistical fluctuation. (b) Nothing: it has no rule connecting different arrangements, so it cannot predict a new angle. (c) It illustrates finiteness and universality together. Infinitely many rules fit any finite table, and a physical theory must make claims about every arrangement. Choosing between candidate rules needs more than the data, which is why the course turns to principles.",
+   "review": "topic-1-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "An oven emits atoms each carrying a hidden number \\(\\lambda\\), uniformly distributed between \\(0\\) and \\(1\\). A magnet tilted by \\(\\theta\\) sends an atom up if \\(\\lambda<\\cos^2(\\theta/2)\\). (a) What fraction goes up? (b) What does a preparation that fixes \\(\\lambda\\) exactly predict? (c) What does this show about the framework’s assumption of probabilities?",
+   "hints": [
+    "The fraction of uniformly distributed \\(\\lambda\\) below a threshold equals the threshold.",
+    "With \\(\\lambda\\) fixed, the outcome is determined."
+   ],
+   "answer": "(a) \\(\\cos^2(\\theta/2)\\), matching the observed single-device statistics. (b) Probability \\(0\\) or \\(1\\) for every angle: the model is deterministic, and its intermediate probabilities express ignorance of \\(\\lambda\\). (c) A theory that predicts probabilities need not be random. The framework includes deterministic theories, so assuming probabilities does not assume randomness; that must be derived, as Chapter 6 does.",
+   "review": "topic-1-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Theory A predicts probability \\(0.50\\) for an outcome; theory B predicts \\(0.52\\). Roughly how many runs are needed for the difference to be three standard deviations of the relative frequency?",
+   "hints": [
+    "Use \\(\\sqrt{0.25/n}\\) for the standard deviation.",
+    "Set \\(0.02=3\\sqrt{0.25/n}\\)."
+   ],
+   "answer": "We need \\(\\sqrt{0.25/n}=0.02/3\\), so \\(\\sqrt n=3\\times0.5/0.02=75\\) and \\(n\\approx5600\\). Small differences between theories require long runs. This is one reason the course does not try to select quantum theory by fitting particular numbers: principles are tested by experiments designed to separate definite alternatives.",
+   "review": "topic-1-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For each statement say whether it belongs to the framework, is a principle, or is a theorem of the course: (a) preparations can be mixed by a random choice; (b) every pure state can be turned into every other by a continuous reversible change; (c) \\(i\\hbar\\,d\\ket\\psi/dt=H\\ket\\psi\\); (d) outcome probabilities are linear functions of the state.",
+   "hints": [
+    "The framework is what any testable theory provides.",
+    "A theorem is derived; a principle is assumed and has a foil."
+   ],
+   "answer": "(a) Framework: a random device is itself a laboratory procedure. (b) Principle, continuous reversibility, with classical theory as its foil. (c) Theorem, derived in Chapter 9 from continuous reversibility, with the identification of the generator as energy added as a physical link. (d) Theorem, derived in Chapter 2 from the framework and finiteness.",
+   "review": "topic-1-3-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student argues: “Bell’s model reproduces all single-spin statistics with predetermined outcomes, so the randomness of quantum mechanics is just ignorance.” What is wrong with the argument?",
+   "hints": [
+    "Bell’s model is a different theory with a different state space.",
+    "Consider pairs of spins."
+   ],
+   "answer": "Bell’s model adds hidden states beneath the quantum states, so it is a different theory. It agrees with quantum theory on single spins but not on pairs, where its correlations obey the Bell inequalities that experiments violate. Within quantum theory, Chapter 6 derives randomness for pure states, which cannot be decomposed further; Chapters 12 and 13 show that any hidden-variable completion must be contextual and nonlocal. Agreement on one family of experiments does not establish that the randomness is ignorance.",
+   "review": "topic-1-1-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "In geometry, a model in which all of Euclid’s axioms hold except the parallel postulate proves that the postulate does not follow from the others. Explain how the foils of this course play the same role, using classical probability theory as the example.",
+   "hints": [
+    "Independence of an axiom is shown by a model that violates it alone.",
+    "Which principles does classical theory satisfy?"
+   ],
+   "answer": "Classical probability theory satisfies the framework, finiteness, local tomography, equivalence of subspaces, and the availability of all measurements, but violates continuous reversibility. It is a consistent model of all principles but one, so continuous reversibility cannot be derived from the others. Without it, classical theory would be an equally good candidate. Each foil plays this role for its principle and also shows concretely what the world would look like without it.",
+   "review": "topic-1-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Thermodynamics bounds the efficiency of every heat engine operating between temperatures \\(T_h\\) and \\(T_c\\) by \\(1-T_c/T_h\\). What observation would refute this bound, and what would it refute? Draw the analogy with a principle of this course.",
+   "hints": [
+    "A principle theory is refuted by refuting a principle.",
+    "Compare an engine beating the Carnot bound with correlations beating Tsirelson’s bound."
+   ],
+   "answer": "A reliable engine exceeding \\(1-T_c/T_h\\) would refute the second law, the principle from which the bound is derived, whatever the engine is made of. Analogously, an experiment showing CHSH correlations above \\(2\\sqrt2\\) between separated systems, or composite states not determined by local statistics, would refute a principle of this course and with it the derivation of quantum theory. Principle theories are exposed to experiment through the general consequences of their principles.",
+   "review": "topic-1-1-2"
+  }
+ ],
+ "02-states": [
+  {
+   "kind": "Quick check",
+   "question": "Three preparations give an outcome with probabilities \\(0.1\\), \\(0.6\\), and \\(0.9\\). They are mixed with weights \\(0.2\\), \\(0.3\\), \\(0.5\\). What probability does the mixture give?",
+   "hints": [
+    "Apply the law of total probability.",
+    "Weight each probability by how often its preparation is used."
+   ],
+   "answer": "\\(0.2(0.1)+0.3(0.6)+0.5(0.9)=0.02+0.18+0.45=0.65\\). The rule depends only on the recipe, so it holds in every theory.",
+   "review": "topic-2-1-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What is \\(K\\) for a die, and how many free parameters does a normalized state of a die have? What is \\(K\\) for a pair of classical bits?",
+   "hints": [
+    "For a classical system \\(K=N\\).",
+    "Normalization fixes one number."
+   ],
+   "answer": "A die has \\(K=6\\) and \\(5\\) free parameters. A pair of classical bits is a classical system with \\(4\\) configurations, so \\(K=4\\).",
+   "review": "topic-2-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Which points of a triangle are pure states? Which points of a disc? Is the midpoint of an edge of the triangle pure?",
+   "hints": [
+    "Pure means not a mixture of two different states.",
+    "A point strictly between two states is a mixture."
+   ],
+   "answer": "In a triangle only the three corners are pure; the midpoint of an edge is the even mixture of its two corners. In a disc every point of the boundary circle is pure, so there are infinitely many pure states.",
+   "review": "topic-2-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "(a) Decompose the classical trit state \\((0.2,0.3,0.5)\\) into pure states and explain why the decomposition is unique. (b) For the disc, write its center as an even mixture of pure states in two different ways.",
+   "hints": [
+    "The pure states of a trit are \\((1,0,0)\\), \\((0,1,0)\\), \\((0,0,1)\\).",
+    "Any diameter of a disc has the center as its midpoint."
+   ],
+   "answer": "(a) \\((0.2,0.3,0.5)=0.2(1,0,0)+0.3(0,1,0)+0.5(0,0,1)\\). The weights must equal the coordinates, since each pure state contributes only to its own coordinate, so the decomposition is unique. (b) The center is the midpoint of the horizontal diameter and also of the vertical one: \\(\\tfrac12(1,0)+\\tfrac12(-1,0)=\\tfrac12(0,1)+\\tfrac12(0,-1)\\). The two recipes prepare the same state, and no measurement can reveal which was used.",
+   "review": "topic-2-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Show that if a set contains every mixture of any two of its members, it contains every mixture \\(\\lambda_1\\omega_1+\\lambda_2\\omega_2+\\lambda_3\\omega_3\\) of three, with nonnegative weights summing to one.",
+   "hints": [
+    "Group the last two terms.",
+    "Assume \\(\\lambda_1<1\\)."
+   ],
+   "answer": "If \\(\\lambda_1=1\\) the mixture is \\(\\omega_1\\). Otherwise write it as \\(\\lambda_1\\omega_1+(1-\\lambda_1)\\big(\\tfrac{\\lambda_2}{1-\\lambda_1}\\omega_2+\\tfrac{\\lambda_3}{1-\\lambda_1}\\omega_3\\big)\\). The bracket is a two-state mixture, hence in the set, and the whole is a two-state mixture of \\(\\omega_1\\) and the bracket. Operationally: pick \\(\\omega_1\\) with probability \\(\\lambda_1\\); otherwise choose between the other two with the conditional weights.",
+   "review": "topic-2-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A source emits a coin-like system with probability \\(0.8\\), and when it does, the probability of heads is \\(0.25\\). (a) Write the subnormalized state as the pair (probability of heads, probability of tails). (b) What is the unit effect’s value? (c) Mix this source equally with a perfect source of heads. What is the result?",
+   "hints": [
+    "Subnormalized probabilities are the success probability times the conditional ones.",
+    "Mixing averages the vectors."
+   ],
+   "answer": "(a) \\((0.8\\times0.25,\\ 0.8\\times0.75)=(0.2,0.6)\\). (b) \\(u=0.2+0.6=0.8\\), the probability that a system is present. (c) \\(\\tfrac12(0.2,0.6)+\\tfrac12(1,0)=(0.6,0.3)\\), with total \\(0.9\\). Including subnormalized states lets us treat “no system” uniformly and makes \\(K\\) count normalization as one of the parameters.",
+   "review": "topic-2-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For polarized light, a polarizer at one angle passes a fraction \\(\\cos^2\\alpha\\) of light polarized at angle \\(\\alpha\\) to it. (a) Find two different linear polarizations that a single polarizer at \\(0^\\circ\\) cannot tell apart statistically. (b) Experiments show that transmission at \\(0^\\circ\\), at \\(45^\\circ\\), and through a circular-polarization filter, together with intensity, fix all other predictions. What is \\(K\\)?",
+   "hints": [
+    "Try \\(\\pm\\alpha\\).",
+    "Count all fiducial numbers, including normalization."
+   ],
+   "answer": "(a) Polarizations at \\(+30^\\circ\\) and \\(-30^\\circ\\) both pass with probability \\(\\cos^230^\\circ=0.75\\), yet a polarizer at \\(30^\\circ\\) passes one fully and the other with probability \\(\\cos^260^\\circ=0.25\\). One setting is not a fiducial set. (b) Three transmission probabilities plus normalization: \\(K=4\\), the value Chapter 7 derives for a qubit.",
+   "review": "topic-2-2-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “A mixed state means the system is really in one of the pure states of the mixture, and we just don’t know which.” Using the disc, explain why the state itself does not support this reading.",
+   "hints": [
+    "How many decompositions does the center of the disc have?",
+    "A state records only predictions."
+   ],
+   "answer": "The center of the disc is an even mixture of every pair of antipodal pure states. If it meant “really in one of the pure states of the mixture,” we would have to say which pair, but all pairs give identical predictions for every measurement, so the state contains no fact about it. The ignorance reading is consistent only for a particular preparation recipe, not for the state. Classical theory hides this issue because its decompositions are unique.",
+   "review": "topic-2-1-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Let \\(f\\) be a function on \\([0,1]\\) with values in \\([0,1]\\) satisfying \\(f\\big(\\tfrac{p+q}2\\big)=\\tfrac12f(p)+\\tfrac12f(q)\\) for all \\(p,q\\). Show that \\(f(p)=f(0)+\\big(f(1)-f(0)\\big)p\\) at every dyadic rational \\(p=k/2^m\\), and explain why boundedness then forces \\(f\\) to be affine everywhere.",
+   "hints": [
+    "Use induction on \\(m\\), halving intervals.",
+    "A midpoint-affine function that is bounded on an interval is continuous."
+   ],
+   "answer": "The formula holds at \\(0\\) and \\(1\\). If it holds at all multiples of \\(2^{-m}\\), each multiple of \\(2^{-(m+1)}\\) is a midpoint of two of them, where the midpoint rule gives the same linear value. So it holds at all dyadic rationals. A midpoint-affine function bounded on an interval is continuous (a classical result for Jensen’s equation), and dyadic rationals are dense, so \\(f\\) is affine. This is the one-dimensional core of Section 2.3.",
+   "review": "topic-2-3-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "A theory has two two-outcome measurements, X and Z, and its normalized states are the points \\((p_X,p_Z)\\) with \\((p_X-\\tfrac12)^2+(p_Z-\\tfrac12)^2\\le\\tfrac14\\). (a) What is \\(K\\)? (b) If \\(p_X=1\\), what are the possible values of \\(p_Z\\)? (c) Compare with the square bit.",
+   "hints": [
+    "The state space is a disc inscribed in the unit square.",
+    "Substitute \\(p_X=1\\)."
+   ],
+   "answer": "(a) \\(K=3\\). (b) \\(p_X=1\\) forces \\((p_Z-\\tfrac12)^2\\le0\\), so \\(p_Z=\\tfrac12\\): certainty about X implies complete randomness for Z. (c) In the square bit both outcomes can be certain at once, at a corner. The disc builds a trade-off between X and Z into the geometry of the state space, a first glimpse of uncertainty relations.",
+   "review": "topic-2-3-2"
+  }
+ ],
+ "03-effects": [
+  {
+   "kind": "Quick check",
+   "question": "In the disc theory, what probability does the effect \\(e_{\\mathbf n}\\) give on a pure state at \\(60^\\circ\\) from \\(\\mathbf n\\)? At \\(120^\\circ\\)?",
+   "hints": [
+    "\\(e_{\\mathbf n}(\\mathbf r)=\\tfrac12(1+\\mathbf n\\cdot\\mathbf r)\\).",
+    "\\(\\cos60^\\circ=\\tfrac12\\)."
+   ],
+   "answer": "At \\(60^\\circ\\): \\(\\tfrac12(1+\\tfrac12)=\\tfrac34\\). At \\(120^\\circ\\): \\(\\tfrac12(1-\\tfrac12)=\\tfrac14\\). These equal \\(\\cos^2(30^\\circ)\\) and \\(\\cos^2(60^\\circ)\\).",
+   "review": "topic-3-3-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "A detector reports “heads” correctly with probability \\(0.9\\) when the coin is heads and falsely with probability \\(0.2\\) when it is tails. Write its effect, its complement, and the probability of “heads” for a fair coin.",
+   "hints": [
+    "An effect on the classical bit is \\(f_Hp+f_T(1-p)\\).",
+    "The complement is \\(u-e\\)."
+   ],
+   "answer": "\\(e(p)=0.9p+0.2(1-p)\\); the complement is \\(0.1p+0.8(1-p)\\). For \\(p=\\tfrac12\\), \\(e=0.55\\). Effects describe imperfect detectors as naturally as ideal ones.",
+   "review": "topic-3-1-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "The three-dimensional ball has \\(K=4\\). What upper bound on \\(N\\) does \\(N\\le K\\) give, and what is the actual value?",
+   "hints": [
+    "Distinguishable states are linearly independent.",
+    "In a ball, only antipodal states are perfectly distinguishable."
+   ],
+   "answer": "\\(N\\le4\\), but the actual value is \\(N=2\\): two perfectly distinguishable states must be antipodal pure states, and three points cannot be pairwise antipodal. The bound \\(N\\le K\\) is tight only for classical systems.",
+   "review": "topic-3-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "(a) Prove that perfectly distinguishable states are linearly independent. (b) Conclude \\(N\\le K\\), and check that the classical trit achieves equality.",
+   "hints": [
+    "Apply the distinguishing effect \\(e_i\\) to a vanishing linear combination.",
+    "The trit’s corners are perfectly distinguishable."
+   ],
+   "answer": "(a) If \\(\\sum_jc_j\\omega_j=0\\), applying the linear functional \\(e_i\\) gives \\(\\sum_jc_je_i(\\omega_j)=c_i=0\\) for each \\(i\\). (b) At most \\(K\\) linearly independent vectors fit in a \\(K\\)-dimensional space, so \\(N\\le K\\). The trit’s three corners are perfectly distinguishable and \\(K=3\\), so \\(N=K=3\\).",
+   "review": "topic-3-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Characterize all effects of the disc theory, \\(e(\\mathbf r)=a+\\mathbf b\\cdot\\mathbf r\\), and find the range of probabilities of the effect with \\(a=0.3\\), \\(|\\mathbf b|=0.3\\).",
+   "hints": [
+    "The extreme values on the disc are \\(a\\pm|\\mathbf b|\\).",
+    "Both must lie in \\([0,1]\\)."
+   ],
+   "answer": "An affine functional is an effect exactly when \\(0\\le a-|\\mathbf b|\\) and \\(a+|\\mathbf b|\\le1\\), that is, \\(|\\mathbf b|\\le\\min(a,1-a)\\). For \\(a=|\\mathbf b|=0.3\\) the probabilities range over \\([0,0.6]\\): zero at the pure state opposite to \\(\\mathbf b\\), and \\(0.6\\) at the pure state along \\(\\mathbf b\\). Its complement ranges over \\([0.4,1]\\).",
+   "review": "topic-3-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "In the square bit, decide which are effects: (a) \\((p_X+p_Z)/2\\); (b) \\(p_X+p_Z\\); (c) \\(p_Xp_Z\\); (d) \\(1-p_X\\).",
+   "hints": [
+    "An effect is affine and takes values in \\([0,1]\\) at all four corners.",
+    "An affine function on a square is extreme at the corners."
+   ],
+   "answer": "(a) Affine with corner values \\(0,\\tfrac12,\\tfrac12,1\\): an effect. (b) Equals \\(2\\) at \\((1,1)\\): not an effect. (c) Not affine, so not an effect, although it lies in \\([0,1]\\); mixing \\((0,0)\\) and \\((1,1)\\) evenly would require \\(\\tfrac12\\) but the formula gives \\(\\tfrac14\\). (d) An effect, the complement of \\(p_X\\).",
+   "review": "topic-3-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Two pure states of the ball have Bloch vectors \\(\\mathbf r_1\\), \\(\\mathbf r_2\\) at angle \\(\\theta\\). With equal priors, a two-outcome measurement \\(\\{e_{\\mathbf n},e_{-\\mathbf n}\\}\\) guesses state 1 on outcome \\(\\mathbf n\\). Find the best success probability over \\(\\mathbf n\\) and evaluate it for \\(\\theta=90^\\circ\\).",
+   "hints": [
+    "Success is \\(\\tfrac12[e_{\\mathbf n}(\\mathbf r_1)+e_{-\\mathbf n}(\\mathbf r_2)]\\).",
+    "\\(|\\mathbf r_1-\\mathbf r_2|=2\\sin(\\theta/2)\\)."
+   ],
+   "answer": "Success is \\(\\tfrac12\\big[\\tfrac12(1+\\mathbf n\\cdot\\mathbf r_1)+\\tfrac12(1-\\mathbf n\\cdot\\mathbf r_2)\\big]=\\tfrac12+\\tfrac14\\mathbf n\\cdot(\\mathbf r_1-\\mathbf r_2)\\), largest for \\(\\mathbf n\\) along \\(\\mathbf r_1-\\mathbf r_2\\): \\(\\tfrac12+\\tfrac12\\sin(\\theta/2)\\). For \\(\\theta=90^\\circ\\), about \\(0.854\\). Only \\(\\theta=180^\\circ\\) gives certainty, which is perfect distinguishability.",
+   "review": "topic-3-2-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student claims: “If two states give different probabilities for some outcome, a measurement of that outcome tells them apart.” Correct the claim using the states \\(p=0.4\\) and \\(p=0.6\\) of a classical bit.",
+   "hints": [
+    "Distinguish single-shot from statistical discrimination.",
+    "What does one run reveal?"
+   ],
+   "answer": "One run gives heads with probability \\(0.4\\) or \\(0.6\\), so guessing from a single outcome succeeds only \\(60\\%\\) of the time. The states are distinguishable statistically, given many copies, but not perfectly distinguishable. Perfect distinguishability requires an effect equal to \\(1\\) on one state and \\(0\\) on the other, which is what \\(N\\) counts.",
+   "review": "topic-3-2-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "The extreme effects of a classical trit are the indicator effects of subsets of its configurations. How many are there? Show that every effect is a mixture of them.",
+   "hints": [
+    "A subset of three configurations: \\(2^3\\) choices.",
+    "An effect is a list \\((f_1,f_2,f_3)\\) in \\([0,1]^3\\)."
+   ],
+   "answer": "There are \\(2^3=8\\), including the zero effect and the unit effect. Effects of the trit are points \\((f_1,f_2,f_3)\\) of the unit cube, whose corners are these indicators, and every point of a cube is a mixture of its corners. So every classical effect is a randomized choice among sharp tests.",
+   "review": "topic-3-3-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Show that any two distinct pure states of the square bit are perfectly distinguishable, while two distinct pure states of the disc are perfectly distinguishable only if they are antipodal. What does this suggest about copying pure states in each theory?",
+   "hints": [
+    "Check adjacent and opposite corners separately.",
+    "Partial overlap of pure states is what makes copying impossible in quantum theory."
+   ],
+   "answer": "Adjacent corners differ in one coordinate, distinguished by \\(p_X\\) or \\(p_Z\\); opposite corners differ in both. So all six pairs are distinguishable. In the disc, Problem 3.2 shows that only antipodal pairs are. In the square, a single measurement can identify which of any two pure states is present, so copying a pure state known to be one of two is possible; in the disc, pure states overlap partially, the situation in which quantum theory forbids cloning (Chapter 13).",
+   "review": "topic-3-3-2"
+  }
+ ],
+ "04-composition": [
+  {
+   "kind": "Quick check",
+   "question": "Verify that both local outcomes of the PR box are uniformly random for every pair of inputs.",
+   "hints": [
+    "Sum \\(p(a,b\\mid x,y)\\) over \\(b\\).",
+    "For each \\(a\\) exactly one \\(b\\) satisfies \\(a\\oplus b=xy\\)."
+   ],
+   "answer": "For fixed \\(a\\), \\(x\\), \\(y\\), exactly one value of \\(b\\) satisfies \\(a\\oplus b=xy\\), with probability \\(\\tfrac12\\). So \\(p(a\\mid x,y)=\\tfrac12\\) for both \\(a\\), independent of \\(y\\). The same holds for B. The PR box does not signal.",
+   "review": "topic-4-3-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Under local tomography, what is \\(K\\) for a pair of balls (\\(K=4\\) each), a pair of square bits, and a pair of classical bits?",
+   "hints": [
+    "\\(K_{AB}=K_AK_B\\).",
+    "The square bit has \\(K=3\\)."
+   ],
+   "answer": "\\(16\\), \\(9\\), and \\(4\\). For classical bits this matches the four configurations of the pair.",
+   "review": "topic-4-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "If a strategy achieves CHSH value \\(S\\), its winning probability is \\(\\tfrac12+S/8\\). Evaluate it for \\(S=2\\), \\(S=2\\sqrt2\\), and \\(S=4\\).",
+   "hints": [
+    "Substitute.",
+    "\\(2\\sqrt2/8=\\sqrt2/4\\)."
+   ],
+   "answer": "\\(0.75\\), \\(\\tfrac12+\\tfrac{\\sqrt2}4\\approx0.854\\), and \\(1\\): the classical limit, the quantum limit, and the PR box.",
+   "review": "topic-4-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A proposed joint behavior has \\(a=y\\) with certainty and \\(b\\) uniformly random. Show that it signals, and explain why the framework excludes it for separated laboratories.",
+   "hints": [
+    "Compute \\(p(a\\mid x,y)\\).",
+    "Could B send a bit to A?"
+   ],
+   "answer": "\\(p(a=1\\mid x,y)=y\\), which depends on B’s choice. B could send a bit to A instantly by choosing \\(y\\). The framework forbids later choices from influencing earlier records, and for laboratories whose operations have no fixed order this forbids signaling in either direction. No-signaling ensures that A has a well-defined marginal state.",
+   "review": "topic-4-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "The joint state of two classical bits \\(p(0,0)=p(1,1)=\\tfrac12\\), \\(p(0,1)=p(1,0)=0\\) has perfectly correlated outcomes. Write it as a mixture of products, and compute its marginals.",
+   "hints": [
+    "Each nonzero entry is a product of pure states.",
+    "Marginals sum over the other bit."
+   ],
+   "answer": "It is \\(\\tfrac12(1,0)\\otimes(1,0)+\\tfrac12(0,1)\\otimes(0,1)\\): a shared fair coin decides whether both are \\(0\\) or both \\(1\\). The marginals are \\((\\tfrac12,\\tfrac12)\\) each. The correlation has a classical explanation, and every classical joint state has one of this kind.",
+   "review": "topic-4-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Show that if \\(\\omega_1,\\dots,\\omega_m\\) are linearly independent states of A and \\(\\sigma_1,\\dots,\\sigma_n\\) of B, the \\(mn\\) product states are linearly independent. Use fiducial probabilities and the Kronecker product.",
+   "hints": [
+    "Arrange the fiducial probabilities of the \\(\\omega_i\\) in a matrix \\(M\\), and similarly \\(N\\) for B.",
+    "The fiducial probabilities of products form \\(M\\otimes N\\)."
+   ],
+   "answer": "With \\(m=K_A\\) and \\(n=K_B\\), \\(M\\) and \\(N\\) are invertible. The joint fiducial probabilities of \\(\\omega_i\\otimes\\sigma_j\\) are \\(M_{ia}N_{jb}\\), the entries of \\(M\\otimes N\\), whose determinant is \\(\\det(M)^{n}\\det(N)^{m}\\ne0\\). So the products are linearly independent, giving \\(K_{AB}\\ge K_AK_B\\) in every theory.",
+   "review": "topic-4-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Mix the PR box with weight \\(v\\) and the uniformly random box (all outcomes probability \\(\\tfrac14\\)) with weight \\(1-v\\). (a) Find \\(S\\). (b) For which \\(v\\) can the result be reproduced by local plans? (c) For which \\(v\\) do quantum pairs suffice?",
+   "hints": [
+    "The random box has all correlations zero.",
+    "Compare with \\(2\\) and \\(2\\sqrt2\\)."
+   ],
+   "answer": "(a) The PR box has correlations \\(+1,+1,+1,-1\\) giving \\(S=4\\), and the random box gives \\(0\\), so \\(S=4v\\). (b) Local plans reach \\(S\\le2\\), so the CHSH test is passed for \\(v\\le\\tfrac12\\); in fact such noisy boxes are local exactly in that range. (c) Quantum theory reaches \\(S=2\\sqrt2\\) at \\(v=1/\\sqrt2\\approx0.71\\), and noisy PR boxes with \\(v\\le1/\\sqrt2\\) are quantum-achievable. Between \\(0.71\\) and \\(1\\) lies correlation allowed by no-signaling but not by quantum theory.",
+   "review": "topic-4-3-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “The outcomes of two distant measurements are correlated, so one measurement must influence the other.” Give a counterexample from classical theory, and say what no-signaling does and does not exclude.",
+   "hints": [
+    "Recall the shared coin.",
+    "Distinguish correlation from control."
+   ],
+   "answer": "A shared coin that prepares both systems in \\(0\\) or both in \\(1\\) produces perfect correlation with no influence. No-signaling excludes that one laboratory’s choice changes the other’s local statistics; it does not exclude correlation. Whether all no-signaling correlations have common-cause explanations is a separate question, answered negatively by Bell’s theorem in Chapter 13.",
+   "review": "topic-4-1-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Imagine a theory in which \\(K_{AB}=K_AK_B+1\\) for a pair. Describe an experiment that would reveal the extra parameter and explain why two observers who pooled all their local records could never detect it.",
+   "hints": [
+    "Local statistics fix only \\(K_AK_B\\) numbers.",
+    "Some effect on the pair must depend on the extra number."
+   ],
+   "answer": "Two joint states can agree on all \\(K_AK_B\\) local correlation probabilities and differ in the extra parameter. Only a global measurement on the pair, whose effect is not a combination of products of local effects, can reveal the difference. Pooled local records are functions of the local correlations, so they cannot. Chapter 7 shows that real quantum theory behaves exactly like this, with \\(K=10\\) instead of \\(9\\) for two bits.",
+   "review": "topic-4-2-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Show that \\(N_{AB}\\ge N_AN_B\\): products of perfectly distinguishable local states are perfectly distinguishable, and the product effects \\(e_i\\otimes f_j\\) form a measurement.",
+   "hints": [
+    "Evaluate \\(e_i\\otimes f_j\\) on \\(\\omega_k\\otimes\\sigma_l\\).",
+    "Sum the product effects."
+   ],
+   "answer": "\\((e_i\\otimes f_j)(\\omega_k\\otimes\\sigma_l)=e_i(\\omega_k)f_j(\\sigma_l)\\), which is \\(1\\) if \\(i=k\\) and \\(j=l\\), else \\(0\\). The sum \\(\\sum_{ij}e_i\\otimes f_j=u_A\\otimes u_B\\) is the unit effect of the pair, so these effects form a measurement, realized by measuring each system separately. Hence \\(N_AN_B\\) states of the pair are perfectly distinguishable.",
+   "review": "topic-4-2-2"
+  }
+ ],
+ "05-classical-theory": [
+  {
+   "kind": "Quick check",
+   "question": "How many reversible transformations does a classical system with four configurations have? Which of them can be reached continuously from the identity?",
+   "hints": [
+    "Reversible maps permute the corners of the simplex.",
+    "A continuous path in a finite set is constant."
+   ],
+   "answer": "\\(4!=24\\) permutations. Only the identity can be reached continuously, since a continuous path through a finite set of isolated points cannot leave its starting point.",
+   "review": "topic-5-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Under \\(K=N^r\\) with \\(r=3\\), what would \\(K\\) be for a bit, and what would be the dimension of its set of normalized states?",
+   "hints": [
+    "Substitute \\(N=2\\).",
+    "Normalization removes one parameter."
+   ],
+   "answer": "\\(K=8\\), so normalized states would form a \\(7\\)-dimensional convex set. The derivation of Chapter 7 excludes this, leaving \\(r=2\\).",
+   "review": "topic-5-3-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "In a classical system with four configurations, which sets of pure states are perfectly distinguishable?",
+   "hints": [
+    "Classical pure states have no overlap.",
+    "Use indicator effects."
+   ],
+   "answer": "Every set: the indicator effects of the configurations distinguish all four corners at once, and hence any subset. Classical pure states never overlap.",
+   "review": "topic-5-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "(a) Prove that a reversible transformation maps pure states to pure states. (b) Use this to show that a linear map of the classical trit sending the corner \\((1,0,0)\\) to the midpoint \\((\\tfrac12,\\tfrac12,0)\\) cannot be reversible.",
+   "hints": [
+    "Apply \\(T^{-1}\\) to a decomposition of \\(T\\omega\\).",
+    "The midpoint is a mixture."
+   ],
+   "answer": "(a) If \\(T\\omega=\\lambda\\sigma_1+(1-\\lambda)\\sigma_2\\) with distinct states, then \\(\\omega=\\lambda T^{-1}\\sigma_1+(1-\\lambda)T^{-1}\\sigma_2\\) with distinct states, contradicting purity. (b) The image of a pure corner would be a mixture, which (a) forbids. Such a map loses information and its linear inverse would send some states outside the simplex.",
+   "review": "topic-5-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Quantum theory with real amplitudes has \\(K=N(N+1)/2\\). Compute \\(K\\) for \\(N=2,3,4,6\\) and test the composition rule \\(K(N_AN_B)=K(N_A)K(N_B)\\) for \\(2\\times2\\) and \\(2\\times3\\).",
+   "hints": [
+    "\\(K(2)=3\\), \\(K(3)=6\\).",
+    "Compare \\(K(4)\\) with \\(K(2)^2\\) and \\(K(6)\\) with \\(K(2)K(3)\\)."
+   ],
+   "answer": "\\(K=3,6,10,21\\). Then \\(K(4)=10\\ne9=K(2)^2\\) and \\(K(6)=21\\ne18=K(2)K(3)\\). In each case the composite has more parameters than local tomography allows: real quantum theory satisfies only \\(K_{AB}\\ge K_AK_B\\).",
+   "review": "topic-5-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Classical Hamiltonian flow moves points of phase space continuously and reversibly. (a) Why does this not contradict Section 5.2? (b) Divide phase space into \\(N\\) cells and suppose the flow over one step maps cells to cells. What kind of map is the step, and what happens to continuity?",
+   "hints": [
+    "How many perfectly distinguishable configurations does a point particle have?",
+    "A bijection of finitely many cells is a permutation."
+   ],
+   "answer": "(a) A classical particle has a continuum of perfectly distinguishable configurations, so \\(N\\) is infinite and finiteness fails; the flow connects them continuously. (b) The step is a permutation of cells, and the evolution in time can only jump from one permutation to another. Continuity is recovered only in the limit of infinitely many cells. With finitely many distinguishable states, classical theory must choose between continuity and reversibility.",
+   "review": "topic-5-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Decompose the trit state \\((0.5,0.3,0.2)\\) into pure states, and prove that no other decomposition exists, using the fact that its coordinates are probabilities of the indicator effects.",
+   "hints": [
+    "In a mixture of pure states, the indicator effect of configuration \\(j\\) picks out the weight of corner \\(j\\).",
+    "Pure states of the trit are its corners."
+   ],
+   "answer": "\\(0.5(1,0,0)+0.3(0,1,0)+0.2(0,0,1)\\). In any decomposition into pure states, which are corners, the indicator effect of configuration \\(j\\) gives the total weight on corner \\(j\\), and it must equal the \\(j\\)th coordinate. So the weights are forced. This barycentric uniqueness is what characterizes a simplex.",
+   "review": "topic-5-1-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student argues: “A classical bit can change continuously from 0 to 1 by a stochastic process, so continuity is no problem for classical theory.” What is missing?",
+   "hints": [
+    "Is the map that takes \\((1,0)\\) to \\((1-t,t)\\) reversible?",
+    "What happens to distinguishability?"
+   ],
+   "answer": "The process is continuous but irreversible. For \\(0<t<1\\) it sends the pure state to a mixture and squeezes the state space, losing information that no transformation can restore. Continuous reversibility asks for continuity and reversibility together, which a finite classical system cannot provide.",
+   "review": "topic-5-2-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Let \\(K\\) be strictly increasing on the positive integers with \\(K(mn)=K(m)K(n)\\) and \\(K(2)=4\\). Using \\(2^4<3^3<2^5\\), \\(2^7<3^5<2^8\\), and \\(2^{11}<3^7<2^{12}\\), bound \\(K(3)\\) and conclude that it is \\(9\\) if it is an integer.",
+   "hints": [
+    "\\(K(2^k)=4^k\\) and \\(K(3^k)=K(3)^k\\).",
+    "Monotonicity turns \\(2^a<3^b<2^c\\) into \\(4^a<K(3)^b<4^c\\)."
+   ],
+   "answer": "From \\(16<27<32\\): \\(256<K(3)^3<1024\\), so \\(6.35<K(3)<10.08\\). From \\(128<243<256\\): \\(4^7<K(3)^5<4^8\\), so \\(6.96<K(3)<9.19\\). From \\(2048<2187<4096\\): \\(4^{11}<K(3)^7<4^{12}\\), so \\(8.83<K(3)<10.77\\). Together \\(8.83<K(3)<9.19\\), and the only integer is \\(9=3^2\\). Continuing with better rational approximations of \\(\\log_23\\) pins \\(K(3)=3^2\\) exactly, the idea behind Erdős’s theorem.",
+   "review": "topic-5-3-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Hardy’s continuity axiom requires a continuous reversible path between any two pure states. Show that the case \\(r=1\\) violates it, and that the Bloch ball (\\(r=2\\), \\(N=2\\)) satisfies it.",
+   "hints": [
+    "For \\(r=1\\) the state space is a simplex.",
+    "Rotations of the ball form a connected group."
+   ],
+   "answer": "For \\(r=1\\), \\(K=N\\) and the state space is a simplex, whose reversible maps are permutations, so no continuous path joins distinct pure states. For the ball, any two points of the sphere are related by a rotation, and rotations by \\(t\\) times the angle, \\(0\\le t\\le1\\), form a continuous path of reversible maps from the identity. So \\(r=2\\) passes where \\(r=1\\) fails.",
+   "review": "topic-5-3-2"
+  }
+ ],
+ "06-continuous-reversibility": [
+  {
+   "kind": "Quick check",
+   "question": "How many reversible transformations does the square bit have, and does it satisfy continuous reversibility?",
+   "hints": [
+    "Reversible maps are the linear symmetries of the square.",
+    "A finite group has no nontrivial continuous paths."
+   ],
+   "answer": "Eight: four rotations and four reflections. It violates continuous reversibility, since only the identity can be reached continuously and no pure state can be moved continuously to another.",
+   "review": "topic-6-1-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Where is the maximally mixed state of the disc, and why is it the average of any pure state over all rotations?",
+   "hints": [
+    "Averaging over rotations gives a rotation-invariant state.",
+    "Which point of the disc is fixed by every rotation?"
+   ],
+   "answer": "It is the center. Averaging a boundary point over all rotations spreads it evenly around the circle, and the average is the unique rotation-invariant point, the center, whichever pure state we start from.",
+   "review": "topic-6-3-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What is \\(K\\) for the bit of quaternionic quantum theory, whose state space is a ball of dimension \\(5\\)?",
+   "hints": [
+    "A \\(d\\)-ball has \\(K=d+1\\).",
+    "Count normalization."
+   ],
+   "answer": "\\(K=6\\). Counting alone excludes it: \\(6\\) is not a power of \\(2\\), while \\(K=N^r\\) with \\(N=2\\) requires one.",
+   "review": "topic-6-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "In the Bloch ball, rotate the north pole \\((0,0,1)\\) about the \\(x\\)-axis by angle \\(\\pi t\\). (a) Give the state at time \\(t\\). (b) Find the probability of the effect \\(e_{\\mathbf z}\\) as a function of \\(t\\). (c) At what \\(t\\) does it equal \\(0.9\\)?",
+   "hints": [
+    "Rotation about \\(x\\) mixes \\(y\\) and \\(z\\).",
+    "\\(e_{\\mathbf z}(\\mathbf r)=\\tfrac12(1+z)\\)."
+   ],
+   "answer": "(a) \\(\\mathbf r(t)=(0,-\\sin\\pi t,\\cos\\pi t)\\), for one sense of rotation. (b) \\(\\tfrac12(1+\\cos\\pi t)=\\cos^2(\\pi t/2)\\). (c) \\(\\cos\\pi t=0.8\\) gives \\(t=\\arccos(0.8)/\\pi\\approx0.205\\). Every probability in \\([0,1]\\) is reached by some pure state on the path.",
+   "review": "topic-6-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Find all reversible transformations of the disc and identify those connected to the identity.",
+   "hints": [
+    "A reversible map is linear and maps the disc onto itself about its center.",
+    "Linear maps preserving the unit circle are orthogonal."
+   ],
+   "answer": "They are the linear maps preserving the unit disc: rotations and reflections, the orthogonal group \\(O(2)\\). The rotations form the connected component \\(G_0=SO(2)\\); reflections have determinant \\(-1\\) and cannot be reached continuously from the identity. Rotations alone act transitively on the circle, so the disc satisfies continuous reversibility.",
+   "review": "topic-6-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "The symmetry group of a triangle (all six permutations of its corners) acts transitively on its pure states, and all corners are at the same distance from the centroid. Does this triangle satisfy continuous reversibility? What does the example show about the argument of Section 6.3.1?",
+   "hints": [
+    "Is the permutation group connected?",
+    "Equal distance from \\(\\mu\\) is necessary, not sufficient."
+   ],
+   "answer": "No. The group is finite, so only the identity is reachable continuously. The triangle passes the necessary test of Section 6.3.1, pure states equidistant from \\(\\mu\\), but this test does not imply continuous reversibility. Continuity is what forces a continuum of pure states, and with it a round state space.",
+   "review": "topic-6-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Using the theorem of Section 6.2.1, show that a theory satisfying continuous reversibility with \\(N\\ge2\\) has infinitely many pure states, and conclude that \\(K>N\\).",
+   "hints": [
+    "Different probabilities need different states.",
+    "A simplex has exactly \\(N\\) pure states."
+   ],
+   "answer": "Along the path \\(\\psi_t\\), the probability \\(e(\\psi_t)\\) takes every value in \\([0,1]\\), and different values belong to different pure states, so there are infinitely many. If \\(K=N\\), the \\(N\\) perfectly distinguishable states would span the state space and every state would be a mixture of them, making them the only pure states. So \\(K>N\\), and the state space is not a simplex.",
+   "review": "topic-6-2-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “If a pure state gives a random outcome, the theory must be incomplete: there must be more precise states that fix the outcome.” Respond using Section 6.2.2.",
+   "hints": [
+    "Within the theory, pure states cannot be decomposed.",
+    "Adding states changes the theory."
+   ],
+   "answer": "Within the theory, a pure state is not a mixture of other states, so its randomness is not ignorance of a finer state of the theory. One can postulate a different theory with extra hidden states, but it must answer to its own principles; Chapter 12 shows that such states must be contextual, and Chapter 13 that, for composites, they must be nonlocal. The claim “must be incomplete” assumes determinism, which the course does not assume and does not derive.",
+   "review": "topic-6-2-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Bell’s model reproduces single-qubit statistics with predetermined outcomes. Explain why it does not contradict the theorem of Section 6.2.1.",
+   "hints": [
+    "Which state space does Bell’s model use?",
+    "Does the model satisfy continuous reversibility for its own states?"
+   ],
+   "answer": "The theorem concerns the pure states of the theory satisfying the principle. Bell’s model has a larger state space, with hidden variables, and its hidden-variable states are deterministic. Those states do not form a theory satisfying continuous reversibility, since no continuous reversible path joins two deterministic states with different outcomes. The quantum states appear in the model only as mixtures, so there is no contradiction.",
+   "review": "topic-6-2-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Explain why transitivity alone, without continuity, does not imply intrinsic randomness. Use the triangle as the example.",
+   "hints": [
+    "Where did the proof of Section 6.2.1 use continuity?",
+    "Corners of a triangle are deterministic."
+   ],
+   "answer": "The proof used the intermediate value theorem along a continuous path. In the triangle, transitive permutations carry each corner to each other, but in discrete jumps, and every pure state assigns \\(0\\) or \\(1\\) to the indicator effects. Transitivity says pure states are equivalent; continuity is what forces pure states in between, and with them randomness.",
+   "review": "topic-6-1-1"
+  }
+ ],
+ "07-the-qubit": [
+  {
+   "kind": "Quick check",
+   "question": "Find the density matrix of the state \\(\\mathbf r=(0.6,0,0.8)\\). Is it pure? Give a state vector.",
+   "hints": [
+    "\\(\\rho=\\tfrac12(I+xX+yY+zZ)\\).",
+    "Pure states have \\(|\\mathbf r|=1\\)."
+   ],
+   "answer": "\\(\\rho=\\begin{pmatrix}0.9&0.3\\\\0.3&0.1\\end{pmatrix}\\). Since \\(|\\mathbf r|=1\\) it is pure, and \\(\\ket\\psi=(3,1)^T/\\sqrt{10}\\), because \\(\\ketbra\\psi\\psi=\\tfrac1{10}\\begin{pmatrix}9&3\\\\3&1\\end{pmatrix}\\).",
+   "review": "topic-7-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What are the eigenvalues of the density matrix of a state with \\(|\\mathbf r|=0.5\\)?",
+   "hints": [
+    "The eigenvalues are \\((1\\pm|\\mathbf r|)/2\\).",
+    "They must be nonnegative and sum to one."
+   ],
+   "answer": "\\(0.75\\) and \\(0.25\\). The state is mixed, a quarter of the way from the center to the surface in terms of eigenvalues.",
+   "review": "topic-7-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Is \\(E=0.5I+0.3Z\\) an effect? What probability does it give on \\(\\ket0\\) and on \\(\\ket1\\)?",
+   "hints": [
+    "Its eigenvalues are \\(a\\pm|\\mathbf b|\\).",
+    "Use \\(\\tr(\\rho E)\\)."
+   ],
+   "answer": "Its eigenvalues are \\(0.8\\) and \\(0.2\\), both in \\([0,1]\\), so it is an effect, a noisy test for \\(\\ket0\\). It gives \\(0.8\\) on \\(\\ket0\\) and \\(0.2\\) on \\(\\ket1\\).",
+   "review": "topic-7-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For \\(\\rho_\\pm=\\tfrac14(I\\otimes I\\pm Y\\otimes Y)\\): (a) confirm both are valid states; (b) show that they give the same expectation for every product of observables from \\(\\{I,X,Z\\}\\); (c) explain why, in complex quantum theory, local tomography still distinguishes them.",
+   "hints": [
+    "\\(Y\\otimes Y\\) is real, with eigenvalues \\(\\pm1\\).",
+    "In complex quantum theory, \\(Y\\) is a local observable."
+   ],
+   "answer": "(a) \\(Y\\otimes Y\\) has eigenvalues \\(\\pm1\\), each twice, so \\(\\rho_\\pm\\) have eigenvalues \\(0,0,\\tfrac12,\\tfrac12\\): valid. (b) Distinct Pauli products are orthogonal under the trace, so every product from \\(\\{I,X,Z\\}\\), other than \\(I\\otimes I\\), has zero expectation in both. (c) In complex quantum theory each party can measure \\(Y\\), and the correlation \\(\\langle Y\\otimes Y\\rangle=\\pm1\\) is a product of local outcomes. The states differ in a local correlation, as local tomography requires.",
+   "review": "topic-7-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Show that \\(U=\\mathrm{diag}(e^{-i\\alpha/2},e^{i\\alpha/2})\\) rotates the Bloch vector by \\(\\alpha\\) about the \\(z\\)-axis.",
+   "hints": [
+    "\\(U\\rho U^\\dagger\\) multiplies the off-diagonal entry \\(\\tfrac12(x-iy)\\) by a phase.",
+    "Compare \\((x-iy)e^{-i\\alpha}\\) with a rotated vector."
+   ],
+   "answer": "The diagonal of \\(\\rho\\) is unchanged, so \\(z\\) is fixed. The entry \\(\\tfrac12(x-iy)\\) becomes \\(\\tfrac12(x-iy)e^{-i\\alpha}\\). Writing \\(x'-iy'=(x-iy)(\\cos\\alpha-i\\sin\\alpha)\\) gives \\(x'=x\\cos\\alpha-y\\sin\\alpha\\) and \\(y'=x\\sin\\alpha+y\\cos\\alpha\\): a rotation by \\(\\alpha\\) about \\(z\\).",
+   "review": "topic-7-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Compute the probability that \\(\\ket\\psi=(\\cos\\tfrac\\pi8,\\sin\\tfrac\\pi8)^T\\) passes a test for \\(\\ket+\\) in two ways: from \\(|\\braket+\\psi|^2\\), and from the Bloch vectors.",
+   "hints": [
+    "\\(\\braket+\\psi=(\\cos\\tfrac\\pi8+\\sin\\tfrac\\pi8)/\\sqrt2\\).",
+    "\\(\\ket\\psi\\) has Bloch angle \\(\\theta=\\pi/4\\) in the \\(xz\\)-plane."
+   ],
+   "answer": "\\(|\\braket+\\psi|^2=\\tfrac12(\\cos\\tfrac\\pi8+\\sin\\tfrac\\pi8)^2=\\tfrac12(1+\\sin\\tfrac\\pi4)\\approx0.854\\). The Bloch vectors \\((\\sin\\tfrac\\pi4,0,\\cos\\tfrac\\pi4)\\) and \\((1,0,0)\\) are at angle \\(\\pi/4\\), giving \\(\\tfrac12(1+\\cos\\tfrac\\pi4)\\approx0.854\\). The Born rule and the geometry of the ball agree, as Section 7.3 proved.",
+   "review": "topic-7-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Counting alone allows a bit that is a ball of dimension \\(7\\). (a) What are \\(K\\) for one such bit and for a pair? (b) Do these satisfy \\(K=N^r\\)? (c) Which result excludes \\(d=7\\)?",
+   "hints": [
+    "\\(K=d+1\\).",
+    "\\(8=2^3\\)."
+   ],
+   "answer": "(a) \\(K=8\\) for one bit and \\(64\\) for a pair. (b) Yes, with \\(r=3\\): \\(8=2^3\\) and \\(64=4^3\\). (c) The theorem of Masanes, Müller, Augusiak, and Pérez-García: with local tomography, balls of dimension \\(d\\ne3\\) admit no continuous reversible interaction between two bits. Counting is not enough; reversible interaction selects \\(d=3\\).",
+   "review": "topic-7-1-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “Complex numbers in quantum mechanics are just convenient bookkeeping; real amplitudes would give the same predictions.” What is wrong?",
+   "hints": [
+    "What state space does a real qubit have?",
+    "Recall the network experiments of Chapter 17."
+   ],
+   "answer": "Real \\(2\\times2\\) density matrices describe only the disc, so a real qubit lacks the states with \\(y\\ne0\\). One can simulate a complex qubit with an extra real qubit, but then composite systems behave differently, and Renou and collaborators showed that real quantum theory with independent sources cannot reproduce certain network correlations of complex quantum theory, which experiments observed in 2022. Complex numbers are physically significant, and the course traces them to local tomography.",
+   "review": "topic-7-2-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "A \\(2\\times2\\) Hermitian matrix with quaternion entries has real diagonal entries and an off-diagonal quaternion. (a) Count its real parameters and find the dimension of the corresponding ball of states. (b) What does this give for \\(K\\)?",
+   "hints": [
+    "A quaternion has four real components.",
+    "Subtract one for unit trace."
+   ],
+   "answer": "(a) Two real diagonal entries and four real components off the diagonal: \\(6\\) parameters. Unit trace leaves \\(5\\), so the state space is a \\(5\\)-dimensional ball. (b) \\(K=6\\), not a power of \\(2\\), so counting excludes it; its composites also lack a well-defined tensor product over the quaternions.",
+   "review": "topic-7-1-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Show that \\(\\ket\\psi\\) and \\(e^{i\\phi}\\ket\\psi\\) have the same density matrix, while \\((1,e^{i\\phi})^T/\\sqrt2\\) has Bloch vector \\((\\cos\\phi,\\sin\\phi,0)\\). Interpret global and relative phase geometrically.",
+   "hints": [
+    "\\(\\ketbra\\psi\\psi\\) is unchanged by a common phase.",
+    "Read off \\(x\\) and \\(y\\) from the off-diagonal entry."
+   ],
+   "answer": "\\((e^{i\\phi}\\ket\\psi)(e^{i\\phi}\\ket\\psi)^\\dagger=\\ketbra\\psi\\psi\\), so a global phase is not a property of the state. For \\((1,e^{i\\phi})^T/\\sqrt2\\) the off-diagonal entry \\(\\rho_{10}=e^{i\\phi}/2=\\tfrac12(x+iy)\\), so \\(x=\\cos\\phi\\), \\(y=\\sin\\phi\\), \\(z=0\\). A relative phase is the azimuthal angle on the Bloch sphere: a physical property, measurable by interference.",
+   "review": "topic-7-2-1"
+  }
+ ],
+ "08-larger-systems": [
+  {
+   "kind": "Quick check",
+   "question": "What is \\(K\\) for systems with \\(N=3\\) and \\(N=4\\), and how many parameters does a normalized state have?",
+   "hints": [
+    "\\(K=N^2\\).",
+    "Subtract one for normalization."
+   ],
+   "answer": "\\(K=9\\) and \\(16\\); normalized states have \\(8\\) and \\(15\\) parameters.",
+   "review": "topic-8-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Is \\(E=\\mathrm{diag}(0.5,0.5,1)\\) an effect on a three-level system? Is it a projection?",
+   "hints": [
+    "Check the eigenvalues.",
+    "A projection has eigenvalues \\(0\\) or \\(1\\)."
+   ],
+   "answer": "Its eigenvalues lie in \\([0,1]\\), so it is an effect. It is not a projection, because of the eigenvalue \\(0.5\\): it describes a test that passes level \\(3\\) for sure and the others with probability one half.",
+   "review": "topic-8-3-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Compute the transition probability between \\((1,1,0)^T/\\sqrt2\\) and \\((1,0,1)^T/\\sqrt2\\).",
+   "hints": [
+    "\\(|\\braket\\phi\\psi|^2\\).",
+    "The inner product is \\(1/2\\)."
+   ],
+   "answer": "\\(\\braket\\phi\\psi=\\tfrac12\\), so the probability is \\(\\tfrac14\\).",
+   "review": "topic-8-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For a spin-1 system with basis \\(\\ket{+1},\\ket0,\\ket{-1}\\), describe the face of states that give probability zero for outcome \\(-1\\). Show that it is a Bloch ball.",
+   "hints": [
+    "Zero probability for a basis outcome forces a zero diagonal entry.",
+    "A positive matrix with a zero diagonal entry has zeros in that row and column."
+   ],
+   "answer": "Probability zero for \\(-1\\) means \\(\\rho_{-1,-1}=0\\), and positivity then forces the whole row and column of \\(-1\\) to vanish. The remaining \\(2\\times2\\) block on \\(\\ket{+1},\\ket0\\) is an arbitrary qubit density matrix, so the face is a Bloch ball, as the equivalence of subspaces requires.",
+   "review": "topic-8-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Use Hardy’s face count to compute \\(K\\) for \\(N=3\\) and \\(N=4\\), and prove \\(K(N)=N^2\\) in general.",
+   "hints": [
+    "\\(N\\) probabilities plus \\(2\\) new parameters per pair.",
+    "There are \\(N(N-1)/2\\) pairs."
+   ],
+   "answer": "\\(K(3)=3+2\\cdot3=9\\) and \\(K(4)=4+2\\cdot6=16\\). In general \\(K(N)=N+2\\cdot\\tfrac{N(N-1)}2=N^2\\). The \\(2\\) per pair correspond to the real and imaginary parts of an off-diagonal density-matrix entry.",
+   "review": "topic-8-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "The three trine states of a qubit are the pure states \\(\\mathbf n_k\\) at \\(120^\\circ\\) in a plane. With equal priors, a party measures the trine POVM \\(E_k=\\tfrac13(I+\\mathbf n_k\\cdot\\vec\\sigma)\\) and guesses \\(k\\). Find the success probability.",
+   "hints": [
+    "\\(\\tr(\\rho_kE_k)=\\tfrac13(1+\\mathbf n_k\\cdot\\mathbf n_k)\\).",
+    "Average over \\(k\\)."
+   ],
+   "answer": "Each state gives the matching outcome with probability \\(\\tfrac13(1+1)=\\tfrac23\\), so the success probability is \\(\\tfrac23\\). This is the optimal value for the trine with equal priors; a two-outcome projective measurement cannot even produce three guesses.",
+   "review": "topic-8-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For a three-level system, let \\(\\ket\\psi=(1,e^{i\\phi},0)^T/\\sqrt2\\). Find the probability of passing a test for \\((1,1,0)^T/\\sqrt2\\), and interpret it using the qubit face.",
+   "hints": [
+    "Compute the inner product.",
+    "The state lies in the face of the first two levels."
+   ],
+   "answer": "The inner product is \\((1+e^{i\\phi})/2\\), so the probability is \\(\\tfrac12(1+\\cos\\phi)\\). Both states lie in the qubit face of levels 1 and 2, and the result is the Bloch-sphere formula for two equatorial states at angle \\(\\phi\\). Relative phases in a qubit face produce interference.",
+   "review": "topic-8-2-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “A general measurement is just a projective measurement with added noise.” Is the trine a counterexample?",
+   "hints": [
+    "Can the trine be obtained by randomly choosing projective measurements and relabeling outcomes?",
+    "Each trine effect has rank one."
+   ],
+   "answer": "Yes. The trine’s effects are rank-one and it is an extremal measurement: it cannot be written as a random choice among projective measurements followed by classical processing of their outcomes. It is genuinely more general, though, by Naimark’s theorem (Chapter 15), it is a projective measurement on a larger system.",
+   "review": "topic-8-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "A modified qubit theory has the Bloch ball as its state space but allows only the measurement \\(\\{\\tfrac12(I+Z),\\tfrac12(I-Z)\\}\\) and its noisy versions. (a) Which states can it distinguish? (b) What would an observer conclude about the state space from measurements alone?",
+   "hints": [
+    "Effects depend only on \\(z\\).",
+    "States with the same \\(z\\) give identical statistics."
+   ],
+   "answer": "(a) Only states with different \\(z\\), and perfectly only \\(z=\\pm1\\). (b) States with the same \\(z\\) can never be told apart, so operationally they are the same state; the effective state space collapses to the segment \\(-1\\le z\\le1\\), a classical bit. The principle that all measurements are allowed ensures that states and effects match, so that every difference in the state space is observable.",
+   "review": "topic-8-3-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Suppose the two-outcome faces of every system were discs instead of balls. Redo Hardy’s face count and identify the theory.",
+   "hints": [
+    "A disc has \\(K=3\\), so one new parameter per pair.",
+    "Compare with the parameter count of real symmetric matrices."
+   ],
+   "answer": "\\(K(N)=N+1\\cdot\\tfrac{N(N-1)}2=\\tfrac{N(N+1)}2\\), the count of real symmetric \\(N\\times N\\) matrices: real quantum theory. Its faces are discs, its parameter count is not multiplicative, and it violates local tomography, as Chapters 5 and 7 found.",
+   "review": "topic-8-1-1"
+  }
+ ],
+ "09-symmetry-and-dynamics": [
+  {
+   "kind": "Quick check",
+   "question": "For \\(H=\\tfrac12\\hbar\\omega Z\\), what is the period of the Bloch-vector rotation? What is \\(U(2\\pi/\\omega)\\), and why does it not change the state?",
+   "hints": [
+    "\\(U(t)=\\mathrm{diag}(e^{-i\\omega t/2},e^{i\\omega t/2})\\).",
+    "A common phase changes no density matrix."
+   ],
+   "answer": "The Bloch vector returns after \\(2\\pi/\\omega\\). Then \\(U=\\mathrm{diag}(e^{-i\\pi},e^{i\\pi})=-I\\), a global phase, so \\(U\\rho U^\\dagger=\\rho\\). Unitaries are fixed by rotations only up to sign.",
+   "review": "topic-9-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Why does replacing \\(H\\) by \\(H+cI\\) change no prediction?",
+   "hints": [
+    "\\(e^{-i(H+cI)t/\\hbar}=e^{-ict/\\hbar}e^{-iHt/\\hbar}\\).",
+    "Global phases cancel in \\(U\\rho U^\\dagger\\)."
+   ],
+   "answer": "Because \\(cI\\) commutes with \\(H\\), the evolution acquires only the global phase \\(e^{-ict/\\hbar}\\), which cancels in \\(U\\rho U^\\dagger\\). Only energy differences are observable.",
+   "review": "topic-9-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Is the transpose map on a qubit in the connected component \\(G_0\\) of reversible transformations? Give a geometric reason.",
+   "hints": [
+    "Transposition flips the sign of \\(y\\).",
+    "Rotations have determinant \\(+1\\)."
+   ],
+   "answer": "No. It is the reflection \\((x,y,z)\\mapsto(x,-y,z)\\), of determinant \\(-1\\), and no continuous path of rotations, all of determinant \\(+1\\), reaches it.",
+   "review": "topic-9-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A qubit starts in \\(\\ket0\\) and evolves with \\(H=\\tfrac12\\hbar\\Omega X\\). Find the probability of \\(\\ket1\\) at time \\(t\\) and the time of the first complete transfer.",
+   "hints": [
+    "\\(e^{-i\\theta X/2}=\\cos\\tfrac\\theta2\\,I-i\\sin\\tfrac\\theta2\\,X\\).",
+    "Here \\(\\theta=\\Omega t\\)."
+   ],
+   "answer": "\\(U(t)\\ket0=\\cos\\tfrac{\\Omega t}2\\ket0-i\\sin\\tfrac{\\Omega t}2\\ket1\\), so the probability is \\(\\sin^2(\\Omega t/2)\\), reaching \\(1\\) first at \\(t=\\pi/\\Omega\\). The Bloch vector rotates about \\(x\\) from the north to the south pole: a Rabi oscillation.",
+   "review": "topic-9-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Given \\(U(t)=\\begin{pmatrix}\\cos t&-i\\sin t\\\\-i\\sin t&\\cos t\\end{pmatrix}\\), check that it is a one-parameter group of unitaries and find its generator \\(H\\) with \\(U(t)=e^{-iHt}\\).",
+   "hints": [
+    "Differentiate at \\(t=0\\).",
+    "\\(U'(0)=-iH\\)."
+   ],
+   "answer": "\\(U(t)=\\cos t\\,I-i\\sin t\\,X=e^{-iXt}\\), and \\(e^{-iXt}e^{-iXs}=e^{-iX(t+s)}\\), with \\(U^\\dagger U=I\\). Differentiating at zero gives \\(U'(0)=-iX\\), so \\(H=X\\).",
+   "review": "topic-9-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Two qubits start in \\(\\ket+\\ket+\\) and evolve with \\(H=\\hbar JZ\\otimes Z\\). Find the state at \\(t=\\pi/(4J)\\) and the reduced state of the first qubit.",
+   "hints": [
+    "\\(Z\\otimes Z\\) is diagonal with entries \\(1,-1,-1,1\\).",
+    "Compute \\(\\rho_A\\) from the \\(2\\times2\\) array of coefficients \\(c\\) as \\(cc^\\dagger\\)."
+   ],
+   "answer": "The coefficients become \\(\\tfrac12(e^{-i\\pi/4},e^{i\\pi/4},e^{i\\pi/4},e^{-i\\pi/4})\\). With \\(c\\) the \\(2\\times2\\) array, \\(cc^\\dagger\\) has diagonal \\(\\tfrac12,\\tfrac12\\) and off-diagonal \\(\\tfrac14(e^{-i\\pi/4}e^{-i\\pi/4}+e^{i\\pi/4}e^{i\\pi/4})=\\tfrac14(-i+i)=0\\). So \\(\\rho_A=I/2\\): continuous reversible evolution has produced a maximally entangled state.",
+   "review": "topic-9-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For \\(H=Z\\otimes Z\\), show in the Heisenberg picture that \\(Z\\otimes I\\) is conserved and \\(X\\otimes I\\) is not.",
+   "hints": [
+    "A quantity is conserved if it commutes with \\(H\\).",
+    "\\(XZ=-ZX\\)."
+   ],
+   "answer": "\\([Z\\otimes I,Z\\otimes Z]=0\\), so \\(Z\\otimes I\\) is constant. \\([X\\otimes I,Z\\otimes Z]=(XZ-ZX)\\otimes Z=-2iY\\otimes Z\\ne0\\), so \\(X\\otimes I\\) changes; its evolution correlates with the second qubit’s \\(Z\\).",
+   "review": "topic-9-3-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “The Schrödinger equation is a postulate justified by its experimental success.” What does Chapter 9 derive, and what does it still import?",
+   "hints": [
+    "Which principle gives continuous one-parameter groups?",
+    "Where does energy enter?"
+   ],
+   "answer": "Continuous reversibility and time-homogeneity give a continuous one-parameter group of unitaries, and the theorem of Section 9.2.1 gives \\(U(t)=e^{-iHt/\\hbar}\\), from which the Schrödinger equation follows by differentiation. What is imported is the identification of the generator \\(H\\) with the energy of the system, a physical link shared with classical mechanics. The form of the equation is derived; which \\(H\\) describes a given system is physics.",
+   "review": "topic-9-3-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Compute the eigenvalues of the partial transpose of \\(\\ketbra{\\Phi^+}{\\Phi^+}\\), with \\(\\ket{\\Phi^+}=(\\ket{00}+\\ket{11})/\\sqrt2\\), and explain why this excludes transposition as a physical transformation.",
+   "hints": [
+    "The partial transpose swaps the entries \\(\\ket{00}\\bra{11}\\) and \\(\\ket{01}\\bra{10}\\).",
+    "The result is half the swap operator."
+   ],
+   "answer": "The partial transpose is \\(\\tfrac12S\\), with \\(S\\) the swap, whose eigenvalues are \\(1,1,1,-1\\). So it has eigenvalue \\(-\\tfrac12\\), not a state. A transformation of one system must remain valid when that system is part of a larger one; transposition fails this, so it is a symmetry of single-system probabilities, not a process.",
+   "review": "topic-9-1-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "A qubit evolves with \\(H_1=X\\) for time \\(\\pi/4\\), then \\(H_2=Z\\) for time \\(\\pi/4\\) (units with \\(\\hbar=1\\)). Is the result \\(e^{-i(X+Z)\\pi/4}\\)? What does this show about time-dependent Hamiltonians?",
+   "hints": [
+    "The total evolution is \\(e^{-iZ\\pi/4}e^{-iX\\pi/4}\\).",
+    "\\(X\\) and \\(Z\\) do not commute."
+   ],
+   "answer": "No. The product \\(e^{-iZ\\pi/4}e^{-iX\\pi/4}\\) differs from \\(e^{-i(X+Z)\\pi/4}\\) because \\(X\\) and \\(Z\\) do not commute, as a direct calculation confirms. For a time-dependent Hamiltonian the evolution is an ordered product of short steps, each generated by the Hamiltonian at that time, not the exponential of the integrated Hamiltonian.",
+   "review": "topic-9-3-1"
+  }
+ ],
+ "10-observables": [
+  {
+   "kind": "Quick check",
+   "question": "For the observable \\(A=2\\ketbra00-\\ketbra11\\), list its outcomes and compute \\(\\langle A\\rangle\\) in \\(\\ket+\\).",
+   "hints": [
+    "Outcomes are eigenvalues.",
+    "Each outcome occurs with probability \\(\\tfrac12\\) in \\(\\ket+\\)."
+   ],
+   "answer": "Outcomes \\(2\\) and \\(-1\\). \\(\\langle A\\rangle=\\tfrac12(2)+\\tfrac12(-1)=\\tfrac12\\).",
+   "review": "topic-10-1-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Do \\(X\\otimes X\\) and \\(Z\\otimes Z\\) commute?",
+   "hints": [
+    "\\(XZ=-ZX\\).",
+    "Two sign changes cancel."
+   ],
+   "answer": "Yes: \\((X\\otimes X)(Z\\otimes Z)=XZ\\otimes XZ=(-ZX)\\otimes(-ZX)=(Z\\otimes Z)(X\\otimes X)\\). They are jointly measurable, by a measurement in the Bell basis.",
+   "review": "topic-10-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What is the expected spin component along \\(x\\) in the state \\(\\mathbf r=(0,0,1)\\)? Along \\(\\mathbf n=(1/\\sqrt2,0,1/\\sqrt2)\\)?",
+   "hints": [
+    "\\(\\langle\\mathbf n\\cdot\\vec\\sigma\\rangle=\\mathbf n\\cdot\\mathbf r\\).",
+    "Compute dot products."
+   ],
+   "answer": "\\(0\\) along \\(x\\), and \\(1/\\sqrt2\\approx0.71\\) along \\(\\mathbf n\\).",
+   "review": "topic-10-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Apply the Robertson relation to \\(X\\) and \\(Z\\), using \\([X,Z]=-2iY\\). Evaluate both sides for \\(\\mathbf r=(1/\\sqrt2,0,1/\\sqrt2)\\) and for \\(\\mathbf r=(0,1,0)\\).",
+   "hints": [
+    "\\(\\Delta X\\,\\Delta Z\\ge|\\langle Y\\rangle|\\).",
+    "For a \\(\\pm1\\) observable, \\((\\Delta A)^2=1-\\langle A\\rangle^2\\)."
+   ],
+   "answer": "The bound is \\(\\Delta X\\,\\Delta Z\\ge|\\langle Y\\rangle|\\). For the first state, \\(\\Delta X=\\Delta Z=\\sqrt{1/2}\\), product \\(\\tfrac12\\ge0\\). For the second, \\(\\Delta X=\\Delta Z=1\\) and \\(\\langle Y\\rangle=1\\): equality. The Robertson bound depends on the state and can be zero even when both spreads are positive.",
+   "review": "topic-10-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Construct the joint measurement of \\(Z\\otimes I\\) and \\(I\\otimes Z\\), and show that its coarse-grainings give each observable.",
+   "hints": [
+    "Use the products of spectral projections.",
+    "Sum over one index."
+   ],
+   "answer": "The effects are \\(P_{ab}=\\ketbra aa\\otimes\\ketbra bb\\) for \\(a,b\\in\\{0,1\\}\\). Summing over \\(b\\) gives \\(\\ketbra aa\\otimes I\\), the spectral projections of \\(Z\\otimes I\\); summing over \\(a\\) gives those of \\(I\\otimes Z\\). Commuting observables are measured together by measuring in a common eigenbasis.",
+   "review": "topic-10-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A three-level system has \\(H=\\mathrm{diag}(0,1,3)\\) in some units and is in \\(\\ket\\psi=(1,1,1)^T/\\sqrt3\\). Find \\(\\langle H\\rangle\\), \\(\\langle H^2\\rangle\\), and the variance.",
+   "hints": [
+    "Each level has probability \\(1/3\\).",
+    "\\(H^2=\\mathrm{diag}(0,1,9)\\)."
+   ],
+   "answer": "\\(\\langle H\\rangle=\\tfrac13(0+1+3)=\\tfrac43\\), \\(\\langle H^2\\rangle=\\tfrac13(0+1+9)=\\tfrac{10}3\\), so the variance is \\(\\tfrac{10}3-\\tfrac{16}9=\\tfrac{14}9\\approx1.56\\).",
+   "review": "topic-10-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Check the Maassen–Uffink relation for \\(X\\) and \\(Z\\) in the state \\(\\mathbf r=(0,1,0)\\).",
+   "hints": [
+    "Find the outcome distributions of \\(X\\) and \\(Z\\).",
+    "A fair two-outcome distribution has entropy one bit."
+   ],
+   "answer": "Both distributions are fair, with entropy \\(1\\) bit each, so the sum is \\(2\\ge1\\). This state has \\(Y\\) definite and both \\(X\\) and \\(Z\\) maximally uncertain; the entropic bound is far from tight here, while it is tight for eigenstates of \\(X\\) or \\(Z\\).",
+   "review": "topic-10-3-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “The uncertainty relation means that measuring \\(X\\) disturbs \\(Z\\).” What does the Robertson relation actually say?",
+   "hints": [
+    "Are \\(X\\) and \\(Z\\) measured on the same systems in the relation?",
+    "Distinguish preparation from measurement uncertainty."
+   ],
+   "answer": "The Robertson relation compares the spread of \\(X\\) in one set of runs with the spread of \\(Z\\) in another, on identically prepared systems. It limits preparations: no state makes both sharp. Disturbance by measurement is a different question, with different relations, and Chapter 11 derives its qualitative form.",
+   "review": "topic-10-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "A noisy measurement of \\(Z\\) has effects \\(\\tfrac12(I\\pm\\eta Z)\\) with \\(0\\le\\eta\\le1\\). (a) What is the expectation of its outcome \\(\\pm1\\)? (b) Paul Busch showed that noisy measurements of \\(X\\) and \\(Z\\) with sharpnesses \\(\\eta_X\\), \\(\\eta_Z\\) are jointly measurable exactly when \\(\\eta_X^2+\\eta_Z^2\\le1\\). Check that \\(\\eta_X=\\eta_Z=1/\\sqrt2\\) satisfies this, and explain what it shows about incompatibility.",
+   "hints": [
+    "\\(\\tr\\big(\\rho\\,\\tfrac12(I+\\eta Z)\\big)-\\tr\\big(\\rho\\,\\tfrac12(I-\\eta Z)\\big)\\).",
+    "\\(\\tfrac12+\\tfrac12=1\\)."
+   ],
+   "answer": "(a) \\(\\eta\\langle Z\\rangle\\): the noisy measurement shrinks the signal by \\(\\eta\\). (b) \\(\\tfrac12+\\tfrac12=1\\), on the boundary. Incompatible sharp observables become compatible when made sufficiently unsharp: incompatibility is a matter of degree, and joint measurement is possible at a precise cost in sharpness.",
+   "review": "topic-10-2-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Suppose a hidden-value model assigned values \\(v(X),v(Z)\\in\\{\\pm1\\}\\) and also required \\(v\\big((X+Z)/\\sqrt2\\big)=\\big(v(X)+v(Z)\\big)/\\sqrt2\\). Show this is impossible, and explain why the requirement was unreasonable for noncommuting observables.",
+   "hints": [
+    "\\((X+Z)/\\sqrt2\\) has eigenvalues \\(\\pm1\\).",
+    "Can \\((v(X)+v(Z))/\\sqrt2\\) be \\(\\pm1\\)?"
+   ],
+   "answer": "\\((v(X)+v(Z))/\\sqrt2\\) is \\(\\pm\\sqrt2\\) or \\(0\\), never \\(\\pm1\\), so no assignment works. But \\(X\\), \\(Z\\), and \\((X+Z)/\\sqrt2\\) are measured by three different experiments, so nothing requires their individual values to add, only their expectations. This was Bell’s criticism of von Neumann’s early no-go argument. The Peres–Mermin argument of Chapter 12 requires additivity only among commuting observables.",
+   "review": "topic-10-2-2"
+  }
+ ],
+ "11-state-update": [
+  {
+   "kind": "Quick check",
+   "question": "A measurement of \\(Z\\) is applied to \\(\\ket+\\). Give the probability of outcome \\(0\\) and the Lüders post-measurement state.",
+   "hints": [
+    "\\(|\\braket0+|^2\\).",
+    "Project and normalize."
+   ],
+   "answer": "Probability \\(\\tfrac12\\); the state becomes \\(\\ket0\\).",
+   "review": "topic-11-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "A device measures \\(Z\\) and then prepares \\(\\ket+\\) regardless of the outcome. Does it measure the same observable as an ideal \\(Z\\) measurement? Is it repeatable?",
+   "hints": [
+    "Compare outcome probabilities.",
+    "What does a second application give?"
+   ],
+   "answer": "It has the same outcome probabilities, so it measures \\(Z\\). It is not repeatable: after it, \\(\\ket+\\) gives each outcome with probability \\(\\tfrac12\\). The observable does not determine the update.",
+   "review": "topic-11-1-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "In the three-device experiment, what fraction leaves the lower port of the final \\(z\\)-device if the middle \\(x\\)-device is removed?",
+   "hints": [
+    "The state after the first device is \\(\\ket0\\).",
+    "\\(\\braket10=0\\)."
+   ],
+   "answer": "None. The first device leaves \\(\\ket0\\), which the final device passes upward with certainty.",
+   "review": "topic-11-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A two-qubit parity measurement has projections \\(P_{\\text{even}}=\\ketbra{00}{00}+\\ketbra{11}{11}\\) and \\(P_{\\text{odd}}=I-P_{\\text{even}}\\). Apply it to \\((\\ket{00}+\\ket{01}+\\ket{11})/\\sqrt3\\). Find the probabilities and the Lüders states.",
+   "hints": [
+    "Project onto each subspace.",
+    "Keep coherence within the subspace."
+   ],
+   "answer": "Even: \\((\\ket{00}+\\ket{11})/\\sqrt3\\), probability \\(\\tfrac23\\), state \\((\\ket{00}+\\ket{11})/\\sqrt2\\). Odd: \\(\\ket{01}/\\sqrt3\\), probability \\(\\tfrac13\\), state \\(\\ket{01}\\). The even outcome preserves the superposition of \\(\\ket{00}\\) and \\(\\ket{11}\\), producing an entangled state: minimal disturbance does not mean no change.",
+   "review": "topic-11-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "On \\(\\ket0\\), compare the joint outcome distributions of (a) measuring \\(Z\\) then \\(X\\), and (b) measuring \\(X\\) then \\(Z\\), with Lüders updates.",
+   "hints": [
+    "After \\(Z\\), the state is \\(\\ket0\\).",
+    "After \\(X\\), the state is \\(\\ket\\pm\\)."
+   ],
+   "answer": "(a) \\(Z\\) gives \\(0\\) with certainty, then \\(X\\) gives \\(\\pm\\) with probability \\(\\tfrac12\\) each: outcomes \\((0,+)\\) and \\((0,-)\\), each \\(\\tfrac12\\). (b) \\(X\\) gives \\(\\pm\\) with probability \\(\\tfrac12\\); from \\(\\ket\\pm\\), \\(Z\\) gives each value with probability \\(\\tfrac12\\): four outcomes, each \\(\\tfrac14\\). The order matters, reflecting that \\(X\\) and \\(Z\\) do not commute.",
+   "review": "topic-11-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A gentle measurement of \\(Z\\) has Kraus operators \\(K_\\pm=\\sqrt{\\tfrac12(I\\pm\\eta Z)}\\). Apply it to \\(\\ket+\\). For outcome \\(+\\), find the post-measurement Bloch vector and interpret the trade-off between information and disturbance.",
+   "hints": [
+    "\\(K_+=\\mathrm{diag}\\big(\\sqrt{(1+\\eta)/2},\\sqrt{(1-\\eta)/2}\\big)\\).",
+    "Normalize \\(K_+\\ket+\\) and compute \\(x\\) and \\(z\\)."
+   ],
+   "answer": "\\(K_+\\ket+\\propto(\\sqrt{1+\\eta},\\sqrt{1-\\eta})\\), so the post-measurement state is pure with \\(z=\\eta\\) and \\(x=\\sqrt{1-\\eta^2}\\). For \\(\\eta=0\\) nothing is learned and nothing is disturbed; for \\(\\eta=1\\) the outcome is sharp and the \\(x\\)-component is destroyed. The more the measurement reveals about \\(Z\\), the more it disturbs the state’s coherence.",
+   "review": "topic-11-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Between a \\(z\\)-device keeping the upper port and a final device along \\(-z\\), insert \\(n-1\\) devices at angles \\(k\\pi/n\\), \\(k=1,\\dots,n-1\\), each keeping its upper port. Find the fraction passing all of them for \\(n=10\\) and \\(n=100\\).",
+   "hints": [
+    "Each step passes \\(\\cos^2(\\pi/2n)\\).",
+    "There are \\(n\\) steps."
+   ],
+   "answer": "Each step passes \\(\\cos^2(\\pi/2n)\\), so the total is \\(\\cos^{2n}(\\pi/2n)\\): about \\(0.78\\) for \\(n=10\\) and \\(0.98\\) for \\(n=100\\). Frequent measurements can drag a state from \\(\\ket0\\) to \\(\\ket1\\) almost without loss, a version of the quantum Zeno effect, made possible by the Lüders update.",
+   "review": "topic-11-3-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “The Lüders rule proves that measurement physically collapses the wave function.” What does the rule describe, and what does it leave open?",
+   "hints": [
+    "From what assumptions was the rule derived?",
+    "Recall the measurement problem."
+   ],
+   "answer": "The rule describes how the state assigned to a system should be updated after an ideal measurement with a recorded outcome, derived from repeatability and minimal disturbance. It is not a dynamical law within the theory. Whether something physical collapses, or the update reflects new information, or branches persist, is the measurement problem, which the principles do not settle.",
+   "review": "topic-11-2-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Give two different instruments for the observable \\(Z\\otimes I\\) that are both repeatable but differ in their effect on the second qubit, and identify the one satisfying minimal disturbance.",
+   "hints": [
+    "After outcome \\(a\\), any state in the range of \\(\\ketbra aa\\otimes I\\) is repeatable.",
+    "Try applying a unitary to the second qubit."
+   ],
+   "answer": "Instrument 1: \\(\\rho\\mapsto(P_a\\otimes I)\\rho(P_a\\otimes I)\\). Instrument 2: the same followed by \\(X\\) on the second qubit. Both leave the first qubit in \\(\\ket a\\), so both are repeatable. Instrument 2 changes an initially certain property of the second qubit, such as \\(Z\\otimes I\\) and \\(I\\otimes Z\\) both definite in \\(\\ket{00}\\), while instrument 1 does not. Minimal disturbance selects instrument 1, the Lüders rule.",
+   "review": "topic-11-2-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "A probe interacts unitarily with a qubit prepared in \\(\\ket0\\) or \\(\\ket+\\), leaving the qubit undisturbed and the probe in \\(\\ket a\\) or \\(\\ket b\\). Show that \\(\\braket ba=1\\), and conclude that the probe gains no information.",
+   "hints": [
+    "Unitaries preserve inner products.",
+    "\\(\\braket0+=1/\\sqrt2\\ne0\\)."
+   ],
+   "answer": "Inner products before and after must agree: \\(\\braket0+=\\braket0+\\braket ba\\). Dividing by \\(1/\\sqrt2\\) gives \\(\\braket ba=1\\), so the probe states are identical and carry no information. To learn anything about which of two nonorthogonal states was present, at least one must be disturbed.",
+   "review": "topic-11-3-2"
+  }
+ ],
+ "12-contextuality": [
+  {
+   "kind": "Quick check",
+   "question": "Verify that the first column of the Peres–Mermin square multiplies to \\(+I\\).",
+   "hints": [
+    "The column is \\(X\\otimes I\\), \\(I\\otimes Z\\), \\(X\\otimes Z\\).",
+    "Multiply factor by factor."
+   ],
+   "answer": "\\((X\\otimes I)(I\\otimes Z)(X\\otimes Z)=(X\\cdot I\\cdot X)\\otimes(I\\cdot Z\\cdot Z)=I\\otimes I\\).",
+   "review": "topic-12-1-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Why does Gleason’s theorem fail for a qubit?",
+   "hints": [
+    "What are the projective measurements of a qubit?",
+    "Do any two of them share a projection?"
+   ],
+   "answer": "A qubit’s projective measurements are pairs of antipodal points on the Bloch sphere, and no two different measurements share a projection. A frame function only needs \\(g(\\mathbf n)+g(-\\mathbf n)=1\\), which allows non-Born functions. In three or more dimensions, measurements share projections and interlock, which forces the Born form.",
+   "review": "topic-12-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Is Bohmian mechanics ruled out by the Kochen–Specker theorem? Why or why not?",
+   "hints": [
+    "The theorem excludes noncontextual assignments.",
+    "In Bohmian mechanics, outcomes depend on the apparatus."
+   ],
+   "answer": "No. Its outcomes depend on the whole experimental arrangement, so its value assignments are contextual, and the theorem excludes only noncontextual ones.",
+   "review": "topic-12-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Show that \\(XZ=-iY\\) and \\(ZX=iY\\), and use them to verify that the third column of the Peres–Mermin square multiplies to \\(-I\\).",
+   "hints": [
+    "Multiply the matrices.",
+    "\\(Y^2=I\\)."
+   ],
+   "answer": "\\(XZ=\\begin{pmatrix}0&-1\\\\1&0\\end{pmatrix}=-iY\\) and \\(ZX=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}=iY\\). Then \\((X\\otimes X)(Z\\otimes Z)(Y\\otimes Y)=(XZY)\\otimes(XZY)=(-iY^2)\\otimes(-iY^2)=(-i)^2I=-I\\).",
+   "review": "topic-12-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Let \\(\\rho=\\mathrm{diag}(0.5,0.3,0.2)\\) on \\(\\mathbb C^3\\) and let \\(\\ket{v_1},\\ket{v_2},\\ket{v_3}\\) be any orthonormal basis. Show that \\(f(P)=\\tr(\\rho P)\\) sums to one over the basis, and that the probability of a projection is the same in every basis containing it.",
+   "hints": [
+    "\\(\\sum_k\\ketbra{v_k}{v_k}=I\\).",
+    "\\(f\\) depends only on \\(P\\)."
+   ],
+   "answer": "\\(\\sum_k\\tr(\\rho\\ketbra{v_k}{v_k})=\\tr(\\rho I)=1\\). The value \\(\\tr(\\rho P)\\) is computed from \\(P\\) alone, so it does not depend on the rest of the basis. Born-rule probabilities are frame functions, and Gleason’s theorem says that for \\(N\\ge3\\) they are the only ones.",
+   "review": "topic-12-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Try the assignment: all nine Peres–Mermin observables equal \\(+1\\) except \\(Y\\otimes Y=-1\\). Which of the six constraints fail? Show that every assignment fails at least one.",
+   "hints": [
+    "Check each row and column product.",
+    "Compare the product of all nine computed by rows and by columns."
+   ],
+   "answer": "Rows 1 and 2 give \\(+1\\); row 3 gives \\(-1\\), violating its constraint. Columns 1 and 2 give \\(+1\\), and column 3 gives \\(-1\\) as required. So one constraint fails. In general the product of all nine values is the product of the row products and also of the column products; the constraints require these to be \\(+1\\) and \\(-1\\), so at least one constraint always fails.",
+   "review": "topic-12-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For \\(\\rho=\\ketbra00\\) on \\(\\mathbb C^3\\), let \\(\\ket{v(t)}=\\cos t\\ket0+\\sin t\\ket1\\). Compute \\(f(t)=\\tr(\\rho\\ketbra{v(t)}{v(t)})\\) and explain why no frame function taking only the values \\(0\\) and \\(1\\) can be of Born form.",
+   "hints": [
+    "\\(f(t)=\\cos^2t\\).",
+    "A Born-form function is continuous."
+   ],
+   "answer": "\\(f(t)=\\cos^2t\\), which passes continuously from \\(1\\) to \\(0\\), taking every value in between, such as \\(\\tfrac12\\) at \\(t=\\pi/4\\). A continuous function on the connected set of rays that takes only the values \\(0\\) and \\(1\\) must be constant, which is impossible for a frame function, since every basis contains one ray with value \\(1\\) and others with value \\(0\\). By Gleason’s theorem every frame function for \\(N\\ge3\\) is of Born form, so no deterministic assignment exists.",
+   "review": "topic-12-2-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “The Kochen–Specker theorem proves that hidden variables are impossible.” Correct the statement.",
+   "hints": [
+    "What assumption does the theorem need?",
+    "Recall Section 12.3.2."
+   ],
+   "answer": "The theorem excludes noncontextual hidden variables: preassigned values independent of which compatible observables are measured together. Contextual hidden-variable theories, such as Bohmian mechanics, are consistent with it. The theorem constrains what deeper variables must be like; it does not exclude them.",
+   "review": "topic-12-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Define \\(\\chi=\\langle R_1\\rangle+\\langle R_2\\rangle+\\langle R_3\\rangle+\\langle C_1\\rangle+\\langle C_2\\rangle-\\langle C_3\\rangle\\), where \\(R_i\\), \\(C_j\\) are the products of the outcomes in row \\(i\\) and column \\(j\\) of the Peres–Mermin square. Show that noncontextual models give \\(\\chi\\le4\\) and quantum theory gives \\(\\chi=6\\) in every state.",
+   "hints": [
+    "A noncontextual assignment satisfies at most five of the six constraints.",
+    "In quantum theory each product is fixed by an operator identity."
+   ],
+   "answer": "Each term is at most \\(1\\). A noncontextual assignment violates at least one constraint, so at least one term is \\(-1\\), giving at most \\(5-1=4\\), and mixtures of assignments cannot exceed this. In quantum theory the row and first two column products equal \\(+I\\) and the third equals \\(-I\\), so each term equals \\(1\\) and \\(\\chi=6\\) for every state. Experiments with imperfect devices test this inequality, as Kirchmair and collaborators did in 2009.",
+   "review": "topic-12-3-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "Explain why Busch’s version of Gleason’s theorem, which assigns probabilities to all effects, works for a qubit.",
+   "hints": [
+    "Effects of a qubit form a four-dimensional convex set.",
+    "Additivity over general measurements links many effects."
+   ],
+   "answer": "General measurements combine effects in many more ways than projective ones: for example, \\(\\tfrac12P_{\\mathbf n}\\) appears in measurements together with other effects in all directions. Requiring additivity over all of them forces the probability assignment to be linear on effects, and a linear functional on \\(2\\times2\\) Hermitian matrices that is positive and normalized is \\(\\tr(\\rho E)\\). The extra structure that Gleason gets from three dimensions comes, for a qubit, from general measurements.",
+   "review": "topic-12-2-2"
+  }
+ ],
+ "13-entanglement": [
+  {
+   "kind": "Quick check",
+   "question": "Find \\(\\rho_A\\) for \\((\\ket{00}+\\ket{01})/\\sqrt2\\). Is the state entangled?",
+   "hints": [
+    "Factor the state.",
+    "A product state has pure marginals."
+   ],
+   "answer": "The state is \\(\\ket0\\otimes\\ket+\\), so \\(\\rho_A=\\ketbra00\\), pure, and the state is a product, not entangled.",
+   "review": "topic-13-1-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What is the Schmidt rank of \\((\\ket{00}+\\ket{11})/\\sqrt2\\), and what are its Schmidt coefficients?",
+   "hints": [
+    "It is already in Schmidt form.",
+    "Count nonzero terms."
+   ],
+   "answer": "Rank \\(2\\), with both coefficients \\(1/\\sqrt2\\): maximally entangled for two qubits.",
+   "review": "topic-13-2-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What CHSH winning probability corresponds to Tsirelson’s bound?",
+   "hints": [
+    "Winning probability is \\(\\tfrac12+S/8\\).",
+    "\\(S=2\\sqrt2\\)."
+   ],
+   "answer": "\\(\\tfrac12+\\tfrac{\\sqrt2}4\\approx0.854\\), compared with \\(0.75\\) for local strategies and \\(1\\) for the PR box.",
+   "review": "topic-13-3-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Compute \\(\\rho_A\\) for \\((\\ket{00}+\\ket{01}+\\ket{10})/\\sqrt3\\), find its eigenvalues, and decide whether the state is entangled.",
+   "hints": [
+    "With the coefficient array \\(c\\), \\(\\rho_A=cc^\\dagger\\).",
+    "\\(c=\\tfrac1{\\sqrt3}\\begin{pmatrix}1&1\\\\1&0\\end{pmatrix}\\)."
+   ],
+   "answer": "\\(\\rho_A=\\tfrac13\\begin{pmatrix}2&1\\\\1&1\\end{pmatrix}\\), with eigenvalues \\((3\\pm\\sqrt5)/6\\approx0.873\\) and \\(0.127\\). The reduced state is mixed, so the pure joint state is entangled, though not maximally.",
+   "review": "topic-13-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Find the Schmidt coefficients of \\((\\ket{00}+\\ket{01}+\\ket{10})/\\sqrt3\\) from the singular values of its coefficient array, and check them against the previous exercise.",
+   "hints": [
+    "Singular values are square roots of the eigenvalues of \\(cc^\\dagger\\).",
+    "Their squares sum to one."
+   ],
+   "answer": "The singular values are \\(\\sqrt{(3\\pm\\sqrt5)/6}\\approx0.934\\) and \\(0.357\\), whose squares are the eigenvalues of \\(\\rho_A\\) found before. Both reduced states share these eigenvalues, as the Schmidt decomposition guarantees.",
+   "review": "topic-13-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "The Werner state is \\(v\\ketbra{\\Phi^+}{\\Phi^+}+(1-v)I/4\\). (a) Find its CHSH value with the optimal measurements of Section 13.3.1. (b) For which \\(v\\) does it violate the local bound?",
+   "hints": [
+    "The noise term contributes zero to every correlation.",
+    "Scale \\(2\\sqrt2\\) by \\(v\\)."
+   ],
+   "answer": "(a) \\(S=2\\sqrt2\\,v\\). (b) Violation requires \\(v>1/\\sqrt2\\approx0.707\\). Noise degrades the correlations linearly; experiments must keep it below this threshold.",
+   "review": "topic-13-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Show directly that no unitary can copy both \\(\\ket0\\) and \\(\\ket+\\).",
+   "hints": [
+    "Compare inner products before and after.",
+    "\\(\\braket0+=1/\\sqrt2\\)."
+   ],
+   "answer": "Copying requires \\(U\\ket0\\ket0=\\ket0\\ket0\\) and \\(U\\ket+\\ket0=\\ket+\\ket+\\). Inner products before: \\(\\braket0+=1/\\sqrt2\\); after: \\(\\braket0+^2=\\tfrac12\\). Since \\(1/\\sqrt2\\ne\\tfrac12\\), no such \\(U\\) exists. Copying is possible only for states whose overlap is \\(0\\) or \\(1\\).",
+   "review": "topic-13-3-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “When Alice measures her half of a Bell pair, Bob’s qubit changes instantly, so they can communicate faster than light.” Explain why not.",
+   "hints": [
+    "What is Bob’s reduced state before and after Alice’s measurement?",
+    "Bob does not know Alice’s outcome."
+   ],
+   "answer": "Bob’s reduced state is \\(I/2\\) whatever Alice does: averaged over her outcomes, which he does not know, his statistics are unchanged, as no-signaling requires. The correlation becomes visible only when outcomes are compared through an ordinary channel. Entanglement creates correlations, not a channel.",
+   "review": "topic-13-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Find the eigenvalues of the partial transpose of the Werner state, determine for which \\(v\\) it is entangled, and compare with the CHSH threshold.",
+   "hints": [
+    "The partial transpose of \\(\\ketbra{\\Phi^+}{\\Phi^+}\\) is \\(\\tfrac12S\\).",
+    "\\(S\\) has eigenvalues \\(1,1,1,-1\\)."
+   ],
+   "answer": "The partial transpose is \\(\\tfrac v2S+\\tfrac{1-v}4I\\), with eigenvalues \\(\\tfrac{1+v}4\\) (three times) and \\(\\tfrac{1-3v}4\\). It is negative, so the state is entangled, exactly when \\(v>\\tfrac13\\). For \\(\\tfrac13<v\\le1/\\sqrt2\\) the state is entangled yet does not violate CHSH: entanglement and Bell nonlocality are different properties.",
+   "review": "topic-13-2-1"
+  },
+  {
+   "kind": "Extension",
+   "question": "For \\(\\pm1\\) observables (\\(A_x^2=B_y^2=I\\)), verify \\(C^2=4I-[A_0,A_1]\\otimes[B_0,B_1]\\) where \\(C=A_0\\otimes(B_0+B_1)+A_1\\otimes(B_0-B_1)\\), and deduce Tsirelson’s bound.",
+   "hints": [
+    "Expand and use \\(A_x^2=I\\), \\(B_y^2=I\\).",
+    "\\(\\|[A_0,A_1]\\|\\le2\\)."
+   ],
+   "answer": "Expanding, the squared terms give \\(I\\otimes(B_0+B_1)^2+I\\otimes(B_0-B_1)^2=I\\otimes4I\\), and the cross terms combine into \\(A_0A_1\\otimes(B_0+B_1)(B_0-B_1)+A_1A_0\\otimes(B_0-B_1)(B_0+B_1)\\), which simplifies to \\(-[A_0,A_1]\\otimes[B_0,B_1]\\). Each commutator has norm at most \\(2\\), so \\(C^2\\le8I\\) and \\(|\\langle C\\rangle|\\le2\\sqrt2\\). For commuting observables the commutator vanishes and \\(|S|\\le2\\), the classical bound.",
+   "review": "topic-13-3-2"
+  }
+ ],
+ "14-identical-particles": [
+  {
+   "kind": "Quick check",
+   "question": "What are the dimensions of the symmetric and antisymmetric subspaces for two particles with three-dimensional single-particle spaces?",
+   "hints": [
+    "Symmetric: \\(n(n+1)/2\\); antisymmetric: \\(n(n-1)/2\\).",
+    "\\(n=3\\)."
+   ],
+   "answer": "\\(6\\) and \\(3\\), adding up to \\(9\\).",
+   "review": "topic-14-1-2"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What is \\(\\ket{a,a}_-\\), and what principle does this express?",
+   "hints": [
+    "\\(\\ket a\\ket a-\\ket a\\ket a\\).",
+    "Two fermions in the same state."
+   ],
+   "answer": "It is zero: two fermions cannot occupy the same single-particle state. This is the Pauli exclusion principle.",
+   "review": "topic-14-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "What is the coincidence probability at a balanced beam splitter for distinguishable particles, identical bosons, and identical fermions?",
+   "hints": [
+    "Coincidence means one particle in each output.",
+    "Two amplitudes cancel or add."
+   ],
+   "answer": "\\(\\tfrac12\\), \\(0\\), and \\(1\\).",
+   "review": "topic-14-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Two photons have internal states \\(\\ket{\\chi_1}\\), \\(\\ket{\\chi_2}\\) with \\(|\\braket{\\chi_1}{\\chi_2}|^2=s\\). Their coincidence probability at a balanced beam splitter is \\((1-s)/2\\). Check the limits \\(s=0\\) and \\(s=1\\), and explain the use of the formula in experiments.",
+   "hints": [
+    "\\(s=0\\) means distinguishable.",
+    "\\(s=1\\) means identical."
+   ],
+   "answer": "For \\(s=0\\) the probability is \\(\\tfrac12\\), the distinguishable value; for \\(s=1\\) it is \\(0\\), perfect bunching. Measuring the depth of the dip estimates the overlap of the photons’ internal states, a standard test of how indistinguishable a photon source is.",
+   "review": "topic-14-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For two qubits, show that \\(E\\otimes I+I\\otimes E\\) commutes with the swap \\(S\\), while \\(E\\otimes I\\) generally does not. What does this mean for measurements on identical particles?",
+   "hints": [
+    "\\(S(A\\otimes B)S=B\\otimes A\\).",
+    "Take \\(E=Z\\)."
+   ],
+   "answer": "\\(S(E\\otimes I+I\\otimes E)S=I\\otimes E+E\\otimes I\\), unchanged. But \\(S(E\\otimes I)S=I\\otimes E\\ne E\\otimes I\\) for \\(E=Z\\). The allowed observables measure properties of the pair without saying which particle has them, such as the total \\(Z\\), not the \\(Z\\) of “particle 1.”",
+   "review": "topic-14-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Two fermions each have a two-dimensional single-particle space. Find all allowed states and the reduced state of one particle.",
+   "hints": [
+    "The antisymmetric subspace has dimension \\(1\\).",
+    "Compute the reduced state of \\((\\ket{01}-\\ket{10})/\\sqrt2\\)."
+   ],
+   "answer": "The only state is \\((\\ket{01}-\\ket{10})/\\sqrt2\\), and the reduced state is \\(I/2\\). The labels carry no information that a measurement could access; the formal mixedness reflects the symmetry, and operational entanglement must be defined between modes.",
+   "review": "topic-14-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For three qubits, the \\(8\\)-dimensional space decomposes under permutations. Given that the symmetric subspace has dimension \\(4\\) and the antisymmetric subspace dimension \\(0\\), how many dimensions belong to mixed-symmetry sectors?",
+   "hints": [
+    "Subtract.",
+    "Antisymmetric states need three different single-particle states."
+   ],
+   "answer": "\\(8-4-0=4\\) dimensions of mixed symmetry, forming two copies of a two-dimensional representation of the permutation group. Indistinguishability alone allows states there; the symmetrization postulate excludes them.",
+   "review": "topic-14-3-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “Bosons bunch at a beam splitter because they attract each other.” Explain why not.",
+   "hints": [
+    "Is there any interaction in the calculation?",
+    "Bunching comes from interference."
+   ],
+   "answer": "The calculation of Section 14.2.2 involves no force: each photon passes the beam splitter independently. Bunching comes from the symmetry of the joint state, which makes the transmit–transmit and reflect–reflect amplitudes cancel. It is an interference effect of indistinguishability.",
+   "review": "topic-14-2-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Explain why a coherent superposition of a bosonic and a fermionic state of the same pair cannot be prepared or detected, and relate this to the mass superselection rule of Chapter 16.",
+   "hints": [
+    "Allowed observables commute with \\(S\\).",
+    "A superselection rule forbids observable coherence between sectors."
+   ],
+   "answer": "All allowed observables commute with \\(S\\), so none connect the symmetric and antisymmetric sectors, and a superposition across sectors has the same statistics as the mixture (Problem 14.1). The sectors are superselected. Bargmann’s analysis of the Galilean group gives a similar rule for different total masses: symmetry decides which superpositions are physically meaningful.",
+   "review": "topic-14-1-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "In three dimensions, exchanging two particles twice is a loop that can be contracted to staying put; in two dimensions it cannot. Explain why this allows only the signs \\(\\pm1\\) in three dimensions but arbitrary phases (anyons) in two.",
+   "hints": [
+    "If a double exchange is trivial, the exchange phase squares to one.",
+    "In two dimensions double exchange winds one particle around the other."
+   ],
+   "answer": "In three dimensions a double exchange is deformable to no motion, so the exchange phase \\(e^{i\\theta}\\) must satisfy \\(e^{2i\\theta}=1\\), giving \\(\\pm1\\): bosons and fermions. In two dimensions the double exchange winds one particle around the other and cannot be undone, so \\(e^{i\\theta}\\) is unconstrained. Statistics depend on the topology of space, not only on the finite-dimensional state spaces of the course.",
+   "review": "topic-14-3-2"
+  }
+ ],
+ "15-open-systems": [
+  {
+   "kind": "Quick check",
+   "question": "Give a purification of \\(I/2\\).",
+   "hints": [
+    "Use eigenvalues \\(\\tfrac12,\\tfrac12\\).",
+    "\\(\\sum_i\\sqrt{\\lambda_i}\\ket i\\ket i\\)."
+   ],
+   "answer": "\\((\\ket{00}+\\ket{11})/\\sqrt2\\), or any state related to it by a unitary on the second system.",
+   "review": "topic-15-1-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Check that the dephasing Kraus operators \\(K_0=\\sqrt{1-p}\\,I\\), \\(K_1=\\sqrt p\\,Z\\) satisfy \\(\\sum K_k^\\dagger K_k=I\\).",
+   "hints": [
+    "\\(Z^\\dagger Z=I\\).",
+    "Add."
+   ],
+   "answer": "\\((1-p)I+pZ^\\dagger Z=(1-p)I+pI=I\\).",
+   "review": "topic-15-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "For the trine effects \\(E_k=\\tfrac23\\ketbra{\\psi_k}{\\psi_k}\\), what are the Kraus operators \\(K_k=\\sqrt{E_k}\\), and what is the state after outcome \\(k\\)?",
+   "hints": [
+    "The square root of a rank-one projection times \\(\\tfrac23\\) is \\(\\sqrt{2/3}\\) times the projection.",
+    "\\(K_k\\rho K_k^\\dagger\\) is proportional to \\(\\ketbra{\\psi_k}{\\psi_k}\\)."
+   ],
+   "answer": "\\(K_k=\\sqrt{2/3}\\,\\ketbra{\\psi_k}{\\psi_k}\\), and after outcome \\(k\\) the state is \\(\\ket{\\psi_k}\\), whatever the input.",
+   "review": "topic-15-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Amplitude damping has \\(K_0=\\begin{pmatrix}1&0\\\\0&\\sqrt{1-\\gamma}\\end{pmatrix}\\) and \\(K_1=\\begin{pmatrix}0&\\sqrt\\gamma\\\\0&0\\end{pmatrix}\\). Verify completeness and apply the channel to \\(\\ketbra11\\).",
+   "hints": [
+    "Compute \\(K_0^\\dagger K_0+K_1^\\dagger K_1\\).",
+    "\\(K_1\\) maps \\(\\ket1\\) to \\(\\sqrt\\gamma\\ket0\\)."
+   ],
+   "answer": "\\(K_0^\\dagger K_0=\\mathrm{diag}(1,1-\\gamma)\\) and \\(K_1^\\dagger K_1=\\mathrm{diag}(0,\\gamma)\\), summing to \\(I\\). Applied to \\(\\ketbra11\\): \\((1-\\gamma)\\ketbra11+\\gamma\\ketbra00\\). The excited state decays to the ground state with probability \\(\\gamma\\).",
+   "review": "topic-15-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Alice and Bob share \\((\\ket{00}+\\ket{11})/\\sqrt2\\). Show that Bob measuring in the \\(Z\\) basis leaves Alice in \\(\\ket0\\) or \\(\\ket1\\), and in the \\(X\\) basis leaves her in \\(\\ket+\\) or \\(\\ket-\\), each with probability \\(\\tfrac12\\). Why can Alice not tell which basis Bob used?",
+   "hints": [
+    "\\((\\ket{00}+\\ket{11})/\\sqrt2=(\\ket{++}+\\ket{--})/\\sqrt2\\).",
+    "Both ensembles average to \\(I/2\\)."
+   ],
+   "answer": "Rewriting the state as \\((\\ket{++}+\\ket{--})/\\sqrt2\\) shows that an \\(X\\) outcome \\(\\pm\\) leaves Alice in \\(\\ket\\pm\\), while a \\(Z\\) outcome leaves her in \\(\\ket0\\) or \\(\\ket1\\). Both ensembles average to \\(I/2\\), so without Bob’s message Alice’s statistics are identical. Bob steers which decomposition of \\(I/2\\) Alice holds, without signaling.",
+   "review": "topic-15-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "A qubit decoheres through \\(n\\) environmental particles, each leaving states with overlap \\(0.99\\). Compute the remaining coherence factor for \\(n=50\\), and find how many particles reduce it below \\(0.01\\).",
+   "hints": [
+    "The factor is \\(0.99^n\\).",
+    "Solve \\(0.99^n<0.01\\)."
+   ],
+   "answer": "\\(0.99^{50}\\approx0.61\\). We need \\(n\\ln0.99<\\ln0.01\\), so \\(n>\\ln0.01/\\ln0.99\\approx458\\). Even nearly negligible individual records accumulate into effective decoherence.",
+   "review": "topic-15-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Realize dephasing with probability \\(p\\) as a unitary dilation: the qubit controls a rotation \\(R_y(\\phi)\\) of an environment qubit starting in \\(\\ket0\\). Find \\(\\phi\\) in terms of \\(p\\).",
+   "hints": [
+    "The coherence factor is \\(\\braket{e_1}{e_0}=\\bra0R_y(\\phi)\\ket0=\\cos(\\phi/2)\\).",
+    "Dephasing multiplies coherences by \\(1-2p\\)."
+   ],
+   "answer": "The environment ends in \\(\\ket{e_0}=\\ket0\\) or \\(\\ket{e_1}=R_y(\\phi)\\ket0\\), with overlap \\(\\cos(\\phi/2)\\). Setting \\(\\cos(\\phi/2)=1-2p\\) gives \\(\\phi=2\\arccos(1-2p)\\). For \\(p=\\tfrac12\\), \\(\\phi=\\pi\\) and the environment records the qubit perfectly, destroying all coherence.",
+   "review": "topic-15-2-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “Decoherence solves the measurement problem, because the reduced state becomes a classical mixture.” What is missing?",
+   "hints": [
+    "Is the global state still a superposition?",
+    "Recall Problem 15.3."
+   ],
+   "answer": "Decoherence makes the reduced state of the system look like a mixture in the pointer basis and prevents interference between branches. The global state remains an entangled superposition of all outcomes, and nothing in the unitary dynamics selects one. Decoherence explains why interference is unobservable locally, not why a single outcome is recorded.",
+   "review": "topic-15-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "The states \\(\\tfrac{\\sqrt3}2\\ket{00}+\\tfrac12\\ket{11}\\) and \\(\\tfrac{\\sqrt3}2\\ket{01}+\\tfrac12\\ket{10}\\) both purify \\(\\mathrm{diag}(\\tfrac34,\\tfrac14)\\). Find the unitary on the second system relating them.",
+   "hints": [
+    "The first system’s basis states are paired with \\(\\ket0,\\ket1\\) in one and \\(\\ket1,\\ket0\\) in the other.",
+    "Try \\(X\\)."
+   ],
+   "answer": "\\((I\\otimes X)\\) maps \\(\\ket{00}\\mapsto\\ket{01}\\) and \\(\\ket{11}\\mapsto\\ket{10}\\), carrying the first purification to the second. All purifications on the same system are related by a unitary on the purifying system, as Section 15.1.2 states.",
+   "review": "topic-15-1-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Explain, using the dilation of Section 15.2.1, why every channel obtained from a unitary on a larger system is completely positive, and why transposition is not of this form.",
+   "hints": [
+    "Apply the dilation to half of an entangled state.",
+    "Transposition on half of \\(\\ket{\\Phi^+}\\) gives a negative eigenvalue."
+   ],
+   "answer": "If the channel acts on A while A is entangled with R, the joint result is \\(\\tr_E[(U\\otimes I_R)(\\rho_{AR}\\otimes\\ketbra{e_0}{e_0})(U\\otimes I_R)^\\dagger]\\), a partial trace of a state, hence a state. So such channels remain valid on parts of larger systems. Transposition applied to half of \\(\\ket{\\Phi^+}\\) gives eigenvalue \\(-\\tfrac12\\), so it cannot come from any dilation.",
+   "review": "topic-15-2-1"
+  }
+ ],
+ "16-infinite-dimensions": [
+  {
+   "kind": "Quick check",
+   "question": "For \\(3\\times3\\) matrices, what are the traces of \\([x,p]\\) and of \\(i\\hbar I\\)?",
+   "hints": [
+    "\\(\\tr(xp)=\\tr(px)\\).",
+    "\\(\\tr I=3\\)."
+   ],
+   "answer": "\\(0\\) and \\(3i\\hbar\\), so \\([x,p]=i\\hbar I\\) is impossible.",
+   "review": "topic-16-1-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "A particle has wave function \\(\\psi(x)=1\\) on \\([0,1]\\) and zero elsewhere. What is the probability that a position measurement finds it in \\([0,0.25]\\)?",
+   "hints": [
+    "\\(\\int_\\Delta|\\psi|^2dx\\).",
+    "The density is uniform."
+   ],
+   "answer": "\\(\\int_0^{0.25}1\\,dx=0.25\\).",
+   "review": "topic-16-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Which observable generates spatial translations, and which generates time translations?",
+   "hints": [
+    "Stone’s theorem gives a generator for each continuous group.",
+    "Compare with Chapter 9."
+   ],
+   "answer": "Momentum generates spatial translations, \\(T(a)=e^{-iap/\\hbar}\\); the Hamiltonian generates time translations, \\(U(t)=e^{-iHt/\\hbar}\\).",
+   "review": "topic-16-2-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "For the Gaussian \\(\\psi(x)\\propto e^{-x^2/(4\\sigma^2)}\\), the position spread is \\(\\Delta x=\\sigma\\) and the momentum spread is \\(\\Delta p=\\hbar/(2\\sigma)\\). (a) Check that the Robertson bound is attained. (b) What happens to \\(\\psi\\) under \\(T(a)\\)?",
+   "hints": [
+    "Robertson gives \\(\\Delta x\\,\\Delta p\\ge\\hbar/2\\).",
+    "\\(T(a)\\psi(x)=\\psi(x-a)\\)."
+   ],
+   "answer": "(a) \\(\\Delta x\\,\\Delta p=\\sigma\\cdot\\hbar/(2\\sigma)=\\hbar/2\\), the minimum allowed by \\([x,p]=i\\hbar\\). (b) It becomes \\(e^{-(x-a)^2/(4\\sigma^2)}\\): the same shape centered at \\(a\\), with the same spreads. Translations shift positions and leave momenta unchanged.",
+   "review": "topic-16-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Verify the Weyl relation \\(T(a)V(b)=e^{-iab/\\hbar}V(b)T(a)\\) on a wave function, with \\(T(a)\\psi(x)=\\psi(x-a)\\) and \\(V(b)\\psi(x)=e^{ibx/\\hbar}\\psi(x)\\).",
+   "hints": [
+    "Apply both sides to \\(\\psi\\).",
+    "\\(T(a)\\) shifts the argument of the phase too."
+   ],
+   "answer": "\\(T(a)V(b)\\psi(x)=e^{ib(x-a)/\\hbar}\\psi(x-a)\\) and \\(V(b)T(a)\\psi(x)=e^{ibx/\\hbar}\\psi(x-a)\\). Their ratio is \\(e^{-iab/\\hbar}\\), as claimed. The relation states compactly that translations and momentum boosts do not commute.",
+   "review": "topic-16-3-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Show that \\(\\psi(x)=1/(1+|x|)\\) is square-integrable but \\(x\\psi\\) is not. What does this say about the domain of the position operator?",
+   "hints": [
+    "\\(\\int_{-\\infty}^\\infty(1+|x|)^{-2}dx=2\\).",
+    "\\(|x\\psi(x)|\\to1\\) as \\(|x|\\to\\infty\\)."
+   ],
+   "answer": "\\(\\int\\psi^2dx=2\\int_0^\\infty(1+x)^{-2}dx=2\\), finite. But \\(x\\psi(x)\\to\\pm1\\) at large \\(|x|\\), so \\(\\int|x\\psi|^2dx\\) diverges. The position operator cannot act on every state: it is defined on a dense domain, the hallmark of an unbounded operator.",
+   "review": "topic-16-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Truncate the harmonic-oscillator lowering operator to \\(N\\times N\\), \\(a=\\sum_{n=1}^{N-1}\\sqrt n\\,\\ketbra{n-1}{n}\\). Compute \\([a,a^\\dagger]\\) and explain how it reconciles with the trace argument, given \\([x,p]=i\\hbar[a,a^\\dagger]\\).",
+   "hints": [
+    "\\(aa^\\dagger\\) and \\(a^\\dagger a\\) are diagonal.",
+    "Look at the last diagonal entry."
+   ],
+   "answer": "\\([a,a^\\dagger]=\\mathrm{diag}(1,1,\\dots,1,-(N-1))\\). It equals the identity except in the last entry, which makes the trace zero. The truncated \\([x,p]\\) agrees with \\(i\\hbar\\) on low-lying states but fails at the cutoff. Finite approximations are useful only for states far from the truncation.",
+   "review": "topic-16-1-1"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “Infinite-dimensional quantum mechanics is just the limit \\(N\\to\\infty\\) of the finite-dimensional theory.” Give three things that change.",
+   "hints": [
+    "Think of domains, spectra, and representations.",
+    "Recall the Stone–von Neumann theorem."
+   ],
+   "answer": "Operators can be unbounded and defined only on domains, with symmetric operators that are not self-adjoint; spectra can be continuous, with no normalizable eigenvectors; and for infinitely many degrees of freedom the canonical commutation relations have inequivalent representations. Each needs new mathematics, not just a limit.",
+   "review": "topic-16-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Why does the Stone–von Neumann theorem fail for infinitely many degrees of freedom, and why does this matter in quantum field theory?",
+   "hints": [
+    "Uniqueness relies on finitely many pairs of Weyl operators.",
+    "Different representations can describe different phases or vacua."
+   ],
+   "answer": "With infinitely many pairs, one can build representations that differ in infinitely many modes at once, and no unitary relates them; uniqueness fails. In field theory, different vacua, such as those of spontaneously broken symmetries or of interacting versus free fields, live in inequivalent representations, so the choice of representation is part of the physics.",
+   "review": "topic-16-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Which finite-dimensional results of the course survive in separable infinite-dimensional Hilbert spaces, and which reconstruction step fails?",
+   "hints": [
+    "Consider Gleason, Wigner, and the Born rule.",
+    "Which principle assumes finiteness?"
+   ],
+   "answer": "Wigner’s theorem holds, and Gleason’s theorem holds for countably additive assignments, so the Born rule \\(\\tr(\\rho P)\\) and unitary or antiunitary symmetries survive. The reconstruction from operational principles fails because it relies on finiteness: there is no finite fiducial set, and the counting arguments of Chapters 5 and 8 do not apply. Infinite-dimensional systems are fixed instead by symmetry, as Section 16.3 shows.",
+   "review": "topic-16-2-1"
+  }
+ ],
+ "17-assumptions-and-alternatives": [
+  {
+   "kind": "Quick check",
+   "question": "Which principle yields \\(K_{AB}=K_AK_B\\) and the tensor product?",
+   "hints": [
+    "Chapter 4.",
+    "Joint states from local statistics."
+   ],
+   "answer": "Local tomography.",
+   "review": "topic-17-1-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Which theory is the foil for the purification principle?",
+   "hints": [
+    "In which theory do mixed states have no pure extension?",
+    "Recall Section 13.1.2."
+   ],
+   "answer": "Classical probability theory: a pure classical joint state has pure marginals, so no mixed classical state can be purified.",
+   "review": "topic-17-2-1"
+  },
+  {
+   "kind": "Quick check",
+   "question": "Name two physical links that the course imported rather than derived.",
+   "hints": [
+    "One concerns energy.",
+    "One concerns which particles are fermions."
+   ],
+   "answer": "The identification of the generator of time translations with energy (Chapter 9) and the spin–statistics connection (Chapter 14). The Galilean symmetry of Chapter 16 is a further input beyond the finite-dimensional principles.",
+   "review": "topic-17-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Drop continuous reversibility and keep the other principles. Which theories become possible, and what would a world described by them be like?",
+   "hints": [
+    "Classical probability theory satisfies the others.",
+    "What could not happen in such a world?"
+   ],
+   "answer": "Classical probability theory, among others, becomes possible. In such a world every pure state would assign definite outcomes to sharp tests, randomness would always be ignorance, and a finite system could not change continuously and reversibly between distinguishable states. There would be no interference and no entanglement.",
+   "review": "topic-17-1-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Rafael Sorkin defined the third-order interference term \\(I_3=P_{ABC}-P_{AB}-P_{AC}-P_{BC}+P_A+P_B+P_C\\), where \\(P_S\\) is the probability at a detector with the slits in \\(S\\) open. Show that \\(I_3=0\\) when \\(P_S=|\\sum_{s\\in S}\\psi_s|^2\\).",
+   "hints": [
+    "Expand \\(|a+b+c|^2\\).",
+    "Each cross term appears once in \\(P_{ABC}\\) and once in one pair term."
+   ],
+   "answer": "\\(P_{ABC}=|a|^2+|b|^2+|c|^2+2\\mathrm{Re}(ab^*+ac^*+bc^*)\\). The pair terms sum to \\(2(|a|^2+|b|^2+|c|^2)+2\\mathrm{Re}(ab^*+ac^*+bc^*)\\). So \\(I_3=(\\Sigma-2\\Sigma+\\Sigma)+(\\text{cross}-\\text{cross})=0\\). The Born rule allows only pairwise interference, which triple-slit experiments test.",
+   "review": "topic-17-1-2"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Match principles of this course with axioms of other reconstructions: (a) Chiribella–D’Ariano–Perinotti’s local discriminability; (b) Dakić–Brukner’s information capacity of one bit per elementary system; (c) Hardy’s subspace axiom.",
+   "hints": [
+    "Local discriminability concerns composite states.",
+    "One bit means \\(N=2\\)."
+   ],
+   "answer": "(a) Local tomography. (b) The elementary system is a bit, \\(N=2\\), which with finiteness starts the derivation of Chapters 6 and 7. (c) Equivalence of subspaces. Different programs share the same structural ingredients under different names.",
+   "review": "topic-17-2-1"
+  },
+  {
+   "kind": "Worked problem",
+   "question": "Solèr’s theorem leaves three possible fields: real, complex, and quaternionic. Which principles of this course exclude the real and quaternionic options?",
+   "hints": [
+    "Recall Chapter 7.",
+    "Consider composite systems."
+   ],
+   "answer": "The real case is excluded by local tomography, since real quantum composites have more parameters than local statistics fix. The quaternionic case is excluded by counting (\\(K=6\\) for a bit) and by the failure of a well-behaved tensor product for composites. Both exclusions come from how systems combine.",
+   "review": "topic-17-2-2"
+  },
+  {
+   "kind": "Misconception",
+   "question": "A student says: “Since quantum theory has been derived from principles, it is now proven to be true.” Correct the statement.",
+   "hints": [
+    "What is the logical form of the derivation?",
+    "Recall Section 17.3.2."
+   ],
+   "answer": "The derivation shows that if the principles hold, the theory is quantum theory. Whether the principles hold is an empirical question, and each has foils that experiments could favor. The derivation makes quantum theory understandable and exposes it to sharper tests; it does not make it necessarily true.",
+   "review": "topic-17-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "Describe two experimental outcomes that would refute a principle of the course, and say which principle each refutes.",
+   "hints": [
+    "Consider interference patterns and correlations.",
+    "Each foil predicts something quantum theory forbids."
+   ],
+   "answer": "A nonzero third-order interference term \\(I_3\\) would refute the Born rule, and with it the derivation that produces it, including the shape of the state space. Correlations between separated systems with CHSH value above \\(2\\sqrt2\\) would refute the Hilbert-space structure of composites derived from local tomography and continuous reversibility. Observing composite states not determined by local statistics would refute local tomography directly.",
+   "review": "topic-17-3-2"
+  },
+  {
+   "kind": "Extension",
+   "question": "List the features that any interpretation of quantum theory must reproduce, according to the course, and explain why they are not features of a particular interpretation.",
+   "hints": [
+    "Chapters 6, 12, and 13.",
+    "They follow from the principles."
+   ],
+   "answer": "Intrinsic randomness for the theory’s pure states (Chapter 6), contextuality of any deeper variables (Chapter 12), and nonlocality of any deeper variables for composites (Chapter 13). They follow from the principles and from theorems about all hidden-variable completions, so every interpretation that reproduces quantum predictions must accommodate them, whatever it says about the measurement problem.",
+   "review": "topic-17-3-1"
+  }
+ ]
+}
