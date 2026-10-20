@@ -46,6 +46,7 @@ def approve(ids):
             os.replace(temporary, target)
         for target in build.orphaned_news_pages(output):
             build.remove_page(target)
+        build.record_generated(output, [n for n in output if n.startswith('news/') or n == 'sitemap.xml'])
     except Exception:
         path.write_text(original)
         raise

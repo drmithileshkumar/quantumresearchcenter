@@ -17,7 +17,7 @@
 .ebook .information-lab .lab-state {font-variant-numeric:tabular-nums;line-height:1.6;}
 .ebook .information-lab .probability-bars {display:grid;gap:.65em;margin:1.3em 0;}
 .ebook .information-lab .bar-label {font:14px/1.5 var(--sans);}
-.ebook .information-lab .bar-track {height:14px;background:#dce4df;margin-top:.3em;}
+.ebook .information-lab .bar-track {height:14px;background:var(--line);margin-top:.3em;}
 .ebook .information-lab .bar-fill {height:100%;background:#2e6b5d;}
 @media print {
  .ebook .chapter-direction {display:none;}

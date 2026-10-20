@@ -1,0 +1,23 @@
+# Every push and pull request must leave the published site consistent:
+# generated pages match their content sources, and the test suite passes.
+name: Site checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Generated pages are up to date
+        run: python3 scripts/build.py --check
+      - name: Tests
+        run: python3 -m unittest discover -s tests -v

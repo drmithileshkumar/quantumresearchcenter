@@ -1,5 +1,6 @@
 /* Shared appearance preference, applied before styles paint. No network dependencies. */
 (() => {
+  const navigationURL = new URL('../../../navigation.js', document.currentScript.src).href;
   const root = document.documentElement;
   const preference = matchMedia('(prefers-color-scheme: dark)');
   let saved;
@@ -47,6 +48,9 @@
       tools.append(button);
       apply(root.dataset.theme);
     }
+    const navigation = document.createElement('script');
+    navigation.src = navigationURL;
+    document.head.append(navigation);
     const hero = document.querySelector('.hero-visual');
     if (!hero) return;
     hero.classList.add('motion-ready');

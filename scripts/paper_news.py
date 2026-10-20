@@ -96,7 +96,26 @@ def paper_page(p, newer, older):
         f'<section id="context" class="paper-page-section"><h2>Context &amp; limitations</h2>{context_html(p)}</section>'
         f'<nav class="paper-pager" aria-label="More selected papers">{pager(newer, "← Newer", "prev")}{pager(older, "Older →", "next")}</nav></article>')
 
-def render_news(root, page, outputs):
+def plain(text):
+    # Feed readers do not typeset TeX; drop the delimiters and keep the expressions readable.
+    return re.sub(r'\\[()\[\]]', '', text)
+
+def rss(papers, site_url):
+    def item(p):
+        url = f'{site_url}/news/{pid_of(p)}/'
+        published = date.fromisoformat(p['approved_on'])
+        return (f'<item><title>{esc(p["title"])}</title><link>{url}</link><guid isPermaLink="true">{url}</guid>'
+            f'<pubDate>{published:%a, %d %b %Y} 00:00:00 +0000</pubDate><category>{esc(TOPICS[p["topic"]])}</category>'
+            f'<description>{esc(plain(p["problem"]+" "+p["result"]))}</description></item>')
+    updated = max((date.fromisoformat(p['approved_on']) for p in papers), default=date(2026, 1, 1))
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+        f'<title>Selected papers | Quantum Research Center</title><link>{site_url}/news/</link>'
+        f'<atom:link href="{site_url}/news/feed.xml" rel="self" type="application/rss+xml"/>'
+        '<description>Recent arXiv papers in quantum foundations, computing, and information, with explanations of their transferable methods.</description>'
+        f'<language>en</language><lastBuildDate>{updated:%a, %d %b %Y} 00:00:00 +0000</lastBuildDate>'
+        + ''.join(item(p) for p in papers) + '</channel></rss>\n')
+
+def render_news(root, page, outputs, site_url):
     data = json.loads((root/'content/papers.json').read_text())
     validate(data)
     papers = sorted(data['papers'], key=lambda p: p['submitted'], reverse=True)
@@ -127,6 +146,7 @@ def render_news(root, page, outputs):
         news+=f'<section class="news-month" id="month-{m}"><h2 class="news-list-heading">Selected in {month_label(m+"-01")}</h2>'+''.join(entry(p) for p in approved if p['approved_on'].startswith(m))+'</section>'
     news+='</div><script defer src="browse.js"></script>'
     page('news/index.html','News & articles',news,[(None,'Research areas'),('index.html','All areas'),*[(f'?topic={k}',v) for k,v in TOPICS.items()],(None,'By month'),*[(f'#month-{m}',month_label(m+'-01')) for m in months]])
+    outputs['news/feed.xml'] = rss(approved[:30], site_url)
     outputs['news/index.json'] = json.dumps({'reviewed_on': data['reviewed_on'], 'papers': [
         {'id': p['id'], 'url': pid_of(p)+'/index.html', 'title': p['title'], 'authors': p['authors'], 'topic': p['topic'],
          'submitted': p['submitted'], 'approved_on': p['approved_on'], 'problem': p['problem'], 'result': p['result'],

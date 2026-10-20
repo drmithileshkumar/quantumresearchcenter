@@ -39,6 +39,7 @@ def records(book):
 
 def render(book):
     courses=json.loads((ROOT/'content/courses.json').read_text())
+    course_levels=(('basics','Basics'),('advanced','Advanced'))
     entries = records(book)
     ids = [path(i) for i in entries]
     if len(ids) != len(set(ids)): raise ValueError('Duplicate topic ID')
@@ -86,7 +87,7 @@ def render(book):
             navigation=''.join(f'<p class="kicker">{esc(label)}</p>' if href is None else f'<a href="{esc(href)}">{esc(label)}</a>' for href,label in sections)
             mathjax=f'<script defer src="{up}education/computing/assets/source/mathjax-config.js"></script><script defer src="{up}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>' if '\\(' in body or '\\[' in body else ''
             outputs[source]=f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description or 'Selected quantum research papers: problems, results, and transferable methods.')}"><link rel="canonical" href="{book['url']}/{source.removesuffix('index.html')}">{'<meta name="robots" content="noindex">' if source in UNLISTED else ''}<link rel="icon" href="{up}icons/icon.svg"><script src="{up}education/computing/assets/theme.js"></script><link rel="stylesheet" href="{up}styles.css">{mathjax}</head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description or 'Selected quantum research papers: problems, results, and transferable methods.')}"><link rel="canonical" href="{book['url']}/{source.removesuffix('index.html')}">{social_meta(title,description or 'Selected quantum research papers: problems, results, and transferable methods.',book['url']+'/'+source.removesuffix('index.html'),'article' if re.fullmatch(r'news/[^/]+/index\.html',source) else 'website')}<link rel="alternate" type="application/rss+xml" title="Selected papers | Quantum Research Center" href="{up}news/feed.xml">{'<meta name="robots" content="noindex">' if source in UNLISTED else ''}<link rel="icon" href="{up}icons/icon.svg"><script src="{up}education/computing/assets/theme.js"></script><link rel="stylesheet" href="{up}styles.css">{mathjax}</head>
 <body class="news-reader"><a class="skip-link" href="#main">Skip to content</a><header class="news-toolbar"><a class="news-brand" href="{up}index.html">Quantum Research Center</a><nav aria-label="News navigation"><a href="{up}news/index.html" {'aria-current="page"' if source=='news/index.html' else ''}>Selected papers</a>{'<a href="papers.html" aria-current="page">Review &amp; approve</a>' if source=='news/papers.html' else ''}</nav></header><div class="news-layout"><aside class="news-index"><details open><summary>Browse</summary><nav aria-label="Section navigation">{navigation}</nav></details><script>if(matchMedia("(max-width:900px)").matches)document.currentScript.previousElementSibling.open=false</script></aside><main id="main" tabindex="-1">{body}<footer>Quantum Research Center · <a href="mailto:{book['email']}">Contact</a></footer></main></div></body></html>'''
             return
         prefix=relative('index.html',source).removesuffix('index.html')
@@ -102,7 +103,7 @@ def render(book):
         if source=='index.html': description='Explore quantum science through courses, interactive lessons, research overviews, and selected literature.'
         canonical=book['url']+'/'+source.removesuffix('index.html')
         site_nav=f'<nav class="site-nav" aria-label="Site navigation"><a href="{prefix}index.html"'+(' aria-current="page"' if source=='index.html' else '')+f'>Home</a><a href="{prefix}education/index.html"'+(' aria-current="page"' if source=='education/index.html' else '')+f'>Education</a><a href="{prefix}research/index.html"'+(' aria-current="page"' if source=='research/index.html' else '')+'>Research</a></nav>'
-        sidebar_contents = ('<ul class="contents-list"><li class="part-label">Courses</li>'+''.join(f'<li class="chapter"><a href="{esc(relative(course["path"], source))}">{esc(course["title"])}</a></li>' for course in courses)+'</ul>' if source=='education/index.html' else toc(source,current))
+        sidebar_contents = ('<ul class="contents-list">'+''.join(f'<li class="part-label">{label}</li>'+''.join(f'<li class="chapter"><a href="{esc(relative(course["path"], source))}">{esc(course["title"])}</a></li>' for course in courses if course['level']==level) for level,label in course_levels)+'</ul>' if source=='education/index.html' else toc(source,current))
         if source=='index.html':
             sidebar_contents='<ul class="contents-list"><li class="part-label">Explore the site</li><li class="chapter"><a href="education/index.html">Education</a></li><li class="chapter"><a href="research/index.html">Research</a></li></ul>'
         if source.startswith('research/') or source=='references/index.html':
@@ -113,7 +114,7 @@ def render(book):
         landing_nav=site_nav if source=='index.html' else ''
         mathjax=(f'<script defer src="{prefix}education/computing/assets/source/mathjax-config.js"></script><script defer src="{prefix}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>' if '\\(' in body or '\\[' in body else '')
         outputs[source]=f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}"><link rel="icon" href="{prefix}icons/icon.svg"><script src="{prefix}education/computing/assets/theme.js"></script><link rel="stylesheet" href="{prefix}styles.css"><script defer src="{prefix}script.js"></script>{mathjax}</head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}">{social_meta(title,description,canonical,'website')}<link rel="icon" href="{prefix}icons/icon.svg"><script src="{prefix}education/computing/assets/theme.js"></script><link rel="stylesheet" href="{prefix}styles.css"><script defer src="{prefix}script.js"></script>{mathjax}</head>
 <body class="{'landing' if source=='index.html' else 'reader'}{' research-question' if current and current.get('manuscript') else ''}"><a class="skip-link" href="#main">Skip to content</a>
 <aside class="sidebar" id="contents"><a class="book-brand" href="{prefix}index.html">Quantum Research Center<span>Education &amp; Research</span></a>{site_nav}<label class="search-label" for="topic-search">Search topics</label><input id="topic-search" type="search" placeholder="Search topics…" autocomplete="off"><p id="search-status" role="status" class="search-status"></p><nav aria-label="Table of contents"><a class="intro-link" {'aria-current="page"' if source==intro_target else ''} href="{prefix}{intro_target}">{intro_label}</a>{sidebar_contents}<a class="intro-link" href="{prefix}references/index.html">Bibliography</a></nav><a class="sidebar-contact" href="mailto:{book['email']}">Contact the editors ↗</a></aside>
 <div class="book-body"><header class="toolbar"><button id="menu-toggle" type="button" aria-controls="contents" aria-expanded="false" hidden>☰ <span>Contents</span></button><a href="{prefix}{intro_target}">{toolbar_title}</a>{landing_nav}<button id="font-toggle" type="button" aria-label="Increase text size" aria-pressed="false" hidden>Aa</button></header><div class="reading-layout"><main id="main" tabindex="-1"><article>{body}</article>{pager}<footer>Quantum Research Center · <a href="mailto:{book['email']}">Contact</a></footer></main>{local}</div></div></body></html>'''
@@ -124,12 +125,20 @@ def render(book):
     page('research/index.html','Quantum Research',intro,[('introduction','How to explore'),('contents-overview','Research questions'),('literature','Sources'),('students','People')])
     home='''<header class="landing-hero" id="welcome"><p class="kicker">Quantum Research Center</p><h1>The study of quantum science</h1><p class="subtitle">A place for learning and inquiry into quantum theory, computation, and information. Courses and research notes connect foundational ideas, mathematical reasoning, and open questions.</p><figure class="hero-visual"><svg viewBox="0 0 360 360" role="img" aria-labelledby="hero-sphere-title"><title id="hero-sphere-title">A qubit state on a Bloch sphere</title><defs><radialGradient id="sphere-glow"><stop stop-color="currentColor" stop-opacity=".12"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><circle cx="180" cy="180" r="178" fill="url(#sphere-glow)"/><g class="sphere-grid" fill="none" stroke="currentColor"><circle cx="180" cy="180" r="120"/><ellipse cx="180" cy="180" rx="120" ry="38"/><ellipse cx="180" cy="180" rx="44" ry="120"/><path d="M35 180H325M180 35V325M88 268L272 92"/></g><g class="sphere-state"><path d="M180 180L250 101"/><path d="M239 104L250 101L248 113"/><circle cx="250" cy="101" r="5"/></g><g class="sphere-labels"><text x="177" y="25">z</text><text x="331" y="185">y</text><text x="75" y="285">x</text><text x="262" y="98">|ψ⟩</text></g></svg><figcaption>The geometry of a qubit</figcaption><button type="button" data-motion hidden>Pause motion</button></figure><div class="landing-actions"><a class="primary-link" href="education/index.html">Explore courses →</a><a href="research/index.html">Read research notes →</a></div></header><div class="landing-paths"><section id="education"><p class="kicker">Education</p><h2>Courses in quantum science</h2><p>The courses develop concepts through explanations, mathematical examples, and interactive experiments. Quantum Computing begins with classical logic and proceeds through quantum states, circuits, and algorithms.</p><a href="education/index.html">Browse courses →</a></section><section id="research"><p class="kicker">Research</p><h2>Topics and open questions</h2><p>Explore questions in the foundations of quantum mechanics, quantum computation, quantum information, and quantum technology. Follow the mathematics from known results to a next investigation.</p><a href="research/index.html">Explore research →</a></section></div><section class="landing-literature" id="references"><div><p class="kicker">References</p><h2>Papers and further reading</h2><p>The bibliography collects papers and reviews cited in the research notes, with brief annotations on their relevance.</p></div><a href="references/index.html">Browse the bibliography →</a></section>'''
     home+='<section class="landing-literature" id="news"><div><p class="kicker">Research updates</p><h2>News &amp; articles</h2><p>Explore recent arXiv papers and editor-selected research summaries.</p></div><a href="news/index.html">Browse news &amp; papers →</a></section>'
-    render_news(ROOT, page, outputs)
+    render_news(ROOT, page, outputs, book['url'])
     page('index.html','Home',home,[('welcome','Welcome'),('education','Education'),('research','Research'),('references','References'),('news','News & articles')])
     course_icons=['<circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="11" ry="4"/><path d="M16 16L23 7M16 3V29"/>', '<path d="M2 17C7 1 9 1 16 17S25 33 30 17M2 17H30"/>', '<path d="M2 9H30M2 23H30M16 9V23"/><circle cx="16" cy="9" r="2"/><rect x="12" y="19" width="8" height="8"/>', '<path d="M7 7L25 16L7 25Z"/><circle cx="7" cy="7" r="3"/><circle cx="25" cy="16" r="3"/><circle cx="7" cy="25" r="3"/>', '<rect x="8" y="8" width="16" height="16" rx="3"/><path d="M12 2V8M20 2V8M12 24V30M20 24V30M2 12H8M2 20H8M24 12H30M24 20H30"/>']
-    course_list=''.join(f'<li class="course-card"><a class="course-link" href="{esc(relative(course["path"], "education/index.html"))}"><span class="course-index" aria-hidden="true"><svg class="course-symbol" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3">{course_icons[i-1]}</svg>{i:02}</span><div class="course-copy"><h3>{esc(course["title"])}</h3><p>{esc(course.get("summary",course["description"]))}</p></div><span class="course-arrow" aria-hidden="true">↗</span></a><details class="course-requirements"><summary>Prerequisites</summary><p>{esc(course["prerequisite"])}</p></details></li>' for i,course in enumerate(courses,1))
-    education='<div class="course-catalog"><header class="title-page"><p class="kicker">Learn at your own pace</p><h1>Courses in quantum science.</h1><p class="subtitle">Explore quantum science through clear explanations, worked examples, and interactive experiments.</p></header><section id="courses" aria-labelledby="courses-heading"><div class="catalog-heading"><h2 id="courses-heading">The courses</h2><span>'+f'{len(courses):02} courses'+'</span></div><ul class="course-list">'+course_list+'</ul><p class="catalog-note">Self-paced textbooks by Mithilesh Kumar. Courses are being developed; each course describes its current scope.</p></section><section class="catalog-learning" id="learning"><p class="kicker">Find your starting point</p><h2>Start with the foundations.<br>Follow what interests you.</h2><p>Begin with Quantum Computing, then explore algorithms, programming, or hardware. Quantum Information offers a self-contained path into states and communication. Open the prerequisites above to find the right fit.</p><a href="../research/index.html">Explore the research handbook <span aria-hidden="true">↗</span></a></section></div>'
-    page('education/index.html','Education',education,[('courses','Courses'),('learning','Learning approach')])
+    course_icons=dict(zip(('education/computing/index.html','education/algorithms/index.html','education/programming/index.html','education/information/index.html','education/hardware/index.html'),course_icons))
+    course_icons['education/foundations/index.html']='<circle cx="16" cy="16" r="3"/><ellipse cx="16" cy="16" rx="13" ry="5"/><ellipse cx="16" cy="16" rx="13" ry="5" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="13" ry="5" transform="rotate(120 16 16)"/>'
+    course_list=''
+    offset=0
+    for level,label in course_levels:
+        group=[course for course in courses if course['level']==level]
+        cards=''.join(f'<li class="course-card"><a class="course-link" href="{esc(relative(course["path"], "education/index.html"))}"><span class="course-index" aria-hidden="true"><svg class="course-symbol" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3">{course_icons.get(course["path"], course_icons["education/foundations/index.html"])}</svg>{i:02}</span><div class="course-copy"><h3>{esc(course["title"])}</h3><p>{esc(course.get("summary",course["description"]))}</p></div><span class="course-arrow" aria-hidden="true">↗</span></a><details class="course-requirements"><summary>Prerequisites</summary><p>{esc(course["prerequisite"])}</p></details></li>' for i,course in enumerate(group,offset+1))
+        course_list+=f'<section class="catalog-group" id="{level}" aria-labelledby="{level}-heading"><div class="catalog-separator"><h2 id="{level}-heading">{label}</h2><span>{len(group)} course{"" if len(group)==1 else "s"}</span></div><ul class="course-list">'+cards+'</ul></section>'
+        offset+=len(group)
+    education='<div class="course-catalog"><header class="title-page"><p class="kicker">Learn at your own pace</p><h1>Courses in quantum science.</h1><p class="subtitle">Explore quantum science through clear explanations, worked examples, and interactive experiments.</p></header><section id="courses" aria-labelledby="courses-heading"><div class="catalog-heading"><h2 id="courses-heading">The courses</h2><span>'+f'{len(courses):02} courses'+'</span></div>'+course_list+'<p class="catalog-note">Self-paced textbooks by Mithilesh Kumar. Courses are being developed; each course describes its current scope.</p></section><section class="catalog-learning" id="learning"><p class="kicker">Find your starting point</p><h2>Start with the foundations.<br>Follow what interests you.</h2><p>Begin with Quantum Computing or Quantum Information. Continue with the advanced courses in Quantum Foundations, algorithms, programming, and hardware. Open the prerequisites above to find the right fit.</p><a href="../research/index.html">Explore the research handbook <span aria-hidden="true">↗</span></a></section></div>'
+    page('education/index.html','Education',education,[('basics','Basics'),('advanced','Advanced'),('learning','Learning approach')])
     for index,item in enumerate(entries):
         source=path(item)
         is_question=bool(item.get('manuscript'))
@@ -191,7 +200,7 @@ def render(book):
     used=list(dict.fromkeys(ref for item in entries for ref in item['papers']))
     page('references/index.html','Bibliography','<p class="kicker">Reference material</p><h1>Bibliography</h1><p class="lead">Papers cited in the research handbook.</p><section id="papers"><h2>Research papers and reviews</h2>'+bibliography(used)+'</section>',[('papers','Papers and reviews')])
     followup_pages=[]
-    for course in ('algorithms','programming','information','hardware'):
+    for course in ('foundations','algorithms','programming','information','hardware'):
         followup_pages.append(f'education/{course}/index.html')
         followup_pages.extend(f'education/{course}/'+chapter['stem']+'.html' for chapter in json.loads((ROOT/f'education/{course}/chapters.json').read_text()))
     outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc></url>' for p in [*[name for name in outputs if name.endswith('.html') and name not in UNLISTED], *followup_pages, 'education/computing/index.html', 'education/computing/glossary.html', 'education/computing/study-guide.html', 'education/computing/revisions.html', *['education/computing/'+chapter[0]+'.html' for chapter in json.loads((ROOT/'education/computing/chapters.json').read_text())]])+'</urlset>\n'
@@ -202,7 +211,19 @@ def render(book):
         href=esc(relative(target,old))
         canonical=esc(book['url']+'/'+target.removesuffix('index.html'))
         outputs[old]=f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research page moved | Quantum Research Center</title><meta name="robots" content="noindex"><link rel="canonical" href="{canonical}"><meta http-equiv="refresh" content="0;url={href}"></head><body><main><h1>Research has been reorganized</h1><p>This overview now leads to a related research question. <a href="{href}">Continue to the research page →</a></p></main></body></html>'
-    return {name:(version_assets(name,source) if name.endswith('.html') else source) for name,source in outputs.items()}
+    return {name:(mark_generated(version_assets(name,source)) if name.endswith('.html') else source) for name,source in outputs.items()}
+
+def social_meta(title,description,url,kind):
+    # Link previews (Open Graph / Twitter); TeX delimiters read badly in a preview card.
+    text=re.sub(r'\\[()\[\]]','',description)
+    return (f'<meta property="og:type" content="{kind}"><meta property="og:site_name" content="Quantum Research Center">'
+        f'<meta property="og:title" content="{esc('Quantum Research Center' if title=='Home' else title+' | Quantum Research Center')}"><meta property="og:description" content="{esc(text)}">'
+        f'<meta property="og:url" content="{esc(url)}"><meta name="twitter:card" content="summary">')
+
+GENERATED_NOTE='<!-- Generated by scripts/build.py from content/*.json. Edit those sources and rebuild; changes made here are overwritten. -->'
+def mark_generated(source):
+    head,sep,rest=source.partition('>')
+    return head+sep+GENERATED_NOTE+rest if head.lower().startswith('<!doctype') else GENERATED_NOTE+source
 
 def version_assets(name,source):
     # Stylesheets and scripts are cached for hours by the CDN and browsers; a content
@@ -247,14 +268,41 @@ def check_output(output):
             if target in pages:pending.append(target)
     if set(pages)-reached-UNLISTED:raise ValueError('Unreachable pages')
 
+# Fingerprints of the files this build last wrote, so hand edits to generated pages are noticed
+# instead of silently overwritten. Local only (gitignored); a missing manifest disables the guard once.
+MANIFEST=ROOT/'scripts/.generated-manifest.json'
+def fingerprint(text):return hashlib.sha256(text.encode()).hexdigest()
+def hand_edited(output):
+    known=json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
+    edited=[]
+    for name,source in output.items():
+        target=ROOT/name
+        if name in known and target.exists():
+            current=target.read_text()
+            if current!=source and fingerprint(current)!=known[name]:edited.append(name)
+    return edited
+def record_generated(output,names=None):
+    known=json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
+    known.update({name:fingerprint(output[name]) for name in (names or output)})
+    known={name:value for name,value in known.items() if name in output}
+    MANIFEST.write_text(json.dumps(known,indent=0,sort_keys=True)+'\n')
+
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--check',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--check',action='store_true')
+    parser.add_argument('--force',action='store_true',help='overwrite generated pages even if they were edited by hand')
+    args=parser.parse_args()
     output=render(json.loads((ROOT/'content/research.json').read_text()));check_output(output)
+    if not args.check and not args.force:
+        edited=hand_edited(output)
+        if edited:
+            raise SystemExit('These generated pages were edited by hand since the last build:\n  '+'\n  '.join(edited)+
+                '\nMove the changes into content/*.json (or scripts/build.py), then rebuild; or rerun with --force to discard them.')
     for name,source in output.items():
         target=ROOT/name
         if args.check:
             if not target.exists() or target.read_text()!=source:raise ValueError('Stale output: '+name)
         else:target.parent.mkdir(parents=True,exist_ok=True);target.write_text(source)
+    if not args.check:record_generated(output)
     for target in orphaned_news_pages(output):
         if args.check:raise ValueError('Withdrawn paper page still present: '+str(target.relative_to(ROOT)))
         remove_page(target)

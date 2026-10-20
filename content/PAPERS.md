@@ -11,6 +11,7 @@ Summaries are abstract-based; read the linked version before approving a news ar
 - Each approved paper gets its own page, `news/<arXiv id>/index.html`, holding the full description, the methods with derivations, and context. MathJax loads only on pages that contain TeX, so the listing stays light as papers accumulate.
 - `news/index.json` is a small search index (title, authors, topic, dates, question, result, technique names) used by the listing's search box. It is the basis for later archive pages, which can search papers that are no longer on the main list.
 - `news/papers.html` shows only papers still awaiting approval.
+- `news/feed.xml` is an RSS feed of the 30 most recent selections; every news page advertises it, and paper pages carry link-preview (Open Graph) metadata.
 - Withdrawing a paper (back to `candidate`) removes its page on the next build; `build.py --check` fails if a withdrawn paper's page is still present.
 - `scripts/paper_news.py` renders both pages through the existing build system. Do not edit generated HTML.
 
