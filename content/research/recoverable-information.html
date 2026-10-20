@@ -1,0 +1,20 @@
+<section id="perspective"><h2>The question in perspective</h2>
+<p>A noisy operation can be irreversible on all states yet reversible on a carefully chosen code. This makes error correction possible without copying an unknown state. The central issue is whether the discarded degrees of freedom learned information that distinguishes the encoded alternatives.</p></section>
+<section id="mathematics"><h2>What the environment is allowed to learn</h2>
+<p>Represent a noise channel by \(\mathcal N(\rho)=\sum_a E_a\rho E_a^\dagger\), with \(\sum_aE_a^\dagger E_a=I\). An isometric description is \(V\ket\psi=\sum_a E_a\ket\psi\ket a_E\). Let \(P\) project onto the code space. Exact correction on that code is possible precisely when</p>
+<p>\[PE_a^\dagger E_bP=c_{ab}P\quad\text{for all }a,b.\]</p>
+<p>These are the Knill–Laflamme conditions. To see their meaning, take orthonormal encoded states \(\ket{i_L}\). The conditions give \(\bra{i_L}E_a^\dagger E_b\ket{j_L}=c_{ab}\delta_{ij}\). The environment’s reduced state therefore does not depend on which encoded input was used, including its superposition coefficients. The error label may become visible without revealing the logical information.</p>
+<p>For the three-qubit bit-flip code, use errors \(I,X_1,X_2,X_3\). Their images of the code occupy orthogonal syndrome spaces, giving \(c_{ab}=\delta_{ab}\) for this error set. By contrast, a single physical phase flip \(Z_1\) acts as logical Z. Then \(PZ_1P\) is not a scalar multiple of \(P\): arbitrary phase noise is not corrected by this code.</p>
+<p>Approximate recovery also has an information-theoretic formulation. For a tripartite state, define</p>
+<p>\[I(A:C|B)=S(AB)+S(BC)-S(B)-S(ABC).\]</p>
+<p>There exists a channel \(\mathcal R_{B\to BC}\) satisfying the Fawzi–Renner bound</p>
+<p>\[I(A:C|B)_\rho\geq-2\log_2 F\!\left(\rho_{ABC},(\operatorname{id}_A\otimes\mathcal R)(\rho_{AB})\right),\]</p>
+<p>where \(F(\rho,\sigma)=\|\sqrt\rho\sqrt\sigma\|_1\) is the unsquared fidelity. Small conditional mutual information thus guarantees a high-fidelity recovery for that state. It does not assert one recovery map corrects every possible input of an arbitrary channel.</p></section>
+<section id="known"><h2>What is established</h2>
+<p><a href="https://arxiv.org/abs/quant-ph/9604034">Knill and Laflamme</a> characterize exact code recovery. <a href="https://arxiv.org/abs/1410.0664">Fawzi and Renner</a> relate conditional correlations to approximate reconstruction. The two statements solve different tasks: exact correction of a code and approximate recovery of a specified tripartite state.</p></section>
+<section id="frontier"><h2>What remains unresolved</h2>
+<p>An existence theorem may not provide an efficient implementation using local gates and bounded memory. The practical research questions concern recoveries that remain effective under imperfect noise knowledge, local constraints, and finite data. State-specific guarantees must be distinguished from uniform guarantees across a code space.</p></section>
+<section id="investigation"><h2>A concrete next investigation</h2>
+<p><strong>Reproduce:</strong> build the bit-flip code projector and check every matrix \(PE_a^\dagger E_bP\). Add \(Z_1\) to expose the failing condition.</p>
+<p><strong>Check:</strong> for the classical state assigning probability one half to 000 and 111, compute \(I(A:C|B)=0\). Copying the classical B label into C reconstructs the state; no arbitrary unknown qubit is cloned.</p>
+<p><strong>Extend:</strong> select a noisy channel family and optimize a realizable recovery for a small code. Compare worst-case logical error with a state-averaged fidelity, then identify which guarantee survives model mismatch.</p></section>

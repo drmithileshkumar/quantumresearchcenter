@@ -10,8 +10,9 @@ from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
 from paper_news import render_news
-# Editorial pages are published but not linked publicly, listed in the sitemap, or indexed.
-UNLISTED = {'news/papers.html'}
+# Editorial pages and legacy redirects stay out of the public sitemap.
+RESEARCH_REDIRECTS = json.loads((Path(__file__).resolve().parents[1]/'content/research-redirects.json').read_text())
+UNLISTED = {'news/papers.html', *RESEARCH_REDIRECTS}
 
 ROOT = Path(__file__).resolve().parents[1]
 def esc(value): return html.escape(str(value), quote=True)
@@ -71,9 +72,9 @@ def render(book):
             return out+'</ul>'
         return branch()
     def keywords(items,source):
-        return '<ul class="research-keywords">'+''.join(
-            f'<li><a href="{relative(path(item),source)}">{esc(item.get("keyword",item["title"]))}</a></li>'
-            for item in items)+'</ul>'
+        return '<ol class="research-question-list">'+''.join(
+            '<li><a href="'+relative(path(item),source)+'">'+esc(item['title'])+'<span aria-hidden="true"> ↗</span></a><p>'+esc(item['summary'])+'</p></li>'
+            for item in items)+'</ol>'
     def breadcrumbs(item):
         source=path(item)
         return '<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="'+relative('research/index.html',source)+'">Research</a></li>'+''.join(
@@ -110,18 +111,18 @@ def render(book):
         intro_label='Home' if source=='index.html' else ('Course catalog' if source=='education/index.html' else 'Research introduction')
         toolbar_title='Quantum Research Center' if source=='index.html' else ('Education' if source=='education/index.html' else 'Quantum Research')
         landing_nav=site_nav if source=='index.html' else ''
+        mathjax=(f'<script defer src="{prefix}education/computing/assets/source/mathjax-config.js"></script><script defer src="{prefix}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>' if '\\(' in body or '\\[' in body else '')
         outputs[source]=f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}"><link rel="icon" href="{prefix}icons/icon.svg"><script src="{prefix}education/computing/assets/theme.js"></script><link rel="stylesheet" href="{prefix}styles.css"><script defer src="{prefix}script.js"></script></head>
-<body class="{'landing' if source=='index.html' else 'reader'}"><a class="skip-link" href="#main">Skip to content</a>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}"><link rel="icon" href="{prefix}icons/icon.svg"><script src="{prefix}education/computing/assets/theme.js"></script><link rel="stylesheet" href="{prefix}styles.css"><script defer src="{prefix}script.js"></script>{mathjax}</head>
+<body class="{'landing' if source=='index.html' else 'reader'}{' research-question' if current and current.get('manuscript') else ''}"><a class="skip-link" href="#main">Skip to content</a>
 <aside class="sidebar" id="contents"><a class="book-brand" href="{prefix}index.html">Quantum Research Center<span>Education &amp; Research</span></a>{site_nav}<label class="search-label" for="topic-search">Search topics</label><input id="topic-search" type="search" placeholder="Search topics…" autocomplete="off"><p id="search-status" role="status" class="search-status"></p><nav aria-label="Table of contents"><a class="intro-link" {'aria-current="page"' if source==intro_target else ''} href="{prefix}{intro_target}">{intro_label}</a>{sidebar_contents}<a class="intro-link" href="{prefix}references/index.html">Bibliography</a></nav><a class="sidebar-contact" href="mailto:{book['email']}">Contact the editors ↗</a></aside>
 <div class="book-body"><header class="toolbar"><button id="menu-toggle" type="button" aria-controls="contents" aria-expanded="false" hidden>☰ <span>Contents</span></button><a href="{prefix}{intro_target}">{toolbar_title}</a>{landing_nav}<button id="font-toggle" type="button" aria-label="Increase text size" aria-pressed="false" hidden>Aa</button></header><div class="reading-layout"><main id="main" tabindex="-1"><article>{body}</article>{pager}<footer>Quantum Research Center · <a href="mailto:{book['email']}">Contact</a></footer></main>{local}</div></div></body></html>'''
-    intro='<header class="title-page"><p class="kicker">Research</p><h1>Quantum Research</h1><p class="subtitle">Quantum Computation, Quantum Information, and Quantum Technologies</p></header><section id="introduction"><h2>Explore research</h2><p>Choose a broad category, then follow its research keywords into topics and more specific questions. Each topic brings together its scope, methods, and selected literature.</p></section><section id="contents-overview"><h2>Research categories</h2><div class="research-categories">'
-    for category in children[None]:
-        intro+='<section class="research-category"><h3>'+link(category,'research/index.html')+'</h3><p>'+esc(category['summary'])+'</p>'+keywords(children.get(path(category),[]),'research/index.html')+'</section>'
-    intro+='</div></section><section id="literature"><h2>Literature</h2><p>Selected references accompany the topic pages. Browse the <a href="../references/index.html">complete bibliography</a> for the collected papers and reviews.</p></section>'
-    intro+='<section id="students"><h2>Students and Contributions</h2><p>Meet the students contributing to our research and explore their projects, reports, code, and presentations.</p><p><a href="students/index.html">View students and contributions →</a></p></section>'
-    page('research/index.html','Quantum Research',intro,[('introduction','Explore research'),('contents-overview','Research categories'),('literature','Literature'),('students','Students and Contributions')])
-    home='''<header class="landing-hero" id="welcome"><p class="kicker">Quantum Research Center</p><h1>The study of quantum science</h1><p class="subtitle">A place for learning and inquiry into quantum theory, computation, and information. Courses and research notes connect foundational ideas, mathematical reasoning, and open questions.</p><figure class="hero-visual"><svg viewBox="0 0 360 360" role="img" aria-labelledby="hero-sphere-title"><title id="hero-sphere-title">A qubit state on a Bloch sphere</title><defs><radialGradient id="sphere-glow"><stop stop-color="currentColor" stop-opacity=".12"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><circle cx="180" cy="180" r="178" fill="url(#sphere-glow)"/><g class="sphere-grid" fill="none" stroke="currentColor"><circle cx="180" cy="180" r="120"/><ellipse cx="180" cy="180" rx="120" ry="38"/><ellipse cx="180" cy="180" rx="44" ry="120"/><path d="M35 180H325M180 35V325M88 268L272 92"/></g><g class="sphere-state"><path d="M180 180L250 101"/><path d="M239 104L250 101L248 113"/><circle cx="250" cy="101" r="5"/></g><g class="sphere-labels"><text x="177" y="25">z</text><text x="331" y="185">y</text><text x="75" y="285">x</text><text x="262" y="98">|ψ⟩</text></g></svg><figcaption>The geometry of a qubit</figcaption><button type="button" data-motion hidden>Pause motion</button></figure><div class="landing-actions"><a class="primary-link" href="education/index.html">Explore courses →</a><a href="research/index.html">Read research notes →</a></div></header><div class="landing-paths"><section id="education"><p class="kicker">Education</p><h2>Courses in quantum science</h2><p>The courses develop concepts through explanations, mathematical examples, and interactive experiments. Quantum Computing begins with classical logic and proceeds through quantum states, circuits, and algorithms.</p><a href="education/index.html">Browse courses →</a></section><section id="research"><p class="kicker">Research</p><h2>Topics and open questions</h2><p>Explore Quantum Computation, Quantum Information, and Quantum Technologies through research topics, open problems, and references to the literature.</p><a href="research/index.html">Explore research →</a></section></div><section class="landing-literature" id="references"><div><p class="kicker">References</p><h2>Papers and further reading</h2><p>The bibliography collects papers and reviews cited in the research notes, with brief annotations on their relevance.</p></div><a href="references/index.html">Browse the bibliography →</a></section>'''
+    intro='<header class="title-page research-opening"><p class="kicker">Research</p><h1>Questions at the edge of quantum science</h1><p class="subtitle">Explore the foundations, possibilities, and limits of quantum theory through questions we can make precise.</p></header><section id="introduction"><h2>From understanding to investigation</h2><p>Each question begins with a physical or computational problem, develops a mathematical model, and separates established results from unresolved issues. Follow a worked starting investigation before attempting the proposed extension.</p><p>These are selected research directions, not an exhaustive list of open problems or a claim that the Center has solved them. A reproducible exercise builds the tools; a research contribution must add a justified result beyond that baseline.</p></section><section id="contents-overview"><h2>Explore the four fields</h2><div class="research-categories">'
+    for number,category in enumerate(children[None],1):
+        intro+='<section class="research-category"><p class="kicker">'+f'{number:02} · {len(children.get(path(category),[]))} questions'+'</p><h3>'+link(category,'research/index.html')+'</h3><p>'+esc(category['summary'])+'</p>'+keywords(children.get(path(category),[]),'research/index.html')+'</section>'
+    intro+='</div></section><section id="literature"><h2>Read the argument, then the source</h2><p>Known results link to papers near the claims they support. Each question also has an annotated reading list. Model assumptions and theorem scope matter as much as the equation itself.</p><a href="../references/index.html">Browse the bibliography →</a></section><section id="students"><h2>People and contributions</h2><p>Explore the projects and documented contributions of students working with the Center.</p><a href="students/index.html">Students and contributions →</a></section>'
+    page('research/index.html','Quantum Research',intro,[('introduction','How to explore'),('contents-overview','Research questions'),('literature','Sources'),('students','People')])
+    home='''<header class="landing-hero" id="welcome"><p class="kicker">Quantum Research Center</p><h1>The study of quantum science</h1><p class="subtitle">A place for learning and inquiry into quantum theory, computation, and information. Courses and research notes connect foundational ideas, mathematical reasoning, and open questions.</p><figure class="hero-visual"><svg viewBox="0 0 360 360" role="img" aria-labelledby="hero-sphere-title"><title id="hero-sphere-title">A qubit state on a Bloch sphere</title><defs><radialGradient id="sphere-glow"><stop stop-color="currentColor" stop-opacity=".12"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><circle cx="180" cy="180" r="178" fill="url(#sphere-glow)"/><g class="sphere-grid" fill="none" stroke="currentColor"><circle cx="180" cy="180" r="120"/><ellipse cx="180" cy="180" rx="120" ry="38"/><ellipse cx="180" cy="180" rx="44" ry="120"/><path d="M35 180H325M180 35V325M88 268L272 92"/></g><g class="sphere-state"><path d="M180 180L250 101"/><path d="M239 104L250 101L248 113"/><circle cx="250" cy="101" r="5"/></g><g class="sphere-labels"><text x="177" y="25">z</text><text x="331" y="185">y</text><text x="75" y="285">x</text><text x="262" y="98">|ψ⟩</text></g></svg><figcaption>The geometry of a qubit</figcaption><button type="button" data-motion hidden>Pause motion</button></figure><div class="landing-actions"><a class="primary-link" href="education/index.html">Explore courses →</a><a href="research/index.html">Read research notes →</a></div></header><div class="landing-paths"><section id="education"><p class="kicker">Education</p><h2>Courses in quantum science</h2><p>The courses develop concepts through explanations, mathematical examples, and interactive experiments. Quantum Computing begins with classical logic and proceeds through quantum states, circuits, and algorithms.</p><a href="education/index.html">Browse courses →</a></section><section id="research"><p class="kicker">Research</p><h2>Topics and open questions</h2><p>Explore questions in the foundations of quantum mechanics, quantum computation, quantum information, and quantum technology. Follow the mathematics from known results to a next investigation.</p><a href="research/index.html">Explore research →</a></section></div><section class="landing-literature" id="references"><div><p class="kicker">References</p><h2>Papers and further reading</h2><p>The bibliography collects papers and reviews cited in the research notes, with brief annotations on their relevance.</p></div><a href="references/index.html">Browse the bibliography →</a></section>'''
     home+='<section class="landing-literature" id="news"><div><p class="kicker">Research updates</p><h2>News &amp; articles</h2><p>Explore recent arXiv papers and editor-selected research summaries.</p></div><a href="news/index.html">Browse news &amp; papers →</a></section>'
     render_news(ROOT, page, outputs)
     page('index.html','Home',home,[('welcome','Welcome'),('education','Education'),('research','Research'),('references','References'),('news','News & articles')])
@@ -131,17 +132,25 @@ def render(book):
     page('education/index.html','Education',education,[('courses','Courses'),('learning','Learning approach')])
     for index,item in enumerate(entries):
         source=path(item)
-        body=breadcrumbs(item)+f'<p class="kicker">{"Research category" if not item["_parents"] else "Research topic"}</p><h1>{esc(item["title"])}</h1><p class="lead">{esc(item["summary"])}</p>'
+        is_question=bool(item.get('manuscript'))
+        body=breadcrumbs(item)+f'<header class="research-heading"><p class="kicker">{"Research question" if is_question else "Research category"}</p><h1>{esc(item["title"])}</h1><p class="lead">{esc(item["summary"])}</p></header>'
         sections=[]
         descendants=children.get(source,[])
-        if descendants:
-            body+='<section id="topics"><h2>Research topics</h2><p>Explore a keyword to see its research overview and more specific topics.</p>'+keywords(descendants,source)+'</section>'
-            sections.append(('topics','Research topics'))
-        body+='<section id="overview"><h2>Scope and methods</h2>'+''.join('<p>'+esc(p)+'</p>' for p in item['paragraphs'])+'</section>'
-        sections.append(('overview','Scope and methods'))
-        if item['questions']:
-            body+='<section id="questions"><h2>Open problems</h2><ul>'+''.join('<li>'+esc(q)+'</li>' for q in item['questions'])+'</ul></section>'
-            sections.append(('questions','Open problems'))
+        if is_question:
+            manuscript=ROOT/item['manuscript']
+            if not manuscript.resolve().is_relative_to((ROOT/'content/research').resolve()):
+                raise ValueError('Research manuscript outside content/research')
+            body+='<p class="research-reading-note">A worked entry into an open research direction · Sources checked 20 October 2026</p>'+manuscript.read_text()
+            sections=[('perspective','The question'),('mathematics','The mathematics'),('known','Known results'),('frontier','The frontier'),('investigation','Next investigation')]
+        else:
+            body+='<section id="overview"><h2>The field in perspective</h2>'+''.join('<p>'+esc(p)+'</p>' for p in item['paragraphs'])+'</section>'
+            sections.append(('overview','Perspective'))
+            if descendants:
+                body+='<section id="topics"><h2>Fundamental questions</h2>'+keywords(descendants,source)+'</section>'
+                sections.append(('topics','Research questions'))
+            if item['questions']:
+                body+='<section id="questions"><h2>Open problems</h2><ul>'+''.join('<li>'+esc(q)+'</li>' for q in item['questions'])+'</ul></section>'
+                sections.append(('questions','Open problems'))
         if item['papers']:
             body+='<section id="references"><h2>Selected references</h2>'+bibliography(item['papers'])+'<p class="reference-note">Years refer to first arXiv submission. Publication details are available in the linked records.</p></section>'
             sections.append(('references','Selected references'))
@@ -187,6 +196,12 @@ def render(book):
         followup_pages.extend(f'education/{course}/'+chapter['stem']+'.html' for chapter in json.loads((ROOT/f'education/{course}/chapters.json').read_text()))
     outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc></url>' for p in [*[name for name in outputs if name.endswith('.html') and name not in UNLISTED], *followup_pages, 'education/computing/index.html', 'education/computing/glossary.html', 'education/computing/study-guide.html', 'education/computing/revisions.html', *['education/computing/'+chapter[0]+'.html' for chapter in json.loads((ROOT/'education/computing/chapters.json').read_text())]])+'</urlset>\n'
     outputs['robots.txt']='User-agent: *\nAllow: /\nSitemap: '+book['url']+'/sitemap.xml\n'
+    for old,target in RESEARCH_REDIRECTS.items():
+        if old in outputs or target not in outputs:
+            raise ValueError('Invalid research redirect: '+old+' → '+target)
+        href=esc(relative(target,old))
+        canonical=esc(book['url']+'/'+target.removesuffix('index.html'))
+        outputs[old]=f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research page moved | Quantum Research Center</title><meta name="robots" content="noindex"><link rel="canonical" href="{canonical}"><meta http-equiv="refresh" content="0;url={href}"></head><body><main><h1>Research has been reorganized</h1><p>This overview now leads to a related research question. <a href="{href}">Continue to the research page →</a></p></main></body></html>'
     return {name:(version_assets(name,source) if name.endswith('.html') else source) for name,source in outputs.items()}
 
 def version_assets(name,source):

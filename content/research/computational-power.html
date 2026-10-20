@@ -1,0 +1,21 @@
+<section id="perspective"><h2>The question in perspective</h2>
+<p>A quantum state of \(n\) qubits has \(2^n\) amplitudes, but a measurement does not return that list. Computational power depends on whether a short, constructible sequence of gates can make a useful answer observable with sufficiently high probability.</p>
+<p>We must specify an input encoding and a family of instances. A single fast calculation says little about how cost grows with input length.</p></section>
+<section id="mathematics"><h2>From amplitudes to a complexity claim</h2>
+<p>Let \(x\) be an \(n\)-bit classical input and \(U_x\) a uniformly generated circuit using a polynomial number of elementary gates and qubits. If \(\Pi_1\) projects onto an accepting output, its acceptance probability is</p>
+<p>\[p_x=\|\Pi_1 U_x\ket{0\cdots0}\|^2.\]</p>
+<p>A decision problem is in BQP when such circuits give \(p_x\geq2/3\) on yes instances and \(p_x\leq1/3\) on no instances. Uniform generation means the circuit description itself is obtainable efficiently; we cannot hide a difficult answer in its construction. BPP is the corresponding class for polynomial-time randomized classical computation.</p>
+<p>A useful controlled example is search over \(N\) labels with one marked item \(w\). Assume access to the phase oracle \(O_f\ket j=(-1)^{f(j)}\ket j\). Let \(\ket r\) be the normalized uniform superposition of unmarked labels. The uniform input is</p>
+<p>\[\ket s=\sin\theta\ket w+\cos\theta\ket r,\qquad \sin\theta=1/\sqrt N.\]</p>
+<p>One oracle reflection followed by reflection about \(\ket s\) rotates this plane by \(2\theta\). After \(k\) iterations,</p>
+<p>\[p_{\rm success}(k)=\sin^2((2k+1)\theta).\]</p>
+<p>About \(\pi\sqrt N/4\) oracle calls suffice for high success probability. For \(N=4\), \(\theta=\pi/6\), and one iteration succeeds with certainty. The calculation concerns oracle calls; preparing \(\ket s\), implementing the oracle, and reading the output also have costs.</p><figure class="research-figure"><div class="figure-scroll" role="region" tabindex="0" aria-label="Search success oscillates with oracle iterations and falls after its first peak. Scroll horizontally on narrow screens."><img src="../../assets/search-rotation.svg" alt="Search success oscillates with oracle iterations and falls after its first peak." loading="lazy"></div><figcaption>For one marked item among 64, success first rises and then falls. More oracle iterations do not monotonically improve the result.</figcaption></figure></section>
+<section id="known"><h2>What is established</h2>
+<p><a href="https://arxiv.org/abs/quant-ph/9508027">Shor’s algorithms</a> factor integers and compute discrete logarithms with polynomial quantum resources. Their existence does not prove a classical lower bound for those tasks.</p>
+<p><a href="https://arxiv.org/abs/quant-ph/9701001">Quantum query lower bounds</a> show the square-root search scaling is optimal in the unstructured black-box model. They do not prohibit exploiting an explicit problem’s extra structure. <a href="https://arxiv.org/abs/0804.3401">Watrous’s complexity survey</a> develops the broader decision and verification framework.</p></section>
+<section id="frontier"><h2>What remains unresolved</h2>
+<p>Whether BPP equals BQP remains unresolved; neither a large Hilbert space nor a sampling experiment supplies an unconditional separation. There is also no established general efficient quantum algorithm for all NP-complete problems. Useful advances require either a new algorithm under a clear access model, a stronger lower bound, or a sharper classical simulation method.</p></section>
+<section id="investigation"><h2>A concrete next investigation</h2>
+<p><strong>Reproduce:</strong> track the two amplitudes in search for several \(N\), including iterations beyond the optimum. Confirm that continuing to iterate can reduce success.</p>
+<p><strong>Check:</strong> replace a unit-cost oracle with a reversible implementation and count its elementary gates, workspace, and cleanup.</p>
+<p><strong>Extend:</strong> choose a structured search family and compare quantum and classical algorithms using the same representation. A useful claim reports preparation, precision, repetitions, and output costs; a black-box speedup alone is not an end-to-end advantage.</p></section>

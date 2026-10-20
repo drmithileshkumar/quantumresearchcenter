@@ -1,0 +1,21 @@
+<section id="perspective"><h2>The question in perspective</h2>
+<p>A physical error rate that looks small for one gate can be unacceptable for a computation with billions of operations. The fundamental question is whether reliability can improve as a machine grows, and what extra qubits, time, control, and classical processing that improvement requires.</p></section>
+<section id="mathematics"><h2>Why redundancy can change the scaling</h2>
+<p>Begin with a restricted noise model: three qubits independently suffer a bit flip with probability \(p\). Encode \(\alpha\ket0+\beta\ket1\) as \(\alpha\ket{000}+\beta\ket{111}\), and assume perfect parity checks and correction. Majority correction fails for two or three flips:</p>
+<p>\[p_L=3p^2(1-p)+p^3=3p^2-2p^3.\]</p>
+<p>The leading failure is quadratic rather than linear. At \(p=0.01\), \(p_L=0.000298\). Parity measurements reveal which bits disagree without reading the encoded amplitudes. This code does not correct arbitrary phase errors, and its perfect-check assumption hides real hardware costs.</p>
+<p>A code’s distance \(d\) is the minimum weight of an undetectable logical error. It can correct arbitrary errors supported on at most \(\lfloor(d-1)/2\rfloor\) qubits when syndrome extraction is ideal. In a below-threshold operating regime, an illustrative odd-distance phenomenological fit is</p>
+<p>\[p_L(d)\approx A\left(\frac p{p_{\rm th}}\right)^{(d+1)/2}.\]</p>
+<p>Here \(p_L\) is failure per protected location, \(p_{\rm th}\) is a threshold for a specified noise/circuit/decoder model, and \(A\) is a fitted constant. It is not a universal law. For \(L\) protected locations, the union bound gives \(p_{\rm fail}\leq Lp_L\) when each location has failure probability at most \(p_L\); independence is unnecessary for that inequality.</p>
+<p>If the model is applicable and \(p&lt;p_{\rm th}\), targeting total failure \(\varepsilon\) suggests</p>
+<p>\[d\gtrsim\frac{2\ln(AL/\varepsilon)}{\ln(p_{\rm th}/p)}-1.\]</p>
+<p>For \(A=0.1,p/p_{\rm th}=0.1,L=10^6,\varepsilon=0.01\), this gives \(d\geq13\) within the fit. A planar surface-code patch uses order \(d^2\) qubits; protected gates and additional state factories require further resources.</p></section>
+<section id="known"><h2>What is established</h2>
+<p><a href="https://arxiv.org/abs/quant-ph/9705052">Stabilizer codes</a> supply a framework for protecting quantum information. <a href="https://arxiv.org/abs/quant-ph/9608012">Concatenated-code constructions</a> establish fault-tolerant scaling under specified noise assumptions. A threshold theorem is conditional on those assumptions.</p>
+<p><a href="https://arxiv.org/abs/1310.2984">Constant-overhead proposals</a> and <a href="https://arxiv.org/abs/2308.07915">low-overhead memory constructions</a> show why surface-code estimates are not universal limits. Memory performance alone does not establish the cost of a universal gate set or a complete application.</p></section>
+<section id="frontier"><h2>What remains unresolved</h2>
+<p>Which code and architecture minimize useful application cost under realistic leakage, correlations, connectivity, and decoding latency? A code’s asymptotic parameters cannot answer this alone. Comparisons need a target computation, a total failure criterion, a realizable gate schedule, and a calibrated noise model.</p></section>
+<section id="investigation"><h2>A concrete next investigation</h2>
+<p><strong>Reproduce:</strong> derive the repetition-code polynomial and compare it with Monte Carlo sampling. Then add imperfect parity measurements and identify why a single majority vote is insufficient.</p>
+<p><strong>Check:</strong> reconstruct the distance estimate above, round up to an allowed distance, and report sensitivity to \(A\) and \(p/p_{\rm th}\).</p>
+<p><strong>Extend:</strong> compare two codes for the same logical circuit, including syndrome rounds, routing, auxiliary states, and classical latency. A defensible improvement reduces a stated resource without moving omitted costs elsewhere.</p></section>

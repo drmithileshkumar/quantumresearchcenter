@@ -1,0 +1,23 @@
+<section id="perspective"><h2>The question in perspective</h2>
+<p>Adding qubits also adds couplings, calibration parameters, readout channels, and opportunities for correlated errors. The research question is not how to increase one headline number. It is how a growing device can execute a specified workload with a reliable error budget and evidence that supports its claimed behavior.</p></section>
+<section id="mathematics"><h2>Small coherent errors can accumulate</h2>
+<p>A controllable two-level system is often modelled in a rotating frame by</p>
+<p>\[H(t)=\frac\hbar2\left[\Omega_x(t)X+\Omega_y(t)Y+\Delta(t)Z\right].\]</p>
+<p>Here \(X,Y,Z\) are Pauli matrices; \(\Omega_x,\Omega_y\) are control amplitudes in angular-frequency units, and \(\Delta\) is detuning. This is an effective two-level description. Leakage into other levels and coupling to neighbors need additional terms.</p>
+<p>Suppose an intended identity acquires an unwanted Z rotation \(U_\epsilon=e^{-i\epsilon Z/2}\) each cycle. On \(\ket+=(\ket0+\ket1)/\sqrt2\), repeating the same error \(m\) times gives probability</p>
+<p>\[p_-(m)=\left|\bra- U_\epsilon^m\ket+\right|^2=\sin^2\!\left(\frac{m\epsilon}{2}\right).\]</p>
+<p>For small \(m\epsilon\), this is approximately \(m^2\epsilon^2/4\). A stochastic Z-flip model with one-cycle probability \(q=\sin^2(\epsilon/2)\) matches the one-cycle probability but predicts</p>
+<p>\[p_-^{\rm stochastic}(m)=\frac{1-(1-2q)^m}{2}\approx mq.\]</p>
+<p>For \(\epsilon=0.01\) radians and \(m=100\), the coherent error gives about 0.230, while the stochastic model gives about 0.00249. A single short calibration measurement cannot establish which long-circuit model applies.</p>
+<p>Evidence also has a sampling cost. For independent \(\pm1\) observations of a fixed observable, Hoeffding’s inequality gives</p>
+<p>\[\Pr(|\bar O-\langle O\rangle|\geq\delta)\leq2e^{-M\delta^2/2}.\]</p>
+<p>Thus \(M\geq2\ln(2/\alpha)/\delta^2\) suffices for error \(\delta\) with failure probability at most \(\alpha\). This certifies that observable under the independence assumptions, not a complete many-qubit process.</p><figure class="research-figure"><div class="figure-scroll" role="region" tabindex="0" aria-label="A fixed coherent rotation accumulates much faster than independent stochastic flips with the same one-cycle error. Scroll horizontally on narrow screens."><img src="../../assets/coherent-control.svg" alt="A fixed coherent rotation accumulates much faster than independent stochastic flips with the same one-cycle error." loading="lazy"></div><figcaption>Both models agree after one cycle but predict very different long-circuit errors. The rotation is 0.01 radians per cycle; no hardware performance is being claimed.</figcaption></figure></section>
+<section id="known"><h2>What is established</h2>
+<p><a href="https://arxiv.org/abs/1009.3639">Randomized benchmarking</a> estimates controlled summaries of gate performance while handling certain preparation and measurement effects. Its interpretation depends on the noise assumptions; a fitted decay is not a full worst-case error characterization.</p>
+<p><a href="https://arxiv.org/abs/1801.00862">Preskill’s NISQ perspective</a> explains the tension between imperfect control and useful computation. <a href="https://arxiv.org/abs/2408.13687">A below-threshold surface-code memory experiment</a> demonstrates error suppression in a particular device and protocol. It supplies evidence for that task, not a blanket certificate for arbitrary algorithms.</p></section>
+<section id="frontier"><h2>What remains unresolved</h2>
+<p>The challenge is to maintain and certify workload-relevant performance despite drift, crosstalk, leakage, and limited calibration time. Full process tomography scales prohibitively for general systems. Research needs narrower, useful guarantees that can actually be measured and that remain valid as system size and circuit depth increase.</p></section>
+<section id="investigation"><h2>A concrete next investigation</h2>
+<p><strong>Reproduce:</strong> plot the coherent and stochastic accumulation curves using the same one-cycle probability. Identify depths at which their predictions separate beyond sampling uncertainty.</p>
+<p><strong>Check:</strong> simulate a slowly drifting detuning and explain why independently sampling a fresh error each gate changes the model.</p>
+<p><strong>Extend:</strong> design a small family of experiments that distinguishes coherent drift from stochastic noise with a stated shot budget. Assess whether the inferred model predicts a held-out workload. The useful result is predictive validation, not merely a better fit to calibration data.</p></section>
