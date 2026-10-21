@@ -152,6 +152,7 @@ def package():
   add('index.html','<!doctype html><html lang="en"><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=education/computing/index.html"><title>Quantum Computing</title><a href="education/computing/index.html">Open Quantum Computing</a></html>')
   add('styles.css',(ROOT.parents[1]/'styles.css').read_bytes())
   add('navigation.js',(ROOT.parents[1]/'navigation.js').read_bytes())
+  add('diagrams.js',(ROOT.parents[1]/'diagrams.js').read_bytes())
   for file in sorted((ROOT.parents[1]/'icons').rglob('*')):
    if file.is_file() and file.suffix!='.html':add(file.relative_to(ROOT.parents[1]).as_posix(),file.read_bytes())
   for file in sorted([*ROOT.glob('*.html'),*(ROOT/'assets').rglob('*')]):

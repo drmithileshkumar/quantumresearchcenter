@@ -56,13 +56,21 @@ def main():
     d.box(340,290,130,55,'Decider');d.arrow([(470,318),(530,318)]);d.box(530,290,155,55,['Yes / no','always halts'],True)
     d.text(360,378,'Search alone has no stopping condition when no proof exists.','small');d.save('logic-proof-search')
 
-    d=Diagram('Euclid’s algorithm: what stays fixed, what decreases','The pairs 48,18; 18,12; 12,6; and 6,0 have the same greatest common divisor, six. Their second entries decrease from 18 to 12 to 6 to zero, proving termination.',245)
+    d=Diagram('Euclid’s algorithm: what stays fixed, what decreases','The pairs 48,18; 18,12; 12,6; and 6,0 all have greatest common divisor six, shown as a constant band. Bars below show the second entry falling from 18 to 12 to 6 to zero, the nonnegative measure that proves termination.',330)
+    centers=[]
     for i,label in enumerate(['(48, 18)','(18, 12)','(12, 6)','(6, 0)']):
-        x=30+i*175;d.box(x,75,135,55,label,i==3)
-        if i<3:d.arrow([(x+135,102),(x+175,102)])
-    d.text(360,170,r'Invariant: \(\gcd(a,b)=6\) throughout this run','label')
-    d.text(360,203,r'Decreasing nonnegative measure: \(18\to12\to6\to0\)','small')
-    d.text(360,231,'Preservation gives correctness; decrease gives termination.','small');d.save('logic-euclid-run')
+        x=30+i*175;d.box(x,56,135,50,label,i==3);centers.append(x+67.5)
+        if i<3:d.arrow([(x+135,81),(x+175,81)])
+    d.parts.append('<rect x="30" y="122" width="660" height="28" rx="14" fill="#edf5ef" stroke="#9fc4aa"/>')
+    d.text(360,141,r'invariant: \(\gcd(a,b)=6\) at every step','label');d.parts[-1]=d.parts[-1].replace('class="label"','class="label" style="fill:#347449"')
+    base=272
+    d.parts.append(f'<path d="M24 {base}H696" stroke="#a7bccd" stroke-width="1.2"/>')
+    for c,b in zip(centers,[18,12,6,0]):
+        h=b*5.4
+        if b:d.parts.append(f'<rect x="{c-24}" y="{base-h:g}" width="48" height="{h:g}" rx="3" fill="#246593" fill-opacity=".8"/>')
+        d.text(c,base-h-8,f'b = {b}','small')
+    d.text(30,base+20,'measure b (nonnegative)','small','start');d.text(690,base+20,'b = 0: stop','small','end')
+    d.text(360,318,'Preservation gives correctness; decrease gives termination.','small');d.save('logic-euclid-run')
 
     d=Diagram('Configurations contain what is needed to continue','A configuration consists of stored data, control state, and position in the instructions. A transition produces the next complete configuration, and repeated transitions form a run.',260)
     d.box(30,70,265,130,[r'Configuration \(C_t\)','stored data','control state / next instruction'],True)

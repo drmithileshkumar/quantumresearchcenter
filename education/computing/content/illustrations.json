@@ -3220,28 +3220,499 @@
   ]
  },
  "appendix-b": {
-  "kind": "flow",
+  "kind": "diagram",
   "title": "A derivation generates a string",
   "caption": "Apply \\(S\\to aSb\\) twice, then \\(S\\to\\) empty string. This demonstrates generation of \\(aabb\\); it does not yet give a procedure for rejecting arbitrary strings.",
-  "rows": [
-   [
-    "\\(S\\)",
-    "aSb",
-    "aaSbb",
-    "aabb"
-   ]
+  "height": 440,
+  "summary": "Parse tree. The start symbol S expands by S → aSb into a, S, b; the inner S expands the same way; the innermost S becomes the empty string. Reading the leaves from left to right gives aabb.",
+  "nodes": [
+   {
+    "id": "s25085",
+    "x": 250,
+    "y": 85,
+    "w": 40,
+    "h": 40,
+    "shape": "circle",
+    "label": "\\(S\\)",
+    "tone": "accent"
+   },
+   {
+    "id": "a1",
+    "x": 150,
+    "y": 165,
+    "w": 36,
+    "h": 32,
+    "shape": "pill",
+    "label": "\\(a\\)",
+    "tone": "good"
+   },
+   {
+    "id": "s250165",
+    "x": 250,
+    "y": 165,
+    "w": 40,
+    "h": 40,
+    "shape": "circle",
+    "label": "\\(S\\)",
+    "tone": "accent"
+   },
+   {
+    "id": "b1",
+    "x": 350,
+    "y": 165,
+    "w": 36,
+    "h": 32,
+    "shape": "pill",
+    "label": "\\(b\\)",
+    "tone": "good"
+   },
+   {
+    "id": "a2",
+    "x": 195,
+    "y": 245,
+    "w": 36,
+    "h": 32,
+    "shape": "pill",
+    "label": "\\(a\\)",
+    "tone": "good"
+   },
+   {
+    "id": "s250245",
+    "x": 250,
+    "y": 245,
+    "w": 40,
+    "h": 40,
+    "shape": "circle",
+    "label": "\\(S\\)",
+    "tone": "accent"
+   },
+   {
+    "id": "b2",
+    "x": 305,
+    "y": 245,
+    "w": 36,
+    "h": 32,
+    "shape": "pill",
+    "label": "\\(b\\)",
+    "tone": "good"
+   },
+   {
+    "id": "e",
+    "x": 250,
+    "y": 325,
+    "w": 36,
+    "h": 32,
+    "shape": "pill",
+    "label": "\\(\\varepsilon\\)",
+    "tone": "muted"
+   },
+   {
+    "id": "y0",
+    "x": 150,
+    "y": 395,
+    "w": 34,
+    "h": 30,
+    "shape": "box",
+    "label": "\\(a\\)",
+    "tone": "good"
+   },
+   {
+    "id": "y1",
+    "x": 195,
+    "y": 395,
+    "w": 34,
+    "h": 30,
+    "shape": "box",
+    "label": "\\(a\\)",
+    "tone": "good"
+   },
+   {
+    "id": "y2",
+    "x": 305,
+    "y": 395,
+    "w": 34,
+    "h": 30,
+    "shape": "box",
+    "label": "\\(b\\)",
+    "tone": "good"
+   },
+   {
+    "id": "y3",
+    "x": 350,
+    "y": 395,
+    "w": 34,
+    "h": 30,
+    "shape": "box",
+    "label": "\\(b\\)",
+    "tone": "good"
+   }
+  ],
+  "edges": [
+   {
+    "from": "s25085",
+    "to": "a1",
+    "arrow": false,
+    "tone": "muted"
+   },
+   {
+    "from": "s25085",
+    "to": "s250165",
+    "arrow": false,
+    "tone": "muted"
+   },
+   {
+    "from": "s25085",
+    "to": "b1",
+    "arrow": false,
+    "tone": "muted"
+   },
+   {
+    "from": "s250165",
+    "to": "a2",
+    "arrow": false,
+    "tone": "muted"
+   },
+   {
+    "from": "s250165",
+    "to": "s250245",
+    "arrow": false,
+    "tone": "muted"
+   },
+   {
+    "from": "s250165",
+    "to": "b2",
+    "arrow": false,
+    "tone": "muted"
+   },
+   {
+    "from": "s250245",
+    "to": "e",
+    "arrow": false,
+    "tone": "muted"
+   },
+   {
+    "from": "a1",
+    "to": "y0",
+    "arrow": false,
+    "dashed": true,
+    "tone": "good",
+    "width": 1.2
+   },
+   {
+    "from": "a2",
+    "to": "y1",
+    "arrow": false,
+    "dashed": true,
+    "tone": "good",
+    "width": 1.2
+   },
+   {
+    "from": "b2",
+    "to": "y2",
+    "arrow": false,
+    "dashed": true,
+    "tone": "good",
+    "width": 1.2
+   },
+   {
+    "from": "b1",
+    "to": "y3",
+    "arrow": false,
+    "dashed": true,
+    "tone": "good",
+    "width": 1.2
+   }
+  ],
+  "notes": [
+   {
+    "x": 470,
+    "y": 72,
+    "text": "rule applied",
+    "anchor": "start",
+    "cls": "small"
+   },
+   {
+    "x": 610,
+    "y": 72,
+    "text": "string so far",
+    "anchor": "start",
+    "cls": "small"
+   },
+   {
+    "x": 470,
+    "y": 130,
+    "text": "\\(S\\to aSb\\)",
+    "anchor": "start",
+    "cls": "",
+    "tone": "accent"
+   },
+   {
+    "x": 610,
+    "y": 130,
+    "text": "\\(aSb\\)",
+    "anchor": "start",
+    "cls": ""
+   },
+   {
+    "x": 470,
+    "y": 210,
+    "text": "\\(S\\to aSb\\)",
+    "anchor": "start",
+    "cls": "",
+    "tone": "accent"
+   },
+   {
+    "x": 610,
+    "y": 210,
+    "text": "\\(aaSbb\\)",
+    "anchor": "start",
+    "cls": ""
+   },
+   {
+    "x": 470,
+    "y": 290,
+    "text": "\\(S\\to\\varepsilon\\)",
+    "anchor": "start",
+    "cls": "",
+    "tone": "accent"
+   },
+   {
+    "x": 610,
+    "y": 290,
+    "text": "\\(aabb\\)",
+    "anchor": "start",
+    "cls": ""
+   },
+   {
+    "x": 470,
+    "y": 397,
+    "text": "Leaves, left to right: aabb",
+    "anchor": "start",
+    "maxwidth": 270
+   }
   ]
  },
  "appendix-c": {
-  "kind": "flow",
+  "kind": "diagram",
   "title": "Use conjugation when normalizing",
   "caption": "For the complex vector \\((3,4i)\\), the squared norm is \\(9+16=25\\). Dividing by five gives a unit vector; the imaginary coordinate contributes positively to its norm.",
-  "rows": [
-   [
-    "\\(v = (3,4i)^T\\)",
-    "\\(v^\\dagger v = 25\\)",
-    "\\(v / \\|v\\| = (3/5,4i/5)^T\\)"
-   ]
+  "height": 360,
+  "summary": "Two ways to square the length of v = (3, 4i). Transpose only: 3·3 + (4i)(4i) = 9 − 16 = −7, which cannot be a squared length. Conjugate transpose: 9 + 16 = 25, so the norm is 5 and v/5 = (3/5, 4i/5) is a unit vector.",
+  "shapes": [
+   {
+    "type": "line",
+    "points": [
+     [
+      300,
+      92
+     ],
+     [
+      300,
+      268
+     ]
+    ],
+    "color": "#9aa7b3",
+    "width": 1,
+    "dashed": true
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      300,
+      118
+     ],
+     [
+      381,
+      118
+     ]
+    ],
+    "color": "#246593",
+    "arrow": true,
+    "width": 2.6
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      381,
+      140
+     ],
+     [
+      237,
+      140
+     ]
+    ],
+    "color": "#a64d26",
+    "arrow": true,
+    "width": 2.6
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      237,
+      108
+     ],
+     [
+      237,
+      150
+     ]
+    ],
+    "color": "#a64d26",
+    "arrow": false,
+    "width": 2
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      300,
+      214
+     ],
+     [
+      381,
+      214
+     ]
+    ],
+    "color": "#246593",
+    "arrow": true,
+    "width": 2.6
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      381,
+      236
+     ],
+     [
+      525,
+      236
+     ]
+    ],
+    "color": "#347449",
+    "arrow": true,
+    "width": 2.6
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      525,
+      204
+     ],
+     [
+      525,
+      246
+     ]
+    ],
+    "color": "#347449",
+    "arrow": false,
+    "width": 2
+   }
+  ],
+  "nodes": [
+   {
+    "id": "unit",
+    "x": 380,
+    "y": 318,
+    "w": 420,
+    "h": 44,
+    "shape": "pill",
+    "tone": "good",
+    "label": "\\(v/\\|v\\|=(3/5,\\;4i/5)^T\\), length \\(1\\)"
+   }
+  ],
+  "notes": [
+   {
+    "x": 300,
+    "y": 280,
+    "text": "0",
+    "cls": "small"
+   },
+   {
+    "x": 40,
+    "y": 96,
+    "text": "Transpose only",
+    "anchor": "start",
+    "cls": "",
+    "tone": "bad"
+   },
+   {
+    "x": 40,
+    "y": 120,
+    "text": "\\(v^{T}v=9+(4i)^2\\)",
+    "anchor": "start",
+    "cls": "small"
+   },
+   {
+    "x": 340.5,
+    "y": 110,
+    "text": "\\(+9\\)",
+    "cls": "small",
+    "tone": "accent"
+   },
+   {
+    "x": 273,
+    "y": 160,
+    "text": "\\(-16\\)",
+    "cls": "small",
+    "tone": "bad"
+   },
+   {
+    "x": 227,
+    "y": 134,
+    "text": "\\(-7\\)",
+    "anchor": "end",
+    "cls": "",
+    "tone": "bad"
+   },
+   {
+    "x": 40,
+    "y": 146,
+    "text": "not a squared length",
+    "anchor": "start",
+    "cls": "small",
+    "tone": "bad"
+   },
+   {
+    "x": 40,
+    "y": 200,
+    "text": "Conjugate transpose",
+    "anchor": "start",
+    "cls": "",
+    "tone": "good"
+   },
+   {
+    "x": 40,
+    "y": 224,
+    "text": "\\(v^\\dagger v=9+\\overline{(4i)}(4i)\\)",
+    "anchor": "start",
+    "cls": "small"
+   },
+   {
+    "x": 340.5,
+    "y": 206,
+    "text": "\\(+9\\)",
+    "cls": "small",
+    "tone": "accent"
+   },
+   {
+    "x": 453,
+    "y": 256,
+    "text": "\\(+16\\)",
+    "cls": "small",
+    "tone": "good"
+   },
+   {
+    "x": 537,
+    "y": 230,
+    "text": "\\(25=\\|v\\|^2\\)",
+    "anchor": "start",
+    "cls": "",
+    "tone": "good"
+   }
   ]
  },
  "appendix-d": {
@@ -3267,15 +3738,235 @@
   ]
  },
  "appendix-e": {
-  "kind": "flow",
+  "kind": "diagram",
   "title": "Queries can increase polynomial degree",
   "caption": "Starting from amplitudes independent of hidden input bits, each Boolean query raises their degree by at most one. Squaring magnitudes gives the factor of two for acceptance probabilities.",
-  "rows": [
-   [
-    "Input-independent start\ndegree 0",
-    "After \\(T\\) queries\namplitude degree \\(\\le T\\)",
-    "Acceptance probability\ndegree \\(\\le 2T\\)"
-   ]
+  "height": 330,
+  "summary": "A query algorithm alternates input-independent unitaries U0, U1, …, UT with T queries O_x, then measures. Below each stage is the largest possible degree of the amplitudes as polynomials in the input bits: 0 at the start, rising by at most one at each query and unchanged by each U. The acceptance probability, a sum of squared magnitudes, has degree at most 2T.",
+  "shapes": [
+   {
+    "type": "line",
+    "points": [
+     [
+      58,
+      130
+     ],
+     [
+      611,
+      130
+     ]
+    ],
+    "color": "#476b70",
+    "width": 1.6
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      689,
+      127
+     ],
+     [
+      730,
+      127
+     ]
+    ],
+    "color": "#476b70",
+    "width": 1.2
+   },
+   {
+    "type": "line",
+    "points": [
+     [
+      689,
+      133
+     ],
+     [
+      730,
+      133
+     ]
+    ],
+    "color": "#476b70",
+    "width": 1.2
+   }
+  ],
+  "nodes": [
+   {
+    "id": "g0",
+    "x": 110,
+    "y": 130,
+    "w": 52,
+    "h": 40,
+    "label": "\\(U_0\\)",
+    "tone": "plain"
+   },
+   {
+    "id": "g1",
+    "x": 185,
+    "y": 130,
+    "w": 52,
+    "h": 40,
+    "label": "\\(O_x\\)",
+    "tone": "quantum"
+   },
+   {
+    "id": "g2",
+    "x": 260,
+    "y": 130,
+    "w": 52,
+    "h": 40,
+    "label": "\\(U_1\\)",
+    "tone": "plain"
+   },
+   {
+    "id": "g3",
+    "x": 335,
+    "y": 130,
+    "w": 52,
+    "h": 40,
+    "label": "\\(O_x\\)",
+    "tone": "quantum"
+   },
+   {
+    "id": "g5",
+    "x": 485,
+    "y": 130,
+    "w": 52,
+    "h": 40,
+    "label": "\\(O_x\\)",
+    "tone": "quantum"
+   },
+   {
+    "id": "g6",
+    "x": 560,
+    "y": 130,
+    "w": 52,
+    "h": 40,
+    "label": "\\(U_T\\)",
+    "tone": "plain"
+   },
+   {
+    "id": "g7",
+    "x": 650,
+    "y": 130,
+    "w": 78,
+    "h": 40,
+    "label": "measure",
+    "tone": "accent"
+   },
+   {
+    "id": "dots",
+    "x": 410,
+    "y": 130,
+    "w": 30,
+    "h": 20,
+    "shape": "text",
+    "label": "\\(\\cdots\\)"
+   },
+   {
+    "id": "d0",
+    "x": 147,
+    "y": 192,
+    "w": 44,
+    "h": 28,
+    "shape": "pill",
+    "tone": "muted",
+    "label": "0",
+    "cls": "small"
+   },
+   {
+    "id": "d1",
+    "x": 222,
+    "y": 192,
+    "w": 44,
+    "h": 28,
+    "shape": "pill",
+    "tone": "muted",
+    "label": "\\(\\le1\\)",
+    "cls": "small"
+   },
+   {
+    "id": "d2",
+    "x": 297,
+    "y": 192,
+    "w": 44,
+    "h": 28,
+    "shape": "pill",
+    "tone": "muted",
+    "label": "\\(\\le1\\)",
+    "cls": "small"
+   },
+   {
+    "id": "d3",
+    "x": 372,
+    "y": 192,
+    "w": 44,
+    "h": 28,
+    "shape": "pill",
+    "tone": "muted",
+    "label": "\\(\\le2\\)",
+    "cls": "small"
+   },
+   {
+    "id": "d4",
+    "x": 522,
+    "y": 192,
+    "w": 44,
+    "h": 28,
+    "shape": "pill",
+    "tone": "muted",
+    "label": "\\(\\le T\\)",
+    "cls": "small"
+   },
+   {
+    "id": "d5",
+    "x": 605,
+    "y": 192,
+    "w": 44,
+    "h": 28,
+    "shape": "pill",
+    "tone": "muted",
+    "label": "\\(\\le T\\)",
+    "cls": "small"
+   }
+  ],
+  "notes": [
+   {
+    "x": 40,
+    "y": 135,
+    "text": "\\(\\ket0\\)",
+    "cls": "",
+    "anchor": "end"
+   },
+   {
+    "x": 100,
+    "y": 197,
+    "text": "degree",
+    "anchor": "end"
+   },
+   {
+    "x": 222,
+    "y": 250,
+    "text": "query: amplitude times \\((-1)^{x_i}=1-2x_i\\), degree \\(+1\\) at most",
+    "cls": "small",
+    "tone": "quantum",
+    "maxwidth": 330
+   },
+   {
+    "x": 560,
+    "y": 250,
+    "text": "\\(U_k\\): fixed linear mix, degree unchanged",
+    "cls": "small",
+    "maxwidth": 300
+   },
+   {
+    "x": 380,
+    "y": 300,
+    "text": "acceptance probability \\(\\sum|\\alpha_z|^2\\): each square doubles the degree, so \\(\\le2T\\)",
+    "cls": "",
+    "tone": "accent",
+    "maxwidth": 700
+   }
   ]
  },
  "topic-3-2-1": {

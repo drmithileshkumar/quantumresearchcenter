@@ -8,7 +8,7 @@ from html import escape
 import re
 MATH=re.compile(r'\\\((.*?)\\\)|\\\[(.*?)\\\]',re.S)
 # Readable Unicode for TeX where MathJax cannot run: alt text and SVG descriptions.
-SYMBOLS={'theta':'θ','pi':'π','psi':'ψ','phi':'φ','Phi':'Φ','alpha':'α','beta':'β','gamma':'γ','lambda':'λ','rho':'ρ','mu':'μ','epsilon':'ε','varepsilon':'ε','Omega':'Ω','Theta':'Θ','otimes':'⊗','oplus':'⊕','to':'→','mapsto':'↦','leftarrow':'←','Rightarrow':'⇒','le':'≤','leq':'≤','ge':'≥','geq':'≥','ne':'≠','neq':'≠','approx':'≈','cdot':'·','times':'×','pm':'±','mp':'∓','circ':'∘','dagger':'†','in':'∈','notin':'∉','neg':'¬','land':'∧','lor':'∨','sum':'Σ','infty':'∞','ldots':'…','cdots':'⋯','langle':'⟨','rangle':'⟩','lvert':'|','rvert':'|','mid':'|','lceil':'⌈','rceil':'⌉','lfloor':'⌊','rfloor':'⌋','subseteq':'⊆','emptyset':'∅','sin':'sin','cos':'cos','log':'log','tr':'tr','BQP':'BQP','BPP':'BPP','NP':'NP','bmod':' mod ','ln':'ln ','prime':'′','square':'□','gcd':'gcd'}
+SYMBOLS={'theta':'θ','pi':'π','psi':'ψ','phi':'φ','Phi':'Φ','alpha':'α','beta':'β','gamma':'γ','lambda':'λ','rho':'ρ','mu':'μ','epsilon':'ε','varepsilon':'ε','Omega':'Ω','Theta':'Θ','otimes':'⊗','oplus':'⊕','to':'→','mapsto':'↦','leftarrow':'←','Rightarrow':'⇒','le':'≤','leq':'≤','ge':'≥','geq':'≥','ne':'≠','neq':'≠','approx':'≈','cdot':'·','times':'×','pm':'±','mp':'∓','circ':'∘','dagger':'†','in':'∈','notin':'∉','neg':'¬','land':'∧','lor':'∨','sum':'Σ','infty':'∞','ldots':'…','cdots':'⋯','langle':'⟨','rangle':'⟩','lvert':'|','rvert':'|','mid':'|','lceil':'⌈','rceil':'⌉','lfloor':'⌊','rfloor':'⌋','subseteq':'⊆','emptyset':'∅','sin':'sin','cos':'cos','log':'log','tr':'tr','BQP':'BQP','BPP':'BPP','NP':'NP','bmod':' mod ','ln':'ln ','prime':'′','square':'□','gcd':'gcd','equiv':'≡','varnothing':'∅','epsilon':'ε'}
 SUPER=dict(zip('0123456789+-−n()kTij†*′','⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁻ⁿ⁽⁾ᵏᵀⁱʲ†*′'));SUB=dict(zip('0123456789+-−ijknt','₀₁₂₃₄₅₆₇₈₉₊₋₋ᵢⱼₖₙₜ'))
 def _group(tex,i):
  """Return the argument starting at tex[i] (a braced group, command, or character) and the next index."""
@@ -37,6 +37,10 @@ def _math(tex):
    elif name in ('frac','tfrac','dfrac'):
     a,i=_group(tex,i);b,i=_group(tex,i);a,b=_math(a),_math(b)
     out+=(a if re.fullmatch(r'[\w.√]+',a) else f'({a})')+'/'+(b if re.fullmatch(r'[\w.√]+',b) else f'({b})')
+   elif name=='pmod':
+    a,i=_group(tex,i);out+=f' (mod {_math(a)})'
+   elif name=='not':
+    a,i=_group(tex,i);out+={'\\equiv':'≢','=':'≠','\\in':'∉'}.get(a,'¬'+_math(a))
    elif name in ('mathrm','operatorname','text','mathsf','mathbf','mathit'):
     a,i=_group(tex,i);out+=_math(a)
    elif name in ('left','right','big','Big',',',';','!','quad','qquad'):

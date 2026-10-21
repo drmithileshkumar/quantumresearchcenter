@@ -20,6 +20,7 @@ class Drawing:
   elif spec['kind']=='phasor':description+='A vector from the origin, its phase angle, and its projections onto the real and imaginary axes.'
   elif spec['kind']=='bars':description+='; '.join(f'{label}: {value:g}' for label,value in zip(spec['labels'],spec['values']))
   elif spec['kind']=='decision':description+='; '.join(spec['nodes'])
+  elif spec['kind']=='diagram':description+=spec.get('summary') or '; '.join(plain(edge.get('label') and f"{edge['from']} → {edge['to']} ({edge['label']})" or f"{edge['from']} → {edge['to']}") for edge in spec.get('edges',[]))
   elif spec['kind']=='transitions':description+=' '.join('; '.join(f'{a} → {b}'+(f' (weight {w})' if w else '') for _,a,b,*rest in panel['edges'] for w in [rest[0] if rest else ''])+'.' for panel in spec['panels'])
   else:description+='; '.join(f'{label}: {angle} degrees' for label,angle in zip(spec['labels'],spec['angles']))
   description=plain(description)
@@ -36,6 +37,57 @@ class Drawing:
  def edge(self,x,y,x2,y2,color=None,dashed=False):
   self.parts.append(f'<path d="M{x:g} {y:g}L{x2:g} {y2:g}" class="edge"'+(f' style="stroke:{color}"' if color else '')+(' stroke-dasharray="5 4"' if dashed else '')+'/>')
  def save(self,path):path.write_text(''.join(self.parts)+'</svg>\n')
+# Tones shared by diagram nodes, edges, regions and shapes: (fill, stroke, ink).
+TONES={'plain':('#fff','#a7bccd','#246593'),'accent':('#eaf1f7','#8fb0c8','#246593'),'quantum':('#f1ecf7','#b39dd0','#765391'),
+ 'classical':('#eef4f8','#a7bccd','#246593'),'good':('#edf5ef','#9fc4aa','#347449'),'bad':('#fbf0ea','#d9ad97','#a64d26'),'muted':('#f5f7f9','#c6d0d9','#6b7885')}
+def diagram(spec):
+ """A laid-out diagram: nodes at explicit centres, routed edges, tinted regions and raw shapes.
+
+ nodes: {id,x,y,w,h,label,shape: box|diamond|pill|circle|text,tone}; edges: {from,to,label,via:[[x,y]],
+ from_side/to_side: l|r|t|b, bend, dashed, arrow, tone, lx, ly}; regions: {x,y,w,h,label,tone};
+ shapes: {type: rect|line, ...}; notes: {x,y,text,cls,anchor,tone}. Coordinates use the 760-wide canvas.
+ """
+ d=Drawing(spec,spec['height']);nodes={n['id']:n for n in spec.get('nodes',[])}
+ for r in spec.get('regions',[]):
+  fill,stroke,ink=TONES[r.get('tone','classical')]
+  d.parts.append(f'<rect x="{r["x"]:g}" y="{r["y"]:g}" width="{r["w"]:g}" height="{r["h"]:g}" rx="12" fill="{fill}" fill-opacity=".55" stroke="{stroke}" stroke-dasharray="4 4"/>')
+  if r.get('label'):d.parts.append(svg_text(r['x']+14,r['y']+22,r['label'],f' text-anchor="start" class="small" style="font-weight:600;fill:{ink};letter-spacing:.04em"'))
+ for sh in spec.get('shapes',[]):
+  fill,stroke,ink=TONES[sh.get('tone','plain')]
+  if sh['type']=='rect':
+   d.parts.append(f'<rect x="{sh["x"]:g}" y="{sh["y"]:g}" width="{sh["w"]:g}" height="{sh["h"]:g}" rx="{sh.get("rx",2):g}" fill="{sh.get("fill",ink)}" fill-opacity="{sh.get("opacity",.85):g}"'+(f' stroke="{stroke}"' if sh.get('outline') else '')+'/>')
+  elif sh['type']=='line':
+   pts=' '.join(f'{x:g},{y:g}' for x,y in sh['points'])
+   d.parts.append(f'<polyline points="{pts}" fill="none" stroke="{sh.get("color",ink)}" stroke-width="{sh.get("width",1.6):g}"'+(' stroke-dasharray="5 4"' if sh.get('dashed') else '')+(' marker-end="url(#arrow)"' if sh.get('arrow') else '')+'/>')
+ def anchor(n,side):
+  return {'l':(n['x']-n['w']/2,n['y']),'r':(n['x']+n['w']/2,n['y']),'t':(n['x'],n['y']-n['h']/2),'b':(n['x'],n['y']+n['h']/2)}[side]
+ def auto(n,toward):
+  dx,dy=toward[0]-n['x'],toward[1]-n['y']
+  return ('r' if dx>0 else 'l') if abs(dx)*n['h']>=abs(dy)*n['w'] else ('b' if dy>0 else 't')
+ for e in spec.get('edges',[]):
+  a,b=nodes[e['from']],nodes[e['to']];via=[tuple(p) for p in e.get('via',[])]
+  start=anchor(a,e.get('from_side') or auto(a,via[0] if via else (b['x'],b['y'])))
+  end=anchor(b,e.get('to_side') or auto(b,via[-1] if via else (a['x'],a['y'])))
+  fill,stroke,ink=TONES[e.get('tone','plain')]
+  if e.get('bend'):
+   mx,my=(start[0]+end[0])/2,(start[1]+end[1])/2;dx,dy=end[0]-start[0],end[1]-start[1];L=math.hypot(dx,dy) or 1
+   cx,cy=mx-dy/L*e['bend'],my+dx/L*e['bend'];path=f'M{start[0]:g} {start[1]:g}Q{cx:g} {cy:g} {end[0]:g} {end[1]:g}';mid=(mx-dy/L*e['bend']/2,my+dx/L*e['bend']/2)
+  else:
+   pts=[start,*via,end];path='M'+'L'.join(f'{x:g} {y:g}' for x,y in pts);k=(len(pts)-1)//2;mid=((pts[k][0]+pts[k+1][0])/2,(pts[k][1]+pts[k+1][1])/2)
+  d.parts.append(f'<path d="{path}" fill="none" stroke="{ink}" stroke-width="{e.get("width",1.7):g}"'+(' stroke-dasharray="5 4"' if e.get('dashed') else '')+('' if e.get('arrow') is False else ' marker-end="url(#arrow)"')+'/>')
+  if e.get('label'):d.parts.append(svg_text(e.get('lx',mid[0]),e.get('ly',mid[1]-8),e['label'],f' text-anchor="{e.get("anchor","middle")}" class="small" style="fill:{ink}" data-max-width="{e.get("maxwidth",200):g}"'))
+ for n in spec.get('nodes',[]):
+  fill,stroke,ink=TONES[n.get('tone','plain')];x,y,w,h=n['x'],n['y'],n.get('w',0),n.get('h',0);shape=n.get('shape','box')
+  if shape=='box':d.parts.append(f'<rect x="{x-w/2:g}" y="{y-h/2:g}" width="{w:g}" height="{h:g}" rx="6" fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>')
+  elif shape=='pill':d.parts.append(f'<rect x="{x-w/2:g}" y="{y-h/2:g}" width="{w:g}" height="{h:g}" rx="{h/2:g}" fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>')
+  elif shape=='diamond':d.parts.append(f'<path d="M{x:g} {y-h/2:g}L{x+w/2:g} {y:g}L{x:g} {y+h/2:g}L{x-w/2:g} {y:g}Z" fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>')
+  elif shape=='circle':d.parts.append(f'<circle cx="{x:g}" cy="{y:g}" r="{w/2:g}" fill="{fill}" stroke="{ink}" stroke-width="1.7"/>')
+  ls=lines(n['label'],(w*.62 if shape=='diamond' else w-18) if w else 400);cls=n.get('cls','')
+  for i,line in enumerate(ls):d.parts.append(svg_text(x,y+5+(i-(len(ls)-1)/2)*20,line,f' text-anchor="middle" class="{cls}" data-max-width="{(w-12 if w else 400):g}"'+(f' style="fill:{ink}"' if n.get('ink') else '')))
+ for t in spec.get('notes',[]):
+  fill,stroke,ink=TONES[t.get('tone','muted')]
+  d.parts.append(svg_text(t['x'],t['y'],t['text'],f' text-anchor="{t.get("anchor","middle")}" class="{t.get("cls","small")}"'+(f' style="fill:{ink}"' if t.get('tone') else '')+f' data-max-width="{t.get("maxwidth",700):g}"'))
+ return d
 def render(spec):
  kind=spec['kind']
  if kind=='circuit':
@@ -109,6 +161,7 @@ def render(spec):
    x=105+(i+.5)*step;top=baseline-value*scale
    d.parts.append(f'<rect x="{x-w/2:g}" y="{top:g}" width="{w:g}" height="{value*scale:g}" fill="#246593"/>')
    d.text(x,top-12,f'{value:g}','small');d.text(x,298,label,'small',maxwidth=step-10)
+ elif kind=='diagram':d=diagram(spec)
  elif kind=='transitions':
   panels=spec['panels'];rows=max(len(col) for panel in panels for col in panel['columns']);gap=84;top=118 if any(panel.get('weights') for panel in panels) else 104
   d=Drawing(spec,top+(rows-1)*gap+(70 if any(panel.get('weights') for panel in panels) else 50));width=700/len(panels)

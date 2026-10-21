@@ -1,6 +1,7 @@
 /* Shared appearance preference, applied before styles paint. No network dependencies. */
 (() => {
   const navigationURL = new URL('../../../navigation.js', document.currentScript.src).href;
+  const diagramURL = new URL('../../../diagrams.js', document.currentScript.src).href;
   const root = document.documentElement;
   root.classList.add('js');
   const preference = matchMedia('(prefers-color-scheme: dark)');
@@ -60,6 +61,8 @@
   const watcher = new MutationObserver(placeToggle);
   if (document.readyState === 'loading') watcher.observe(root, {childList: true, subtree: true});
   document.addEventListener('DOMContentLoaded', () => {
+    const diagrams = document.createElement('script');
+    diagrams.src = diagramURL; document.head.append(diagrams);
     watcher.disconnect();
     placeToggle();
     if (!window.__qrcNavigation) {        // pages that do not load navigation.js from <head>
@@ -86,11 +89,5 @@
       hero.classList.toggle('offscreen', !entries[0].isIntersecting);
     });
     observer.observe(hero);
-    hero.addEventListener('pointermove', event => {
-      if (reduced.matches || paused || event.pointerType === 'touch') return;
-      const box = hero.getBoundingClientRect();
-      hero.style.setProperty('--tilt', `${(event.clientX - box.left - box.width / 2) / 30}deg`);
-    });
-    hero.addEventListener('pointerleave', () => hero.style.setProperty('--tilt', '0deg'));
   });
 })();

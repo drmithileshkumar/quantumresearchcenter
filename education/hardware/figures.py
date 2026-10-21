@@ -151,13 +151,22 @@ def diagrams():
     for x in [190,380,600]:d.circle(x,265,8)
     d.text(380,318,'Ideal algebra: U₁₂ = (I + γ₁γ₂)/√2','small')
     d.save(15,2,'majorana-exchange','Time runs downward. Dashed and solid trajectories distinguish the two exchanged modes; the stationary third mode shows why a subsequent neighboring exchange can have order-dependent action. This is an ideal braid diagram, not evidence for a device.')
-    d=Drawing('Feedback latency and throughput are different','Three successive measurement rounds are processed in overlapping pipeline stages. Each result becomes available only after its dependent processing.')
-    times=[100,240,380,520,660]
-    for x in times:d.line(x,65,x,285,'guide')
-    for i,y in enumerate([105,175,245]):
-        start=100+i*80
-        for j,label in enumerate(['acquire','classify','decode']):d.rect(start+j*120,y-17,113,36,label)
-    d.text(380,319,'A new round may enter before the earlier result is ready.','small')
+    d=Drawing('Feedback latency and throughput are different','Three measurement rounds on a common time axis. Each round passes through acquire, classify, and decode; a new round starts every interval Δ, before the previous result is ready. Latency is the time from the start of a round to its result; throughput is set by the start interval.',360)
+    stage=[('acquire','#e1edf3'),('classify','#eae4f3'),('decode','#e3f0e6')];w=112;starts=[150,230,310]
+    for x in range(150,711,80):d.line(x,94,x,262,'guide')
+    for i,(start,y) in enumerate(zip(starts,[110,170,230])):
+        d.text(80,y+5,f'round {i+1}','small')
+        for j,(label,fill) in enumerate(stage):
+            x=start+j*w;d.parts.append(f'<rect x="{x}" y="{y-17}" width="{w-4}" height="34" rx="4" fill="{fill}" stroke="#8fb0c8"/>');d.text(x+w/2-2,y+5,label,'small')
+        end=start+3*w-4;d.circle(end+8,y,6,ORANGE)
+    d.text(start+3*w+20,235,'result 3 ready','small','start')
+    d.path(f'M150 82H{150+3*w+4}',BLUE,1.6,arrow=True);d.path(f'M{150+3*w+4} 82H150',BLUE,1.6,arrow=True)
+    d.text(150+1.5*w,74,'latency: start of a round → its result','small')
+    d.path('M150 296H230',ORANGE,1.6,arrow=True);d.path('M230 296H150',ORANGE,1.6,arrow=True)
+    d.line(150,262,150,302,'guide');d.line(230,262,230,302,'guide')
+    d.text(242,301,'Δ: a new round every interval sets the throughput','small','start')
+    d.line(130,262,720,262,'wire');d.text(720,282,'time →','small','end')
+    d.text(380,338,'A dependent operation must wait for the latency, even though rounds overlap.','small')
     d.save(16,2,'feedback-pipeline','Rectangles represent classical acquisition and processing intervals. Overlap shows pipelining, not instantaneous feedback. The times are schematic; a dependent gate must still wait for its result.')
     d=Drawing('A physical interaction graph constrains routing','Four sites form a line. The desired operation connects end sites that have no direct native edge.')
     for x in [140,300,460]:d.line(x,165,x+160,165)

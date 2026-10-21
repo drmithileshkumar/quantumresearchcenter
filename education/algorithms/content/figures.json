@@ -2431,22 +2431,192 @@
   ]
  },
  "factoring-flow": {
-  "kind": "flow",
+  "kind": "diagram",
   "title": "Shor’s reduction from factoring to order finding",
   "caption": "Only the order-finding step is quantum. For odd \\(L\\) with at least two distinct prime factors, each random \\(a\\) succeeds with probability at least 1/2; failures lead back to a new random choice.",
-  "rows": [
-   [
-    "Pick random \\(a\\); if \\(\\gcd(a,L)>1\\), done",
-    "Quantum order finding: \\(r\\)",
-    "Is \\(r\\) even and \\(a^{r/2}\\not\\equiv-1\\)?",
-    "\\(\\gcd(a^{r/2}\\pm1,L)\\) are factors"
-   ],
-   [
-    "If not, pick a new \\(a\\)",
-    "Example: \\(L=21\\), \\(a=2\\), \\(r=6\\)",
-    "\\(2^3=8\\not\\equiv-1\\)",
-    "\\(\\gcd(7,21)=7\\), \\(\\gcd(9,21)=3\\)"
-   ]
+  "height": 500,
+  "summary": "Flowchart. Pick a random a. If gcd(a, L) > 1, a factor is found. Otherwise run quantum order finding to get r. If r is even and a^(r/2) is not −1 mod L, gcd(a^(r/2) ± 1, L) are factors; if not, pick a new a. Example L = 21, a = 2: gcd is 1, r = 6, 2^3 = 8 ≢ −1, and gcd(7, 21) = 7, gcd(9, 21) = 3.",
+  "regions": [
+   {
+    "x": 505,
+    "y": 46,
+    "w": 230,
+    "h": 436,
+    "label": "EXAMPLE  L = 21",
+    "tone": "muted"
+   }
+  ],
+  "nodes": [
+   {
+    "id": "pick",
+    "x": 210,
+    "y": 82,
+    "w": 260,
+    "h": 44,
+    "label": "Pick random \\(a\\), \\(1<a<L\\)"
+   },
+   {
+    "id": "gcd",
+    "x": 210,
+    "y": 165,
+    "w": 230,
+    "h": 66,
+    "shape": "diamond",
+    "label": "\\(\\gcd(a,L)>1\\)?"
+   },
+   {
+    "id": "lucky",
+    "x": 432,
+    "y": 165,
+    "w": 130,
+    "h": 38,
+    "shape": "pill",
+    "tone": "good",
+    "label": "factor found"
+   },
+   {
+    "id": "order",
+    "x": 210,
+    "y": 255,
+    "w": 260,
+    "h": 46,
+    "tone": "quantum",
+    "label": "Quantum order finding: \\(r\\)"
+   },
+   {
+    "id": "test",
+    "x": 210,
+    "y": 352,
+    "w": 290,
+    "h": 84,
+    "shape": "diamond",
+    "label": "\\(r\\) even and \\(a^{r/2}\\not\\equiv-1\\)?"
+   },
+   {
+    "id": "out",
+    "x": 210,
+    "y": 450,
+    "w": 270,
+    "h": 44,
+    "tone": "good",
+    "label": "\\(\\gcd(a^{r/2}\\pm1,L)\\) are factors"
+   }
+  ],
+  "edges": [
+   {
+    "from": "pick",
+    "to": "gcd"
+   },
+   {
+    "from": "gcd",
+    "to": "lucky",
+    "label": "yes",
+    "tone": "good",
+    "lx": 345,
+    "ly": 158,
+    "anchor": "start"
+   },
+   {
+    "from": "gcd",
+    "to": "order",
+    "label": "no",
+    "lx": 228,
+    "ly": 216,
+    "anchor": "start"
+   },
+   {
+    "from": "order",
+    "to": "test"
+   },
+   {
+    "from": "test",
+    "to": "out",
+    "label": "yes",
+    "lx": 228,
+    "ly": 418,
+    "anchor": "start",
+    "tone": "good"
+   },
+   {
+    "from": "test",
+    "to": "pick",
+    "from_side": "l",
+    "to_side": "l",
+    "via": [
+     [
+      38,
+      352
+     ],
+     [
+      38,
+      82
+     ]
+    ],
+    "label": "no: new \\(a\\)",
+    "lx": 46,
+    "ly": 225,
+    "anchor": "start",
+    "tone": "bad",
+    "dashed": true
+   }
+  ],
+  "notes": [
+   {
+    "x": 620,
+    "y": 87,
+    "text": "\\(a=2\\)",
+    "cls": "small",
+    "maxwidth": 210
+   },
+   {
+    "x": 620,
+    "y": 170,
+    "text": "\\(\\gcd(2,21)=1\\)",
+    "cls": "small",
+    "maxwidth": 210
+   },
+   {
+    "x": 620,
+    "y": 252,
+    "text": "\\(2^6=64\\equiv1\\), so \\(r=6\\)",
+    "cls": "small",
+    "maxwidth": 210
+   },
+   {
+    "x": 620,
+    "y": 268,
+    "text": "(the quantum step)",
+    "cls": "small",
+    "maxwidth": 210
+   },
+   {
+    "x": 620,
+    "y": 348,
+    "text": "\\(r\\) even; \\(2^3=8\\not\\equiv-1\\)",
+    "cls": "small",
+    "maxwidth": 210
+   },
+   {
+    "x": 620,
+    "y": 366,
+    "text": "\\(\\pmod{21}\\)",
+    "cls": "small",
+    "maxwidth": 210
+   },
+   {
+    "x": 620,
+    "y": 446,
+    "text": "\\(\\gcd(7,21)=7\\)",
+    "cls": "small",
+    "maxwidth": 210
+   },
+   {
+    "x": 620,
+    "y": 464,
+    "text": "\\(\\gcd(9,21)=3\\)",
+    "cls": "small",
+    "maxwidth": 210
+   }
   ]
  },
  "shor-resources": {
@@ -3075,16 +3245,106 @@
   ]
  },
  "min-finding": {
-  "kind": "flow",
+  "kind": "diagram",
   "title": "Minimum finding as amplification in a classical loop",
   "caption": "Each round uses exponential search with a comparator predicate. The expected total number of queries is O(√N); the comparator and the oracle for T are charged per query.",
-  "rows": [
-   [
-    "Random candidate \\(y\\)",
-    "Threshold search for \\(T(x)<T(y)\\)",
-    "Found? Set \\(y\\leftarrow x\\)",
-    "Budget exhausted: output \\(y\\)"
-   ]
+  "height": 350,
+  "summary": "A loop. Start with a random candidate y. While the query budget lasts, run a quantum threshold search for some x with T(x) < T(y); if it returns a better x, set y to x, and repeat. When the budget is exhausted, output y.",
+  "nodes": [
+   {
+    "id": "start",
+    "x": 90,
+    "y": 175,
+    "w": 120,
+    "h": 40,
+    "shape": "pill",
+    "label": "random \\(y\\)"
+   },
+   {
+    "id": "budget",
+    "x": 280,
+    "y": 175,
+    "w": 180,
+    "h": 72,
+    "shape": "diamond",
+    "label": "budget left?"
+   },
+   {
+    "id": "out",
+    "x": 280,
+    "y": 76,
+    "w": 140,
+    "h": 40,
+    "shape": "pill",
+    "tone": "good",
+    "label": "output \\(y\\)"
+   },
+   {
+    "id": "search",
+    "x": 560,
+    "y": 175,
+    "w": 260,
+    "h": 56,
+    "tone": "quantum",
+    "label": "threshold search for \\(x\\) with \\(T(x)<T(y)\\)"
+   },
+   {
+    "id": "keep",
+    "x": 560,
+    "y": 282,
+    "w": 200,
+    "h": 44,
+    "label": "if better: \\(y\\leftarrow x\\)"
+   }
+  ],
+  "edges": [
+   {
+    "from": "start",
+    "to": "budget"
+   },
+   {
+    "from": "budget",
+    "to": "search",
+    "label": "yes"
+   },
+   {
+    "from": "budget",
+    "to": "out",
+    "label": "no",
+    "lx": 292,
+    "ly": 124,
+    "anchor": "start",
+    "tone": "good"
+   },
+   {
+    "from": "search",
+    "to": "keep"
+   },
+   {
+    "from": "keep",
+    "to": "budget",
+    "from_side": "l",
+    "to_side": "b",
+    "via": [
+     [
+      280,
+      282
+     ]
+    ],
+    "label": "repeat, lower threshold",
+    "lx": 296,
+    "ly": 272,
+    "anchor": "start",
+    "tone": "muted"
+   }
+  ],
+  "notes": [
+   {
+    "x": 380,
+    "y": 332,
+    "text": "expected total queries \\(O(\\sqrt N)\\); comparator and \\(T\\)-oracle charged per query",
+    "maxwidth": 680
+   }
   ]
  },
  "search-limits": {
@@ -8811,16 +9071,100 @@
   ]
  },
  "vqe-loop": {
-  "kind": "flow",
+  "kind": "diagram",
   "title": "The variational loop",
   "caption": "The quantum computer prepares trial states and measures Pauli groups; the classical computer estimates \\(E(\\theta)\\) and its gradient and chooses new parameters. The loop repeats until improvements fall below their statistical uncertainty.",
-  "rows": [
-   [
-    "Prepare \\(U(\\theta)\\ket{0^n}\\)",
-    "Measure grouped Pauli strings",
-    "Estimate \\(E(\\theta)\\) and gradient",
-    "Update \\(\\theta\\) classically"
-   ]
+  "height": 370,
+  "summary": "A loop across two machines. On the quantum computer: prepare U(θ)|0ⁿ⟩, then measure grouped Pauli strings. The bit strings go to the classical computer, which estimates E(θ) and its gradient and updates θ; the new θ returns to the quantum computer. The loop stops when improvements fall below their statistical uncertainty.",
+  "regions": [
+   {
+    "x": 30,
+    "y": 52,
+    "w": 700,
+    "h": 112,
+    "label": "QUANTUM COMPUTER",
+    "tone": "quantum"
+   },
+   {
+    "x": 30,
+    "y": 200,
+    "w": 700,
+    "h": 112,
+    "label": "CLASSICAL COMPUTER",
+    "tone": "classical"
+   }
+  ],
+  "nodes": [
+   {
+    "id": "prep",
+    "x": 215,
+    "y": 112,
+    "w": 230,
+    "h": 48,
+    "tone": "quantum",
+    "label": "prepare \\(U(\\theta)\\ket{0^n}\\)"
+   },
+   {
+    "id": "meas",
+    "x": 520,
+    "y": 112,
+    "w": 230,
+    "h": 48,
+    "tone": "quantum",
+    "label": "measure grouped Pauli strings"
+   },
+   {
+    "id": "est",
+    "x": 520,
+    "y": 262,
+    "w": 230,
+    "h": 48,
+    "label": "estimate \\(E(\\theta)\\) and gradient"
+   },
+   {
+    "id": "upd",
+    "x": 215,
+    "y": 262,
+    "w": 230,
+    "h": 48,
+    "label": "update \\(\\theta\\)"
+   }
+  ],
+  "edges": [
+   {
+    "from": "prep",
+    "to": "meas"
+   },
+   {
+    "from": "meas",
+    "to": "est",
+    "label": "bit strings",
+    "lx": 532,
+    "ly": 186,
+    "anchor": "start",
+    "tone": "quantum"
+   },
+   {
+    "from": "est",
+    "to": "upd",
+    "label": "\\(E\\), \\(\\nabla E\\)"
+   },
+   {
+    "from": "upd",
+    "to": "prep",
+    "label": "new \\(\\theta\\)",
+    "lx": 203,
+    "ly": 186,
+    "anchor": "end"
+   }
+  ],
+  "notes": [
+   {
+    "x": 380,
+    "y": 345,
+    "text": "repeat until improvements fall below their statistical uncertainty",
+    "maxwidth": 680
+   }
   ]
  },
  "qaoa-landscape": {
