@@ -1,6 +1,96 @@
 {
- "reviewed_on": "2026-10-19",
+ "reviewed_on": "2026-10-21",
  "papers": [
+  {
+   "id": "2610.28162",
+   "url": "2610.28162/index.html",
+   "title": "Dimension-free marginal inequalities for pure three-party states",
+   "authors": "Simon Morelli",
+   "topic": "foundations",
+   "submitted": "2026-10-20",
+   "approved_on": "2026-10-21",
+   "problem": "Which spectra can the three one-party marginals of a pure three-party state have, with inequalities that hold in every local dimension?",
+   "result": "A lifting theorem produces new valid inequalities from old ones by peeling off one party’s largest Schmidt component and applying Horn’s inequalities to the other two. Starting from Klyachko’s first-row bound, at most two lifting steps reproduce every facet of the marginal polytope for local dimension up to 4, and 455 of the 466 facet classes for dimension 5.",
+   "techniques": [
+    "Peel off the largest Schmidt component",
+    "Combine Horn triples with Abel summation"
+   ]
+  },
+  {
+   "id": "2610.27854",
+   "url": "2610.27854/index.html",
+   "title": "Trapped-ion-based quantum repeater node across a 17 km metropolitan fiber",
+   "authors": "K. Fabitha; T. Runggaldier; A. Winkler; F. Bernecker; J. Bate; M. Canteri; J. Helgert; T. E. Northup; V. Krutyanskiy; B. P. Lanyon",
+   "topic": "information",
+   "submitted": "2026-10-20",
+   "approved_on": "2026-10-21",
+   "problem": "Can a trapped-ion repeater node distribute entanglement over deployed city fiber rather than a laboratory spool?",
+   "result": "A two-ion node in Innsbruck entangled a photon sent through 17 km of rented municipal fiber with a photon detected locally. The Bell-state fidelity was \\(81.6^{+1.9}_{-1.4}\\%\\) (with feed-forward simulated), at 0.69 successes per second. Storing the first ion qubit raised the success probability 13.6-fold over sending both photons without memory.",
+   "techniques": [
+    "Store the qubit for the fast link, not the slow one",
+    "Correct a drifting fiber by tomography and inversion"
+   ]
+  },
+  {
+   "id": "2610.26465",
+   "url": "2610.26465/index.html",
+   "title": "The Four-Qubit Hyperbolic Quadric Has Contextuality Degree 315",
+   "authors": "Zhengyu Li; Amandeep Gupta; Vijay Ganesh",
+   "topic": "foundations",
+   "submitted": "2026-10-19",
+   "approved_on": "2026-10-21",
+   "problem": "How many of the 1575 three-observable constraints on a four-qubit hyperbolic quadric must every noncontextual value assignment break?",
+   "result": "Exactly 315, proving a conjecture based on heuristic searches. In every optimal assignment each of the 40,320 doilies has exactly three violated lines, and the 240 possible violated sets are all copies of the dual polar space DW(5,2).",
+   "techniques": [
+    "Read a lower bound from parity alone",
+    "Average over a symmetric cover, rounding locally"
+   ]
+  },
+  {
+   "id": "2610.27065",
+   "url": "2610.27065/index.html",
+   "title": "Polynomial-Time Classical Simulation of BosonSampling under Any Constant-Fraction Photon Loss",
+   "authors": "Byeongseon Go; Hyunseok Jeong",
+   "topic": "computing",
+   "submitted": "2026-10-19",
+   "approved_on": "2026-10-21",
+   "problem": "Does lossy BosonSampling remain hard to simulate classically when a fixed fraction of the photons survives?",
+   "result": "Not under the conditions studied. For every fixed survival fraction \\(n/N\\in(0,1)\\), Haar-random interferometers and \\(M=\\Omega(n^2N)\\) modes, a classical algorithm samples within total variation distance \\(\\varepsilon\\) of the collision-collapsed output distribution, for a \\(1-\\delta\\) fraction of interferometers, in time \\(\\mathrm{poly}(M,N,\\varepsilon^{-1},\\delta^{-1})\\). The same holds for every fixed transmission probability \\(\\eta\\in(0,1)\\).",
+   "techniques": [
+    "Decompose an average over random survivors",
+    "Sum over subsets with color coding"
+   ]
+  },
+  {
+   "id": "2610.26785",
+   "url": "2610.26785/index.html",
+   "title": "Correlated decoding loses the surface code’s effective distance below threshold",
+   "authors": "César Hernando de la Fuente; Joonas Majaniemi; Evert van Nieuwenburg; Felix Frohnert",
+   "topic": "computing",
+   "submitted": "2026-10-19",
+   "approved_on": "2026-10-21",
+   "problem": "Does two-pass correlated decoding of the surface code keep its advantage far below threshold?",
+   "result": "Not with the standard reweighting rule. Under circuit-level noise some size-\\((d-1)/2\\) fault configurations cause logical failures, so the logical error rate scales like \\(p^{(d-1)/2}\\) instead of \\(p^{(d+1)/2}\\). At \\(d=3\\) and \\(p=10^{-5}\\), correlated matching fails about 4.4 times as often as plain matching. Scaling the conditional edge probabilities by an error-rate-dependent factor \\(\\alpha^*(p)\\) restores the distance scaling and a steady advantage.",
+   "techniques": [
+    "Count the independent faults behind a correction",
+    "Regularize the update with one error-rate-dependent parameter"
+   ]
+  },
+  {
+   "id": "2610.25518",
+   "url": "2610.25518/index.html",
+   "title": "Randomness Certification from Statistically Hiding Commitments",
+   "authors": "Ilya Merkulov; Rotem Arnon",
+   "topic": "information",
+   "submitted": "2026-10-18",
+   "approved_on": "2026-10-21",
+   "problem": "What cryptographic assumption lets a classical verifier certify randomness from a single untrusted quantum device, secure against quantum side information?",
+   "result": "A statistically hiding bit commitment that is computationally binding against quantum senders suffices; stronger notions such as collapse-binding are not needed. Consequently, post-quantum one-way permutations suffice. Trapdoor claw-free functions give an efficient verifier, and the quantum random-oracle model gives certification with no further assumption but an inefficient verifier.",
+   "techniques": [
+    "Hide a BB84 basis inside two commitment openings",
+    "Turn a predictor into two openings"
+   ]
+  },
   {
    "id": "2609.16364",
    "url": "2609.16364/index.html",

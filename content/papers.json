@@ -1,5 +1,5 @@
 {
-  "reviewed_on": "2026-10-19",
+  "reviewed_on": "2026-10-21",
   "papers": [
     {
       "id": "2609.10508",
@@ -275,6 +275,277 @@
         "Four platforms are analysed: single colour centres in diamond (NV⁻ and SnV⁻), an ensemble of ⁸⁷Rb atoms, and a phonon-mediated variant in which the spin couples to a mechanical mode that couples piezoelectrically to the microwave resonator. The analysis assumes transmon relaxation time \\(T_{1,t}=300\\ \\mu\\mathrm s\\) and measurement error \\(\\epsilon=0.01\\). The predicted maximum fidelities and heralding rates are 0.92 and 3.0 kHz (NV⁻), 0.86 and 1.1 kHz (SnV⁻), 0.97 and 3.7 kHz (⁸⁷Rb), and 0.99 and 28.3 kHz (phonon-mediated). Rate and fidelity peak at different detection windows, so the two maxima are not reached at the same operating point.",
         "Teleportation turns the pair into a transducer. A Bell measurement acts on the microwave input and the microwave half of the pair. Its two classical outcome bits select a Pauli correction on the optical photon, which then carries the input state. The paper describes this step qualitatively; its quantitative analysis concerns the entangled-pair source."
       ]
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+      "verified_on": "2026-10-21",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "id": "2610.26465",
+      "topic": "foundations",
+      "version": "v1",
+      "submitted": "2026-10-19",
+      "kind": "Theory with formal verification",
+      "title": "The Four-Qubit Hyperbolic Quadric Has Contextuality Degree 315",
+      "authors": "Zhengyu Li; Amandeep Gupta; Vijay Ganesh",
+      "problem": "How many of the 1575 three-observable constraints on a four-qubit hyperbolic quadric must every noncontextual value assignment break?",
+      "result": "Exactly 315, proving a conjecture based on heuristic searches. In every optimal assignment each of the 40,320 doilies has exactly three violated lines, and the 240 possible violated sets are all copies of the dual polar space DW(5,2).",
+      "significance": "Gives an exact classical bound (945 against the quantum value 1575) for a large state-independent contextuality inequality, with a proof short enough to check by hand and machine-checked certificates.",
+      "limitations": "The classical-to-quantum ratio 3/5 equals that of the much smaller doily, so the inequality is not stronger than known ones. For the elliptic four-qubit quadric and for five or more qubits only the lower bound ⌈L/5⌉ is given.",
+      "description": [
+        "A noncontextual hidden-variable model gives every observable a fixed outcome \\(\\pm1\\), whatever else is measured with it. For Pauli observables, write \\(P(v)\\) for the operator labelled by \\(v\\in\\mathbb F_2^{2N}\\) and \\(x(v)\\in\\mathbb F_2\\) for its assigned outcome \\((-1)^{x(v)}\\). A context is a triple \\(C=\\{u,v,u+v\\}\\) of commuting observables with \\(P(u)P(v)P(u+v)=(-1)^{s(C)}I\\). Quantum mechanics requires the three outcomes to multiply to \\((-1)^{s(C)}\\), so an assignment violates \\(C\\) when \\[x(u)+x(v)+x(u+v)\\ne s(C)\\pmod 2.\\] The contextuality degree is the least number of contexts that any assignment violates. In the Peres–Mermin square no assignment satisfies all six contexts, so its degree is 1.",
+        "The paper studies the real four-qubit observables: those with an even number of \\(Y\\) factors. In the finite-geometry dictionary they are the 135 points of a hyperbolic quadric \\(\\mathcal Q^+(7,2)\\), whose 1575 lines are its contexts. Computing the degree is a MAX-XOR-SAT problem with 135 variables and 1575 parity constraints. Earlier solver attempts gave only an upper bound of 500; a heuristic search then found assignments violating 315 lines and conjectured that this is optimal.",
+        "Theorem 11 proves that the degree is exactly 315 for every hyperbolic quadric of four qubits. Proposition 14 shows that an optimal assignment violates exactly three lines in each of the quadric’s 40,320 doilies (copies of the generalized quadrangle \\(GQ(2,2)\\)), and that these three lines form one ruling of a \\(3\\times3\\) grid. Turning this local condition into a SAT encoding enumerates all optima in about 30 seconds. There are 240 violated sets, forming one orbit of \\(\\mathrm O^+(8,2)\\) and each isomorphic to \\(DW(5,2)\\); each is produced by \\(2^8=256\\) assignments. The same averaging gives a degree of at least \\(\\lceil L/5\\rceil\\) for every quadric with \\(L\\) lines on \\(N\\ge3\\) qubits.",
+        "Physically, the sum of signed correlators \\(\\chi=\\sum_C(-1)^{s(C)}\\langle P(u)P(v)P(u+v)\\rangle\\) equals 1575 in every quantum state. A noncontextual model reaches at most \\(1575-2\\cdot315=945\\), so a context chosen at random is satisfied with probability at most \\(4/5\\). The degree theorem is kernel-checked in Lean 4, and the completeness of the enumeration is certified by a DRAT proof checked with the verified checker cake_lpr. Whether \\(\\lceil L/5\\rceil\\) is tight for five-qubit quadrics is open."
+      ],
+      "methods": [
+        {
+          "technique": "Read a lower bound from parity alone",
+          "explanation": "Before any search, a family of contexts can force at least one violation through a parity count. The authors use this for every grid of nine observables inside a doily.",
+          "math": [
+            "Suppose every point of a family \\(\\mathcal F\\) of contexts lies on an even number of its contexts. Modulo 2, the number of violated contexts is \\[\\sum_{C\\in\\mathcal F}\\Bigl(\\sum_{p\\in C}x(p)+s(C)\\Bigr)=\\sum_{C}\\sum_{p\\in C}x(p)+\\sum_C s(C)=\\sum_C s(C),\\] because each \\(x(p)\\) is counted an even number of times. If the signs have odd sum, every assignment violates an odd number of contexts, and so at least one (Lemma 5).",
+            "For a grid of nine observables \\(P_{ij}\\), each point lies on one row and one column. The signs are found by multiplying all nine operators in two orders. Row by row the product is \\((-1)^{r_1+r_2+r_3}I\\); column by column it is \\((-1)^{c_1+c_2+c_3}I\\). Passing from one order to the other swaps \\(P_{ij}\\) past \\(P_{kl}\\) exactly when \\(i<k\\) and \\(j>l\\): there are nine such pairs, and each anticommutes. Hence \\(\\sum r_i+\\sum c_j\\equiv9\\equiv1\\pmod 2\\), and every grid has an odd number of violated lines (Lemma 6)."
+          ],
+          "transfer": "In any MAX-XOR-SAT problem (stabilizer sign constraints, Mermin-type games, parity checks), look for subfamilies in which every variable appears an even number of times. The signs alone then fix the parity of the violation count, and give a lower bound with no search. These subfamilies are certificates and can be enumerated mechanically."
+        },
+        {
+          "technique": "Average over a symmetric cover, rounding locally",
+          "explanation": "The global bound comes from averaging over doilies rather than over grids. The gain comes from integer rounding inside each doily.",
+          "math": [
+            "A doily contains ten grids, and each of its 15 lines lies in exactly four of them (Lemma 8, from Sylvester’s model of \\(GQ(2,2)\\)). Let \\(V_D\\) be the violated lines of a doily \\(D\\). Each grid contains an odd number of them, so \\[4|V_D|=\\sum_{G}|V_D\\cap G|\\ \\ge\\ 10,\\qquad |V_D|\\ge\\lceil 10/4\\rceil=3.\\]",
+            "The orthogonal group of the quadric maps doilies to doilies and is transitive on lines (Witt’s theorem), so each line lies in the same number \\(r\\) of doilies, and \\(15|\\mathcal D|=1575\\,r\\). For the violated set \\(\\mathcal V\\) of any assignment, \\[r|\\mathcal V|=\\sum_{D\\in\\mathcal D}|\\mathcal V\\cap D|\\ \\ge\\ 3|\\mathcal D|\\quad\\Longrightarrow\\quad|\\mathcal V|\\ \\ge\\ \\frac{3\\cdot1575}{15}=315.\\] Averaging over grids instead gives only \\(1575/6\\), so degree at least 263, because a single grid can have just one violated line out of six. An assignment found by local search attains 315.",
+            "Equality forces every doily to contribute exactly 3. Conversely, if each doily of a family covering all lines equally has three violated lines, the assignment is optimal. This replaces one global optimization over \\(2^{135}\\) assignments by local constraints on fifteen lines at a time. Direct MaxSAT formulations did not finish in 30 minutes; the local encoding finds all optima in about 30 seconds."
+          ],
+          "transfer": "To lower-bound a minimum over a structure with a transitive symmetry group, pick a substructure in which integrality pushes the local bound above the naive fraction, then average. Which substructure you choose matters: here grids give 263 and doilies give 315. If the bound is tight, its equality case is a local characterization of all optima and a much better solver encoding."
+        }
+      ],
+      "methods_source_section": "Sections 3–6: Lemmas 5–8, Proposition 10, Theorem 11 and Proposition 14; Section 8",
+      "approved_on": "2026-10-21"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+      "verified_on": "2026-10-21",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "id": "2610.28162",
+      "topic": "foundations",
+      "version": "v1",
+      "submitted": "2026-10-20",
+      "kind": "Theory",
+      "title": "Dimension-free marginal inequalities for pure three-party states",
+      "authors": "Simon Morelli",
+      "problem": "Which spectra can the three one-party marginals of a pure three-party state have, with inequalities that hold in every local dimension?",
+      "result": "A lifting theorem produces new valid inequalities from old ones by peeling off one party’s largest Schmidt component and applying Horn’s inequalities to the other two. Starting from Klyachko’s first-row bound, at most two lifting steps reproduce every facet of the marginal polytope for local dimension up to 4, and 455 of the 466 facet classes for dimension 5.",
+      "significance": "Gives efficiently computable, dimension-independent outer approximations to the set of compatible marginals, whose exact facets are known only in small dimensions.",
+      "limitations": "Eleven facet classes in dimension 5 are not implied, so the family is incomplete for every dimension of 5 or more. The comparisons in dimensions 4 and 5 are computer-assisted.",
+      "description": [
+        "Let \\(\\psi\\in\\mathcal H_A\\otimes\\mathcal H_B\\otimes\\mathcal H_C\\) be a pure state with \\(\\|\\psi\\|^2=m\\), and let \\(a,b,c\\) be the decreasingly ordered spectra of its one-party marginals. Which triples \\((a,b,c)\\) occur? For three qubits the answer is the polygon inequality \\(a_2\\le b_2+c_2\\) and its permutations. For three qutrits Higuchi found seven inequalities up to permutation. In principle Klyachko solved the problem: for fixed dimensions the admissible spectra form a convex polytope whose facets come from Schubert calculus. In practice the lists grow quickly; Bulois, Denis and Ressayre count 47, 462, 5,333 and 64,792 classes of inequalities for \\(d=4,5,6,7\\).",
+        "Few inequalities are known that hold in every dimension. The basic one is Klyachko’s first-row bound \\[a_1\\le\\sum_i\\min(b_i,c_i),\\qquad\\text{hence}\\qquad a_1\\le m+b_I-c_I\\ \\text{ for every finite } I.\\] The paper first observes that the remaining qutrit inequalities, rewritten as \\(a_1-a_2\\le m-b_i+c_i+b_j-c_j\\) and \\(a_1-a_{i+1}\\le m-b_{i+j-1}+b_k+c_j-c_k\\), hold in all dimensions (Theorem 5).",
+        "The main result, Theorem 6, is a lifting rule. Take any valid seed inequality for the smaller state left after removing the largest Schmidt component of party \\(A\\). Bound the spectra of \\(B\\) and \\(C\\) with Horn triples, which control sums of Hermitian matrices independently of dimension. The result is a new inequality for the original state. Lifts can be lifted again. Corollary 1 gives two explicit families, for example \\(b_j+c_K\\le m+a_{J+1}\\) for every Horn triple \\((I,J,K)\\) and \\(j\\notin I\\). Every inequality obtained this way also holds for partitions \\(\\lambda,\\mu,\\nu\\vdash n\\) with nonzero Kronecker coefficient, with \\(m\\) replaced by \\(n\\).",
+        "For local dimension 4, all 50 facet classes of the marginal polytope follow: 11 are trivial or first-row bounds, 32 need one lifting step and 7 need two. In dimension 5, 455 of 466 classes follow from at most two steps. The other 11 are not implied at any depth, which the author shows by exhibiting points that satisfy every lifted inequality but lie outside the polytope. Since the family is computable in polynomial time, it gives a usable outer approximation where exact facet lists are out of reach."
+      ],
+      "methods": [
+        {
+          "technique": "Peel off the largest Schmidt component",
+          "explanation": "The recursion removes one Schmidt term of party \\(A\\) and tracks how the marginals of \\(B\\) and \\(C\\) change. It turns a three-party question into one about sums of positive matrices.",
+          "math": [
+            "Write the Schmidt decomposition across \\(A|BC\\) as \\(\\psi=\\sum_j\\sqrt{a_j}\\,e_j\\otimes\\varphi_j\\). Because the \\(e_j\\) are orthonormal, the cross terms drop out of the partial trace over \\(A\\), and \\[\\rho_B=\\underbrace{a_1\\operatorname{Tr}_C\\ketbra{\\varphi_1}{\\varphi_1}}_{P}+\\rho_B^{\\prime},\\qquad\\rho_C=\\underbrace{a_1\\operatorname{Tr}_B\\ketbra{\\varphi_1}{\\varphi_1}}_{P^{\\prime}}+\\rho_C^{\\prime},\\] where \\(\\rho^{\\prime}\\) are the marginals of the child \\(\\psi^{\\prime}=\\sum_{j\\ge2}\\sqrt{a_j}\\,e_j\\otimes\\varphi_j\\). The child has mass \\(m-a_1\\) and \\(A\\)-spectrum \\(\\hat a=(a_2,a_3,\\dots)\\). \\(P\\) and \\(P^{\\prime}\\) are the two marginals of the bipartite pure vector \\(\\sqrt{a_1}\\varphi_1\\), so they share one spectrum \\(\\tau\\) with \\(\\sum_i\\tau_i=a_1\\) (Lemma 3).",
+            "Klyachko’s bound follows in one line (editorial presentation of the paper’s argument). Since \\(\\rho_B\\ge P\\) and \\(\\rho_C\\ge P^{\\prime}\\), Weyl monotonicity gives \\(b_i\\ge\\tau_i\\) and \\(c_i\\ge\\tau_i\\). So \\(\\min(b_i,c_i)\\ge\\tau_i\\), and summing gives \\(\\sum_i\\min(b_i,c_i)\\ge a_1\\). We checked this, and the lifted inequality \\(b_2+c_1\\le1+a_2\\), on random states of local dimension 2 to 4."
+          ],
+          "transfer": "Use this whenever a constraint on several marginals is wanted. Removing one Schmidt term writes each other marginal as a known-spectrum piece plus the marginal of a smaller instance. Horn’s problem, which is completely solved, then controls the sum, and induction on the Schmidt rank carries the bound to all dimensions."
+        },
+        {
+          "technique": "Combine Horn triples with Abel summation",
+          "explanation": "The lifting theorem needs to absorb the unknown spectrum \\(\\tau\\) of the peeled piece. It does so with one summation-by-parts bound.",
+          "math": [
+            "For \\(C=A+B\\) with spectra \\(c,a,b\\), a Horn triple \\((I,J,K)\\) gives \\(c_K\\le a_I+b_J\\), independently of dimension. The simplest case is Weyl’s inequality \\(c_{i+j-1}\\le a_i+b_j\\). Applied to \\(b=\\operatorname{spec}(P+\\rho_B^{\\prime})\\), it gives \\(b_K\\le\\tau_I+\\beta_J\\); monotonicity gives \\(b_L\\ge\\tau_L\\). After summing, the \\(B\\) and \\(C\\) terms of the target are at most \\(\\langle\\delta,\\tau\\rangle+\\langle u,\\beta\\rangle+\\langle v,\\gamma\\rangle\\), where \\(\\delta\\) collects the \\(\\tau\\)-indices that were used.",
+            "Because \\(\\tau\\) is decreasing and nonnegative, summation by parts gives \\[\\langle\\delta,\\tau\\rangle=\\sum_{k\\ge1}(\\tau_k-\\tau_{k+1})\\sum_{j=1}^{k}\\delta_j\\ \\le\\ \\bar\\kappa\\sum_{k\\ge1}k(\\tau_k-\\tau_{k+1})=\\bar\\kappa\\,|\\tau|=\\bar\\kappa\\,a_1,\\] provided every prefix sum satisfies \\(\\sum_{j\\le k}\\delta_j\\le\\bar\\kappa k\\). The seed applied to the child bounds the remaining terms by \\(\\kappa(m-a_1)+\\langle w,\\hat a\\rangle\\). Adding the pieces gives the lifted inequality (29)."
+          ],
+          "transfer": "Abel summation is a general way to bound a linear form over an unknown decreasing vector by its total: it is enough to check the prefix sums of the coefficients. It applies to eigenvalue and majorization problems in which one spectrum is known only through its trace."
+        }
+      ],
+      "methods_source_section": "Sections II–V: Lemmas 1–3, Theorems 5–6 and Corollary 1; Section VI",
+      "approved_on": "2026-10-21"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+      "verified_on": "2026-10-21",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "id": "2610.27065",
+      "topic": "computing",
+      "version": "v1",
+      "submitted": "2026-10-19",
+      "kind": "Theory",
+      "title": "Polynomial-Time Classical Simulation of BosonSampling under Any Constant-Fraction Photon Loss",
+      "authors": "Byeongseon Go; Hyunseok Jeong",
+      "problem": "Does lossy BosonSampling remain hard to simulate classically when a fixed fraction of the photons survives?",
+      "result": "Not under the conditions studied. For every fixed survival fraction \\(n/N\\in(0,1)\\), Haar-random interferometers and \\(M=\\Omega(n^2N)\\) modes, a classical algorithm samples within total variation distance \\(\\varepsilon\\) of the collision-collapsed output distribution, for a \\(1-\\delta\\) fraction of interferometers, in time \\(\\mathrm{poly}(M,N,\\varepsilon^{-1},\\delta^{-1})\\). The same holds for every fixed transmission probability \\(\\eta\\in(0,1)\\).",
+      "significance": "Earlier provable simulations needed only \\(O(\\sqrt{\\varepsilon N})\\) photons to survive. Here, adding photons at a fixed transmission rate does not by itself escape efficient classical simulation.",
+      "limitations": "The guarantee is average-case over Haar-random interferometers. It needs many more modes than photons, \\(M=\\Omega(n^2N)\\), and \\(M=\\Omega(n^2/(\\varepsilon\\delta))\\) for full Fock outputs. It assumes uniform loss and ideal photons. Saturated-mode experiments, partial distinguishability and non-resolving detectors are left open.",
+      "description": [
+        "In BosonSampling, \\(N\\) photons enter the first \\(N\\) of \\(M\\) modes of a Haar-random interferometer \\(U\\) and are counted at the output. In the fixed-loss model exactly \\(N-n\\) photons are lost, the surviving set \\(S\\) being uniformly random, so the probability of output pattern \\(\\boldsymbol t\\) is \\[P_U^{N,n}(\\boldsymbol t)=\\frac1{\\binom Nn}\\sum_{|S|=n}\\frac{|\\operatorname{Per}(U_{\\boldsymbol t,S})|^2}{\\boldsymbol t!}.\\] Permanents are hard to compute, which underlies the claims of quantum advantage. Loss cannot be corrected in this linear-optical setting. Previous algorithms were provably efficient only when the surviving fraction vanished, for example \\(n=O(\\sqrt{\\varepsilon N})\\). Many experiments instead keep a fixed fraction of photons.",
+        "The key observation is that averaging over which photons survive damps high-order interference. Written as a sum over sets \\(J\\) of input columns, the order-\\(j\\) part of the output probability carries the factor \\(\\binom nj/\\binom Nj\\le(n/N)^j\\). Truncating at degree \\(d\\) leaves a mean-square error at most \\((n/N)^{d+1}/(1-n/N)\\) (Proposition 2).",
+        "Theorem 2 turns this into a sampler. It runs in \\(MnN^3\\varepsilon^{-2}\\delta^{-1}2^{O(d)}\\) arithmetic operations with \\(d=O\\bigl(1+\\log(\\varepsilon^{-1}\\delta^{-1}(1-n/N)^{-1})/\\log(N/n)\\bigr)\\). For a fixed fraction \\(n/N\\), \\(d=O(\\log(1/\\varepsilon\\delta))\\), so \\(2^{O(d)}\\) is polynomial. The pipeline has four steps. A truncated, signed approximation of the distribution is built. Its prefix marginals are evaluated by random color coding. A signed-marginal sampler then produces a proper distribution over ordered output strings, and sorting gives Fock outcomes. Markov’s inequality converts an average-case error bound into a statement for a \\(1-\\delta\\) fraction of interferometers.",
+        "Under the extra condition \\(M=\\Omega(n^2/(\\varepsilon\\delta))\\), collisions are rare enough that the result covers the full Fock distribution (Corollary 2). For uniform transmission loss, one first samples the number of survivors from a binomial distribution and then runs the fixed-loss algorithm (Corollary 3). The authors list the saturated-mode regime, partial distinguishability and non-ideal detectors as open."
+      ],
+      "methods": [
+        {
+          "technique": "Decompose an average over random survivors",
+          "explanation": "The output probability is an average over surviving subsets. A Hoeffding (ANOVA) decomposition over input columns shows how strongly each interference order is weighted.",
+          "math": [
+            "For an \\(n\\times N\\) matrix \\(B\\), let \\(G_L(B)=(n-|L|)!\\sum_{|I|=|L|}|\\operatorname{Per}(B_{I,L})|^2\\) and define \\(H_J=\\sum_{L\\subseteq J}(-1)^{|J|-|L|}G_L\\). Möbius inversion gives \\(G_S=\\sum_{J\\subseteq S}H_J\\), because \\(\\sum_{L\\subseteq J\\subseteq S}(-1)^{|J|-|L|}=(1-1)^{|S|-|L|}\\) vanishes unless \\(L=S\\). Inserting this into the average over surviving sets \\(S\\), and counting the \\(\\binom{N-j}{n-j}\\) sets that contain a given \\(J\\), gives \\[\\Phi(B)=\\frac1{\\binom Nn}\\sum_{|S|=n}|\\operatorname{Per}(B_S)|^2=n!+\\sum_{j=1}^{n}\\frac{\\binom nj}{\\binom Nj}\\sum_{|J|=j}H_J(B).\\] The coefficient \\(\\binom nj/\\binom Nj\\) is the probability that \\(j\\) given photons all survive.",
+            "For a Gaussian matrix \\(X\\), each \\(H_J\\) has zero mean in every column it involves. So distinct components are orthogonal, and \\(\\mathbb E|H_J|^2=(n!)^2/\\binom n{|J|}\\) by Wick’s theorem. Hence \\[\\frac{\\mathbb E|\\Phi-\\Phi_{\\le d}|^2}{(n!)^2}=\\sum_{j>d}\\frac{\\binom nj}{\\binom Nj}\\le\\sum_{j>d}\\Bigl(\\frac nN\\Bigr)^j\\le\\frac{(n/N)^{d+1}}{1-n/N}.\\] For example, with half the photons surviving, each extra order of truncation halves the bound. Lemma 4 transfers this to Haar submatrices, which are close to Gaussian when \\(M\\ge C_0n^2N\\)."
+          ],
+          "transfer": "Whenever an observable is an average over random subsets (lost particles, erased qubits, random subsampling), decompose it by subset order. The weight of order \\(j\\) is then the probability that a given \\(j\\)-set survives, and truncation is controlled once the components are orthogonal under some reference measure. The cost is that the error bound is an average: here it holds for most interferometers, not all."
+        },
+        {
+          "technique": "Sum over subsets with color coding",
+          "explanation": "Sampling needs prefix marginals of the truncated function. Enumerating all \\(j\\)-subsets of inputs and outputs would cost \\(N^{O(d)}\\), which is only quasipolynomial when \\(d\\) grows like \\(\\log(1/\\varepsilon\\delta)\\).",
+          "math": [
+            "For each order \\(j\\), color every input column and every output mode uniformly at random with one of \\(j\\) colors. A fixed \\(j\\)-set receives distinct colors with probability \\(j!/j^j\\). Keeping only terms whose input set and output set are both colorful, and multiplying them by \\((j^j/j!)^2\\), leaves the expectation unchanged: \\[\\mathbb E_{\\mathrm{col}}\\bigl[\\widehat q^{(1)}_{d,U}(\\boldsymbol r)\\bigr]=q_{d,U}(\\boldsymbol r).\\] The overhead factor obeys \\(j^j/j!\\le e^j\\), so it is \\(2^{O(j)}\\).",
+            "With colors fixed, the colorful sums are coefficients of an inverse determinant in formal variables with \\(x_c^2=y_c^2=0\\): \\[\\mathcal P_j=\\det\\Bigl[\\delta_{uv}-x_{g(u)}z^{\\mathbf 1\\{u\\in\\text{prefix}\\}}\\sum_l y_{h(l)}B^{(l)}_{uv}\\Bigr]^{-1},\\] read off at \\(x_1\\cdots x_jy_1\\cdots y_j z^p\\). Since each \\(x_c\\) can appear at most once, the inverse is a finite polynomial, and the coefficient selects exactly one mode and one column of each color. Averaging many independent colorings controls the variance. Prefix queries then cost \\(N^3\\varepsilon^{-2}\\delta^{-1}2^{O(d)}\\) after preprocessing, with the exponent of \\(N\\) independent of \\(d\\)."
+          ],
+          "transfer": "Color coding replaces a sum over all \\(j\\)-subsets by \\(2^{O(j)}\\) passes over colorful configurations, and reweighting keeps it unbiased. Use it whenever a low-degree expansion is accurate but the degree must grow slowly with the target accuracy. Pair it with marginal sampling to turn a signed approximation into a sampler."
+        }
+      ],
+      "methods_source_section": "Sections III–VIII: Propositions 1–2, Lemmas 1–3, Theorem 2; Appendix B (color coding)",
+      "approved_on": "2026-10-21"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+      "verified_on": "2026-10-21",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "id": "2610.26785",
+      "topic": "computing",
+      "version": "v1",
+      "submitted": "2026-10-19",
+      "kind": "Numerical study and analysis",
+      "title": "Correlated decoding loses the surface code’s effective distance below threshold",
+      "authors": "César Hernando de la Fuente; Joonas Majaniemi; Evert van Nieuwenburg; Felix Frohnert",
+      "problem": "Does two-pass correlated decoding of the surface code keep its advantage far below threshold?",
+      "result": "Not with the standard reweighting rule. Under circuit-level noise some size-\\((d-1)/2\\) fault configurations cause logical failures, so the logical error rate scales like \\(p^{(d-1)/2}\\) instead of \\(p^{(d+1)/2}\\). At \\(d=3\\) and \\(p=10^{-5}\\), correlated matching fails about 4.4 times as often as plain matching. Scaling the conditional edge probabilities by an error-rate-dependent factor \\(\\alpha^*(p)\\) restores the distance scaling and a steady advantage.",
+      "significance": "Low-error and hierarchical architectures operate decoders far below threshold, where the smallest failing fault configurations dominate the logical error rate.",
+      "limitations": "The results are simulations of \\(d\\)-round memory experiments on the rotated surface code under SI1000 and uniform depolarizing noise. \\(\\alpha^*(p)\\) is an empirical three-parameter fit, and how to use correlations without losing distance in general is left open.",
+      "description": [
+        "Matching and union-find decoders split the surface-code syndrome into two graphs, one for \\(X\\)-type and one for \\(Z\\)-type checks, and decode them separately. That discards information about errors that trigger both, such as \\(Y\\) errors and cross-basis two-qubit gate errors. Correlated decoding recovers some of it in two passes. After the first pass, each selected edge \\(e_\\mu\\) is treated as having occurred, and every edge \\(e_\\nu\\) sharing an error mechanism with it is reweighted by \\[p_\\nu^{\\prime}=P(e_\\nu\\mid e_\\mu)=\\frac{p_{\\nu\\mu}}{p_\\mu},\\qquad w_\\nu^{\\prime}=\\log\\frac{1-p_\\nu^{\\prime}}{p_\\nu^{\\prime}}.\\] The second pass decodes with the updated weights. Near threshold, \\(p\\sim10^{-3}\\), this beats one-pass decoding.",
+        "The authors simulate rotated surface-code memories with \\(d\\) rounds under SI1000 noise, down to \\(p=10^{-5}\\). For correlated matching the advantage shrinks below \\(p\\simeq5\\times10^{-4}\\) at every distance. At \\(d=3\\) the correlated decoder is worse below \\(4\\times10^{-4}\\); at \\(d=5\\) it crosses over near \\(4\\times10^{-5}\\). Riverlane’s correlated Local Clustering Decoder shows the same trend, which points to the reweighting rule rather than either decoder. At \\(p=10^{-5}\\), over 80% of the \\(d=3\\) correlated failures come from syndromes that the uncorrelated decoder corrects. Fitted exponents approach \\((d-1)/2\\): one unit of effective distance is lost.",
+        "The cause is specific to circuit-level noise. One first-pass edge can be shared by several independent mechanisms, each with its own partner edge, and the rule discounts all of those partners at once. A correction that uses two discounted partners then looks cheap, although explaining both requires an extra independent fault. At \\(d=3\\) a single \\(XY\\) error on a \\(CZ\\) gate already produces such a failure.",
+        "The fix multiplies the conditional probability by a reweighting strength, \\(p_\\nu^{\\prime}(\\alpha)=\\alpha P(e_\\nu\\mid e_\\mu)\\), with the empirical model \\(\\alpha^*(p)=\\alpha_0/(1+(p_0/p)^k)\\). Regularized matching beats both alternatives down to the lowest \\(p\\) sampled. At \\(p=10^{-4}\\) the ratios to plain matching are about 0.55 at \\(d=5\\) and 0.35 at \\(d=7\\), against 0.73 and 0.45 for standard correlated matching. The new weights are computed once at initialization, so decoding speed is unchanged."
+      ],
+      "methods": [
+        {
+          "technique": "Count the independent faults behind a correction",
+          "explanation": "Matching weights are additive, so they implicitly multiply probabilities as if every edge were an independent fault. The authors compare that implied probability with the true one for corrections that reuse one first-pass edge.",
+          "math": [
+            "An edge triggered by mechanisms of total rate \\(c_\\nu p\\) has \\(p_\\nu=c_\\nu p+O(p^2)\\), so its weight is \\(w_\\nu=\\log(1/p)-\\log c_\\nu+O(p)\\): each independent fault costs about \\(\\log(1/p)\\). After conditioning on \\(e_\\mu\\), a partner has \\(q_\\nu=P(e_\\nu\\mid e_\\mu)=O(1)\\), and its weight is \\(O(1)\\).",
+            "Given \\(e_\\mu\\), only one partner can be explained by the mechanism that also produced \\(e_\\mu\\). The other needs an independent fault, with probability \\(r_\\sigma=P(e_\\sigma\\wedge\\lnot e_\\mu)=O(p)\\). To leading order \\[P(e_\\nu\\wedge e_\\sigma\\mid e_\\mu)\\simeq q_\\nu r_\\sigma+q_\\sigma r_\\nu=O(p),\\] but the second pass assigns \\(q_\\nu q_\\sigma=O(1)\\). The decoder therefore underestimates the cost by \\[\\Delta w=\\log\\frac{q_\\nu q_\\sigma}{q_\\nu r_\\sigma+q_\\sigma r_\\nu}\\simeq\\log\\frac1p,\\] the weight of one fault. When the right and wrong corrections otherwise use the same number of undiscounted edges, the \\(O(1)\\) discounted weights decide the outcome (the paper’s Eq. 11). A configuration of \\((d-1)/2\\) faults can then be matched to a logically wrong correction, and \\(P_L\\) falls only as \\(p^{(d-1)/2}\\)."
+          ],
+          "transfer": "For any decoder that updates priors conditionally (belief matching, soft-information or leakage-aware decoders), check that every combination of discounted elements still pays \\(\\log(1/p)\\) for each extra independent fault needed to explain it. Test the low-\\(p\\) scaling exponent, not only the near-threshold ratio; this failure is invisible at \\(p\\sim10^{-3}\\)."
+        },
+        {
+          "technique": "Regularize the update with one error-rate-dependent parameter",
+          "explanation": "Rather than redesign the decoder, the authors weaken the conditional update by a factor \\(\\alpha\\) chosen for the operating error rate, and fit how the best \\(\\alpha\\) varies with \\(p\\).",
+          "math": [
+            "With \\(p_\\nu^{\\prime}(\\alpha)=\\alpha q_\\nu\\), the discounted weight becomes \\(\\log\\bigl((1-\\alpha q_\\nu)/(\\alpha q_\\nu)\\bigr)\\), which for small \\(\\alpha q_\\nu\\) is about \\(w_\\nu^{\\prime}(1)+\\log(1/\\alpha)\\). Every discounted edge pays an extra \\(\\log(1/\\alpha)\\). A correction using two discounted partners pays it twice, while the correct correction, with one partner, pays it once. The penalty is therefore aimed at exactly the over-discounted corrections.",
+            "Near threshold, larger fault configurations dominate and strong reweighting (\\(\\alpha\\approx1\\)) helps. Far below threshold, gentler discounts are needed. The fit \\(\\alpha^*(p)=\\alpha_0/(1+(p_0/p)^k)\\) interpolates between the two regimes; at \\(p\\sim10^{-5}\\) it gives \\(\\alpha^*\\simeq0.03\\), which is still nonzero. Editorial reading: for \\(p\\ll p_0\\), \\(\\log(1/\\alpha^*)\\approx k\\log(p_0/p)-\\log\\alpha_0\\), so the penalty grows with \\(\\log(1/p)\\), like the missing fault weight it compensates."
+          ],
+          "transfer": "When a heuristic correction helps near threshold but hurts far below it, add one strength parameter, grid-search it across \\(p\\), and fit a smooth interpolation. Check that the fitted penalty scales like the error the heuristic neglects. Because the weights can be computed at initialization, the decoder’s latency is unchanged."
+        }
+      ],
+      "methods_source_section": "Main text (Setup; Origin of the correlated decoder failures; Regularized correlated decoding); Appendices C, E.1 and G",
+      "approved_on": "2026-10-21"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+      "verified_on": "2026-10-21",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "id": "2610.27854",
+      "topic": "information",
+      "version": "v1",
+      "submitted": "2026-10-20",
+      "kind": "Experiment",
+      "title": "Trapped-ion-based quantum repeater node across a 17 km metropolitan fiber",
+      "authors": "K. Fabitha; T. Runggaldier; A. Winkler; F. Bernecker; J. Bate; M. Canteri; J. Helgert; T. E. Northup; V. Krutyanskiy; B. P. Lanyon",
+      "problem": "Can a trapped-ion repeater node distribute entanglement over deployed city fiber rather than a laboratory spool?",
+      "result": "A two-ion node in Innsbruck entangled a photon sent through 17 km of rented municipal fiber with a photon detected locally. The Bell-state fidelity was \\(81.6^{+1.9}_{-1.4}\\%\\) (with feed-forward simulated), at 0.69 successes per second. Storing the first ion qubit raised the success probability 13.6-fold over sending both photons without memory.",
+      "significance": "The deployed fiber did not significantly limit fidelity: polarization drifts were corrected periodically, and background light was removed with a GHz-wide filter.",
+      "limitations": "Only one fiber segment is deployed; the other is a few metres long. The reported photon–photon fidelity uses simulated, not implemented, feed-forward. Stored entanglement between separate nodes is not shown, and part of the infidelity is unexplained.",
+      "description": [
+        "A quantum repeater node holds at least two matter qubits between two fibers. It entangles one qubit with a photon sent one way, stores it, entangles the second qubit with a photon sent the other way, and then performs a Bell-state measurement on the two qubits. That measurement swaps the entanglement onto the two photons. Here the node is a cavity-integrated Paul trap with two \\({}^{40}\\mathrm{Ca}^+\\) ions. A Raman pulse ideally produces \\((\\ket{DV}+e^{-i\\phi}\\ket{D^{\\prime}H})/\\sqrt2\\) between the ion and the polarization of an 854 nm photon. For the long link the photon is converted to 1550 nm and sent through 16.74 km of dark municipal fiber to an office 5.2 km away; detector clicks return over a second fiber, taking 82 µs each way.",
+        "The fiber was characterized first. Its transmission was 0.192, against 0.463 expected from typical attenuation; the difference is attributed to splices and connectors. Polarization drifted with outdoor temperature on a daily cycle, but the process fidelity between measurements 21 minutes apart stayed above 0.99 throughout four days. Background light gave 10.8 counts per second with a 12 nm filter and 1.2 with a 1.7 GHz fiber Bragg grating, which matches detector dark counts. Distributing ion–photon entanglement over the link succeeded with probability \\(1.13\\times10^{-3}\\) per attempt, with fidelity 0.88(2) and concurrence 0.77(3).",
+        "For the repeater protocol, photons were sent to the remote station first (up to 20 attempts) and, after a success, to the local station (up to 22 attempts) while ion 1 was stored in a dynamically decoupled ground-state qubit. A Mølmer–Sørensen gate and ion readout then performed the deterministic Bell-state measurement. Over 4.5 hours there were 3369 successes, with success probability \\(7.52\\times10^{-4}\\) per attempt. The four heralded photon–photon states had fidelities between 78% and 84%. Applying the outcome-dependent rotations numerically gives \\(81.6^{+1.9}_{-1.4}\\%\\).",
+        "For the remote ion–photon state, the infidelity budget attributes 0.07 to background counts, 0.060 to memory decoherence (possibly 50 Hz magnetic noise), 0.032 to the initial ion–photon state and 0.014 to fiber drift. These sum to 0.176(16), against a measured 0.13(3). The local state’s infidelity of 0.09(3) is not yet explained. The authors estimate that combining known component improvements would raise remote delivery to \\(10^{-2}\\) per attempt. A 68 km chain of improved nodes would then herald ion–ion entanglement in about 5.4 s, which requires about 3.6 s of memory coherence."
+      ],
+      "methods": [
+        {
+          "technique": "Store the qubit for the fast link, not the slow one",
+          "explanation": "The two links have very different success probabilities. The protocol attempts the slow, remote link first, so that the stored qubit waits only for the fast local link.",
+          "math": [
+            "Without memory, both photons must arrive in the same attempt: \\[P_{\\mathrm s}^{\\mathrm{single}}=P_{\\mathrm B,1}P_{\\mathrm A,2}=1.38\\times10^{-3}\\times4.02\\times10^{-2}=5.55\\times10^{-5}.\\] With memory, once the remote photon has arrived the local link gets \\(k\\) tries, succeeding with probability \\(1-(1-P_{\\mathrm A,2})^k\\). As \\(k\\to\\infty\\) the gain approaches \\(1/P_{\\mathrm A,2}=24.9\\).",
+            "With \\(k=22\\), the ideal success probability would be \\(1-(1-0.0402)^{22}\\approx0.59\\) (editorial calculation). The measured value was 0.556, lower because photon generation in the second loop runs without optical pumping. The memory factor is therefore about \\(0.556\\times24.9\\approx13.8\\), consistent with the measured 13.6(4). Reversing the order would leave the qubit stored for about \\(1/P_{\\mathrm B,1}\\approx700\\) attempts (the paper estimates of order \\(10^3\\)) instead of about 25."
+          ],
+          "transfer": "In any heralded two-link protocol with asymmetric success probabilities, attempt the slow link first and store its qubit. Memory time then scales with the inverse of the fast link’s probability. The rate gain is bounded by that inverse, which tells you when adding more attempts stops paying (here, less than a factor of two)."
+        },
+        {
+          "technique": "Correct a drifting fiber by tomography and inversion",
+          "explanation": "Fiber birefringence rotates photon polarization and drifts with temperature. Between runs, the authors measure the fiber’s process and apply its inverse with waveplates.",
+          "math": [
+            "Six input polarizations and a polarimeter give the fiber’s Choi matrix \\(E\\) by maximum likelihood. Each measured process was close to unitary (fidelity 0.994 to 0.998). The nearest unitary \\(U(t)\\) is found, and waveplates before the fiber implement \\(U^{-1}(t)\\), so that ideally \\(U^{-1}U=\\mathbb 1\\). Stability is measured by the process fidelity \\(F(E_1,E_2)=\\bigl(\\operatorname{tr}\\sqrt{\\sqrt{E_1}E_2\\sqrt{E_1}}\\bigr)^2\\).",
+            "Editorial link to the Bell fidelity: for unitary processes, \\(F=|\\operatorname{tr}(U_1^\\dagger U_2)|^2/4\\). A residual rotation \\(V=U_1^\\dagger U_2\\) applied to one half of a Bell pair \\(\\ket\\Phi\\) gives \\(|\\bra\\Phi(\\mathbb 1\\otimes V)\\ket\\Phi|^2=|\\operatorname{tr}V|^2/4\\), the same number. If \\(V\\) rotates by angle \\(\\theta\\), both equal \\(\\cos^2(\\theta/2)\\). A process fidelity of 0.99 is therefore a residual rotation of about 11.5° and costs about 1% of Bell fidelity, in line with the 0.014 the budget attributes to fiber drift."
+          ],
+          "transfer": "For a slowly drifting unitary channel, the measured stability time sets the recalibration interval. For unitary errors, the process fidelity between successive calibrations directly gives the Bell-fidelity loss, so drift can be budgeted before any entanglement is distributed."
+        }
+      ],
+      "methods_source_section": "Sections I–IV (Fig. 1, Tables 1–2); Appendices A4, B2 and C",
+      "approved_on": "2026-10-21"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+      "verified_on": "2026-10-21",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "id": "2610.25518",
+      "topic": "information",
+      "version": "v1",
+      "submitted": "2026-10-18",
+      "kind": "Theory",
+      "title": "Randomness Certification from Statistically Hiding Commitments",
+      "authors": "Ilya Merkulov; Rotem Arnon",
+      "problem": "What cryptographic assumption lets a classical verifier certify randomness from a single untrusted quantum device, secure against quantum side information?",
+      "result": "A statistically hiding bit commitment that is computationally binding against quantum senders suffices; stronger notions such as collapse-binding are not needed. Consequently, post-quantum one-way permutations suffice. Trapdoor claw-free functions give an efficient verifier, and the quantum random-oracle model gives certification with no further assumption but an inefficient verifier.",
+      "significance": "Separates what security needs (hiding and binding) from what efficient verification needs (a trapdoor to recover unique openings), and shows that a proof of quantumness is not automatically a randomness certificate.",
+      "limitations": "The honest prover gets past the hashing step only with probability about \\(1/(10m)\\), so the single-round gap is inverse-polynomial. Whether arbitrary post-quantum one-way functions suffice is open, and the random-oracle verifier uses exhaustive search.",
+      "description": [
+        "A Bell test certifies that outputs are random, even to an adversary holding quantum side information, because spatially separated devices cannot learn each other’s inputs. A single device sees the whole transcript, so the separation must come from computational hardness instead. In the computational Bell framework, a virtual input \\(x=\\xi(t)\\) is a function of the transcript that the device cannot efficiently compute, and a virtual output \\(a=\\alpha(t)\\) is defined alongside it. A fresh challenge \\(y\\) and the device’s answer \\(b\\) complete a CHSH round, accepted when \\(a\\oplus b=xy\\).",
+        "The paper distinguishes two kinds of hiding. If \\(x\\) is hidden from efficient classical predictors, a classical device cannot win with probability above \\(3/4\\) plus a negligible amount, so winning more proves quantumness. Randomness needs more. If a quantum device could recover \\(x\\) from its leftover quantum state, it could tailor its answer to \\(x\\) and win without the incompatible measurements that force uncertainty. The virtual input must therefore be hidden from quantum predictors that hold the residual state.",
+        "The protocol builds on a construction of Morimae and Yamakawa. The prover runs the commitment’s sender in superposition. Pairwise-independent hashing isolates one valid opening for each bit, leaving \\(\\ket0\\ket{x_0}+\\ket1\\ket{x_1}\\). The verifier sends random strings \\(r_0,r_1\\), and the prover computes inner products and measures in the Hadamard basis. This leaves a BB84 state whose basis is the virtual input \\(\\xi=(x_0\\cdot r_0)\\oplus(x_1\\cdot r_1)\\). Measuring \\(M_y=(Z+(-1)^yX)/\\sqrt2\\) wins CHSH with probability \\(\\cos^2(\\pi/8)\\approx0.854\\). Theorem 1 shows that \\(\\xi\\) is hidden from quantum predictors if the commitment is binding against quantum senders.",
+        "Theorem 2 then bounds the conditional entropy of the answer, \\(H(B\\mid T,Y,E)\\ge c_0-O(\\sqrt\\varepsilon)-\\mathrm{negl}(\\lambda)/\\gamma\\), when the device wins with probability \\(\\omega^*-\\varepsilon\\). A direct proof via Jordan’s lemma and entropic uncertainty relations is also given. Entropy accumulation extends this to a sequential protocol with smooth min-entropy guarantees. The two instantiations isolate the role of the trapdoor. Claw-free functions let the verifier recover the unique openings efficiently. The hash commitment \\(c=\\mathcal G(b\\|r)\\) in the random-oracle model satisfies hiding and binding, but its verifier must search exhaustively."
+      ],
+      "methods": [
+        {
+          "technique": "Hide a BB84 basis inside two commitment openings",
+          "explanation": "The prover holds a superposition of the two openings of one commitment. Random inner products plus a Hadamard measurement leave a single qubit whose basis is an unpredictable bit of the transcript.",
+          "math": [
+            "After the verifier sends \\(r_0,r_1\\), the honest state is \\(\\ket0\\ket{x_0}\\ket{x_0\\cdot r_0}+\\ket1\\ket{x_1}\\ket{x_1\\cdot r_1}\\). The bit register is uncomputed, since \\(b\\) is determined by \\(x\\). Measuring the opening register in the Hadamard basis uses \\(H^{\\otimes\\ell}\\ket x=2^{-\\ell/2}\\sum_d(-1)^{d\\cdot x}\\ket d\\). Outcome \\(d\\) leaves \\[\\ket{\\psi_t}\\propto\\ket{x_0\\cdot r_0}+(-1)^{d\\cdot(x_0\\oplus x_1)}\\ket{x_1\\cdot r_1}.\\] If the two inner products agree (\\(\\xi=0\\)), this is the \\(Z\\) eigenstate \\(\\ket{x_0\\cdot r_0}\\). If they differ (\\(\\xi=1\\)), it is an \\(X\\) eigenstate with sign bit \\(d\\cdot(x_0\\oplus x_1)\\). These are the virtual outputs \\(a\\) of Definition 3.2.",
+            "CHSH check (editorial). For \\(\\xi=0\\) the target is \\(b=a\\); measuring along \\((Z\\pm X)/\\sqrt2\\), at \\(45^\\circ\\) to \\(Z\\), gives it with probability \\(\\cos^2(\\pi/8)\\). For \\(\\xi=1\\) the target is \\(b=a\\oplus y\\): \\(M_0\\) leans toward \\(+X\\), so \\(b=a\\), while \\(M_1\\) leans toward \\(-X\\), so \\(b=a\\oplus1\\). Each case wins with probability \\(\\cos^2(\\pi/8)\\approx0.854>3/4\\)."
+          ],
+          "transfer": "Measuring in the Hadamard basis a register that holds one of two strings collapses the remaining qubit’s phase to the parity \\(d\\cdot(x_0\\oplus x_1)\\). Combined with public random inner products, this prepares a BB84 state remotely whose basis the preparer cannot know. It works from any primitive that yields a coherent pair of preimages: commitments, two-to-one functions, claw-free pairs."
+        },
+        {
+          "technique": "Turn a predictor into two openings",
+          "explanation": "Security reduces predicting the virtual input to breaking binding. A predictor for \\(\\xi\\) is converted, via a quantum Goldreich–Levin procedure, into a sender that outputs both openings of one commitment.",
+          "math": [
+            "The virtual input is an inner product of a secret with public randomness: \\[\\xi=(x_0\\cdot r_0)\\oplus(x_1\\cdot r_1)=(x_0\\|x_1)\\cdot(r_0\\|r_1).\\] The Goldreich–Levin theorem states that if \\(w\\cdot r\\) can be guessed with probability \\(\\tfrac12+\\eta\\) over uniform \\(r\\), then \\(w\\) can be recovered in time \\(\\mathrm{poly}(\\ell,1/\\eta)\\). Editorial intuition for the easy case: \\(w\\cdot r\\oplus w\\cdot(r\\oplus e_i)=w_i\\), so two guesses with error rate below \\(1/4\\) give each bit \\(w_i\\) by majority vote. The full theorem handles any non-negligible advantage, and the Adcock–Cleve version applies to quantum predictors.",
+            "Recovering \\(x_0\\|x_1\\) gives classical openings of the same commitment to both 0 and 1 in a single execution. That is exactly the event that computational binding against quantum senders forbids, so \\(\\Pr[\\text{predict }\\xi]\\le\\tfrac12+\\mathrm{negl}(\\lambda)\\) whenever the protocol continues with non-negligible probability. The proof never needs the committed bit to be fixed after the commit phase. This is why collapse-binding and sum-binding are not required."
+          ],
+          "transfer": "To prove that a hidden bit is unpredictable, write it as an inner product of secret strings with fresh public randomness. Goldreich–Levin then turns any predictor into an extractor for the secrets, and security reduces to the hardness of producing them: binding, claw-freeness or collision resistance. Check which form of the underlying assumption the extraction actually contradicts; it may be weaker than expected."
+        }
+      ],
+      "methods_source_section": "Section 1.2–1.4; Section 3 (Protocol 1, Definition 3.2, Theorems 1 and 4); Section 5",
+      "approved_on": "2026-10-21"
     }
   ]
 }
