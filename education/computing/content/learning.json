@@ -275,9 +275,9 @@
       },
       {
         "kind": "Worked problem",
-        "question": "An operation \\(G\\) on a qubit has the real weights \\(G(0\\to0)=G(1\\to1)=\\cos\\alpha\\), \\(G(0\\to1)=\\sin\\alpha\\), and \\(G(1\\to0)=-\\sin\\alpha\\). Check the two conditions on an operation, compute the two-step weights by path sums, and find the \\(\\alpha\\) for which two steps send \\(0\\) to \\(1\\).",
+        "question": "An operation \\(G\\) on a qubit has the real weights \\(\\bra0G\\ket0=\\bra1G\\ket1=\\cos\\alpha\\), \\(\\bra1G\\ket0=\\sin\\alpha\\), and \\(\\bra0G\\ket1=-\\sin\\alpha\\). Check the two conditions on an operation, compute the two-step weights by path sums, and find the \\(\\alpha\\) for which two steps send \\(0\\) to \\(1\\).",
         "hints": [
-          "The cross sum is \\(G(0\\to0)G(1\\to0)+G(0\\to1)G(1\\to1)\\).",
+          "The cross sum is \\(\\bra0G\\ket0\\bra0G\\ket1+\\bra1G\\ket0\\bra1G\\ket1\\).",
           "Two steps from \\(0\\) give \\(\\cos2\\alpha\\) at \\(0\\) and \\(\\sin2\\alpha\\) at \\(1\\)."
         ],
         "answer": "The squares leaving each configuration add to \\(\\cos^2\\alpha+\\sin^2\\alpha=1\\), and the cross sum is \\(-\\cos\\alpha\\sin\\alpha+\\sin\\alpha\\cos\\alpha=0\\). From \\(0\\): weight \\(\\cos^2\\alpha-\\sin^2\\alpha=\\cos2\\alpha\\) at \\(0\\) and \\(2\\sin\\alpha\\cos\\alpha=\\sin2\\alpha\\) at \\(1\\). From \\(1\\): \\(-\\sin2\\alpha\\) at \\(0\\) and \\(\\cos2\\alpha\\) at \\(1\\). At \\(\\alpha=\\pi/4\\), two steps send \\(0\\) to \\(1\\) and \\(1\\) to \\(-0\\): NOT, except for a relative sign. Real weights reach NOT only up to this sign; exactly NOT needs complex weights.",
@@ -285,7 +285,7 @@
       },
       {
         "kind": "Worked problem",
-        "question": "A proposed step has all four weights equal to \\(1/\\sqrt2\\). (a) Check the outgoing-normalization condition for each definite input. (b) Check the cross-sum condition \\(\\sum_jw(0\\to j)^*w(1\\to j)=0\\). (c) Apply the step to the normalized input \\((\\tfrac{1}{\\sqrt2},\\tfrac{1}{\\sqrt2})\\) and find the total of the squared magnitudes. What goes wrong?",
+        "question": "A proposed step \\(S\\) has all four weights \\(\\bra jS\\ket i\\) equal to \\(1/\\sqrt2\\). (a) Check the outgoing-normalization condition for each definite input. (b) Check the cross-sum condition \\(\\sum_j(\\bra jS\\ket0)^*\\bra jS\\ket1=0\\). (c) Apply the step to the normalized input \\((\\tfrac{1}{\\sqrt2},\\tfrac{1}{\\sqrt2})\\) and find the total of the squared magnitudes. What goes wrong?",
         "hints": [
           "From either input the outgoing squared magnitudes are \\(\\frac12+\\frac12\\).",
           "Each new amplitude is \\(\\frac{1}{\\sqrt2}(v_0+v_1)\\)."
@@ -295,7 +295,7 @@
       },
       {
         "kind": "Worked problem",
-        "question": "Let \\(S\\) be the square root of NOT, with stay-weight \\(a=(1+i)/2\\) and switch-weight \\(b=(1-i)/2\\). Starting at \\(0\\), find the amplitudes after three steps of \\(S\\), and after four. Use \\(S^2=X\\) to shorten the calculation, and give the probabilities.",
+        "question": "Let \\(\\sqrt X\\) be the square root of NOT, with stay-weight \\(a=(1+i)/2\\) and switch-weight \\(b=(1-i)/2\\). Starting at \\(\\ket0\\), find the amplitudes after three steps of \\(\\sqrt X\\), and after four. Use \\(\\sqrt X\\sqrt X=X\\) to shorten the calculation, and give the probabilities.",
         "hints": [
           "Three steps are two steps (\\(X\\)) followed by one more, or one followed by two.",
           "One step from \\(0\\) gives \\((a,b)\\); NOT exchanges the two amplitudes."
@@ -325,7 +325,7 @@
       },
       {
         "kind": "Extension",
-        "question": "Apply \\(H\\), then the phase step with \\(w(0\\to0)=1\\) and \\(w(1\\to1)=e^{i\\phi}\\), then \\(H\\), to \\(0\\). Using path sums, find the probability of outcome \\(0\\) as a function of \\(\\phi\\), and the values of \\(\\phi\\) that make each outcome certain.",
+        "question": "Apply \\(H\\), then the phase step \\(R\\) with \\(\\bra0R\\ket0=1\\) and \\(\\bra1R\\ket1=e^{i\\phi}\\), then \\(H\\), to \\(0\\). Using path sums, find the probability of outcome \\(0\\) as a function of \\(\\phi\\), and the values of \\(\\phi\\) that make each outcome certain.",
         "hints": [
           "There are two paths to each final configuration.",
           "The path through \\(1\\) picks up the factor \\(e^{i\\phi}\\)."
@@ -335,9 +335,9 @@
       },
       {
         "kind": "Extension",
-        "question": "Find a one-bit step \\(A\\) that changes only phases (\\(A(0\\to1)=A(1\\to0)=0\\)) and satisfies \\(A^2=Z\\). How many such steps are there? Then compute the probability of \\(0\\) after \\(H\\), \\(A\\), \\(H\\) starting at \\(0\\), and compare it with \\(H\\), \\(Z\\), \\(H\\). What does “half of \\(Z\\)” do to the interference?",
+        "question": "Find a one-bit step \\(A\\) that changes only phases (\\(\\bra1A\\ket0=\\bra0A\\ket1=0\\)) and satisfies \\(A^2=Z\\). How many such steps are there? Then compute the probability of \\(0\\) after \\(H\\), \\(A\\), \\(H\\) starting at \\(0\\), and compare it with \\(H\\), \\(Z\\), \\(H\\). What does “half of \\(Z\\)” do to the interference?",
         "hints": [
-          "Write \\(A(0\\to0)=p\\), \\(A(1\\to1)=q\\), and require \\(p^2=1\\), \\(q^2=-1\\).",
+          "Write \\(\\bra0A\\ket0=p\\), \\(\\bra1A\\ket1=q\\), and require \\(p^2=1\\), \\(q^2=-1\\).",
           "Use \\(p(0)=(1+\\cos\\phi)/2\\) for a relative phase \\(\\phi\\)."
         ],
         "answer": "Two steps of a diagonal step multiply each weight by itself, so \\(p^2=1\\) and \\(q^2=-1\\): \\(p=\\pm1\\) and \\(q=\\pm i\\). That gives four steps, and each satisfies normalization because \\(|p|=|q|=1\\). Take \\(A\\) with \\(p=1\\), \\(q=i\\). After \\(H\\) the amplitudes are \\((\\frac{1}{\\sqrt2},\\frac{1}{\\sqrt2})\\); \\(A\\) changes them to \\((\\frac{1}{\\sqrt2},\\frac{i}{\\sqrt2})\\), a relative phase \\(\\pi/2\\). The final \\(H\\) gives \\(p(0)=(1+\\cos\\frac\\pi2)/2=\\frac12\\). With \\(Z\\), the relative phase is \\(\\pi\\) and \\(p(0)=0\\); with no step it is \\(0\\) and \\(p(0)=1\\). Half the phase gives a probability halfway between, not a step halfway between “keep” and “flip.” The step with \\(q=i\\) reappears in later chapters as the phase gate \\(S\\).",
@@ -347,7 +347,7 @@
   },
   "04-states-measurement": {
     "purpose": "Use state vectors and inner products to describe transition amplitudes and geometry, then express operations as matrices and calculate measurement outcomes.",
-    "before": "The prerequisites are the complex amplitudes, normalization, path sums, cross-sum condition, and complete configuration labels developed in Chapter 3. This chapter introduces ket notation and the state update after measurement.",
+    "before": "The prerequisites are the ket notation for states and arrow weights, complex amplitudes, normalization, path sums, the cross-sum condition, and complete configuration labels developed in Chapter 3. This chapter turns kets into vectors and steps into matrices, and adds the state update after measurement.",
     "outcomes": [
       "Write states as vectors and interpret inner products as final-state amplitudes.",
       "Represent operations as matrices and use adjoints to test unitarity.",
@@ -1106,7 +1106,7 @@
       },
       {
         "kind": "Worked problem",
-        "question": "Using \\(R_x(\\theta)=\\cos\\frac\\theta2I-i\\sin\\frac\\theta2X\\) and \\(X^2=I\\), show that \\(R_x(\\alpha)R_x(\\beta)=R_x(\\alpha+\\beta)\\). Deduce that \\(R_x(\\pi/2)\\) is a square root of NOT up to global phase, and compare it with the square root \\(S\\) of Chapter 3, whose stay-weight is \\(\\frac{1+i}{2}\\) and switch-weight is \\(\\frac{1-i}{2}\\).",
+        "question": "Using \\(R_x(\\theta)=\\cos\\frac\\theta2I-i\\sin\\frac\\theta2X\\) and \\(X^2=I\\), show that \\(R_x(\\alpha)R_x(\\beta)=R_x(\\alpha+\\beta)\\). Deduce that \\(R_x(\\pi/2)\\) is a square root of NOT up to global phase, and compare it with the square root \\(\\sqrt X\\) of Chapter 3, whose stay-weight is \\(\\frac{1+i}{2}\\) and switch-weight is \\(\\frac{1-i}{2}\\).",
         "hints": [
           "Multiply out and use the angle-addition formulas.",
           "\\(R_x(\\pi)=-iX\\). Write \\(e^{i\\pi/4}=\\frac{1+i}{\\sqrt2}\\)."

@@ -559,7 +559,7 @@ html[data-theme=dark] .ebook .book-lab .understanding-check{background:#edf2f7;c
   html[data-theme=dark] :is(.course-card,.research-category,.landing-paths>section,.ebook .learning-guide,.ebook .prediction,.ebook .principle){background:#fff;color:#222;box-shadow:none;backdrop-filter:none}
 }
 /* Keep chapter-specific heading treatments and map branches readable at night. */
-html[data-theme=dark] body.ebook :is(h1,h2,h3,h4):not(.chapter-header h1,.book-part>h2,.book-section>h2,.book-section>h3,.topic-heading){color:var(--heading)}
+html[data-theme=dark] body.ebook :is(h1,h2,h3,h4):not(.chapter-header h1,.book-part>h2,.book-section>h2,.book-section>h3,.topic-heading,.chapter-summary h2){color:var(--heading)}
 html[data-theme=dark] .ebook .chapter-topic-map{--map-line:#384656}
 html[data-theme=dark] .ebook .topic-map-root{background:var(--surface);color:var(--ink)}
 html[data-theme=dark] .ebook .topic-map-branch li a{color:#b2c0d0}
@@ -693,6 +693,16 @@ html[data-theme=dark] body.ebook .book-section pre{background:var(--surface);bor
   .news-toolbar nav{flex-wrap:nowrap;gap:2px}
   .news-toolbar nav a.icon-nav{flex-basis:38px;width:38px;height:38px;padding:7px}
 }
+/* End-of-chapter summary: key takeaways before the practice questions (education/chapter_summary.py). */
+.ebook .chapter-summary{margin:3em 0 2.5em;padding:1.4em 1.6em 1.2em;border-left:3px solid var(--section-heading);border-radius:0 6px 6px 0;background:var(--surface)}
+.ebook .chapter-summary h2{margin:0 0 .7em;color:var(--section-heading)}
+.ebook .takeaway-list{margin:0;padding:0;list-style:none}
+.ebook .takeaway-list li{position:relative;margin:0 0 .85em;padding-left:1.3em;line-height:1.7}
+.ebook .takeaway-list li:last-child{margin-bottom:0}
+.ebook .takeaway-list li::before{content:"";position:absolute;left:.15em;top:.68em;width:.45em;height:.45em;border-radius:50%;background:var(--section-heading)}
+.ebook .takeaway-list strong{color:var(--heading)}
+@media(max-width:520px){.ebook .chapter-summary{padding:1.1em 1em 1em}}
+@media print{.ebook .chapter-summary{break-inside:avoid;background:none}}
 /* Accessibility: shared by every page; keep this section last so it refines everything above. */
 .visually-hidden{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 main :is(p,li,dd,td,th,blockquote,figcaption) a:not([class]):not(nav a,.chapter-topic-map a){text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em;text-decoration-color:color-mix(in srgb,currentColor 55%,transparent)}

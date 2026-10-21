@@ -242,9 +242,9 @@
    arrow(svg,cx,cy,...pt(Math.cos(b),Math.sin(b)),'c-teal');arrow(svg,cx,cy,...pt(Math.cos(a),Math.sin(a)),'c-state',3);arrow(svg,cx,cy,...pt(...foot),'c-neg',5);
    label(svg,...pt(1.17*Math.cos(a),1.17*Math.sin(a)+.04),'|ψ⟩',{class:'tint c-state'});label(svg,...pt(1.17*Math.cos(b),1.17*Math.sin(b)+.04),'|φ⟩',{class:'tint c-teal'});
    [[`angle between: ${theta}°`,60],[`⟨φ|ψ⟩ = cos θ = ${minus(fmt(amp))}`,100],[`|⟨φ|ψ⟩|² = ${fmt(amp*amp)}`,140]].forEach(([t,y])=>node(svg,'text',{x:320,y},t));
-   bar(svg,320,156,180,amp*amp);node(svg,'text',{x:320,y:200,class:'lf-caption'},'probability of the outcome φ');
+   bar(svg,320,156,180,amp*amp);node(svg,'text',{x:320,y:200,class:'lf-caption'},'squared length of the component');
    math(lab.querySelector('[data-state]'),`\\(\\braket\\phi\\psi=${fmt(amp)}\\) and \\(|\\braket\\phi\\psi|^2=${fmt(amp*amp)}\\).`);
-   lab.querySelector('[data-status]').textContent=Math.abs(amp)<1e-9?'The states are orthogonal: the component along |φ⟩ is zero, and so is the probability.':amp<0?'The amplitude is negative: the component points against |φ⟩, but its square is still a probability.':Math.abs(amp-1)<1e-9?'The states coincide: the component is the whole vector.':'The orange component is the part of |ψ⟩ along |φ⟩; the dashed segment is the orthogonal remainder.';
+   lab.querySelector('[data-status]').textContent=Math.abs(amp)<1e-9?'The states are orthogonal: the component along |φ⟩ is zero, and so is its square.':amp<0?'The amplitude is negative: the component points against |φ⟩, but its square is still nonnegative.':Math.abs(amp-1)<1e-9?'The states coincide: the component is the whole vector.':'The orange component is the part of |ψ⟩ along |φ⟩; the dashed segment is the orthogonal remainder.';
    lab.dataset.amplitude=String(amp);
   }
   psiIn.oninput=phiIn.oninput=draw;lab.querySelector('[data-reset]').onclick=()=>{psiIn.value=30;phiIn.value=0;draw()};draw();
@@ -524,7 +524,7 @@
  });
  document.querySelectorAll('[data-lab="square-root"]').forEach(lab=>{
   const svg=stage(lab,680,330,'A step with weights a, b, c, d and its two-step paths'),sliders=['switch','stay-phase','switch-phase','one-phase'].map(k=>lab.querySelector(`[data-${k}]`));
-  // Complex numbers are pairs [re, im]; a step is a 2×2 array w[i][k] = w(i→k).
+  // Complex numbers are pairs [re, im]; a step is a 2×2 array w[i][k] = ⟨k|A|i⟩, the weight from i to k.
   const add=(a,b)=>[a[0]+b[0],a[1]+b[1]],mul=(a,b)=>[a[0]*b[0]-a[1]*b[1],a[0]*b[1]+a[1]*b[0]],scale=(a,s)=>[a[0]*s,a[1]*s],abs2=a=>a[0]**2+a[1]**2,conj=a=>[a[0],-a[1]],cis=t=>[Math.cos(t),Math.sin(t)];
   const div=(a,b)=>{const d=abs2(b);return[(a[0]*b[0]+a[1]*b[1])/d,(a[1]*b[0]-a[0]*b[1])/d]},root=([x,y])=>{const r=Math.hypot(x,y);return[Math.sqrt((r+x)/2),(y<0?-1:1)*Math.sqrt(Math.max(0,(r-x)/2))]};
   const two=A=>[0,1].map(i=>[0,1].map(k=>add(mul(A[i][0],A[0][k]),mul(A[i][1],A[1][k])))),gap=(A,B)=>[0,1].reduce((t,i)=>t+[0,1].reduce((u,k)=>u+abs2(add(A[i][k],scale(B[i][k],-1))),0),0);

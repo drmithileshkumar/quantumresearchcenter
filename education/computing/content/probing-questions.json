@@ -146,8 +146,8 @@
   },
   "topic-3-2-2": {
     "foundation": "Under KEEP-OR-FLIP, how many possible paths lead from \\(0\\) to \\(1\\) in three steps, and what does the count tell us?",
-    "application": "A rule has \\(P(0\\mid0)=2/3\\), \\(P(1\\mid0)=1/3\\), \\(P(0\\mid1)=1/4\\), and \\(P(1\\mid1)=3/4\\). Use the sum rule to compute the four two-step weights \\(w(i\\Rightarrow k)\\), and check that the weights from each start add to \\(1\\).",
-    "challenge": "Prove that, for any probabilistic rule, the two-step weights \\(w(i\\Rightarrow k)\\) given by the sum and product rules add to \\(1\\) over \\(k\\). What does this show about composing two probabilistic steps?"
+    "application": "A rule has \\(P(0\\mid0)=2/3\\), \\(P(1\\mid0)=1/3\\), \\(P(0\\mid1)=1/4\\), and \\(P(1\\mid1)=3/4\\). Use the sum rule to compute the four two-step weights \\(\\bra kSS\\ket i\\), and check that the weights from each start add to \\(1\\).",
+    "challenge": "Prove that, for any probabilistic rule, the two-step weights \\(\\bra kSS\\ket i\\) given by the sum and product rules add to \\(1\\) over \\(k\\). What does this show about composing two probabilistic steps?"
   },
   "topic-3-2-3": {
     "foundation": "Apply one step of COIN, and separately one step of NOT, to the state with weights \\(0.9\\) on \\(0\\) and \\(0.1\\) on \\(1\\).",
@@ -171,7 +171,7 @@
   },
   "topic-3-4-1": {
     "foundation": "A symmetric step has stay-weight \\(a\\) and switch-weight \\(b\\). Write the two-step weights for returning and switching. Why can real \\(a,b\\) not make two steps equal NOT?",
-    "application": "For the operation \\(S\\) with \\(S(0\\to0)=S(1\\to1)=(1+i)/2\\) and \\(S(0\\to1)=S(1\\to0)=(1-i)/2\\), compute the two-step weights from \\(1\\) to \\(0\\) and to \\(1\\).",
+    "application": "For the square root of NOT, \\(\\sqrt X\\), with \\(\\bra0\\sqrt X\\ket0=\\bra1\\sqrt X\\ket1=(1+i)/2\\) and \\(\\bra1\\sqrt X\\ket0=\\bra0\\sqrt X\\ket1=(1-i)/2\\), compute the two-step weights from \\(1\\) to \\(0\\) and to \\(1\\).",
     "challenge": "Find every operation with \\(S(0\\to0)=S(1\\to1)=a\\) and \\(S(0\\to1)=S(1\\to0)=b\\) whose two steps give NOT. Show in particular that \\(a\\) and \\(b\\) cannot both be real."
   },
   "topic-3-4-2": {
@@ -190,7 +190,7 @@
     "challenge": "Find numbers \\(a\\) and \\(b\\) with \\(\\ket0=a\\,\\tfrac{\\ket0+\\ket1}{\\sqrt2}+b\\,\\tfrac{\\ket0-\\ket1}{\\sqrt2}\\). Relative to which basis is \\((\\ket0+\\ket1)/\\sqrt2\\) a superposition, and relative to which is it not?"
   },
   "topic-4-1-3": {
-    "foundation": "An operation has weights \\(w(0\\to0)=0\\), \\(w(0\\to1)=i\\), \\(w(1\\to0)=-i\\), and \\(w(1\\to1)=0\\). Write its matrix, and apply it to \\(\\ket0\\) and \\(\\ket1\\).",
+    "foundation": "An operation \\(U\\) has weights \\(\\bra0U\\ket0=0\\), \\(\\bra1U\\ket0=i\\), \\(\\bra0U\\ket1=-i\\), and \\(\\bra1U\\ket1=0\\). Write its matrix, and apply it to \\(\\ket0\\) and \\(\\ket1\\).",
     "application": "Compute the matrices \\(XH\\) and \\(HX\\), and apply each to \\(\\ket0\\). Can the outputs differ by only a global phase?",
     "challenge": "A proposed rule sends \\(\\alpha\\ket0+\\beta\\ket1\\) to \\(\\alpha\\ket0+2\\beta\\ket1\\), rescaled so that the squared magnitudes add to \\(1\\). Show that the rule is not linear by comparing its action on \\(\\ket0\\), \\(\\ket1\\), and \\((\\ket0+\\ket1)/\\sqrt2\\)."
   },

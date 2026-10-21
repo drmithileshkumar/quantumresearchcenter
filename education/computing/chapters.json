@@ -24,7 +24,7 @@
     "04-states-measurement",
     "Quantum States and Measurement",
     "",
-    "State vectors and inner products describe quantum amplitudes. Transition matrices preserve their probability interpretation through unitary evolution, while measurement selects an outcome and its conditional state.",
+    "In the previous chapter, we wrote a state as a weighted sum of configuration kets, \\(\\sum_iv_i\\ket i\\), and the arrow weights of a step as \\(\\bra jS\\ket i\\). We combined successive steps by multiplying weights along paths and adding contributions that reached the same configuration. These calculations already have the shape of linear algebra. In this chapter, states become vectors, amplitudes between states become inner products, and the arrow weights of a step become a matrix, with each operation developed from the rules we have been using. This language lets us state the postulates of quantum mechanics precisely: how a system is described, how it changes, what measurement does, and how systems are combined. We will distinguish the mathematical consequences of our transition rules from the physical assumptions needed to describe quantum systems.",
     ""
   ],
   [

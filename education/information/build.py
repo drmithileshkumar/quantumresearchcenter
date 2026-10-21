@@ -10,9 +10,11 @@ sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
 from asset_versions import version_pages
 import chapter_exercises
+import chapter_summary
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 LEARNING=json.loads((ROOT/'content/learning.json').read_text())
 EXERCISES=chapter_exercises.load(ROOT)
+SUMMARIES=chapter_summary.load(ROOT,{c['stem'] for c in CHAPTERS})
 def navigation(current,data):
  out='<a class="book-home" href="index.html">Quantum Information<span>States, resources, and communication</span></a><a class="nav-introduction" href="index.html">About this course</a><a href="index.html#topic-map-heading">Course map</a>'
  for i,c in enumerate(CHAPTERS,1):
@@ -59,7 +61,7 @@ def main():
    body+='</ol></li>'
   body+='</ol></details>'
   body+=f'<details class="chapter-direction"><summary>Before you begin</summary><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Keep in view:</strong> {esc(c["example"])}</p></details><aside class="prediction"><p><strong>Predict first.</strong> {guide["prediction"]}</p><details class="prediction-answer"><summary>Compare your reasoning</summary><p>{guide["explanation"]}</p></details></aside>'+manuscript
-  body+=chapter_exercises.render(stem,c['title'],EXERCISES.get(stem,[]),{el['id'] for el in soup.select('[id]')},search)
+  body+=chapter_summary.render(SUMMARIES.get(stem))+chapter_exercises.render(stem,c['title'],EXERCISES.get(stem,[]),{el['id'] for el in soup.select('[id]')},search)
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
   links=(f'<a rel="prev" href="{prev["stem"]}.html"><small>Previous chapter</small>{esc(prev["title"])} ←</a>' if prev else '<a href="index.html"><small>Course overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt["stem"]}.html"><small>Next chapter</small>{esc(nxt["title"])} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Course contents →</a>')
   body='<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">'+links+'</nav>'+body+'<nav class="chapter-pagination" aria-label="Chapter navigation">'+links+'</nav>'

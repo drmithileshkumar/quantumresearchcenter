@@ -66,9 +66,5 @@
       "title": "Postulates",
       "number": "4.2"
     }
-  ],
-  "opening": "Complex amplitudes describe computation through two composition rules: multiply along paths, add at common endpoints, and take squared magnitudes to obtain probabilities. Normalization restricts the allowed states and transitions. Kets then express these amplitude lists as quantum states, and the measurement postulate specifies both a reported outcome and the state left afterward.",
-  "opening_continuation": [
-    "State vectors give coordinates for quantum states. Inner products give amplitudes from initial states to final directions and define their lengths and overlaps. Matrices describe transitions between states, while adjoints connect this geometry to normalization and unitarity. With these tools, the state and measurement rules extend to finite systems with any number of configurations."
   ]
 }

@@ -136,7 +136,7 @@ def transition_matrix_figure():
     for x, y, value, color in [(646,160,'a',blue),(646,245,'b',blue),(776,160,'c',orange),(776,245,'d',orange)]:
         f.parts.append(svg_text(x, y, r'\('+value+r'\)', f' text-anchor="middle" style="fill:{color};font-size:22px"'))
     f.text(710, 320, 'Rows: destinations. Columns: sources.', 'small')
-    f.text(480, 382, r'\(U_{ji}=w(i\to j),\qquad U=\begin{pmatrix}a&c\\b&d\end{pmatrix}\)')
+    f.text(480, 382, r'\(U_{ji}=\bra jU\ket i,\qquad U=\begin{pmatrix}a&c\\b&d\end{pmatrix}\)')
     f.save('transitions-to-matrix')
 
 def adjoint_transition_figure():
@@ -174,7 +174,7 @@ def adjoint_transition_figure():
         f.parts.append(svg_text(x, y, r'\('+value+r'\)', f' text-anchor="middle" style="fill:{color};font-size:22px"'))
     f.text(710, 320, 'Original columns become conjugated rows.', 'small')
     f.text(480, 370, r'\(U=\begin{pmatrix}a&c\\b&d\end{pmatrix}\quad\longmapsto\quad U^\dagger=\begin{pmatrix}a^*&b^*\\c^*&d^*\end{pmatrix}\)')
-    f.text(480, 415, r'\((U^\dagger)_{ij}=U_{ji}^*=w(i\to j)^*\)')
+    f.text(480, 415, r'\((U^\dagger)_{ij}=U_{ji}^*=\bigl(\bra jU\ket i\bigr)^*\)')
     f.save('transitions-adjoint')
 
 def unitarity_transition_figure():

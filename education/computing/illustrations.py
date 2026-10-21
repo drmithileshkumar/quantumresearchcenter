@@ -131,13 +131,22 @@ def render(spec):
       f=t1+0.5*(length-t1-t2);below=pos[c,a][1]>top+(rows-1)*gap/2+1 and any(e[0]==c and e[1]==a and e[2]!=b for e in panel['edges'])
       d.text(x1+ux*f,y1+uy*f+(19 if below else -9),rest[0],'small',maxwidth=120)
      else:
-      f=(0.3 if uy>0 else 0.7)*length;lx=x1+ux*f;ly=y1+uy*f;w=7.2*len(plain(rest[0]))+8
-      d.parts.append(f'<rect x="{lx-w/2:g}" y="{ly-10:g}" width="{w:g}" height="20" rx="3" fill="#fff"/>')
-      d.text(lx,ly+5,rest[0],'small',maxwidth=120)
+      w=7.2*len(plain(rest[0]))+8
+      if spec.get('label_plates',True):
+       f=(0.3 if uy>0 else 0.7)*length;lx=x1+ux*f;ly=y1+uy*f
+       d.parts.append(f'<rect x="{lx-w/2:g}" y="{ly-10:g}" width="{w:g}" height="20" rx="3" fill="#fff"/>')
+       d.text(lx,ly+5,rest[0],'small',maxwidth=120)
+      else:
+       # No plate: set the label beside the arrow, on the side away from the panel's middle row,
+       # far enough that its box (half-width w/2, half-height 10) clears the line.
+       mx,my=x1+ux*length/2,y1+uy*length/2;side=-1 if my<top+(rows-1)*gap/2 else 1
+       nx,ny=side*-uy,side*ux;off=w/2*abs(uy)+10*abs(ux)+4
+       d.text(mx+nx*off,my+ny*off+5,rest[0],'small',maxwidth=120)
    for (c,label),(x,y) in pos.items():
     hw,hh=size(label)
-    if hw==22:d.parts.append(f'<circle cx="{x:g}" cy="{y:g}" r="22" fill="#fff" stroke="#246593" stroke-width="1.7"/>')
-    else:d.parts.append(f'<rect x="{x-hw:g}" y="{y-hh:g}" width="{2*hw:g}" height="{2*hh:g}" rx="{hh:g}" fill="#fff" stroke="#246593" stroke-width="1.7"/>')
+    fill='#fff' if spec.get('label_plates',True) else 'none'
+    if hw==22:d.parts.append(f'<circle cx="{x:g}" cy="{y:g}" r="22" fill="{fill}" stroke="#246593" stroke-width="1.7"/>')
+    else:d.parts.append(f'<rect x="{x-hw:g}" y="{y-hh:g}" width="{2*hw:g}" height="{2*hh:g}" rx="{hh:g}" fill="{fill}" stroke="#246593" stroke-width="1.7"/>')
     d.text(x,y+5,label,maxwidth=2*hw-6)
    for c,weights in enumerate(panel.get('weights',[])):
     for label,w in weights.items():

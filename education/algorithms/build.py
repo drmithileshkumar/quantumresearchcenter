@@ -25,8 +25,10 @@ ROOT=Path(__file__).resolve().parent
 import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
+import chapter_summary
 from asset_versions import version_pages
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
+SUMMARIES=chapter_summary.load(ROOT,{c['stem'] for c in CHAPTERS})
 LEARNING=json.loads((ROOT/'content/learning.json').read_text())
 GLOSSARY=json.loads((ROOT/'content/glossary.json').read_text())
 COURSE='Quantum Algorithms'
@@ -201,7 +203,7 @@ def main():
   header=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">Chapter {i:02}</p><h1>{esc(c["title"])}</h1>{render_chapter_map(c["title"],c)}{opening}<p class="chapter-subtitle">{esc(c["question"])}</p><p class="chapter-intro">{esc(c["intro"])}</p><details class="chapter-contents"><summary>In this chapter · {len(c["sections"])} sections · {ntopics} topics</summary><ol>{toc}</ol></details></header>'
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
   links=(f'<a rel="prev" href="{prev["stem"]}.html"><small>Previous chapter</small>{esc(prev["title"])} ←</a>' if prev else '<a href="index.html"><small>Course overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt["stem"]}.html"><small>Next chapter</small>{esc(nxt["title"])} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Course contents →</a>')
-  body='<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">'+links+'</nav>'+header+guide(stem)+str(soup)+exercises(stem,c['title'],index)+'<nav class="chapter-pagination" aria-label="Chapter navigation">'+links+'</nav>'
+  body='<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">'+links+'</nav>'+header+guide(stem)+str(soup)+chapter_summary.render(SUMMARIES.get(stem))+exercises(stem,c['title'],index)+'<nav class="chapter-pagination" aria-label="Chapter navigation">'+links+'</nav>'
   (ROOT/f'{stem}.html').write_text(shell(stem,c['title'],body))
  intro=f'''<header class="chapter-header book-cover" id="chapter-top"><p class="book-kicker">A course in techniques · Mithilesh Kumar</p><h1>{COURSE}</h1><p class="chapter-subtitle">From computational techniques to complete algorithms</p><p class="chapter-intro">A quantum algorithm is not a superposition followed by hope. It is a construction: specify what the input gives you, encode the property you need into amplitudes or phases, arrange interference so that the property becomes a measurement outcome, and account for every resource. This course builds that craft one technique at a time.</p><a class="start-reading" href="{CHAPTERS[0]["stem"]}.html">Begin reading <span aria-hidden="true">→</span></a><a id="resume-reading" hidden>Continue where you left off →</a></header>
 <section class="book-about"><h2>Prerequisites and approach</h2><p>The course continues <a href="../computing/index.html">Quantum Computing</a>. It assumes amplitudes, unitary circuits, measurement, reversible oracles, phase kickback, and amplitude amplification as developed there, but no further mathematics or physics. Norms, spectra, Hamiltonians, singular values, and polynomial approximation are built from worked examples at the point where an algorithm needs them.</p><p>The chapters are organized by technique rather than by famous algorithm. Named algorithms such as Bernstein–Vazirani, phase estimation, Shor’s factoring, amplitude estimation, element distinctness, quantum signal processing, Trotter simulation, the variational eigensolver, QAOA, and measurement-based computation appear as applications or compositions of those techniques. Each technique is carried from a small circuit you can verify by hand to a statement about general input sizes, with its assumptions, costs, and limits.</p></section>

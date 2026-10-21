@@ -114,9 +114,10 @@
       {
         "tex": "\\ket\\psi",
         "read": "ket psi",
-        "meaning": "The column vector of a state, named \\(\\psi\\). The brackets name a vector; they are not an operation.",
+        "meaning": "A configuration or state, named \\(\\psi\\). It first records weighted configurations, as in \\(\\sum_iv_i\\ket i\\); from the chapter on states it is a column vector. The brackets name it; they are not an operation.",
         "section": "topic-4-1-1",
-        "pattern": "\\\\ket"
+        "pattern": "\\\\ket",
+        "intro": "topic-3-1-1"
       },
       {
         "tex": "\\ket0,\\ \\ket1",
@@ -125,11 +126,18 @@
         "section": "topic-4-1-1"
       },
       {
+        "tex": "\\bra jS\\ket i",
+        "read": "bra j S ket i",
+        "meaning": "The weight of the arrow from configuration \\(i\\) to configuration \\(j\\) under the step \\(S\\), read right to left. For an operation \\(U\\) on vectors it is the matrix entry \\(U_{ji}\\).",
+        "section": "topic-3-1-2"
+      },
+      {
         "tex": "\\bra\\phi",
         "read": "bra phi",
-        "meaning": "The conjugate-transpose row of \\(\\ket\\phi\\).",
+        "meaning": "The final configuration or state in a weight or amplitude, as in \\(\\bra jS\\ket i\\); as a vector, the conjugate-transpose row of \\(\\ket\\phi\\).",
         "section": "topic-4-1-2",
-        "pattern": "\\\\bra(?!ket)"
+        "pattern": "\\\\bra(?!ket)",
+        "intro": "topic-3-1-2"
       },
       {
         "tex": "\\braket\\phi\\psi",
