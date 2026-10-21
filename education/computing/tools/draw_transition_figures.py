@@ -237,9 +237,52 @@ def inner_product_geometry_figure():
     f.text(245,337,r'\(\braket\phi\psi=\sqrt3/2\)')
     f.text(575,125,r'\(\braket\phi\phi=\braket\psi\psi=1\)')
     f.text(575,177,r'\(\theta=\pi/6\)')
-    f.text(575,230,r'\(p(\phi\mid\psi)=3/4\)')
+    f.text(575,230,r'\(|\braket\phi\psi|^2=3/4\)')
     f.text(380,395,r'For real unit vectors: \(\braket\phi\psi=\cos\theta\).')
     f.save('inner-product-geometry')
+
+def component_split_figure():
+    """Split a unit vector into its component along a direction and an orthogonal remainder."""
+    import math
+    f = Figure('Splitting a state along a direction',
+        'In a real state-vector plane, the unit vector phi points at 15 degrees and the unit vector psi at 75 degrees, '
+        'so the angle between them is 60 degrees. The component of psi along phi, the inner product of phi and psi times phi, '
+        'has length one half and lies along phi. The remainder psi perp runs from the end of that component to the tip of psi, '
+        'at a right angle to phi, with length root three over two. The squared lengths one quarter and three quarters add to one.',
+        width=760, height=390)
+    f.parts[0] = f.parts[0].replace(f'fill="{EDGE}"/></marker>', 'fill="context-stroke"/></marker>')
+    f.text(380, 30, 'Splitting a state along a direction', 'heading')
+    O = (110, 340); R = 260; a_phi, a_psi = math.radians(15), math.radians(75)
+    pt = lambda r, a: (O[0] + r * math.cos(a), O[1] - r * math.sin(a))
+    up, un = (math.cos(a_phi), -math.sin(a_phi)), (-math.sin(a_phi), -math.cos(a_phi))   # along phi, perpendicular to it
+    phi_tip, psi_tip = pt(R, a_phi), pt(R, a_psi)
+    c = R * math.cos(a_psi - a_phi); foot = (O[0] + c * up[0], O[1] + c * up[1])
+    fmt = lambda q: f'{q[0]:.1f} {q[1]:.1f}'
+    far, back = pt(1.22 * R, a_phi), pt(-0.12 * R, a_phi)
+    f.parts.append(f'<path d="M{fmt(back)}L{fmt(far)}" stroke="#d3dee7" stroke-width="1.2" fill="none"/>')       # the line of phi
+    f.parts.append(f'<path class="edge" d="M{fmt(O)}L{fmt(phi_tip)}" style="stroke:#a64d26"/>')                     # |phi>
+    f.parts.append(f'<path class="edge" d="M{fmt(O)}L{fmt(psi_tip)}"/>')                                            # |psi>
+    # A thick line would scale the shared arrowhead with it, so the component gets a fixed-size head.
+    f.parts.append('<defs><marker id="arrow-fixed" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#c2410c"/></marker></defs>')
+    f.parts.append(f'<path d="M{fmt(O)}L{fmt(foot)}" fill="none" stroke="#c2410c" stroke-width="4" marker-end="url(#arrow-fixed)"/>')          # component
+    f.parts.append(f'<path class="edge" d="M{fmt(foot)}L{fmt(psi_tip)}" style="stroke:#347449;stroke-width:2.2;stroke-dasharray:7 5"/>')  # remainder
+    m = 14; corner = [(foot[0] + m * un[0], foot[1] + m * un[1]), (foot[0] + m * (un[0] - up[0]), foot[1] + m * (un[1] - up[1])), (foot[0] - m * up[0], foot[1] - m * up[1])]
+    f.parts.append(f'<path d="M{fmt(corner[0])}L{fmt(corner[1])}L{fmt(corner[2])}" stroke="#347449" stroke-width="1.4" fill="none"/>')
+    a0, a1 = pt(52, a_phi), pt(52, a_psi)
+    f.parts.append(f'<path d="M{fmt(a0)}A52 52 0 0 0 {fmt(a1)}" stroke="#4b5864" stroke-width="1.3" fill="none"/>')
+    f.parts.append(f'<circle cx="{O[0]}" cy="{O[1]}" r="3.5" fill="{INK}"/>')
+    lab = lambda q, d, k: (q[0] + d * k[0], q[1] + d * k[1])
+    f.text(*lab(phi_tip, 30, up), r'\(\ket\phi\)')
+    f.text(*lab(psi_tip, -16, (0, 1)), r'\(\ket\psi\)')
+    th = pt(72, (a_phi + a_psi) / 2); f.text(th[0], th[1] + 5, r'\(\theta\)')
+    mid = ((O[0] + foot[0]) / 2, (O[1] + foot[1]) / 2); f.text(*lab(mid, -30, un), r'\(\braket\phi\psi\,\ket\phi\)')
+    mr = ((foot[0] + psi_tip[0]) / 2, (foot[1] + psi_tip[1]) / 2); f.text(*lab(mr, 38, up), r'\(\ket{\psi_\perp}\)')
+    f.text(565, 120, r'\(\ket\psi=\braket\phi\psi\,\ket\phi+\ket{\psi_\perp}\)')
+    f.text(565, 172, r'\(\braket\phi{\psi_\perp}=0\)')
+    f.text(565, 224, r'\(1=|\braket\phi\psi|^2+\|\psi_\perp\|^2\)')
+    f.text(565, 276, r'Here \(\theta=60^\circ\): \(\braket\phi\psi=\tfrac12\)', 'small')
+    f.text(565, 304, r'\(1=\tfrac14+\tfrac34\)', 'small')
+    f.save('component-split')
 
 def standard_basis_ket_figure():
     """Draw a real-amplitude ket and its standard-basis coordinates."""
@@ -415,6 +458,7 @@ def main():
     adjoint_transition_figure()
     unitarity_transition_figure()
     inner_product_geometry_figure()
+    component_split_figure()
     standard_basis_ket_figure()
     transition_matrix_geometry_figure()
     adjoint_geometry_figure()
