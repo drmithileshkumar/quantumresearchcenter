@@ -1,9 +1,9 @@
-/* Progressive enhancement: links retain readable text without JavaScript. */
+/* Progressive enhancement: links keep readable text without JavaScript. Loaded from <head> on every page,
+   it decorates each toolbar control as soon as the parser has finished it, so icons are in place before the
+   first paint instead of swapping in afterwards (which made every page load flicker). Styles live in styles.css. */
 (() => {
-  if (document.querySelector('link[data-navigation-icons]')) return;
-  const css = document.createElement('link');
-  css.rel = 'stylesheet'; css.href = new URL('navigation.css', document.currentScript.src).href;
-  css.dataset.navigationIcons = ''; document.head.append(css);
+  if (window.__qrcNavigation) return;
+  window.__qrcNavigation = true;
   const paths = {
     theme: '<g class="icon-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></g><path class="icon-moon" d="M20 15a9 9 0 0 1-11-11 9 9 0 1 0 11 11Z"/>',
     print: '<path d="M7 8V3h10v5M7 17H4V9h16v8h-3"/><path class="icon-paper" d="M7 14h10v7H7zM10 17h4"/><circle cx="17" cy="11" r=".5" fill="currentColor"/>',
@@ -27,19 +27,38 @@
     tip.textContent = label;
     new MutationObserver(() => { tip.textContent = element.getAttribute('aria-label'); }).observe(element, {attributes:true,attributeFilter:['aria-label']});
   }
-  document.querySelectorAll('.site-nav a, .news-toolbar nav a').forEach(link => {
-    const label = link.textContent.trim();
-    if (names[label]) decorate(link,names[label],label);
-  });
-  document.querySelectorAll('[data-theme-toggle], #print-chapter, #search-open, #search-close').forEach(button => {
-    const theme = button.hasAttribute('data-theme-toggle');
-    const kind = theme ? 'theme' : {'print-chapter':'print','search-open':'search','search-close':'close'}[button.id];
-    const label = (theme && button.title) || button.getAttribute('aria-label') || button.textContent.trim();
-    decorate(button, kind, label);
-    if (theme) new MutationObserver(() => button.setAttribute('aria-label', button.title)).observe(button, {attributes:true, attributeFilter:['title']});
-  });
-  const menu = document.getElementById('menu-toggle');
-  if (menu) decorate(menu,'menu','Toggle contents');
-  const type = document.getElementById('font-toggle');
-  if (type) decorate(type,'type',type.getAttribute('aria-label') || 'Increase text size');
+  // An element is finished once the parser has moved past it (some later node exists) or the document is parsed.
+  const finished = element => {
+    if (document.readyState !== 'loading' || element.hasAttribute('data-theme-toggle')) return true;
+    for (let node = element; node; node = node.parentNode) if (node.nextSibling) return true;
+    return false;
+  };
+  const buttons = {'print-chapter': 'print', 'search-open': 'search', 'search-close': 'close'};
+  function scan() {
+    // Pages whose scripts enable printing mark the button with data-print; show it now so it does not
+    // appear (and shift the toolbar) when those deferred scripts run. They still attach the click handler.
+    const print = document.querySelector('#print-chapter[data-print][hidden]');
+    if (print) print.hidden = false;
+    document.querySelectorAll('.site-nav a:not(.icon-nav), .news-toolbar nav a:not(.icon-nav)').forEach(link => {
+      const label = link.textContent.trim();
+      if (names[label] && finished(link)) decorate(link, names[label], label);
+    });
+    document.querySelectorAll('[data-theme-toggle]:not(.icon-nav), #print-chapter:not(.icon-nav), #search-open:not(.icon-nav), #search-close:not(.icon-nav)').forEach(button => {
+      if (!finished(button)) return;
+      const theme = button.hasAttribute('data-theme-toggle');
+      const label = (theme && button.title) || button.getAttribute('aria-label') || button.textContent.trim();
+      decorate(button, theme ? 'theme' : buttons[button.id], label);
+      if (theme) new MutationObserver(() => button.setAttribute('aria-label', button.title)).observe(button, {attributes: true, attributeFilter: ['title']});
+    });
+    const menu = document.getElementById('menu-toggle');
+    if (menu && !menu.classList.contains('icon-nav') && finished(menu)) decorate(menu, 'menu', 'Toggle contents');
+    const type = document.getElementById('font-toggle');
+    if (type && !type.classList.contains('icon-nav') && finished(type)) decorate(type, 'type', type.getAttribute('aria-label') || 'Increase text size');
+  }
+  if (document.readyState === 'loading') {
+    const observer = new MutationObserver(scan);
+    observer.observe(document.documentElement, {childList: true, subtree: true});
+    document.addEventListener('DOMContentLoaded', () => { observer.disconnect(); scan(); });
+  }
+  scan();
 })();
