@@ -189,12 +189,12 @@
     "application": "With the two-qubit configurations ordered \\(00,01,10,11\\), write \\((\\ket{00}-\\ket{11})/\\sqrt2\\) as a column vector, and give the probability of each configuration.",
     "challenge": "Find numbers \\(a\\) and \\(b\\) with \\(\\ket0=a\\,\\tfrac{\\ket0+\\ket1}{\\sqrt2}+b\\,\\tfrac{\\ket0-\\ket1}{\\sqrt2}\\). Relative to which basis is \\((\\ket0+\\ket1)/\\sqrt2\\) a superposition, and relative to which is it not?"
   },
-  "topic-4-1-3": {
+  "topic-4-1-4": {
     "foundation": "An operation \\(U\\) has weights \\(\\bra0U\\ket0=0\\), \\(\\bra1U\\ket0=i\\), \\(\\bra0U\\ket1=-i\\), and \\(\\bra1U\\ket1=0\\). Write its matrix, and apply it to \\(\\ket0\\) and \\(\\ket1\\).",
     "application": "Compute the matrices \\(XH\\) and \\(HX\\), and apply each to \\(\\ket0\\). Can the outputs differ by only a global phase?",
     "challenge": "A proposed rule sends \\(\\alpha\\ket0+\\beta\\ket1\\) to \\(\\alpha\\ket0+2\\beta\\ket1\\), rescaled so that the squared magnitudes add to \\(1\\). Show that the rule is not linear by comparing its action on \\(\\ket0\\), \\(\\ket1\\), and \\((\\ket0+\\ket1)/\\sqrt2\\)."
   },
-  "topic-4-1-4": {
+  "topic-4-1-5": {
     "foundation": "Find the adjoints of \\(\\operatorname{diag}(1,i)\\) and of \\(\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}\\). Which of the two matrices is unitary?",
     "application": "For \\(U=\\tfrac1{\\sqrt2}\\begin{pmatrix}1&i\\\\i&1\\end{pmatrix}\\), find \\(U^\\dagger\\) and compute \\(U^\\dagger U\\). Interpret the four entries as transition amplitudes for the two-step process.",
     "challenge": "Using \\(\\braket\\phi{A\\psi}=\\braket{A^\\dagger\\phi}\\psi\\), prove that \\((AB)^\\dagger=B^\\dagger A^\\dagger\\). Conclude that the product of two unitaries is unitary."
@@ -537,6 +537,11 @@
   "topic-4-1-2": {
     "foundation": "Compute \\(\\braket\\phi\\psi\\) for \\(\\ket\\phi=(\\ket0+i\\ket1)/\\sqrt2\\) and \\(\\ket\\psi=(\\ket0-i\\ket1)/\\sqrt2\\). Are the two states orthogonal?",
     "application": "For \\(\\ket\\psi=(\\sqrt3/2)\\ket0+(i/2)\\ket1\\), find the amplitudes \\(\\braket0\\psi\\) and \\(\\braket1\\psi\\), their probabilities, and the norm of \\(\\ket\\psi\\).",
+    "challenge": "Use conjugate symmetry with \\(\\ket\\phi=\\ket\\psi\\) to show that \\(\\braket\\psi\\psi\\) is real. Then use the coordinate formula to show that it is never negative, and zero only for the zero vector."
+  },
+  "topic-4-1-3": {
+    "foundation": "Find the norm of \\(\\ket v=3\\ket0+4i\\ket1\\), and the unit vector pointing in the same direction.",
+    "application": "For the real unit vectors \\(\\ket\\phi=\\cos\\alpha\\ket0+\\sin\\alpha\\ket1\\) and \\(\\ket\\psi=\\cos\\beta\\ket0+\\sin\\beta\\ket1\\), show that \\(\\braket\\phi\\psi=\\cos(\\alpha-\\beta)\\). For which angles are the two states orthogonal?",
     "challenge": "Let \\(\\ket\\phi=(\\ket0+\\ket1)/\\sqrt2\\) and \\(\\ket\\psi=\\ket0\\). Find the component \\(\\braket\\phi\\psi\\,\\ket\\phi\\) and the orthogonal remainder. Check that their squared norms add to one."
   },
   "topic-4-2-3": {

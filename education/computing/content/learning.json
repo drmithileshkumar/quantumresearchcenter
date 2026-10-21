@@ -376,7 +376,7 @@
           "Conjugate the first column’s entries when computing the overlap."
         ],
         "answer": "Each column has squared length \\(\\frac12(1+1)=1\\). Their overlap is \\(\\frac12\\big(1^*\\cdot1+i^*\\cdot(-i)\\big)=\\frac12\\big(1+(-i)(-i)\\big)=\\frac12(1-1)=0\\). So the columns are orthonormal and \\(U\\) is unitary. The columns are the images: \\(U\\ket0=(\\ket0+i\\ket1)/\\sqrt2\\) and \\(U\\ket1=(\\ket0-i\\ket1)/\\sqrt2\\). These are two orthogonal states with equal computational-basis probabilities; they differ only in relative phase.",
-        "review": "topic-4-1-3"
+        "review": "topic-4-1-4"
       },
       {
         "kind": "Quick check",
@@ -406,7 +406,7 @@
           "If \\(U\\ket\\psi=\\ket0\\), then \\(\\ket\\psi=U^\\dagger\\ket0\\)."
         ],
         "answer": "Transposing and conjugating gives \\(U^\\dagger=\\frac{1}{\\sqrt2}\\begin{pmatrix}1&-i\\\\1&i\\end{pmatrix}\\). Then \\(U^\\dagger U=\\frac12\\begin{pmatrix}1+(-i)(i)&1+(-i)(-i)\\\\1+i\\cdot i&1+i(-i)\\end{pmatrix}=\\frac12\\begin{pmatrix}2&0\\\\0&2\\end{pmatrix}=I\\). Since \\(U\\) is unitary, \\(U^\\dagger\\) undoes it: \\(\\ket\\psi=U^\\dagger\\ket0=\\frac{1}{\\sqrt2}(\\ket0+\\ket1)\\), the first column of \\(U^\\dagger\\). Check: \\(U\\frac{1}{\\sqrt2}(\\ket0+\\ket1)=\\frac12\\big((1+1)\\ket0+(i-i)\\ket1\\big)=\\ket0\\). The adjoint gives the inverse without solving equations, but only because \\(U\\) is unitary.",
-        "review": "topic-4-1-4"
+        "review": "topic-4-1-5"
       },
       {
         "kind": "Worked problem",
@@ -446,7 +446,7 @@
           "\\(\\braket0+=1/\\sqrt2\\)."
         ],
         "answer": "By the defining property of the adjoint, \\(\\braket{U\\phi}{U\\psi}=\\bra\\phi U^\\dagger U\\ket\\psi=\\braket\\phi\\psi\\), since \\(U^\\dagger U=I\\). For \\(\\ket0\\) and \\(\\ket+\\), the overlap is \\(1/\\sqrt2\\), and so is the overlap of \\(U\\ket0\\) and \\(U\\ket+\\) for every unitary \\(U\\): the images are never orthogonal. A computational-basis measurement that always gave one outcome for the first state and the other outcome for the second would require the two evolved states to lie along different basis directions, which are orthogonal. So no sequence of unitary steps followed by such a measurement separates \\(\\ket0\\) from \\(\\ket+\\) perfectly. Nonorthogonal states can be told apart only with some probability of error, a limit that Quantum Information develops in detail.",
-        "review": "topic-4-1-4"
+        "review": "topic-4-1-5"
       },
       {
         "kind": "Extension",
