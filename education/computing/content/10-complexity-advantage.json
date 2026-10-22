@@ -112,8 +112,11 @@
       "number": "10.4"
     }
   ],
-  "opening": "We have seen quantum algorithms that use fewer queries than any classical method. Does that make quantum computers more powerful? A claim of this kind needs care. The same task, the same encoding of inputs, the same allowed error, and the same resources must be compared, and the comparison must hold against every possible method, not only the known ones.",
+  "opening": "Exhibiting a fast quantum algorithm shows only what is possible; proving a genuine advantage requires also showing what is impossible for every competing algorithm under the same rules. Even when Grover’s search reduces \\(N\\) oracle queries to about \\(\\sqrt{N}\\), can a cleverer quantum circuit do better still—say, in \\(\\log N\\) queries—or is \\(\\sqrt{N}\\) an unbreakable barrier built into the linearity of quantum mechanics?",
   "opening_continuation": [
-    "We first fix how costs are measured: input size, asymptotic growth, and the resource being counted. Complexity classes then group problems by the resources needed to solve them, classically and quantum mechanically, and show what is known and what remains open. Lower bounds give the strongest evidence, a limit on every algorithm in a model; for unstructured search they show that Grover’s algorithm cannot be improved. Finally we take stock of what the algorithms in this book establish, what quantum computers cannot do, and where the subject continues."
+    "Why isn’t a faster algorithm by itself enough to establish a computational separation? Because an upper bound only bounds the cost of one method, leaving open whether an equally fast classical algorithm is waiting to be discovered, or whether the speedup disappears once input encoding, gate overhead, and readout are counted on equal terms."
+  ],
+  "intro_continuation": [
+    "This chapter develops the framework needed to state and test claims of quantum advantage rigorously. We begin by fixing how computational costs are measured: input size, success criteria, asymptotic growth, and the distinction between query, gate, and space complexity. We then organize problems into complexity classes—P, NP, BPP, and BQP—to separate what is proved from what remains open about factoring and search. Next, we prove the matching \\(\\Omega(\\sqrt{N})\\) quantum query lower bound for unstructured search via both the hybrid argument and polynomial degree, showing that Grover’s algorithm is optimal. Finally, we step back to assess the scope and limits of quantum computation and where the subject continues."
   ]
 }

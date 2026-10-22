@@ -1,0 +1,369 @@
+[
+  {
+    "stem": "01-distinguishability",
+    "title": "Distinguishability and Testing",
+    "question": "Someone gives you one of two possible quantum states. How well can you tell which one it is?",
+    "prerequisites": "Density operators, the measurement probability rule, and eigenvalues of Hermitian matrices. General measurement effects, operator norms, and constrained testing are developed in the chapter.",
+    "example": "An equally likely preparation of |0⟩ or |+⟩, tested once.",
+    "method": "Optimize a measurement through the positive and negative parts of a Hermitian operator.",
+    "pitfall": "A state distance is meaningful only after its normalization and operational task are fixed.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "number": "1.1",
+        "title": "From matrices to decisions",
+        "subsections": [
+          "The trace norm as a measurement advantage",
+          "Writing down every possible decision",
+          "Finding the best measurement",
+          "Returning to the qubit"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "number": "1.2",
+        "title": "Fidelity and physical processing",
+        "subsections": [
+          "Why discarding cannot improve a test",
+          "Overlap as a second comparison",
+          "Connecting fidelity to distinguishability"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "number": "1.3",
+        "title": "Asymmetric tests",
+        "subsections": [
+          "Constraints instead of equal costs",
+          "Spending a false-alarm budget",
+          "From a solved example to a general method"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "02-quantum-channels",
+    "title": "Quantum Channels and Dilations",
+    "question": "How can we certify a physical process, including its action on entangled inputs?",
+    "prerequisites": "Chapter 1; tensor products, partial traces, and matrix multiplication.",
+    "example": "Amplitude damping of one half of a Bell pair.",
+    "method": "Compare Kraus, Choi, and isometric descriptions of the same map.",
+    "pitfall": "Positivity on isolated inputs does not imply complete positivity.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "number": "2.1",
+        "title": "Complete positivity",
+        "subsections": [
+          "An entangled input is a stronger test"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "number": "2.2",
+        "title": "Kraus operators and environments",
+        "subsections": [
+          "Where the missing coherence goes"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "number": "2.3",
+        "title": "Comparing devices",
+        "subsections": [
+          "A reference can expose hidden errors"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "03-entropy-and-data-processing",
+    "title": "Entropy and Data Processing",
+    "question": "Which information can survive processing, and how does entropy quantify its loss?",
+    "prerequisites": "Chapters 1–2; eigenvalues and elementary logarithms.",
+    "example": "A Bell pair and its classically dephased counterpart.",
+    "method": "Express information as relative entropy, then apply data processing.",
+    "pitfall": "Quantum conditional entropy can be negative; entropy is not the uncertainty of every possible measurement.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "number": "3.1",
+        "title": "Entropy and relative entropy",
+        "subsections": [
+          "Spectra, support, and the reference state"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "number": "3.2",
+        "title": "Correlations and conditioning",
+        "subsections": [
+          "Negative conditional entropy is consistent"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "number": "3.3",
+        "title": "Many-copy testing",
+        "subsections": [
+          "Relative entropy as an error exponent"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "04-entanglement-transformations",
+    "title": "Entanglement as a Resource",
+    "question": "Which entangled states can separated laboratories convert into one another?",
+    "prerequisites": "Chapters 1–3; Schmidt decomposition and reduced states.",
+    "example": "Converting a Bell pair into a pair with Schmidt probabilities (0.8,0.2).",
+    "method": "Compare cumulative Schmidt probabilities and track allowed operations.",
+    "pitfall": "One-copy exact conversion and asymptotic approximate conversion have different criteria.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "number": "4.1",
+        "title": "The allowed operations",
+        "subsections": [
+          "Local control with classical messages"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "number": "4.2",
+        "title": "Majorization",
+        "subsections": [
+          "The direction of deterministic conversion"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "number": "4.3",
+        "title": "Many copies and mixed states",
+        "subsections": [
+          "What an entanglement rate promises"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "05-quantum-compression",
+    "title": "Quantum Compression",
+    "question": "How can we store a quantum source using fewer qubits while preserving its correlations?",
+    "prerequisites": "Chapters 1–4; independent random variables and entropy.",
+    "example": "A memoryless qubit source with average state diag(0.8,0.2).",
+    "method": "Count spectral strings by their probabilities, then encode their typical subspace coherently.",
+    "pitfall": "Measuring the eigenbasis may preserve statistics while destroying the quantum message.",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "number": "5.1",
+        "title": "Typical sequences",
+        "subsections": [
+          "Probability concentrates, not individual outcomes"
+        ]
+      },
+      {
+        "id": "section-5-2",
+        "number": "5.2",
+        "title": "Coherent encoding",
+        "subsections": [
+          "Preserve the reference, not only the density matrix"
+        ]
+      },
+      {
+        "id": "section-5-3",
+        "number": "5.3",
+        "title": "The coding theorem and finite blocks",
+        "subsections": [
+          "A rate statement needs a source model"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "06-classical-communication",
+    "title": "Classical Communication over Quantum Channels",
+    "question": "How many classical bits can quantum signals carry through a noisy channel?",
+    "prerequisites": "Chapters 1–5; mutual information, channels, and coding rates.",
+    "example": "Two equally likely nonorthogonal pure signals, and a flagged erasure channel.",
+    "method": "Use a classical label register to derive a measurement bound by data processing.",
+    "pitfall": "The Holevo quantity is not automatically attained by a single-signal measurement.",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "number": "6.1",
+        "title": "An ensemble is a communication model",
+        "subsections": [
+          "The Holevo quantity"
+        ]
+      },
+      {
+        "id": "section-6-2",
+        "number": "6.2",
+        "title": "Coding over independent uses",
+        "subsections": [
+          "Why a capacity may need regularization"
+        ]
+      },
+      {
+        "id": "section-6-3",
+        "number": "6.3",
+        "title": "The erasure channel",
+        "subsections": [
+          "A noise model with a readable flag"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "07-quantum-communication",
+    "title": "Quantum Communication and Decoupling",
+    "question": "When can a noisy channel transmit a quantum state while preserving its reference correlations?",
+    "prerequisites": "Chapters 1–6; purifications, complementary channels, and coding rates.",
+    "example": "An entangled qubit sent through a flagged erasure channel.",
+    "method": "Compare output entropy with environmental entropy through a channel dilation.",
+    "pitfall": "A positive coherent information is a rate lower bound; a single input does not determine a general capacity.",
+    "sections": [
+      {
+        "id": "section-7-1",
+        "number": "7.1",
+        "title": "Coherent information",
+        "subsections": [
+          "Keep the reference in the calculation"
+        ]
+      },
+      {
+        "id": "section-7-2",
+        "number": "7.2",
+        "title": "Decoupling",
+        "subsections": [
+          "Recovery is possible when the environment forgets"
+        ]
+      },
+      {
+        "id": "section-7-3",
+        "number": "7.3",
+        "title": "Erasure and assistance",
+        "subsections": [
+          "The same channel has different operational capacities"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "08-recovery-and-error-correction",
+    "title": "Recovery and Quantum Error Correction",
+    "question": "What does it mean for noise to be reversible on information we care about?",
+    "prerequisites": "Chapters 1–7; channel adjoints, reference systems, and conditional mutual information.",
+    "example": "A three-qubit repetition code under a specified single-bit-flip error set.",
+    "method": "Express environmental ignorance as an operator condition on the code subspace.",
+    "pitfall": "Correcting one error family does not mean correcting arbitrary physical noise.",
+    "sections": [
+      {
+        "id": "section-8-1",
+        "number": "8.1",
+        "title": "Exact correction",
+        "subsections": [
+          "The Knill–Laflamme condition"
+        ]
+      },
+      {
+        "id": "section-8-2",
+        "number": "8.2",
+        "title": "A limited but exact code",
+        "subsections": [
+          "Bit flips and phase flips are different"
+        ]
+      },
+      {
+        "id": "section-8-3",
+        "number": "8.3",
+        "title": "Recovering a family of states",
+        "subsections": [
+          "Petz recovery and approximate Markov structure"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "09-resource-theories",
+    "title": "Quantum Resource Theories",
+    "question": "How do operational restrictions turn coherence, entanglement, or asymmetry into useful resources?",
+    "prerequisites": "Chapters 1–8, especially data processing and entanglement transformations.",
+    "example": "Coherence of a qubit relative to a fixed computational basis.",
+    "method": "Define free operations first, then construct monotones and conversion bounds.",
+    "pitfall": "A function decreasing under free operations need not completely characterize convertibility.",
+    "sections": [
+      {
+        "id": "section-9-1",
+        "number": "9.1",
+        "title": "Choosing a resource theory",
+        "subsections": [
+          "Free states alone are not enough"
+        ]
+      },
+      {
+        "id": "section-9-2",
+        "number": "9.2",
+        "title": "Relative-entropy monotones",
+        "subsections": [
+          "A general proof and a qubit calculation"
+        ]
+      },
+      {
+        "id": "section-9-3",
+        "number": "9.3",
+        "title": "Conversion bounds and their limits",
+        "subsections": [
+          "Monotones constrain protocols"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "10-research-practicum",
+    "title": "Research Practicum",
+    "question": "How do we turn a theorem or small calculation into a reproducible research investigation?",
+    "prerequisites": "Chapters 1–9; basic Python is useful for reproducing numerical examples.",
+    "example": "Three bounded projects: binary testing, finite-block compression, and noise correction.",
+    "method": "Begin with an analytic benchmark, vary one assumption, and separate evidence from proof.",
+    "pitfall": "A parameter scan cannot establish a universal statement or a channel capacity.",
+    "sections": [
+      {
+        "id": "section-10-1",
+        "number": "10.1",
+        "title": "Project A: certify a measurement",
+        "subsections": [
+          "A spectral benchmark before optimization"
+        ]
+      },
+      {
+        "id": "section-10-2",
+        "number": "10.2",
+        "title": "Project B: finite-block memory",
+        "subsections": [
+          "Compare a bound with an achieved construction"
+        ]
+      },
+      {
+        "id": "section-10-3",
+        "number": "10.3",
+        "title": "Project C: specify the noise",
+        "subsections": [
+          "An honest bridge to a research note"
+        ]
+      }
+    ],
+    "status": "draft"
+  }
+]

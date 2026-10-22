@@ -38,8 +38,16 @@ a:hover{text-decoration:underline;color:var(--warm)}
 .skip-link{position:fixed;top:-70px;left:16px;background:var(--card);color:var(--blue-strong);border:2px solid var(--blue-strong);border-radius:4px;padding:10px 14px;font:600 14px/1.4 system-ui,sans-serif;z-index:30}
 .skip-link:focus{top:8px}
 .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar-width);padding:30px 20px 22px;overflow-y:auto;background:var(--sidebar);border-right:1px solid var(--line);font-family:system-ui,sans-serif;font-size:13px;line-height:1.5;z-index:4}
-.book-brand{display:block;color:var(--heading);font-size:21px;font-family:Georgia,serif;margin:0 9px 27px}
-.book-brand span{display:block;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:1.2px;font-size:9px;color:var(--muted);margin-top:8px}
+/* Site logo: interference-bar mark beside a "Quantum" wordmark (Cormorant Garamond, OFL; fonts/). */
+@font-face{font-family:"QRC Logo";src:url("fonts/cormorant-garamond-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+.site-logo{display:inline-flex;align-items:center;gap:11px;color:var(--heading);line-height:1}
+.site-logo:hover{color:var(--heading);text-decoration:none;background:none!important}
+.logo-mark{flex:none;width:36px;height:36px;fill:currentColor}
+.logo-mark .logo-peak{fill:#e4572e}
+.logo-word{display:flex;flex-direction:column;gap:6px}
+.logo-name{font:600 30px/.8 "QRC Logo",Georgia,serif;letter-spacing:.005em}
+.logo-sub{font:600 9px/1 var(--sans);text-transform:uppercase;letter-spacing:.24em;color:var(--muted);white-space:nowrap}
+.book-brand{display:flex;margin:0 9px 30px}
 .search-label{display:block;font-size:11px;margin:0 8px 7px;color:var(--muted)}
 input[type=search]{width:100%;padding:10px 12px;border:1px solid var(--field-border);background:white;border-radius:4px;font:inherit;color:var(--ink)}
 .search-status{font-size:11px;margin:5px 8px;min-height:16px}
@@ -251,7 +259,7 @@ html[data-theme=dark] body.ebook{--chapter-heading:#a9c7ff;--section-heading:#7e
 .landing .sidebar,.landing .on-page,.landing .toolbar #menu-toggle,.landing .toolbar #font-toggle{display:none}
 .landing .book-body{margin-left:0}
 .landing .toolbar{height:76px;padding:0 max(24px,calc((100vw - 1120px)/2))}
-.landing .toolbar>a{font:20px/1.3 Georgia,serif;color:var(--ink);letter-spacing:0}
+.landing .toolbar>a{font:20px/1.3 Georgia,serif;color:var(--heading);letter-spacing:0}
 .landing .toolbar .site-nav{margin:0;padding:0;border:0;flex-wrap:nowrap;font-size:13px}
 .landing .reading-layout{display:block;max-width:1200px;padding:0 40px 24px}
 .landing-hero{padding:96px 0 80px}
@@ -331,7 +339,7 @@ html[data-theme=dark] body.ebook{--chapter-heading:#a9c7ff;--section-heading:#7e
 /* Paper-focused reading layout; independent of the research handbook tree. */
 .news-reader{background:var(--sidebar)}
 .news-toolbar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 5%;border-bottom:1px solid var(--line);background:white;font:13px/1.5 system-ui,sans-serif}
-.news-brand{color:var(--ink);font:20px Georgia,serif}
+:is(.news-brand,.toolbar-logo) .logo-mark{width:32px;height:32px}:is(.news-brand,.toolbar-logo) .logo-name{font-size:27px}:is(.news-brand,.toolbar-logo) .logo-sub{font-size:8.5px}
 .news-toolbar nav{display:flex;gap:8px;flex-wrap:wrap}
 .news-toolbar nav a{padding:8px 12px;border-radius:4px}
 .news-toolbar [aria-current=page]{background:var(--blue-soft);color:var(--blue)}
@@ -512,7 +520,7 @@ html[data-theme=dark] :is(h1,h2,h3,h4){color:var(--heading)}
 html[data-theme=dark] :is(a:hover,.ebook a:hover){color:#c7b0ff}
 html[data-theme=dark] :is(.toolbar,.book-toolbar,.news-toolbar){background:#10131df5;border-color:var(--line);color:var(--ink)}
 html[data-theme=dark] :is(.sidebar,#book-navigation){background:var(--sidebar);color:var(--ink)}
-html[data-theme=dark] :is(.book-brand,.news-brand,.ebook .book-home){color:var(--heading)!important}
+html[data-theme=dark] :is(.site-logo,.news-brand,.ebook .book-home){color:var(--heading)!important}
 html[data-theme=dark] :is(.sidebar a,.ebook #book-navigation a){color:#b7c3d2}
 html[data-theme=dark] :is(.site-nav a[aria-current],.sidebar a[aria-current],.ebook #book-navigation a[aria-current]){background:#1a3040;color:var(--blue)}
 html[data-theme=dark] :is(.site-nav a:hover,.sidebar a:hover,.ebook #book-navigation a:hover){background:#1c2433;color:var(--blue)}
@@ -698,7 +706,8 @@ html[data-theme=dark] body.ebook .book-section pre{background:var(--surface);bor
   .book-toolbar>.site-nav,.reader .toolbar>.site-nav{margin-right:4px;padding-right:4px}
   .reader .toolbar>a:not(.icon-nav){display:none}
   .news-toolbar{flex-wrap:nowrap;gap:6px;padding:12px 16px}
-  .news-toolbar>.news-brand{flex:1 1 0;min-width:0;font-size:17px;line-height:1.25}
+  .news-toolbar>.news-brand{flex:1 1 0;min-width:0;gap:8px}
+  :is(.news-brand,.toolbar-logo) .logo-mark{width:26px;height:26px}:is(.news-brand,.toolbar-logo) .logo-name{font-size:22px}:is(.news-brand,.toolbar-logo) .logo-sub{font-size:7.5px;letter-spacing:.18em}
   .news-toolbar nav{flex-wrap:nowrap;gap:2px}
   .news-toolbar nav a.icon-nav{flex-basis:38px;width:38px;height:38px;padding:7px}
 }

@@ -10,63 +10,63 @@
     "02-boolean-reversible-computation",
     "Boolean and Reversible Computation",
     "What must a computation remember in order to undo what it has done?",
-    "An AND gate that outputs 0 cannot say which of three inputs it received. Computing without such losses requires keeping more than the answer.",
+    "Inside any digital processor, complex data—whether numbers, text, or program instructions—is encoded as strings of zeros and ones. Every computational step reduces to combining and transforming these bits. Yet the most familiar building blocks of digital logic routinely destroy their own history: they compute an answer and discard the inputs that produced it.",
     ""
   ],
   [
     "03-amplitudes-interference",
     "Probability Amplitudes and Interference",
     "How can two steps that each look random combine into a certain result?",
-    "A quantum step can look as random as a coin flip, yet two such steps in a row can give a certain result. Explaining how leads to the central ideas of quantum mechanics.",
+    "Suppose a single bit starts in the state 0 and passes through an operation that, if measured immediately afterward, produces 0 or 1 with equal probability 1/2—just like flipping a fair coin. In any classical random process, applying that randomizing step a second time leaves the bit equally likely to be 0 or 1. Yet in quantum mechanics, applying the exact same step twice in a row with no measurement in between returns the bit to 0 with certainty every single time.",
     ""
   ],
   [
     "04-states-measurement",
     "Quantum States and Measurement",
-    "",
-    "In the previous chapter, we wrote a state as a weighted sum of configuration kets, \\(\\sum_iv_i\\ket i\\), and the arrow weights of a step as \\(\\bra jS\\ket i\\). We combined successive steps by multiplying weights along paths and adding contributions that reached the same configuration. These calculations already have the shape of linear algebra. In this chapter, states become vectors, amplitudes between states become inner products, and the arrow weights of a step become a matrix, with each operation developed from the rules we have been using. This language lets us state the postulates of quantum mechanics precisely: how a system is described, how it changes, what measurement does, and how systems are combined. We will distinguish the mathematical consequences of our transition rules from the physical assumptions needed to describe quantum systems.",
+    "How do path calculations become a geometry of states, and what happens when we observe a quantum system?",
+    "Suppose a single bit is prepared by applying a Hadamard step to the state 0, creating an equal superposition of 0 and 1. If we measure the system in the standard 0/1 basis right away, we observe 0 or 1 at random with probability 1/2 each, and once measured, the system stays in whichever outcome appeared. Yet if we instead ask a different measurement question—one aligned with the superposition itself—the outcome is completely certain and leaves the superposition undisturbed.",
     ""
   ],
   [
     "05-quantum-model",
     "Quantum Model of Computation",
-    "How do the quantum postulates become a programmable computation?",
-    "Quantum computation specifies an input state, unitary evolution, and a measurement whose result answers a task. A single qubit illustrates the whole sequence, including interference, circuit notation, and output probabilities.",
+    "How do the physical postulates of quantum mechanics become a programmable computation?",
+    "Suppose we start a single qubit in the state 0 and pass it through two different three-gate programs: H followed by I followed by H, versus H followed by Z followed by H. Halfway through either program, measuring the qubit would produce 0 or 1 with equal probability 1/2—the intermediate probabilities are identical. Yet when the programs finish without an intermediate measurement, the first returns 0 with certainty while the second returns 1 with certainty.",
     ""
   ],
   [
     "06-composite-systems",
     "Multi-Qubit Computation",
-    "How do gates and measurements act on a register of qubits?",
-    "How does a computation act on a register of many qubits? Gates on single wires keep qubits independent; a controlled gate couples them, creates entanglement, and makes teleportation and parallel evaluation possible.",
+    "How do gates and measurements act on a register of qubits, and what can entanglement do—and not do?",
+    "Suppose a register of n input qubits is placed in an equal superposition of all 2^n bit strings, and a reversible circuit for a Boolean function f is applied just once. In a single step, the register enters a superposition containing every input string x paired with its output f(x). Yet if we immediately measure the register to read out the table of f, the state collapses to a single random pair (x, f(x))—doing no better than picking one classical input at random.",
     ""
   ],
   [
     "07-queries-phase-kickback",
     "Quantum Queries and Phase Kickback",
-    "Can we learn a relation among answers without learning the individual answers themselves?",
-    "One quantum query can reveal whether \\(f(0)\\) equals \\(f(1)\\), although no measurement reveals either value.",
+    "Can we learn a relation between two function values without learning the individual values themselves?",
+    "Suppose a black-box function f takes a single bit (0 or 1) and returns a single bit, and we want to know only whether f(0) and f(1) are equal (f is constant) or opposite (f is balanced). Any classical algorithm must query the box twice—once on 0 and once on 1—because learning f(0) alone tells us nothing about whether f(1) matches it. Yet a quantum algorithm can determine with certainty whether f(0) equals f(1) using only a single query to the reversible oracle for f.",
     ""
   ],
   [
     "08-circuits-universality",
     "Quantum Circuits and Universality",
-    "What separates an operation we can describe mathematically from one we can construct with finite means?",
-    "Every quantum operation can be built from a few kinds of gate, but not every operation can be built cheaply.",
+    "What separates an operation we can write down as a matrix from one we can build efficiently out of hardware gates?",
+    "Every unitary transformation on an n-qubit register can be constructed—or approximated to arbitrary precision—using only single-qubit gates and the two-qubit CNOT gate. Yet counting the degrees of freedom in a general 2^n × 2^n unitary matrix reveals that almost every unitary operation requires a circuit whose gate count grows exponentially with n. Universality guarantees that every unitary is reachable in principle, while circuit complexity determines which structured operations can actually be built and run reliably.",
     ""
   ],
   [
     "09-amplitude-amplification",
     "Quantum Search and Amplitude Amplification",
-    "How can a process concentrate our chances of finding an answer that it can recognize but does not yet know?",
-    "Marking an answer with a sign does not change its probability. Repeated reflection turns the sign into a rotation toward the answer.",
+    "How can a quantum computation concentrate probability on a solution that it can recognize but does not yet know?",
+    "Suppose we are searching an unstructured list of N candidates for a marked item that satisfies a yes/no test f(x) = 1. Flipping the sign of the marked item's amplitude via phase kickback leaves every candidate's measurement probability unchanged at 1/N. Yet following that sign flip with a reflection about the average amplitude boosts the marked item's amplitude and shrinks the rest—rotating the state vector steadily toward the target so that about √N iterations suffice instead of N.",
     ""
   ],
   [
     "10-complexity-advantage",
     "Computational Complexity and Quantum Advantage",
-    "What would justify saying that one form of computation is more powerful than another?",
-    "A faster algorithm shows what is possible; only a lower bound shows what is impossible. Establishing an advantage needs both.",
+    "What does it take to prove that a quantum algorithm is genuinely faster than any possible classical method?",
+    "Exhibiting a fast quantum algorithm shows only what is possible; proving a genuine advantage requires also showing what is impossible for every competing algorithm under the same rules. Even when Grover's search reduces N oracle queries to about √N, can a cleverer quantum circuit do better still—say, in log N queries—or is √N an unbreakable barrier built into the linearity of quantum mechanics?",
     ""
   ],
   [

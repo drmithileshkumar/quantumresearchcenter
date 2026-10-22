@@ -10,6 +10,13 @@ Each manuscript is a list of slides. Every slide has a `kind`:
   statement  title, label, statement, note?     a postulate, definition, or theorem in a box
   table      title, headers, rows, takeaway?    a small comparison table
   takeaways  title, items                       the chapter's conclusions
+  content    title, blocks | columns, figure?    a full lecture slide: argument, worked example, figure
+
+A `content` slide holds `blocks` (or `columns`, a list of two block lists). Each block is one of
+  {"p": text}  {"math": "\\[...\\]"}  {"ul": [..]}  {"ol": [..]}  {"note": text}
+  {"box": {"label", "text"}}  {"table": {"headers", "rows"}}
+and may set "reveal": true to appear on the next key press. An optional `figure` is drawn beside
+the blocks (`figure_side`: "right", the default) or under them ("below"), with an optional `caption`.
 
 Content slides name the chapter subsection(s) they teach in `topic` (or `topics`);
 the build checks that every subsection of the chapter is taught. `notes` holds the
@@ -25,6 +32,31 @@ e = html.escape
 
 def fragments(items, cls='step'):
     return ''.join(f'<li class="{cls} fragment">{e(x)}</li>' for x in items)
+
+
+def block(b):
+    cls = ' fragment' if b.get('reveal') else ''
+    if 'p' in b:
+        return f'<p class="para{cls}">{e(b["p"])}</p>'
+    if 'math' in b:
+        return f'<div class="display{cls}">{e(b["math"])}</div>'
+    if 'note' in b:
+        return f'<p class="remark{cls}">{e(b["note"])}</p>'
+    if 'ul' in b or 'ol' in b:
+        tag = 'ul' if 'ul' in b else 'ol'
+        return f'<{tag} class="points{cls}">' + ''.join(f'<li>{e(x)}</li>' for x in b[tag]) + f'</{tag}>'
+    if 'box' in b:
+        return (f'<div class="box{cls}"><p class="box-label">{e(b["box"]["label"])}</p>'
+                f'<p>{e(b["box"]["text"])}</p></div>')
+    if 'table' in b:
+        t = b['table']
+        head = ''.join(f'<th scope="col">{e(x)}</th>' for x in t['headers'])
+        for row in t['rows']:
+            if len(row) != len(t['headers']):
+                raise ValueError('Mismatched table row in a content block')
+        rows = ''.join('<tr>' + ''.join(f'<td>{e(x)}</td>' for x in row) + '</tr>' for row in t['rows'])
+        return f'<table class="deck-table compact{cls}"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table>'
+    raise ValueError(f'Unknown content block: {sorted(b)}')
 
 
 def render(item, figure_alt):
@@ -59,6 +91,18 @@ def render(item, figure_alt):
                 raise ValueError(f'Mismatched table row in slide "{item["title"]}"')
             rows += '<tr>' + ''.join(f'<td>{e(x)}</td>' for x in row) + '</tr>'
         return f'<h2>{e(item["title"])}</h2>{lead}<table class="deck-table"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table>{takeaway}'
+    if kind == 'content':
+        if 'columns' in item:
+            text = '<div class="cols">' + ''.join('<div class="col">' + ''.join(block(b) for b in c) + '</div>' for c in item['columns']) + '</div>'
+        else:
+            text = '<div class="flow">' + ''.join(block(b) for b in item.get('blocks', [])) + '</div>'
+        if item.get('figure'):
+            path = 'assets/figures/' + item['figure']
+            cap = f'<figcaption>{e(item["caption"])}</figcaption>' if item.get('caption') else ''
+            fig = f'<figure class="stage"><img src="{e(path)}" alt="{e(figure_alt(path))}">{cap}</figure>'
+            side = item.get('figure_side', 'right')
+            return f'<h2>{e(item["title"])}</h2><div class="with-figure {side}">{text}{fig}</div>'
+        return f'<h2>{e(item["title"])}</h2>{text}'
     if kind == 'takeaways':
         return f'<h2>{e(item["title"])}</h2><ol class="takeaway-list">{fragments(item["items"], "point")}</ol>'
     raise ValueError(f'Unknown slide kind: {kind}')

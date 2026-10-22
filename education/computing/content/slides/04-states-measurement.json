@@ -3,179 +3,540 @@
   "kind": "section",
   "number": "4.1",
   "title": "Vectors and Matrices",
-  "question": "Our path calculations already have the shape of linear algebra. What do we gain by using it?"
+  "question": "States become vectors, amplitudes between states become inner products, and steps become matrices, each built from the path rules."
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "State vectors",
   "topic": "4.1.1",
-  "title": "A state is a vector",
-  "figure": "ket-standard-basis.svg",
-  "lead": "List amplitudes in a fixed order: \\(\\ket0=(1,0)^T,\\ \\ket1=(0,1)^T\\).",
-  "takeaway": "The bookkeeping rules are vector addition and scaling. Amplitudes \\(3/5,4/5\\) give probabilities \\(9/25,16/25\\).",
-  "notes": [
-   "A quantum system with two distinguishable configurations is a qubit; a weighted sum of configuration kets is a superposition."
-  ]
- },
- {
-  "kind": "steps",
-  "topic": "4.1.2",
-  "title": "What is the amplitude from one state to another?",
-  "steps": [
-   "To a configuration: \\(\\braket j\\psi=\\psi_j\\).",
-   "Through every configuration: \\(\\braket\\phi\\psi=\\sum_j\\braket\\phi j\\,\\braket j\\psi\\), the sum rule.",
-   "Choose \\(\\braket\\phi j=\\phi_j^*\\), so that \\(\\braket\\psi\\psi=\\sum_j|\\psi_j|^2=1\\).",
-   "\\[\\braket\\phi\\psi=\\sum_j\\phi_j^*\\psi_j\\]"
+  "blocks": [
+   {
+    "p": "A state \\(\\ket\\psi=\\sum_iv_i\\ket i\\) gives each configuration an amplitude. Its bookkeeping rules are those of vector arithmetic, so we treat \\(\\ket\\psi\\) as a vector. A two-configuration quantum system is a qubit; a weighted sum of kets is a superposition."
+   },
+   {
+    "p": "Order the configurations (0 first) and list the amplitudes:"
+   },
+   {
+    "math": "\\[\\ket0=\\begin{pmatrix}1\\\\0\\end{pmatrix},\\quad\\ket1=\\begin{pmatrix}0\\\\1\\end{pmatrix},\\quad v_0\\ket0+v_1\\ket1=\\begin{pmatrix}v_0\\\\v_1\\end{pmatrix}.\\]"
+   },
+   {
+    "p": "\\(\\ket0,\\ket1\\) form the computational basis. Adding states adds coordinates; multiplying by a number multiplies every coordinate."
+   },
+   {
+    "p": "Example: \\(\\tfrac35\\ket0+\\tfrac45\\ket1\\) has probabilities \\(\\tfrac9{25}\\) and \\(\\tfrac{16}{25}\\). The coordinates describe one state, not two outcomes at once."
+   }
   ],
-  "takeaway": "The inner product is the transition amplitude."
+  "figure": "ket-standard-basis.svg",
+  "figure_side": "right"
  },
  {
-  "kind": "predict",
+  "kind": "content",
+  "title": "Steps and larger registers as columns",
+  "topic": "4.1.1",
+  "columns": [
+   [
+    {
+     "p": "The Hadamard step, written on columns:"
+    },
+    {
+     "math": "\\[H:\\ \\begin{pmatrix}1\\\\0\\end{pmatrix}\\mapsto\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\1\\end{pmatrix},\\quad \\begin{pmatrix}0\\\\1\\end{pmatrix}\\mapsto\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\-1\\end{pmatrix}.\\]"
+    },
+    {
+     "p": "Each coordinate of an image is an arrow weight \\(\\bra jH\\ket i\\); the minus sign is the negative arrow \\(1\\to1\\)."
+    },
+    {
+     "p": "Nothing is special about two configurations. With \\(00,01,10,11\\) in that order,"
+    },
+    {
+     "math": "\\[\\frac{\\ket{00}-\\ket{11}}{\\sqrt2}=\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\0\\\\0\\\\-1\\end{pmatrix}.\\]"
+    }
+   ]
+  ],
+  "figure": "hadamard-ket-notation.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "The amplitude between two states",
   "topic": "4.1.2",
-  "title": "Why the conjugate?",
-  "question": "Without the conjugate, what would \\((\\ket0+i\\ket1)/\\sqrt2\\) give as its amplitude to itself?",
-  "answer": "\\(\\tfrac12+\\tfrac{i^2}2=0\\), as if its total probability were zero. With the conjugate, \\(\\tfrac12+\\tfrac12=1\\)."
- },
- {
-  "kind": "figure",
-  "topic": "4.1.3",
-  "title": "How large can a transition amplitude be?",
-  "figure": "component-split.svg",
-  "lead": "Split \\(\\ket\\psi\\) into a part along \\(\\ket\\phi\\) and a part perpendicular to it.",
-  "takeaway": "\\(1=|\\braket\\phi\\psi|^2+\\|\\psi_\\perp\\|^2\\), so \\(|\\braket\\phi\\psi|^2\\le1\\). For real unit vectors, \\(\\braket\\phi\\psi=\\cos\\theta\\)."
- },
- {
-  "kind": "figure",
-  "topic": "4.1.4",
-  "title": "A step is a matrix",
-  "figure": "transitions-to-matrix.svg",
-  "lead": "Entry \\(U_{ji}=\\bra jU\\ket i\\): column \\(i\\) lists where \\(i\\) goes.",
-  "takeaway": "Multiplying the matrix by the column performs the path sums."
- },
- {
-  "kind": "steps",
-  "topic": "4.1.4",
-  "title": "Which matrices keep total probability one?",
-  "steps": [
-   "Each column has unit length (outgoing normalization).",
-   "Different columns are orthogonal (the cross-sum condition).",
-   "Together: \\(\\sum_jU_{ji}^*U_{jk}=\\delta_{ik}\\). Such a \\(U\\) is unitary.",
-   "Two steps: \\((VU)_{ki}=\\sum_jV_{kj}U_{ji}\\). The rightmost acts first."
+  "blocks": [
+   {
+    "p": "Write \\(\\braket j\\psi=\\psi_j\\) for the amplitude of \\(j\\) in \\(\\ket\\psi\\). Each path to a final state \\(\\ket\\phi\\) passes through one \\(j\\), so"
+   },
+   {
+    "math": "\\[\\braket\\phi\\psi=\\sum_j\\braket\\phi j\\,\\braket j\\psi .\\]"
+   },
+   {
+    "p": "What is \\(\\braket\\phi j\\)? Normalization, \\(\\sum_j\\braket j\\psi^*\\braket j\\psi=1\\), matches the path formula for \\(\\braket\\psi\\psi\\) if we choose"
+   },
+   {
+    "math": "\\[\\braket\\phi j=\\braket j\\phi^*=\\phi_j^* .\\]"
+   }
+  ],
+  "figure": "subsections/topic-4-1-2.svg",
+  "figure_side": "right",
+  "notes": [
+   "Without the conjugate, the normalized state (|0⟩ + i|1⟩)/√2 would give ⟨ψ|ψ⟩ = 1/2 + i²/2 = 0, as if its total probability were zero."
   ]
  },
  {
-  "kind": "predict",
-  "topic": "4.1.5",
-  "title": "How do we undo the square root of NOT?",
-  "question": "Reversing the arrows of \\(\\sqrt X\\) gives \\(\\sqrt X\\) again, and \\(\\sqrt X\\sqrt X=X\\). What else must change?",
-  "answer": "Also conjugate the weights. The return paths give \\(|a|^2+|b|^2=1\\), and the crossing paths cancel."
+  "kind": "content",
+  "title": "Inner products",
+  "topic": "4.1.2",
+  "blocks": [
+   {
+    "box": {
+     "label": "Definition",
+     "text": "The inner product (transition amplitude from \\(\\ket\\psi\\) to \\(\\ket\\phi\\)) is \\(\\displaystyle\\braket\\phi\\psi=\\sum_j\\phi_j^*\\psi_j\\)."
+    }
+   },
+   {
+    "p": "The bra \\(\\bra\\phi\\) is the conjugated row of \\(\\ket\\phi\\). Row times column performs the path sum:"
+   },
+   {
+    "math": "\\[\\bra\\phi=\\begin{pmatrix}\\phi_0^*&\\phi_1^*\\end{pmatrix},\\qquad \\braket\\phi\\psi=\\begin{pmatrix}\\phi_0^*&\\phi_1^*\\end{pmatrix}\\begin{pmatrix}\\psi_0\\\\\\psi_1\\end{pmatrix}.\\]"
+   },
+   {
+    "p": "Exchanging initial and final states conjugates the amplitude (conjugate symmetry):"
+   },
+   {
+    "math": "\\[\\braket\\psi\\phi=\\sum_j\\psi_j^*\\phi_j=\\Bigl(\\sum_j\\phi_j^*\\psi_j\\Bigr)^*=\\braket\\phi\\psi^* .\\]"
+   },
+   {
+    "p": "Example: for \\(\\ket\\psi=(\\ket0+i\\ket1)/\\sqrt2\\), \\(\\braket1\\psi=i/\\sqrt2\\) but \\(\\braket\\psi1=-i/\\sqrt2\\). The magnitude is unchanged; for real vectors the order does not matter."
+   },
+   {
+    "note": "This definition is chosen for consistency with the probability rule; its physical meaning for a general final state comes with the measurement postulate."
+   }
+  ]
  },
  {
-  "kind": "statement",
+  "kind": "content",
+  "title": "Length, orthogonality, and projection",
+  "topic": "4.1.3",
+  "blocks": [
+   {
+    "p": "The norm is \\(\\|\\psi\\|=\\sqrt{\\braket\\psi\\psi}\\); normalized states are unit vectors. Vectors with \\(\\braket\\phi\\psi=0\\) are orthogonal; mutually orthogonal unit vectors are orthonormal."
+   },
+   {
+    "p": "Split a unit vector \\(\\ket\\psi\\) into a part along a unit vector \\(\\ket\\phi\\) and a part orthogonal to it:"
+   },
+   {
+    "math": "\\[\\ket\\psi=\\braket\\phi\\psi\\,\\ket\\phi+\\ket{\\psi_\\perp},\\qquad \\braket\\phi{\\psi_\\perp}=0 .\\]"
+   },
+   {
+    "p": "The parts are perpendicular, so their squared lengths add:"
+   },
+   {
+    "math": "\\[1=|\\braket\\phi\\psi|^2+\\|\\psi_\\perp\\|^2 .\\]"
+   },
+   {
+    "p": "Hence \\(0\\le|\\braket\\phi\\psi|^2\\le1\\): equal to 1 when the states differ by a global phase, 0 when orthogonal. For real unit vectors \\(\\braket\\phi\\psi=\\cos\\theta\\)."
+   }
+  ],
+  "figure": "component-split.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Coordinates are components",
+  "topic": "4.1.3",
+  "blocks": [
+   {
+    "p": "Doing the split along every basis direction gives the coordinates: \\(\\braket j\\psi\\) is the component of \\(\\ket\\psi\\) along \\(\\ket j\\). Because the basis is orthonormal,"
+   },
+   {
+    "math": "\\[\\ket\\psi=\\sum_j\\ket j\\braket j\\psi,\\qquad \\braket\\psi\\psi=\\sum_j|\\braket j\\psi|^2 .\\]"
+   },
+   {
+    "p": "The probabilities of the configurations are the squared lengths of these perpendicular components."
+   },
+   {
+    "p": "Example: \\(\\ket\\psi=\\tfrac{\\sqrt3}2\\ket0+\\tfrac12\\ket1\\) and \\(\\ket\\phi=\\ket0\\). Then \\(\\braket0\\psi=\\tfrac{\\sqrt3}2=\\cos30^\\circ\\), with probability \\(\\tfrac34\\); the remainder \\(\\tfrac12\\ket1\\) is orthogonal to \\(\\ket0\\)."
+   },
+   {
+    "note": "The picture is a plane in state space, not physical space. Complex vectors keep this geometry while the inner product also carries phase."
+   }
+  ],
+  "figure": "inner-product-geometry.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Linearity and transition matrices",
+  "topic": "4.1.4",
+  "blocks": [
+   {
+    "p": "A step sends each configuration to the weighted sum of its successors and a state to the same combination of these images:"
+   },
+   {
+    "math": "\\[U\\ket\\psi=v_0U\\ket0+v_1U\\ket1,\\]"
+   },
+   {
+    "math": "\\[U(a\\ket\\phi+b\\ket\\psi)=aU\\ket\\phi+bU\\ket\\psi .\\]"
+   },
+   {
+    "p": "This is linearity. The transition matrix stores the arrow weights: \\(U_{ji}=\\bra jU\\ket i\\), with column \\(i\\) for the input and row \\(j\\) for the output."
+   },
+   {
+    "p": "Matrix–vector multiplication performs the path sums:"
+   },
+   {
+    "math": "\\[v_j^\\prime=\\sum_iU_{ji}v_i,\\qquad \\ket{\\psi^\\prime}=U\\ket\\psi .\\]"
+   }
+  ],
+  "figure": "transitions-to-matrix.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Unitary matrices",
+  "topic": "4.1.4",
+  "blocks": [
+   {
+    "p": "Every normalized input must give a normalized output. The two conditions of Chapter 3 say:"
+   },
+   {
+    "ul": [
+     "each column has unit length (outgoing normalization);",
+     "distinct columns are orthogonal (cross-sum condition)."
+    ]
+   },
+   {
+    "math": "\\[\\sum_jU_{ji}^*U_{jk}=\\delta_{ik}\\quad(\\delta_{ik}=1\\text{ if }i=k,\\ 0\\text{ otherwise}).\\]"
+   },
+   {
+    "p": "A square matrix with orthonormal columns is unitary. Example:"
+   },
+   {
+    "math": "\\[U=\\frac15\\begin{pmatrix}4&-3\\\\3&4\\end{pmatrix},\\qquad U\\Bigl(\\tfrac35\\ket0+\\tfrac45\\ket1\\Bigr)=\\ket1 .\\]"
+   }
+  ],
+  "figure": "transition-matrix-geometry.svg",
+  "figure_side": "right",
+  "notes": [
+   "U rotates both basis vectors, keeping their lengths and the right angle between them. The weighted images of 3/5 and 4/5 cancel horizontally and add to one vertically."
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Gate matrices and composition",
+  "topic": "4.1.4",
+  "columns": [
+   [
+    {
+     "p": "\\(X\\) exchanges the basis directions, \\(Z\\) flips the sign of the \\(\\ket1\\) component, \\(H\\) sends them to the two diagonals:"
+    },
+    {
+     "math": "\\[X=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix},\\ Z=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix},\\ H=\\tfrac1{\\sqrt2}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}.\\]"
+    },
+    {
+     "p": "After a step, comparing with \\(\\ket\\phi\\) gives the amplitude"
+    },
+    {
+     "math": "\\[\\bra\\phi U\\ket\\psi=\\sum_{i,j}\\braket\\phi j\\,\\bra jU\\ket i\\,\\braket i\\psi .\\]"
+    }
+   ],
+   [
+    {
+     "p": "Two steps, \\(U\\) first and \\(V\\) second, give \\(VU\\ket\\psi\\). The two-step sum rule is the matrix product:"
+    },
+    {
+     "math": "\\[(VU)_{ki}=\\sum_jV_{kj}U_{ji}.\\]"
+    },
+    {
+     "p": "The rightmost matrix acts first. For example \\(HH=I\\), the identity matrix:"
+    },
+    {
+     "math": "\\[\\tfrac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}.\\]"
+    }
+   ]
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Undoing a step: the adjoint",
   "topic": "4.1.5",
-  "title": "The adjoint undoes every unitary step",
-  "label": "Adjoint",
-  "statement": "\\(\\bra iU^\\dagger\\ket j=\\bigl(\\bra jU\\ket i\\bigr)^*\\): reverse every arrow and conjugate its weight. For a unitary step, \\(U^\\dagger U=I\\).",
-  "note": "Unitary steps keep lengths and angles, \\(\\braket{U\\chi}{U\\psi}=\\braket\\chi\\psi\\). A shear also has an adjoint, but it does not undo the shear."
+  "blocks": [
+   {
+    "p": "Reversing arrows undoes CNOT. Try it on \\(\\sqrt X\\) (stay \\(a=\\tfrac{1+i}2\\), switch \\(b=\\tfrac{1-i}2\\)): its arrows look the same both ways, so reversing gives \\(\\sqrt X\\) again and \\(\\sqrt X\\sqrt X=X\\), not \\(I\\). The return paths give \\(a^2+b^2=0\\)."
+   },
+   {
+    "p": "Reverse and also conjugate the weights. Return paths: \\(a^*a+b^*b=1\\); crossing paths: \\(b^*a+a^*b=0\\). The step is undone."
+   },
+   {
+    "box": {
+     "label": "Adjoint",
+     "text": "\\(U^\\dagger\\) reverses every arrow of \\(U\\) and conjugates its weight: \\(\\bra iU^\\dagger\\ket j=\\bra jU\\ket i^*\\). As a matrix, \\(U^\\dagger\\) is the conjugate transpose."
+    }
+   },
+   {
+    "p": "This is the rule \\(\\braket\\phi j=\\braket j\\phi^*\\) applied to the arrows of a step: going backward conjugates."
+   }
+  ],
+  "figure": "transitions-adjoint.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Unitary steps are undone by their adjoint",
+  "topic": "4.1.5",
+  "blocks": [
+   {
+    "p": "Apply \\(U\\), then \\(U^\\dagger\\), and use the sum rule:"
+   },
+   {
+    "math": "\\[\\bra iU^\\dagger U\\ket k=\\sum_j\\bra jU\\ket i^*\\,\\bra jU\\ket k .\\]"
+   },
+   {
+    "p": "This is 1 for \\(i=k\\) (normalization) and 0 for \\(i\\ne k\\) (cross sum). Hence"
+   },
+   {
+    "math": "\\[U^\\dagger U=I,\\qquad U^{-1}=U^\\dagger .\\]"
+   },
+   {
+    "p": "Moving an operator across an inner product: \\(\\bra\\phi U\\ket\\psi=\\braket{U^\\dagger\\phi}\\psi\\). With \\(\\ket\\phi=U\\ket\\chi\\):"
+   },
+   {
+    "math": "\\[\\braket{U\\chi}{U\\psi}=\\braket\\chi\\psi .\\]"
+   },
+   {
+    "p": "A unitary step preserves every length and angle: it moves state space rigidly, like a rotation. Example: \\(H^\\dagger=H\\), so \\(H\\) undoes itself."
+   }
+  ],
+  "figure": "transitions-unitarity.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "The adjoint is not always the inverse",
+  "topic": "4.1.5",
+  "blocks": [
+   {
+    "p": "Every matrix has an adjoint, but it undoes the matrix only when the matrix is unitary. Take the shear"
+   },
+   {
+    "math": "\\[A=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix},\\qquad A^\\dagger=\\begin{pmatrix}1&0\\\\1&1\\end{pmatrix}.\\]"
+   },
+   {
+    "p": "\\(A\\) slides points sideways by their height; \\(A^\\dagger\\) slides them upward by their horizontal position. Neither \\(AA^\\dagger\\) nor \\(A^\\dagger A\\) returns \\(\\tfrac35\\ket0+\\tfrac45\\ket1\\): they give \\((2,\\tfrac75)\\) and \\((\\tfrac75,\\tfrac{11}5)\\)."
+   },
+   {
+    "p": "Undoing \\(A\\) needs \\(A^{-1}=\\begin{pmatrix}1&-1\\\\0&1\\end{pmatrix}\\). The identity \\(\\bra\\phi A\\ket\\psi=\\braket{A^\\dagger\\phi}\\psi\\) still holds; the adjoint always moves an operator across an inner product. A shear stretches lengths, so it cannot be a step of a closed quantum system."
+   }
+  ],
+  "figure": "adjoint-geometry.svg",
+  "figure_side": "right"
  },
  {
   "kind": "section",
   "number": "4.2",
   "title": "Postulates",
-  "question": "Which parts of this calculation describe nature?"
+  "question": "Which of these calculations describe nature: states, closed evolution, measurement, and composite systems."
  },
  {
-  "kind": "statement",
+  "kind": "content",
+  "title": "The state postulate",
   "topic": "4.2.1",
-  "title": "What is a state?",
-  "label": "State postulate",
-  "statement": "A state of a finite quantum system is a unit vector of complex amplitudes. Vectors that differ only by a global phase represent the same state.",
-  "note": "A qubit: \\(\\ket\\psi=\\cos\\frac\\theta2\\ket0+e^{i\\phi}\\sin\\frac\\theta2\\ket1\\)."
- },
- {
-  "kind": "statement",
-  "topic": "4.2.1",
-  "title": "How does a closed system change?",
-  "label": "Evolution postulate",
-  "statement": "The evolution of a closed system is unitary: \\(\\ket\\psi\\mapsto U\\ket\\psi\\), with \\(U^\\dagger U=I\\).",
-  "note": "The mathematics forced unitarity for consistency; the postulate says nature behaves this way."
- },
- {
-  "kind": "statement",
-  "topic": "4.2.2",
-  "title": "What does a measurement report?",
-  "label": "Measurement postulate",
-  "statement": "Measuring \\(\\ket\\psi=\\sum_jv_j\\ket j\\) in the computational basis gives \\(j\\) with probability \\(|v_j|^2\\). The state becomes \\(\\ket j\\).",
-  "note": "With the projector \\(P_j=\\ketbra jj\\): \\(p(j)=\\|P_j\\ket\\psi\\|^2\\)."
- },
- {
-  "kind": "figure",
-  "topic": "4.2.2",
-  "title": "Measurement keeps one component",
-  "figure": "measurement-projection.svg",
-  "takeaway": "Keep one perpendicular component, with probability equal to its squared length, and rescale it."
- },
- {
-  "kind": "predict",
-  "topic": "4.2.2",
-  "title": "Must every measurement of |+⟩ be uncertain?",
-  "question": "Measuring \\(\\ket+=(\\ket0+\\ket1)/\\sqrt2\\) in the computational basis gives two equally likely results. Is that true of every measurement?",
-  "answer": "No. A measurement in a basis containing \\(\\ket+\\), the X measurement, gives \\(+\\) with certainty. The measurement chooses the question."
- },
- {
-  "kind": "compare",
-  "topic": "4.2.2",
-  "title": "Looking between two Hadamard steps",
-  "left": {
-   "label": "Uninterrupted",
-   "items": [
-    "\\(\\ket0\\to\\tfrac{1}{\\sqrt2}(\\ket0+\\ket1)\\to\\ket0\\)",
-    "Certain return to 0."
-   ]
-  },
-  "right": {
-   "label": "Measured in the middle",
-   "items": [
-    "The measurement leaves \\(\\ket0\\) or \\(\\ket1\\).",
-    "The second H gives each result half the time.",
-    "The update cannot be undone."
-   ]
-  },
-  "takeaway": "Unitary evolution carries every amplitude forward; measurement keeps one branch."
- },
- {
-  "kind": "steps",
-  "topic": "4.2.3",
-  "title": "What does a pair of qubits need?",
-  "steps": [
-   "Four complete configurations: \\(c_{00}\\ket{00}+c_{01}\\ket{01}+c_{10}\\ket{10}+c_{11}\\ket{11}\\).",
-   "Independent preparations: the amplitude of \\(01\\) is \\(ad\\), by the product rule.",
-   "Tensor product: \\((a,b)^T\\otimes(c,d)^T=(ac,ad,bc,bd)^T\\).",
-   "Composite-state postulate: every unit vector of this tensor-product space is allowed."
+  "blocks": [
+   {
+    "p": "Multiplying every amplitude by the same \\(e^{i\\theta}\\) changes no probability, now or after any later step, because every path sum gains the same factor. Such vectors cannot be told apart."
+   },
+   {
+    "box": {
+     "label": "State postulate",
+     "text": "A state of a finite quantum system is a unit vector of complex amplitudes, with the inner product above. Vectors differing only by a global phase represent the same physical state."
+    }
+   },
+   {
+    "p": "For a qubit, normalization ties the two magnitudes and the global phase can make the first amplitude real and nonnegative. One angle and one relative phase remain:"
+   },
+   {
+    "math": "\\[\\ket\\psi=\\cos\\tfrac\\theta2\\ket0+e^{i\\phi}\\sin\\tfrac\\theta2\\ket1,\\qquad 0\\le\\theta\\le\\pi .\\]"
+   },
+   {
+    "p": "At \\(\\theta=0\\) or \\(\\pi\\) one amplitude vanishes and no relative phase remains."
+   }
   ]
  },
  {
-  "kind": "predict",
-  "topic": "4.2.3",
-  "title": "Is every joint state a product?",
-  "question": "Can \\((\\ket{00}+\\ket{11})/\\sqrt2\\) be written as \\((a\\ket0+b\\ket1)\\otimes(c\\ket0+d\\ket1)\\)?",
-  "answer": "No. Nonzero \\(ac\\) and \\(bd\\) force \\(ad\\) and \\(bc\\) to be nonzero, but the state has no \\(01\\) or \\(10\\) term. It is entangled."
+  "kind": "content",
+  "title": "The evolution postulate",
+  "topic": "4.2.1",
+  "blocks": [
+   {
+    "p": "The mathematics shows that probability-preserving steps are unitary. The postulate asserts that nature uses them."
+   },
+   {
+    "box": {
+     "label": "Evolution postulate",
+     "text": "The evolution of a closed system is unitary: \\(\\ket\\psi\\mapsto U\\ket\\psi\\) with \\(U^\\dagger U=I\\)."
+    }
+   },
+   {
+    "p": "With real amplitudes, unit vectors end on a circle and a unitary is a rotation:"
+   },
+   {
+    "math": "\\[U(\\delta)=\\begin{pmatrix}\\cos\\delta&-\\sin\\delta\\\\\\sin\\delta&\\cos\\delta\\end{pmatrix}.\\]"
+   },
+   {
+    "p": "Lengths and angles between states are kept; in general \\(\\braket{U\\chi}{U\\psi}=\\braket\\chi\\psi\\)."
+   }
+  ],
+  "figure": "subsections/topic-4-2-1.svg",
+  "figure_side": "right"
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "The measurement postulate",
+  "topic": "4.2.2",
+  "blocks": [
+   {
+    "box": {
+     "label": "Measurement postulate",
+     "text": "For a normalized \\(\\ket\\psi=\\sum_jv_j\\ket j\\), an ideal measurement in the computational basis gives outcome \\(j\\) with probability \\(|\\braket j\\psi|^2=|v_j|^2\\). Conditional on that outcome, the state becomes \\(\\ket j\\)."
+    }
+   },
+   {
+    "p": "Both the probability and the update are physical assumptions, not consequences of path arithmetic."
+   },
+   {
+    "p": "Example: \\(\\tfrac{\\sqrt3}2\\ket0+\\tfrac12\\ket1\\) gives 0 with probability \\(\\tfrac34\\), 1 with \\(\\tfrac14\\). After outcome 1 the state is \\(\\ket1\\), so an immediate repeat gives 1."
+   }
+  ],
+  "figure": "subsections/topic-4-2-2.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Measurement as projection",
+  "topic": "4.2.2",
+  "blocks": [
+   {
+    "p": "A state is the sum of its components along the basis directions, \\(\\ket\\psi=\\sum_j\\ket j\\braket j\\psi\\). Measurement picks one component, with probability equal to its squared length, keeps it, and rescales it to unit length."
+   },
+   {
+    "p": "The projector \\(P_j=\\ketbra jj\\) keeps the component along \\(\\ket j\\): \\(P_j\\ket\\psi=\\ket j\\braket j\\psi\\). As a matrix it is a column times a row, e.g."
+   },
+   {
+    "math": "\\[\\ketbra00=\\begin{pmatrix}1\\\\0\\end{pmatrix}\\begin{pmatrix}1&0\\end{pmatrix}=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix}.\\]"
+   },
+   {
+    "p": "In this language,"
+   },
+   {
+    "math": "\\[p(j)=\\|P_j\\ket\\psi\\|^2,\\qquad \\ket{\\psi_j}=\\frac{P_j\\ket\\psi}{\\sqrt{p(j)}}\\quad(p(j)>0).\\]"
+   }
+  ],
+  "figure": "measurement-projection.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Measuring in other bases",
+  "topic": "4.2.2",
+  "blocks": [
+   {
+    "p": "Let a unitary \\(U\\) carry an orthonormal basis \\(\\ket{b_j}\\) to the computational basis. Measuring in the \\(b\\) basis means applying \\(U\\) and then measuring:"
+   },
+   {
+    "math": "\\[p(j)=|\\bra jU\\ket\\psi|^2=|\\braket{U^\\dagger j}\\psi|^2=|\\braket{b_j}\\psi|^2 .\\]"
+   },
+   {
+    "p": "So \\(|\\braket\\phi\\psi|^2\\) is the probability of outcome \\(\\phi\\) in any orthonormal basis containing \\(\\ket\\phi\\); afterwards the state is \\(\\ket\\phi\\)."
+   },
+   {
+    "p": "Real example: \\(\\ket\\psi=\\cos\\alpha\\ket0+\\sin\\alpha\\ket1\\), \\(\\ket{b_0}=\\cos\\beta\\ket0+\\sin\\beta\\ket1\\), \\(\\ket{b_1}=-\\sin\\beta\\ket0+\\cos\\beta\\ket1\\) give amplitudes \\(\\cos(\\alpha-\\beta)\\) and \\(\\sin(\\alpha-\\beta)\\)."
+   },
+   {
+    "p": "\\(\\beta=0\\) is the Z measurement; \\(\\beta=45^\\circ\\) is the X measurement, with \\(\\ket\\pm=(\\ket0\\pm\\ket1)/\\sqrt2\\). Preparing \\(\\ket+\\): X gives \\(+\\) with certainty, Z gives each outcome half the time. The measurement asks a different question; the state is the same."
+   },
+   {
+    "note": "With \\(\\beta=45^\\circ\\), \\(\\ket{b_1}=-\\ket-\\); an overall sign does not change the projector."
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Evolution and measurement together",
+  "topic": "4.2.2",
+  "blocks": [
+   {
+    "p": "A history alternates the two kinds of change: unitary evolution between measurements, and at each measurement the observed outcome selects a component, which is rescaled to unit length."
+   },
+   {
+    "p": "Example: from \\(\\ket0\\), \\(H\\) gives \\((\\ket0+\\ket1)/\\sqrt2\\). Uninterrupted, a second \\(H\\) returns \\(\\ket0\\) with certainty. Measured in between, the state becomes \\(\\ket0\\) or \\(\\ket1\\), and the second \\(H\\) gives equal probabilities."
+   },
+   {
+    "p": "The update cannot be undone: after outcome 0, an initial \\(\\ket0\\) and an initial \\((\\ket0+\\ket1)/\\sqrt2\\) both leave \\(\\ket0\\)."
+   },
+   {
+    "note": "The larger system, including the device and its record, may still evolve unitarily; the conditional description keeps only the reported branch. In the figure, vertical drops are schematic and do not mean a loss of norm or energy."
+   }
+  ],
+  "figure": "evolution-measurement-history.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Composite systems",
   "topic": "4.2.3",
-  "title": "Four joint configurations, four amplitudes",
+  "blocks": [
+   {
+    "p": "A complete configuration of two qubits names one configuration of each: \\(00,01,10,11\\). A joint state assigns an amplitude to each:"
+   },
+   {
+    "math": "\\[\\ket\\Psi=c_{00}\\ket{00}+c_{01}\\ket{01}+c_{10}\\ket{10}+c_{11}\\ket{11},\\]"
+   },
+   {
+    "p": "with \\(\\sum_{i,j}|c_{ij}|^2=1\\)."
+   },
+   {
+    "p": "Independent preparations \\(a\\ket0+b\\ket1\\) and \\(c\\ket0+d\\ket1\\): reaching 01 means 0 in \\(A\\) and 1 in \\(B\\), so its amplitude is \\(ad\\). This is the tensor product:"
+   },
+   {
+    "math": "\\[\\begin{pmatrix}a\\\\b\\end{pmatrix}\\otimes\\begin{pmatrix}c\\\\d\\end{pmatrix}=\\begin{pmatrix}ac\\\\ad\\\\bc\\\\bd\\end{pmatrix},\\qquad \\ket i\\otimes\\ket j=\\ket{ij}.\\]"
+   }
+  ],
   "figure": "composite-bipartite.svg",
-  "takeaway": "Dimensions multiply: n qubits need one amplitude per bit string, 2ⁿ in all."
+  "figure_side": "right",
+  "notes": [
+   "Each entry multiplies one amplitude of A by one of B, so probabilities multiply, as independence requires. Two separate lists for n qubits hold 2n amplitudes; the joint description needs 2^n."
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "The composite-state postulate and entanglement",
+  "topic": "4.2.3",
+  "blocks": [
+   {
+    "box": {
+     "label": "Composite-state postulate",
+     "text": "The state space of a composite system is the tensor product of the state spaces of its parts, with basis \\(\\ket{ij}=\\ket i\\otimes\\ket j\\). Every unit vector in it is an allowed state."
+    }
+   },
+   {
+    "p": "Dimensions multiply: parts with \\(m\\) and \\(n\\) basis states give \\(mn\\). Are there allowed states that are not products? Take"
+   },
+   {
+    "math": "\\[\\frac{\\ket{00}+\\ket{11}}{\\sqrt2}.\\]"
+   },
+   {
+    "p": "A product would need \\(ac\\ne0\\) and \\(bd\\ne0\\), so all of \\(a,b,c,d\\ne0\\); then \\(ad\\) and \\(bc\\) could not vanish. But this state has no 01 or 10 term. A pure joint state that is not a product is entangled."
+   },
+   {
+    "p": "Measuring both qubits gives 00 or 11, each half the time. A classical coin choosing 00 or 11 gives the same counts, so correlation alone does not reveal entanglement; the difference lies in the amplitudes of the whole state."
+   }
+  ]
  },
  {
   "kind": "takeaways",
-  "title": "What we found",
+  "title": "Summary",
   "items": [
-   "States are vectors; steps are matrices; the inner product is the transition amplitude.",
-   "Steps that keep total probability are unitary, and their adjoint undoes them.",
-   "Postulates: unit vectors, unitary evolution, measurement by projection, tensor products.",
-   "Measurement keeps one branch and cannot be undone.",
-   "Joint states need not be products: entanglement."
+   "A state is a vector of amplitudes; the inner product \\(\\braket\\phi\\psi=\\sum_j\\phi_j^*\\psi_j\\) is the transition amplitude, with the conjugate forced by the probability rule.",
+   "A step is a matrix \\(U_{ji}=\\bra jU\\ket i\\); composition is the matrix product; probability is preserved exactly when \\(U\\) is unitary, and then \\(U^{-1}=U^\\dagger\\).",
+   "Postulates: unit vectors up to global phase; unitary closed evolution; measurement with probability \\(|\\braket\\phi\\psi|^2\\) and state update.",
+   "Composite systems live in the tensor product; states that do not factor are entangled."
   ]
  }
 ]

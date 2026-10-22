@@ -3,122 +3,314 @@
   "kind": "section",
   "number": "5.1",
   "title": "Quantum Model of Computation",
-  "question": "How do the postulates become a procedure that answers a question?"
+  "question": "The postulates become a procedure: prepare an input, evolve it, measure, and count what the run costs."
  },
  {
-  "kind": "steps",
+  "kind": "content",
+  "title": "Input, evolution, and output",
   "topic": "5.1.1",
-  "title": "What does a computation consist of?",
-  "steps": [
-   "Choose an input state \\(\\ket{\\psi_{\\mathrm{in}}}\\) that encodes the question.",
-   "Apply unitary steps, together one unitary \\(U\\).",
-   "Measure: one result \\(y\\) per run, with probability \\(|\\text{amplitude}|^2\\).",
-   "Naming \\(U\\) says nothing about how it is built, or what it costs."
+  "blocks": [
+   {
+    "p": "A task gives an input and specifies which outputs count as correct. A quantum procedure makes three choices:"
+   },
+   {
+    "ul": [
+     "an initial state \\(\\ket{\\psi_{\\mathrm{in}}}\\) that encodes the input;",
+     "unitary steps, which together form one unitary \\(U\\);",
+     "a measurement, which returns a classical result \\(y\\)."
+    ]
+   },
+   {
+    "math": "\\[\\ket{\\psi_{\\mathrm{out}}}=U\\ket{\\psi_{\\mathrm{in}}}\\ \\xrightarrow{\\ \\text{measure}\\ }\\ y .\\]"
+   },
+   {
+    "p": "The output state itself cannot be read. A run returns one label, with probability equal to the squared magnitude of its amplitude. The output state fixes how likely each answer is, so a computation works only if it makes the correct answer likely."
+   },
+   {
+    "p": "Naming the whole evolution \\(U\\) says nothing about how a machine carries it out. Building \\(U\\) from available operations, and counting their cost, is part of the algorithm."
+   },
+   {
+    "note": "Procedures may also measure partway and choose later steps from the result; we start with a single final measurement."
+   }
   ]
  },
  {
-  "kind": "steps",
+  "kind": "content",
+  "title": "Composition and interference",
   "topic": "5.1.2",
-  "title": "Can a step that changes no probability matter?",
-  "steps": [
-   "Two programs from \\(\\ket0\\): \\(H,H\\) and \\(H,Z,H\\).",
-   "After the first \\(H\\): probabilities \\(\\tfrac12,\\tfrac12\\). \\(Z\\) leaves them unchanged.",
-   "\\(HH=I\\), but \\(HZH=X\\).",
-   "The relative sign, invisible in the middle, decides the answer."
+  "columns": [
+   [
+    {
+     "p": "A gate is an operation a machine applies directly; a program is an ordered list of gates \\(U_1,\\ldots,U_T\\). By the sum and product rules,"
+    },
+    {
+     "math": "\\[U=U_T\\cdots U_2U_1 ,\\]"
+    },
+    {
+     "p": "with the later gate on the left. Each gate preserves length, so \\(U\\) does. Writing the product as one symbol does not remove the cost of \\(T\\) gates."
+    },
+    {
+     "p": "Why a sequence? Compare two programs from \\(\\ket0\\): \\(H,H\\) and \\(H,Z,H\\). After the first \\(H\\) both outcomes have probability \\(\\tfrac12\\), and \\(Z\\), which only flips the sign of the \\(\\ket1\\) amplitude, leaves them at \\(\\tfrac12\\)."
+    }
+   ],
+   [
+    {
+     "math": "\\[HH=I,\\]"
+    },
+    {
+     "math": "\\[HZH=\\tfrac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}=X .\\]"
+    },
+    {
+     "p": "The first program returns \\(\\ket0\\), the second \\(\\ket1\\). A sign invisible to any measurement in the middle decided the answer."
+    },
+    {
+     "box": {
+      "label": "Lesson",
+      "text": "An intermediate state is not an answer: its relative phases decide how later steps combine its paths."
+     }
+    }
+   ]
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Readout and computational cost",
+  "topic": "5.1.3",
+  "blocks": [
+   {
+    "p": "A final computational-basis measurement returns \\(y\\) with probability"
+   },
+   {
+    "math": "\\[p(y)=|\\braket y{\\psi_{\\mathrm{out}}}|^2=|\\bra yU\\ket{\\psi_{\\mathrm{in}}}|^2 .\\]"
+   },
+   {
+    "p": "If the correct answer has probability \\(\\tfrac34\\), one run is wrong a quarter of the time. Repeating and taking the majority helps, but each repetition needs a fresh input and the full work again. A probabilistic algorithm must state its success probability on the inputs it promises to handle."
+   },
+   {
+    "p": "The input may not carry the answer for free: a procedure must say what information about the task it is given."
+   },
+   {
+    "ul": [
+     "Count qubits, gates, layers of gates (depth), repetitions, and the classical work to prepare inputs and interpret outputs.",
+     "\\(H,Z,H\\) and the single gate \\(X\\) compute the same NOT, with three gates and one.",
+     "A speedup is a claim about tasks of growing size under the same input-access rules; a one-qubit example cannot show one."
+    ]
+   }
   ],
   "notes": [
-   "Gates combine by the matrix product, the later gate on the left: U = U_T ⋯ U_2 U_1."
-  ]
- },
- {
-  "kind": "steps",
-  "topic": "5.1.3",
-  "title": "What does one run return, and what does it cost?",
-  "steps": [
-   "\\(p(y)=|\\bra yU\\ket{\\psi_{\\mathrm{in}}}|^2\\)",
-   "Correct with probability 3/4? Repeat and take the most frequent answer; each repetition costs again.",
-   "Count qubits, gates, layers, repetitions, preparation, and readout.",
-   "One qubit cannot show a speedup: that needs tasks of growing size."
+   "Example of repetition: with success probability 3/4 per run, the majority of three runs is correct with probability (3/4)³ + 3(3/4)²(1/4) = 27/32 ≈ 0.84."
   ]
  },
  {
   "kind": "section",
   "number": "5.2",
   "title": "Single-Qubit Computation",
-  "question": "Can one qubit carry out a complete computation?"
+  "question": "A notation for programs, a complete computation decided by a relative sign, and the continuous dependence of the answer on phase."
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Circuit notation",
   "topic": "5.2.1",
-  "title": "How do we write a program?",
-  "figure": "model-single-circuit-notation.svg",
-  "takeaway": "A wire follows a qubit through time; boxes are gates; M is a measurement; a double line carries a classical bit."
- },
- {
-  "kind": "figure",
-  "topic": "5.2.2",
-  "title": "Computing NOT with interference",
-  "figure": "model-interference-circuit.svg",
-  "lead": "\\(\\ket0\\xrightarrow{H}\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\xrightarrow{Z}\\tfrac{\\ket0-\\ket1}{\\sqrt2}\\xrightarrow{H}\\ket1\\)",
-  "takeaway": "At 0 the contributions \\(+\\tfrac12\\) and \\(-\\tfrac12\\) cancel; at 1 they add to one."
- },
- {
-  "kind": "predict",
-  "topic": "5.2.2",
-  "title": "What if we look in the middle?",
-  "question": "Insert a measurement after the first H. What does the program output now?",
-  "answer": "The state becomes |0⟩ or |1⟩, and Z then H give each answer half the time. Both the relative sign and the absence of a measurement are needed."
- },
- {
-  "kind": "steps",
-  "topic": "5.2.3",
-  "title": "Between no sign change and a full one",
-  "steps": [
-   "Phase gate: \\(R_\\phi\\ket0=\\ket0,\\ R_\\phi\\ket1=e^{i\\phi}\\ket1\\).",
-   "\\[HR_\\phi H\\ket0=\\frac{1+e^{i\\phi}}2\\ket0+\\frac{1-e^{i\\phi}}2\\ket1\\]",
-   "\\(p(0)=\\frac{1+\\cos\\phi}{2}\\)",
-   "\\(\\phi=0\\): 0. \\(\\phi=\\pi\\): 1. \\(\\phi=\\pi/2\\): even odds."
+  "blocks": [
+   {
+    "p": "One qubit starts in \\(\\ket{\\psi_{\\mathrm{in}}}=a\\ket0+b\\ket1\\), \\(|a|^2+|b|^2=1\\). For an input bit \\(x\\), prepare \\(\\ket x\\): initialize \\(\\ket0\\) and apply \\(X\\) if \\(x=1\\)."
+   },
+   {
+    "ul": [
+     "A circuit is read from left to right.",
+     "A horizontal wire follows the qubit through time; its initial state is written at the left.",
+     "A box labelled H, X or Z applies that gate; bare wire leaves the state unchanged.",
+     "A box labelled M measures in the computational basis; the double line after it carries one classical bit."
+    ]
+   },
+   {
+    "p": "In the example, H sends \\(\\ket0\\) to \\((\\ket0+\\ket1)/\\sqrt2\\) and M returns either bit with probability \\(\\tfrac12\\)."
+   },
+   {
+    "note": "A box may also stand for a composite operation built from many gates; its size on the page says nothing about its cost."
+   }
   ],
-  "takeaway": "The last gate turns a phase no measurement could see into the probabilities of the answer."
+  "figure": "model-single-circuit-notation.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "A complete one-qubit computation",
+  "topic": "5.2.2",
+  "blocks": [
+   {
+    "p": "Task: reverse an input bit. \\(X\\) does it in one step; follow \\(H,Z,H\\) instead:"
+   },
+   {
+    "math": "\\[\\ket0\\xrightarrow{H}\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\xrightarrow{Z}\\tfrac{\\ket0-\\ket1}{\\sqrt2}\\xrightarrow{H}\\ket1 ,\\]"
+   },
+   {
+    "math": "\\[\\ket1\\xrightarrow{H}\\tfrac{\\ket0-\\ket1}{\\sqrt2}\\xrightarrow{Z}\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\xrightarrow{H}\\ket0 .\\]"
+   },
+   {
+    "p": "In the last step from input 0, the two paths to 0 contribute \\(\\tfrac12\\) and \\(-\\tfrac12\\) and cancel; the paths to 1 add to 1. By linearity, \\(a\\ket0+b\\ket1\\mapsto b\\ket0+a\\ket1\\): this is \\(HZH=X\\)."
+   },
+   {
+    "p": "What is essential? Without \\(Z\\), the two \\(H\\) gates cancel and the input returns. With a measurement after the first \\(H\\), the state becomes \\(\\ket0\\) or \\(\\ket1\\) and both answers become equally likely."
+   }
+  ],
+  "figure": "model-interference-circuit.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Phase and output probabilities",
+  "topic": "5.2.3",
+  "columns": [
+   [
+    {
+     "p": "Replace \\(Z\\) by the phase gate \\(R_\\phi\\):"
+    },
+    {
+     "math": "\\[R_\\phi\\ket0=\\ket0,\\qquad R_\\phi\\ket1=e^{i\\phi}\\ket1 .\\]"
+    },
+    {
+     "p": "It preserves length; \\(R_0=I\\) and \\(R_\\pi=Z\\). For input 0:"
+    },
+    {
+     "math": "\\[\\begin{aligned}\\ket0&\\xrightarrow{H}\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\xrightarrow{R_\\phi}\\tfrac{\\ket0+e^{i\\phi}\\ket1}{\\sqrt2}\\\\&\\xrightarrow{H}\\tfrac{1+e^{i\\phi}}2\\ket0+\\tfrac{1-e^{i\\phi}}2\\ket1 .\\end{aligned}\\]"
+    },
+    {
+     "math": "\\[p(0)=\\Bigl|\\tfrac{1+e^{i\\phi}}2\\Bigr|^2=\\frac{1+\\cos\\phi}2,\\qquad p(1)=\\frac{1-\\cos\\phi}2 .\\]"
+    }
+   ],
+   [
+    {
+     "table": {
+      "headers": [
+       "\\(\\phi\\)",
+       "\\(p(0)\\)",
+       "\\(p(1)\\)"
+      ],
+      "rows": [
+       [
+        "\\(0\\)",
+        "1",
+        "0"
+       ],
+       [
+        "\\(\\pi/2\\)",
+        "\\(1/2\\)",
+        "\\(1/2\\)"
+       ],
+       [
+        "\\(\\pi\\)",
+        "0",
+        "1"
+       ]
+      ]
+     }
+    },
+    {
+     "p": "Just before the final \\(H\\), both outcomes have probability \\(\\tfrac12\\) for every \\(\\phi\\). The last gate turns a relative phase that no measurement could see into the probabilities of the answer."
+    },
+    {
+     "note": "Check \\(p(0)\\): \\(|1+e^{i\\phi}|^2=(1+\\cos\\phi)^2+\\sin^2\\phi=2+2\\cos\\phi\\)."
+    }
+   ]
+  ]
  },
  {
   "kind": "section",
   "number": "5.3",
   "title": "Pauli Operators",
-  "question": "How many single-qubit operations are there, and can a few describe them all?"
+  "question": "A fixed family of four matrices that describes every single-qubit operator, and the difference between describing an operation and building it."
  },
  {
-  "kind": "steps",
+  "kind": "content",
+  "title": "The Pauli operators",
   "topic": "5.3.1",
-  "title": "An operation that exchanges and flips sign",
-  "steps": [
-   "\\(XZ\\ket0=\\ket1,\\quad XZ\\ket1=-\\ket0\\).",
-   "\\((XZ)^2=-I\\), so multiply by \\(i\\): \\(Y=iXZ\\), and \\(Y^2=I\\).",
-   "\\[X=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix},\\ Y=\\begin{pmatrix}0&-i\\\\i&0\\end{pmatrix},\\ Z=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}\\]",
-   "\\(ZX=-XZ\\): a product of Paulis is a Pauli times a phase."
+  "columns": [
+   [
+    {
+     "p": "\\(X\\) exchanges the configurations; \\(Z\\) flips their relative sign. Doing both: \\(XZ\\ket0=\\ket1\\), \\(XZ\\ket1=-\\ket0\\). But \\((XZ)^2=-I\\), whereas \\(X\\) and \\(Z\\) undo themselves. Multiplying by \\(i\\) repairs this, so define"
+    },
+    {
+     "math": "\\[Y=iXZ,\\qquad Y\\ket0=i\\ket1,\\qquad Y\\ket1=-i\\ket0 .\\]"
+    },
+    {
+     "p": "On a general state:"
+    },
+    {
+     "math": "\\[X(a,b)=(b,a),\\quad Y(a,b)=(-ib,ia),\\quad Z(a,b)=(a,-b).\\]"
+    },
+    {
+     "p": "Each preserves length and \\(X^2=Y^2=Z^2=I\\). Order matters: \\(ZX=-XZ\\). A product of Paulis is again \\(I,X,Y\\) or \\(Z\\) times a phase."
+    }
+   ],
+   [
+    {
+     "math": "\\[I=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix},\\quad X=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix},\\]"
+    },
+    {
+     "math": "\\[Y=\\begin{pmatrix}0&-i\\\\i&0\\end{pmatrix},\\quad Z=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}.\\]"
+    },
+    {
+     "p": "Each column lists the amplitudes produced from one input configuration."
+    },
+    {
+     "note": "Here \\((a,b)\\) abbreviates \\(a\\ket0+b\\ket1\\)."
+    }
+   ]
   ]
  },
  {
-  "kind": "steps",
+  "kind": "content",
+  "title": "The Pauli basis for operators",
   "topic": "5.3.2",
-  "title": "Can four matrices describe every operator?",
-  "steps": [
-   "\\[A=\\tfrac{a+d}2I+\\tfrac{b+c}2X+\\tfrac{c-b}{2i}Y+\\tfrac{a-d}2Z\\]",
-   "For example, \\(H=(X+Z)/\\sqrt2\\).",
-   "But a circuit multiplies gates; it does not add them. No Pauli circuit turns \\(\\ket0\\) into \\(H\\ket0\\).",
-   "A continuous family: \\(R_x(\\theta)=\\cos\\tfrac\\theta2I-i\\sin\\tfrac\\theta2X\\)."
-  ],
-  "takeaway": "Describing an operator is not the same as building it from gates."
+  "blocks": [
+   {
+    "p": "Can every \\(2\\times2\\) matrix be written with \\(I,X,Y,Z\\)? \\(I\\) and \\(Z\\) supply the diagonal (equal and opposite signs); \\(X\\) and \\(Y\\) supply the off-diagonal (equal and opposite imaginary factors). Matching entries:"
+   },
+   {
+    "math": "\\[\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}=\\frac{a+d}2I+\\frac{b+c}2X+\\frac{c-b}{2i}Y+\\frac{a-d}2Z .\\]"
+   },
+   {
+    "p": "Check the off-diagonal entries: upper right \\(\\tfrac{b+c}2-\\tfrac{c-b}2=b\\), lower left \\(\\tfrac{b+c}2+\\tfrac{c-b}2=c\\). The coefficients are unique, so \\(I,X,Y,Z\\) form a basis for single-qubit operators (any linear maps, not only gates). For example"
+   },
+   {
+    "math": "\\[H=\\frac{X+Z}{\\sqrt2},\\qquad R_\\phi=\\frac{1+e^{i\\phi}}2I+\\frac{1-e^{i\\phi}}2Z .\\]"
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Describing an operator is not building it",
+  "topic": "5.3.2",
+  "blocks": [
+   {
+    "p": "The expansion adds matrices; a circuit multiplies them. X followed by Z performs \\(ZX\\), not \\((X+Z)/\\sqrt2\\), and choosing X or Z at random does not produce the sum either."
+   },
+   {
+    "ul": [
+     "From \\(\\ket0\\), any sequence of Pauli gates leaves a single basis state up to phase, so it never reaches \\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2\\).",
+     "Not every combination is a gate: \\(I+Z\\) sends \\(\\ket0\\mapsto2\\ket0\\) and \\(\\ket1\\mapsto0\\), which is not unitary."
+    ]
+   },
+   {
+    "p": "A continuous family from one Pauli:"
+   },
+   {
+    "math": "\\[R_x(\\theta)=\\cos\\tfrac\\theta2\\,I-i\\sin\\tfrac\\theta2\\,X .\\]"
+   },
+   {
+    "p": "It is unitary: in \\(R_x(\\theta)^\\dagger R_x(\\theta)\\) the cross terms cancel and \\(X^2=I\\) leaves \\(\\bigl(\\cos^2\\tfrac\\theta2+\\sin^2\\tfrac\\theta2\\bigr)I=I\\). It sends \\(\\ket0\\) to \\(\\cos\\tfrac\\theta2\\ket0-i\\sin\\tfrac\\theta2\\ket1\\). A gate with an adjustable angle is a different capability from the fixed gate \\(X\\)."
+   }
+  ]
  },
  {
   "kind": "takeaways",
-  "title": "What we found",
+  "title": "Summary",
   "items": [
-   "A computation is an input state, unitary steps, and a measurement read as an answer.",
-   "A relative phase invisible in the middle can decide the result.",
-   "Cost counts gates, qubits, layers, repetitions, and readout.",
-   "One qubit runs a full computation; the phase gate sets its output probabilities.",
-   "I, X, Y, Z describe every single-qubit operator, but building gates is a separate question."
+   "A quantum computation prepares \\(\\ket{\\psi_{\\mathrm{in}}}\\), applies \\(U=U_T\\cdots U_1\\), and measures; a run returns one outcome with probability \\(|\\bra yU\\ket{\\psi_{\\mathrm{in}}}|^2\\).",
+   "Cost counts qubits, gates, depth, repetitions and classical processing; speedups are claims about growing input sizes.",
+   "In \\(H,R_\\phi,H\\) a relative phase invisible in the middle sets the output: \\(p(0)=(1+\\cos\\phi)/2\\).",
+   "\\(I,X,Y,Z\\) form a basis for single-qubit operators, but a circuit multiplies gates; describing an operator is not building it."
   ]
  }
 ]

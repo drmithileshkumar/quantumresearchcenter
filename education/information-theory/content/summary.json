@@ -1,0 +1,54 @@
+{
+  "01-distinguishability": [
+    "A measurement strategy and a proof of optimality are separate achievements. For binary minimum-error discrimination, the positive eigenspace of \\(p\\rho-(1-p)\\sigma\\) gives both.",
+    "With equal priors, \\(p_{\\mathrm{guess}}=(1+T)/2\\), where \\(T=\\|\\rho-\\sigma\\|_1/2\\). This gives trace distance its operational meaning.",
+    "For two pure states, \\(T=\\sqrt{1-F}\\). Mixed states require inequalities; throughout this course F denotes squared fidelity.",
+    "A deterministic channel cannot improve the best input test. Conditioning on a selected outcome changes the task and requires accounting for its success probability.",
+    "An asymmetric test minimizes false alarms subject to a miss constraint. Its optimal effect need not be a projector."
+  ],
+  "02-quantum-channels": [
+    "Complete positivity tests consistency with a reference system.",
+    "Our unnormalized Choi matrix obeys \\(\\tr_B J=I_A\\).",
+    "Kraus operators, Choi matrices, and dilations describe the same channel; device accuracy requires specifying an input model."
+  ],
+  "03-entropy-and-data-processing": [
+    "Relative entropy requires a support check and is not a symmetric distance.",
+    "Data processing implies strong subadditivity and monotonicity of mutual information.",
+    "Error exponents concern a specified many-copy task; they are not exact finite-sample probabilities."
+  ],
+  "04-entanglement-transformations": [
+    "LOCC defines which operations are free; a conversion statement must identify its resources.",
+    "Pure-state deterministic conversion requires \\(\\lambda_{\\rm input}\\prec\\lambda_{\\rm output}\\).",
+    "Exact one-copy conversion, probabilistic filtering, and asymptotic rates are different tasks."
+  ],
+  "05-quantum-compression": [
+    "Typicality turns entropy into a high-probability subspace dimension.",
+    "Quantum compression must preserve coherence and reference correlations.",
+    "The entropy rate is asymptotic; finite blocks require explicit dimension and fidelity calculations."
+  ],
+  "06-classical-communication": [
+    "The Holevo bound follows from data processing on a classical–quantum state.",
+    "Accessible information, optimized one-use Holevo information, and unrestricted capacity are distinct.",
+    "Always state encoding restrictions, decoding error, and assistance when reporting a rate."
+  ],
+  "07-quantum-communication": [
+    "Coherent information compares the receiver with the environment.",
+    "Decoupling concerns the reference–environment joint state, not only their marginals.",
+    "Assistance changes capacities; special channel formulas must not be generalized without proof."
+  ],
+  "08-recovery-and-error-correction": [
+    "Knill–Laflamme conditions test all cross products of the specified errors.",
+    "The repetition code corrects single bit flips, not arbitrary single-qubit noise.",
+    "Recovery theorems concern specified states, supports, and error criteria; a noisy channel need not have a universal inverse."
+  ],
+  "09-resource-theories": [
+    "A resource is defined relative to states and operations declared free.",
+    "Data processing constructs relative-entropy monotones; for coherence, \\(C_r=S(\\Delta\\rho)-S(\\rho)\\).",
+    "A conversion bound is not a protocol, and catalyst return conditions must be explicit."
+  ],
+  "10-research-practicum": [
+    "Benchmark a numerical method against a calculation whose answer is known.",
+    "Report resources, tolerances, assumptions, and whether a quantity is a bound or an exact value.",
+    "Research readiness includes recognizing what the evidence does not establish."
+  ]
+}

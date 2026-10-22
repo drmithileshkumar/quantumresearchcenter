@@ -1,0 +1,922 @@
+{
+  "01-distinguishability": [
+    {
+      "kind": "Quick check",
+      "question": "Find the trace norm and operator norm of diag(3,−2).",
+      "hints": [
+        "Use absolute eigenvalues."
+      ],
+      "answer": "The singular values are 3 and 2, giving trace norm 5 and operator norm 3.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Find \\(T\\) between diag(0.7,0.3) and diag(0.2,0.8).",
+      "hints": [
+        "Subtract before taking absolute values."
+      ],
+      "answer": "The difference has eigenvalues ±0.5. Its trace norm is 1, so \\(T=0.5\\). Equal-prior success is 0.75.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "If two candidate states coincide and their priors are 0.8 and 0.2, what is optimal?",
+      "hints": [
+        "The system contains no distinguishing evidence."
+      ],
+      "answer": "Always guess the more likely state; success is 0.8. The weighted difference formula gives the same result.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute fidelity between |0⟩ and diag(0.6,0.4).",
+      "hints": [
+        "Use the pure-state formula."
+      ],
+      "answer": "\\(F=\\langle0|\\sigma|0\\rangle=0.6\\); root fidelity is \\(\\sqrt{0.6}\\).",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find \\(T\\) between two pure states with overlap magnitude 0.6.",
+      "hints": [
+        "Square the overlap for our fidelity convention."
+      ],
+      "answer": "\\(F=0.36\\), \\(T=\\sqrt{0.64}=0.8\\), and equal-prior success is 0.9.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Construct an optimal effect for diagonal states diag(0.7,0.3) and diag(0.2,0.8).",
+      "hints": [
+        "Select the positive eigenspace of the difference."
+      ],
+      "answer": "\\(M=|0\\rangle\\langle0|\\). Success is \\((0.7+0.8)/2=0.75\\).",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For the chapter’s asymmetric example, what happens when ε=0?",
+      "hints": [
+        "Both outcomes have nonzero probability under the signal."
+      ],
+      "answer": "Acceptance must be certain on both outcomes, so M=I and β=1. Zero misses are expensive here.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does fidelity zero imply identical states?",
+      "hints": [
+        "Compare orthogonal pure states."
+      ],
+      "answer": "No. Fidelity zero means orthogonal supports; identical normalized states have fidelity one.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Can trace distance increase after conditioning on a rare measurement outcome?",
+      "hints": [
+        "Distinguish a channel from a normalized selected branch."
+      ],
+      "answer": "Yes. Postselection is nonlinear after normalization; contraction applies to the full trace-preserving process, including its success and failure record.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Prove that mixing a fixed state into both candidates contracts their distance by exactly 1−t.",
+      "hints": [
+        "Subtract the two mixtures."
+      ],
+      "answer": "For \\(\\rho_t=(1-t)\\rho+t\\tau\\) and \\(\\sigma_t=(1-t)\\sigma+t\\tau\\), their difference is \\((1-t)(\\rho-\\sigma)\\). Norm homogeneity gives \\(T(\\rho_t,\\sigma_t)=(1-t)T(\\rho,\\sigma)\\) for \\(0\\le t\\le1\\).",
+      "review": "section-1-2"
+    }
+  ],
+  "02-quantum-channels": [
+    {
+      "kind": "Quick check",
+      "question": "State the trace-preserving condition on Kraus operators.",
+      "hints": [
+        "Move the Kraus factors around a trace."
+      ],
+      "answer": "\\(\\sum_kK_k^\\dagger K_k=I\\). The opposite ordering describes unitality, which is different.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is the Choi trace for a qutrit-input channel in our convention?",
+      "hints": [
+        "Take the trace of the partial-trace condition."
+      ],
+      "answer": "It is 3, regardless of the output dimension.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Why is a negative Choi eigenvalue a failure certificate?",
+      "hints": [
+        "Use the entangled test input."
+      ],
+      "answer": "The normalized Choi matrix is the output on half of a maximally entangled state. A negative eigenvalue makes that output nonphysical.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute amplitude damping on |1⟩ at γ=0.2.",
+      "hints": [
+        "Evaluate each Kraus branch."
+      ],
+      "answer": "The output is diag(0.2,0.8). The environment records a jump with probability 0.2.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Is amplitude damping unital at nonzero γ?",
+      "hints": [
+        "Apply it to I/2."
+      ],
+      "answer": "No. The output is diag((1+γ)/2,(1−γ)/2), unequal to I/2 for γ>0.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find an isometry for the dephasing map \\((1-p)\\rho+pZ\\rho Z\\).",
+      "hints": [
+        "Attach an orthogonal label to each Kraus term."
+      ],
+      "answer": "\\(V|\\psi\\rangle=\\sqrt{1-p}|\\psi\\rangle|0\\rangle+\\sqrt p Z|\\psi\\rangle|1\\rangle\\). Orthogonal labels give \\(V^\\dagger V=I\\), and tracing them out gives the desired map.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Bound a four-gate circuit’s diamond error if each replacement has distance at most 0.003.",
+      "hints": [
+        "Use telescoping and the triangle inequality."
+      ],
+      "answer": "The distance is at most 0.012, hence the output trace distance is at most 0.006 for any input and reference.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a positive map always have a positive Choi matrix?",
+      "hints": [
+        "Recall partial transposition of a Bell state."
+      ],
+      "answer": "No. Complete positivity, not mere positivity, is equivalent to Choi positivity.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does measuring computational-basis inputs certify an identity channel?",
+      "hints": [
+        "Compare complete dephasing."
+      ],
+      "answer": "No. Dephasing agrees on every computational-basis state while erasing off-diagonal coherence.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Show that mixing two channels is again a channel.",
+      "hints": [
+        "Combine their Kraus lists with square-root weights."
+      ],
+      "answer": "For weight t, use √t times the first list and √(1−t) times the second. Completeness follows from tI+(1−t)I=I; the resulting map is the desired mixture.",
+      "review": "section-2-2"
+    }
+  ],
+  "03-entropy-and-data-processing": [
+    {
+      "kind": "Quick check",
+      "question": "What is the entropy of a pure qutrit?",
+      "hints": [
+        "Inspect the spectrum (1,0,0)."
+      ],
+      "answer": "It is zero bits. Measurement outcomes can still be random in another basis.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is the maximum entropy of two qubits?",
+      "hints": [
+        "Use their joint dimension."
+      ],
+      "answer": "The dimension is four, so the maximum is log₂4=2 bits, attained by I/4.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Compute mutual information for a product state.",
+      "hints": [
+        "Use additivity of entropy on tensor products."
+      ],
+      "answer": "S(AB)=S(A)+S(B), hence I(A:B)=0.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute D(|0⟩⟨0| ∥ I/2) and the reverse.",
+      "hints": [
+        "Check supports before taking logarithms."
+      ],
+      "answer": "The first is one bit. The reverse is infinite because I/2 has support outside the one-dimensional support of |0⟩.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute S(A|B) for a product of two maximally mixed qubits.",
+      "hints": [
+        "The joint entropy is two."
+      ],
+      "answer": "S(A|B)=2−1=1 bit. Without correlation, conditioning on B changes nothing.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show the mutual-information chain rule.",
+      "hints": [
+        "Expand the entropy definitions."
+      ],
+      "answer": "\\(I(A:BC)-I(A:B)=S(BC)-S(ABC)-S(B)+S(AB)=I(A:C|B)\\).",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For a pure tripartite state, simplify I(A:C|B).",
+      "hints": [
+        "Use equality of complementary entropies."
+      ],
+      "answer": "\\(S(AB)=S(C), S(BC)=S(A), S(B)=S(AC)\\), so \\(I(A:C|B)=I(A:C)\\).",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Is mutual information an entanglement measure?",
+      "hints": [
+        "Try the shared classical bit."
+      ],
+      "answer": "No. A separable mixture of |00⟩ and |11⟩ has mutual information one bit. Mutual information counts total correlations.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does data processing say entropy always increases?",
+      "hints": [
+        "Consider a channel replacing every input with |0⟩."
+      ],
+      "answer": "No. Relative entropy contracts when both arguments undergo the same channel. An individual state’s entropy may increase or decrease.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Explain why relative entropy is additive on independent copies.",
+      "hints": [
+        "Expand log of a tensor product."
+      ],
+      "answer": "\\(\\log(\\rho\\otimes\\rho)=\\log\\rho\\otimes I+I\\otimes\\log\\rho\\) on the support. Trace factorization gives \\(D(\\rho^{\\otimes n}\\|\\sigma^{\\otimes n})=nD(\\rho\\|\\sigma)\\).",
+      "review": "section-3-3"
+    }
+  ],
+  "04-entanglement-transformations": [
+    {
+      "kind": "Quick check",
+      "question": "Find the Schmidt probabilities of √0.9|00⟩+√0.1|11⟩.",
+      "hints": [
+        "Probabilities are squared amplitudes."
+      ],
+      "answer": "They are (0.9,0.1); their sum is one.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Can (0.6,0.4) convert deterministically to (0.9,0.1)?",
+      "hints": [
+        "Check the first prefix."
+      ],
+      "answer": "Yes. 0.6≤0.9 and totals agree. The initial state is more entangled.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Can a product state convert deterministically to a Bell pair by LOCC?",
+      "hints": [
+        "Compare (1,0) with (0.5,0.5)."
+      ],
+      "answer": "No: 1≤0.5 fails. The allowed operations cannot create entanglement from a product input.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find the success probability of the same equalizing filter on probabilities (0.9,0.1).",
+      "hints": [
+        "Scale the larger amplitude down to the smaller."
+      ],
+      "answer": "Use \\(A=\\operatorname{diag}(1/3,1)\\). Each surviving squared amplitude is 0.1, so success probability is 0.2.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Complete the filter diag(1/2,1) into a two-outcome instrument.",
+      "hints": [
+        "The squared operators must sum to I."
+      ],
+      "answer": "The failure operator can be \\(\\operatorname{diag}(\\sqrt3/2,0)\\). Its squared product fills the missing diagonal (3/4,0).",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute pure-state entanglement for equal Schmidt probabilities on four levels.",
+      "hints": [
+        "Use the entropy of the spectrum."
+      ],
+      "answer": "The entropy is log₂4=2 bits, corresponding asymptotically to two Bell pairs per copy.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Prove that partial transpose preserves positivity for a separable state.",
+      "hints": [
+        "Transpose Bob’s factor term by term."
+      ],
+      "answer": "If \\(\\rho=\\sum_jp_j\\alpha_j\\otimes\\beta_j\\), then \\(\\rho^{T_B}=\\sum_jp_j\\alpha_j\\otimes\\beta_j^T\\). Each term is positive and the weights are nonnegative.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does equal reduced-state entropy imply two mixed states have equal entanglement?",
+      "hints": [
+        "Compare a Bell pair and a shared classical bit."
+      ],
+      "answer": "No. Both have maximally mixed marginals, while the shared-bit mixture is separable and the Bell pair is entangled.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a concentration rate of 0.72 mean one copy yields exactly 0.72 Bell pairs?",
+      "hints": [
+        "Identify the asymptotic quantity."
+      ],
+      "answer": "No. It is the limiting ratio of output Bell pairs to input copies for large block protocols with vanishing error.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Give two incomparable Schmidt vectors and check both prefixes.",
+      "hints": [
+        "Use three probabilities so that prefixes can cross."
+      ],
+      "answer": "For (0.5,0.25,0.25) and (0.45,0.4,0.15), the prefixes are 0.5>0.45 and 0.75<0.85. Neither vector majorizes the other.",
+      "review": "section-4-2"
+    }
+  ],
+  "05-quantum-compression": [
+    {
+      "kind": "Quick check",
+      "question": "Compute the entropy of a source with eigenvalues (1/2,1/2).",
+      "hints": [
+        "Both log probabilities are one bit."
+      ],
+      "answer": "The entropy is one bit, so faithful blind compression has threshold one qubit per signal.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is the dimension of the full space for n qubits?",
+      "hints": [
+        "Multiply the local dimensions."
+      ],
+      "answer": "It is 2ⁿ, corresponding to n qubits of unrestricted memory.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "If typical mass is 0.99, what fidelity lower bound follows?",
+      "hints": [
+        "Square the retained mass."
+      ],
+      "answer": "The bound is 0.9801; this is a lower bound, not necessarily the exact achieved fidelity.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Count binary strings of length 6 with at most one 1.",
+      "hints": [
+        "Separate weights zero and one."
+      ],
+      "answer": "There are 1+6=7 strings. Their span fits in three qubits.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For that length-6 subspace and p=0.2, compute retained probability.",
+      "hints": [
+        "Sum the zero- and one-error binomial probabilities."
+      ],
+      "answer": "The mass is 0.8⁶+6(0.2)(0.8⁵)=0.65536. The squared-mass fidelity bound is about 0.429497.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Derive the upper bound on typical-subspace dimension.",
+      "hints": [
+        "Each typical eigenvalue is at least 2 to the power −n(S+δ)."
+      ],
+      "answer": "If there are K typical strings, \\(1\\ge K2^{-n(S+\\delta)}\\), so \\(K\\le2^{n(S+\\delta)}\\).",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show why keeping just the most probable individual string fails for p=0.2.",
+      "hints": [
+        "Calculate its block probability."
+      ],
+      "answer": "The all-zero string has probability 0.8ⁿ, tending to zero. High-probability storage requires many strings, not one representative.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does preserving the average state imply preserving the source’s quantum information?",
+      "hints": [
+        "Consider discard-and-reprepare."
+      ],
+      "answer": "No. A replacement channel preserves that average state but destroys correlations with a purifying reference.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Can the i.i.d. formula be applied unchanged to an arbitrary correlated source?",
+      "hints": [
+        "Identify where tensor-product eigenvalues were used."
+      ],
+      "answer": "No. Independence supplied products of eigenvalues and a law-of-large-numbers argument. Correlated sources require an appropriate entropy-rate theorem and assumptions.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Design a finite-block study of a biased binary source.",
+      "hints": [
+        "Sort weights by probability and record the retained mass."
+      ],
+      "answer": "For each n, choose a Hamming-weight cutoff, sum its binomial dimension and probability, and report ceiling(log₂ dimension) and squared retained mass. Plot memory rate against the certified fidelity bound; do not label the bound an exact optimum.",
+      "review": "section-5-3"
+    }
+  ],
+  "06-classical-communication": [
+    {
+      "kind": "Quick check",
+      "question": "Compute χ when every signal state is identical.",
+      "hints": [
+        "The average equals each signal."
+      ],
+      "answer": "χ=0. No label information reaches the receiver through the signal.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What units does classical channel capacity use?",
+      "hints": [
+        "Count distinguishable classical messages."
+      ],
+      "answer": "Bits per channel use, with the error criterion and assistance model specified.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is the maximum Holevo information of a qubit ensemble?",
+      "hints": [
+        "Use S(average)≤1 and nonnegative signal entropies."
+      ],
+      "answer": "At most one bit without an additional receiver system; orthogonal pure signals attain it.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Evaluate χ for two equally likely pure signals with overlap magnitude 0.6.",
+      "hints": [
+        "The average eigenvalues are 0.8 and 0.2."
+      ],
+      "answer": "χ=h₂(0.2)≈0.721928 bits.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the qubit erasure classical capacity at p=0.6.",
+      "hints": [
+        "Keep the fraction of uses that reveal a signal."
+      ],
+      "answer": "C=0.4 bits per use.",
+      "review": "section-6-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Derive the block-diagonal entropy identity.",
+      "hints": [
+        "The eigenvalues of each block are pₓ times its internal eigenvalues."
+      ],
+      "answer": "Expand \\(-\\sum_{x,i}p_x\\lambda_{xi}\\log_2(p_x\\lambda_{xi})\\). The two terms are \\(H(p)\\) and \\(\\sum_xp_xS(\\rho_x)\\).",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Does an ensemble with χ=0.7 establish C≤0.7?",
+      "hints": [
+        "Ask whether the ensemble was optimized."
+      ],
+      "answer": "No. It supplies a rate achievable asymptotically with appropriate coding, hence a lower bound on capacity. An upper bound must cover every allowed code.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does the Holevo bound prohibit superdense coding?",
+      "hints": [
+        "Count the preshared entangled system."
+      ],
+      "answer": "No. Superdense coding includes preshared entanglement; the receiver measures the transmitted system together with their existing half. The unassisted qubit-ensemble model does not describe that resource.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a collective measurement require entangled transmitted codewords?",
+      "hints": [
+        "Separate encoding from decoding."
+      ],
+      "answer": "No. A decoder can jointly measure a tensor product of individually prepared signals. Entangled encoding is a distinct option.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Derive χ for a general ensemble through the erasure channel.",
+      "hints": [
+        "Use the block entropy formula for each output and their average."
+      ],
+      "answer": "The common flag term \\(h_2(p)\\) cancels. The result is \\(\\chi_{\\rm out}=(1-p)\\chi_{\\rm in}\\), because the flag probability is independent of the label.",
+      "review": "section-6-3"
+    }
+  ],
+  "07-quantum-communication": [
+    {
+      "kind": "Quick check",
+      "question": "Write coherent information in terms of conditional entropy.",
+      "hints": [
+        "Use purity of RBE."
+      ],
+      "answer": "\\(I_c=-S(R|B)=S(B)-S(RB)=S(B)-S(E)\\).",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is Q for a noiseless qubit channel?",
+      "hints": [
+        "The receiver gets the full state."
+      ],
+      "answer": "One qubit per use; a maximally mixed input has coherent information one.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Compute unassisted Q for p=0.3 qubit erasure.",
+      "hints": [
+        "Use the erasure-specific theorem."
+      ],
+      "answer": "Q=1−2(0.3)=0.4 qubits per use.",
+      "review": "section-7-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute C, Q, and Q with two-way assistance for p=0.5 qubit erasure.",
+      "hints": [
+        "Keep the three models separate."
+      ],
+      "answer": "C=0.5 bits/use, Q=0, and two-way assisted Q=0.5 qubits/use.",
+      "review": "section-7-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute Q for a qutrit erasure channel at p=0.25.",
+      "hints": [
+        "Dimension enters through log₂d."
+      ],
+      "answer": "Q=0.5 log₂3≈0.792481 qubits per use.",
+      "review": "section-7-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Explain why exact recovery of a reference entanglement forces decoupling.",
+      "hints": [
+        "A pure recovered pair cannot be correlated with another system."
+      ],
+      "answer": "After a recovery isometry, RL is in the desired pure state and therefore factors from every remaining register. Tracing out local ancillas leaves R independent of E.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A chosen input has coherent information −0.2. Does this imply negative capacity?",
+      "hints": [
+        "Compare with pure inputs and doing nothing."
+      ],
+      "answer": "No. Capacity is nonnegative, and pure inputs yield zero coherent information. Optimization and regularization may yield a positive rate.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Can equal environmental marginals prove correctability of a code?",
+      "hints": [
+        "Check superpositions and off-diagonal logical operators."
+      ],
+      "answer": "No. Basis states can have equal marginals while superpositions reveal logical coherence to the environment. Correctability requires independence for every logical input, including a reference.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Can the one-use coherent information always be called quantum capacity?",
+      "hints": [
+        "Recall the regularized coding theorem."
+      ],
+      "answer": "No. It is an achievable-rate lower bound after optimization; equality needs additional conditions such as degradability.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "For p<1/2, find the extra erasure probability that simulates E from B.",
+      "hints": [
+        "The simulated complement must survive with probability p."
+      ],
+      "answer": "If extra erasure is q, then \\((1-p)(1-q)=p\\), giving \\(q=(1-2p)/(1-p)\\). This is a valid probability exactly in the stated range.",
+      "review": "section-7-3"
+    }
+  ],
+  "08-recovery-and-error-correction": [
+    {
+      "kind": "Quick check",
+      "question": "What does P represent in the correction condition?",
+      "hints": [
+        "It selects the logical subspace."
+      ],
+      "answer": "P is the orthogonal projector onto the code subspace; the condition is restricted to that subspace.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "List the X₂ syndrome in the repetition code.",
+      "hints": [
+        "X₂ anticommutes with both parity operators."
+      ],
+      "answer": "The syndrome is (−1,−1). Applying X₂ reverses the error.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Evaluate the repetition-code logical error at p=0.01.",
+      "hints": [
+        "Use 3p²−2p³."
+      ],
+      "answer": "The result is 0.000298 under independent bit flips and ideal encoding, syndrome extraction, and recovery.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why does Z₁ violate the condition for errors {I,Z₁}?",
+      "hints": [
+        "Evaluate the cross product on the logical basis."
+      ],
+      "answer": "PZ₁P has logical eigenvalues +1 and −1, so it is not proportional to P. The pair of errors is not correctable by this code.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show the Petz map for identity noise is identity on the reference support.",
+      "hints": [
+        "Cancel the square roots and inverse square roots."
+      ],
+      "answer": "For \\(\\mathcal N=\\operatorname{id}\\), the expression becomes \\(\\sigma^{1/2}\\sigma^{-1/2}X\\sigma^{-1/2}\\sigma^{1/2}=X\\) on the support.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For complete dephasing and σ=I/2, find the Petz map.",
+      "hints": [
+        "Dephasing is self-adjoint and fixes I/2."
+      ],
+      "answer": "The scalar square roots cancel, so the recovery is dephasing itself. It recovers every diagonal state but cannot restore lost off-diagonal elements.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "If conditional mutual information is one bit, what fidelity guarantee remains?",
+      "hints": [
+        "Exponentiate the bound with base two."
+      ],
+      "answer": "Some recovery achieves squared fidelity at least 1/2. The theorem does not promise near-perfect recovery in this case.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does correcting X₁ imply correcting every single-qubit operation?",
+      "hints": [
+        "Include phase errors."
+      ],
+      "answer": "No. An arbitrary single-qubit operator has components I, X, Y, Z. A code must satisfy the criterion for their relevant span, including cross terms.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does the recovery inequality specify an efficient decoding algorithm?",
+      "hints": [
+        "Separate existence from construction and complexity."
+      ],
+      "answer": "No. It guarantees a suitable channel exists. Efficient implementation and experimentally available operations require further analysis.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Show the bit-flip repetition code improves the error probability for 0<p<1/2.",
+      "hints": [
+        "Factor p minus the logical-error polynomial."
+      ],
+      "answer": "\\(p-p_L=p-3p^2+2p^3=p(1-p)(1-2p)>0\\). This conclusion assumes ideal recovery and only independent bit flips.",
+      "review": "section-8-2"
+    }
+  ],
+  "09-resource-theories": [
+    {
+      "kind": "Quick check",
+      "question": "Name the free states in computational-basis coherence.",
+      "hints": [
+        "Which states have no off-diagonal entries?"
+      ],
+      "answer": "All density matrices diagonal in that declared basis, including their probabilistic mixtures.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is Cᵣ(|+⟩)?",
+      "hints": [
+        "The state is pure and its dephasing is I/2."
+      ],
+      "answer": "Cᵣ=1−0=1 bit.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is Cᵣ(I/2)?",
+      "hints": [
+        "Dephasing leaves it unchanged."
+      ],
+      "answer": "Cᵣ=1−1=0.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute Cᵣ for √0.9|0⟩+√0.1|1⟩.",
+      "hints": [
+        "Its entropy is zero; dephasing gives probabilities 0.9 and 0.1."
+      ],
+      "answer": "Cᵣ=h₂(0.1)≈0.468996 bits.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show that dephasing is idempotent.",
+      "hints": [
+        "Apply it to a matrix already diagonal."
+      ],
+      "answer": "\\(\\Delta(\\Delta\\rho)=\\Delta\\rho\\), because the first application removes every off-diagonal element and the second has nothing further to remove.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Prove additivity of Cᵣ on product states.",
+      "hints": [
+        "Use product dephasing and entropy additivity."
+      ],
+      "answer": "\\(\\Delta(\\rho\\otimes\\tau)=\\Delta\\rho\\otimes\\Delta\\tau\\); subtracting the additive input entropy from the additive dephased entropy gives \\(C_r(\\rho\\otimes\\tau)=C_r(\\rho)+C_r(\\tau)\\).",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Bound the number of exact |+⟩ outputs from ten copies of the r=0.6 state.",
+      "hints": [
+        "Apply the additive monotone and integer rounding."
+      ],
+      "answer": "m≤10(0.278072), so m≤2. This upper bound does not guarantee that two are achievable.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does one monotone inequality prove a state conversion exists?",
+      "hints": [
+        "Compare an obstruction with a construction."
+      ],
+      "answer": "No. It gives a necessary condition. Sufficiency requires a theorem or an explicit allowed protocol.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Do identical free-state sets force identical resource theories?",
+      "hints": [
+        "Consider which channels are allowed."
+      ],
+      "answer": "No. Different operation classes can preserve the same free states while supporting different conversions and achievable rates.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Explain why a catalyst’s unchanged marginal does not mean it was returned uncorrelated.",
+      "hints": [
+        "Construct a correlated classical pair with fixed local distributions."
+      ],
+      "answer": "Two copies of one fair classical bit each remain uniformly distributed, but their joint state is correlated rather than a product. Returning a catalyst marginal alone can hide correlations and differs from returning the original independent resource.",
+      "review": "section-9-3"
+    }
+  ],
+  "10-research-practicum": [
+    {
+      "kind": "Quick check",
+      "question": "What is the optimal equal-prior success at θ=0?",
+      "hints": [
+        "The two states coincide."
+      ],
+      "answer": "It is 1/2; there is no evidence to distinguish the labels.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is the optimal equal-prior success at θ=π/2?",
+      "hints": [
+        "The states are orthogonal."
+      ],
+      "answer": "It is one, attained by the computational-basis measurement.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Name one check on a numerical POVM.",
+      "hints": [
+        "Physical effects must give valid probabilities."
+      ],
+      "answer": "Check Hermiticity, nonnegative eigenvalues within tolerance, and that the effects sum to identity; checking only the objective is insufficient.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find the computational-basis success at θ=π/4.",
+      "hints": [
+        "Use the restricted-measurement formula."
+      ],
+      "answer": "It is (1+1/2)/2=0.75, below the unrestricted value approximately 0.853553.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For n=4,k=1,p=0.2 compute dimension and retained mass.",
+      "hints": [
+        "Include weights zero and one."
+      ],
+      "answer": "D=1+4=5, requiring three qubits. The mass is 0.8⁴+4(0.2)(0.8³)=0.8192.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the resulting certified fidelity lower bound.",
+      "hints": [
+        "Square the retained mass from the previous problem."
+      ],
+      "answer": "0.8192²=0.67108864. A three-qubit memory in this construction does not certify near-perfect fidelity.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Derive the odd-parity phase-error probability for three independent phase flips.",
+      "hints": [
+        "Add the exactly-one and exactly-three cases."
+      ],
+      "answer": "It is 3q(1−q)²+q³=3q−6q²+4q³. The bit-flip syndrome does not detect these logical phase flips.",
+      "review": "section-10-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Do repeated optimizer runs prove global optimality?",
+      "hints": [
+        "Look for a bound that covers all feasible points."
+      ],
+      "answer": "No. Multiple runs can find the same local solution. A matching dual certificate, analytic bound, or applicable global theorem is needed.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does an exhaustive parameter grid prove a continuous inequality?",
+      "hints": [
+        "A grid omits points between samples."
+      ],
+      "answer": "No. It is evidence on tested points. Rigorous interpolation bounds, interval methods, or an analytic argument are required to cover a continuum.",
+      "review": "section-10-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Specify a reproducible extension of one project.",
+      "hints": [
+        "Change one assumption and identify the new benchmark."
+      ],
+      "answer": "For example, vary the prior in Project A. Record priors, angles, density matrices, numerical precision, and the constructed effects. Compare success against the weighted trace-norm formula and retain feasibility residuals. This is a verifiable extension without claiming a new theorem.",
+      "review": "section-10-1"
+    }
+  ]
+}

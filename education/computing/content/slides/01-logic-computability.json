@@ -3,161 +3,574 @@
   "kind": "section",
   "number": "1.1",
   "title": "Formal Reasoning and Decision Problems",
-  "question": "Could following the rules of proof be left to a machine?"
+  "question": "We make the rules of proof explicit and ask whether following them, or deciding what they can prove, could be left to a machine."
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Axioms, inference rules, and proofs",
   "topic": "1.1.1",
-  "title": "What exactly is a proof?",
+  "blocks": [
+   {
+    "p": "A proof separates two tasks: choosing starting assumptions, the axioms, and drawing consequences by permitted steps, the rules of inference."
+   },
+   {
+    "p": "Example (modus ponens): from \\(P\\) and \\(P\\to Q\\), infer \\(Q\\)."
+   },
+   {
+    "ul": [
+     "Finding a proof: search a large space of possible arguments.",
+     "Checking a proof: each line must be an axiom or follow from earlier lines by a rule."
+    ]
+   },
+   {
+    "box": {
+     "label": "Consequence",
+     "text": "A proof in precise notation is a finite string, and checking it is mechanical. Checking shows that the conclusion follows from the axioms, not that the axioms are true."
+    }
+   }
+  ],
   "figure": "logic-proof-network.svg",
-  "lead": "Axioms are the chosen assumptions; rules of inference are the permitted steps.",
-  "takeaway": "A proof is a finite object that a procedure can check. Checking shows the conclusion follows, not that the axioms are right.",
+  "figure_side": "right",
   "notes": [
-   "From P and “P implies Q” we may infer Q. Each edge records a dependency, not a passage of time."
+   "Each arrow in the figure records a dependency between lines, not a passage of time. The numbered list on the right of the figure is the same proof read as a sequence, which is how a checker reads it."
   ]
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Consistency",
   "topic": "1.1.2",
-  "title": "Can the rules themselves be trusted?",
+  "blocks": [
+   {
+    "p": "A formal system is consistent if it never proves both a statement \\(P\\) and its negation \\(\\neg P\\)."
+   },
+   {
+    "p": "Why a single contradiction is fatal: suppose the system proves \\(P\\) and \\(\\neg P\\). Let \\(Q\\) be any statement at all."
+   },
+   {
+    "ol": [
+     "\\(P\\) (proved).",
+     "\\(P\\lor Q\\), from line 1 (disjunction introduction).",
+     "\\(\\neg P\\) (proved).",
+     "\\(Q\\), from lines 2 and 3 (disjunctive syllogism)."
+    ]
+   },
+   {
+    "p": "So an inconsistent system proves every statement, true or false, and its proofs carry no information. Consistency is the minimum we must demand of a set of rules."
+   }
+  ],
+  "notes": [
+   "Both rules used are standard in discrete mathematics. The argument is sometimes called the principle of explosion."
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Hilbert’s program",
+  "topic": "1.1.2",
+  "blocks": [
+   {
+    "p": "A theorem may speak about infinitely many numbers, but its proof is a finite string of symbols. Proofs can therefore be studied as mathematical objects in their own right."
+   },
+   {
+    "p": "Hilbert proposed two levels of reasoning:"
+   },
+   {
+    "ul": [
+     "inside the system: formal deductions from the axioms;",
+     "outside the system: safe, finitary reasoning about those finite strings."
+    ]
+   },
+   {
+    "p": "Goal: prove from outside, by finitary means, that no derivation ever ends in a contradiction such as \\(0=1\\)."
+   },
+   {
+    "p": "If checking is mechanical, a second question follows: can a procedure decide whether a given statement has any proof at all?"
+   }
+  ],
   "figure": "logic-hilbert-program.svg",
-  "lead": "A system is consistent if it never proves both a statement and its opposite.",
-  "takeaway": "Hilbert’s plan: make the rules explicit, then prove with reasoning about finite objects that they never give a contradiction.",
-  "notes": [
-   "Even a statement about infinitely many numbers has a finite written proof, so proofs themselves can be studied mathematically."
-  ]
+  "figure_side": "right"
  },
  {
-  "kind": "predict",
+  "kind": "content",
+  "title": "Checking, searching, and deciding",
   "topic": "1.1.3",
-  "title": "When does a proof search stop?",
-  "question": "List every candidate proof by length and check each one. When does this search finish?",
-  "answer": "If a proof exists, eventually: it appears somewhere in the list. If none exists, never. No final candidate settles the matter.",
-  "notes": [
-   "A decision procedure must do more than search: it must finish with a correct yes or no on every input."
-  ]
- },
- {
-  "kind": "figure",
-  "topic": "1.1.3",
-  "title": "Checking, searching, deciding",
+  "blocks": [
+   {
+    "ul": [
+     "Checking: a rejected argument shows only that this attempt failed, not that \\(P\\) is unprovable.",
+     "Searching: check all strings in order of length. If a proof of \\(P\\) exists, the search finds it and halts.",
+     "If none exists, the search never halts: there is no last string to rule out."
+    ]
+   },
+   {
+    "box": {
+     "label": "Definition",
+     "text": "A decision procedure for a problem halts on every input with the correct answer, yes or no."
+    }
+   },
+   {
+    "p": "Search is not a decision procedure. To ask whether any method decides, we need a precise definition of “method”."
+   }
+  ],
   "figure": "logic-proof-search.svg",
-  "takeaway": "To ask whether any procedure can decide, we need a precise account of what a procedure is."
+  "figure_side": "right"
  },
  {
   "kind": "section",
   "number": "1.2",
   "title": "Models of Computation",
-  "question": "What exactly is a mechanical procedure?"
+  "question": "We make “mechanical procedure” precise: configurations, transitions, and the Turing machine."
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Euclid’s algorithm: correctness",
   "topic": "1.2.1",
-  "title": "Why is Euclid right, and why does it stop?",
-  "figure": "logic-euclid-run.svg",
-  "lead": "\\((48,18)\\to(18,12)\\to(12,6)\\to(6,0)\\)",
-  "takeaway": "Correctness: the gcd never changes (an invariant). Termination: the second entry keeps falling and cannot fall forever.",
+  "blocks": [
+   {
+    "p": "Replace a pair \\((a,b)\\) by \\((b,r)\\), where \\(r\\) is the remainder of \\(a\\) on division by \\(b\\); stop when the second entry is \\(0\\)."
+   },
+   {
+    "math": "\\[(48,18)\\longrightarrow(18,12)\\longrightarrow(12,6)\\longrightarrow(6,0).\\]"
+   },
+   {
+    "p": "Claim: the greatest common divisor never changes. Write \\(a=qb+r\\) with \\(0\\le r<b\\)."
+   },
+   {
+    "ul": [
+     "A common divisor of \\(a\\) and \\(b\\) divides \\(r=a-qb\\).",
+     "A common divisor of \\(b\\) and \\(r\\) divides \\(a=qb+r\\)."
+    ]
+   },
+   {
+    "p": "So \\((a,b)\\) and \\((b,r)\\) have exactly the same common divisors. A quantity preserved by every step is an invariant. At the final pair \\((g,0)\\), \\(\\gcd(g,0)=g\\); hence \\(\\gcd(48,18)=6\\)."
+   }
+  ],
   "notes": [
-   "These are separate arguments. Repeating the first pair forever would preserve the answer but never deliver it."
+   "The argument compares the sets of common divisors, so it shows the greatest one is preserved without computing it."
   ]
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Euclid’s algorithm: termination",
+  "topic": "1.2.1",
+  "blocks": [
+   {
+    "p": "The invariant only shows: if the algorithm stops, its answer is right. A loop that repeats \\((48,18)\\) forever also preserves the gcd, and never answers."
+   },
+   {
+    "p": "Termination needs a separate argument. At each step the second entry \\(b\\) is replaced by \\(r\\), and"
+   },
+   {
+    "math": "\\[0\\le r<b.\\]"
+   },
+   {
+    "p": "A strictly decreasing sequence of nonnegative integers cannot continue forever, so the second entry reaches \\(0\\)."
+   },
+   {
+    "box": {
+     "label": "Two obligations",
+     "text": "Every algorithm needs a reason to trust its result (here an invariant) and a reason to expect the result in finite time (here a decreasing nonnegative quantity)."
+    }
+   }
+  ],
+  "figure": "logic-euclid-run.svg",
+  "figure_side": "right",
+  "notes": [
+   "Consecutive Fibonacci numbers, such as 89 and 55, give the longest runs for their size (Lamé’s theorem). The interactive figure in the chapter lets students try them."
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Configurations and transitions",
   "topic": "1.2.2",
-  "title": "What must we record to resume a computation?",
+  "blocks": [
+   {
+    "p": "Pause Euclid’s algorithm at \\((18,12)\\). To let someone else resume, we must record the numbers in memory and the next instruction; the history is not needed."
+   },
+   {
+    "p": "A configuration is this complete snapshot. What it contains depends on where we may pause: between whole divisions the pair suffices; mid-division we also need intermediate registers, carries, and the instruction counter."
+   },
+   {
+    "p": "A transition updates one configuration to the next, and a run is the sequence"
+   },
+   {
+    "math": "\\[C_0\\longrightarrow C_1\\longrightarrow C_2\\longrightarrow\\cdots\\longrightarrow C_{\\text{final}}.\\]"
+   },
+   {
+    "p": "A deterministic rule fixes the next configuration. It need not fix the previous one: \\((48,18)\\) and \\((30,18)\\) both lead to \\((18,12)\\)."
+   }
+  ],
   "figure": "logic-configurations.svg",
-  "takeaway": "A configuration is everything needed to continue; a run is a sequence of transitions between configurations."
+  "figure_side": "right"
  },
  {
-  "kind": "predict",
-  "topic": "1.2.2",
-  "title": "Does the present determine the past?",
-  "question": "In Euclid’s algorithm the next pair is determined. Is the previous one?",
-  "answer": "No. Both \\((30,18)\\) and \\((48,18)\\) lead to \\((18,12)\\). Knowing how to continue does not tell us how to go back."
- },
- {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Turing machines",
   "topic": "1.2.3",
-  "title": "What counts as an elementary step?",
+  "blocks": [
+   {
+    "p": "“Divide \\(a\\) by \\(b\\)” hides many smaller steps. To prove statements about all computations, Turing reduced every step to elementary actions on:"
+   },
+   {
+    "ul": [
+     "a tape of cells, each holding one symbol from a finite alphabet (or the blank \\(\\square\\));",
+     "a head that reads and writes one cell at a time;",
+     "a finite control state;",
+     "a finite rule table: in state \\(s\\) reading \\(a\\), write \\(b\\), move one cell left or right, enter state \\(s^\\prime\\)."
+    ]
+   },
+   {
+    "p": "A configuration is the tape contents, the head position, and the control state. The machine stops when it enters a halting state."
+   }
+  ],
   "figure": "logic-turing-machine.svg",
-  "lead": "Break “divide” into steps that read a symbol, write one, move one cell, and change a finite state.",
-  "takeaway": "A rule table is finite data, so one universal machine can read any program and simulate it."
+  "figure_side": "right",
+  "notes": [
+   "Reading the state diagram: an arrow labelled \\(1\to1,\\ R\\) means: when reading 1, write 1, move right, and follow the arrow. A double circle is a halting state."
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Universal computation",
+  "topic": "1.2.3",
+  "blocks": [
+   {
+    "p": "A rule table is a finite list of rules, so it can be encoded as a string of symbols."
+   },
+   {
+    "box": {
+     "label": "Universal machine",
+     "text": "A universal machine reads the encoded table of any machine \\(M\\) together with an input \\(x\\), and imitates \\(M\\) on \\(x\\) step by step."
+    }
+   },
+   {
+    "ul": [
+     "Programs are data: a program can take another program, or its own description, as input.",
+     "Simulation is not prediction: if \\(M\\) runs forever on \\(x\\), so does the simulation.",
+     "Self-reference is a finite procedure reading a finite string; nothing paradoxical is involved yet."
+    ]
+   },
+   {
+    "p": "The halting argument in Section 1.3 uses exactly this ability of programs to inspect programs."
+   }
+  ]
  },
  {
   "kind": "section",
   "number": "1.3",
   "title": "Computability and Its Limits",
-  "question": "Is there a question that no procedure can settle?"
+  "question": "We justify the Turing machine as a model, then exhibit a question no algorithm can decide and trace its consequences for logic."
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "The Church–Turing thesis",
   "topic": "1.3.1",
-  "title": "Is the Turing machine the right model?",
-  "figure": "logic-church-turing.svg",
-  "takeaway": "Equivalence of formal models is a theorem. That every effective method is a Turing machine is a thesis.",
-  "notes": [
-   "The thesis is about what can be computed, not how fast. Quantum computers do not compute uncomputable functions; they can change the resources needed for computable ones."
-  ]
- },
- {
-  "kind": "steps",
-  "topic": "1.3.2",
-  "title": "Can one program predict whether every program halts?",
-  "steps": [
-   "Suppose \\(H(P,x)\\) always halts and says whether \\(P\\) halts on \\(x\\).",
-   "Build \\(D(p)\\): if \\(H(p,p)\\) says “halts”, loop forever; otherwise stop.",
-   "Run \\(D\\) on its own description \\(d\\).",
-   "If \\(H(d,d)\\) says “halts”, \\(D\\) loops. If it says “does not halt”, \\(D\\) stops.",
-   "Either answer is wrong, so no such \\(H\\) exists."
+  "blocks": [
+   {
+    "p": "Turing machines, lambda calculus, recursive functions, register machines and programming languages simulate one another step by step, so they compute the same functions. This equivalence is a theorem."
+   },
+   {
+    "box": {
+     "label": "Church–Turing thesis",
+     "text": "Any function computable by an effective mechanical method is computable by a Turing machine."
+    }
+   },
+   {
+    "p": "It is a thesis because “effective method” is informal. Its use: if no Turing machine solves a problem, no algorithm does."
+   }
   ],
-  "takeaway": "The halting problem is undecidable.",
-  "notes": [
-   "This does not stop us analysing particular programs, or building analysers that sometimes answer “unknown”."
+  "figure": "logic-church-turing.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Computability is not efficiency",
+  "topic": "1.3.1",
+  "blocks": [
+   {
+    "table": {
+     "headers": [
+      "",
+      "Computability",
+      "Efficiency"
+     ],
+     "rows": [
+      [
+       "Question",
+       "Can the function be computed at all?",
+       "How much time and memory are needed?"
+      ],
+      [
+       "Subject of",
+       "The Church–Turing thesis",
+       "Complexity theory"
+      ],
+      [
+       "Quantum computers",
+       "Compute the same functions",
+       "May need fewer resources for some problems"
+      ]
+     ]
+    }
+   },
+   {
+    "p": "In the standard quantum model each operation is a matrix acting on a vector of amplitudes. A classical machine can multiply such matrices, so it can simulate a quantum computer in principle."
+   },
+   {
+    "p": "The simulation may be astronomically slow: \\(n\\) qubits are described by about \\(2^n\\) numbers. Quantum computers therefore do not compute uncomputable functions; their promise concerns resources."
+   }
   ]
  },
  {
-  "kind": "figure",
-  "topic": "1.3.3",
-  "title": "Two different limits",
-  "figure": "logic-limitations.svg",
-  "lead": "Undecidability concerns procedures; incompleteness concerns what fixed axioms can settle.",
-  "takeaway": "A consistent theory strong enough for arithmetic leaves some sentence undecided, and cannot prove its own consistency.",
+  "kind": "content",
+  "title": "The halting problem",
+  "topic": "1.3.2",
+  "blocks": [
+   {
+    "p": "Given a program \\(P\\) and an input \\(x\\), will the run eventually stop? For particular programs we can often tell: Euclid’s algorithm halts by the termination argument."
+   },
+   {
+    "p": "Running \\(P\\) for a fixed number of steps is not a general test. If it is still running at the deadline, it may halt at the next step; running reports “halted” or “not yet”, never “never”."
+   },
+   {
+    "box": {
+     "label": "Theorem (Turing, 1936)",
+     "text": "There is no algorithm \\(H\\) that, for every program \\(P\\) and input \\(x\\), halts and correctly answers whether \\(P\\) halts on \\(x\\)."
+    }
+   },
+   {
+    "p": "What is excluded is one total, always-correct method. Proving that individual programs halt, and analysers that may answer “unknown”, remain possible."
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Proof that halting is undecidable",
+  "topic": "1.3.2",
+  "blocks": [
+   {
+    "ol": [
+     "Suppose \\(H(P,x)\\) always halts and says correctly whether \\(P\\) halts on \\(x\\).",
+     "Build \\(D(p)\\): run \\(H(p,p)\\); if it says “halts”, loop forever; if it says “does not halt”, stop.",
+     "\\(D\\) is a program, so it has a description \\(d\\). Consider the run \\(D(d)\\).",
+     "If \\(H(d,d)\\) says “halts”, then \\(D(d)\\) loops; if it says “does not halt”, then \\(D(d)\\) stops.",
+     "Either answer is wrong, so the assumption fails: no such \\(H\\) exists."
+    ]
+   },
+   {
+    "p": "Every part of \\(D\\) except \\(H\\) is ordinary programming, so the only assumption that can fail is the existence of \\(H\\)."
+   }
+  ],
+  "figure": "logic-halting-contradiction.svg",
+  "figure_side": "right",
   "notes": [
-   "These are the Gödel–Rosser theorem and Gödel’s second incompleteness theorem, stated here without proof. Their conditions matter."
+   "If p is not a valid program description, D simply halts; that case does not affect the argument.",
+   "The construction is the diagonal argument familiar from Cantor’s proof that the real numbers cannot be listed."
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Undecidability and incompleteness",
+  "topic": "1.3.3",
+  "blocks": [
+   {
+    "p": "Two different limits, on two different kinds of object:"
+   },
+   {
+    "ul": [
+     "A problem is undecidable if no algorithm halts with the correct yes/no answer on every input.",
+     "A formal theory is incomplete if some sentence \\(P\\) has neither a proof of \\(P\\) nor a proof of \\(\\neg P\\) in it."
+    ]
+   },
+   {
+    "p": "Neither follows from an unsuccessful search: a failed search only shows that one attempt failed."
+   },
+   {
+    "p": "The two limits are linked: if a suitable theory of arithmetic were complete, we could decide halting. Since halting is undecidable, such theories must be incomplete."
+   }
+  ],
+  "figure": "logic-limitations.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Why a complete theory would decide halting",
+  "topic": "1.3.3",
+  "blocks": [
+   {
+    "p": "Take a theory of arithmetic whose axioms a program can list, and suppose it proves \\(P\\) or \\(\\neg P\\) for every sentence \\(P\\)."
+   },
+   {
+    "ol": [
+     "For a machine \\(M\\) and input \\(x\\), the claim “\\(M\\) halts on \\(x\\)” can be written as a sentence about integers.",
+     "Enumerate all proofs until one proves this sentence or its negation. Completeness guarantees that the enumeration stops.",
+     "If the theory proves no false sentence, the proof found gives the correct answer.",
+     "This would decide halting, which is impossible. So no such theory is complete."
+    ]
+   },
+   {
+    "note": "Step 3 needs more than consistency: a consistent theory might still prove “\\(M\\) halts” for a machine that never halts. Rosser’s refinement removes this extra assumption; the result is the Gödel–Rosser theorem."
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "The incompleteness theorems",
+  "topic": "1.3.3",
+  "blocks": [
+   {
+    "box": {
+     "label": "Gödel–Rosser theorem (stated without proof)",
+     "text": "A theory that is consistent, has axioms a program can list, and can express basic arithmetic is incomplete: some arithmetic sentence \\(P\\) has neither \\(P\\) nor \\(\\neg P\\) provable."
+    }
+   },
+   {
+    "p": "Adding the undecided \\(P\\) as a new axiom settles \\(P\\), but the enlarged theory is again consistent and listable, so the theorem yields a new undecided sentence. Each hypothesis matters: weak theories can be complete, and an inconsistent theory proves everything."
+   },
+   {
+    "box": {
+     "label": "Gödel’s second incompleteness theorem",
+     "text": "Under the same conditions, a consistent theory that can describe its own proof checking cannot prove the sentence expressing its own consistency."
+    }
+   },
+   {
+    "p": "This answers Hilbert’s program: the consistency proof cannot be carried out inside the theory itself. A stronger theory can prove it, but then we rely on the stronger axioms."
+   }
   ]
  },
  {
   "kind": "section",
   "number": "1.4",
   "title": "From Computability to Reversibility",
-  "question": "For problems we can solve, what does the solution do to the information it is given?"
+  "question": "For problems we can solve, we ask what each step of a computation does to the information it is given."
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Deterministic and reversible transitions",
   "topic": "1.4.1",
-  "title": "Does knowing the next step tell us the last?",
+  "blocks": [
+   {
+    "p": "Deterministic: every running configuration has exactly one successor. That says nothing about predecessors. In Euclid’s algorithm, every pair"
+   },
+   {
+    "math": "\\[(18q+12,\\;18)\\longrightarrow(18,12),\\qquad q=1,2,3,\\ldots\\]"
+   },
+   {
+    "p": "so from \\((18,12)\\) we cannot tell whether we came from \\((30,18)\\), \\((48,18)\\), or another pair: the quotient \\(q\\) is lost."
+   },
+   {
+    "p": "A transition rule is one-to-one if different configurations always have different successors. If it also reaches every configuration of a fixed set, it is a bijection, and running it backward is again a deterministic rule."
+   },
+   {
+    "note": "Compare an invertible matrix. Quantum steps will be invertible maps that also preserve length."
+   }
+  ],
   "figure": "logic-reversible-transitions.svg",
-  "takeaway": "Deterministic means one successor. Reversible also needs one predecessor: the step must be one-to-one."
+  "figure_side": "right"
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Information loss in computation",
   "topic": "1.4.2",
-  "title": "Must computing an answer lose the input?",
-  "figure": "logic-information-loss.svg",
-  "takeaway": "No: keep \\((x,f(x))\\). Even a many-to-one \\(f\\) can be computed without losing \\(x\\).",
-  "notes": [
-   "Laws that govern isolated systems at small scales appear to run backward as well as forward. A computer built from such systems must compute without discarding information."
+  "columns": [
+   [
+    {
+     "p": "AND on two bits returns \\(0\\) on three inputs. If the gate keeps only its answer, an output \\(0\\) cannot tell us which input occurred."
+    },
+    {
+     "table": {
+      "headers": [
+       "\\(x_1x_2\\)",
+       "AND"
+      ],
+      "rows": [
+       [
+        "00",
+        "0"
+       ],
+       [
+        "01",
+        "0"
+       ],
+       [
+        "10",
+        "0"
+       ],
+       [
+        "11",
+        "1"
+       ]
+      ]
+     }
+    }
+   ],
+   [
+    {
+     "p": "Keep the input and write the answer into an extra target bit \\(t=0\\). Distinct inputs now give distinct outputs:"
+    },
+    {
+     "table": {
+      "headers": [
+       "\\((x_1,x_2,t)\\)",
+       "after"
+      ],
+      "rows": [
+       [
+        "000",
+        "000"
+       ],
+       [
+        "010",
+        "010"
+       ],
+       [
+        "100",
+        "100"
+       ],
+       [
+        "110",
+        "111"
+       ]
+      ]
+     }
+    },
+    {
+     "p": "In general, replacing \\(f(x)\\) by \\((x,f(x))\\) never merges two inputs, even when \\(f\\) is many-to-one."
+    }
+   ]
   ]
  },
  {
+  "kind": "content",
+  "title": "Why preserve information?",
+  "topic": "1.4.2",
+  "blocks": [
+   {
+    "p": "Keeping \\((x,f(x))\\) is not yet a computer: Chapter 2 must build such maps from reversible gates and clear temporary workspace without erasing it."
+   },
+   {
+    "p": "The reason to try is physical. The laws governing isolated quantum systems lose no information between observations: their evolution can be run backward."
+   },
+   {
+    "p": "A computer built from such systems must therefore reach its answers through reversible transformations."
+   },
+   {
+    "box": {
+     "label": "From this chapter to the next",
+     "text": "The question changes from “Can this be computed at all?” to “How can it be computed while preserving information?”"
+    }
+   }
+  ],
+  "figure": "logic-information-loss.svg",
+  "figure_side": "right"
+ },
+ {
   "kind": "takeaways",
-  "title": "What we found",
+  "title": "Summary",
   "items": [
-   "A proof is a finite object that a procedure can check.",
-   "Search finds proofs that exist but cannot decide every question.",
-   "Configurations and transitions make “procedure” precise; a universal machine runs them all.",
-   "Some questions, such as halting, are undecidable; strong theories are incomplete.",
-   "Reversibility asks whether a computation keeps the information it was given."
+   "A proof is a finite object that a procedure can check; finding a proof is a different task, and deciding provability is a third.",
+   "Configurations and transitions make “procedure” precise; a universal machine runs every program, and the Church–Turing thesis identifies these machines with effective methods.",
+   "No algorithm decides halting; consistent, listable theories of arithmetic are incomplete and cannot prove their own consistency.",
+   "Deterministic steps can merge histories. Keeping the input, \\((x,f(x))\\), computes without losing information, which is what quantum evolution will require."
   ]
  }
 ]

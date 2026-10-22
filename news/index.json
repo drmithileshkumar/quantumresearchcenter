@@ -1,6 +1,96 @@
 {
- "reviewed_on": "2026-10-21",
+ "reviewed_on": "2026-10-22",
  "papers": [
+  {
+   "id": "2610.29804",
+   "url": "2610.29804/index.html",
+   "title": "Conservation in Every Quantum Measurement Outcome?",
+   "authors": "E. Okon; D. Sudarsky; M. Wiedemann",
+   "topic": "foundations",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-22",
+   "problem": "Does including the system that prepared a superposition restore a conservation law in every individual measurement outcome, as Collins and Popescu have proposed?",
+   "result": "The authors argue that it does not, in the sense claimed. The need for a physical preparer is postulated rather than derived from the relativity of angle. The preparer never holds a definite value, so what the mechanism restores is a shifted probability distribution. A preparation that conserves one observable can disturb a noncommuting one. For energy, the preparation interaction breaks the additivity the bookkeeping relies on.",
+   "techniques": [
+    "Test a conservation mechanism against the whole symmetry group",
+    "Overlap factors set how broad a hidden partner must be"
+   ]
+  },
+  {
+   "id": "2610.30040",
+   "url": "2610.30040/index.html",
+   "title": "An entanglement band structure for general multiqubit states",
+   "authors": "Chon-Fai Kam",
+   "topic": "foundations",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-22",
+   "problem": "Majorana pictured a symmetric multiqubit state as points on the sphere. Can a comparable geometric picture be given for general states, whose entanglement classes form continuous families?",
+   "result": "Projecting one qubit onto a direction \\(\\mathbf n\\) leaves a conditional state of the others. Its entanglement invariants are the eigenvalues, called bands, of a non-Hermitian matrix \\(L(u)\\). For five qubits there are four bands, which meet at 24 exceptional points where the conditional state changes entanglement family. Together they form one Riemann surface of genus nine, which fixes the five-qubit entanglement class up to finitely many choices.",
+   "techniques": [
+    "Read SLOCC invariants from a holomorphic matrix pencil",
+    "Count exceptional points and the genus from the discriminant"
+   ]
+  },
+  {
+   "id": "2610.30087",
+   "url": "2610.30087/index.html",
+   "title": "Injection is all you need: parallel universal logic in high-rate concatenated self-dual codes",
+   "authors": "Joseph Sullivan; David Amaro; Michael A. Perlin",
+   "topic": "computing",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-22",
+   "problem": "High-rate codes store many logical qubits per block but make it hard to act on a chosen subset. How can they run parallel, addressable, universal logic?",
+   "result": "In concatenated self-dual codes with transversal global \\(H\\) and \\(S\\), any logical Clifford is injected by consuming at most 9 CSS resource states. \\(T\\) gates on any subset need one \\(\\ket H^{\\otimes K}\\) magic state and one CSS state, so a circuit of \\(T\\)-depth \\(D_T\\) needs at most \\(12D_T\\) resource states. A Hadamard parity check repeated at each concatenation level gives magic states whose undetected error is \\(O(p^{2^L})\\). In simulations at \\(p=5\\times10^{-4}\\), this concatenated cultivation needed about ten times less spacetime than surface-code cultivation for the two distance-4 codes.",
+   "techniques": [
+    "Reduce every Clifford layer to CSS resource states",
+    "Hadamard-parity flags, and why one parity stalls at second order"
+   ]
+  },
+  {
+   "id": "2610.29955",
+   "url": "2610.29955/index.html",
+   "title": "Finite Classification of Transversal Diagonal Gates Beyond Stabilizer Codes",
+   "authors": "Xi He; Chao Zhang; Shilin Huang; Bei Zeng",
+   "topic": "computing",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-22",
+   "problem": "Code-preserving diagonal phases of general (nonadditive) qubit codes can vary continuously. Can the transversal diagonal gates of such codes still be classified exhaustively?",
+   "result": "Yes, at fixed code parameters. For a code of distance at least two, every projective logical action of a transversal diagonal gate has a physical representative of finite order \\(q\\), with \\(m\\mid q\\) and \\(q\\) bounded in terms of \\(n\\) and \\(K\\) alone; \\(q\\le9\\) for six qubits at distance three. For exact ((6,2,3)) codes, 66 candidate symmetry classes reduce to 15 realizable ones, with diagonal logical groups \\(C_2\\), \\(C_3\\) or \\(C_5\\). The order-five code is unique up to local unitaries and qubit permutations. It is also the shortest distance-3 qubit code whose transversal logical group cannot be conjugated into the Clifford group.",
+   "techniques": [
+    "Strip continuous phases that act only as logical scalars",
+    "Subset-sum sectors and moment matching as a staged filter"
+   ]
+  },
+  {
+   "id": "2610.30052",
+   "url": "2610.30052/index.html",
+   "title": "Tight Bounds on the Randomized Communication Complexity of Vector-in-Subspace",
+   "authors": "Chengu Wang",
+   "topic": "information",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-22",
+   "problem": "One quantum message of \\(\\lceil\\log_2n\\rceil\\) qubits solves Vector-in-Subspace exactly. How many bits does an interactive classical protocol need?",
+   "result": "\\(\\Theta(\\sqrt n)\\) bits. A lower bound of \\(\\Omega(\\sqrt n)\\) holds for bounded-error randomized protocols with any number of rounds, matching Raz’s \\(O(\\sqrt n)\\) protocol. It improves the \\(\\Omega(n^{1/3})\\) bound of Klartag and Regev and removes the total-rank restriction in Grupel’s \\(\\Omega(\\sqrt n)\\) result.",
+   "techniques": [
+    "Complex Gaussian lifts perform the Wick corrections",
+    "A vanishing even moment bounds a real center"
+   ]
+  },
+  {
+   "id": "2610.29696",
+   "url": "2610.29696/index.html",
+   "title": "Quantum f-divergences from retrodiction: a unifying classical variational principle",
+   "authors": "Francesco Buscemi",
+   "topic": "information",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-22",
+   "problem": "A classical \\(f\\)-divergence has several inequivalent quantum extensions. Can they all be obtained from one operational optimization?",
+   "result": "Yes. Compare a forward prepare-and-measure process with its reverse, obtained by Petz retrodiction relative to a reference prior \\(\\gamma\\), subject to prescribed averages \\(\\rho\\) and \\(\\sigma\\). The minimum classical \\(f\\)-divergence between their complete records is attained by one spectral implementation, simultaneously for every operator-convex \\(f\\). A flat prior gives the standard (Petz) divergence, Umegaki for relative entropy. A prior equal to \\(\\rho\\) or \\(\\sigma\\) gives the maximal divergence, Belavkin–Staszewski for relative entropy, and power priors \\(\\gamma\\propto\\sigma^t\\) give the geodesic family between them.",
+   "techniques": [
+    "Two operator-Jensen steps remove the implementation freedom",
+    "The retrodiction prior selects the quantum divergence"
+   ]
+  },
   {
    "id": "2610.28162",
    "url": "2610.28162/index.html",

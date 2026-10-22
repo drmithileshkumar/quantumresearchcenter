@@ -10,6 +10,16 @@
     "level": "advanced"
   },
   {
+    "title": "Quantum Information Theory",
+    "path": "education/information-theory/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "An advanced course on distinguishability, channels, entropy inequalities, entanglement, compression, communication, recovery, and resource theories.",
+    "details": "10 draft chapters · 100 exercises with hints and worked solutions · Research practicum",
+    "prerequisite": "Quantum Foundations and introductory Quantum Information, or equivalent knowledge of density operators, tensor products, measurements, and entropy. Comfort with linear algebra and probability.",
+    "summary": "Derive operational bounds and study the limits of quantum communication and resources.",
+    "level": "advanced"
+  },
+  {
     "title": "Quantum Computing",
     "path": "education/computing/index.html",
     "format": "Self-paced course · Interactive textbook",

@@ -3,200 +3,711 @@
   "kind": "section",
   "number": "2.1",
   "title": "Boolean Functions",
-  "question": "What exactly is to be computed, independent of how?"
+  "question": "We fix what a computation must produce, independent of how a machine produces it."
  },
  {
-  "kind": "table",
+  "kind": "content",
+  "title": "Binary encodings",
   "topic": "2.1.1",
-  "title": "What does a bit string mean?",
-  "headers": [
-   "Bits",
-   "Encoding",
-   "Meaning"
-  ],
-  "rows": [
-   [
-    "01000001",
-    "Unsigned binary",
-    "65"
-   ],
-   [
-    "01000001",
-    "ASCII",
-    "A"
-   ]
-  ],
-  "takeaway": "Meaning comes from the encoding. Cost is measured by input length: \\(N\\) needs about \\(\\log_2N\\) bits."
+  "blocks": [
+   {
+    "p": "Bits are two distinguishable physical states; an encoding is the dictionary that gives strings of bits a meaning."
+   },
+   {
+    "table": {
+     "headers": [
+      "Bits",
+      "Encoding",
+      "Meaning"
+     ],
+     "rows": [
+      [
+       "00, 01, 10, 11",
+       "2-bit unsigned binary",
+       "0, 1, 2, 3"
+      ],
+      [
+       "01000001",
+       "8-bit unsigned binary",
+       "65"
+      ],
+      [
+       "01000001",
+       "ASCII",
+       "A"
+      ]
+     ]
+    }
+   },
+   {
+    "p": "The encoding also fixes how cost is measured, because cost is a function of input length. The number \\(N\\) has length \\(N\\) in unary but about \\(n=\\log_2N\\) bits in binary, since \\(n\\) bits distinguish \\(2^n\\) values."
+   },
+   {
+    "p": "So an algorithm taking \\(N\\) steps is linear in the unary length but exponential, \\(N\\approx2^n\\), in the binary length."
+   },
+   {
+    "note": "An algorithm must be one finite procedure for all input lengths \\(n\\); a separate lookup rule for each \\(n\\) is not allowed."
+   }
+  ]
  },
  {
-  "kind": "table",
+  "kind": "content",
+  "title": "Boolean functions and truth tables",
   "topic": "2.1.2",
-  "title": "What does a yes/no question compute?",
-  "headers": [
-   "Input \\(xy\\)",
-   "AND",
-   "OR"
-  ],
-  "rows": [
+  "columns": [
    [
-    "00",
-    "0",
-    "0"
+    {
+     "p": "A yes/no question about \\(n\\)-bit inputs, with no \\(=0\\) and yes \\(=1\\), is a Boolean function"
+    },
+    {
+     "math": "\\[f:\\{0,1\\}^n\\to\\{0,1\\}.\\]"
+    },
+    {
+     "p": "Examples: is an \\(n\\)-bit integer odd? Do two strings match? An \\(m\\)-bit answer, such as a binary sum, is a list of \\(m\\) Boolean functions, one per output bit."
+    },
+    {
+     "p": "A truth table lists the output for every input. It says what the answer is, not how to compute it, and an \\(n\\)-bit function has \\(2^n\\) rows: \\(2^{100}\\) for 100 bits."
+    }
    ],
    [
-    "01",
-    "0",
-    "1"
-   ],
-   [
-    "10",
-    "0",
-    "1"
-   ],
-   [
-    "11",
-    "1",
-    "1"
+    {
+     "table": {
+      "headers": [
+       "\\(xy\\)",
+       "AND",
+       "OR"
+      ],
+      "rows": [
+       [
+        "00",
+        "0",
+        "0"
+       ],
+       [
+        "01",
+        "0",
+        "1"
+       ],
+       [
+        "10",
+        "0",
+        "1"
+       ],
+       [
+        "11",
+        "1",
+        "1"
+       ]
+      ]
+     }
+    },
+    {
+     "p": "To compute on many bits we need a compact rule built from a few elementary operations."
+    }
    ]
-  ],
-  "takeaway": "A truth table says what the answer is, not how to get it, and an \\(n\\)-bit function has \\(2^n\\) rows."
+  ]
  },
  {
-  "kind": "steps",
+  "kind": "content",
+  "title": "Arithmetic modulo two",
   "topic": "2.1.3",
-  "title": "Can a truth table become a formula?",
-  "steps": [
-   "Work modulo two: \\(1+1=0\\), so \\(+\\) is XOR and \\(\\times\\) is AND.",
-   "A row detector, \\(\\delta_s(x)=\\prod_{s_i=1}x_i\\prod_{s_i=0}(1+x_i)\\), equals 1 only on row \\(s\\).",
-   "Add the detectors of the rows where \\(f=1\\).",
-   "OR: \\((1+x)y+x(1+y)+xy=x+y+xy\\pmod2\\)."
-  ],
-  "takeaway": "Every Boolean function is a polynomial in its input bits."
+  "blocks": [
+   {
+    "p": "Work with remainders on division by 2, so that \\(1+1=0\\). On bits:"
+   },
+   {
+    "ul": [
+     "addition is exclusive OR (XOR), written \\(a\\oplus b\\): it is 1 exactly when \\(a\\ne b\\);",
+     "multiplication is AND: \\(0\\cdot0=0\\cdot1=0\\) and \\(1\\cdot1=1\\);",
+     "\\(1+x\\) flips the bit \\(x\\)."
+    ]
+   },
+   {
+    "p": "To detect one row \\(s=(s_1,\\ldots,s_n)\\) of a truth table, test each bit and multiply the tests:"
+   },
+   {
+    "math": "\\[\\delta_s(x)=\\prod_{i:\\,s_i=1}x_i\\prod_{i:\\,s_i=0}(1+x_i).\\]"
+   },
+   {
+    "p": "A product of bits is 1 only when every factor is 1, so \\(\\delta_s(x)=1\\) when \\(x=s\\) and \\(0\\) otherwise. For two bits and \\(s=01\\): \\(\\delta_{01}=(1+x)y\\)."
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Polynomial representation",
+  "topic": "2.1.3",
+  "columns": [
+   [
+    {
+     "p": "Add the detectors of the rows on which \\(f\\) equals 1:"
+    },
+    {
+     "math": "\\[f(x)=\\sum_{s:\\,f(s)=1}\\delta_s(x)\\pmod 2.\\]"
+    },
+    {
+     "p": "Correctness: on input \\(x\\) every detector except \\(\\delta_x\\) is 0, and \\(\\delta_x\\) is in the sum exactly when \\(f(x)=1\\)."
+    },
+    {
+     "box": {
+      "label": "Result",
+      "text": "Every Boolean function is a polynomial in its input bits, with arithmetic modulo two."
+     }
+    }
+   ],
+   [
+    {
+     "p": "OR is 1 on rows 01, 10, 11:"
+    },
+    {
+     "math": "\\[(1+x)y+x(1+y)+xy=x+y+3xy=x+y+xy.\\]"
+    },
+    {
+     "p": "Check 11: \\(1+1+1=1\\pmod2\\), as OR requires."
+    },
+    {
+     "p": "XOR is 1 on rows 01 and 10:"
+    },
+    {
+     "math": "\\[(1+x)y+x(1+y)=x+y,\\]"
+    },
+    {
+     "p": "because \\(xy+xy=0\\). Cancellation can make a polynomial far shorter than its list of detectors."
+    }
+   ]
+  ]
  },
  {
   "kind": "section",
   "number": "2.2",
   "title": "Boolean Circuits",
-  "question": "How does a formula become a sequence of operations?"
+  "question": "We turn polynomials into networks of gates, show that one gate type suffices, and examine what gates do to information."
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Circuits evaluate polynomials",
   "topic": "2.2.1",
-  "title": "One gate at a time",
+  "blocks": [
+   {
+    "p": "To evaluate \\(z=x+y+xy\\): an AND gate computes \\(u=xy\\), an XOR computes \\(v=x+y\\), and a second XOR gives \\(z=u+v\\)."
+   },
+   {
+    "ul": [
+     "A gate performs one elementary operation.",
+     "A wire carries a bit from an input, a constant, or a gate output to later gates.",
+     "No wire loops back, so gates can be evaluated stage by stage."
+    ]
+   },
+   {
+    "p": "Any polynomial is evaluated the same way: AND gates form the products, XOR gates add the terms. Hence every Boolean function has a circuit."
+   }
+  ],
   "figure": "polynomial-circuit.svg",
-  "lead": "Evaluate \\(x+y+xy\\): AND for the product, XOR for the sums.",
-  "takeaway": "Every Boolean function has a circuit. Not necessarily a small one."
+  "figure_side": "right"
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Circuit size",
+  "topic": "2.2.1",
+  "blocks": [
+   {
+    "p": "Existence is not economy. The detector construction can produce up to \\(2^n\\) terms, hence exponentially many gates."
+   },
+   {
+    "p": "Sometimes algebra collapses the sum. Parity"
+   },
+   {
+    "math": "\\[x_1+x_2+\\cdots+x_n\\pmod 2\\]"
+   },
+   {
+    "p": "equals 1 on \\(2^{n-1}\\) rows of its truth table, so its detector sum has \\(2^{n-1}\\) terms; yet the simplified polynomial needs only \\(n-1\\) XOR gates in a chain."
+   },
+   {
+    "p": "For most Boolean functions no such simplification exists. Finding the smallest circuit for a given function is the central problem of circuit complexity."
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "NAND universality",
   "topic": "2.2.2",
-  "title": "Do we need more than one kind of gate?",
-  "figure": "nand-xor.svg",
-  "lead": "\\(\\operatorname{NAND}(a,a)=\\neg a\\); NOT of NAND is AND; four NANDs make XOR.",
-  "takeaway": "NAND is universal. Classically, copying a bit to several gates (fan-out) is free."
+  "columns": [
+   [
+    {
+     "p": "The gate \\(\\mathrm{NAND}(a,b)=\\neg(a\\land b)\\) outputs 0 only when \\(a=b=1\\). From NAND alone we build:"
+    },
+    {
+     "ul": [
+      "NOT: \\(\\mathrm{NAND}(a,a)=\\neg a\\);",
+      "AND: NOT applied to \\(\\mathrm{NAND}(a,b)\\);",
+      "XOR: \\(t=\\mathrm{NAND}(a,b)\\), \\(u=\\mathrm{NAND}(a,t)\\), \\(v=\\mathrm{NAND}(b,t)\\), output \\(\\mathrm{NAND}(u,v)\\)."
+     ]
+    },
+    {
+     "p": "NOT, AND and XOR evaluate every polynomial, so NAND is universal for classical computation."
+    }
+   ],
+   [
+    {
+     "p": "Check of the XOR construction:"
+    },
+    {
+     "table": {
+      "headers": [
+       "\\(ab\\)",
+       "\\(t\\)",
+       "\\(u\\)",
+       "\\(v\\)",
+       "out"
+      ],
+      "rows": [
+       [
+        "00",
+        "1",
+        "1",
+        "1",
+        "0"
+       ],
+       [
+        "01",
+        "1",
+        "1",
+        "0",
+        "1"
+       ],
+       [
+        "10",
+        "1",
+        "0",
+        "1",
+        "1"
+       ],
+       [
+        "11",
+        "0",
+        "1",
+        "1",
+        "0"
+       ]
+      ]
+     }
+    },
+    {
+     "p": "Equal inputs give \\(u=v=1\\), hence output 0; different inputs make exactly one of \\(u,v\\) zero, hence output 1."
+    }
+   ]
+  ]
  },
  {
-  "kind": "predict",
+  "kind": "content",
+  "title": "Fan-out",
+  "topic": "2.2.2",
+  "blocks": [
+   {
+    "p": "In the four-NAND circuit, \\(a\\), \\(b\\) and \\(t\\) each feed two gates: one wire splits into several. This is fan-out."
+   },
+   {
+    "p": "Classically it is free: a voltage on a wire can drive several gate inputs, so copying a bit costs nothing in the circuit model."
+   },
+   {
+    "p": "Reversible circuits must build copying from gates (Section 2.4), and quantum circuits will restrict it further. The freedom assumed here is therefore worth noticing."
+   }
+  ],
+  "figure": "nand-xor.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Irreversible Boolean operations",
   "topic": "2.2.3",
-  "title": "Can we undo AND?",
-  "question": "An AND gate outputs 0. Which input produced it?",
-  "answer": "Any of 00, 01, or 10. AND merges inputs, so it has no inverse.",
-  "notes": [
-   "Always say which registers are kept: a circuit can discard a copy and still keep enough elsewhere to recover its input."
+  "blocks": [
+   {
+    "p": "An AND output of 1 identifies the input 11, but an output of 0 could come from 00, 01 or 10. OR, NAND and XOR also send four inputs to two outputs, so each merges inputs and has no inverse."
+   },
+   {
+    "p": "Whether a step is reversible depends on which wires are kept:"
+   },
+   {
+    "table": {
+     "headers": [
+      "Kept outputs",
+      "Reversible?",
+      "Reason"
+     ],
+     "rows": [
+      [
+       "\\((x,\\;x\\oplus y)\\)",
+       "yes",
+       "\\(y=x\\oplus(x\\oplus y)\\) is recovered"
+      ],
+      [
+       "\\((x\\land y,\\;x\\lor y)\\)",
+       "no",
+       "01 and 10 both give \\((0,1)\\)"
+      ]
+     ]
+    }
+   },
+   {
+    "p": "A reversible computer demands more than a one-to-one overall map: every elementary gate must preserve distinctions, with no intermediate wire discarded."
+   }
   ]
  },
  {
   "kind": "section",
   "number": "2.3",
   "title": "Information Erasure",
-  "question": "Does losing information have a physical price?"
+  "question": "We state the physical cost of destroying information, separate it from ordinary dissipation, and show how to compute without erasure."
  },
  {
-  "kind": "statement",
+  "kind": "content",
+  "title": "Landauer’s principle",
   "topic": "2.3.1",
-  "title": "What does erasing a bit cost?",
-  "label": "Landauer’s principle (quoted result)",
-  "statement": "Erasing one equally likely bit, without keeping its value elsewhere, releases at least \\(k_{\\mathrm B}T\\ln2\\) of heat on average.",
-  "note": "A bit already known to be 0 can be left alone. A biased bit, or one with a record elsewhere, costs less, but the record must be counted too."
+  "blocks": [
+   {
+    "p": "A reset sends a bit holding 0 or 1 to 0. Microscopic physics conserves information, so the lost distinction must go into the environment."
+   },
+   {
+    "box": {
+     "label": "Landauer’s principle (quoted result)",
+     "text": "Erasing one equally likely bit, keeping no record of its value, releases on average at least \\(Q\\ge k_{\\mathrm B}T\\ln2\\) of heat into surroundings at temperature \\(T\\)."
+    }
+   },
+   {
+    "p": "At \\(T=300\\) K: \\(1.38\\times10^{-23}\\,\\mathrm{J/K}\\times300\\,\\mathrm K\\times0.693\\approx2.9\\times10^{-21}\\) J per bit, far below the resistive heating of present transistors, but a floor no design can avoid."
+   },
+   {
+    "ul": [
+     "A bit already known to be 0 can be left alone at no minimum cost.",
+     "A biased bit, or one recorded elsewhere, costs less; resetting the record later costs the same again."
+    ]
+   },
+   {
+    "p": "Erasure is forced only when a computation merges distinct logical states."
+   }
+  ]
  },
  {
-  "kind": "compare",
+  "kind": "content",
+  "title": "Logical reversibility and dissipation",
   "topic": "2.3.2",
-  "title": "Is reversible the same as cool?",
-  "left": {
-   "label": "Logically reversible",
-   "items": [
-    "A one-to-one map.",
-    "Avoids the cost that erasure forces.",
-    "A real device may still dissipate energy."
-   ]
-  },
-  "right": {
-   "label": "Run slowly",
-   "items": [
-    "AND run slowly still merges inputs.",
-    "Reversibility is a property of the map, not its speed."
-   ]
-  },
-  "takeaway": "Keep apart two questions: can the map be inverted, and how much energy does the device use?"
+  "blocks": [
+   {
+    "p": "A transformation of \\(n\\)-bit strings is logically reversible if it is one-to-one, that is, a permutation of the \\(2^n\\) strings."
+   },
+   {
+    "table": {
+     "headers": [
+      "",
+      "Logically reversible map",
+      "Irreversible map run slowly"
+     ],
+     "rows": [
+      [
+       "Merges states?",
+       "never",
+       "yes: AND still sends 00, 01, 10 to 0"
+      ],
+      [
+       "Landauer cost forced?",
+       "no",
+       "yes"
+      ],
+      [
+       "Device may still dissipate?",
+       "yes: resistance, friction, speed",
+       "yes"
+      ]
+     ]
+    }
+   },
+   {
+    "p": "Two questions must be kept apart: whether the map can be inverted, and how much heat a particular device dissipates. Reversibility is a property of the map; this book is about the first question."
+   }
+  ]
  },
  {
-  "kind": "steps",
+  "kind": "content",
+  "title": "Reversible function embeddings",
   "topic": "2.3.3",
-  "title": "Can every function be computed without erasure?",
-  "steps": [
-   "Keep the input: \\(U_f:(x,t)\\mapsto(x,\\,t\\oplus f(x))\\).",
-   "With \\(t=0\\), the target becomes \\(f(x)\\).",
-   "Apply twice: \\(t\\oplus f(x)\\oplus f(x)=t\\). \\(U_f\\) is its own inverse.",
-   "\\(f\\) still merges inputs; the larger map does not."
-  ],
-  "takeaway": "The extra bits are what make the transformation one-to-one."
+  "blocks": [
+   {
+    "p": "To compute any \\(f:\\{0,1\\}^n\\to\\{0,1\\}\\) without erasure, keep the input and add the answer to an extra target bit \\(t\\):"
+   },
+   {
+    "math": "\\[U_f:(x,t)\\longmapsto(x,\\;t\\oplus f(x)).\\]"
+   },
+   {
+    "p": "With \\(t=0\\) the target becomes \\(f(x)\\). Applying \\(U_f\\) twice,"
+   },
+   {
+    "math": "\\[U_f(U_f(x,t))=(x,\\;t\\oplus f(x)\\oplus f(x))=(x,t),\\]"
+   },
+   {
+    "p": "since a bit added to itself is 0. So \\(U_f\\) is its own inverse, hence a permutation of all \\((n+1)\\)-bit strings, for every \\(f\\)."
+   },
+   {
+    "note": "\\(U_f\\) does not overwrite \\(t\\); it XORs \\(f(x)\\) into it. This map will be the standard model of a function oracle in quantum algorithms."
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "The embedding of AND",
+  "topic": "2.3.3",
+  "columns": [
+   [
+    {
+     "table": {
+      "headers": [
+       "\\((x,y,t)\\)",
+       "\\((x,y,t\\oplus xy)\\)"
+      ],
+      "rows": [
+       [
+        "000",
+        "000"
+       ],
+       [
+        "001",
+        "001"
+       ],
+       [
+        "010",
+        "010"
+       ],
+       [
+        "011",
+        "011"
+       ],
+       [
+        "100",
+        "100"
+       ],
+       [
+        "101",
+        "101"
+       ],
+       [
+        "110",
+        "111"
+       ],
+       [
+        "111",
+        "110"
+       ]
+      ]
+     }
+    }
+   ],
+   [
+    {
+     "p": "For \\(f(x,y)=xy\\), the embedding \\((x,y,t)\\mapsto(x,y,t\\oplus xy)\\) swaps 110 and 111 and fixes the other six triples: eight inputs, eight distinct outputs."
+    },
+    {
+     "p": "AND itself has not become invertible; it still sends three inputs to 0. What is invertible is the larger map, which keeps \\((x,y)\\) beside the target."
+    },
+    {
+     "p": "The retained input bits are exactly the information that makes the map one-to-one."
+    }
+   ]
+  ]
  },
  {
   "kind": "section",
   "number": "2.4",
   "title": "Reversible Gates",
-  "question": "Which gates carry out a reversible embedding?"
+  "question": "We build reversible embeddings from elementary gates and clear the workspace they leave behind."
  },
  {
-  "kind": "steps",
+  "kind": "content",
+  "title": "Controlled operations and CNOT",
   "topic": "2.4.1",
-  "title": "How can one bit control another without loss?",
-  "steps": [
-   "Keep the control; let it choose a reversible update of the target.",
-   "CNOT: \\((a,b)\\mapsto(a,b\\oplus a)\\), so \\(10\\to11\\) and \\(11\\to10\\).",
-   "Applying it twice restores both bits: the control tells us what was done.",
-   "Discard the control and we cannot undo the flip."
+  "columns": [
+   [
+    {
+     "p": "Principle: keep a control bit unchanged and let its value choose a reversible update of a target bit."
+    },
+    {
+     "p": "On one bit the reversible updates are “do nothing” and “flip”. This gives the controlled-NOT:"
+    },
+    {
+     "math": "\\[\\mathrm{CNOT}:(a,b)\\longmapsto(a,\\;b\\oplus a).\\]"
+    },
+    {
+     "ul": [
+      "With \\(b=0\\): \\((a,0)\\mapsto(a,a)\\), so CNOT copies a bit onto a fresh 0 (reversible fan-out).",
+      "Twice: \\((a,\\,b\\oplus a\\oplus a)=(a,b)\\), so CNOT is its own inverse."
+     ]
+    }
+   ],
+   [
+    {
+     "table": {
+      "headers": [
+       "\\((a,b)\\)",
+       "CNOT"
+      ],
+      "rows": [
+       [
+        "00",
+        "00"
+       ],
+       [
+        "01",
+        "01"
+       ],
+       [
+        "10",
+        "11"
+       ],
+       [
+        "11",
+        "10"
+       ]
+      ]
+     }
+    },
+    {
+     "p": "Both ingredients are needed. Discard the control and we cannot tell whether to flip back. Keep it but reset the target when \\(a=1\\), and \\((1,0)\\), \\((1,1)\\) both become \\((1,0)\\)."
+    }
+   ]
   ]
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Toffoli and Fredkin gates",
   "topic": "2.4.2",
-  "title": "Which reversible gates suffice?",
+  "blocks": [
+   {
+    "p": "NOT adds 1 and CNOT adds one wire to another, so in a NOT/CNOT circuit every wire holds a constant plus a sum of inputs modulo 2. The product \\(ab\\) never appears: these gates cannot compute AND."
+   },
+   {
+    "p": "Give the target two controls:"
+   },
+   {
+    "math": "\\[\\mathrm{Toffoli}(a,b,c)=(a,\\;b,\\;c\\oplus ab).\\]"
+   },
+   {
+    "p": "It swaps 110 and 111 and fixes the other six inputs; with \\(c=0\\) the target becomes \\(ab\\). Fredkin swaps \\(b\\) and \\(c\\) when \\(a=1\\). Both are their own inverses."
+   }
+  ],
   "figure": "reversible-gates.svg",
-  "lead": "\\(\\operatorname{Toffoli}(a,b,c)=(a,b,c\\oplus ab)\\)",
-  "takeaway": "With the target 1, Toffoli gives NAND; CNOT copies a bit onto 0. So Toffoli gates build every circuit reversibly.",
+  "figure_side": "right",
   "notes": [
-   "Fredkin gates are also universal with suitable constants and workspace; we quote that result."
+   "In linear-algebra terms, NOT and CNOT circuits compute affine maps over the two-element field; AND has degree two.",
+   "Diagram conventions: time runs left to right; a filled dot is a control that triggers on 1; ⊕ marks an XOR target; two crosses mark swapped wires."
   ]
  },
  {
-  "kind": "figure",
+  "kind": "content",
+  "title": "Reversible universality",
+  "topic": "2.4.2",
+  "columns": [
+   [
+    {
+     "p": "Toffoli gates can run every classical circuit:"
+    },
+    {
+     "ol": [
+      "With target \\(c=1\\): \\(1\\oplus ab=\\mathrm{NAND}(a,b)\\).",
+      "NAND is universal (Section 2.2.2).",
+      "Fan-out: CNOT copies a wire onto a fresh 0.",
+      "Replace each NAND gate by a Toffoli gate acting on a fresh wire set to 1."
+     ]
+    },
+    {
+     "p": "This proves existence; the naive translation is rarely the most economical."
+    }
+   ],
+   [
+    {
+     "p": "Fredkin gates are universal too, given constant 0 and 1 wires:"
+    },
+    {
+     "table": {
+      "headers": [
+       "Input",
+       "Output",
+       "Gives"
+      ],
+      "rows": [
+       [
+        "\\((a,b,0)\\)",
+        "\\((a,\\,\\neg a\\land b,\\,ab)\\)",
+        "AND"
+       ],
+       [
+        "\\((a,1,0)\\)",
+        "\\((a,\\,\\neg a,\\,a)\\)",
+        "NOT, copy"
+       ]
+      ]
+     }
+    },
+    {
+     "note": "A swap never changes the number of 1s, which is why Fredkin needs constant inputs to produce NOT."
+    }
+   ]
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Workspace",
   "topic": "2.4.3",
-  "title": "What do we do with leftover workspace?",
+  "blocks": [
+   {
+    "p": "Compute \\(xyz\\) with Toffoli gates, a workspace bit \\(w=0\\) and an output bit \\(t=0\\):"
+   },
+   {
+    "math": "\\[(x,y,z,0,0)\\xrightarrow{\\ \\text{Toffoli }x,y\\to w\\ }(x,y,z,xy,0)\\xrightarrow{\\ \\text{Toffoli }w,z\\to t\\ }(x,y,z,xy,xyz).\\]"
+   },
+   {
+    "p": "The answer is in \\(t\\), but \\(w\\) still holds \\(xy\\). Two poor options:"
+   },
+   {
+    "ul": [
+     "reset \\(w\\) to 0: this erases unknown information and pays the Landauer cost;",
+     "leave \\(w\\): memory fills with a record of the history, one fresh bit per gate in a long computation."
+    ]
+   },
+   {
+    "p": "Third option: apply the first Toffoli again. Since \\(x,y\\) are intact, \\(w\\) becomes \\(xy\\oplus xy=0\\) and \\(t\\) is untouched:"
+   },
+   {
+    "math": "\\[(x,y,z,xy,xyz)\\longrightarrow(x,y,z,0,xyz).\\]"
+   }
+  ]
+ },
+ {
+  "kind": "content",
+  "title": "Uncomputation",
+  "topic": "2.4.3",
+  "blocks": [
+   {
+    "p": "General pattern: a reversible circuit \\(A\\) computes the answer \\(f(x)\\) and leaves intermediate values \\(g(x)\\), the garbage."
+   },
+   {
+    "math": "\\[(x,0,0;0)\\to(x,f(x),g(x);0)\\to(x,f(x),g(x);f(x))\\to(x,0,0;f(x)).\\]"
+   },
+   {
+    "p": "Run \\(A\\); copy \\(f(x)\\) to a fresh register with CNOTs; run \\(A^{-1}\\), the gates of \\(A\\) in reverse order. Only the input and the answer remain. Removing \\(g(x)\\) while \\(x\\) is present is a permutation, not an erasure; in quantum computation, leftover garbage would also destroy interference (Chapter 3)."
+   }
+  ],
   "figure": "uncomputation.svg",
-  "lead": "Compute, copy the answer, then run the computation backward.",
-  "takeaway": "Only the input and the answer remain. In quantum computing, leftover records would block interference."
+  "figure_side": "below",
+  "notes": [
+   "The figure writes the inverse circuit as A†, the notation used later for quantum circuits; for a reversible classical circuit it is simply the inverse A⁻¹."
+  ]
  },
  {
   "kind": "takeaways",
-  "title": "What we found",
+  "title": "Summary",
   "items": [
-   "Encodings turn tasks into Boolean functions; every function is a polynomial over bits.",
-   "Circuits evaluate any function, and NAND alone is enough.",
-   "Erasing information has a minimum heat cost; merging inputs forces erasure.",
-   "Keeping the input makes every function reversible: Toffoli gates do it.",
-   "Uncomputation clears the workspace without erasing it."
+   "An encoding turns a task into Boolean functions; cost is measured against input length.",
+   "Every Boolean function is a polynomial modulo two, so it has a circuit; NAND alone suffices, though small circuits are rare.",
+   "Erasing a bit costs at least \\(k_{\\mathrm B}T\\ln2\\); erasure is forced only when a computation merges states.",
+   "The embedding \\(U_f:(x,t)\\mapsto(x,t\\oplus f(x))\\) computes any \\(f\\) reversibly; Toffoli gates build it, and uncomputation clears the workspace."
   ]
  }
 ]

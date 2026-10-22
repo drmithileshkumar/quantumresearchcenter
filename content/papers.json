@@ -1,5 +1,5 @@
 {
-  "reviewed_on": "2026-10-21",
+  "reviewed_on": "2026-10-22",
   "papers": [
     {
       "id": "2609.10508",
@@ -384,7 +384,7 @@
       "significance": "Earlier provable simulations needed only \\(O(\\sqrt{\\varepsilon N})\\) photons to survive. Here, adding photons at a fixed transmission rate does not by itself escape efficient classical simulation.",
       "limitations": "The guarantee is average-case over Haar-random interferometers. It needs many more modes than photons, \\(M=\\Omega(n^2N)\\), and \\(M=\\Omega(n^2/(\\varepsilon\\delta))\\) for full Fock outputs. It assumes uniform loss and ideal photons. Saturated-mode experiments, partial distinguishability and non-resolving detectors are left open.",
       "description": [
-        "In BosonSampling, \\(N\\) photons enter the first \\(N\\) of \\(M\\) modes of a Haar-random interferometer \\(U\\) and are counted at the output. In the fixed-loss model exactly \\(N-n\\) photons are lost, the surviving set \\(S\\) being uniformly random, so the probability of output pattern \\(\\boldsymbol t\\) is \\[P_U^{N,n}(\\boldsymbol t)=\\frac1{\\binom Nn}\\sum_{|S|=n}\\frac{|\\operatorname{Per}(U_{\\boldsymbol t,S})|^2}{\\boldsymbol t!}.\\] Permanents are hard to compute, which underlies the claims of quantum advantage. Loss cannot be corrected in this linear-optical setting. Previous algorithms were provably efficient only when the surviving fraction vanished, for example \\(n=O(\\sqrt{\\varepsilon N})\\). Many experiments instead keep a fixed fraction of photons.",
+        "In BosonSampling, \\(N\\) photons enter the first \\(N\\) of \\(M\\) modes of a Haar-random interferometer \\(U\\) and are counted at the output. In the fixed-loss model exactly \\(N-n\\) photons are lost, the surviving set \\(S\\) being uniformly random, so the probability of output pattern \\(\\mathbf t\\) is \\[P_U^{N,n}(\\mathbf t)=\\frac1{\\binom Nn}\\sum_{|S|=n}\\frac{|\\operatorname{Per}(U_{\\mathbf t,S})|^2}{\\mathbf t!}.\\] Permanents are hard to compute, which underlies the claims of quantum advantage. Loss cannot be corrected in this linear-optical setting. Previous algorithms were provably efficient only when the surviving fraction vanished, for example \\(n=O(\\sqrt{\\varepsilon N})\\). Many experiments instead keep a fixed fraction of photons.",
         "The key observation is that averaging over which photons survive damps high-order interference. Written as a sum over sets \\(J\\) of input columns, the order-\\(j\\) part of the output probability carries the factor \\(\\binom nj/\\binom Nj\\le(n/N)^j\\). Truncating at degree \\(d\\) leaves a mean-square error at most \\((n/N)^{d+1}/(1-n/N)\\) (Proposition 2).",
         "Theorem 2 turns this into a sampler. It runs in \\(MnN^3\\varepsilon^{-2}\\delta^{-1}2^{O(d)}\\) arithmetic operations with \\(d=O\\bigl(1+\\log(\\varepsilon^{-1}\\delta^{-1}(1-n/N)^{-1})/\\log(N/n)\\bigr)\\). For a fixed fraction \\(n/N\\), \\(d=O(\\log(1/\\varepsilon\\delta))\\), so \\(2^{O(d)}\\) is polynomial. The pipeline has four steps. A truncated, signed approximation of the distribution is built. Its prefix marginals are evaluated by random color coding. A signed-marginal sampler then produces a proper distribution over ordered output strings, and sorting gives Fock outcomes. Markov’s inequality converts an average-case error bound into a statement for a \\(1-\\delta\\) fraction of interferometers.",
         "Under the extra condition \\(M=\\Omega(n^2/(\\varepsilon\\delta))\\), collisions are rare enough that the result covers the full Fock distribution (Corollary 2). For uniform transmission loss, one first samples the number of survivors from a binomial distribution and then runs the fixed-loss algorithm (Corollary 3). The authors list the saturated-mode regime, partial distinguishability and non-ideal detectors as open."
@@ -403,7 +403,7 @@
           "technique": "Sum over subsets with color coding",
           "explanation": "Sampling needs prefix marginals of the truncated function. Enumerating all \\(j\\)-subsets of inputs and outputs would cost \\(N^{O(d)}\\), which is only quasipolynomial when \\(d\\) grows like \\(\\log(1/\\varepsilon\\delta)\\).",
           "math": [
-            "For each order \\(j\\), color every input column and every output mode uniformly at random with one of \\(j\\) colors. A fixed \\(j\\)-set receives distinct colors with probability \\(j!/j^j\\). Keeping only terms whose input set and output set are both colorful, and multiplying them by \\((j^j/j!)^2\\), leaves the expectation unchanged: \\[\\mathbb E_{\\mathrm{col}}\\bigl[\\widehat q^{(1)}_{d,U}(\\boldsymbol r)\\bigr]=q_{d,U}(\\boldsymbol r).\\] The overhead factor obeys \\(j^j/j!\\le e^j\\), so it is \\(2^{O(j)}\\).",
+            "For each order \\(j\\), color every input column and every output mode uniformly at random with one of \\(j\\) colors. A fixed \\(j\\)-set receives distinct colors with probability \\(j!/j^j\\). Keeping only terms whose input set and output set are both colorful, and multiplying them by \\((j^j/j!)^2\\), leaves the expectation unchanged: \\[\\mathbb E_{\\mathrm{col}}\\bigl[\\widehat q^{(1)}_{d,U}(\\mathbf r)\\bigr]=q_{d,U}(\\mathbf r).\\] The overhead factor obeys \\(j^j/j!\\le e^j\\), so it is \\(2^{O(j)}\\).",
             "With colors fixed, the colorful sums are coefficients of an inverse determinant in formal variables with \\(x_c^2=y_c^2=0\\): \\[\\mathcal P_j=\\det\\Bigl[\\delta_{uv}-x_{g(u)}z^{\\mathbf 1\\{u\\in\\text{prefix}\\}}\\sum_l y_{h(l)}B^{(l)}_{uv}\\Bigr]^{-1},\\] read off at \\(x_1\\cdots x_jy_1\\cdots y_j z^p\\). Since each \\(x_c\\) can appear at most once, the inverse is a finite polynomial, and the coefficient selects exactly one mode and one column of each color. Averaging many independent colorings controls the variance. Prefix queries then cost \\(N^3\\varepsilon^{-2}\\delta^{-1}2^{O(d)}\\) after preprocessing, with the exponent of \\(N\\) independent of \\(d\\)."
           ],
           "transfer": "Color coding replaces a sum over all \\(j\\)-subsets by \\(2^{O(j)}\\) passes over colorful configurations, and reweighting keeps it unbiased. Use it whenever a low-degree expansion is accurate but the degree must grow slowly with the target accuracy. Pair it with marginal sampling to turn a signed approximation into a sampler."
@@ -546,6 +546,276 @@
       ],
       "methods_source_section": "Section 1.2–1.4; Section 3 (Protocol 1, Definition 3.2, Theorems 1 and 4); Section 5",
       "approved_on": "2026-10-21"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+      "verified_on": "2026-10-22",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "version": "v1",
+      "submitted": "2026-10-21",
+      "id": "2610.29804",
+      "topic": "foundations",
+      "kind": "Conceptual analysis",
+      "title": "Conservation in Every Quantum Measurement Outcome?",
+      "authors": "E. Okon; D. Sudarsky; M. Wiedemann",
+      "problem": "Does including the system that prepared a superposition restore a conservation law in every individual measurement outcome, as Collins and Popescu have proposed?",
+      "result": "The authors argue that it does not, in the sense claimed. The need for a physical preparer is postulated rather than derived from the relativity of angle. The preparer never holds a definite value, so what the mechanism restores is a shifted probability distribution. A preparation that conserves one observable can disturb a noncommuting one. For energy, the preparation interaction breaks the additivity the bookkeeping relies on.",
+      "significance": "Separates two claims that are easy to run together. A conservation-respecting preparation can leave compensating correlations with the preparer, which is true. Conservation outcome by outcome would also need every superposition to carry such correlations, which has not been shown.",
+      "limitations": "This is a critique, not a theorem. The spin-\\(\\tfrac12\\) counterexample uses a one-spin preparer, for which the prepared spin is maximally mixed, so it tests the bookkeeping rather than the near-pure regime of the original proposal. The energy objection is stated qualitatively; the size of the interaction term is not estimated.",
+      "description": [
+        "Collins and Popescu (Quantum, 2025) model preparation explicitly. A preparer \\(P\\) starts in \\(\\ket{\\Phi}_P\\) and the system in a reference eigenstate \\(\\ket0_S\\) of a conserved quantity. A conserving unitary produces \\(\\sum_n\\alpha(n)\\ket{\\Phi-n}_P\\ket n_S\\), in which every amount \\(n\\) gained by the system is matched by a shift \\(-n\\) of the preparer. A measurement with outcome \\(k\\) leaves \\(\\ket{\\Phi-k}_P\\ket k_S\\), so each branch has the initial total. For the system to look almost pure, the shifted preparer states must overlap almost perfectly, which requires a preparer broad in the conserved quantity. A grand-preparer that made \\(P\\) keeps its marginal distribution unchanged, so the accounting closes on \\(S\\) and \\(P\\).",
+        "Is a preparer necessary? The proposal argues that the relative phases of a superposition of angular-momentum states encode an angle, and an absolute angle is meaningless, so a physical frame must exist and must be the preparer. The authors accept the premise but not the inference. Angle being defined only relative to a frame is a fact about how the theory represents states; it does not require a further material body. A single Galilean particle has no absolute position, yet nobody concludes that a one-particle universe is ill-defined. Applied consistently, the inference also regresses: the system and preparer together need a frame, and so on without end.",
+        "Granting the frame, a second gap remains between viability and necessity. Collins and Popescu show that one interaction can prepare the state while leaving the compensating correlations. Their account needs every admissible preparation history to contain such an interaction somewhere, and this is postulated. Even then, the preparer is never in an eigenstate of the conserved quantity, before or after the measurement. What shifts by \\(-k\\) is its distribution, so the result is statistical conservation conditioned on the outcome. Requiring each preparer to look pure to the next forces widths \\(\\sigma_S\\ll\\sigma_P\\ll\\sigma_{GP}\\ll\\cdots\\) up the chain.",
+        "Two further objections concern scope. A two-spin example shows that a preparation conserving total \\(S_z\\) changes the distribution of total \\(S_x\\), so the bookkeeping must pick one of several noncommuting conserved quantities. Appealing to the measuring device for the others undercuts the proposal’s own motivation. For energy, the preparation needs \\(H_{\\mathrm{tot}}=H_S+H_P+H_{\\mathrm{int}}\\), so opposite shifts of the subsystem energies do not by themselves establish conservation. Whether a localized form of statistical conservation is the right goal is left open."
+      ],
+      "methods": [
+        {
+          "technique": "Test a conservation mechanism against the whole symmetry group",
+          "explanation": "The authors check whether a preparation built to conserve \\(S_z\\) also conserves \\(S_x\\). It does not, which shows that the mechanism is tied to one observable.",
+          "math": [
+            "Take a preparer spin and a system spin starting in \\(\\ket{+z}_P\\ket{-z}_S\\). A total-\\(S_z\\)-conserving preparation can produce \\[\\ket{\\Psi'}=\\tfrac1{\\sqrt2}\\bigl(\\ket{-z}_P\\ket{+z}_S+\\ket{+z}_P\\ket{-z}_S\\bigr)=\\tfrac1{\\sqrt2}\\bigl(\\ket{+x}_P\\ket{+x}_S-\\ket{-x}_P\\ket{-x}_S\\bigr).\\] In units of \\(\\hbar/2\\), the total \\(S_x\\) of the initial state takes the values \\(+2,0,-2\\) with probabilities \\(\\tfrac14,\\tfrac12,\\tfrac14\\), while the final state gives \\(+2\\) and \\(-2\\) with probability \\(\\tfrac12\\) each and never \\(0\\).",
+            "Why no fix is possible here (editorial). The initial state splits evenly between the singlet and the triplet \\(m=0\\) state: \\(\\ket{+z}\\ket{-z}=\\bigl(\\ket{T_0}+\\ket{S_0}\\bigr)/\\sqrt2\\). The final state is \\(\\ket{T_0}\\), with no singlet weight. A unitary that conserves all three components of total spin commutes with total \\(\\mathbf S^2\\) and so preserves the weight in each total-spin sector. A change of singlet weight from \\(\\tfrac12\\) to \\(0\\) therefore certifies that some component of total spin was not conserved. Both distributions above were checked numerically."
+          ],
+          "transfer": "When a mechanism is designed to conserve one generator of a symmetry, decompose the initial and final states into the group’s irreducible sectors. A process that conserves every generator preserves each sector’s weight, so any change in sector weights is an immediate certificate that some conserved quantity has been violated."
+        },
+        {
+          "technique": "Overlap factors set how broad a hidden partner must be",
+          "explanation": "The authors make the near-purity requirement quantitative with a Gaussian preparer and apply it recursively up the chain of preparers.",
+          "math": [
+            "Tracing out the preparer from \\(\\sum_n\\alpha(n)\\ket{\\Phi-n}_P\\ket n_S\\) gives (editorial) \\[\\rho_S=\\sum_{n,m}\\alpha(n)\\alpha(m)^*\\braket{\\Phi-m}{\\Phi-n}\\,\\ket n\\bra m,\\] so each coherence is multiplied by an overlap of shifted preparer states. If the preparer amplitudes are \\(\\Phi(n)\\propto e^{-n^2/(4\\sigma_P^2)}\\), so that its distribution has width \\(\\sigma_P\\), then completing the square in \\((n-a)^2+(n-b)^2=2\\bigl(n-\\tfrac{a+b}2\\bigr)^2+\\tfrac{(a-b)^2}2\\) gives \\[\\braket{\\Phi-a}{\\Phi-b}\\approx\\exp\\!\\Bigl[-\\frac{(a-b)^2}{8\\sigma_P^2}\\Bigr],\\] the paper’s Eq. (12).",
+            "Near-purity needs this factor close to \\(1\\) for every populated pair, so \\(\\sigma_P\\gg\\sigma_S:=\\max|n-m|\\). The preparer is itself a superposition of width \\(\\sigma_P\\), and the same argument applied to it requires \\(\\sigma_{GP}\\gg\\sigma_P\\). Recursion gives \\(\\sigma_S\\ll\\sigma_P\\ll\\sigma_{GP}\\ll\\cdots\\) and conjugate widths \\(\\Delta_P\\gg\\Delta_{GP}\\gg\\cdots\\): ever more idealized reference systems."
+          ],
+          "transfer": "Any account that hides bookkeeping in a partner system, such as a reference frame, a which-path memory or an environment, faces the same trade-off. The partner must be correlated enough to carry the record yet nearly uninformative so that the system still looks pure. Write the reduced state, read off the overlap factor, and ask whether the partner can satisfy the same requirement it imposes."
+        }
+      ],
+      "methods_source_section": "Sections 2.1–2.3 (Eqs. 1–8); Sections 3.3–3.5 (Eqs. 10–24)",
+      "approved_on": "2026-10-22"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+      "verified_on": "2026-10-22",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "version": "v1",
+      "submitted": "2026-10-21",
+      "id": "2610.30040",
+      "topic": "foundations",
+      "kind": "Theory and numerical analysis",
+      "title": "An entanglement band structure for general multiqubit states",
+      "authors": "Chon-Fai Kam",
+      "problem": "Majorana pictured a symmetric multiqubit state as points on the sphere. Can a comparable geometric picture be given for general states, whose entanglement classes form continuous families?",
+      "result": "Projecting one qubit onto a direction \\(\\mathbf n\\) leaves a conditional state of the others. Its entanglement invariants are the eigenvalues, called bands, of a non-Hermitian matrix \\(L(u)\\). For five qubits there are four bands, which meet at 24 exceptional points where the conditional state changes entanglement family. Together they form one Riemann surface of genus nine, which fixes the five-qubit entanglement class up to finitely many choices.",
+      "significance": "Gives general multiqubit entanglement a geometry with measurable features. The exceptional points arise from conditioning a pure state, with no gain or loss, and circling one exchanges two bands, which tomography of the remaining qubits can detect.",
+      "limitations": "The curve classifies states only at five qubits. From seven qubits on, operations that entangle qubits within a block leave it unchanged. The construction degenerates for states symmetric under exchanging a pair, where one band vanishes identically. The count of realized eigenvector-sign patterns is numerical, and the shot-noise estimates for observing an exchange are simulations.",
+      "description": [
+        "Three qubits can be genuinely entangled in two inequivalent ways, GHZ and W. Two states count as equivalent when stochastic local operations and classical communication (SLOCC) convert one into the other with nonzero probability. From four qubits on, the classes form continuous families: generic five-qubit classes depend on \\(2^5-1-3\\cdot5=16\\) complex parameters. For symmetric states Majorana’s construction gives a complete picture. The state is fixed by \\(n\\) points on the Bloch sphere, local operations applied equally to every qubit move the points by Möbius maps, and symmetries are symmetries of the points. Points on the sphere modulo Möbius maps carry only \\(n-3\\) parameters, however, so they cannot describe general states.",
+        "The paper projects a single qubit instead of all of them. With stereographic coordinate \\(t=\\tan(\\theta/2)e^{-i\\varphi}\\) and \\(u=(1,t)\\), projecting the fifth qubit leaves amplitudes \\(R(u)_{ab}=\\sum_s\\psi_{abs}u_s\\), where \\(a\\) labels qubits 1 and 2 and \\(b\\) labels qubits 3 and 4. For almost every direction the conditional state lies in the generic four-qubit family \\(G_{abcd}\\), and \\(a^2,b^2,c^2,d^2\\) are the eigenvalues of \\[L(u)=R(u)\\,G\\,R(u)^{\\mathsf T}G,\\qquad G=\\sigma_y\\otimes\\sigma_y.\\] These four functions of the direction are the bands, by analogy with energy bands over a Brillouin zone. Choosing which qubit to project and how to split the rest into pairs gives fifteen band sets for a five-qubit state.",
+        "Two bands meet where two coefficients coincide up to sign. There \\(L\\) acquires a \\(2\\times2\\) Jordan block and the conditional state drops into the family \\(L_{abc_2}\\). These exceptional points are the zeros of the discriminant of \\(L\\), a polynomial of degree 24 in \\(t\\). Circling one exchanges the two bands, and the 24 exchanges generate all permutations, so the four bands are sheets of one curve \\(C\\) of genus nine. Since \\(\\det L=(\\det R)^2\\), the curve touches \\(w=0\\) without crossing it. Counting parameters, 24 coefficients minus 4 fixed by this identity, 3 Möbius maps and 1 scale, leaves exactly 16, matching the classes. The curve does not fix the eigenvectors: their signs are \\(\\mathbb Z_2\\) Berry phases on the curve’s 18 independent loops. About a quarter of the \\(2^{18}\\) patterns occur numerically, and a linear test decides whether two states with equal band coefficients are equivalent.",
+        "Symmetric states split the curve into pieces. The GHZ state has bands \\(0\\) and \\(u_0u_1/2\\), each twice. The W state has all bands zero, since every conditional state lies in the nullcone. The ring cluster state has bands \\(\\pm8it^2\\) and \\(\\pm8i\\). The number of qubits fixes a non-Hermitian symmetry class: \\(n\\equiv1\\pmod4\\) gives class AI\\(^\\dagger\\), \\(n\\equiv3\\pmod4\\) forces Kramers-doubled bands, and even \\(n\\) pairs \\(w\\) with \\(-w\\). A simulated experiment with 80 shots per Pauli setting, about \\(4\\times10^5\\) shots in all, recovers the exchange around one exceptional point in 96% of runs. Whether the curves of all projected qubits and splits together classify states beyond five qubits is open."
+      ],
+      "methods": [
+        {
+          "technique": "Read SLOCC invariants from a holomorphic matrix pencil",
+          "explanation": "Contracting the conditional amplitudes with the invariant form of SL(2) gives a matrix whose spectrum is unchanged by local operations on the four remaining qubits.",
+          "math": [
+            "For a two-qubit state \\(\\phi\\), \\(\\phi^{\\mathsf T}G\\phi=-2(\\phi_{00}\\phi_{11}-\\phi_{01}\\phi_{10})\\), minus twice the determinant of its coefficient matrix. A local operation \\(X=M_1\\otimes M_2\\) with \\(\\det M_i=1\\) satisfies \\(X^{\\mathsf T}GX=G\\), because \\(M^{\\mathsf T}\\sigma_yM=\\det(M)\\,\\sigma_y\\). Hence \\(X^{-1}=GX^{\\mathsf T}G\\), and \\(R\\mapsto XR\\) sends \\(L\\mapsto XRGR^{\\mathsf T}X^{\\mathsf T}G=XLX^{-1}\\). On the other pair, \\(R\\mapsto RY^{\\mathsf T}\\) leaves \\(L\\) unchanged, since \\(Y^{\\mathsf T}GY=G\\).",
+            "An operation \\(Z\\) on the projected qubit replaces \\(u\\) by \\(Z^{\\mathsf T}u\\), a Möbius map of the sphere; \\(L\\) is quadratic in \\(u\\), so all bands rescale together. Since \\(\\det G=1\\), \\(\\det L=(\\det R)^2\\). Editorial check: for a random five-qubit state, the bands were unchanged under random \\(\\mathrm{SL}(2)^{\\otimes4}\\) operations, the identity \\(\\det L=(\\det R)^2\\) and the relation \\(L^{\\mathsf T}G=GL\\) held, and the three splits gave equal \\(\\operatorname{tr}L\\)."
+          ],
+          "transfer": "When a group acts on a tensor leg by leg, contract with the group’s invariant bilinear form to get a matrix with an invariant spectrum. Letting one leg depend linearly on a parameter turns these invariants into holomorphic functions, so their degeneracies become isolated points that can be counted rather than tuned."
+        },
+        {
+          "technique": "Count exceptional points and the genus from the discriminant",
+          "explanation": "The degree of the discriminant fixes how many exceptional points there are, and the Riemann–Hurwitz formula turns that count into the topology of the band surface.",
+          "math": [
+            "The coefficients \\(\\chi_j\\) of \\(\\det(w\\mathbb I-L(u))=\\sum_j(-1)^j\\chi_jw^{m-j}\\) are homogeneous of degree \\(2j\\) in \\(u\\). Each factor \\((w_i-w_j)^2\\) of the discriminant has degree four, so the discriminant has degree \\(b=4\\binom m2=2m(m-1)\\), which is 24 for \\(m=4\\). Near a simple zero \\(t_0\\) two bands behave as \\(w\\approx w_0\\pm c\\sqrt{t-t_0}\\); one loop sends \\(\\sqrt{\\cdot}\\to-\\sqrt{\\cdot}\\) and swaps them. For an \\(m\\)-sheeted cover of the sphere with \\(b\\) simple branch points, Riemann–Hurwitz gives \\(2g-2=-2m+b\\). Hence (editorial algebra) \\(g=m^2-2m+1=(m-1)^2\\), which is \\(9\\) at five qubits.",
+            "Why the meetings are isolated (editorial): Hermitian bands need three real conditions to meet (von Neumann–Wigner), but a holomorphic family needs only one complex equation, the vanishing of the discriminant, so generic degeneracies sit at points. Editorial check: for a random five-qubit state the discriminant had degree 24 with 24 roots, and tracking the bands once around one root permuted exactly two of them."
+          ],
+          "transfer": "For any matrix family that depends holomorphically on a parameter, the discriminant’s degree counts the exceptional points and Riemann–Hurwitz gives the topology of the eigenvalue surface, without diagonalizing anywhere. Encircling a predicted point and watching two eigenvalues exchange is a robust experimental test, because it depends only on whether the loop encloses the point."
+        }
+      ],
+      "methods_source_section": "Main text (Conditional states, Exceptional points, One surface, Symmetries split the bands); End Matter A–C",
+      "approved_on": "2026-10-22"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+      "verified_on": "2026-10-22",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "version": "v1",
+      "submitted": "2026-10-21",
+      "id": "2610.30087",
+      "topic": "computing",
+      "kind": "Theory and numerical analysis",
+      "title": "Injection is all you need: parallel universal logic in high-rate concatenated self-dual codes",
+      "authors": "Joseph Sullivan; David Amaro; Michael A. Perlin",
+      "problem": "High-rate codes store many logical qubits per block but make it hard to act on a chosen subset. How can they run parallel, addressable, universal logic?",
+      "result": "In concatenated self-dual codes with transversal global \\(H\\) and \\(S\\), any logical Clifford is injected by consuming at most 9 CSS resource states. \\(T\\) gates on any subset need one \\(\\ket H^{\\otimes K}\\) magic state and one CSS state, so a circuit of \\(T\\)-depth \\(D_T\\) needs at most \\(12D_T\\) resource states. A Hadamard parity check repeated at each concatenation level gives magic states whose undetected error is \\(O(p^{2^L})\\). In simulations at \\(p=5\\times10^{-4}\\), this concatenated cultivation needed about ten times less spacetime than surface-code cultivation for the two distance-4 codes.",
+      "significance": "Replaces addressability built into the code with teleportation of prepared resource states, which also performs error correction and removes leakage as it runs.",
+      "limitations": "Magic-state performance is simulated with a Clifford proxy (\\(\\ket+\\) in place of \\(\\ket H\\), CX in place of CH). Discard rates are high: 41–87% for magic states and up to 96% for the largest CNOT resource state. The decoder is a lookup table that will not scale. For [[96,14,6]] the table supports only a factor of about two over surface-code cultivation, because the surface-code cost there is a lower bound. Costs are per resource state, not per algorithm.",
+      "description": [
+        "High-rate codes suffer from an addressability problem: acting on a chosen subset of the logical qubits in a block is hard, so logically independent gates are serialized. The paper avoids building addressable gates into the code. Almost every gate is instead injected by teleportation, consuming a resource state prepared in advance. The codes are concatenations of self-dual CSS codes with equivalent logicals (SWEL), for which \\(H^{\\otimes n}\\) implements logical \\(\\bar H^{\\otimes k}\\) and \\(S^{\\otimes n}\\) implements \\(\\bar S^{\\otimes k}\\) up to \\(Z\\) gates. Every self-dual CSS code of odd length is SWEL. Injection doubles as error correction: Knill-type gadgets measure the full syndrome, Steane-type gadgets part of it.",
+        "For Cliffords, the Bruhat decomposition writes any \\(k\\)-qubit Clifford as nine layers of types (CX, S, CX, S, H, S, CX, S, CX). An earlier scheme injected each layer from a generally non-CSS resource state made by distillation, which for a single copy needs a factory of \\(n(d+1)^2\\) qubits. Theorem 1 shows that the global \\(\\bar H^{\\otimes k}\\) and \\(\\bar S^{\\otimes k}\\) gates reduce every layer to CSS resource states. These are prepared without distillation by the flag-at-origin method. For [[36,4,4]], the depth-optimized CNOT resource state uses 264 qubits, against a 3600-qubit distillation factory.",
+        "For the non-Clifford part, \\(T\\) gates on a chosen subset \\(\\mathbf t\\) come from \\(T^{\\otimes\\mathbf t}\\ket+^{\\otimes k}=(SHSH)^{\\otimes k}\\ket{H,\\mathbf t}\\). Here \\(\\ket{H,\\mathbf t}\\) holds \\(\\ket H\\) where \\(t_j=1\\) and \\(\\ket0\\) elsewhere, and it is made from \\(\\ket H^{\\otimes k}\\) by consuming one \\(H^{\\otimes\\mathbf t}\\ket0^{\\otimes k}\\) state. Because \\(H^{\\otimes k}\\) is transversal and stabilizes \\(\\ket H^{\\otimes k}\\), it can be measured fault-tolerantly to flag faulty preparations (zero-level distillation). A single parity check sees only the parity of the faulty factors, which caps it at \\(O(p^2)\\). Concatenated cultivation repeats the check at every level, where the level-2 parity runs across different level-1 blocks. This drives undetected errors to \\(O(p^4)\\) at two levels and \\(O(p^{2^L})\\) in general.",
+        "A code of distance \\(D\\) can only use that suppression up to its correction capability: the effective rate is \\(O(p^{\\min\\{2^L,\\,t+2\\}})\\) with \\(t=\\lfloor(D-1)/2\\rfloor\\), when decoder rejections are used for even \\(D\\). Simulations at \\(p=5\\times10^{-4}\\) give logical errors \\(8.3\\times10^{-9}\\) for [[36,4,4]] (112 qubits, 41% discarded), \\(2.2\\times10^{-8}\\) for [[48,8,4]], and \\(1.1\\times10^{-10}\\) for [[96,14,6]] (256 qubits, 87% discarded). The spacetime costs are \\(1.4\\times10^4\\), \\(2.2\\times10^4\\) and \\(3.2\\times10^5\\), against \\(1.6\\times10^5\\), \\(3.2\\times10^5\\) and more than \\(6.0\\times10^5\\) for surface-code cultivation at matched batch error. End-to-end algorithm costs remain to be estimated."
+      ],
+      "methods": [
+        {
+          "technique": "Reduce every Clifford layer to CSS resource states",
+          "explanation": "Global transversal \\(H\\) and \\(S\\) conjugate the resource states for addressable phase and Hadamard layers into CSS states, which can be prepared without distillation.",
+          "math": [
+            "Gate teleportation consumes \\(\\ket{\\Phi,U}\\), the result of applying \\(U\\) to one half of \\(k\\) Bell pairs; measuring in the Bell basis applies \\(UX^{\\mathbf z}Z^{\\mathbf x}\\) to the data. For Clifford \\(U\\) the byproduct \\(UPU^\\dagger\\) is a Pauli, corrected for free. For an S layer the needed state is \\(S^{\\otimes\\mathbf s}\\ket+^{\\otimes k}\\simeq(HS^\\dagger)^{\\otimes k}H^{\\otimes\\mathbf s}\\ket0^{\\otimes k}\\). Check per qubit (editorial): \\(HS^\\dagger\\ket0=\\ket+\\), and \\(HS^\\dagger\\ket+=\\tfrac{1-i}2(\\ket0+i\\ket1)\\simeq S\\ket+\\). So a CSS state followed by a global gate supplies every addressable S layer.",
+            "For an H layer, write \\(H=XS_Y\\) with \\(S_Y=e^{-i\\pi Y/4}\\simeq(SH)S(HS^\\dagger)\\). Then \\[H^{\\otimes\\mathbf h}\\simeq X^{\\otimes\\mathbf h}(SH)^{\\otimes k}S^{\\otimes\\mathbf h}(HS^\\dagger)^{\\otimes k},\\] so an addressable Hadamard layer costs one addressable S layer plus global gates and Paulis. Both identities were checked numerically up to global phase."
+          ],
+          "transfer": "If a code offers fault-tolerant global gates and cheap preparation of one class of states, look for decompositions in which global gates conjugate every needed resource state into that class. This moves addressing out of the gates and into state preparation, where flags or verification are easier to apply."
+        },
+        {
+          "technique": "Hadamard-parity flags, and why one parity stalls at second order",
+          "explanation": "Measuring the transversal stabilizer \\(H^{\\otimes k}\\) of a magic-state batch catches single faults but misses pairs; concatenation supplies independent groupings that catch pairs too.",
+          "math": [
+            "\\(\\ket H\\) is the \\(+1\\) eigenstate of \\(H=(X+Z)/\\sqrt2\\). Since \\(Y\\) anticommutes with \\(X\\) and \\(Z\\), \\(YHY=-H\\) and \\(Y\\ket H=\\ket{-H}\\), so one \\(Y\\) flips the measured parity. A single \\(X\\) or \\(Z\\) gives \\(|\\bra H X\\ket H|^2=\\tfrac12\\) (editorial): with probability \\(\\tfrac12\\) it is flagged, and otherwise the projection returns that qubit to \\(\\ket H\\). Two errors can both flip, for example \\(Y_1Y_2\\ket H\\ket H=\\ket{-H}\\ket{-H}\\), which has parity \\(+1\\) and passes unseen. This is why the paper requires every single fault to act as one logical \\(X\\), one \\(Z\\), or an odd number of \\(Y\\)s, and why one parity check caps the error at \\(O(p^2)\\).",
+            "In \\(C_1\\circ C_2\\) each level-1 qubit of a \\(C_1\\) block sits in a different \\(C_2\\) block, so the level-2 parities \\(H^{\\otimes n_2}\\) group qubits differently from the level-1 parities. A pair that cancels inside one level-1 parity is split between different level-2 parities and caught there, giving \\(O(p^4)\\); induction gives \\(O(p^{2^L})\\) for errors with no syndrome. Editorial check: \\(Y_1Y_2\\ket{HH}\\) passes the parity, and a single \\(X\\) passes with probability \\(\\tfrac12\\)."
+          ],
+          "transfer": "A transversal operator that stabilizes a batch of magic states is a free fault-tolerant check, but a single global parity sees only how many factors flipped. To get past second order, measure parities over several independent groupings of the same qubits; the levels of a concatenated code provide them naturally."
+        }
+      ],
+      "methods_source_section": "Section II (Theorem 1, Eqs. 1–4); Section III.1 (Theorem 2, Eqs. 5–6); Sections III.2.1–III.2.3; Section IV.2, Table 1",
+      "approved_on": "2026-10-22"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+      "verified_on": "2026-10-22",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "version": "v1",
+      "submitted": "2026-10-21",
+      "id": "2610.29955",
+      "topic": "computing",
+      "kind": "Theory with formal verification",
+      "title": "Finite Classification of Transversal Diagonal Gates Beyond Stabilizer Codes",
+      "authors": "Xi He; Chao Zhang; Shilin Huang; Bei Zeng",
+      "problem": "Code-preserving diagonal phases of general (nonadditive) qubit codes can vary continuously. Can the transversal diagonal gates of such codes still be classified exhaustively?",
+      "result": "Yes, at fixed code parameters. For a code of distance at least two, every projective logical action of a transversal diagonal gate has a physical representative of finite order \\(q\\), with \\(m\\mid q\\) and \\(q\\) bounded in terms of \\(n\\) and \\(K\\) alone; \\(q\\le9\\) for six qubits at distance three. For exact ((6,2,3)) codes, 66 candidate symmetry classes reduce to 15 realizable ones, with diagonal logical groups \\(C_2\\), \\(C_3\\) or \\(C_5\\). The order-five code is unique up to local unitaries and qubit permutations. It is also the shortest distance-3 qubit code whose transversal logical group cannot be conjugated into the Clifford group.",
+      "significance": "Turns the subset-sum–linear-programming (SSLP) construction into a complete classification procedure, with no stabilizer or additivity assumption. Continuous families of nonadditive codes can therefore be searched exhaustively for transversal symmetries.",
+      "limitations": "Diagonality refers to one fixed product basis, so noncommuting transversal generators that cannot be diagonalized together are not covered. A code-level classification is complete only in the order-five sector, and two of the fifteen weight-enumerator sets remain open. The case-by-case proofs and Lean verification were produced by AI agents and audited by the authors; the structural theorems are the authors’ own.",
+      "description": [
+        "Transversal gates act qubit by qubit and so do not spread faults, but by the Eastin–Knill theorem they cannot be universal on a code that detects single-qubit errors. Stabilizer codes have finite Pauli descriptions that make classification tractable. Nonadditive codes come in continuous families, and a transversal symmetry adds continuous phases of its own. The SSLP method fixes a finite-order diagonal gate \\(D(a;q)=\\bigotimes_j\\operatorname{diag}(1,\\omega_q^{a_j})\\), \\(\\omega_q=e^{2\\pi i/q}\\). Basis strings then fall into sectors \\(S_b=\\{x:a\\cdot x\\equiv b\\pmod q\\}\\), and the logical eigenvectors must live in distinct sectors. The diagonal Knill–Laflamme (KL) conditions become a linear program on squared amplitudes, and the remaining conditions an exact algebraic completion.",
+        "Two gaps stood between that method and completeness. A code-preserving diagonal gate can have irrational phases, and so infinite physical order. And the least physical order realizing a logical action can exceed its logical order. Theorem III.2 closes the first gap using only the single-qubit conditions \\(PZ_jP=\\lambda_jP\\). Preservation is an integer-linear condition on the phases. Directions in its real kernel act as logical scalars, and a rational section lemma replaces any solution by one with a fixed denominator. The diagonal logical group is therefore finite abelian, with finite-order representatives satisfying \\(m\\mid q\\). A seven-qubit example shows the second gap is real: a logical action of order 6 whose physical representatives all have order divisible by 12.",
+        "Theorem III.4 shows that every such code has an SSLP normal form, and that every exact completion of SSLP data is a code. Theorem III.9 bounds the needed order. All logical eigenspaces share the same first moment \\(\\mu\\), so the phases solve a binary linear system, and the Smith normal form bounds its denominators: \\(q\\le\\beta_{n+\\ell-1}\\), with \\(\\beta_5,\\ldots,\\beta_9=5,9,18,42,120\\). At distance three with one logical qubit, the second moments force the two supports to share an affine span, sharpening the bound to \\(q\\le\\beta_n\\), which is 9 for six qubits.",
+        "For exact ((6,2,3)) codes the search gives 66 candidate classes. Exact no-go proofs exclude 51, and explicit codes realize 15: 11 of logical order 2, 3 of order 3, and 1 of order 5. In the order-five code, \\(D(a^\\star;5)\\) with \\(a^\\star=(1,1,1,1,2,3)\\) acts as \\(\\operatorname{diag}(1,\\zeta^4)\\), \\(\\zeta=e^{2\\pi i/5}\\). Every code with this symmetry is equivalent to it, and since it has \\(A_1=0\\), no shorter code can carry an order-five transversal action. Exact weight enumerators are determined for 13 of the 15 classes. The case analysis was produced by agents using TeXRA with GPT-5.6 and checked in Lean."
+      ],
+      "methods": [
+        {
+          "technique": "Strip continuous phases that act only as logical scalars",
+          "explanation": "Single-qubit error detection makes every kernel direction of the phase constraints act as a scalar on the code, so continuous phase families collapse to a finite set of logical actions.",
+          "math": [
+            "\\(D(t)\\) multiplies \\(\\ket x\\) by \\(e^{2\\pi i\\,x\\cdot t}\\), so \\((D(t)PD(t)^\\dagger)_{xy}=e^{2\\pi i(x-y)\\cdot t}P_{xy}\\), and the code is preserved if and only if \\((x-y)\\cdot t\\in\\mathbb Z\\) whenever \\(P_{xy}\\ne0\\). If \\((x-y)\\cdot h=0\\) for all such pairs, then \\(H_h=\\sum_jh_jN_j\\), with \\(N_j=(I-Z_j)/2\\), commutes with \\(P\\). Detection gives \\(PN_jP=\\mu_jP\\), so \\(H_hP=PH_hP=(h\\cdot\\mu)P\\) and \\(D(h)P=e^{2\\pi i\\,h\\cdot\\mu}P\\). Subtracting such an \\(h\\) changes the logical action only by a scalar. With \\(B=A^{\\mathsf T}A\\), a rational \\(G\\) with \\(BGB=B\\) and \\(Q_AG\\) integral, \\(a=Q_AGA^{\\mathsf T}(At)\\) satisfies \\(A(t-a/Q_A)=0\\), because \\(\\ker A^{\\mathsf T}A=\\ker A\\).",
+            "Example III.3: \\(\\theta(t)=\\tfrac1{12}(3,3,3,3,4,4,4)+t(1,-1,0,0,1,-1,0)\\) preserves a seven-qubit distance-2 code for every real \\(t\\), with logical action \\(\\operatorname{diag}(1,e^{2\\pi i/6})\\). For irrational \\(t\\) the physical gate never repeats. Any finite-order representative has phase \\(a/4\\) with \\(a\\) odd on qubit 3 and \\(b/3\\) with \\(b\\equiv1\\) on qubit 7, so \\(12\\mid q\\) although \\(m=6\\). Editorial check: at \\(t=0\\) and \\(t=\\sqrt2/7\\) the gate preserves both codewords with relative phase exactly \\(1/6\\) turn, and \\(\\langle Z_1Z_2\\rangle\\) is \\(1\\) and \\(-\\tfrac13\\) on the two codewords, confirming distance two."
+          ],
+          "transfer": "When a symmetry search has continuous parameters, find the directions that act trivially on the object of interest and quotient them out. What remains is a rational lattice problem whose denominators a Smith normal form can bound. Do not assume the smallest physical order equals the logical order; search over its multiples."
+        },
+        {
+          "technique": "Subset-sum sectors and moment matching as a staged filter",
+          "explanation": "A diagonal gate sorts basis strings by phase; codewords must live in single sectors, and the diagonal error conditions become cheap linear constraints before the hard amplitude equations are solved.",
+          "math": [
+            "With \\(\\ket{0_L}\\) supported in \\(S_0\\) and \\(\\ket{1_L}\\) in \\(S_{q/m}\\), off-diagonal elements of every diagonal Pauli \\(Z_J\\) vanish automatically. The diagonal conditions \\(\\sum_xp_0(x)\\prod_{j\\in J}(1-2x_j)=\\sum_yp_1(y)\\prod_{j\\in J}(1-2y_j)\\) for \\(|J|<d\\) are equivalent, via \\(z_j=1-2x_j\\), to equal binary moments up to degree \\(d-1\\). At distance three this means \\(\\phi_2(x)=(1,x_i,x_ix_j)\\) must have a common average, a linear-programming test: the convex hulls of \\(\\phi_2(S_0)\\) and \\(\\phi_2(S_{q/m})\\) must intersect. Passing it is necessary, not sufficient, since the \\(X\\)- and \\(Y\\)-type conditions remain.",
+            "Editorial check on the order-five code with \\(a^\\star=(1,1,1,1,2,3)\\): the strings of \\(\\ket{\\psi_0}\\) have subset sums \\(0\\), \\(3+2\\) and \\(2+3\\), all \\(\\equiv0\\pmod5\\). Those of \\(\\ket{\\psi_1}\\) have sums \\(4\\), \\(4+5\\), \\(1+3\\) and \\(2+2\\), all \\(\\equiv4\\pmod5\\), so the gate acts as \\(\\operatorname{diag}(1,\\zeta^4)\\). Numerically, all Paulis of weight at most two satisfy the KL conditions to within \\(2\\times10^{-16}\\)."
+          ],
+          "transfer": "To search for codes with a prescribed diagonal symmetry, stage the problem: discrete supports from the gate’s phase sectors, then convex moment conditions, then the exact complex equations. The cheap stages prune most candidates, and the staging does not depend on stabilizer structure."
+        }
+      ],
+      "methods_source_section": "Section II.C (Eqs. 16–25); Section III.A (Lemma III.1, Theorem III.2, Example III.3); Sections III.B–III.C; Section IV.B",
+      "approved_on": "2026-10-22"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+      "verified_on": "2026-10-22",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "version": "v1",
+      "submitted": "2026-10-21",
+      "id": "2610.30052",
+      "topic": "information",
+      "kind": "Theory",
+      "title": "Tight Bounds on the Randomized Communication Complexity of Vector-in-Subspace",
+      "authors": "Chengu Wang",
+      "problem": "One quantum message of \\(\\lceil\\log_2n\\rceil\\) qubits solves Vector-in-Subspace exactly. How many bits does an interactive classical protocol need?",
+      "result": "\\(\\Theta(\\sqrt n)\\) bits. A lower bound of \\(\\Omega(\\sqrt n)\\) holds for bounded-error randomized protocols with any number of rounds, matching Raz’s \\(O(\\sqrt n)\\) protocol. It improves the \\(\\Omega(n^{1/3})\\) bound of Klartag and Regev and removes the total-rank restriction in Grupel’s \\(\\Omega(\\sqrt n)\\) result.",
+      "significance": "Settles the size of a standard exponential separation between one-way quantum and interactive classical communication. The proof introduces a cancellation technique, a vanishing complex moment that survives averaging over a protocol’s rectangles, which avoids the dimension dependence of absolute moments.",
+      "limitations": "The constants are not explicit. The quantum advantage concerns communication only: the matching classical protocol may require substantial local computation. The proof is long and technical, and the author reports using AI tools to develop and check arguments.",
+      "description": [
+        "Alice holds a unit vector \\(x\\in\\mathbb R^n\\) and Bob an \\(n/2\\)-dimensional subspace \\(H\\), with the promise that \\(x\\in H\\) or \\(x\\in H^\\perp\\). Alice can send the state \\(\\sum_ix_i\\ket i\\) on \\(\\lceil\\log_2n\\rceil\\) qubits; Bob measures the projector onto \\(H\\) and answers correctly with certainty. Classically, Raz’s protocol uses shared random Gaussian vectors: Alice sends the index of the one most correlated with \\(x\\), which takes \\(O(\\sqrt n)\\) bits. Could interaction do much better?",
+        "Earlier bounds left a gap. Gavinsky, Kempe, Kerenidis, Raz and de Wolf separated one-way quantum from one-way classical communication, but their problem is easy with interaction. Klartag and Regev proved \\(\\Omega(n^{1/3})\\) against interactive protocols by studying how a random half-dimensional subspace samples a set on the sphere. A spherical cap shows that their one-subspace estimate is sharp at the cube-root scale. Grupel studied \\(H\\) and \\(H^\\perp\\) together and obtained \\(\\Omega(\\sqrt n)\\) only for protocols whose decisions depend on few linear functionals of Alice’s vector.",
+        "A deterministic \\(d\\)-bit protocol partitions the inputs into at most \\(2^d\\) rectangles. Averaging over \\(H\\cap S^{n-1}\\) acts on degree-\\(2k\\) spherical harmonics with eigenvalue \\(\\mathfrak a_k=(1/2)_k/((n-1)/2)_k\\le(2k/(n-1))^k\\), and averaging over \\(H^\\perp\\) adds a sign \\((-1)^k\\). Only odd \\(k\\) therefore separate the two promises, and high degrees are negligible. The paper lifts the problem to Gaussians: \\(x=Y/|Y|\\) and \\(H\\) is the top-half eigenspace of a GOE matrix \\(G\\). Each level becomes a Wick-ordered polynomial \\(F_k(Y,G)\\) of \\((Y^{\\mathsf T}GY)^k\\), and the central estimate is \\(\\mathbb E\\bigl|\\mathbb E[F_k\\mid\\mathsf T]\\bigr|\\le C^kk!\\,(d+k^2)^k\\) for every partition \\(\\mathsf T\\) into at most \\(2^d\\) rectangles. Each level then contributes \\((Cd/\\sqrt n)^k\\), which is small when \\(d\\le c\\sqrt n\\).",
+        "The estimate rests on cancellation before absolute values are taken. With independent copies \\(Z,G'\\), the variable \\(Q=\\tfrac12(Y+iZ)^{\\mathsf T}(G+iG')(Y+iZ)\\) satisfies \\(F_k=2^k\\mathbb E[Q^k\\mid Y,G]\\) and \\(\\mathbb E Q^{2k}=0\\). Since the cells together reproduce the full Gaussian law, this zero survives averaging over the partition, though not within any one cell. On each cell, Alice’s conditional law is split into fixed coordinates, which define a real center \\(\\alpha\\), and a sub-Gaussian remainder controlled through signed Wick moments. A short lemma then turns the vanishing even moment into a bound on \\(\\alpha\\) and on the conditional moment."
+      ],
+      "methods": [
+        {
+          "technique": "Complex Gaussian lifts perform the Wick corrections",
+          "explanation": "Adding an independent imaginary Gaussian turns ordinary powers into Hermite (Wick) polynomials, and phase symmetry makes every holomorphic moment vanish.",
+          "math": [
+            "The Hermite tensor is \\(\\mathrm{He}_r(y)=\\mathbb E_Z(y+iZ)^{\\otimes r}\\). At the lowest level, with \\(w=y+iZ\\), \\[F_1(y,G)=\\mathbb E\\bigl[w^{\\mathsf T}(G+iG')w\\bigr]=y^{\\mathsf T}Gy-\\mathbb E[Z^{\\mathsf T}GZ]=y^{\\mathsf T}Gy-\\operatorname{tr}G:\\] the imaginary part subtracts the self-contraction, and terms linear in \\(Z\\) or \\(G'\\) average to zero. Higher levels subtract all contractions in the same way.",
+            "Why \\(\\mathbb EQ^m=0\\) (editorial). \\(Y+iZ\\) is a circularly symmetric complex Gaussian: \\(e^{i\\varphi}(Y+iZ)\\) has the same law for every \\(\\varphi\\), and \\(Q\\mapsto e^{2i\\varphi}Q\\). Hence \\(\\mathbb EQ^m=e^{2im\\varphi}\\mathbb EQ^m\\) for all \\(\\varphi\\), so \\(\\mathbb EQ^m=0\\) for \\(m\\ge1\\), even though \\(\\mathbb E|Q|^2\\) grows with \\(n\\). A Monte Carlo check at \\(n=6\\) gave \\(\\mathbb E[w^{\\mathsf T}(G+iG')w]\\approx-8.92\\) against \\(y^{\\mathsf T}Gy-\\operatorname{tr}G=-8.91\\), and \\(|\\mathbb EQ^2|\\approx0.8\\) against \\(\\mathbb E|Q|^2\\approx168\\)."
+          ],
+          "transfer": "To bound a polynomial that should average to zero, write it as the expectation of a holomorphic expression in complex Gaussians. Signed moments then cancel by phase symmetry, while absolute moments would grow with dimension. The device applies wherever Wick or Hermite polynomials appear, including Fourier-growth bounds in other communication and query lower bounds."
+        },
+        {
+          "technique": "A vanishing even moment bounds a real center",
+          "explanation": "Lemma 4.1 converts the global identity \\(\\mathbb EQ^{2k}=0\\) into control of conditional moments, needing only signed moments of \\(Q-\\alpha\\) about a real center.",
+          "math": [
+            "Let \\(\\alpha\\) be real and \\(\\mathcal F\\)-measurable, \\(\\kappa_l=\\mathbb E[(Q-\\alpha)^l\\mid\\mathcal F]\\) with \\(\\|\\kappa_l\\|_{2k/l}\\le(l\\tau)^l\\), and \\(t=\\|\\alpha\\|_{2k}\\). Expanding \\(Q^{2k}=\\sum_l\\binom{2k}l\\alpha^{2k-l}(Q-\\alpha)^l\\) and taking expectations gives \\(0=\\mathbb E\\alpha^{2k}+\\sum_{l\\ge1}\\binom{2k}l\\mathbb E[\\alpha^{2k-l}\\kappa_l]\\). Since \\(\\alpha\\) is real, \\(\\mathbb E\\alpha^{2k}=t^{2k}\\ge0\\), so Hölder gives \\[t^{2k}\\le\\sum_{l=1}^{2k}\\binom{2k}l\\,t^{2k-l}(l\\tau)^l\\le\\sum_{l=1}^{2k}(2ek\\tau)^lt^{2k-l},\\] using \\(\\binom{2k}l\\le(2ek/l)^l\\).",
+            "If \\(t>4ek\\tau\\), the ratio \\(r=2ek\\tau/t<\\tfrac12\\) makes the right side \\(t^{2k}\\sum_{l\\ge1}r^l<t^{2k}\\), a contradiction; so \\(\\|\\alpha\\|_{2k}\\le4ek\\tau\\). Expanding \\(Q^k\\) the same way gives \\(\\|\\mathbb E[Q^k\\mid\\mathcal F]\\|_2\\le(t+k\\tau)^k\\le(12k\\tau)^k\\). The bound on \\(|Q-\\alpha|\\) itself, which would carry the dimension, is never needed."
+          ],
+          "transfer": "When a quantity has a known zero moment overall but you need its conditional behaviour on many cells, expand around a real conditional center. Positivity of an even power of a real number turns the global zero into a bound on the center, so long as the signed conditional moments are small."
+        }
+      ],
+      "methods_source_section": "Sections 1.3, 2.4 (Lemma 2.2), 3.1–3.4, 4.1 (Lemma 4.1)",
+      "approved_on": "2026-10-22"
+    },
+    {
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+      "verified_on": "2026-10-22",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "version": "v1",
+      "submitted": "2026-10-21",
+      "id": "2610.29696",
+      "topic": "information",
+      "kind": "Theory",
+      "title": "Quantum f-divergences from retrodiction: a unifying classical variational principle",
+      "authors": "Francesco Buscemi",
+      "problem": "A classical \\(f\\)-divergence has several inequivalent quantum extensions. Can they all be obtained from one operational optimization?",
+      "result": "Yes. Compare a forward prepare-and-measure process with its reverse, obtained by Petz retrodiction relative to a reference prior \\(\\gamma\\), subject to prescribed averages \\(\\rho\\) and \\(\\sigma\\). The minimum classical \\(f\\)-divergence between their complete records is attained by one spectral implementation, simultaneously for every operator-convex \\(f\\). A flat prior gives the standard (Petz) divergence, Umegaki for relative entropy. A prior equal to \\(\\rho\\) or \\(\\sigma\\) gives the maximal divergence, Belavkin–Staszewski for relative entropy, and power priors \\(\\gamma\\propto\\sigma^t\\) give the geodesic family between them.",
+      "significance": "Recasts the different quantum divergences as different choices of prior for retrodiction rather than different formulas. Nussbaum–Szkoła distributions and Matsumoto’s reverse tests become optimal records of a single experiment.",
+      "limitations": "Finite dimension and faithful states throughout, and \\(f\\) must be operator convex, not merely convex. Both labels must be kept in the record; otherwise the minimum is trivially zero. The result characterizes known divergences rather than introducing new ones, and for a general prior the minimum depends on \\(\\gamma\\), even when \\(\\rho=\\sigma\\).",
+      "description": [
+        "An implementation consists of two ensembles. The states \\(\\tau_i\\) average to \\(\\gamma\\) under reference weights \\(g_i\\) and to \\(\\rho\\) under actual weights \\(a_i\\); the states \\(\\upsilon_j\\) average to \\(\\gamma\\) and \\(\\sigma\\) in the same way. With \\(A=\\gamma^{-1/2}\\rho\\gamma^{-1/2}\\) and \\(B=\\gamma^{-1/2}\\sigma\\gamma^{-1/2}\\), choosing an implementation is the same as resolving \\(A=\\sum_i\\lambda_iE_i\\) and \\(B=\\sum_j\\mu_jH_j\\) into weighted POVMs. Then \\(\\tau_i=\\sqrt\\gamma E_i\\sqrt\\gamma/g_i\\) is the Petz retrodiction of outcome \\(i\\). The forward process draws \\(i\\), prepares \\(\\tau_i\\) and measures \\(\\{H_j\\}\\); the reverse draws \\(j\\), prepares \\(\\upsilon_j\\) and measures \\(\\{E_i\\}\\). Both report \\((i,j)\\), with laws \\(F_{ij}=\\lambda_iJ_{ij}\\) and \\(R_{ij}=\\mu_jJ_{ij}\\), where \\(J_{ij}=\\operatorname{Tr}[\\sqrt\\gamma E_i\\sqrt\\gamma H_j]\\).",
+        "Theorem 3.1 states that, for operator-convex \\(f\\) with \\(f(1)=0\\), \\[\\min D_f(R\\|F)=\\sum_{k,l}\\alpha_kf\\!\\left(\\frac{\\beta_l}{\\alpha_k}\\right)\\operatorname{Tr}\\bigl[\\sqrt\\gamma P_k\\sqrt\\gamma Q_l\\bigr],\\] where \\(A=\\sum_k\\alpha_kP_k\\) and \\(B=\\sum_l\\beta_lQ_l\\) are spectral decompositions. The spectral POVMs attain the minimum for every such \\(f\\) at once. For relative entropy the minimum is \\(\\operatorname{Tr}[\\gamma B\\log B]-\\operatorname{Tr}[\\sigma\\log A]\\). It vanishes only when \\(\\rho=\\sigma\\) and \\(\\rho\\) commutes with \\(\\gamma\\): equal averages with a noncommuting prior still leave distinguishable records.",
+        "The prior selects the divergence. With \\(\\gamma=I/d\\), the minimum is the Petz divergence \\(\\sum_{i,j}r_if(s_j/r_i)\\operatorname{Tr}[P_iQ_j]\\), attained by the Nussbaum–Szkoła records \\(F_{ij}=r_i|\\braket{r_i}{s_j}|^2\\) and \\(R_{ij}=s_j|\\braket{r_i}{s_j}|^2\\). With \\(\\gamma=\\rho\\), \\(A=I\\) and the minimum is \\(\\operatorname{Tr}[\\rho f(L)]\\) with \\(L=\\rho^{-1/2}\\sigma\\rho^{-1/2}\\): the maximal divergence, attained by Matsumoto’s reverse test. The prior \\(\\gamma_t=\\sigma^t/\\operatorname{Tr}\\sigma^t\\) gives the geodesic divergences of Capel and Costa Rico, which for relative entropy read \\(D_t(\\sigma\\|\\rho)=(1-t)\\operatorname{Tr}[\\sigma\\log\\sigma]-\\operatorname{Tr}[\\sigma\\log(\\sigma^{-t/2}\\rho\\sigma^{-t/2})]\\).",
+        "Combining optimal implementations gives convexity at a fixed prior. For relative entropy it gives a stronger bound: \\(V(\\sum_kp_k\\rho_k,\\sigma)\\le-\\log\\sum_kp_ke^{-V(\\rho_k,\\sigma)}\\), obtained by letting the reverse process choose components with \\(q_k\\propto p_ke^{-v_k}\\). The same spectral optimality holds with a channel \\(\\mathcal E\\) inserted between preparation and measurement, with its Petz transpose in the reverse process. For channels with faithful Choi operator, the minimum coincides with a known measure of average entropy production."
+      ],
+      "methods": [
+        {
+          "technique": "Two operator-Jensen steps remove the implementation freedom",
+          "explanation": "Each weighted POVM resolution is collapsed to a function of the fixed operator it resolves, and equality holds for spectral resolutions.",
+          "math": [
+            "Write \\(D_f(R\\|F)=\\sum_i\\lambda_i\\operatorname{Tr}\\bigl[\\sqrt\\gamma E_i\\sqrt\\gamma\\sum_jf(\\mu_j/\\lambda_i)H_j\\bigr]\\). Operator Jensen for the POVM \\(\\{H_j\\}\\) gives \\(\\sum_jf(\\mu_j/\\lambda_i)H_j\\ge f(B/\\lambda_i)\\). Expanding \\(B\\) spectrally leaves \\(\\sum_l\\operatorname{Tr}\\bigl[\\sqrt\\gamma Q_l\\sqrt\\gamma\\sum_i\\lambda_if(\\beta_l/\\lambda_i)E_i\\bigr]\\). The map \\(u\\mapsto uf(\\beta/u)\\) is operator convex, being a transpose of \\(f\\). A second Jensen step over \\(\\{E_i\\}\\) gives \\(\\sum_i\\lambda_if(\\beta_l/\\lambda_i)E_i\\ge Af(\\beta_lA^{-1})\\), and tracing against \\(\\sqrt\\gamma Q_l\\sqrt\\gamma\\ge0\\) gives the bound. For spectral resolutions every operator commutes with its POVM, so both steps hold with equality.",
+            "Editorial check: for random faithful qutrit states \\(\\rho,\\sigma,\\gamma\\) and \\(f(u)=u\\log u\\), the spectral value \\(2.0628\\) equals the closed form of Corollary 3.2. Five hundred random admissible implementations, built by mixing a random POVM into each spectral resolution, all gave larger values, the smallest being \\(2.334\\)."
+          ],
+          "transfer": "When an operational quantity is minimized over all ways of resolving fixed operators into weighted POVMs, apply operator Jensen once per resolution; spectral resolutions attain equality. The argument survives inserting a channel, as the paper shows, and should carry over to other quasi-entropies with a fixed operator sandwiched between the arguments."
+        },
+        {
+          "technique": "The retrodiction prior selects the quantum divergence",
+          "explanation": "The same minimum, evaluated at different priors, reproduces the standard, maximal and geodesic divergences, so their differences become differences of prior.",
+          "math": [
+            "Flat prior: \\(A=d\\rho\\) and \\(B=d\\sigma\\), and for \\(f(u)=u\\log u\\) the minimum is \\(\\operatorname{Tr}[\\sigma(\\log\\sigma-\\log\\rho)]\\). Prior \\(\\rho\\): \\(A=I\\), so only one effect is nontrivial and the value is \\(\\operatorname{Tr}[\\rho L\\log L]=\\operatorname{Tr}[\\sigma\\log(\\sigma^{1/2}\\rho^{-1}\\sigma^{1/2})]\\), the Belavkin–Staszewski entropy. Prior \\(\\sigma\\) gives the same value through \\(\\operatorname{Tr}[\\sigma Kf(K^{-1})]\\) with \\(K=\\sigma^{-1/2}\\rho\\sigma^{-1/2}\\). Power prior: \\(A_t=Z_t\\sigma^{-t/2}\\rho\\sigma^{-t/2}\\) and \\(B_t=Z_t\\sigma^{1-t}\\); the factors \\(\\log Z_t\\) cancel, leaving \\(D_t(\\sigma\\|\\rho)\\).",
+            "Editorial check with random qutrit states: the flat prior gives \\(1.3611\\), equal to the Umegaki value. The priors \\(\\rho\\) and \\(\\sigma\\) both give \\(1.6767\\), equal to the Belavkin–Staszewski value in either form. At \\(t=0.4\\) the minimum equals Eq. (19), \\(1.5832\\). With \\(\\rho=\\sigma\\) and a noncommuting \\(\\gamma\\), the minimum is \\(0.338>0\\), as Remark 3.3 predicts."
+          ],
+          "transfer": "When two quantum generalizations of a classical quantity disagree, look for a reference state that the classical derivation fixes implicitly, such as a uniform prior or one of the arguments. Making it explicit can turn separate definitions into one family indexed by the prior, so that an inequality proved once for every prior holds for every member."
+        }
+      ],
+      "methods_source_section": "Section 2 (Definition 2.1, Eqs. 1–5); Section 3 (Theorem 3.1, Corollary 3.2, Remark 3.3); Section 4; Section 5 (Proposition 5.1); Section 6",
+      "approved_on": "2026-10-22"
     }
   ]
 }
