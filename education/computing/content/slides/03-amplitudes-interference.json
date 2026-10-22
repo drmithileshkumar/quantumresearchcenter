@@ -1,0 +1,316 @@
+[
+ {
+  "kind": "section",
+  "number": "3.1",
+  "title": "States and Transitions",
+  "question": "Deterministic, nondeterministic, and probabilistic rules look different. What do they have in common?"
+ },
+ {
+  "kind": "table",
+  "topic": "3.1.1",
+  "title": "What can we know about one bit?",
+  "headers": [
+   "What we know",
+   "\\(v_0\\)",
+   "\\(v_1\\)",
+   "State"
+  ],
+  "rows": [
+   [
+    "The bit is 0",
+    "1",
+    "0",
+    "\\(\\ket0\\)"
+   ],
+   [
+    "Either value is possible",
+    "1",
+    "1",
+    "\\(\\ket0+\\ket1\\)"
+   ],
+   [
+    "A fair coin set the bit",
+    "1/2",
+    "1/2",
+    "\\(\\tfrac12\\ket0+\\tfrac12\\ket1\\)"
+   ]
+  ],
+  "takeaway": "Every kind of knowledge takes one form: a weight for each configuration, written \\(v_0\\ket0+v_1\\ket1\\).",
+  "notes": [
+   "A configuration is what the register holds; the state is what we know about it. All three kinds of knowledge assign a number to each configuration.",
+   "The kets are bookkeeping for now: terms for the same configuration add, terms for different configurations stay apart. The weights mean different things in different rows."
+  ]
+ },
+ {
+  "kind": "statement",
+  "topic": "3.1.2",
+  "title": "How do we write one step?",
+  "label": "Notation",
+  "statement": "\\(\\bra jS\\ket i\\) is the weight of the arrow from \\(i\\) to \\(j\\) under the step \\(S\\).",
+  "note": "Read right to left: start at \\(i\\), apply \\(S\\), arrive at \\(j\\). For NOT: \\(\\bra1X\\ket0=\\bra0X\\ket1=1\\) and \\(\\bra0X\\ket0=\\bra1X\\ket1=0\\).",
+  "notes": [
+   "A state diagram has one circle per configuration and one arrow for each permitted transition. A missing arrow has weight zero."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "3.1.2",
+  "title": "How do we see a whole run?",
+  "figure": "transitions-deterministic.svg",
+  "lead": "Copy the configurations once for each time and join the copies by the arrows of the rule.",
+  "takeaway": "A run is a path through the time-expanded diagram. From 0, NOT gives 0, 1, 0.",
+  "notes": [
+   "The left panel is the state diagram of NOT; the right panel repeats the configurations at t = 0, 1, 2."
+  ]
+ },
+ {
+  "kind": "table",
+  "topic": "3.1.3",
+  "title": "Can a deterministic run be traced backward?",
+  "headers": [
+   "Configuration",
+   "Next under NOT",
+   "Next under RESET"
+  ],
+  "rows": [
+   [
+    "0",
+    "1",
+    "0"
+   ],
+   [
+    "1",
+    "0",
+    "0"
+   ]
+  ],
+  "takeaway": "Both rules fix the next step. Only NOT fixes the previous one: two arrows enter 0 under RESET, so it is not reversible.",
+  "notes": [
+   "Both rules are deterministic: one arrow leaves each configuration, so the start fixes the run and a definite state stays definite.",
+   "A deterministic rule with exactly one arrow entering each configuration is reversible."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "3.1.4",
+  "title": "What if a configuration has several successors?",
+  "figure": "transitions-nondeterministic.svg",
+  "lead": "KEEP-OR-FLIP permits both successors from either bit: four two-step paths from 0.",
+  "takeaway": "A configuration is reachable if at least one permitted path ends there. This is possibility, not probability.",
+  "notes": [
+   "Nondeterministic acceptance has the same form: an input is accepted if some permitted run accepts.",
+   "Counting paths does not make an endpoint more likely; the rule says nothing about likelihood."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "3.1.5",
+  "title": "What does a probabilistic rule add?",
+  "figure": "transitions-probabilistic.svg",
+  "lead": "COIN gives every arrow the probability \\(P(j\\mid i)=\\tfrac12\\).",
+  "takeaway": "Two exclusive histories end at 0, so \\(P(c_2=0)=\\tfrac14+\\tfrac14=\\tfrac12\\).",
+  "notes": [
+   "The weights leaving each configuration add to one. We assume the configuration holds everything needed to predict the next step (the Markov assumption).",
+   "Unlike a deterministic rule, COIN does not fix one run; unlike a nondeterministic rule, it predicts how often each outcome occurs."
+  ]
+ },
+ {
+  "kind": "section",
+  "number": "3.2",
+  "title": "Sum and Product Rules",
+  "question": "Once arrows carry weights, how do we compute the weight of an endpoint?"
+ },
+ {
+  "kind": "steps",
+  "topic": "3.2.1",
+  "title": "What is one path worth?",
+  "steps": [
+   "A path \\(i\\to j\\to k\\) needs every arrow along it.",
+   "Its weight is the product \\(\\bra kT\\ket j\\,\\bra jS\\ket i\\), with the first step on the right.",
+   "Allowed arrow 1, missing arrow 0: the product is 1 exactly when the whole path is permitted.",
+   "For COIN, each two-step path has weight \\(\\tfrac12\\cdot\\tfrac12=\\tfrac14\\)."
+  ],
+  "takeaway": "Product rule: multiply along a path.",
+  "notes": [
+   "For probabilities the factors are conditional probabilities of successive steps; they need not be independent events."
+  ]
+ },
+ {
+  "kind": "steps",
+  "topic": "3.2.2",
+  "title": "How do paths to one endpoint combine?",
+  "steps": [
+   "\\[\\bra kTS\\ket i=\\sum_j\\bra kT\\ket j\\,\\bra jS\\ket i\\]",
+   "Deterministic: one path. Nondeterministic: the sum counts paths. Probabilistic: the endpoint probability.",
+   "COIN: \\(\\tfrac14+\\tfrac14=\\tfrac12\\) at either endpoint.",
+   "Every contribution is nonnegative, so adding a path can never lower a total."
+  ],
+  "takeaway": "Sum rule: add across paths. With nonnegative weights, nothing ever cancels.",
+  "notes": [
+   "The left side treats the two steps as one combined step TS: first S, then T."
+  ]
+ },
+ {
+  "kind": "steps",
+  "topic": "3.2.3",
+  "title": "How does a whole state change in one step?",
+  "steps": [
+   "\\[v^\\prime_j=\\sum_i\\bra jS\\ket i\\,v_i\\]",
+   "Each configuration goes to its weighted successors: \\(S\\ket i=\\sum_j\\bra jS\\ket i\\,\\ket j\\).",
+   "Example: \\(\\mathrm{COIN}\\ket0=\\tfrac12\\ket0+\\tfrac12\\ket1\\).",
+   "A reversible rule only permutes configurations: \\(\\mathrm{CNOT}\\ket{10}=\\ket{11}\\). RESET and COIN merge distinct states."
+  ],
+  "notes": [
+   "The state carries everything needed to predict the next step, without a list of earlier paths."
+  ]
+ },
+ {
+  "kind": "section",
+  "number": "3.3",
+  "title": "Signed Weights",
+  "question": "What changes if a weight may be negative?"
+ },
+ {
+  "kind": "steps",
+  "topic": "3.3.1",
+  "title": "What does a negative arrow do to a path?",
+  "steps": [
+   "The product rule is unchanged: \\(\\bra kS\\ket j\\,\\bra jS\\ket i\\).",
+   "An odd number of negative arrows makes the path weight negative.",
+   "\\((\\tfrac12)(-\\tfrac12)=-\\tfrac14,\\qquad(-\\tfrac12)(-\\tfrac12)=+\\tfrac14\\)",
+   "A negative path weight is not a negative probability. It is a signed contribution to a later sum."
+  ],
+  "notes": [
+   "This is a mathematical extension of the path description; its physical meaning comes later."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "3.3.2",
+  "title": "Can two paths add up to nothing?",
+  "figure": "subsections/topic-3-3-2.svg",
+  "lead": "Two routes contribute \\(ca\\) and \\(db\\), with \\(a=b=c=\\tfrac12\\) and \\(d=-\\tfrac12\\).",
+  "takeaway": "\\(\\tfrac14-\\tfrac14=0\\): cancellation. Adding a path can now lower a total.",
+  "notes": [
+   "Only contributions to the same final configuration add. A weight +1/4 at 0 and −1/4 at 1 stay separate."
+  ]
+ },
+ {
+  "kind": "predict",
+  "topic": "3.3.3",
+  "title": "Can a step spread a bit out and still undo itself?",
+  "question": "Give three arrows the weight \\(c\\) and one arrow the weight \\(-c\\). Apply the step twice, starting from 0. What must \\(c\\) be to return to 0 with weight 1?",
+  "hint": "Count the two paths into 0 and the two paths into 1.",
+  "answer": "Into 0: \\(c^2+c^2=2c^2\\). Into 1: \\(c^2-c^2=0\\). So \\(2c^2=1\\) and \\(c=1/\\sqrt2\\). This step is the Hadamard step \\(H\\).",
+  "notes": [
+   "The negative arrow is the arrow from 1 to 1. Starting from 1 gives the other check: the paths to 0 cancel and the paths to 1 reinforce."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "3.3.3",
+  "title": "The Hadamard step undoes itself",
+  "figure": "hadamard-ket-notation.svg",
+  "lead": "\\(H\\ket0=(\\ket0+\\ket1)/\\sqrt2,\\qquad H\\ket1=(\\ket0-\\ket1)/\\sqrt2\\)",
+  "takeaway": "\\(HH=I\\). After one step the squared weights add to one, \\(c^2+c^2=1\\): a hint that squares will give probabilities.",
+  "notes": [
+   "Replace the negative arrow by a positive one and both inputs give the same intermediate weights; the second step can no longer recover the start. Cancellation is what makes the step reversible."
+  ]
+ },
+ {
+  "kind": "section",
+  "number": "3.4",
+  "title": "Complex Amplitudes and Interference",
+  "question": "A sign is a two-way choice. What does a continuously varying direction allow?"
+ },
+ {
+  "kind": "predict",
+  "topic": "3.4.1",
+  "title": "Is there a square root of NOT?",
+  "question": "Find a step \\(\\sqrt X\\), with stay-weight \\(a\\) and switch-weight \\(b\\), such that two steps of it give NOT.",
+  "hint": "Two steps: the return paths give \\(a^2+b^2\\); the switch paths give \\(2ab\\).",
+  "answer": "We need \\(a^2+b^2=0\\) and \\(2ab=1\\). No real numbers work. Complex numbers do: \\(a=\\tfrac{1+i}{2},\\ b=\\tfrac{1-i}{2}\\).",
+  "notes": [
+   "Neither deterministic reversible step on one bit squares to NOT: the identity and NOT both square to the identity."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "3.4.1",
+  "title": "Squares that cancel",
+  "figure": "transitions-sqrt-not-ab.svg",
+  "lead": "In the plane, multiplying by \\(i\\) is a quarter turn, so \\(i^2=-1\\).",
+  "takeaway": "\\(a^2=\\tfrac i2\\) and \\(b^2=-\\tfrac i2\\): the return paths cancel, and \\(2ab=1\\) sends the bit across.",
+  "notes": [
+   "Weights that may be complex are called amplitudes. They obey the same sum and product rules."
+  ]
+ },
+ {
+  "kind": "steps",
+  "topic": "3.4.1",
+  "title": "Which probability rule fits complex amplitudes?",
+  "steps": [
+   "\\(a^2=i/2\\) cannot be a probability.",
+   "Use the squared magnitude instead: \\(p(j)=v_jv_j^*=|v_j|^2\\).",
+   "Normalization: \\(\\sum_j|v_j|^2=1\\).",
+   "Add amplitudes first, then square: \\(|A+B|^2=|A|^2+|B|^2+AB^*+A^*B\\).",
+   "To keep total probability one, each step needs unit-length, mutually orthogonal columns."
+  ],
+  "notes": [
+   "The cross terms are what distinguish adding amplitudes from adding probabilities. Two steps of √X: return contributions i/2 and −i/2 sum to zero.",
+   "Write a unit arrow at angle φ as e^{iφ} = cos φ + i sin φ; multiplying amplitudes adds their phases."
+  ]
+ },
+ {
+  "kind": "steps",
+  "topic": "3.4.2",
+  "title": "How does a phase change an outcome?",
+  "steps": [
+   "Start from \\((\\ket0+e^{i\\phi}\\ket1)/\\sqrt2\\): probabilities \\(\\tfrac12,\\tfrac12\\) for every \\(\\phi\\).",
+   "\\[p(0)\\text{ after }H=\\left|\\frac{1+e^{i\\phi}}{2}\\right|^2=\\frac{1+\\cos\\phi}{2}\\]",
+   "\\(\\phi=0\\): certainly 0. \\(\\phi=\\pi\\): certainly 1. \\(\\phi=\\pi/2\\): even odds.",
+   "A common (global) phase changes nothing; a relative phase changes what happens next."
+  ],
+  "takeaway": "Interference: amplitudes add at a common endpoint before we square.",
+  "notes": [
+   "Z multiplies the amplitude at 1 by −1, a relative phase of π. Inserted between two Hadamard steps it turns a certain 0 into a certain 1."
+  ]
+ },
+ {
+  "kind": "compare",
+  "topic": "3.4.3",
+  "title": "Does a record of the path matter?",
+  "lead": "Run \\(H\\), then CNOT onto a record bit, then \\(H\\) again.",
+  "left": {
+   "label": "Record kept",
+   "items": [
+    "Final state \\(\\tfrac12(\\ket{00}+\\ket{01}+\\ket{10}-\\ket{11})\\).",
+    "\\(+\\tfrac12\\) and \\(-\\tfrac12\\) land on 10 and 11.",
+    "They cannot cancel: \\(p(\\text{first}=1)=\\tfrac12\\)."
+   ]
+  },
+  "right": {
+   "label": "Record undone",
+   "items": [
+    "Apply CNOT again before the last H.",
+    "Both contributions now reach 10, and cancel.",
+    "The run returns to \\(\\ket{00}\\) with certainty."
+   ]
+  },
+  "takeaway": "Anything that can tell the paths apart belongs in the configuration. Uncomputing the record restores interference.",
+  "notes": [
+   "Ignoring the record does not merge its two values into one configuration; the loss of interference follows from the different endpoints whether or not anyone reads the record."
+  ]
+ },
+ {
+  "kind": "takeaways",
+  "title": "What we found",
+  "items": [
+   "A state is a weight per configuration; a step is a weight per arrow.",
+   "Multiply along paths, add across paths, for every kind of rule.",
+   "Signed weights cancel, which lets the Hadamard step undo itself.",
+   "Complex amplitudes give a square root of NOT; probabilities are squared magnitudes.",
+   "Paths interfere only where they meet; a record of the path prevents it."
+  ]
+ }
+]

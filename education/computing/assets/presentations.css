@@ -1,0 +1,127 @@
+/* Lecture decks. Every slide is a 16:9 box sized from the window; all type uses
+   container units (cqw), so a slide looks the same on a laptop, a projector, and a PDF page. */
+@font-face{font-family:"Deck Sans";src:local("Inter"),local("Noto Sans"),local("Segoe UI"),local("Helvetica Neue");}
+:root{--ink:#14213d;--muted:#5a6577;--accent:#246593;--quantum:#765391;--good:#347449;--warm:#a64d26;--line:#d8dee8;--paper:#fff;--wash:#f3f6fa;--letterbox:#e9edf3}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body.deck{background:var(--letterbox);color:var(--ink);font-family:"Deck Sans",system-ui,sans-serif;overflow:hidden}
+#main{height:100%}
+#deck{height:100%;display:grid;place-items:center}
+.skip-link{position:fixed;top:-60px;left:12px;z-index:10;background:#fff;color:var(--accent);padding:8px 12px;border:2px solid var(--accent);border-radius:6px}
+.skip-link:focus{top:8px}
+.slide{width:min(100vw,177.78vh);aspect-ratio:16/9;background:var(--paper);container-type:inline-size;position:relative;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 1px 30px #14213d14}
+.js-ready .slide[hidden]{display:none}
+.slide-body{flex:1;min-height:0;display:flex;flex-direction:column;padding:4cqw 6cqw 1cqw;font-size:2.45cqw;line-height:1.4}
+.slide h1,.slide h2{font-weight:700;letter-spacing:-.025em;line-height:1.12;margin:0 0 1.6cqw}
+.slide h2{font-size:3.8cqw;max-width:90%}
+.slide p{margin:0}
+.lead{color:var(--muted);font-size:2.25cqw;margin-bottom:1.4cqw!important;max-width:85%}
+.takeaway{margin-top:auto!important;padding:1.1cqw 0 0 1.6cqw;border-left:.45cqw solid var(--accent);font-size:2.3cqw;line-height:1.35}
+.slide-foot{display:flex;justify-content:space-between;align-items:center;padding:0 6cqw 1.6cqw;font-size:1.05cqw;color:var(--muted)}
+.book-link{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
+.book-link:hover{color:var(--accent)}
+.slide-no{font-variant-numeric:tabular-nums}
+.slide mjx-container{font-size:105%}
+.slide mjx-container[display=true]{margin:.3em 0!important}
+
+/* Reveal steps on Space / →. Without JavaScript everything is shown. */
+.js-ready .fragment{opacity:0;transform:translateY(.4cqw);transition:opacity .25s,transform .25s}
+.js-ready .fragment.shown{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.js-ready .fragment{transition:none;transform:none}}
+
+/* Cover */
+.kind-cover{background:linear-gradient(135deg,#fff 52%,#eef3f9)}
+.kind-cover .slide-body{justify-content:center;padding-left:8cqw}
+.cover-kicker{font-size:1.4cqw;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:2cqw!important}
+.kind-cover h1{font-size:6.4cqw;max-width:80%;margin-bottom:2.4cqw}
+.cover-question{font-size:2.6cqw;color:var(--muted);max-width:72%;line-height:1.3}
+.cover-author{margin-top:4cqw!important;font-size:1.8cqw}
+.cover-hint{margin-top:1cqw!important;font-size:1.2cqw;color:var(--muted)}
+
+/* Section divider */
+.kind-section{background:var(--ink);color:#fff}
+.kind-section .slide-body{justify-content:center;padding-left:8cqw}
+.section-number{font-size:2cqw;letter-spacing:.14em;color:#9fc2e0;font-weight:600;margin-bottom:1.6cqw!important}
+.kind-section h2{font-size:5.2cqw;color:#fff}
+.section-question{font-size:3cqw;line-height:1.3;color:#d9e4f0;max-width:80%}
+.kind-section .slide-foot,.kind-section .book-link{color:#9fb0c6;border-color:#3b4a66}
+
+/* Figure */
+.stage{flex:1;min-height:0;margin:0;display:flex;align-items:center;justify-content:center}
+.stage>svg,.stage>img{display:block;width:100%;height:100%;max-height:100%}
+
+/* Derivation steps */
+.steps{list-style:none;margin:.6cqw 0 0;padding:0;display:flex;flex-direction:column;gap:1.9cqw;font-size:2.75cqw;line-height:1.35}
+.steps .step{padding-left:1.6cqw;border-left:.25cqw solid var(--line)}
+.steps .step.shown:last-child{border-left-color:var(--accent)}
+
+/* Predict */
+.predict-label,.answer-label,.column-label,.statement-label{font-size:1.25cqw;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.predict-label{color:var(--quantum);margin-bottom:1cqw!important}
+.predict-question{font-size:3.2cqw;line-height:1.3;max-width:90%}
+.hint{color:var(--muted);font-size:1.9cqw;margin-top:1.4cqw!important}
+.answer{margin-top:auto;background:var(--wash);border-left:.45cqw solid var(--good);padding:1.6cqw 2cqw;font-size:2.5cqw}
+.answer-label{color:var(--good);margin-bottom:.6cqw!important}
+
+/* Compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;min-height:0;align-content:start;font-size:2.15cqw;margin-bottom:1.6cqw}
+.column{background:var(--wash);border-radius:1cqw;padding:2cqw 2.2cqw}
+.column.left .column-label{color:var(--warm)}
+.column.right .column-label{color:var(--good)}
+.column ul{margin:1cqw 0 0;padding-left:1.2em}
+.column li{margin:.7cqw 0}
+
+/* Statement */
+.statement{border:.2cqw solid var(--accent);border-radius:1cqw;padding:2.6cqw 3cqw;background:#f5f9fc;margin:2cqw 0}
+.statement-label{color:var(--accent);margin-bottom:1cqw!important}
+.statement-body{font-size:3.1cqw;line-height:1.35}
+.statement-note{margin-top:1.6cqw!important;color:var(--muted);font-size:2.5cqw}
+
+/* Table */
+.deck-table{border-collapse:collapse;width:100%;font-size:2.5cqw;margin-top:1cqw}
+.deck-table th{text-align:left;font-size:1.3cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border-bottom:.2cqw solid var(--ink);padding:.8cqw 1.4cqw}
+.deck-table td{padding:1.1cqw 1.4cqw;border-bottom:1px solid var(--line)}
+.deck-table td:first-child{font-weight:600}
+
+/* Takeaways */
+.takeaway-list{margin:.6cqw 0 0;padding-left:1.4em;font-size:2.65cqw;display:flex;flex-direction:column;gap:1.7cqw}
+.takeaway-list li::marker{color:var(--accent);font-weight:700}
+
+/* Chrome: small, out of the way, hidden in fullscreen */
+.deck-bar,.deck-controls{position:fixed;z-index:5;display:flex;align-items:center;gap:8px;font-size:13px;opacity:0;transition:opacity .2s}
+.deck-bar:hover,.deck-controls:hover,.deck-bar:focus-within,.deck-controls:focus-within,body.chrome .deck-bar,body.chrome .deck-controls{opacity:1}
+.deck-bar{top:8px;left:12px;right:12px;justify-content:space-between}
+.deck-controls{bottom:10px;left:50%;transform:translateX(-50%)}
+.deck-controls[hidden]{display:none}
+.deck-back{color:var(--ink);background:#fffd;padding:6px 10px;border-radius:6px;text-decoration:none}
+.deck-tools{display:flex;gap:6px}
+.deck button,#slide-select{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+.deck button:disabled{opacity:.4;cursor:default}
+#slide-select{max-width:260px}
+kbd{font:inherit;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:0 4px;margin-left:4px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.deck-progress{position:fixed;left:0;right:0;bottom:0;height:3px}
+#progress-fill{height:100%;background:var(--accent);width:0;transition:width .2s}
+:fullscreen .deck-bar{display:none}
+:focus-visible{outline:3px solid #f2a541;outline-offset:2px}
+#deck-notes{max-width:820px;width:calc(100% - 40px);max-height:85vh;border:1px solid var(--line);border-radius:12px;padding:28px 32px;color:var(--ink);font-size:19px;line-height:1.6}
+#deck-notes::backdrop{background:#14213d99}
+#deck-notes-close{float:right}
+#deck-notes h2{font-size:24px;margin-top:0}
+
+/* Without JavaScript: a readable sequence of slides. */
+body.deck:not(.js-ready){overflow:auto}
+body.deck:not(.js-ready) #main{height:auto}
+body.deck:not(.js-ready) #deck{display:flex;flex-direction:column;gap:24px;padding:24px 0;height:auto}
+body.deck:not(.js-ready) .slide{width:min(96vw,1280px)}
+
+/* Print / PDF: one slide per landscape page, every step shown. */
+@media print{
+ @page{size:297mm 167mm;margin:0}
+ html,body{height:auto}
+ body.deck{background:#fff;overflow:visible}
+ #main,#deck{display:block;height:auto}
+ .slide,.js-ready .slide[hidden]{display:flex!important;width:297mm;height:167mm;box-shadow:none;break-after:page}
+ .js-ready .fragment{opacity:1!important;transform:none!important}
+ .deck-bar,.deck-controls,.deck-progress,#deck-notes{display:none!important}
+}

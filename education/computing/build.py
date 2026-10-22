@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import argparse, html, json, re
 import learning
 import illustrations
+import presentations
 ROOT=Path(__file__).resolve().parent
 import sys
 sys.path.insert(0,str(ROOT.parent))
@@ -71,6 +72,7 @@ def course_map(data):
 def main():
  ap=argparse.ArgumentParser(description=__doc__);ap.parse_args()
  illustrations.build()
+ slide_counts=presentations.build(ROOT,META,inline_figures)
  data=[json.loads((ROOT/'content'/f'{m[0]}.json').read_text()) for m in META]
  index=[]
  for i,(meta,manifest) in enumerate(zip(META,data)):
@@ -99,7 +101,8 @@ def main():
   continuation=manifest.get('opening_continuation') or []
   for paragraph in ([continuation] if isinstance(continuation,str) else continuation): opening+=f'<p>{esc(paragraph)}</p>'
   intro_continuation=f'<p>{esc(manifest["intro_continuation"])}</p>' if manifest.get('intro_continuation') else ''
-  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{render_chapter_map(title,manifest)}{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+chapter_summary.render(SUMMARIES.get(stem))+learning.exercises(stem,index,title)
+  slide_link=(f'<p class="chapter-slides"><a href="{stem}-slides.html">Presentation slides <span aria-hidden="true">↗</span></a><span>{slide_counts[stem]} slides · Fullscreen presentation or print to PDF</span></p>' if stem in slide_counts else '')
+  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{render_chapter_map(title,manifest)}{slide_link}{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+chapter_summary.render(SUMMARIES.get(stem))+learning.exercises(stem,index,title)
   prev=META[i-1] if i else None; nxt=META[i+1] if i+1<len(META) else None
   links=(f'<a rel="prev" href="{prev[0]}.html"><small>Previous chapter</small>{prev[1]} ←</a>' if prev else '<a href="index.html"><small>Book overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt[0]}.html"><small>Next chapter</small>{nxt[1]} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Book contents →</a>')
   body='<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">'+links+'</nav>'+body+'<nav class="chapter-pagination" aria-label="Chapter navigation">'+links+'</nav>'

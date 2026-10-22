@@ -1,0 +1,163 @@
+[
+ {
+  "kind": "section",
+  "number": "1.1",
+  "title": "Formal Reasoning and Decision Problems",
+  "question": "Could following the rules of proof be left to a machine?"
+ },
+ {
+  "kind": "figure",
+  "topic": "1.1.1",
+  "title": "What exactly is a proof?",
+  "figure": "logic-proof-network.svg",
+  "lead": "Axioms are the chosen assumptions; rules of inference are the permitted steps.",
+  "takeaway": "A proof is a finite object that a procedure can check. Checking shows the conclusion follows, not that the axioms are right.",
+  "notes": [
+   "From P and “P implies Q” we may infer Q. Each edge records a dependency, not a passage of time."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "1.1.2",
+  "title": "Can the rules themselves be trusted?",
+  "figure": "logic-hilbert-program.svg",
+  "lead": "A system is consistent if it never proves both a statement and its opposite.",
+  "takeaway": "Hilbert’s plan: make the rules explicit, then prove with reasoning about finite objects that they never give a contradiction.",
+  "notes": [
+   "Even a statement about infinitely many numbers has a finite written proof, so proofs themselves can be studied mathematically."
+  ]
+ },
+ {
+  "kind": "predict",
+  "topic": "1.1.3",
+  "title": "When does a proof search stop?",
+  "question": "List every candidate proof by length and check each one. When does this search finish?",
+  "answer": "If a proof exists, eventually: it appears somewhere in the list. If none exists, never. No final candidate settles the matter.",
+  "notes": [
+   "A decision procedure must do more than search: it must finish with a correct yes or no on every input."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "1.1.3",
+  "title": "Checking, searching, deciding",
+  "figure": "logic-proof-search.svg",
+  "takeaway": "To ask whether any procedure can decide, we need a precise account of what a procedure is."
+ },
+ {
+  "kind": "section",
+  "number": "1.2",
+  "title": "Models of Computation",
+  "question": "What exactly is a mechanical procedure?"
+ },
+ {
+  "kind": "figure",
+  "topic": "1.2.1",
+  "title": "Why is Euclid right, and why does it stop?",
+  "figure": "logic-euclid-run.svg",
+  "lead": "\\((48,18)\\to(18,12)\\to(12,6)\\to(6,0)\\)",
+  "takeaway": "Correctness: the gcd never changes (an invariant). Termination: the second entry keeps falling and cannot fall forever.",
+  "notes": [
+   "These are separate arguments. Repeating the first pair forever would preserve the answer but never deliver it."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "1.2.2",
+  "title": "What must we record to resume a computation?",
+  "figure": "logic-configurations.svg",
+  "takeaway": "A configuration is everything needed to continue; a run is a sequence of transitions between configurations."
+ },
+ {
+  "kind": "predict",
+  "topic": "1.2.2",
+  "title": "Does the present determine the past?",
+  "question": "In Euclid’s algorithm the next pair is determined. Is the previous one?",
+  "answer": "No. Both \\((30,18)\\) and \\((48,18)\\) lead to \\((18,12)\\). Knowing how to continue does not tell us how to go back."
+ },
+ {
+  "kind": "figure",
+  "topic": "1.2.3",
+  "title": "What counts as an elementary step?",
+  "figure": "logic-turing-machine.svg",
+  "lead": "Break “divide” into steps that read a symbol, write one, move one cell, and change a finite state.",
+  "takeaway": "A rule table is finite data, so one universal machine can read any program and simulate it."
+ },
+ {
+  "kind": "section",
+  "number": "1.3",
+  "title": "Computability and Its Limits",
+  "question": "Is there a question that no procedure can settle?"
+ },
+ {
+  "kind": "figure",
+  "topic": "1.3.1",
+  "title": "Is the Turing machine the right model?",
+  "figure": "logic-church-turing.svg",
+  "takeaway": "Equivalence of formal models is a theorem. That every effective method is a Turing machine is a thesis.",
+  "notes": [
+   "The thesis is about what can be computed, not how fast. Quantum computers do not compute uncomputable functions; they can change the resources needed for computable ones."
+  ]
+ },
+ {
+  "kind": "steps",
+  "topic": "1.3.2",
+  "title": "Can one program predict whether every program halts?",
+  "steps": [
+   "Suppose \\(H(P,x)\\) always halts and says whether \\(P\\) halts on \\(x\\).",
+   "Build \\(D(p)\\): if \\(H(p,p)\\) says “halts”, loop forever; otherwise stop.",
+   "Run \\(D\\) on its own description \\(d\\).",
+   "If \\(H(d,d)\\) says “halts”, \\(D\\) loops. If it says “does not halt”, \\(D\\) stops.",
+   "Either answer is wrong, so no such \\(H\\) exists."
+  ],
+  "takeaway": "The halting problem is undecidable.",
+  "notes": [
+   "This does not stop us analysing particular programs, or building analysers that sometimes answer “unknown”."
+  ]
+ },
+ {
+  "kind": "figure",
+  "topic": "1.3.3",
+  "title": "Two different limits",
+  "figure": "logic-limitations.svg",
+  "lead": "Undecidability concerns procedures; incompleteness concerns what fixed axioms can settle.",
+  "takeaway": "A consistent theory strong enough for arithmetic leaves some sentence undecided, and cannot prove its own consistency.",
+  "notes": [
+   "These are the Gödel–Rosser theorem and Gödel’s second incompleteness theorem, stated here without proof. Their conditions matter."
+  ]
+ },
+ {
+  "kind": "section",
+  "number": "1.4",
+  "title": "From Computability to Reversibility",
+  "question": "For problems we can solve, what does the solution do to the information it is given?"
+ },
+ {
+  "kind": "figure",
+  "topic": "1.4.1",
+  "title": "Does knowing the next step tell us the last?",
+  "figure": "logic-reversible-transitions.svg",
+  "takeaway": "Deterministic means one successor. Reversible also needs one predecessor: the step must be one-to-one."
+ },
+ {
+  "kind": "figure",
+  "topic": "1.4.2",
+  "title": "Must computing an answer lose the input?",
+  "figure": "logic-information-loss.svg",
+  "takeaway": "No: keep \\((x,f(x))\\). Even a many-to-one \\(f\\) can be computed without losing \\(x\\).",
+  "notes": [
+   "Laws that govern isolated systems at small scales appear to run backward as well as forward. A computer built from such systems must compute without discarding information."
+  ]
+ },
+ {
+  "kind": "takeaways",
+  "title": "What we found",
+  "items": [
+   "A proof is a finite object that a procedure can check.",
+   "Search finds proofs that exist but cannot decide every question.",
+   "Configurations and transitions make “procedure” precise; a universal machine runs them all.",
+   "Some questions, such as halting, are undecidable; strong theories are incomplete.",
+   "Reversibility asks whether a computation keeps the information it was given."
+  ]
+ }
+]

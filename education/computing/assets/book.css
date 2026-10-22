@@ -119,3 +119,8 @@ body.ebook{margin:0;background:white;color:var(--ink);font-family:var(--reading-
 .ebook .topic-heading .heading-link{color:inherit}
 
 .live-figure [data-basis-preset][aria-pressed="true"]{background:var(--blue-wash);border-color:#397b84;color:#174f59;box-shadow:inset 0 0 0 1px #397b84;}
+
+/* Presentation resources sit immediately below the chapter map. */
+.chapter-slides{display:flex;align-items:baseline;flex-wrap:wrap;gap:.5rem 1.2rem;margin:1rem 0 2rem;padding:.9rem 0;border-bottom:1px solid var(--line)}
+.chapter-slides a{font-weight:600;text-underline-offset:4px}
+.chapter-slides>span{font-size:.85rem;color:var(--muted)}
