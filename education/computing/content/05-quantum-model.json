@@ -50,16 +50,16 @@
     {
       "id": "topic-5-3-1",
       "number": "5.3.1",
-      "title": "The Pauli operations",
+      "title": "The Pauli operators",
       "part_id": "section-5-3",
-      "group": "5.3 · Pauli Completeness"
+      "group": "5.3 · Pauli Operators"
     },
     {
       "id": "topic-5-3-2",
       "number": "5.3.2",
-      "title": "Completeness and its meaning",
+      "title": "Describing every operator",
       "part_id": "section-5-3",
-      "group": "5.3 · Pauli Completeness"
+      "group": "5.3 · Pauli Operators"
     }
   ],
   "parts": [
@@ -76,7 +76,12 @@
     {
       "id": "section-5-3",
       "number": "5.3",
-      "title": "Pauli Completeness"
+      "title": "Pauli Operators"
     }
+  ],
+  "opening": "We now have postulates for a quantum system: a state is a unit vector, it changes by unitary steps, and a measurement returns one configuration with probability equal to the squared magnitude of its amplitude. We have also seen that order matters. Two Hadamard steps return a qubit to where it started, but a measurement between them leaves both outcomes equally likely. The postulates say what a system does. They do not say how to make it answer a question.",
+  "opening_continuation": [
+    "A computation must fix three things: an input state that encodes the question, a sequence of steps a machine can carry out, and a measurement whose result we read as the answer. Setting up this model also tells us what a computation costs. One qubit is then enough to run a complete computation, and in it a relative phase that no intermediate measurement could detect decides the output. That raises the question of how many single-qubit operations there are, and whether a few fixed ones can describe them all.",
+    "With one qubit we can compute only functions of a single bit. The next chapter gives the computation a register of many qubits."
   ]
 }

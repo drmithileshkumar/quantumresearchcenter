@@ -36,13 +36,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A circuit says to rotate a qubit, couple it to another, and measure. A laboratory must supply a physical state, a timed interaction, and a detector. This course follows that chain and asks what must be true for the measured bit to mean what the algorithm predicts.",
+      "construction": "So far, in quantum computing, a qubit has been a unit vector, a gate a unitary matrix, and a measurement a rule that returns a bit with a definite probability. None of these objects says what a laboratory must build. A circuit asks us to rotate a qubit, couple it to another, and measure. A device must supply a physical state, an interaction that lasts a definite time, and a detector. What has to be true of that hardware for the measured bit to mean what the algorithm predicts? We follow the smallest complete task, preparing a Bell pair. Asking what its first gate requires physically forces a rule that turns a physical setting into a unitary, and that rule introduces the Hamiltonian and the matrix exponential. Asking how such a device fails then separates physical qubits from logical ones and gives a first error budget in time. Comparing two uses of the same rule, as gates and as continuous evolution, finally tells us what a complete specification of an experiment must contain. Our first question is which two physical states a qubit is made of, and how a device is put into one of them.",
       "worked_examples": [
         "Does a long coherence time alone make a good processor?",
         "What assumption permits the estimate t/T1?",
         "Why distinguish physical and logical qubit counts?"
       ],
-      "handoff": "We begin by asking when a physical system with many states can be approximated by a qubit.",
+      "handoff": "The first of those models concerns the encoding itself. A physical system has many states, so when can two of them be treated as a qubit?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "bell-operations",
@@ -55,7 +55,7 @@
     "title": "Physical Qubits",
     "question": "When can two states of a larger physical system be treated as a qubit?",
     "example": "Three energy levels and a drive intended to address only two.",
-    "prerequisites": "Chapters 1–1; physical concepts and approximations are introduced as needed.",
+    "prerequisites": "Chapter 1; physical concepts and approximations are introduced as needed.",
     "sections": [
       {
         "id": "section-2-1",
@@ -87,13 +87,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A device has energy levels E0, E1, and E2. We want to rotate only the lowest two. The third level matters even when the circuit drawing has only one wire: a drive can accidentally put amplitude there.",
+      "construction": "We now have a rule for how a closed system evolves, \\(U=e^{-iHt/\\hbar}\\), together with a warning: a real device has more states than the two we name. Its Hamiltonian is not a two-by-two matrix. When can two of its states be treated as a qubit, and what are the other states doing while we are not looking? We first ask which states a Hamiltonian leaves unchanged. The answer gives energy levels and the frequencies at which their relative phases turn. Splitting the state into the chosen pair and the rest then exposes the one term a two-level picture leaves out. Asking how a coupling moves population out of the pair leads to selection rules and to a bound set by energy mismatch. Finally, because free evolution turns phases billions of times a second, we factor that motion out with a rotating frame and ask how a reduced model can be tested. Our first question is which states a Hamiltonian leaves alone.",
       "worked_examples": [
         "If E1−E0=hf, what relative phase accumulates in time 1/(2f)?",
         "Does a zero computational-basis error guarantee no leakage?",
         "Why is an equally spaced oscillator not automatically a selective two-level qubit?"
       ],
-      "handoff": "With the subspace specified, we can calculate how a resonant drive rotates its amplitudes.",
+      "handoff": "Within the chosen subspace, how does an oscillating field produce a rotation, and why must its frequency match the transition?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "level-selectivity",
@@ -138,13 +138,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Prepare zero and apply a resonant field for a variable time. The measured excited population oscillates. This experiment turns an abstract X rotation into a calibrated duration and field amplitude.",
+      "construction": "Inside a chosen two-level subspace, with the free evolution removed by a rotating frame, a qubit sits still. To compute we must move it, and the handle a laboratory has is an applied field that oscillates in time. Why should an oscillating field produce a clean rotation, and what goes wrong when the field is slightly off? We first ask why only a drive at the transition frequency moves population. The answer, phase matching, gives resonance and the Rabi oscillation. Varying the strength and phase of the pulse then turns that oscillation into a rotation with a chosen angle and axis. Asking how a mistuned or mis-scaled pulse fails gives the control errors, and asking how a short pulse spreads in frequency gives leakage to neighbouring levels. Finally we ask how rotations are calibrated, and find that a change of reference phase can stand in for a Z rotation. Our first question is why the frequency of a drive must match the transition.",
       "worked_examples": [
         "What is the π/2-pulse duration at a 5 MHz Rabi rate?",
         "If |Δ|=Ω, can a square pulse invert perfectly?",
         "Why is a successful zero-to-one pulse insufficient as a gate test?"
       ],
-      "handoff": "A single drive supplies rotations. Two-qubit gates require an interaction that cannot be written as separate local evolutions.",
+      "handoff": "A drive on one qubit supplies every single-qubit rotation, but no product of such rotations entangles two qubits. What physical interaction can?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "rabi-detuning",
@@ -189,13 +189,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Two qubits can each be well controlled yet remain computationally separate. To entangle them, the energy or transition of one must depend on the state of the other, or both must interact through a shared mediator.",
+      "construction": "A drive on each qubit supplies every single-qubit rotation. Yet a product of single-qubit operations never turns a product state into an entangled one. Entanglement needs a term in the Hamiltonian that involves both qubits at once. Which such terms can hardware supply, and how do they become a gate? We first ask how the energy of one qubit can depend on the state of the other. That dependence gives a conditional phase which no local correction removes. A second kind of coupling, exchange, moves an excitation between the qubits. Adding local rotations turns the conditional phase into controlled-Z. When qubits cannot couple directly, we ask whether a shared oscillator can carry the interaction, and that forces a quantum description of oscillators: ladder operators, coherent states, and phase space. Finally, asking what the mediator remembers about the data shows how an incomplete interaction costs coherence, and why the fastest gate need not be the best. Our first question is how the energy of one qubit can depend on the state of another.",
       "worked_examples": [
         "For the exchange model, when is population fully transferred from 01 to 10?",
         "Can separate Z rotations erase every ZZ conditional phase?",
         "Why must an auxiliary oscillator close its trajectory?"
       ],
-      "handoff": "We now have candidate gates. Initialization and measurement determine whether their inputs and outputs can be used reliably.",
+      "handoff": "We now have candidate gates. Their inputs and outputs are only as good as the states we prepare and the bits we read, so how is a qubit put into a known state, and how is it measured?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "exchange-populations",
@@ -240,13 +240,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Two preparations produce overlapping detector signals. Choosing a threshold gives a bit, but it also gives mistakes. Readout is therefore a calibrated statistical decision linked to a physical disturbance.",
+      "construction": "Our gates act on whatever state they receive. A computation, however, needs a known state at the start and a reliable bit at the end. Where does a known state come from, and how does a detector's signal become a bit? We first ask what state a device reaches if we simply let it cool. Thermal equilibrium leaves a residual excited population, and asking how to do better leads to reset by measurement and feedback. A detector's signal then forces a statistical decision, which has assignment errors that we can count and correct. Asking what the measurement leaves behind separates the reported bit from the disturbance it causes. Finally we ask how long to listen to a signal, and what a second measurement tells us about the first. Our first question is which state a device settles into when it is left alone.",
       "worked_examples": [
         "At ΔE/kBT=5, estimate thermal excited population.",
         "If e0=e1=1/2, can the assignment relation be inverted?",
         "Does a destructive detector with perfect labels qualify as reusable nondemolition readout?"
       ],
-      "handoff": "Noise changes the state even when we intend to do nothing. The next chapter separates energy loss from phase uncertainty.",
+      "handoff": "Even when we intend to do nothing, a qubit's state changes. Does it lose energy, lose phase, or both, and where does the lost information go?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "readout-signals",
@@ -291,13 +291,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "An excited-state population decays, while a superposition can lose its interference even without losing energy. These two experiments motivate distinct timescales rather than one universal “qubit lifetime.”",
+      "construction": "A qubit left alone does not stay put. Its excited population decays, and a superposition can lose its interference even when no energy is lost. We have already seen one way coherence can vanish while every population stays correct: an unmeasured mediator kept a record of which branch the data took. Is ordinary noise the same thing, with the qubit's surroundings playing the mediator? We first ask where the lost information goes, which gives one physical mechanism behind both kinds of loss. Letting the qubit's energy pass into its surroundings gives the relaxation law and its effect on coherence, written as Kraus operators derived from a qubit–environment unitary. A warm environment adds upward transitions. Letting the surroundings shift the qubit's frequency at random gives dephasing, and asking whether that phase can be recovered gives the echo. Finally we ask what an error model must contain, beyond these two processes, to predict a measured probability. Our first question is where the information goes when coherence is lost.",
       "worked_examples": [
         "Can T2 exceed 2T1 in the stated exponential model?",
         "Does echo reverse a spontaneous emission event?",
         "After ten identical overrotations by ε, what coherent angle error remains?"
       ],
-      "handoff": "The next chapter constructs the experiments that infer these parameters and separates inference from proof of gate quality.",
+      "handoff": "Each parameter in these models, from \\(T_1\\) and \\(T_2\\) to the detuning and the assignment errors, must be inferred from experiments. Which experiments infer them, and what can they establish about the quality of a gate?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "echo-sign",
@@ -342,13 +342,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A fringe oscillates while its envelope decays. Its period estimates a detuning; its envelope estimates a sequence-dependent coherence time. Extracting those quantities requires a model and a calibration strategy.",
+      "construction": "Every model so far has parameters: a transition frequency, a Rabi frequency, a detuning, relaxation and coherence times, assignment errors. The device does not announce their values. We must infer them from experiments, and each inference is only as good as the model behind it. How do we measure a parameter, and what can such a measurement establish about a gate? We first ask how to find a transition and calibrate a rotation, using the detuned Rabi formula. Asking how to measure a detuning precisely leads to free evolution between two pulses, the Ramsey and echo sequences. Asking for a complete description of a state or a process gives tomography. Asking for a gate's error rate without trusting the preparation and readout around it gives randomized benchmarking. Finally we ask what limits all of these methods: preparation and readout errors that mimic gate errors, finite samples, and drift. Our first question is how to find a transition we have never seen.",
       "worked_examples": [
         "What does a Ramsey period fail to reveal by itself?",
         "For α=0.998, what is the single-qubit depolarizing-model error per Clifford?",
         "Why repeat a benchmark with simultaneous neighboring operations?"
       ],
-      "handoff": "We now apply this common language to concrete platforms, beginning with a nonlinear electrical oscillator.",
+      "handoff": "With a common language for control, noise, and characterization, we can examine real devices. What does it take to make a qubit out of an electrical circuit?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "ramsey-fringes",
@@ -393,13 +393,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A capacitor and an inductor exchange electric and magnetic energy. Why can we not simply call their two lowest energy levels a qubit?",
+      "construction": "We now turn from general principles to devices. The first kind of device is built rather than found: an electrical circuit, cooled until it behaves as a quantum system. Its levels are designed instead of inherited from nature. Can such a circuit meet every requirement of a qubit? We first quantize the simplest circuit, a capacitor and an inductor, and find an equally spaced ladder that is too regular to address. A Josephson junction adds a nonlinear energy, and in the transmon regime it makes the ladder slightly unequal. That small inequality sets both how a microwave pulse can control the qubit and how easily it leaks. Coupling two circuits then gives exchange and conditional phases. Coupling a circuit to a detuned resonator gives a readout, and counting wires, heat, and residual couplings shows what limits a large array. Our first question is what quantum levels an electrical circuit has.",
       "worked_examples": [
         "Let \\(E_C/h=0.25\\) GHz and \\(E_J/h=20\\) GHz. Estimate the lowest transition.",
         "Why can a shorter pulse cause leakage?",
         "If \\(g/2\\pi=10\\) MHz and \\(\\Delta/2\\pi=200\\) MHz, what is the simple dispersive estimate?"
       ],
-      "handoff": "An atomic qubit starts with naturally occurring levels instead of a fabricated nonlinear oscillator. The next chapter asks how motion supplies the missing coupling.",
+      "handoff": "An atom offers levels that nature makes identical from one atom to the next, but two atoms held apart in a trap do not touch. What can supply the coupling between them?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "josephson-circuit",
@@ -444,13 +444,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Two ions can be far enough apart to address separately and still share a collective vibration. That vibration can carry the influence of one qubit to another.",
+      "construction": "A superconducting qubit is made; an atomic qubit is found. Every ion of a given species has the same levels, so the qubits need no fabrication and do not vary from one to the next. What we lose are the wires that let circuits touch. Ions held apart by electric fields still push on one another through their charge, so a string of ions shares collective vibrations. Can that shared motion serve as the mediator we analysed with ladder operators and coherent states? We first ask how an ion is held and which of its states store the qubit. The motion turns out to be an oscillator separate from the internal levels, so each must be prepared in its own way. Asking how light can change the motion as well as the internal state gives carrier and sideband transitions. A state-dependent force on a shared mode then gives the mediated entangling gate, with the closing loop we derived earlier. Finally we ask how an ion's state is detected, and what limits a long chain or a network of traps. Our first question is how an ion is held, and which of its states we use.",
       "worked_examples": [
         "Why is an internal ground state insufficient evidence of motional cooling?",
         "Compare red-sideband couplings for \\(n=1\\) and \\(n=4\\).",
         "What remains if a gate leaves distinguishable bus states?"
       ],
-      "handoff": "Neutral atoms remove the electric charge that supports trapping and Coulomb coupling. Optical forces and highly excited electronic states replace those mechanisms.",
+      "handoff": "Neutral atoms give up the charge that makes trapping and Coulomb coupling straightforward. What can hold an uncharged atom in place, and what can make two of them interact?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "ion-sidebands",
@@ -489,19 +489,19 @@
         "title": "Readout and Scaling",
         "subsections": [
           "Detection and atom loss",
-          "Rearrangement and parallel control"
+          "Gate trade-offs and parallel control"
         ]
       }
     ],
     "status": "draft",
     "development": {
-      "construction": "An atom excited to a large electronic orbit can shift the excitation energy of its neighbour. We can use that shift to make a pulse conditional.",
+      "construction": "Ions are held by their charge and coupled by it. A neutral atom has no net charge, so it offers neither handle. What can hold an uncharged atom, and what can make two of them interact? Light answers the first question: a far-detuned beam shifts an atom's ground energy, and the atom settles where the light is brightest. For the second, ground-state atoms barely interact, but an atom whose electron is excited into a very large orbit interacts strongly with a neighbour in a similar state. Can that interaction make a pulse conditional? We first derive the light shift that traps an atom, and ask what loading many traps at once costs. Encoding the qubit in two ground states needs a way to drive them, which leads to a two-photon Raman transition through a far-detuned level. Exciting atoms to strongly interacting states gives the blockade, and following four inputs through a pulse sequence turns the blockade into a controlled-Z. Finally we ask how atoms are read and lost, and how interaction strength, decay, and parallel operation trade against one another across an array. Our first question is how light can hold a neutral atom.",
       "worked_examples": [
         "If sites load independently with probability 0.6, what is the probability that ten prescribed sites are occupied?",
         "For \\(B=20\\Omega\\), bound transfer in the simple blockade model.",
         "Why should detected atom loss not be recorded as measurement zero?"
       ],
-      "handoff": "In a semiconductor, electrostatic confinement plays the role of the trap, while electron spin supplies the two states.",
+      "handoff": "A semiconductor chip could hold far more qubits than an optical array, if a single electron trapped in it could serve as one. What two-state property does an electron carry even when its position is fixed?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "rydberg-pair",
@@ -546,13 +546,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Can an electrical device use a spin to store information and charge motion only when it needs to operate on that information?",
+      "construction": "Ions and neutral atoms are held by fields in a vacuum chamber. A semiconductor chip, made with the methods of ordinary electronics, could hold far more qubits in a small area, if one trapped electron could serve as a qubit. An electron's charge is easy to move and to sense, but charge also couples to every stray field. Can an electrical device store information in an electron's spin, and move charge only when it needs to operate on that information? We first ask what two-state property an electron carries, and how a magnetic field turns it into a qubit with a definite frequency. Confining the electron in a small region and choosing one or two spins as the encoding then gives a way to prepare it. Moving the electron through a magnetic gradient gives spin rotations from electrical signals. Letting two electrons tunnel toward each other gives exchange, and exchange gives SWAP. Finally, reading a spin requires converting it into charge first, and disorder in the material limits how uniform many such devices can be. Our first question is what two-state property an electron carries even when its position is fixed.",
       "worked_examples": [
         "For \\(|g|=2\\), \\(B=0.5\\) T, and \\(\\mu_B/h\\approx14\\) GHz/T, find the spin frequency.",
         "If \\(J/h=10\\) MHz, how long is a SWAP exchange pulse?",
         "Can perfect charge detection guarantee perfect spin readout?"
       ],
-      "handoff": "A crystal defect can also localize an electronic spin, with an optical transition offering a route between stationary and flying information.",
+      "handoff": "A crystal defect can also hold an electron spin, and it can emit light. Can such a defect join a stationary qubit to a photon that travels?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "double-dot",
@@ -597,13 +597,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A localized electron can be a processor, a nearby nucleus a memory, and an emitted photon a connection. The useful object is then a small quantum node.",
+      "construction": "A spin held by electrodes is read through its charge, which ties it to a chip. Some defects in a crystal also hold an electron spin, and they emit light whose brightness depends on that spin. Light can travel. Can such a defect act as a small quantum node, with an electron as the processor, a nearby nucleus as a memory, and an emitted photon as the connection to another node? We first ask which spin levels a defect provides and why a three-level spin can be easier to address than a two-level one. Optical pumping then prepares it and microwaves rotate it. Asking where to store a qubit while the electron is busy leads to a nuclear spin, and its coupling to the electron gives conditional gates. Finally we ask how photons from two distant defects can entangle them, and why collection efficiency and memory disturbance set the rate of such a network. Our first question is which spin levels a crystal defect provides.",
       "worked_examples": [
         "Two independent required photons are each collected with probability 0.1. What is the collection contribution to success?",
         "What is the relative conditional phase between even and odd parity under the stated interaction?",
         "Why benchmark a memory during link attempts?"
       ],
-      "handoff": "We next let photons carry the computation itself. Their weak interaction is both an advantage for transmission and a difficulty for gates.",
+      "handoff": "Photons carried entanglement between nodes here. Could photons carry the computation itself, even though they barely interact with one another?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "defect-levels",
@@ -648,13 +648,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A photon can take two paths coherently. A beam splitter mixes those paths, but making one photon control another requires an additional mechanism.",
+      "construction": "Every platform so far stores its qubits in matter and uses light as a control or a messenger. Light barely interacts with anything, which is why a photon can travel far without losing its coherence. The same weakness makes it hard for one photon to control another. Can photons carry the computation itself? We first describe light as a set of modes, each an oscillator, and encode a qubit in which of two modes holds a single photon. Beam splitters and phase shifts then give single-qubit gates through interference of paths. Asking what two photons do at a beam splitter reveals the one effect passive optics offers between photons, two-photon interference. Detecting extra photons and keeping only accepted outcomes turns that effect into heralded entangling operations. Finally we ask what photon loss, detector efficiency, and probabilistic sources cost, and how many sources and switches a reliable supply of photons needs. Our first question is how a single photon can hold a qubit.",
       "worked_examples": [
         "What happens to a dual-rail qubit if its photon is lost?",
         "What is the ideal coincidence probability for one identical photon in each balanced input?",
         "If independent sources succeed with probability 0.1, what is the chance that at least one of ten succeeds?"
       ],
-      "handoff": "A mode can hold more than a single photon. Using that larger space for encoding leads to bosonic error-protection strategies.",
+      "handoff": "A mode can hold more than one photon. Could the many levels of a single mode store a qubit so that losing a photon leaves a detectable trace instead of destroying it?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "photonic-interferometer",
@@ -699,13 +699,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Instead of selecting only the lowest two oscillator levels, can we distribute a qubit across many levels so that common errors leave recognizable traces?",
+      "construction": "A dual-rail photon loses its qubit when the photon is lost, and a transmon or an ion keeps only the lowest two levels of an oscillator-like ladder. An oscillator, however, has infinitely many levels. Instead of selecting two of them, can we spread a qubit across many levels so that the most common error, the loss of one excitation, leaves a recognizable trace without revealing the stored information? We first ask what photon numbers a coherent state contains. Then we build a two-state code inside one mode and check what a single loss does to it, which gives an error signal, a syndrome. Comparing with cat states shows that the same parity measurement can be either a syndrome or a logical readout, depending on the encoding. Asking about small shifts instead of losses leads to grid codes. Finally we ask how parity is measured with an auxiliary qubit, and why storing more energy in the mode both helps and hurts. Our first question is what a coherent state looks like in the number basis.",
       "worked_examples": [
         "What does one loss do to \\(\\ket4\\)?",
         "Why can parity measurement damage a superposition of an even and an odd cat?",
         "For \\(\\kappa=100\\) s⁻¹, mean occupation 4, and \\(t=10\\) μs, estimate loss probability."
       ],
-      "handoff": "Bosonic codes engineer redundancy in oscillator space. Topological approaches seek insensitivity to local disturbances through a different structure of physical states.",
+      "handoff": "Bosonic codes build redundancy into the levels of one oscillator. Could the physical states of a material instead be arranged so that no local disturbance can reach the stored information at all?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "binomial-loss",
@@ -750,13 +750,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "Suppose two logical states look identical to every sufficiently local probe. A local disturbance would then have difficulty learning which logical state was present.",
+      "construction": "Every protection scheme so far is active. A bosonic code, like the repetition code, needs measurements that find errors and operations that undo them. Could the physical states of a material protect information passively instead, by making it invisible to any local disturbance? Such protection is a design goal, not an established hardware capability, so we ask what it would require and how it could be tested. We first state the condition that local insensitivity means mathematically, and see that an energy gap alone does not supply it. Splitting a fermion's occupation into two halves that can sit far apart gives Majorana operators and an encoding in joint parities. Exchanging those modes then acts on the encoded information, but only with a restricted set of gates. Finally we ask what physical effects undo the protection, and what evidence could distinguish it from other explanations. Our first question is what it means, precisely, for two states to look identical to every local probe.",
       "worked_examples": [
         "Why are four ideal Majorana modes used for one fixed-parity qubit?",
         "Does a protected braid imply a universal processor?",
         "Compare Boltzmann factors for \\(\\Delta/k_BT=5\\) and 10."
       ],
-      "handoff": "Whatever the encoding, controls, cooling, and classical processing must support it. The next chapter counts those physical requirements.",
+      "handoff": "Whatever the encoding, it runs inside refrigerators or vacuum chambers, driven by classical electronics. Do those classical systems merely serve the qubits, or do they limit what the processor can do?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "majorana-exchange",
@@ -801,13 +801,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A gate is a timed physical signal, and a measurement is a signal that must be interpreted. The classical equipment is part of the quantum computer.",
+      "construction": "Every platform needs classical machinery around it: a refrigerator or a vacuum chamber, signal lines, waveform generators, and processors that read results and decide what to do next. A gate is a timed physical signal, and a measurement is a signal that must be interpreted. Is that machinery a detail, or is it part of what limits the quantum computer? We first ask what cooling and vacuum must achieve, which follows from thermal occupation and collision rates. Following a pulse down its delivery line shows that the line filters the signal, so the pulse at the device differs from the one programmed. Representing waveforms by two quadratures connects digital values to rotation axes and shows how timing errors become phase errors. Asking how fast measured results must be processed separates latency from throughput. Finally we count heat at each cold stage, and the time spent calibrating instead of computing. Our first question is what cold and vacuum must achieve for a qubit.",
       "worked_examples": [
         "A hypothetical cold stage has 10 μW available; each line adds 20 nW. What is the line-only upper bound?",
         "A syndrome round takes 1 μs and decoding latency is 5 μs. Must every round wait 5 μs?",
         "If calibration takes 15 minutes each hour, what fraction remains for data collection?"
       ],
-      "handoff": "Infrastructure limits which operations can happen together. Architecture translates these constraints into a schedule for an entire algorithm.",
+      "handoff": "Infrastructure limits which operations can run together and when. How should a whole processor be arranged so that an algorithm's gates, measurements, and movements fit inside those limits?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "feedback-pipeline",
@@ -852,13 +852,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "The same logical circuit can require very different physical operations on different connection graphs. Architecture makes that difference explicit.",
+      "construction": "A circuit diagram lets any two qubits interact, and lets every gate start the moment its inputs are ready. A device allows only certain pairs to interact, shares control channels between gates, and connects separate modules with links that succeed at random. The same logical circuit can therefore need very different physical operations on different machines. How do we turn a circuit into a timed physical schedule, and what does the conversion cost? We first describe a device's interactions as a graph and count the extra operations needed when two qubits are not neighbours. Shared hardware then forbids some gates from running together, which gives lower bounds on schedule length. Linking modules with photons adds a random waiting time, and the stored qubits must survive it. Finally, fabrication yield limits how many usable sites a chip has, and following one task from output back to physical operations gives its true cost in time. Our first question is what it costs to apply a gate between two qubits that cannot interact directly.",
       "worked_examples": [
         "On a line A–B–C, how can an A–C interaction be made local?",
         "A link succeeds with probability 0.02 per 10 μs attempt. Find its mean waiting time.",
         "For 1,000 independent components of yield 0.999, estimate perfect-array yield."
       ],
-      "handoff": "Error correction adds a structured workload of its own. The next chapter turns its parity checks into device-level operations.",
+      "handoff": "Error correction adds a structured workload of its own, made of repeated parity checks. What must the hardware do to measure those checks without destroying the information they protect?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "routing-graph",
@@ -903,13 +903,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A parity measurement should reveal whether two data bits agree without revealing either bit. Implementing that distinction is the first hardware task of error correction.",
+      "construction": "We have met codes that detect errors: the three-bit repetition code, the binomial code in an oscillator, the grid code. Each relies on measurements that reveal an error without revealing the encoded information. On hardware, those measurements are themselves circuits made of noisy gates and noisy readouts. Can a device check for errors without adding more errors than it removes? We first build a parity check from two CNOTs and an auxiliary qubit, and see why it preserves superpositions. Because the check can itself fail, we repeat it, and asking how errors move through CNOTs shows how one fault can spread. Code distance then says how many errors a code can correct, and asking how logical gates and special auxiliary states are supplied gives their cost in space and time. Finally, leakage, correlations, and latency shape real performance, and asking when a larger code actually helps leads to the threshold and the overhead of a long computation. Our first question is how a device can learn whether two bits agree without learning either bit.",
       "worked_examples": [
         "What happens when the parity circuit receives (|00⟩ + |11⟩)/√2?",
         "How many arbitrary physical-qubit errors can a distance-5 code correct with perfect syndrome information?",
         "Use \\(A=0.1\\), \\(p/p_{\\rm th}=0.1\\). Compare distances 3 and 5 in the illustrative fit."
       ],
-      "handoff": "We can now evaluate a processor through the computation it can carry out, with the full preparation, control, measurement, and correction costs included.",
+      "handoff": "We can now count every cost a computation incurs, from preparation through correction. How, then, should one processor be compared with another?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "parity-extraction",
@@ -954,13 +954,13 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A processor with more qubits is not necessarily the processor that completes a specified computation more accurately or sooner. Evaluation begins by fixing the task.",
+      "construction": "We can now follow a computation from its circuit down to pulses, couplings, detectors, refrigerators, and decoders, and count the cost of each step. Yet devices are often compared by a single number, such as a qubit count, a lifetime, or a gate fidelity. A processor with more qubits is not necessarily the one that completes a given computation more accurately or sooner. How should two processors be compared? We first ask what a physical metric actually measures, and why metrics from different experiments are not interchangeable. Logical metrics answer different questions again, tied to an encoded task. Fixing a task then lets us count its full execution cost, and finite samples give every estimate an uncertainty, even when no failures are seen. Finally, comparing two implementations of the same task on matched assumptions shows which bottleneck matters, and a complete study traces one task through the whole course. Our first question is what a physical metric measures.",
       "worked_examples": [
         "Why is a long T1 insufficient to predict circuit accuracy?",
         "In 10,000 independent trials, 9,000 succeed. Estimate one standard error.",
         "No failures occur in 1,000 independent trials. What upper error bound follows at 95% confidence?"
       ],
-      "handoff": "The full cycle is now visible: a computational task determines a circuit, the circuit demands physical operations, and the physical error and resource budgets determine whether the task succeeds. Return to the algorithms and programming courses with these budgets attached to every abstract operation.",
+      "handoff": "A task determines a circuit, the circuit demands physical operations, and the error and resource budgets of those operations decide whether the task succeeds. For the next algorithm you study, which of those budgets would dominate on the hardware you would choose?",
       "review_status": "Expanded physical-model draft: explicit calculations, assumptions, worked model check, and generated physical diagrams or quantitative plots. See checks/ for validation and its limits.",
       "figures": [
         "zero-failure-bound",

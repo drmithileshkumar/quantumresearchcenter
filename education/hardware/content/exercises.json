@@ -341,9 +341,9 @@
    "question": "Build a CNOT (control qubit 1, target qubit 2) from the ZZ interaction. (a) Show that \\(H_2\\,\\mathrm{CZ}\\,H_2\\) is CNOT by checking its action on \\(\\ket{10}\\) and \\(\\ket{11}\\). (b) List the full sequence, starting from \\(e^{-iJtZZ/2}\\) with \\(Jt=\\pi/2\\). (c) Apply it to \\(\\ket{+}\\ket0\\).",
    "hints": [
     "\\(HZH=X\\).",
-    "From Section 4.2.1, CZ is the ZZ evolution followed by \\(R_z(-\\pi/2)\\) on each qubit."
+    "CZ is the ZZ evolution followed by \\(R_z(-\\pi/2)\\) on each qubit."
    ],
-   "answer": "(a) On the control-\\(1\\) branch, CZ applies \\(Z\\) to the target, and \\(HZH=X\\); on the control-\\(0\\) branch it applies \\(I\\), and \\(HIH=I\\). So \\(H_2\\,\\mathrm{CZ}\\,H_2\\) flips the target exactly when the control is \\(1\\): \\(\\ket{10}\\to\\ket{11}\\), \\(\\ket{11}\\to\\ket{10}\\). (b) \\(H\\) on qubit 2; ZZ evolution for \\(Jt=\\pi/2\\); \\(R_z(-\\pi/2)\\) on both qubits; \\(H\\) on qubit 2. (c) From \\(\\ket+\\ket0\\) the result is \\((\\ket{00}+\\ket{11})/\\sqrt2\\), the Bell state of Chapter 1, up to a global phase.",
+   "answer": "(a) On the control-\\(1\\) branch, CZ applies \\(Z\\) to the target, and \\(HZH=X\\); on the control-\\(0\\) branch it applies \\(I\\), and \\(HIH=I\\). So \\(H_2\\,\\mathrm{CZ}\\,H_2\\) flips the target exactly when the control is \\(1\\): \\(\\ket{10}\\to\\ket{11}\\), \\(\\ket{11}\\to\\ket{10}\\). (b) \\(H\\) on qubit 2; ZZ evolution for \\(Jt=\\pi/2\\); \\(R_z(-\\pi/2)\\) on both qubits; \\(H\\) on qubit 2. (c) From \\(\\ket+\\ket0\\) the result is \\((\\ket{00}+\\ket{11})/\\sqrt2\\), the Bell state, up to a global phase.",
    "review": "topic-4-2-1"
   },
   {
@@ -368,7 +368,7 @@
   },
   {
    "kind": "Worked problem",
-   "question": "For \\(H=\\hbar JZ\\otimes Z/2\\) acting for time \\(t\\) on \\(\\ket{++}\\), (a) write the four amplitudes; (b) use the determinant of the two-by-two amplitude table from Section 4.2.1, \\(|\\alpha_{00}\\alpha_{11}-\\alpha_{01}\\alpha_{10}|\\), to find how entangled the output is as a function of \\(Jt\\); (c) at which \\(Jt\\) is the entanglement largest, and when does it vanish?",
+   "question": "For \\(H=\\hbar JZ\\otimes Z/2\\) acting for time \\(t\\) on \\(\\ket{++}\\), (a) write the four amplitudes; (b) use the determinant of the two-by-two amplitude table used to test controlled-Z for entanglement, \\(|\\alpha_{00}\\alpha_{11}-\\alpha_{01}\\alpha_{10}|\\), to find how entangled the output is as a function of \\(Jt\\); (c) at which \\(Jt\\) is the entanglement largest, and when does it vanish?",
    "hints": [
     "Amplitudes are \\(\\frac12(e^{-iJt/2},e^{iJt/2},e^{iJt/2},e^{-iJt/2})\\).",
     "\\(e^{-iJt}-e^{iJt}=-2i\\sin Jt\\)."
@@ -751,7 +751,7 @@
     "The corrections are \\(-\\frac14E_C\\), \\(-\\frac{15}{12}E_C\\), \\(-\\frac{39}{12}E_C\\).",
     "\\(\\sqrt{8\\times20\\times0.25}=\\sqrt{40}\\approx6.325\\)."
    ],
-   "answer": "(a) \\(n=0\\): \\(-0.25E_C\\); \\(n=1\\): \\(-1.25E_C\\); \\(n=2\\): \\(-3.25E_C\\). (b) \\(E_1-E_0=\\sqrt{8E_JE_C}-E_C\\) and \\(E_2-E_1=\\sqrt{8E_JE_C}-2E_C\\). (c) Their difference is \\(-E_C\\). With the given values, \\(\\sqrt{8E_JE_C}/h\\approx6.325\\) GHz, so \\(f_{01}\\approx6.075\\) GHz, \\(f_{12}\\approx5.825\\) GHz, and the anharmonicity is \\(-250\\) MHz, as quoted in Section 8.2.1. The level spacing shrinks by \\(E_C\\) at each step because the cosine potential is softer than a parabola.",
+   "answer": "(a) \\(n=0\\): \\(-0.25E_C\\); \\(n=1\\): \\(-1.25E_C\\); \\(n=2\\): \\(-3.25E_C\\). (b) \\(E_1-E_0=\\sqrt{8E_JE_C}-E_C\\) and \\(E_2-E_1=\\sqrt{8E_JE_C}-2E_C\\). (c) Their difference is \\(-E_C\\). With the given values, \\(\\sqrt{8E_JE_C}/h\\approx6.325\\) GHz, so \\(f_{01}\\approx6.075\\) GHz, \\(f_{12}\\approx5.825\\) GHz, and the anharmonicity is \\(-250\\) MHz, as quoted for the illustrative transmon. The level spacing shrinks by \\(E_C\\) at each step because the cosine potential is softer than a parabola.",
    "review": "topic-8-1-2"
   },
   {
@@ -1102,7 +1102,7 @@
   },
   {
    "kind": "Extension",
-   "question": "Random nuclear spins produce a quasi-static field that varies from run to run, giving a Gaussian spread of qubit frequencies with standard deviation \\(\\sigma_f\\). Using \\(T_2^*=\\sqrt2/(2\\pi\\sigma_f)\\) from Chapter 6, compare a natural GaAs-like host with \\(\\sigma_f=10\\) MHz and an isotopically purified silicon-like host with \\(\\sigma_f=10\\) kHz. What does echo do in each case, and what does the comparison say about materials choice?",
+   "question": "Random nuclear spins produce a quasi-static field that varies from run to run, giving a Gaussian spread of qubit frequencies with standard deviation \\(\\sigma_f\\). Using \\(T_2^*=\\sqrt2/(2\\pi\\sigma_f)\\) for slow Gaussian frequency noise, compare a natural GaAs-like host with \\(\\sigma_f=10\\) MHz and an isotopically purified silicon-like host with \\(\\sigma_f=10\\) kHz. What does echo do in each case, and what does the comparison say about materials choice?",
    "hints": [
     "\\(\\sqrt2/(2\\pi\\times10^7)\\approx22.5\\) ns.",
     "An echo refocuses noise that is constant within a run."
@@ -1515,7 +1515,7 @@
     "\\((I-iZ)/\\sqrt2=e^{-i\\pi Z/4}\\).",
     "Braids generate only Clifford operations."
    ],
-   "answer": "(a) With \\(\\gamma_1\\gamma_2=-iZ_L\\), \\(U_{12}=(I-iZ_L)/\\sqrt2=\\cos\\frac\\pi4I-i\\sin\\frac\\pi4Z_L=e^{-i\\pi Z_L/4}\\), the \\(S\\) gate up to phase. (b) Braids of Majorana modes generate only Clifford operations (rotations by multiples of \\(\\pi/2\\)), which can be simulated efficiently on a classical computer. The \\(T\\) gate, a \\(\\pi/4\\) phase, is missing. (c) Prepare noisy magic states by unprotected operations, distill them with Clifford operations, and inject them (Chapter 11 of Quantum Algorithms). That non-topological step must be counted in the error budget.",
+   "answer": "(a) With \\(\\gamma_1\\gamma_2=-iZ_L\\), \\(U_{12}=(I-iZ_L)/\\sqrt2=\\cos\\frac\\pi4I-i\\sin\\frac\\pi4Z_L=e^{-i\\pi Z_L/4}\\), the \\(S\\) gate up to phase. (b) Braids of Majorana modes generate only Clifford operations (rotations by multiples of \\(\\pi/2\\)), which can be simulated efficiently on a classical computer. The \\(T\\) gate, a \\(\\pi/4\\) phase, is missing. (c) Prepare noisy magic states by unprotected operations, distill them with Clifford operations, and inject them (as described in Quantum Algorithms). That non-topological step must be counted in the error budget.",
    "review": "topic-15-2-2"
   },
   {

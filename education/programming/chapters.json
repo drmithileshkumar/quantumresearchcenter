@@ -4,7 +4,7 @@
     "title": "Quantum Programming Languages",
     "question": "How should a programming language express quantum computation and its classical control?",
     "example": "Compare descriptions of the same controlled operation and measurement in different programming styles.",
-    "prerequisites": "Quantum Computing and Quantum Algorithms, or equivalent knowledge. Python is developed through examples in Chapter 2.",
+    "prerequisites": "Quantum Computing and Quantum Algorithms, or equivalent knowledge. No Python is assumed: the few Python lines in this chapter are explained where they appear, and the next chapter develops Python further.",
     "sections": [
       {
         "id": "section-1-1",
@@ -473,7 +473,7 @@
     "stem": "11-quantum-hardware-execution",
     "title": "Quantum Hardware Execution",
     "question": "How do we run a tested program on hardware and interpret the result?",
-    "example": "Execute a small validated circuit and compare hardware measurements with local predictions.",
+    "example": "Compile a validated Bell circuit for a backend, guard its hardware submission behind explicit options, and plan how hardware counts would be compared with local predictions.",
     "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
     "sections": [
       {
@@ -538,7 +538,7 @@
         "number": "12.2",
         "subsections": [
           "Teleportation",
-          "Iterative procedures"
+          "Verifying every branch"
         ]
       },
       {
@@ -567,7 +567,7 @@
     "stem": "13-noise-and-reliability",
     "title": "Noise and Reliability",
     "question": "How can we distinguish a noisy experiment from an incorrect program?",
-    "example": "Compare ideal, noisy simulated, and hardware outcomes for the same circuit.",
+    "example": "Predict the effect of a depolarizing gate error, compare it with a noisy simulation of the same circuit, and identify what a hardware comparison would add.",
     "prerequisites": "Earlier programming chapters; relevant constructions from Quantum Computing and Quantum Algorithms.",
     "sections": [
       {

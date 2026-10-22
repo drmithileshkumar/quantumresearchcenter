@@ -228,7 +228,7 @@ def plots():
     x=np.linspace(0,30,300)
     plot(10,3,'blockade-suppression','An isolated blockade estimate improves with |B|/Ω','Blockade shift |B| / Ω','Maximum unwanted transfer',[(x,1/(1+x*x),'isolated two-state model')],'At |B|/Ω = 20 the bound is 1/401. It excludes Rydberg decay, pulse phase error, motion, and multilevel structure; it is not a total gate infidelity.',logy=True)
     x=np.linspace(0,100,300)
-    plot(11,2,'spin-exchange','A Heisenberg exchange pulse sets the SWAP time','Time (ns), J/h = 10 MHz','Probability of 10 from initial 01',[(x,np.sin(np.pi*.01*x)**2,'sin²[Jt/(2ℏ)]')],'The stated exchange-energy convention gives SWAP at 50 ns and an equal-weight entangling state at 25 ns. This differs from the angular-frequency g convention in Chapter 4.',ylim=(-.03,1.06))
+    plot(11,2,'spin-exchange','A Heisenberg exchange pulse sets the SWAP time','Time (ns), J/h = 10 MHz','Probability of 10 from initial 01',[(x,np.sin(np.pi*.01*x)**2,'sin²[Jt/(2ℏ)]')],'The stated exchange-energy convention gives SWAP at 50 ns and an equal-weight entangling state at 25 ns. This differs from the angular-frequency g convention used for exchange between circuits.',ylim=(-.03,1.06))
     x=np.linspace(0,1,241)
     plot(12,3,'collection-rate','Two required photons make efficiency a quadratic resource','Per-photon delivery and detection probability η','Per-attempt success contribution',[(x,.5*x*x,'q η² with q = 1/2')],'This two-photon toy rate assumes independent detection and accepted-pattern factor q = 1/2. Conditional state quality also depends on mode overlap and false detections.')
     x=np.linspace(-4,4,401)

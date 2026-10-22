@@ -12,8 +12,8 @@
     "explanation": "Yes. H combines amplitudes from the two configurations. Their relative phase changes the sum before its magnitude is squared."
   },
   "04-composite-systems": {
-    "prediction": "Do equal 0/1 outcomes at both ends prove that a pair is entangled?",
-    "explanation": "No. An equal classical mixture of 00 and 11 has those same outcomes. Compare a second basis or the full joint state."
+    "prediction": "Alice and Bob always get equal 0/1 results on their two qubits. Does that prove the pair was prepared in (|00⟩+|11⟩)/√2?",
+    "explanation": "No. A source that randomly prepares 00 or 11 gives the same results. A measurement in a second basis, or the full joint state, tells them apart."
   },
   "05-mixed-states": {
     "prediction": "Can a local mixed state tell you whether a coin was tossed during preparation?",

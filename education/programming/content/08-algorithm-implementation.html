@@ -1,17 +1,61 @@
+<div class="chapter-opening">
+<p class="chapter-intro">We can now build oracles and verify them on superpositions. The algorithms course used such oracles inside larger constructions: the Fourier transform and phase estimation, amplitude amplification, and quantum walks. There each construction was a sequence of abstract operations. In a program, each must become specific gates on specific wires, with a sign convention, a bit order and a cost.</p>
+<p>How do the techniques of the algorithms course become working programs? We derive the two-qubit Fourier circuit from the transform’s formula, which explains every gate, including a final swap. That circuit then completes a phase-estimation program whose answer we can predict exactly. Amplitude amplification adds reflections, and a careless choice of their sign is harmless only until the iteration is controlled. A quantum walk adds a coin register that the program must never discard.</p>
+<p>For each construction, a small instance gives us a matrix or a probability to check against.</p>
+</div>
 <section class="book-section" id="section-8-1" aria-labelledby="section-8-1-heading"><h2 id="section-8-1-heading">8.1 Fourier Methods</h2>
-<p>Implement two familiar transformations and compare their matrices or output probabilities with independent formulas. Small examples are useful for debugging, but the construction must keep its conventions explicit.</p>
-<h3>8.1.1 Constructing the Fourier circuit</h3><p>Our two-qubit Fourier transform uses the positive exponential exp(2πixy/4)/2. The code applies H to qubit one, a controlled π/2 phase, H to qubit zero, and a swap. The matrix assertion compares every entry with the mathematical transform. Omitting the swap changes output bit order; taking the inverse changes the exponent sign.</p>
-<h3>8.1.2 Controlled powers and phase estimation</h3><p>Phase estimation prepares a control register, applies controlled powers of a chosen unitary, then inverse QFT. A power implemented by repeating U costs that many U uses. When testing, choose an eigenstate with an exactly representable phase before testing approximate phases or superpositions. Decode the control bits using the register mapping, not the visual wire order alone.</p>
+<p>The quantum Fourier transform appears in phase estimation, period finding and many other algorithms. Its formula is simple. Which gates realize it, and in what order? We derive the two-qubit circuit from the formula, then use it to read out the phase in phase estimation.</p>
+<h3>8.1.1 Constructing the Fourier circuit</h3><p>We take the transform with the positive exponent, \[F\ket y=\frac12\sum_{x=0}^{3}e^{2\pi ixy/4}\ket x,\] with integer labels \(x=x_0+2x_1\) and \(y=y_0+2y_1\), and qubit 0 as the low digit. Can we build \(F\) from one- and two-qubit gates? The key is that the output is a product state. Splitting the exponent, \(e^{2\pi ixy/4}=e^{2\pi ix_0y/4}\,e^{2\pi ix_1y/2}\), so \[F\ket y=\frac{\ket0+e^{2\pi iy/2}\ket1}{\sqrt2}\otimes\frac{\ket0+e^{2\pi iy/4}\ket1}{\sqrt2},\] where the left factor is output qubit \(x_1\) and the right factor is \(x_0\).</p>
+<p>Now we read off what each factor needs. Since \(e^{2\pi iy/2}=(-1)^{y_0}\), the \(x_1\) factor is \((\ket0+(-1)^{y_0}\ket1)/\sqrt2\). That is H applied to the input bit \(y_0\). The \(x_0\) factor has phase \(e^{2\pi iy/4}=(-1)^{y_1}\,i^{y_0}\). That is H applied to \(y_1\), followed by a phase \(i=e^{i\pi/2}\) when \(y_0=1\), a controlled phase \(P(\pi/2)\).</p>
+<p>The circuit follows. H on qubit 1 makes \((\ket0+(-1)^{y_1}\ket1)/\sqrt2\). The controlled phase from qubit 0 must come next, while qubit 0 still holds the bit \(y_0\), and it completes the \(x_0\) factor, on qubit 1. H on qubit 0 then makes the \(x_1\) factor, on qubit 0. Each factor has ended up on the other wire, so a final swap puts them in place:</p>
+<pre><code class="language-python">qft = QuantumCircuit(2)
+qft.h(1)
+qft.cp(np.pi / 2, 0, 1)
+qft.h(0)
+qft.swap(0, 1)</code></pre>
+<p>The companion compares all 16 entries of this circuit’s matrix with \(e^{2\pi ixy/4}/2\). The expected matrix is built by a list comprehension with two <code>for</code> clauses, one per index, and <code>2j</code> is Python’s notation for the complex number \(2i\). Omitting the swap would reverse the output bit order. Taking the inverse would flip the sign of the exponent.</p>
+<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/qft-two.svg" alt="Positive-sign two-qubit Fourier circuit. The final SWAP exchanges the two wires; its connected endpoints are a two-wire operation. The controlled phase applies only when both bits are one." style="max-width:100%;height:auto"></div><figcaption>Positive-sign two-qubit Fourier circuit. The final SWAP exchanges the two wires; its connected endpoints are a two-wire operation. The controlled phase applies only when both bits are one.</figcaption></figure>
 <div class="exercise"><p><strong>Problem 8.1.</strong> Why compare QFT matrices instead of only transforming zero?</p><details class="problem-solution"><summary>Worked solution</summary><p>Both forward and inverse Fourier transforms map zero to the same uniform state. A zero-input test misses the sign convention.</p></details></div>
-<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/qft-two.svg" alt="Positive-sign two-qubit Fourier circuit. The final SWAP exchanges the two wires; its connected endpoints are a two-wire operation. The controlled phase applies only when both bits are one." style="max-width:100%;height:auto"></div><figcaption>Positive-sign two-qubit Fourier circuit. The final SWAP exchanges the two wires; its connected endpoints are a two-wire operation. The controlled phase applies only when both bits are one.</figcaption></figure></section>
+<h3>8.1.2 Controlled powers and phase estimation</h3><p>Phase estimation asks: given a unitary \(U\) and an eigenstate with \(U\ket u=e^{2\pi i\varphi}\ket u\), what is \(\varphi\)? We need a test case whose answer we know exactly. We choose \(U=P(2\pi\varphi)\) with \(\varphi=1/4\) and eigenstate \(\ket1\), prepared on qubit 2 with an X gate. Qubits 0 and 1 form the counting register.</p>
+<p>We put each counting qubit in \(\ket+\) and let counting qubit \(j\) control \(U^{2^j}\). By phase kickback, qubit \(j\) picks up the phase \(e^{2\pi i\varphi2^j}\) on its \(\ket1\). Together the two qubits hold \[\frac12\sum_{x=0}^{3}e^{2\pi i\varphi x}\ket x.\] With \(\varphi=y/4\), this is exactly \(F\ket y\). So the inverse Fourier circuit returns \(\ket y\), here \(y=4\varphi=1\).</p>
+<p>In the program, <code>qft.inverse()</code> supplies the inverse, and <code>compose(…, qubits=[0, 1], inplace=True)</code> attaches it to the counting wires, changing <code>qpe</code> itself rather than returning a copy. Here \(U^{2^j}\) is again a phase gate, so each power costs one controlled phase. For a general \(U\), implementing \(U^{2^j}\) by repetition costs \(2^j\) uses of \(U\).</p>
+<pre><code class="language-python">phi = 1 / 4
+qpe = QuantumCircuit(3)
+qpe.x(2)
+qpe.h([0, 1])
+for j in range(2):
+    qpe.cp(2 * np.pi * phi * 2**j, j, 2)  # controlled U^(2^j)
+qpe.compose(qft.inverse(), qubits=[0, 1], inplace=True)</code></pre>
+<p>The check asks for the probabilities of the counting qubits alone, <code>probabilities([0, 1])</code>, and requires that integer 1 has probability 1. We decode the counting register through this list of qubits, not through the order of wires in a drawing. A phase that is exactly representable in two bits makes the first test clean. Approximate phases and superpositions of eigenstates come after it passes.</p>
+</section>
 <section class="book-section" id="section-8-2" aria-labelledby="section-8-2-heading"><h2 id="section-8-2-heading">8.2 Amplitude Manipulation</h2>
-<h3>8.2.1 Preparation and reflections</h3><p>For four items with only 11 marked, begin uniformly and apply CZ to negate the marked amplitude. A prepared-state reflection follows. The reflection sequence used in the companion differs by a global sign from one common convention; the success probability is unaffected. This phase convention would matter if the whole iteration were later coherently controlled.</p>
-<h3>8.2.2 Search and amplification</h3><p>One Grover iteration gives unit success for one marked item out of four. The companion checks probability at index three. For larger instances, choose iterations from the initial success probability or use a justified unknown-success schedule. More iterations can reduce success, so a loop that runs “until enough gates” is not an algorithm.</p>
+<p>Phase estimation reads out a phase. Search uses phases differently: a phase oracle marks the good items with a sign, and reflections turn that sign into probability. The algorithm fixes the reflections only up to conventions. Which conventions are safe to choose freely, and how many iterations should the program run? We implement the reflections first, then the search loop.</p>
+<h3>8.2.1 Preparation and reflections</h3><p>Take four items, with only \(\ket{11}\) marked. We begin with the uniform state \(\ket s=H^{\otimes2}\ket{00}\). How do we mark \(\ket{11}\) with a sign? A CZ gate multiplies exactly \(\ket{11}\) by \(-1\), so it is the phase oracle here.</p>
+<p>Next comes the reflection about \(\ket s\), usually written \(D=2\ketbra ss-I\). The companion builds it as H on both, X on both, CZ, X on both, H on both. What does that sequence compute? Conjugating CZ by X on both qubits moves its sign from \(\ket{11}\) to \(\ket{00}\), giving \(I-2\ketbra{00}{00}\). Conjugating by H on both then gives \(I-2\ketbra ss=-D\).</p>
+<p>So the companion implements \(-D\), which differs from the textbook reflection by a global sign. For the search alone that sign changes no probability. If the whole iteration were later controlled, though, it would become a relative phase on the control, by the result we derived for controlled operations. So the convention must be recorded with the component.</p>
+<h3>8.2.2 Search and amplification</h3><p>How many iterations should we run? One marked item out of four gives initial success probability \(\sin^2\theta=1/4\), so \(\theta=\pi/6\). Each iteration rotates the state by \(2\theta\) toward the marked item, so after \(k\) iterations the success probability is \(\sin^2((2k+1)\theta)\). One iteration gives \(\sin^2(\pi/2)=1\). The companion checks that the probability of index 3, the state \(\ket{11}\), is 1.</p>
+<pre><code class="language-python">search = QuantumCircuit(2)
+search.h([0, 1])
+search.cz(0, 1)
+search.h([0, 1]); search.x([0, 1]); search.cz(0, 1)
+search.x([0, 1]); search.h([0, 1])</code></pre>
+<p>Python allows several statements on one line when they are separated by semicolons, which keeps the reflection on two lines. For larger instances, we choose the number of iterations from the initial success probability. When that probability is unknown, we need a schedule with a justified guarantee. More iterations can reduce success, so a loop that simply runs “long enough” is not an algorithm.</p>
 <div class="exercise"><p><strong>Problem 8.2.</strong> What happens after a second Grover iteration in the four-item example?</p><details class="problem-solution"><summary>Worked solution</summary><p>The success returns to one quarter. The rotation has passed the good direction.</p></details></div>
 </section>
 <section class="book-section" id="section-8-3" aria-labelledby="section-8-3-heading"><h2 id="section-8-3-heading">8.3 Quantum Walks</h2>
-<h3>8.3.1 Position and coin registers</h3><p>A coined walk uses a coin register and a position register. Implement a coin rotation followed by reversible conditional increment and decrement modulo the graph size. Keep the coin: discarding its direction information after each step changes the evolution. A non-power-of-two position space also needs a policy for unused basis states so the full circuit remains unitary.</p>
-<h3>8.3.2 Implementation and classical baselines</h3><p>A meaningful benchmark compares the same access and output tasks. Verify small matrices, then measure compiled gates, depth, qubits, oracle calls, and readout costs as size grows. A classical simulator runtime is a property of the simulation method, not evidence that the quantum algorithm is slow or fast on quantum hardware. The two examples below establish correctness checks, not a performance advantage.</p><p>The complete companion below can be <a href="examples/chapter_08.py" download>downloaded as chapter_08.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 8.&quot;&quot;&quot;
+<p>A quantum walk moves amplitude around a graph, one step at a time, steered by an extra register called the coin. To program it, we must make the step reversible with the gates we have, and then decide what a fair comparison with a classical walk would measure. We first implement one step on a four-site cycle, then ask what its cost and its correctness tests do and do not tell us.</p>
+<h3>8.3.1 Position and coin registers</h3><p>Suppose a walker sits on a cycle of four sites. A step should move it one site forward or one site back. Can we write that step as a unitary on the position alone? No. Both “site 1 moved forward” and “site 3 moved back” end at site 2, so a position-only map would merge two states into one, and a unitary cannot do that. We add a coin qubit that records the direction. The step is then reversible, because the coin tells us which way to undo it.</p>
+<p>We put the coin on qubit 0 and the position, \(q_1+2q_2\), on qubits 1 and 2. One step applies H to the coin and then shifts: coin 0 moves the position by \(+1\), coin 1 by \(-1\), both modulo 4. The increment is the two-bit incrementer we built for arithmetic oracles, with an extra control on the coin. The decrement is its inverse. To condition on coin 0 instead of coin 1, we surround the controlled increment with X gates on the coin:</p>
+<pre><code class="language-python">walk = QuantumCircuit(3)
+walk.h(0)
+walk.cx(0, 1); walk.ccx(0, 1, 2)                 # coin 1: position - 1
+walk.x(0); walk.ccx(0, 1, 2); walk.cx(0, 1); walk.x(0)  # coin 0: position + 1</code></pre>
+<p>Our independent prediction is a matrix. The shift sends basis index \(c+2p\) to \(c+2((p\pm1)\bmod4)\), and the coin step is \(I\otimes H\), with H on the right because the coin is qubit 0. The companion builds both with NumPy: <code>%</code> is the remainder, so <code>-1 % 4</code> is 3, and <code>np.kron</code> forms a tensor product. It then compares the circuit’s matrix with their product.</p>
+<p>Two further rules follow from the reasoning above. We keep the coin from step to step, since discarding its direction after a step would turn the walk into a different, non-unitary process. And if the number of sites is not a power of two, some basis states of the position register stand for no site, so the circuit needs a stated rule for them to remain unitary.</p>
+<div class="exercise"><p><strong>Problem 8.3.</strong> Can the position register alone generally implement a reversible coined shift?</p><details class="problem-solution"><summary>Worked solution</summary><p>The direction label is needed to distinguish the routes. Removing it without another reversible encoding can merge states and invalidate the proposed unitary.</p></details></div>
+<h3>8.3.2 Implementation and classical baselines</h3><p>Our walk passes its matrix check. Does that tell us anything about whether a quantum walk beats a classical one? No. A matrix check establishes correctness for one small instance. A fair comparison with a classical method must give both the same access to the graph and ask both for the same output. The quantum side should then be measured by quantities that grow with the instance: compiled gates, depth, qubits, oracle calls and readout cost.</p>
+<p>What about the time our simulation took? That measures the classical simulator, not the quantum algorithm. A simulation that slows down rapidly with size says nothing about how the circuit would perform on quantum hardware. The companion collects the checks from this chapter: the Fourier matrix, the phase-estimation readout, the search success and the walk step. They establish correctness, not a performance advantage.</p>
+<pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 8.&quot;&quot;&quot;
 import numpy as np
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import Operator, Statevector
@@ -24,6 +68,18 @@ qft.h(0)
 qft.swap(0, 1)
 expected = np.array([[np.exp(2j*np.pi*x*y/4)/2 for x in range(4)] for y in range(4)])
 assert np.allclose(Operator(qft).data, expected)
+
+# Phase estimation: counting qubits 0 and 1, eigenstate |1&gt; of P(2*pi*phi) on qubit 2.
+phi = 1 / 4
+qpe = QuantumCircuit(3)
+qpe.x(2)
+qpe.h([0, 1])
+for j in range(2):
+    qpe.cp(2 * np.pi * phi * 2**j, j, 2)  # controlled U^(2^j)
+qpe.compose(qft.inverse(), qubits=[0, 1], inplace=True)
+counting = Statevector.from_instruction(qpe).probabilities([0, 1])
+assert np.isclose(counting[1], 1)  # integer 1 = phi * 4
+
 # One Grover step for marked state |11&gt; in four items.
 search = QuantumCircuit(2)
 search.h([0, 1])
@@ -31,9 +87,22 @@ search.cz(0, 1)
 search.h([0, 1]); search.x([0, 1]); search.cz(0, 1)
 search.x([0, 1]); search.h([0, 1])
 assert np.isclose(Statevector.from_instruction(search).probabilities()[3], 1)
+
+# One coined-walk step on a 4-cycle: coin q0, position q1 + 2*q2.
+walk = QuantumCircuit(3)
+walk.h(0)
+walk.cx(0, 1); walk.ccx(0, 1, 2)                 # coin 1: position - 1
+walk.x(0); walk.ccx(0, 1, 2); walk.cx(0, 1); walk.x(0)  # coin 0: position + 1
+shift = np.zeros((8, 8))
+for coin in range(2):
+    for position in range(4):
+        moved = (position + (1 if coin == 0 else -1)) % 4
+        shift[coin + 2 * moved, coin + 2 * position] = 1
+coin_flip = np.kron(np.eye(4), np.array([[1, 1], [1, -1]]) / np.sqrt(2))
+assert np.allclose(Operator(walk).data, shift @ coin_flip)
 print(qft.draw(output=&quot;text&quot;))
 </code></pre>
-<div class="exercise"><p><strong>Problem 8.3.</strong> Can the position register alone generally implement a reversible coined shift?</p><details class="problem-solution"><summary>Worked solution</summary><p>The direction label is needed to distinguish the routes. Removing it without another reversible encoding can merge states and invalidate the proposed unitary.</p></details></div>
-<p>The examples suggest a testing discipline. The next chapter makes that discipline systematic.</p>
+<p class="source-note">Companion script: <a href="examples/chapter_08.py" download>chapter_08.py</a>.</p>
+<p>Each check in this chapter compared a program with a prediction we derived first. Some checks were stronger than others: a full matrix catches more than one probability. What, in general, counts as enough evidence that a quantum program does what it should?</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/quantum_info">IBM, quantum information operators</a>.</p>
 </section>

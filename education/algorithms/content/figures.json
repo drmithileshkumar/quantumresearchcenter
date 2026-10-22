@@ -419,7 +419,7 @@
  "design-checklist": {
   "kind": "table",
   "title": "The design process applied to Deutsch’s problem",
-  "caption": "Each row is a design question that applies to every algorithm in the course. The answers for Deutsch’s problem are developed in Sections 1.1–1.5.",
+  "caption": "Each row is a design question that applies to every algorithm in the course. The answers for Deutsch’s problem are developed in the sections before this one.",
   "headers": [
    "Design step",
    "Question",
@@ -875,8 +875,8 @@
     "With \\(k-2\\) clean ancillas"
    ],
    [
-    "Clean oracle from \\(T\\)-gate \\(C\\)",
-    "\\(2T+m\\) gates",
+    "Clean oracle from \\(G\\)-gate \\(C\\)",
+    "\\(2G+m\\) gates",
     "Compute, copy \\(m\\) bits, uncompute"
    ]
   ]
@@ -1106,12 +1106,12 @@
    [
     "Estimate of one number",
     "Value within \\(\\epsilon\\) after many runs",
-    "Amplitude estimation (Chapter 5)"
+    "Amplitude estimation (Amplitude Manipulation)"
    ],
    [
     "State for a later routine",
     "Nothing directly; it feeds a further circuit",
-    "Linear-system solution states (Chapter 8)"
+    "Linear-system solution states (Polynomial Transformations)"
    ]
   ]
  },
@@ -3456,7 +3456,7 @@
  "coined-step": {
   "kind": "circuit",
   "title": "One step of a coined walk on a cycle",
-  "caption": "The coin qubit is rotated by \\(H\\); then the position register is decremented if the coin is 0 (open control) and incremented if it is 1 (filled control), modulo \\(N\\). Each shift box is reversible arithmetic built as in Chapter 2.",
+  "caption": "The coin qubit is rotated by \\(H\\); then the position register is decremented if the coin is 0 (open control) and incremented if it is 1 (filled control), modulo \\(N\\). Each shift box is reversible arithmetic built as in the Coherent Computation chapter.",
   "circuits": [
    {
     "inputs": [

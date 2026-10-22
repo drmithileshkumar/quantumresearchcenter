@@ -21,7 +21,7 @@
     },
     {
       "id": "topic-6-1-3",
-      "title": "Joint amplitudes",
+      "title": "Counting amplitudes",
       "number": "6.1.3",
       "group": "6.1 · Registers and Operations",
       "part_id": "section-6-1"
@@ -145,9 +145,9 @@
       "number": "6.5"
     }
   ],
-  "opening": "Chapter 5 followed a single qubit from input through unitary gates to measurement. A computation with several qubits follows the same rules, but its amplitudes belong to complete bit strings. How do we operate on one part of such a register, couple its parts, and read out an answer?",
+  "opening": "One qubit can hold the answer to a one-bit question, and we have seen interference decide it. Most tasks, however, take many bits as input. The composite-state postulate already tells us what a register of qubits can hold: one amplitude for every bit string, including joint states that are not products of single-qubit states. It does not tell us how a computation acts on such a register.",
   "opening_continuation": [
-    "We begin with the joint-state rule from Chapter 4 and turn it into working circuit notation. Local gates update individual labels; controlled gates connect them. A two-qubit computation leads to entanglement, and measurements show why joint amplitudes contain more information than separate output counts.",
-    "We then examine the limits on copying and signalling, and work through teleportation as a complete three-qubit computation with measurement and classical control. Finally, a register computes: one reversible evaluation of a function acts on every input at once, and we ask how much of the result a measurement can deliver. Chapter 7 develops the interference this requires through function queries and phase kickback."
+    "How does a gate on one qubit act on the whole register, and which gate couples two qubits? Coupling lets a circuit create entanglement, so we next ask how a measurement recognizes it. Entanglement then raises two limits, on copying a state and on sending a message, and teleportation shows what a shared entangled pair does allow. Finally the register computes: one reversible evaluation of a function acts on every input at once, and we ask how much of the result a measurement can deliver.",
+    "Reading out more than a random sample needs interference between the evaluations, which the next chapter builds from function queries."
   ]
 }

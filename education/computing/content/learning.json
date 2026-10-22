@@ -9,7 +9,7 @@
     ],
     "limits": "The halting theorem concerns a general always-correct terminating procedure; it does not prevent analyzing individual programs.",
     "example": "Follow Euclid’s algorithm: the answer is preserved even though distinct inputs can merge.",
-    "next": "Chapter 2 replaces such information-losing steps with reversible constructions.",
+    "next": "Reversible circuit design replaces such information-losing steps with reversible constructions.",
     "exercises": [
       {
         "kind": "Quick check",
@@ -531,7 +531,7 @@
           "\\(H^{\\otimes3}\\ket{000}\\) has all eight amplitudes \\(+\\frac{1}{2\\sqrt2}\\); \\(H^{\\otimes3}\\ket{111}\\) has sign \\((-1)^{z_1+z_2+z_3}\\) on \\(\\ket z\\).",
           "Add the two contributions to each outcome."
         ],
-        "answer": "(a) \\(\\ket{000}\\to\\frac{1}{\\sqrt2}(\\ket{000}+\\ket{100})\\to\\frac{1}{\\sqrt2}(\\ket{000}+\\ket{110})\\to\\frac{1}{\\sqrt2}(\\ket{000}+\\ket{111})\\). (b) The amplitude of outcome \\(z\\) is \\(\\frac{1}{\\sqrt2}\\cdot\\frac{1}{2\\sqrt2}\\big(1+(-1)^{z_1+z_2+z_3}\\big)\\). It is \\(\\frac12\\) when \\(z\\) has an even number of ones and \\(0\\) otherwise. So the four outcomes \\(000,011,101,110\\) each occur with probability \\(\\frac14\\), and the outcomes with odd parity never occur. (c) For the mixture, each preparation gives all eight outcomes with probability \\(\\frac18\\), and so does their average. In the computational basis the two preparations look identical, but after the Hadamards the coherent state shows a strict parity rule that the mixture lacks.",
+        "answer": "(a) \\[\\ket{000}\\to\\tfrac{1}{\\sqrt2}(\\ket{000}+\\ket{100})\\to\\tfrac{1}{\\sqrt2}(\\ket{000}+\\ket{110})\\]\\[\\to\\tfrac{1}{\\sqrt2}(\\ket{000}+\\ket{111}).\\] (b) The amplitude of outcome \\(z\\) is \\(\\frac{1}{\\sqrt2}\\cdot\\frac{1}{2\\sqrt2}\\big(1+(-1)^{z_1+z_2+z_3}\\big)\\). It is \\(\\frac12\\) when \\(z\\) has an even number of ones and \\(0\\) otherwise. So the four outcomes \\(000,011,101,110\\) each occur with probability \\(\\frac14\\), and the outcomes with odd parity never occur. (c) For the mixture, each preparation gives all eight outcomes with probability \\(\\frac18\\), and so does their average. In the computational basis the two preparations look identical, but after the Hadamards the coherent state shows a strict parity rule that the mixture lacks.",
         "review": "topic-6-2-3"
       },
       {
@@ -952,7 +952,7 @@
       },
       {
         "kind": "Quick check",
-        "question": "Classify each statement as proved, open, or false according to Section 10.2: (a) \\(\\mathrm P\\subseteq\\mathrm{NP}\\); (b) \\(\\mathrm{BPP}\\subseteq\\mathrm{BQP}\\); (c) \\(\\mathrm{NP}\\subseteq\\mathrm{BQP}\\); (d) a quantum algorithm factors in time polynomial in the number of digits; (e) no classical algorithm factors in polynomial time.",
+        "question": "Classify each statement as proved, open, or false according to what is proved and what remains open about these classes: (a) \\(\\mathrm P\\subseteq\\mathrm{NP}\\); (b) \\(\\mathrm{BPP}\\subseteq\\mathrm{BQP}\\); (c) \\(\\mathrm{NP}\\subseteq\\mathrm{BQP}\\); (d) a quantum algorithm factors in time polynomial in the number of digits; (e) no classical algorithm factors in polynomial time.",
         "hints": [
           "A problem solvable in polynomial time has a certificate that is checked by solving it.",
           "Distinguish “no algorithm is known” from “no algorithm exists.”"
@@ -1121,7 +1121,7 @@
           "Outcome \\(0\\) has nonzero probability for every \\(\\phi\\neq\\pi\\).",
           "For \\(R\\) runs the standard deviation of the observed frequency is at most \\(1/(2\\sqrt R)\\)."
         ],
-        "answer": "One outcome \\(0\\) rules out only \\(\\phi=\\pi\\), where \\(p(0)=0\\). For every other \\(\\phi\\) the outcome had probability \\((1+\\cos\\phi)/2>0\\); at \\(\\phi=\\pi/2\\), for instance, it was a fair coin. Estimating \\(p(0)\\) requires repeated runs with fresh initialization. With \\(R\\) runs the observed frequency has standard deviation at most \\(1/(2\\sqrt R)\\), so about \\(100\\) runs give roughly \\(\\pm0.05\\). Even then, the estimate determines \\(\\cos\\phi\\) but not the sign of \\(\\phi\\). The cost of a measured answer includes the repetitions, as Section 5.1.3 warns.",
+        "answer": "One outcome \\(0\\) rules out only \\(\\phi=\\pi\\), where \\(p(0)=0\\). For every other \\(\\phi\\) the outcome had probability \\((1+\\cos\\phi)/2>0\\); at \\(\\phi=\\pi/2\\), for instance, it was a fair coin. Estimating \\(p(0)\\) requires repeated runs with fresh initialization. With \\(R\\) runs the observed frequency has standard deviation at most \\(1/(2\\sqrt R)\\), so about \\(100\\) runs give roughly \\(\\pm0.05\\). Even then, the estimate determines \\(\\cos\\phi\\) but not the sign of \\(\\phi\\). The cost of a measured answer includes the repetitions, as the cost of readout requires.",
         "review": "topic-5-1-3"
       },
       {
@@ -1140,7 +1140,7 @@
           "Conjugation by \\(H\\) acts term by term on a linear combination: \\(H(aI+bX)H=aI+bZ\\).",
           "\\(\\cos\\frac\\theta2\\mp i\\sin\\frac\\theta2=e^{\\mp i\\theta/2}\\)."
         ],
-        "answer": "Since \\(H(aI+bX)H=aHIH+bHXH=aI+bZ\\), we get \\(HR_x(\\theta)H=\\cos\\frac\\theta2I-i\\sin\\frac\\theta2Z=R_z(\\theta)\\). On the diagonal, \\(R_z(\\theta)=\\mathrm{diag}(e^{-i\\theta/2},e^{i\\theta/2})=e^{-i\\theta/2}\\,\\mathrm{diag}(1,e^{i\\theta})=e^{-i\\theta/2}R_\\theta\\). Hence \\(HR_\\phi H=e^{i\\phi/2}HR_z(\\phi)H=e^{i\\phi/2}R_x(\\phi)\\), because \\(H\\) undoes itself. The interference circuit is, up to global phase, a single rotation about the \\(X\\) direction by \\(\\phi\\): from \\(\\ket0\\) it gives \\(p(1)=\\sin^2\\frac\\phi2=\\frac{1-\\cos\\phi}{2}\\), as found in Section 5.2.3. Phase changes and rotations are the same operations seen in different bases.",
+        "answer": "Since \\(H(aI+bX)H=aHIH+bHXH=aI+bZ\\), we get \\(HR_x(\\theta)H=\\cos\\frac\\theta2I-i\\sin\\frac\\theta2Z=R_z(\\theta)\\). On the diagonal, \\(R_z(\\theta)=\\mathrm{diag}(e^{-i\\theta/2},e^{i\\theta/2})=e^{-i\\theta/2}\\,\\mathrm{diag}(1,e^{i\\theta})=e^{-i\\theta/2}R_\\theta\\). Hence \\(HR_\\phi H=e^{i\\phi/2}HR_z(\\phi)H=e^{i\\phi/2}R_x(\\phi)\\), because \\(H\\) undoes itself. The interference circuit is, up to global phase, a single rotation about the \\(X\\) direction by \\(\\phi\\): from \\(\\ket0\\) it gives \\(p(1)=\\sin^2\\frac\\phi2=\\frac{1-\\cos\\phi}{2}\\), as found for the phase circuit. Phase changes and rotations are the same operations seen in different bases.",
         "review": "topic-5-3-2"
       }
     ]

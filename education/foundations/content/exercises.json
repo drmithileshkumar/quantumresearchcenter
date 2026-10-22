@@ -32,7 +32,7 @@
   },
   {
    "kind": "Worked problem",
-   "question": "A “lookup-table theory” records the outcomes of the first \\(1000\\) runs of every experiment performed so far and predicts, for each, probabilities equal to the observed frequencies. (a) Does it fit the data? (b) What does it predict for a magnet tilted at an angle never tried? (c) Which obstacle of Section 1.1.1 does it illustrate?",
+   "question": "A “lookup-table theory” records the outcomes of the first \\(1000\\) runs of every experiment performed so far and predicts, for each, probabilities equal to the observed frequencies. (a) Does it fit the data? (b) What does it predict for a magnet tilted at an angle never tried? (c) Which of the three obstacles between outcomes and theories does it illustrate?",
    "hints": [
     "It fits by construction.",
     "A theory must say something about arrangements that have not been built."
@@ -47,7 +47,7 @@
     "The fraction of uniformly distributed \\(\\lambda\\) below a threshold equals the threshold.",
     "With \\(\\lambda\\) fixed, the outcome is determined."
    ],
-   "answer": "(a) \\(\\cos^2(\\theta/2)\\), matching the observed single-device statistics. (b) Probability \\(0\\) or \\(1\\) for every angle: the model is deterministic, and its intermediate probabilities express ignorance of \\(\\lambda\\). (c) A theory that predicts probabilities need not be random. The framework includes deterministic theories, so assuming probabilities does not assume randomness; that must be derived, as Chapter 6 does.",
+   "answer": "(a) \\(\\cos^2(\\theta/2)\\), matching the observed single-device statistics. (b) Probability \\(0\\) or \\(1\\) for every angle: the model is deterministic, and its intermediate probabilities express ignorance of \\(\\lambda\\). (c) A theory that predicts probabilities need not be random. The framework includes deterministic theories, so assuming probabilities does not assume randomness; that must be derived, as continuous reversibility does.",
    "review": "topic-1-2-2"
   },
   {
@@ -67,7 +67,7 @@
     "The framework is what any testable theory provides.",
     "A theorem is derived; a principle is assumed and has a foil."
    ],
-   "answer": "(a) Framework: a random device is itself a laboratory procedure. (b) Principle, continuous reversibility, with classical theory as its foil. (c) Theorem, derived in Chapter 9 from continuous reversibility, with the identification of the generator as energy added as a physical link. (d) Theorem, derived in Chapter 2 from the framework and finiteness.",
+   "answer": "(a) Framework: a random device is itself a laboratory procedure. (b) Principle, continuous reversibility, with classical theory as its foil. (c) Theorem, derived from continuous reversibility, with the identification of the generator as energy added as a physical link. (d) Theorem, derived from the framework and finiteness.",
    "review": "topic-1-3-1"
   },
   {
@@ -77,7 +77,7 @@
     "Bell’s model is a different theory with a different state space.",
     "Consider pairs of spins."
    ],
-   "answer": "Bell’s model adds hidden states beneath the quantum states, so it is a different theory. It agrees with quantum theory on single spins but not on pairs, where its correlations obey the Bell inequalities that experiments violate. Within quantum theory, Chapter 6 derives randomness for pure states, which cannot be decomposed further; Chapters 12 and 13 show that any hidden-variable completion must be contextual and nonlocal. Agreement on one family of experiments does not establish that the randomness is ignorance.",
+   "answer": "Bell’s model adds hidden states beneath the quantum states, so it is a different theory. It agrees with quantum theory on single spins but not on pairs, where its correlations obey the Bell inequalities that experiments violate. Within quantum theory, continuous reversibility forces randomness for pure states, which cannot be decomposed further; contextuality and Bell’s theorem show that any hidden-variable completion must be contextual and nonlocal. Agreement on one family of experiments does not establish that the randomness is ignorance.",
    "review": "topic-1-1-1"
   },
   {
@@ -169,7 +169,7 @@
     "Try \\(\\pm\\alpha\\).",
     "Count all fiducial numbers, including normalization."
    ],
-   "answer": "(a) Polarizations at \\(+30^\\circ\\) and \\(-30^\\circ\\) both pass with probability \\(\\cos^230^\\circ=0.75\\), yet a polarizer at \\(30^\\circ\\) passes one fully and the other with probability \\(\\cos^260^\\circ=0.25\\). One setting is not a fiducial set. (b) Three transmission probabilities plus normalization: \\(K=4\\), the value Chapter 7 derives for a qubit.",
+   "answer": "(a) Polarizations at \\(+30^\\circ\\) and \\(-30^\\circ\\) both pass with probability \\(\\cos^230^\\circ=0.75\\), yet a polarizer at \\(30^\\circ\\) passes one fully and the other with probability \\(\\cos^260^\\circ=0.25\\). One setting is not a fiducial set. (b) Three transmission probabilities plus normalization: \\(K=4\\), the value derived for the qubit.",
    "review": "topic-2-2-1"
   },
   {
@@ -189,7 +189,7 @@
     "Use induction on \\(m\\), halving intervals.",
     "A midpoint-affine function that is bounded on an interval is continuous."
    ],
-   "answer": "The formula holds at \\(0\\) and \\(1\\). If it holds at all multiples of \\(2^{-m}\\), each multiple of \\(2^{-(m+1)}\\) is a midpoint of two of them, where the midpoint rule gives the same linear value. So it holds at all dyadic rationals. A midpoint-affine function bounded on an interval is continuous (a classical result for Jensen’s equation), and dyadic rationals are dense, so \\(f\\) is affine. This is the one-dimensional core of Section 2.3.",
+   "answer": "The formula holds at \\(0\\) and \\(1\\). If it holds at all multiples of \\(2^{-m}\\), each multiple of \\(2^{-(m+1)}\\) is a midpoint of two of them, where the midpoint rule gives the same linear value. So it holds at all dyadic rationals. A midpoint-affine function bounded on an interval is continuous (a classical result for Jensen’s equation), and dyadic rationals are dense, so \\(f\\) is affine. This is the one-dimensional core of the linearity of probabilities.",
    "review": "topic-2-3-1"
   },
   {
@@ -301,7 +301,7 @@
     "Check adjacent and opposite corners separately.",
     "Partial overlap of pure states is what makes copying impossible in quantum theory."
    ],
-   "answer": "Adjacent corners differ in one coordinate, distinguished by \\(p_X\\) or \\(p_Z\\); opposite corners differ in both. So all six pairs are distinguishable. In the disc, Problem 3.2 shows that only antipodal pairs are. In the square, a single measurement can identify which of any two pure states is present, so copying a pure state known to be one of two is possible; in the disc, pure states overlap partially, the situation in which quantum theory forbids cloning (Chapter 13).",
+   "answer": "Adjacent corners differ in one coordinate, distinguished by \\(p_X\\) or \\(p_Z\\); opposite corners differ in both. So all six pairs are distinguishable. In the disc, only antipodal pairs are. In the square, a single measurement can identify which of any two pure states is present, so copying a pure state known to be one of two is possible; in the disc, pure states overlap partially, the situation in which quantum theory forbids cloning.",
    "review": "topic-3-3-2"
   }
  ],
@@ -383,7 +383,7 @@
     "Recall the shared coin.",
     "Distinguish correlation from control."
    ],
-   "answer": "A shared coin that prepares both systems in \\(0\\) or both in \\(1\\) produces perfect correlation with no influence. No-signaling excludes that one laboratory’s choice changes the other’s local statistics; it does not exclude correlation. Whether all no-signaling correlations have common-cause explanations is a separate question, answered negatively by Bell’s theorem in Chapter 13.",
+   "answer": "A shared coin that prepares both systems in \\(0\\) or both in \\(1\\) produces perfect correlation with no influence. No-signaling excludes that one laboratory’s choice changes the other’s local statistics; it does not exclude correlation. Whether all no-signaling correlations have common-cause explanations is a separate question, answered negatively by Bell’s theorem.",
    "review": "topic-4-1-2"
   },
   {
@@ -393,7 +393,7 @@
     "Local statistics fix only \\(K_AK_B\\) numbers.",
     "Some effect on the pair must depend on the extra number."
    ],
-   "answer": "Two joint states can agree on all \\(K_AK_B\\) local correlation probabilities and differ in the extra parameter. Only a global measurement on the pair, whose effect is not a combination of products of local effects, can reveal the difference. Pooled local records are functions of the local correlations, so they cannot. Chapter 7 shows that real quantum theory behaves exactly like this, with \\(K=10\\) instead of \\(9\\) for two bits.",
+   "answer": "Two joint states can agree on all \\(K_AK_B\\) local correlation probabilities and differ in the extra parameter. Only a global measurement on the pair, whose effect is not a combination of products of local effects, can reveal the difference. Pooled local records are functions of the local correlations, so they cannot. Real quantum theory, constructed with the qubit, behaves exactly like this, with \\(K=10\\) instead of \\(9\\) for two bits.",
    "review": "topic-4-2-1"
   },
   {
@@ -425,7 +425,7 @@
     "Substitute \\(N=2\\).",
     "Normalization removes one parameter."
    ],
-   "answer": "\\(K=8\\), so normalized states would form a \\(7\\)-dimensional convex set. The derivation of Chapter 7 excludes this, leaving \\(r=2\\).",
+   "answer": "\\(K=8\\), so normalized states would form a \\(7\\)-dimensional convex set. The theorem on reversible interaction of two bits excludes this, leaving \\(r=2\\).",
    "review": "topic-5-3-1"
   },
   {
@@ -460,7 +460,7 @@
   },
   {
    "kind": "Worked problem",
-   "question": "Classical Hamiltonian flow moves points of phase space continuously and reversibly. (a) Why does this not contradict Section 5.2? (b) Divide phase space into \\(N\\) cells and suppose the flow over one step maps cells to cells. What kind of map is the step, and what happens to continuity?",
+   "question": "Classical Hamiltonian flow moves points of phase space continuously and reversibly. (a) Why does this not contradict the absence of continuous reversible change for finite classical systems? (b) Divide phase space into \\(N\\) cells and suppose the flow over one step maps cells to cells. What kind of map is the step, and what happens to continuity?",
    "hints": [
     "How many perfectly distinguishable configurations does a point particle have?",
     "A bijection of finitely many cells is a permutation."
@@ -562,17 +562,17 @@
   },
   {
    "kind": "Worked problem",
-   "question": "The symmetry group of a triangle (all six permutations of its corners) acts transitively on its pure states, and all corners are at the same distance from the centroid. Does this triangle satisfy continuous reversibility? What does the example show about the argument of Section 6.3.1?",
+   "question": "The symmetry group of a triangle (all six permutations of its corners) acts transitively on its pure states, and all corners are at the same distance from the centroid. Does this triangle satisfy continuous reversibility? What does the example show about the argument that pure states lie on a sphere?",
    "hints": [
     "Is the permutation group connected?",
     "Equal distance from \\(\\mu\\) is necessary, not sufficient."
    ],
-   "answer": "No. The group is finite, so only the identity is reachable continuously. The triangle passes the necessary test of Section 6.3.1, pure states equidistant from \\(\\mu\\), but this test does not imply continuous reversibility. Continuity is what forces a continuum of pure states, and with it a round state space.",
+   "answer": "No. The group is finite, so only the identity is reachable continuously. The triangle passes the necessary test of the sphere argument, pure states equidistant from \\(\\mu\\), but this test does not imply continuous reversibility. Continuity is what forces a continuum of pure states, and with it a round state space.",
    "review": "topic-6-3-1"
   },
   {
    "kind": "Worked problem",
-   "question": "Using the theorem of Section 6.2.1, show that a theory satisfying continuous reversibility with \\(N\\ge2\\) has infinitely many pure states, and conclude that \\(K>N\\).",
+   "question": "Using the intrinsic-randomness theorem, show that a theory satisfying continuous reversibility with \\(N\\ge2\\) has infinitely many pure states, and conclude that \\(K>N\\).",
    "hints": [
     "Different probabilities need different states.",
     "A simplex has exactly \\(N\\) pure states."
@@ -582,17 +582,17 @@
   },
   {
    "kind": "Misconception",
-   "question": "A student says: “If a pure state gives a random outcome, the theory must be incomplete: there must be more precise states that fix the outcome.” Respond using Section 6.2.2.",
+   "question": "A student says: “If a pure state gives a random outcome, the theory must be incomplete: there must be more precise states that fix the outcome.” Respond using the argument for randomness without ignorance.",
    "hints": [
     "Within the theory, pure states cannot be decomposed.",
     "Adding states changes the theory."
    ],
-   "answer": "Within the theory, a pure state is not a mixture of other states, so its randomness is not ignorance of a finer state of the theory. One can postulate a different theory with extra hidden states, but it must answer to its own principles; Chapter 12 shows that such states must be contextual, and Chapter 13 that, for composites, they must be nonlocal. The claim “must be incomplete” assumes determinism, which the course does not assume and does not derive.",
+   "answer": "Within the theory, a pure state is not a mixture of other states, so its randomness is not ignorance of a finer state of the theory. One can postulate a different theory with extra hidden states, but it must answer to its own principles; contextuality shows that such states must be contextual, and Bell’s theorem that, for composites, they must be nonlocal. The claim “must be incomplete” assumes determinism, which the course does not assume and does not derive.",
    "review": "topic-6-2-2"
   },
   {
    "kind": "Extension",
-   "question": "Bell’s model reproduces single-qubit statistics with predetermined outcomes. Explain why it does not contradict the theorem of Section 6.2.1.",
+   "question": "Bell’s model reproduces single-qubit statistics with predetermined outcomes. Explain why it does not contradict the intrinsic-randomness theorem.",
    "hints": [
     "Which state space does Bell’s model use?",
     "Does the model satisfy continuous reversibility for its own states?"
@@ -604,7 +604,7 @@
    "kind": "Extension",
    "question": "Explain why transitivity alone, without continuity, does not imply intrinsic randomness. Use the triangle as the example.",
    "hints": [
-    "Where did the proof of Section 6.2.1 use continuity?",
+    "Where did the proof of intrinsic randomness use continuity?",
     "Corners of a triangle are deterministic."
    ],
    "answer": "The proof used the intermediate value theorem along a continuous path. In the triangle, transitive permutations carry each corner to each other, but in discrete jumps, and every pure state assigns \\(0\\) or \\(1\\) to the indicator effects. Transitivity says pure states are equivalent; continuity is what forces pure states in between, and with them randomness.",
@@ -669,7 +669,7 @@
     "\\(\\braket+\\psi=(\\cos\\tfrac\\pi8+\\sin\\tfrac\\pi8)/\\sqrt2\\).",
     "\\(\\ket\\psi\\) has Bloch angle \\(\\theta=\\pi/4\\) in the \\(xz\\)-plane."
    ],
-   "answer": "\\(|\\braket+\\psi|^2=\\tfrac12(\\cos\\tfrac\\pi8+\\sin\\tfrac\\pi8)^2=\\tfrac12(1+\\sin\\tfrac\\pi4)\\approx0.854\\). The Bloch vectors \\((\\sin\\tfrac\\pi4,0,\\cos\\tfrac\\pi4)\\) and \\((1,0,0)\\) are at angle \\(\\pi/4\\), giving \\(\\tfrac12(1+\\cos\\tfrac\\pi4)\\approx0.854\\). The Born rule and the geometry of the ball agree, as Section 7.3 proved.",
+   "answer": "\\(|\\braket+\\psi|^2=\\tfrac12(\\cos\\tfrac\\pi8+\\sin\\tfrac\\pi8)^2=\\tfrac12(1+\\sin\\tfrac\\pi4)\\approx0.854\\). The Bloch vectors \\((\\sin\\tfrac\\pi4,0,\\cos\\tfrac\\pi4)\\) and \\((1,0,0)\\) are at angle \\(\\pi/4\\), giving \\(\\tfrac12(1+\\cos\\tfrac\\pi4)\\approx0.854\\). The Born rule and the geometry of the ball agree, as the derivation of the qubit’s probability rule proved.",
    "review": "topic-7-3-2"
   },
   {
@@ -687,7 +687,7 @@
    "question": "A student says: “Complex numbers in quantum mechanics are just convenient bookkeeping; real amplitudes would give the same predictions.” What is wrong?",
    "hints": [
     "What state space does a real qubit have?",
-    "Recall the network experiments of Chapter 17."
+    "Recall the network experiments that separate real from complex quantum theory."
    ],
    "answer": "Real \\(2\\times2\\) density matrices describe only the disc, so a real qubit lacks the states with \\(y\\ne0\\). One can simulate a complex qubit with an extra real qubit, but then composite systems behave differently, and Renou and collaborators showed that real quantum theory with independent sources cannot reproduce certain network correlations of complex quantum theory, which experiments observed in 2022. Complex numbers are physically significant, and the course traces them to local tomography.",
    "review": "topic-7-2-2"
@@ -791,7 +791,7 @@
     "Can the trine be obtained by randomly choosing projective measurements and relabeling outcomes?",
     "Each trine effect has rank one."
    ],
-   "answer": "Yes. The trine’s effects are rank-one and it is an extremal measurement: it cannot be written as a random choice among projective measurements followed by classical processing of their outcomes. It is genuinely more general, though, by Naimark’s theorem (Chapter 15), it is a projective measurement on a larger system.",
+   "answer": "Yes. The trine’s effects are rank-one and it is an extremal measurement: it cannot be written as a random choice among projective measurements followed by classical processing of their outcomes. It is genuinely more general, though, by Naimark’s theorem, it is a projective measurement on a larger system.",
    "review": "topic-8-3-2"
   },
   {
@@ -811,7 +811,7 @@
     "A disc has \\(K=3\\), so one new parameter per pair.",
     "Compare with the parameter count of real symmetric matrices."
    ],
-   "answer": "\\(K(N)=N+1\\cdot\\tfrac{N(N-1)}2=\\tfrac{N(N+1)}2\\), the count of real symmetric \\(N\\times N\\) matrices: real quantum theory. Its faces are discs, its parameter count is not multiplicative, and it violates local tomography, as Chapters 5 and 7 found.",
+   "answer": "\\(K(N)=N+1\\cdot\\tfrac{N(N-1)}2=\\tfrac{N(N+1)}2\\), the count of real symmetric \\(N\\times N\\) matrices: real quantum theory. Its faces are discs, its parameter count is not multiplicative, and it violates local tomography, as the parameter count and the construction of the real pair found.",
    "review": "topic-8-1-1"
   }
  ],
@@ -888,12 +888,12 @@
   },
   {
    "kind": "Misconception",
-   "question": "A student says: “The Schrödinger equation is a postulate justified by its experimental success.” What does Chapter 9 derive, and what does it still import?",
+   "question": "A student says: “The Schrödinger equation is a postulate justified by its experimental success.” What does the derivation of the dynamics prove, and what does it still import?",
    "hints": [
     "Which principle gives continuous one-parameter groups?",
     "Where does energy enter?"
    ],
-   "answer": "Continuous reversibility and time-homogeneity give a continuous one-parameter group of unitaries, and the theorem of Section 9.2.1 gives \\(U(t)=e^{-iHt/\\hbar}\\), from which the Schrödinger equation follows by differentiation. What is imported is the identification of the generator \\(H\\) with the energy of the system, a physical link shared with classical mechanics. The form of the equation is derived; which \\(H\\) describes a given system is physics.",
+   "answer": "Continuous reversibility and time-homogeneity give a continuous one-parameter group of unitaries, and the theorem on one-parameter groups gives \\(U(t)=e^{-iHt/\\hbar}\\), from which the Schrödinger equation follows by differentiation. What is imported is the identification of the generator \\(H\\) with the energy of the system, a physical link shared with classical mechanics. The form of the equation is derived; which \\(H\\) describes a given system is physics.",
    "review": "topic-9-3-1"
   },
   {
@@ -995,7 +995,7 @@
     "Are \\(X\\) and \\(Z\\) measured on the same systems in the relation?",
     "Distinguish preparation from measurement uncertainty."
    ],
-   "answer": "The Robertson relation compares the spread of \\(X\\) in one set of runs with the spread of \\(Z\\) in another, on identically prepared systems. It limits preparations: no state makes both sharp. Disturbance by measurement is a different question, with different relations, and Chapter 11 derives its qualitative form.",
+   "answer": "The Robertson relation compares the spread of \\(X\\) in one set of runs with the spread of \\(Z\\) in another, on identically prepared systems. It limits preparations: no state makes both sharp. Disturbance by measurement is a different question, with different relations, and the analysis of state update derives its qualitative form.",
    "review": "topic-10-3-2"
   },
   {
@@ -1015,7 +1015,7 @@
     "\\((X+Z)/\\sqrt2\\) has eigenvalues \\(\\pm1\\).",
     "Can \\((v(X)+v(Z))/\\sqrt2\\) be \\(\\pm1\\)?"
    ],
-   "answer": "\\((v(X)+v(Z))/\\sqrt2\\) is \\(\\pm\\sqrt2\\) or \\(0\\), never \\(\\pm1\\), so no assignment works. But \\(X\\), \\(Z\\), and \\((X+Z)/\\sqrt2\\) are measured by three different experiments, so nothing requires their individual values to add, only their expectations. This was Bell’s criticism of von Neumann’s early no-go argument. The Peres–Mermin argument of Chapter 12 requires additivity only among commuting observables.",
+   "answer": "\\((v(X)+v(Z))/\\sqrt2\\) is \\(\\pm\\sqrt2\\) or \\(0\\), never \\(\\pm1\\), so no assignment works. But \\(X\\), \\(Z\\), and \\((X+Z)/\\sqrt2\\) are measured by three different experiments, so nothing requires their individual values to add, only their expectations. This was Bell’s criticism of von Neumann’s early no-go argument. The Peres–Mermin argument requires additivity only among commuting observables.",
    "review": "topic-10-2-2"
   }
  ],
@@ -1197,7 +1197,7 @@
    "question": "A student says: “The Kochen–Specker theorem proves that hidden variables are impossible.” Correct the statement.",
    "hints": [
     "What assumption does the theorem need?",
-    "Recall Section 12.3.2."
+    "Recall what contextuality leaves open for hidden variables."
    ],
    "answer": "The theorem excludes noncontextual hidden variables: preassigned values independent of which compatible observables are measured together. Contextual hidden-variable theories, such as Bohmian mechanics, are consistent with it. The theorem constrains what deeper variables must be like; it does not exclude them.",
    "review": "topic-12-3-2"
@@ -1276,7 +1276,7 @@
   },
   {
    "kind": "Worked problem",
-   "question": "The Werner state is \\(v\\ketbra{\\Phi^+}{\\Phi^+}+(1-v)I/4\\). (a) Find its CHSH value with the optimal measurements of Section 13.3.1. (b) For which \\(v\\) does it violate the local bound?",
+   "question": "The Werner state is \\(v\\ketbra{\\Phi^+}{\\Phi^+}+(1-v)I/4\\). (a) Find its CHSH value with the optimal measurements found for \\(\\ket{\\Phi^+}\\). (b) For which \\(v\\) does it violate the local bound?",
    "hints": [
     "The noise term contributes zero to every correlation.",
     "Scale \\(2\\sqrt2\\) by \\(v\\)."
@@ -1403,17 +1403,17 @@
     "Is there any interaction in the calculation?",
     "Bunching comes from interference."
    ],
-   "answer": "The calculation of Section 14.2.2 involves no force: each photon passes the beam splitter independently. Bunching comes from the symmetry of the joint state, which makes the transmit–transmit and reflect–reflect amplitudes cancel. It is an interference effect of indistinguishability.",
+   "answer": "The beam-splitter calculation involves no force: each photon passes the beam splitter independently. Bunching comes from the symmetry of the joint state, which makes the transmit–transmit and reflect–reflect amplitudes cancel. It is an interference effect of indistinguishability.",
    "review": "topic-14-2-2"
   },
   {
    "kind": "Extension",
-   "question": "Explain why a coherent superposition of a bosonic and a fermionic state of the same pair cannot be prepared or detected, and relate this to the mass superselection rule of Chapter 16.",
+   "question": "Explain why a coherent superposition of a bosonic and a fermionic state of the same pair cannot be prepared or detected, and relate this to the mass superselection rule found from the symmetries of space.",
    "hints": [
     "Allowed observables commute with \\(S\\).",
     "A superselection rule forbids observable coherence between sectors."
    ],
-   "answer": "All allowed observables commute with \\(S\\), so none connect the symmetric and antisymmetric sectors, and a superposition across sectors has the same statistics as the mixture (Problem 14.1). The sectors are superselected. Bargmann’s analysis of the Galilean group gives a similar rule for different total masses: symmetry decides which superpositions are physically meaningful.",
+   "answer": "All allowed observables commute with \\(S\\), so none connect the symmetric and antisymmetric sectors, and a superposition across sectors has the same statistics as the mixture. The sectors are superselected. Bargmann’s analysis of the Galilean group gives a similar rule for different total masses: symmetry decides which superpositions are physically meaningful.",
    "review": "topic-14-1-2"
   },
   {
@@ -1503,7 +1503,7 @@
    "question": "A student says: “Decoherence solves the measurement problem, because the reduced state becomes a classical mixture.” What is missing?",
    "hints": [
     "Is the global state still a superposition?",
-    "Recall Problem 15.3."
+    "Recall the difference between a reduced state and a proper mixture."
    ],
    "answer": "Decoherence makes the reduced state of the system look like a mixture in the pointer basis and prevents interference between branches. The global state remains an entangled superposition of all outcomes, and nothing in the unitary dynamics selects one. Decoherence explains why interference is unobservable locally, not why a single outcome is recorded.",
    "review": "topic-15-3-2"
@@ -1515,12 +1515,12 @@
     "The first system’s basis states are paired with \\(\\ket0,\\ket1\\) in one and \\(\\ket1,\\ket0\\) in the other.",
     "Try \\(X\\)."
    ],
-   "answer": "\\((I\\otimes X)\\) maps \\(\\ket{00}\\mapsto\\ket{01}\\) and \\(\\ket{11}\\mapsto\\ket{10}\\), carrying the first purification to the second. All purifications on the same system are related by a unitary on the purifying system, as Section 15.1.2 states.",
+   "answer": "\\((I\\otimes X)\\) maps \\(\\ket{00}\\mapsto\\ket{01}\\) and \\(\\ket{11}\\mapsto\\ket{10}\\), carrying the first purification to the second. All purifications on the same system are related by a unitary on the purifying system, as the uniqueness of purification states.",
    "review": "topic-15-1-2"
   },
   {
    "kind": "Extension",
-   "question": "Explain, using the dilation of Section 15.2.1, why every channel obtained from a unitary on a larger system is completely positive, and why transposition is not of this form.",
+   "question": "Explain, using a unitary dilation, why every channel obtained from a unitary on a larger system is completely positive, and why transposition is not of this form.",
    "hints": [
     "Apply the dilation to half of an entangled state.",
     "Transposition on half of \\(\\ket{\\Phi^+}\\) gives a negative eigenvalue."
@@ -1555,7 +1555,7 @@
    "question": "Which observable generates spatial translations, and which generates time translations?",
    "hints": [
     "Stone’s theorem gives a generator for each continuous group.",
-    "Compare with Chapter 9."
+    "Compare with the Hamiltonian as the generator of time translations."
    ],
    "answer": "Momentum generates spatial translations, \\(T(a)=e^{-iap/\\hbar}\\); the Hamiltonian generates time translations, \\(U(t)=e^{-iHt/\\hbar}\\).",
    "review": "topic-16-2-2"
@@ -1627,7 +1627,7 @@
     "Consider Gleason, Wigner, and the Born rule.",
     "Which principle assumes finiteness?"
    ],
-   "answer": "Wigner’s theorem holds, and Gleason’s theorem holds for countably additive assignments, so the Born rule \\(\\tr(\\rho P)\\) and unitary or antiunitary symmetries survive. The reconstruction from operational principles fails because it relies on finiteness: there is no finite fiducial set, and the counting arguments of Chapters 5 and 8 do not apply. Infinite-dimensional systems are fixed instead by symmetry, as Section 16.3 shows.",
+   "answer": "Wigner’s theorem holds, and Gleason’s theorem holds for countably additive assignments, so the Born rule \\(\\tr(\\rho P)\\) and unitary or antiunitary symmetries survive. The reconstruction from operational principles fails because it relies on finiteness: there is no finite fiducial set, and the parameter-counting arguments do not apply. Infinite-dimensional systems are fixed instead by symmetry, as the imprimitivity and Stone–von Neumann theorems show.",
    "review": "topic-16-2-1"
   }
  ],
@@ -1636,7 +1636,7 @@
    "kind": "Quick check",
    "question": "Which principle yields \\(K_{AB}=K_AK_B\\) and the tensor product?",
    "hints": [
-    "Chapter 4.",
+    "Count the fiducial probabilities of a pair.",
     "Joint states from local statistics."
    ],
    "answer": "Local tomography.",
@@ -1647,7 +1647,7 @@
    "question": "Which theory is the foil for the purification principle?",
    "hints": [
     "In which theory do mixed states have no pure extension?",
-    "Recall Section 13.1.2."
+    "Recall pure joint states with mixed parts."
    ],
    "answer": "Classical probability theory: a pure classical joint state has pure marginals, so no mixed classical state can be purified.",
    "review": "topic-17-2-1"
@@ -1659,7 +1659,7 @@
     "One concerns energy.",
     "One concerns which particles are fermions."
    ],
-   "answer": "The identification of the generator of time translations with energy (Chapter 9) and the spin–statistics connection (Chapter 14). The Galilean symmetry of Chapter 16 is a further input beyond the finite-dimensional principles.",
+   "answer": "The identification of the generator of time translations with energy and the spin–statistics connection. Galilean symmetry is a further input beyond the finite-dimensional principles.",
    "review": "topic-17-1-1"
   },
   {
@@ -1689,14 +1689,14 @@
     "Local discriminability concerns composite states.",
     "One bit means \\(N=2\\)."
    ],
-   "answer": "(a) Local tomography. (b) The elementary system is a bit, \\(N=2\\), which with finiteness starts the derivation of Chapters 6 and 7. (c) Equivalence of subspaces. Different programs share the same structural ingredients under different names.",
+   "answer": "(a) Local tomography. (b) The elementary system is a bit, \\(N=2\\), which with finiteness starts the derivation of the ball and the qubit. (c) Equivalence of subspaces. Different programs share the same structural ingredients under different names.",
    "review": "topic-17-2-1"
   },
   {
    "kind": "Worked problem",
    "question": "Solèr’s theorem leaves three possible fields: real, complex, and quaternionic. Which principles of this course exclude the real and quaternionic options?",
    "hints": [
-    "Recall Chapter 7.",
+    "Recall how the dimension of the ball was fixed.",
     "Consider composite systems."
    ],
    "answer": "The real case is excluded by local tomography, since real quantum composites have more parameters than local statistics fix. The quaternionic case is excluded by counting (\\(K=6\\) for a bit) and by the failure of a well-behaved tensor product for composites. Both exclusions come from how systems combine.",
@@ -1707,7 +1707,7 @@
    "question": "A student says: “Since quantum theory has been derived from principles, it is now proven to be true.” Correct the statement.",
    "hints": [
     "What is the logical form of the derivation?",
-    "Recall Section 17.3.2."
+    "Recall why nature satisfying the principles is an empirical question."
    ],
    "answer": "The derivation shows that if the principles hold, the theory is quantum theory. Whether the principles hold is an empirical question, and each has foils that experiments could favor. The derivation makes quantum theory understandable and exposes it to sharper tests; it does not make it necessarily true.",
    "review": "topic-17-3-2"
@@ -1726,10 +1726,10 @@
    "kind": "Extension",
    "question": "List the features that any interpretation of quantum theory must reproduce, according to the course, and explain why they are not features of a particular interpretation.",
    "hints": [
-    "Chapters 6, 12, and 13.",
+    "Think of randomness, contextuality, and Bell inequalities.",
     "They follow from the principles."
    ],
-   "answer": "Intrinsic randomness for the theory’s pure states (Chapter 6), contextuality of any deeper variables (Chapter 12), and nonlocality of any deeper variables for composites (Chapter 13). They follow from the principles and from theorems about all hidden-variable completions, so every interpretation that reproduces quantum predictions must accommodate them, whatever it says about the measurement problem.",
+   "answer": "Intrinsic randomness for the theory’s pure states, contextuality of any deeper variables, and nonlocality of any deeper variables for composites. They follow from the principles and from theorems about all hidden-variable completions, so every interpretation that reproduces quantum predictions must accommodate them, whatever it says about the measurement problem.",
    "review": "topic-17-3-1"
   }
  ]

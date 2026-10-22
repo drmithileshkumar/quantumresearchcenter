@@ -1,34 +1,67 @@
+<div class="chapter-opening">
+<p class="chapter-intro">Our tests compare a program with its logical specification: H here, a CNOT there, on wires we numbered ourselves. A device offers something else. It has its own small set of operations, and each of its qubits can interact only with certain others. Earlier we named the compiler’s job, rewriting a circuit while keeping its meaning, without seeing it done.</p>
+<p>How does a logical program become executable on a specific device? We use one small circuit throughout: H on qubit 0, then a CNOT from qubit 0 to qubit 2. We first describe what a device offers, its native operations and its connections. On a line of three qubits, qubits 0 and 2 are not neighbours, so the CNOT forces the compiler to move states around, and we work out what that costs. We then open the compiler itself, see which choices it made, and check that the rewritten circuit still means the original one.</p>
+<p>The same circuit, compiled for two different connection patterns, shows where the extra cost comes from.</p>
+</div>
 <section class="book-section" id="section-10-1" aria-labelledby="section-10-1-heading"><h2 id="section-10-1-heading">10.1 Backend Targets</h2>
-<p>A circuit requests CNOT between qubits zero and two, but the device has only a line of neighboring qubits. Compilation must change the implementation while preserving the logical computation.</p>
-<h3>10.1.1 Native operations</h3><p>A backend target describes supported operations and the qubits on which they can act, often with timing and calibration information. A list of native gate names is not enough to describe all device constraints. The example uses a simple line coupling graph and an explicit gate basis so the routing problem is visible without contacting hardware.</p>
-<h3>10.1.2 Connectivity and device constraints</h3><p>Connectivity can force swaps or equivalent routing operations. Native entangling directions may also require extra gates. These costs depend on both the circuit and the chosen placement. Logical qubits are variables in the algorithm; physical qubits are execution locations. Their correspondence can change during compilation.</p>
+<p>Our circuit asks for a CNOT between qubits 0 and 2, but the device has only a line of qubits in which 0 touches 1 and 1 touches 2. Before the compiler can do anything, it needs a precise description of the device. What must that description contain? We consider the operations first, then the connections between qubits.</p>
+<h3>10.1.1 Native operations</h3><p>Which gates can the device actually perform? In Qiskit the device is called a <em>backend</em>, and its description is called its <em>target</em>. The target lists the native operations together with the qubits on which each one is available. It often adds how long each operation takes and how accurately it was last calibrated.</p>
+<p>Is a list of gate names enough? No, because an operation may exist on some qubits or qubit pairs and not on others. That is exactly the constraint our CNOT runs into. To see the problem without contacting a device, the companion builds a toy target by hand. Its native gates are <code>rz</code>, <code>sx</code>, <code>x</code> and <code>cx</code>, where <code>rz</code> is a Z rotation and <code>sx</code> is \(\sqrt X\), a quarter turn about X. Its connections form a line of three qubits.</p>
+<h3>10.1.2 Connectivity and device constraints</h3><p>Before asking how to run our CNOT, we must say which qubit is meant. The qubits of our program are <em>logical qubits</em>: variables of the algorithm. The device’s qubits are <em>physical qubits</em>: places where the computation happens. A compiler chooses which physical qubit holds each logical one, and that correspondence can change as the circuit runs.</p>
+<p>Now suppose logical qubits 0, 1 and 2 sit on physical qubits 0, 1 and 2 of the line. The CNOT from 0 to 2 cannot be applied directly. One way out is to swap the states of physical qubits 1 and 2. Logical qubit 2 then sits next to logical qubit 0, and the CNOT can act on physical qubits 0 and 1. A swap is three CNOTs, so this one logical CNOT becomes four. Some devices also allow a two-qubit gate in only one direction, and reversing it costs extra one-qubit gates. These costs depend on the circuit and on where we place it.</p>
 <div class="exercise"><p><strong>Problem 10.1.</strong> Why may a native gate count exceed a logical count?</p><details class="problem-solution"><summary>Worked solution</summary><p>A logical gate may require decomposition or routing. The two counts use different operation vocabularies.</p></details></div>
 </section>
 <section class="book-section" id="section-10-2" aria-labelledby="section-10-2-heading"><h2 id="section-10-2-heading">10.2 Transpilation</h2>
-<h3>10.2.1 Decomposition and synthesis</h3><p>Decomposition breaks a composite operation into smaller pieces. Synthesis constructs a sequence approximating a specified transformation within an error target. Transpilation can combine these with layout, routing, and simplification. Optimization levels select strategies; a larger level is not a proof of a smaller or better circuit for every instance.</p>
-<h3>10.2.2 Layout, routing, and optimization</h3><p>An initial layout assigns logical wires to physical positions. Routing may leave a final permutation. Comparing compiled matrices without accounting for that mapping can report a false error. The companion uses Operator.from_circuit so the circuit’s layout is interpreted, then checks equivalence with the original logical operator.</p>
+<p>We now know what the device offers and what our circuit asks for. Rewriting one into the other is called <em>transpilation</em>. It has to solve two problems in our example: H is not a native gate, and the CNOT acts on qubits that are not neighbours. We take the gate problem first, then the placement problem.</p>
+<h3>10.2.1 Decomposition and synthesis</h3><p>How does the compiler run H on a device whose only one-qubit gates are <code>rz</code>, <code>sx</code> and <code>x</code>? It rewrites H in those gates. The compiled circuit contains \(R_z(\pi/2)\,\sqrt X\,R_z(\pi/2)\), which equals H up to a global phase of \(\pi/4\), and Qiskit records that phase with the circuit. Breaking an operation into a known sequence of smaller ones is called <em>decomposition</em>.</p>
+<p>Some operations have no exact short decomposition in the available gates. For these, the compiler constructs a sequence that approximates the operation within a stated error. That is called <em>synthesis</em>. Transpilation combines decomposition and synthesis with placement, routing, and simplification. Its <em>optimization level</em>, from 0 to 3, selects how much effort these steps use. A higher level tries harder, but it does not guarantee a smaller or better circuit for every input.</p>
+<h3>10.2.2 Layout, routing, and optimization</h3><p>Now the CNOT. The compiler first fixes an <em>initial layout</em>, which places each logical qubit on a physical one. The companion fixes it to the identity, logical \(k\) on physical \(k\). Then <em>routing</em> inserts swaps wherever a two-qubit gate acts on non-neighbours. The compiled circuit for the line is exactly the plan we worked out by hand:</p>
+<pre><code>global phase: π/4
+         ┌─────────┐┌────┐┌─────────┐
+q_0 -> 0 ┤ Rz(π/2) ├┤ √X ├┤ Rz(π/2) ├──■──
+         └─────────┘├───┬┘└─────────┘┌─┴─┐
+q_1 -> 1 ─────■─────┤ X ├──────■─────┤ X ├
+            ┌─┴─┐   └─┬─┘    ┌─┴─┐   └───┘
+q_2 -> 2 ───┤ X ├─────■──────┤ X ├────────
+            └───┘            └───┘</code></pre>
+<p>Three CNOTs swap physical qubits 1 and 2, and the fourth acts on physical 0 and 1. The swap is never undone, so the circuit ends with logical qubit 1 on physical qubit 2 and logical qubit 2 on physical qubit 1. This leftover rearrangement is the <em>final layout</em>, which the companion prints as <code>[0, 2, 1]</code>.</p>
+<p>The final layout has a consequence for testing. If we compared the compiled circuit’s matrix directly with the original, the swapped wires would make a correct compilation look wrong. <code>Operator.from_circuit</code> reads the layout recorded with the compiled circuit and undoes it, so the comparison is between the same logical qubits.</p>
 <div class="exercise"><p><strong>Problem 10.2.</strong> What does an optimization level guarantee?</p><details class="problem-solution"><summary>Worked solution</summary><p>It selects a compilation strategy; it does not certify a globally minimal circuit or better physical performance on every backend.</p></details></div>
 </section>
 <section class="book-section" id="section-10-3" aria-labelledby="section-10-3-heading"><h2 id="section-10-3-heading">10.3 Compiler Inspection</h2>
-<h3>10.3.1 Pass managers</h3><p>A pass manager organizes analysis and transformation passes. Fixing seed_transpiler makes randomized choices reproducible within the tested implementation. Inspect the resulting layout, operation counts, and depth rather than treating compilation as a black box. Run several seeds only if that search effort is included in the reported classical cost.</p>
-<h3>10.3.2 Logical equivalence and physical resource counts</h3><p>The example compiles a three-qubit circuit to rz, sx, x, and cx on a line. It prints logical and compiled counts and checks semantic equivalence. For larger circuits, full matrices may be impossible; use component proofs, structured tests, and observable checks with stated limits. Resource estimates should include added ancillas, routing, synthesis precision, and the target model.</p><p>The complete companion below can be <a href="examples/chapter_10.py" download>downloaded as chapter_10.py</a>. Run it from a terminal using the course environment. Assertions check the stated behavior; printed counts are samples, not universal expected output.</p><pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 10.&quot;&quot;&quot;
-import numpy as np
-from qiskit import QuantumCircuit, transpile
-from qiskit.transpiler import CouplingMap
+<p>The compiler made choices: a layout, a route, a decomposition. Can we control those choices, reproduce them and report what they cost? We first look at the object that carries out the compilation, then check its output for meaning and count its resources.</p>
+<h3>10.3.1 Pass managers</h3><p>What actually runs when we compile? Transpilation is a sequence of steps called <em>passes</em>. Some passes analyse the circuit, for example by finding which gates act on non-neighbours. Others transform it, by choosing a layout, inserting swaps, or decomposing gates. An object that holds the passes and runs them in order is a <em>pass manager</em>.</p>
+<p>Qiskit’s convenience function <code>transpile</code> builds a standard pass manager for us and runs it. The companion builds that pass manager explicitly with <code>generate_preset_pass_manager</code>, giving it the optimization level, the native gates, the connections, the initial layout and a seed. Then <code>pass_manager.run(qc)</code> compiles the circuit. Some passes make random choices, and fixing <code>seed_transpiler</code> makes those choices reproducible within the tested implementation. Running several seeds and keeping the best result is a legitimate search, but its classical cost belongs in the report.</p>
+<p>The companion wraps this in a function, <code>compile_for(coupling_map)</code>, so that it can compile the same circuit for two connection patterns. <code>CouplingMap.from_line(3)</code> is our line. <code>CouplingMap.from_full(3)</code> connects every pair of qubits.</p>
+<h3>10.3.2 Logical equivalence and physical resource counts</h3><p>Does the compiled circuit still mean the original? For each connection pattern, the companion checks that <code>Operator.from_circuit(compiled)</code> is equivalent to the logical operator. Where does the extra cost come from? On the full pattern, the CNOT needs no routing and the count stays at one. On the line, it becomes four, as we predicted. The single-qubit gates are the same in both, so the difference is entirely the cost of connectivity.</p>
+<pre><code class="language-python">&quot;&quot;&quot;Runnable companion for Quantum Programming, Chapter 10.&quot;&quot;&quot;
+from qiskit import QuantumCircuit
+from qiskit.transpiler import CouplingMap, generate_preset_pass_manager
 from qiskit.quantum_info import Operator
 
 qc = QuantumCircuit(3)
 qc.h(0)
 qc.cx(0, 2)
-compiled = transpile(qc, basis_gates=[&quot;rz&quot;, &quot;sx&quot;, &quot;x&quot;, &quot;cx&quot;],
-    coupling_map=CouplingMap.from_line(3), initial_layout=[0, 1, 2],
-    optimization_level=1, seed_transpiler=19)
-logical = Operator.from_circuit(compiled)
-assert logical.equiv(Operator(qc))
-print(&quot;Logical&quot;, qc.count_ops(), &quot;compiled&quot;, compiled.count_ops())
-print(&quot;Layout:&quot;, compiled.layout)
+
+def compile_for(coupling_map):
+    # The same preset pipeline that transpile() builds internally.
+    pass_manager = generate_preset_pass_manager(
+        optimization_level=1, basis_gates=[&quot;rz&quot;, &quot;sx&quot;, &quot;x&quot;, &quot;cx&quot;],
+        coupling_map=coupling_map, initial_layout=[0, 1, 2], seed_transpiler=19)
+    return pass_manager.run(qc)
+
+line = compile_for(CouplingMap.from_line(3))
+full = compile_for(CouplingMap.from_full(3))
+for compiled in (line, full):
+    assert Operator.from_circuit(compiled).equiv(Operator(qc))
+assert full.count_ops()[&quot;cx&quot;] == 1 and line.count_ops()[&quot;cx&quot;] &gt; 1
+print(&quot;Logical&quot;, qc.count_ops())
+print(&quot;Line&quot;, line.count_ops(), &quot;full&quot;, full.count_ops())
+print(&quot;Line final layout:&quot;, line.layout.final_index_layout())
 </code></pre>
+<p class="source-note">Companion script: <a href="examples/chapter_10.py" download>chapter_10.py</a>.</p>
+<p>For larger circuits, the full matrix comparison is impossible, by the \(4^n\) count we derived for operators. Then we rely on tests of each component, structured tests on chosen inputs, and checks of observables, each stated with its limits. A resource report should also include any added ancillas, the routing, the precision of any synthesis, and the target it assumes.</p>
 <div class="exercise"><p><strong>Problem 10.3.</strong> Why record the layout with an experiment?</p><details class="problem-solution"><summary>Worked solution</summary><p>It tells which physical wires realize the logical ones and is needed to interpret observables and sometimes output mappings correctly.</p></details></div>
-<p>Compilation prepares a device-compatible workload. Hardware execution adds account access, budgets, and provenance.</p>
+<p>Our compiled circuit is ready for a device, but so far the device was a description we made up. Running on real hardware needs an account, a choice of backend, and a budget. How do we run a tested program there and interpret what comes back?</p>
 <p class="source-note">Sources and further study: <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/transpiler">IBM, transpiler API</a>.</p>
-<figure class="lesson-circuit"><div class="drawing-scroll" tabindex="0" role="group" aria-label="Circuit diagram; scroll horizontally on narrow screens"><img src="assets/bell.svg" alt="Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control." style="max-width:100%;height:auto"></div><figcaption>Bell-pair preparation. A Hadamard followed by CNOT makes (|00⟩+|11⟩)/√2. The first wire is the control.</figcaption></figure></section>
+</section>

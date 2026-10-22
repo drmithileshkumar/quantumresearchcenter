@@ -38,7 +38,7 @@
     "06-composite-systems",
     "Multi-Qubit Computation",
     "How do gates and measurements act on a register of qubits?",
-    "Extend single-qubit computation to joint registers, controlled gates, entanglement, and teleportation.",
+    "How does a computation act on a register of many qubits? Gates on single wires keep qubits independent; a controlled gate couples them, creates entanglement, and makes teleportation and parallel evaluation possible.",
     ""
   ],
   [

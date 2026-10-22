@@ -36,14 +36,14 @@
     ],
     "status": "draft",
     "development": {
-      "construction": "A message needs a physical carrier. But sending an object is only useful if the receiver can tell what it means. We will study a simple example: two cards, one imperfect detector, and a receiver trying to decide which card was sent.",
+      "construction": "What does a sender need in order to send a single yes-or-no answer? A physical carrier is necessary but not enough, because the receiver must also be able to read it. We first name the parts of a message: the preparations, the agreement that links them to meanings, and the rule the receiver uses to decode. Then we ask what a description of a preparation must contain, which separates what the sender knows from what the receiver can learn.",
       "worked_examples": [
         "Problem 1.1. Alice uses two different physical preparations. What must Bob be able to do for them to encode a reliably readable bit?",
         "Problem 1.2. How well does the rule “red means B, otherwise A” perform?",
         "Problem 1.3. Does a carrier with many possible physical settings guarantee many readable messages?",
         "Transfer problem. Suppose the prior for A rises to 9/10 while the detector responses stay the same. Find the best decoder and its success. Does this detector improve decision accuracy?"
       ],
-      "handoff": "We next quantify classical uncertainty and the resources needed to compress or protect messages.",
+      "handoff": "Bob’s uncertainty about the card has been described by two probabilities, but we have not yet measured how much uncertainty that is, or how many bits it would cost to remove it.",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     },
     "styles": [
@@ -55,7 +55,7 @@
     "title": "Classical Information",
     "question": "How much can a message be compressed or recovered after noise?",
     "example": "A biased binary source and a binary channel that sometimes flips a bit.",
-    "prerequisites": "Chapter 1; probability and logarithms are developed through coding examples.",
+    "prerequisites": "Encodings, decoders and conditioning from the card example; probability and logarithms are developed through coding examples.",
     "sections": [
       {
         "id": "section-2-1",
@@ -94,7 +94,7 @@
         "Problem 2.3. At e=0, what rate does the three-bit repetition code achieve?",
         "Transfer problem. A source emits A,B,C,D with probabilities 1/2,1/4,1/8,1/8. Compare a fixed two-bit encoding with the prefix code in the text over 1,000 independent symbols."
       ],
-      "handoff": "Classical probabilities add across mutually exclusive alternatives. Interference requires a different kind of quantity before probabilities are formed.",
+      "handoff": "Every rule in this chapter added probabilities of alternatives that exclude one another. Is every uncertainty about a physical carrier of that kind?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -103,7 +103,7 @@
     "title": "Quantum States",
     "question": "What description accounts for both interference and incompatible measurements?",
     "example": "A two-alternative interference experiment with a controllable relative phase.",
-    "prerequisites": "Chapters 1–2; complex amplitudes and vector notation are developed within the examples.",
+    "prerequisites": "Probabilities, conditioning and entropy; complex amplitudes and vector notation are developed within the examples.",
     "sections": [
       {
         "id": "section-3-1",
@@ -142,7 +142,7 @@
         "Problem 3.3. Can a unitary map both zero and one to plus?",
         "Transfer problem. A source prepares either \\(\\ket+\\) or \\(\\ket-\\) with equal probability and hides the label. Does an H readout distinguish this source from a source that always prepares \\((\\ket0+i\\ket1)/\\sqrt2\\)?"
       ],
-      "handoff": "The next chapter pairs configuration labels to describe two systems and discovers joint states that cannot be split into separate vectors.",
+      "handoff": "One observation is still unexplained. A device that records the path destroys the interference. The record is a second physical system, and we have no way yet to write a state for two systems together. What does such a state look like?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -151,7 +151,7 @@
     "title": "Composite Systems",
     "question": "Can the joint state contain information that separate state descriptions miss?",
     "example": "A Bell pair contrasted with independent preparations.",
-    "prerequisites": "Chapter 3; tensor products are developed by pairing configuration labels.",
+    "prerequisites": "Qubit states, unitaries and projective measurement; tensor products are developed by pairing configuration labels.",
     "sections": [
       {
         "id": "section-4-1",
@@ -190,7 +190,7 @@
         "Problem 4.3. Can Bob tell from his local counts whether Alice measured her Bell half?",
         "Transfer problem. For \\(\\ket{\\Phi^-}=(\\ket{00}-\\ket{11})/\\sqrt2\\), compute the plus/minus joint distribution and each local marginal."
       ],
-      "handoff": "Density operators will combine uncertain preparations and reduced subsystem descriptions without confusing them with pure superpositions.",
+      "handoff": "We now have two quite different objects that agree on many predictions: a random choice between pure states, and one half of an entangled pair. A single vector describes neither. What description does?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -199,7 +199,7 @@
     "title": "Mixed States",
     "question": "How do we predict measurements when no single pure-state vector describes the preparation?",
     "example": "Compare a random choice of basis states with one half of a Bell pair.",
-    "prerequisites": "Chapters 2–4; density operators are constructed from averaged measurement probabilities.",
+    "prerequisites": "Marginal probabilities, the inner product and joint states; density operators are constructed from averaged measurement probabilities.",
     "sections": [
       {
         "id": "section-5-1",
@@ -238,7 +238,7 @@
         "Problem 5.3. Can the density matrix identify a unique preparation ensemble?",
         "Transfer problem. Find the matrix for an equal mixture of zero and plus. Can it equal a pure state with 0/1 probabilities 3/4 and 1/4?"
       ],
-      "handoff": "Interaction with an auxiliary system followed by discarding produces the general operations studied next.",
+      "handoff": "So far a system has either evolved alone, by a unitary, or been described as part of something larger. What happens to a qubit that interacts with another system which is then discarded?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -247,7 +247,7 @@
     "title": "Quantum Operations",
     "question": "What operations remain possible when a system interacts with something we do not observe?",
     "example": "A qubit coupled to an auxiliary qubit that is subsequently discarded.",
-    "prerequisites": "Chapters 3–5; operator sums and complete positivity are developed through composite examples.",
+    "prerequisites": "Unitaries, density operators, partial traces and purification; operator sums and complete positivity are developed through composite examples.",
     "sections": [
       {
         "id": "section-6-1",
@@ -286,7 +286,7 @@
         "Problem 6.3. Does reversing the retained qubit alone undo complete dephasing?",
         "Transfer problem. Apply phase-flip noise with probability p twice independently. Find the net flip probability and explain the cases p=1/2 and p=1."
       ],
-      "handoff": "A measurement is an operation whose branch record is retained. We now describe both the outcome probabilities and the conditional state changes.",
+      "handoff": "A measurement is a channel whose branch record we keep instead of discarding. If Bob keeps that record, which states can he be left in, and which measurements become possible?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -295,7 +295,7 @@
     "title": "Quantum Measurement",
     "question": "What can a measuring procedure reveal, and what does it leave behind?",
     "example": "An ancilla-assisted measurement of a qubit.",
-    "prerequisites": "Chapters 3–6; measurement effects and state updates are derived from circuits.",
+    "prerequisites": "Projective measurement and channels built from ancillas; measurement effects and state updates are derived from circuits.",
     "sections": [
       {
         "id": "section-7-1",
@@ -334,7 +334,7 @@
         "Problem 7.3. Why is a POVM insufficient to predict sequential measurements?",
         "Transfer problem. For the noisy square-root measurement and plus input, predict the probability of two consecutive zero records, using the same instrument both times. Are the two records independent?"
       ],
-      "handoff": "We can now optimize measurements for a concrete information task: guessing which of two known states was prepared.",
+      "handoff": "We can now describe any measurement, its probabilities and its aftermath. Suppose Bob knows that Alice sent one of two known states. Which measurement should he choose, and how often can he be right?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -343,7 +343,7 @@
     "title": "State Discrimination",
     "question": "How well can we identify a state chosen from known alternatives?",
     "example": "Distinguish two nonorthogonal qubit states with specified prior probabilities.",
-    "prerequisites": "Chapters 2–7; trace distance is introduced through decision probabilities.",
+    "prerequisites": "Conditioning and mutual information, density operators and POVMs; trace distance is introduced through decision probabilities.",
     "sections": [
       {
         "id": "section-8-1",
@@ -382,7 +382,7 @@
         "Problem 8.3. If one state has prior 0.99, is a fair guess the right baseline?",
         "Transfer problem. Bob receives two independent copies of the same hidden preparation, either zero or plus with equal priors. Use their overlap to compute the optimal decision success. Why is this allowed by no-cloning?"
       ],
-      "handoff": "The distinction between orthogonal and nonorthogonal inputs also limits copying, broadcasting, and signalling.",
+      "handoff": "Two copies are a different matter. If Alice sends two copies of her state, Bob faces the pair \\(\\ket{00}\\) versus \\(\\ket{++}\\), whose overlap is smaller, and he can do better. One copy is a fixed resource. Could Bob make his own second copy from it?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -391,7 +391,7 @@
     "title": "Information Constraints",
     "question": "Which apparently natural information-processing tasks are forbidden?",
     "example": "Attempt to copy two different nonorthogonal states with one fixed device.",
-    "prerequisites": "Chapters 4–8; physical assumptions are distinguished from mathematical consequences.",
+    "prerequisites": "Inner products, entanglement, channels and optimal discrimination; physical assumptions are distinguished from mathematical consequences.",
     "sections": [
       {
         "id": "section-9-1",
@@ -430,7 +430,7 @@
         "Problem 9.3. Would a copier for a known single state violate the theorem?",
         "Transfer problem. For the commuting family \\(\\rho_q\\), compare the broadcast output with \\(\\rho_q\\otimes\\rho_q\\) at q=1/2. Which measurement distinguishes them statistically?"
       ],
-      "handoff": "Entanglement protocols respect these constraints by explicitly consuming shared pairs and sending classical or quantum systems.",
+      "handoff": "Copying and signalling are ruled out. What can a shared Bell pair accomplish, then, when it is combined with ordinary communication?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -439,7 +439,7 @@
     "title": "Entanglement Protocols",
     "question": "What tasks become possible when separated parties share entanglement?",
     "example": "Teleport an unknown qubit using a Bell pair and two classical bits.",
-    "prerequisites": "Chapters 3–9; each protocol specifies its resources and communication assumptions.",
+    "prerequisites": "Bell pairs, Pauli-type operations X and Z, no-cloning and no-signalling; each protocol specifies its resources and communication assumptions.",
     "sections": [
       {
         "id": "section-10-1",
@@ -478,7 +478,7 @@
         "Problem 10.3. Can the endpoints use a particular swapped Bell state before learning the middle result?",
         "Transfer problem. Alice sends only the teleportation record n and withholds m. After correcting X using n, what state does Bob have? Which input states still survive?"
       ],
-      "handoff": "We next quantify uncertainty and correlations, including the striking fact that a pure pair can have uncertain individual parts.",
+      "handoff": "Every protocol here began with a pure Bell pair whose halves were each maximally uncertain. How much uncertainty is that, and how should we measure the correlation and entanglement between the halves?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -487,7 +487,7 @@
     "title": "Quantum Entropy",
     "question": "How should uncertainty and correlation be quantified for quantum systems?",
     "example": "Compare the entropy of a Bell pair with the entropy of either subsystem.",
-    "prerequisites": "Chapters 2 and 5–10; spectral representations and matrix logarithms are developed in context.",
+    "prerequisites": "Classical entropy and mutual information, density operators, partial traces and the protocols that use Bell pairs; spectral representations and matrix logarithms are developed in context.",
     "sections": [
       {
         "id": "section-11-1",
@@ -526,7 +526,7 @@
         "Problem 11.3. Does χ=0.601 mean each trial returns a fractional bit string?",
         "Transfer problem. Fully dephase Alice’s half of a Bell pair. Calculate the changes in joint entropy, quantum mutual information, and conditional entropy."
       ],
-      "handoff": "Entropy next becomes a physical resource rate: the number of qubits needed to preserve a repeated quantum source.",
+      "handoff": "Entropy now measures the uncertainty of a state. Does it also count something physical, such as the number of qubits a quantum source really needs?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -535,7 +535,7 @@
     "title": "Quantum Compression",
     "question": "How many qubits are needed to preserve the messages of a quantum source?",
     "example": "Compress repeated signals drawn from a biased qubit ensemble.",
-    "prerequisites": "Chapters 2, 5, and 11; typical subspaces and fidelity are introduced in context.",
+    "prerequisites": "Classical typical strings, density operators, fidelity and von Neumann entropy; typical subspaces are introduced in context.",
     "sections": [
       {
         "id": "section-12-1",
@@ -574,7 +574,7 @@
         "Problem 12.3. What compression rate follows for the maximally mixed qubit source?",
         "Transfer problem. A three-qubit compressor measures which one of 000,001,010,100 occurred and then sends its two-bit label. Test it on \\((\\ket{000}+\\ket{100})/\\sqrt2\\)."
       ],
-      "handoff": "Typical subspaces also explain how many weakly entangled pairs can supply a smaller number of nearly perfect Bell pairs.",
+      "handoff": "Many copies of a mixed state have a small typical subspace. Many copies of a weakly entangled pair have one too. Could Alice and Bob turn many weakly entangled pairs into fewer perfect Bell pairs?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -583,7 +583,7 @@
     "title": "Entanglement Transformations",
     "question": "Which shared states can be converted into others using only local actions and classical messages?",
     "example": "Compare conversion of a partially entangled pure pair into Bell pairs and the reverse task.",
-    "prerequisites": "Chapters 4–5 and 10–12; Schmidt coefficients and majorization are developed through conversions.",
+    "prerequisites": "Entanglement, reduced states, ebits and typical-string counting; Schmidt coefficients and majorization are developed through conversions.",
     "sections": [
       {
         "id": "section-13-1",
@@ -622,7 +622,7 @@
         "Problem 13.3. Why does an asymptotic rate not determine a one-copy conversion probability?",
         "Transfer problem. At p=0.9, compare the expected ebit yield of the one-copy filter with the asymptotic pure-state rate. What explains their difference?"
       ],
-      "handoff": "Preserving entanglement under noise leads to quantum error correction, where the environment must not learn the logical state.",
+      "handoff": "Entanglement was destroyed because an environment kept a record. Noise does this all the time. Can quantum information be stored so that the environment learns nothing about it?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -631,7 +631,7 @@
     "title": "Quantum Error Correction",
     "question": "How can an unknown state be protected without learning or copying its amplitudes?",
     "example": "Encode a qubit into a three-qubit code and correct a single bit flip.",
-    "prerequisites": "Chapters 4–7 and 9; code spaces and syndrome measurements are developed through circuits.",
+    "prerequisites": "Joint states, CNOT, measurement with ancillas and no-cloning; code spaces and syndrome measurements are developed through circuits.",
     "sections": [
       {
         "id": "section-14-1",
@@ -670,7 +670,7 @@
         "Problem 14.3. Does Z1 satisfy the correction criterion together with identity?",
         "Transfer problem. A noise process applies \\((I+iX_2)/\\sqrt2\\) to an encoded state. What syndrome probabilities and recovered state result?"
       ],
-      "handoff": "Codes protect states across repeated noisy uses. Channel capacity asks the best rate achievable by all such coding strategies.",
+      "handoff": "A code spends several physical qubits on one logical qubit, so it lowers the rate. For a given noisy channel, what is the best rate at which information can be sent through it reliably?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -679,7 +679,7 @@
     "title": "Quantum Communication",
     "question": "At what rates can noisy channels transmit classical or quantum information reliably?",
     "example": "Compare tasks performed using repeated uses of a noisy qubit channel.",
-    "prerequisites": "Chapters 6, 10–14; capacity theorems are introductory and their asymptotic assumptions are stated.",
+    "prerequisites": "Channels, Holevo information, teleportation, dense coding, conditional entropy and error correction; capacity theorems are introductory and their asymptotic assumptions are stated.",
     "sections": [
       {
         "id": "section-15-1",
@@ -718,7 +718,7 @@
         "Problem 15.3. Why is a single-use coherent information not generally “the quantum capacity”?",
         "Transfer problem. Compute the three stated erasure capacities at e=3/4. Why does the positive entanglement-assisted classical rate not contradict zero unassisted quantum capacity?"
       ],
-      "handoff": "Communication rates describe reliability. The final chapter asks when transmitted data can also be secret from an adversary.",
+      "handoff": "These rates describe reliable delivery. Can the same physics, no-cloning and the disturbance caused by measurement, also keep a message secret from an eavesdropper?",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   },
@@ -727,7 +727,7 @@
     "title": "Quantum Cryptography",
     "question": "How can observed quantum statistics support a claim of secrecy?",
     "example": "Use a prepare-and-measure key-distribution protocol to identify the information an eavesdropper might obtain.",
-    "prerequisites": "Chapters 7–11 and 15; security definitions and classical processing are introduced in context.",
+    "prerequisites": "POVMs, trace distance and the Helstrom bound, no-cloning, Holevo-type states and channel rates; security definitions and classical processing are introduced in context.",
     "sections": [
       {
         "id": "section-16-1",
@@ -766,7 +766,7 @@
         "Problem 16.3. Why is secrecy alone insufficient if Alice’s and Bob’s keys differ?",
         "Transfer problem. In the ideal intercept-resend model, Eve attacks a fraction f of signals independently. Find the expected sifted error rate. Can the same observed error determine f for an arbitrary attack?"
       ],
-      "handoff": "The course has moved from distinguishable messages to the operational limits of learning, preserving, transmitting, and protecting quantum information. Each rate or security claim depends on the same discipline: define the task, permitted resources, assumptions, and error criterion before asserting what is possible.",
+      "handoff": "Every claim, from a guess about a card to a secret-key rate, needs the task, resources, assumptions and error criterion stated first.",
       "review_status": "Expanded teaching draft with reproducible calculations, prediction prompts, transfer problems, and explicit theorem scope."
     }
   }

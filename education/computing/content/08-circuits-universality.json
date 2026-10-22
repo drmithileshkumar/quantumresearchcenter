@@ -114,7 +114,7 @@
   ],
   "opening": "Deutsch’s algorithm uses state preparation, an oracle, and a final interference step. A circuit describes how such operations are assembled from elementary gates acting on one or two qubits. Their construction determines costs that an oracle query count alone does not include.",
   "opening_continuation": [
-    "We begin with circuit notation and controls, then construct single-qubit gates, controlled gates, phase oracles, and reflections. Universality describes which operations a gate set can build or approximate. Gate count, depth, workspace, connectivity, and accumulated error describe the resources required.",
-    "These constructions supply the operations used next in quantum search and amplitude amplification."
+    "A box in a diagram hides how it is built, so we first make the reading of circuits exact, especially the difference between coherent and classical control. We then build the gates we have been using: rotations, controlled gates, and the phase oracle and reflection that search will need. That raises the question of whether a fixed gate set can build every operation, and what building means when a finite set can only approximate. Finally we measure what circuits cost, on paper and on a device that makes errors.",
+    "These constructions supply the operations used next in quantum search."
   ]
 }

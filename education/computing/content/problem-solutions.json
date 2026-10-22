@@ -212,7 +212,7 @@
   "topic-6-1-1": {
     "foundation": "Each joint amplitude is a product of local amplitudes, in the order \\(00,01,10,11\\): the first is \\(\\bigl(\\tfrac1{\\sqrt2},0,\\tfrac1{\\sqrt2},0\\bigr)^T\\), and the second is \\(\\bigl(0,\\tfrac35,0,\\tfrac45\\bigr)^T\\).",
     "application": "\\((H\\otimes I)\\ket{01}=(H\\ket0)\\otimes\\ket1=(\\ket{01}+\\ket{11})/\\sqrt2\\). \\((I\\otimes H)\\ket{01}=\\ket0\\otimes(H\\ket1)=(\\ket{00}-\\ket{01})/\\sqrt2\\). The same gate on a different qubit gives a different joint state.",
-    "challenge": "The coordinates of \\(a\\otimes b\\) are \\(a_ib_j\\), so \\(\\braket{a\\otimes b}{c\\otimes d}=\\sum_{i,j}(a_ib_j)^*c_id_j=\\Bigl(\\sum_ia_i^*c_i\\Bigr)\\Bigl(\\sum_jb_j^*d_j\\Bigr)=\\braket ac\\braket bd\\). With \\(c=a\\) and \\(d=b\\), \\(\\|a\\otimes b\\|^2=\\|a\\|^2\\|b\\|^2=1\\) for unit vectors."
+    "challenge": "The coordinates of \\(a\\otimes b\\) are \\(a_ib_j\\), so \\[\\braket{a\\otimes b}{c\\otimes d}=\\sum_{i,j}(a_ib_j)^*c_id_j\\]\\[=\\Bigl(\\sum_ia_i^*c_i\\Bigr)\\Bigl(\\sum_jb_j^*d_j\\Bigr)=\\braket ac\\braket bd.\\] With \\(c=a\\) and \\(d=b\\), \\(\\|a\\otimes b\\|^2=\\|a\\|^2\\|b\\|^2=1\\) for unit vectors."
   },
   "topic-6-1-2": {
     "foundation": "Yes: \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\tfrac{\\ket0+\\ket1}{\\sqrt2}=\\ket+\\ket+\\). Every product of the local amplitudes \\(1/\\sqrt2\\) is \\(1/2\\).",

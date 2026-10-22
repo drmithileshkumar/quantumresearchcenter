@@ -119,8 +119,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "A quantum computer does not try every answer at once and hand you the best one. It manipulates amplitudes, and at the end a measurement returns one outcome. An algorithm is useful only if the outcome it is likely to return answers the question you asked.",
-   "This chapter takes the smallest problem with a quantum advantage, deciding whether a hidden one-bit function has equal outputs, and treats it as a design exercise. We fix the problem and the form of access, find the encoding that makes the answer an amplitude, see what blocks interference, choose the measurement, prove correctness, and count the cost. Then we ask what the one-query result does and does not establish."
+   "In Quantum Computing we learned the rules of the game. A state is a list of amplitudes, gates act on it as unitary matrices, and a measurement returns one outcome with probability given by a squared amplitude. With those rules we followed a few algorithms, such as Deutsch’s and Grover’s, step by step.",
+   "Following an algorithm is not the same as designing one. A quantum computer does not try every answer and hand back the best; its final measurement returns a single outcome. Faced with a new problem, which decisions turn it into a circuit whose likely outcome is the answer we want?",
+   "We answer with the smallest case, Deutsch’s problem: does a hidden one-bit function give the same output on both inputs? A claim of speed means nothing until the question is fixed, so we fix it first. The question decides what access to the function we must assume. That access lets us encode the answer in signs and make the signs interfere, and a leftover record would block the interference, so we learn to remove it. The interfering amplitudes must then be read, which forces a choice of measurement and a count of repetitions. Only then can we prove the circuit correct for a whole family of inputs and compare its full cost with the best classical method.",
+   "The same decisions, made with stronger tools, build every algorithm in the rest of the course."
   ],
   "intro": "Every quantum algorithm in this course is built by the same sequence of decisions; Deutsch’s problem shows each one in its simplest form."
  },
@@ -225,8 +227,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "In Chapter 1 the oracle was a perfect box. Real algorithms build their oracles from gates, usually from an ordinary classical description of a function. That raises a problem classical programmers never face: intermediate results cannot simply be thrown away, and any that remain can silently destroy the interference the algorithm depends on.",
-   "This chapter turns function evaluation into a reliable quantum subroutine. We write down the contract a clean evaluation must satisfy, translate classical logic into reversible gates, remove the garbage by running the computation backwards, and count what that costs. We then build the related operations later chapters assume: phase oracles, reflections about prepared states, and controlled versions."
+   "In Deutsch’s problem the oracle was a perfect box. It flipped a target according to \\(f\\) and did nothing else. We also saw that a leftover bit which remembers the input destroys interference.",
+   "Real algorithms must build their oracles from gates, usually from an ordinary classical description of a function. An ordinary program stores intermediate results and later throws them away. A quantum circuit cannot throw anything away, and any intermediate result that remains is a which-path record. How can we evaluate a function on a superposition and leave behind only its value?",
+   "We start by writing down the contract a clean evaluation must meet. Translating classical logic into reversible gates meets that contract except for the intermediate results it leaves, so we remove them by running the computation backwards. The same construction gives phase oracles, and an experiment shows what is lost without it. Running backwards costs gates and the stored intermediates cost qubits, so we count both and learn to trade one for the other. Later algorithms will also reflect about prepared states and control whole subroutines, so we build these forms of access and find the global phase that control exposes.",
+   "With clean subroutines in hand, a function’s value can be kept as nothing but a sign, and signs are what the next technique reads."
   ],
   "intro": "Compute, copy the answer, uncompute: with that pattern, any classical function becomes a clean quantum oracle at about twice its classical cost."
  },
@@ -235,7 +239,7 @@
   "title": "Phase Encoding",
   "question": "How can a function change relative phases without leaving a record of its input?",
   "example": "A Boolean predicate encoded as a sign and read through a Hadamard.",
-  "prerequisites": "Chapter 2 and the phase-kickback construction in Quantum Computing.",
+  "prerequisites": "the Coherent Computation chapter and the phase-kickback construction in Quantum Computing.",
   "sections": [
    {
     "id": "section-3-1",
@@ -333,8 +337,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "Deutsch’s algorithm turned two function values into two signs and let them interfere. That is a special case of something far more general: whenever an operation changes a state only by a phase, the phase can be moved onto a control register, and interference can read it.",
-   "This chapter develops phase encoding as a technique. We state kickback for any unitary, build a circuit that measures a phase, and then read entire sign patterns on n qubits with one layer of Hadamards. Bernstein–Vazirani recovers a hidden string in one query. Simon’s problem shows how random constraints, combined by classical algebra, reveal hidden structure that no classical algorithm can find efficiently. Finally we produce finer phases from computed numbers and account for their precision."
+   "Deutsch’s algorithm turned two function values into two signs and let them interfere. Clean evaluation now lets us produce such signs for any function we can compute, and leave nothing else behind.",
+   "A sign is only the simplest phase, and two inputs are the smallest pattern. Whenever an operation changes a state only by a phase, can that phase be moved somewhere interference can read it? And can a whole pattern of signs on \\(n\\) qubits, or a phase finer than a sign, be read the same way?",
+   "We first show that kickback works for any unitary and any eigenstate, which gives a circuit that measures a phase. A layer of Hadamards then reads a sign pattern on \\(n\\) qubits in one step, provided the pattern has a special linear form; this recovers a hidden string with one query. Most hidden structure does not give so perfect a pattern, so Simon’s problem shows how random constraints from many runs, combined by classical algebra, reveal it, and introduces the vocabulary of groups and cosets that such structure needs. Finally we produce phases finer than a sign from computed numbers and bound the error their finite precision introduces.",
+   "Phases that advance steadily with a number, rather than flipping sign, are what the Fourier transform will read."
   ],
   "intro": "A phase is invisible until it is relative; once it is relative, interference can turn it into a measurement outcome."
  },
@@ -343,7 +349,7 @@
   "title": "Fourier Methods",
   "question": "How does a repeated pattern become a measurable frequency?",
   "example": "A periodic amplitude pattern on an eight-label register.",
-  "prerequisites": "Chapters 2–3; modular arithmetic and Fourier mathematics are developed in this chapter.",
+  "prerequisites": "the chapters from Coherent Computation to Phase Encoding; modular arithmetic and Fourier mathematics are developed in this chapter.",
   "sections": [
    {
     "id": "section-4-1",
@@ -456,8 +462,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "The Hadamard transform reads sign patterns. Many problems produce a richer pattern: phases that advance steadily, like the hand of a clock, e^{2πixy/N}. Periodic functions produce them. So do controlled powers of a unitary, applied to one of its eigenstates.",
-   "This chapter builds the transform that reads such patterns, the quantum Fourier transform, and shows that it needs only O(n²) gates on n qubits. Combining it with controlled powers and kickback gives phase estimation, which reads the eigenvalues of a unitary to many digits. Applied to modular multiplication, phase estimation finds orders, and a short classical argument turns orders into factors: Shor’s algorithm. We count its costs and place it in the family of hidden subgroup problems."
+   "Phase encoding gave us two ways to read phases. The Hadamard test reads one phase as the bias of a coin, and a layer of Hadamards reads a whole pattern of signs \\((-1)^{s\\cdot x}\\) in one step. Simon’s problem showed how such reads, repeated and combined classically, uncover a hidden subgroup.",
+   "Many problems produce a richer pattern: phases that advance steadily with a number, \\(e^{2\\pi ixy/N}\\), like the hand of a clock. Periodic functions produce them, and so do controlled powers of a unitary acting on one of its eigenstates. Signs are the case \\(N=2\\). Which transform reads a clock pattern for general \\(N\\), and can we build it with few gates?",
+   "We find that transform, the quantum Fourier transform, from the requirement that clock patterns for different numbers be distinguishable, and build it with \\(O(n^2)\\) gates on \\(n\\) qubits. Feeding it the phases kicked back by controlled powers gives phase estimation, which reads the eigenvalues of a unitary to many digits. Modular multiplication has the order of a number as an eigenphase, so phase estimation finds orders, and continued fractions recover the order from an approximate sample. A short classical argument then turns orders into factors, which is Shor’s algorithm, and the same strategy solves a whole family of hidden subgroup problems.",
+   "Fourier sampling returns a useful outcome only with some probability, which raises the question of how to make a small probability large."
   ],
   "intro": "The Fourier transform turns an unknown shift into an invisible phase and a hidden period into a visible frequency."
  },
@@ -466,7 +474,7 @@
   "title": "Amplitude Manipulation",
   "question": "How can a useful but unlikely outcome be made observable without knowing the answer?",
   "example": "Amplifying a nonuniform preparation with a known success test.",
-  "prerequisites": "Chapters 2–4 and the introductory course’s search and amplification arguments.",
+  "prerequisites": "the chapters from Coherent Computation to Fourier Methods and the introductory course’s search and amplification arguments.",
   "sections": [
    {
     "id": "section-5-1",
@@ -559,8 +567,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "Quantum Computing developed Grover search for one marked item among N. This chapter asks a stronger question. Suppose any procedure, a heuristic, a sampler, a randomized algorithm made reversible, produces a good answer with small probability, and good answers can be recognized. Can we raise the success probability without already knowing a good answer?",
-   "Two reflections, composed, make a rotation, and the rotation moves the state toward success. We work out the geometry in a plane, decide how many rotations to apply, and see how changing the phases of the reflections gives exact or overshoot-free amplification. Then we turn the rotation angle into a measurement: amplitude estimation reads probabilities with quadratically fewer calls than sampling. We end with an algorithm built from these pieces and with the lower bound that limits them."
+   "In Quantum Computing we met Grover search: one marked item among \\(N\\), found with about \\(\\sqrt N\\) queries. Since then we have learned to build clean oracles, to reflect about any state we can prepare, and to read eigenphases with phase estimation.",
+   "Search is a special case of a broader situation. Suppose some procedure, a heuristic, a sampler, or a randomized algorithm made reversible, produces a good answer with small probability, and good answers can be recognized. Can we raise the success probability without already knowing a good answer? And if we only want to know how likely success is, can we learn that probability faster than by sampling?",
+   "We find that two reflections, one about the prepared state and one about the good answers, compose into a rotation in a plane, and the rotation moves the state toward success. Because a rotation can overshoot, we must decide how many times to apply it, and changing the phases of the reflections gives exact or overshoot-free versions. A rotation’s angle is an eigenphase, so phase estimation can measure it, which estimates probabilities with quadratically fewer calls than sampling. We then build a minimum-finding algorithm from these pieces and prove that no algorithm searches an unstructured list faster.",
+   "Amplification is one rotation fixed by two reflections; letting the reflections be chosen by a graph gives a quantum walk."
   ],
   "intro": "Amplification and estimation are two uses of one rotation: apply it to raise a probability, or measure its angle to learn the probability."
  },
@@ -569,7 +579,7 @@
   "title": "Quantum Walks",
   "question": "How can graph structure organize useful interference?",
   "example": "A reversible walk around a small cycle with a marked vertex.",
-  "prerequisites": "Coherent control and reflections from Chapters 2 and 5; graph and spectral notions developed locally.",
+  "prerequisites": "Coherent control and reflections from Coherent Computation and Amplitude Manipulation; graph and spectral notions developed locally.",
   "sections": [
    {
     "id": "section-6-1",
@@ -667,8 +677,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "Random walks are one of the most versatile tools of classical algorithms. Wander randomly on a graph and you sample, explore, and find things, with costs governed by how quickly the walk mixes. A quantum walk wanders in superposition: routes to the same vertex carry amplitudes, and they can cancel or reinforce.",
-   "This chapter builds quantum walks in three forms: a coined walk on a line or cycle, a continuous-time walk generated by a graph, and Szegedy’s walk built from two reflections determined by a classical Markov chain. The first spreads quadratically faster than a random walk. The last converts a classical spectral gap δ into a quantum phase gap of order √δ, which yields a general quadratic speedup for search on graphs and the optimal algorithm for element distinctness."
+   "Amplitude amplification composed two reflections into a rotation. The rotation moved a prepared state toward the good answers in about \\(1/\\sqrt p\\) steps, where classical repetition needs \\(1/p\\), and a lower bound showed that unstructured search can do no better.",
+   "Most search problems have structure. A classical algorithm often exploits it by a random walk: wander on a graph, step to random neighbours, and look at where you end up. Its cost is set by how quickly the walk spreads and mixes. What happens if the walker moves in superposition, so that routes to the same vertex carry amplitudes that can cancel or reinforce? Can such a walk find things faster than its classical counterpart?",
+   "We first try to make a random walk coherent and find that the walker must carry a coin, and the resulting walk spreads quadratically faster than a random one. To explain that speed we need a walk that flows continuously in time, which requires the exponential of a matrix, and its eigenvectors on a cycle are Fourier modes whose phases advance at fixed speeds. For a general graph the eigenvectors are unknown, so we build a walk from two reflections chosen by a classical Markov chain, as in amplification. Its rotation angles turn a classical spectral gap \\(\\delta\\) into a quantum gap of order \\(\\sqrt\\delta\\), and that gives quadratic speedups for search on graphs and an optimal algorithm for element distinctness.",
+   "The walk’s rotations come from a matrix of overlaps, and the same mechanism will act on any matrix once we can place it inside a unitary."
   ],
   "intro": "A quantum walk is amplitude amplification with reflections chosen by a graph: a gap δ becomes √δ."
  },
@@ -677,7 +689,7 @@
   "title": "Operator Embedding",
   "question": "How can a unitary circuit represent a transformation that is not unitary?",
   "example": "Embedding a scaled two-by-two matrix using an auxiliary qubit.",
-  "prerequisites": "Chapters 2 and 5; operator norms and normalization are developed through the embedding.",
+  "prerequisites": "Coherent Computation and Amplitude Manipulation; operator norms and normalization are developed through the embedding.",
   "sections": [
    {
     "id": "section-7-1",
@@ -775,8 +787,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "Every operation so far has been unitary, yet many of the problems we would like to solve are about matrices that are not: Hamiltonians to be exponentiated, systems of equations to be inverted, projectors to be applied. A quantum circuit preserves lengths. How can it apply a matrix that does not?",
-   "The answer is to embed the matrix as one block of a larger unitary, acting on the system together with ancilla qubits. On the branch where the ancillas return to zero, the system has been multiplied by the matrix; the missing length went into other branches. This chapter builds such block encodings from sums of unitaries, composes them, amplifies them, and asks what it costs to supply one, a question that decides whether a claimed speedup survives."
+   "Every operation so far has been unitary. Kickback, the Fourier transform, reflections and walks all preserve the length of every state, and phase estimation reads the eigenvalues of unitaries.",
+   "Many of the problems we would like to solve are about matrices that are not unitary: a Hamiltonian whose eigenvalues we want, a system of linear equations to invert, a projector to apply. A quantum circuit preserves lengths, and these matrices change them. How can a circuit apply a matrix that does not preserve length?",
+   "We find that it can if the missing length is sent into another branch: the matrix becomes one block of a larger unitary, acting on the system together with ancilla qubits, and it takes effect when the ancillas return to zero. To build such block encodings we add unitaries coherently with an ancilla that chooses the term, which covers Hamiltonians written as sums of Pauli strings. Encodings of two matrices then multiply, their errors add, and when the encoded matrix is proportional to a unitary its success probability can be raised to one without knowing the input. Finally we ask what it costs to supply an encoding when the matrix is given by a rule or as stored data, which decides whether a claimed speedup survives.",
+   "A block encoding applies its matrix once, and most algorithms want a function of the matrix instead."
   ],
   "intro": "A block encoding is the interface between matrices and circuits: it makes clear what an algorithm consumes, and what supplying that costs."
  },
@@ -785,7 +799,7 @@
   "title": "Polynomial Transformations",
   "question": "How can a short circuit transform an entire spectrum without reading its eigenvalues?",
   "example": "Constructing a low-degree filter on an encoded two-level operator.",
-  "prerequisites": "Chapters 5–7; polynomial approximation introduced through the required filter.",
+  "prerequisites": "the chapters from Amplitude Manipulation to Operator Embedding; polynomial approximation introduced through the required filter.",
   "sections": [
    {
     "id": "section-8-1",
@@ -866,8 +880,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "A block encoding applies a matrix once. Most algorithms want a function of it: an inverse to solve equations, an exponential to simulate dynamics, a projector to isolate the ground state. Measuring the eigenvalues first would collapse the superposition the algorithm depends on.",
-   "This chapter shows how to apply a polynomial to every eigenvalue at once. The idea starts with one qubit: repeated rotations by an unknown angle, interleaved with chosen phase shifts, produce a response that is a polynomial in the unknown. Qubitization turns any block encoding into such a rotation, one plane per eigenvalue, and singular value transformation extends the idea to arbitrary matrices. Algorithm design then becomes polynomial approximation, and the degree of the polynomial is the cost."
+   "A block encoding places a matrix inside a unitary. With linear combinations of unitaries we can build one for any Hamiltonian written as a sum of Pauli strings, and encodings multiply, so a sequence of them applies a product of matrices.",
+   "Most algorithms want a function of the matrix rather than the matrix itself: an inverse to solve equations, an exponential to simulate dynamics, a projector to isolate the ground state. Measuring the eigenvalues first and then acting would collapse the superposition the algorithm depends on, and multiplying encodings loses success probability with every factor. How can we apply a function to every eigenvalue at once, coherently and at modest cost?",
+   "We start with one qubit and one unknown number. Repeating a rotation that encodes the number, with chosen phase shifts in between, produces a response that is a polynomial in the number, and the conditions on reachable polynomials follow from the structure of the sequence. To act on a matrix we then need, for each eigenvalue, a rotation of the same kind, and qubitization turns any suitable block encoding into exactly that, one plane per eigenvalue; singular value transformation extends the idea to matrices that are not Hermitian. Algorithm design then becomes polynomial approximation, and the degree of the polynomial is the number of calls, which we work out for filters, matrix inversion and simulation.",
+   "Polynomial simulation is one way to build \\(e^{-iHt}\\); assembling it from short evolutions under the individual terms is the other."
   ],
   "intro": "Choose a polynomial, and the phases that implement it act on every eigenvalue of an encoded matrix in parallel; degree is cost."
  },
@@ -876,7 +892,7 @@
   "title": "Evolution Engineering",
   "question": "How can simple available evolutions reproduce a desired dynamics?",
   "example": "Alternating evolutions generated by X and Z, then tracking their error.",
-  "prerequisites": "Chapters 4, 7, and 8; Hamiltonians and the needed series expansions are developed within the examples.",
+  "prerequisites": "Fourier Methods, Operator Embedding, and Polynomial Transformations; Hamiltonians and the needed series expansions are developed within the examples.",
   "sections": [
    {
     "id": "section-9-1",
@@ -962,8 +978,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "Simulating quantum systems was the first reason anyone wanted a quantum computer, and it remains the application with the clearest case for an advantage. A classical computer tracking n qubits needs 2ⁿ numbers; a quantum computer needs n qubits and a circuit for e^{−iHt}.",
-   "This chapter builds that circuit from pieces. A Hamiltonian is a sum of simple terms, each easy to exponentiate; the difficulty is that they do not commute. We bound the error of alternating short evolutions, improve it by symmetry, implement each piece with gates, and compare the result fairly with the polynomial methods of Chapter 8. Then we change the Hamiltonian itself, slowly, to carry an easy ground state into a useful one, and find that the success of that strategy depends on an energy gap that is rarely known."
+   "Polynomial transformations gave one way to build \\(e^{-iHt}\\): encode \\(H\\) in a block, qubitize it, and apply a polynomial approximation of the exponential, with degree close to \\(\\lambda t\\). Simulating quantum systems was the first reason anyone wanted a quantum computer, and it remains the application with the clearest case for an advantage. A classical computer tracking \\(n\\) qubits needs \\(2^n\\) numbers; a quantum computer needs \\(n\\) qubits and a circuit for \\(e^{-iHt}\\).",
+   "Block encodings cost ancillas and elaborate PREPARE and SELECT circuits. A Hamiltonian is usually a sum of simple terms, and each term on its own is easy to exponentiate. Can we build the whole evolution from short evolutions under the terms, and how large is the error when the terms do not commute?",
+   "We find that alternating short evolutions is exact for commuting terms and errs by an amount set by the commutator otherwise, which tells us how many steps a given accuracy needs. Making the alternation symmetric cancels the leading error, and recursion gives formulas of any even order. Each short evolution then becomes a small circuit, which lets us compare product formulas fairly with polynomial methods and list the errors that lie outside the circuit altogether. Finally we change the Hamiltonian itself, slowly, to carry an easy ground state into a useful one, and find that success depends on an energy gap that is rarely known.",
+   "When the gap is unknown, the remaining option is to give up guarantees and tune a short circuit by measurement."
   ],
   "intro": "Evolution can be assembled from short steps whose error is set by commutators, or steered by slow change whose success is set by a gap."
  },
@@ -1053,8 +1071,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "Every algorithm so far came with a guarantee, and every guarantee came with a cost: long, precise, coherent circuits. Variational methods make a different bargain. Take a short circuit with adjustable angles, measure how good its output is, and let a classical optimizer turn the knobs.",
-   "This chapter works through that bargain carefully. We set up an example small enough to solve exactly, count the measurements an energy estimate needs, compute gradients from shifted circuits, and meet the noise and flat landscapes that make optimization hard at scale. Then we examine the variational eigensolver and the quantum approximate optimization algorithm for what can be proved, what can only be tested, and what evidence would establish an advantage."
+   "Every algorithm so far came with a guarantee: a proof that it succeeds and a count of what it costs. Phase estimation reads energies to precision \\(\\epsilon\\) with about \\(1/\\epsilon\\) coherent steps, product formulas and polynomials build \\(e^{-iHt}\\) with bounded error, and slow evolution prepares ground states when the gap is large.",
+   "Each guarantee came with long, precise, coherent circuits, and adiabatic evolution needed a gap that is rarely known. Suppose we accept a short circuit with adjustable angles, measure how good its output is, and let a classical optimizer turn the knobs. What can such a bargain deliver, and what can we still prove about it?",
+   "We set up the bargain on an example small enough to solve exactly: a short circuit fixes the family of states we can reach, and the quantity to minimize is an expectation value estimated from measurements, whose cost in shots we count. Optimizing it needs gradients, which shifted circuits supply exactly, and noise from sampling and hardware then disturbs every step, while for many circuits the gradients vanish as the system grows. With these limits in view, we examine the variational eigensolver and the quantum approximate optimization algorithm for what can be proved, what can only be tested, and what evidence would establish an advantage.",
+   "Here measurement served only between circuits; next it acts inside them."
   ],
   "intro": "A variational algorithm is a heuristic: it can be useful, but only evidence of the right kind can show that it is."
  },
@@ -1063,7 +1083,7 @@
   "title": "Adaptive Measurement",
   "question": "When should the result of a measurement change the rest of the computation?",
   "example": "Reading a phase one bit at a time using a reusable auxiliary qubit.",
-  "prerequisites": "Chapters 2–5 and conditional measurement and teleportation from Quantum Computing.",
+  "prerequisites": "the chapters from Coherent Computation to Amplitude Manipulation and conditional measurement and teleportation from Quantum Computing.",
   "sections": [
    {
     "id": "section-11-1",
@@ -1144,8 +1164,10 @@
    "review_status": "Expanded teaching draft (October 2026): every subsection has worked reasoning, three problems with solutions, and a figure where it clarifies; small examples are checked numerically in checks/chapter_examples.py and checks/worked_examples.py; general theorems are cited."
   },
   "opening": [
-   "So far a measurement has been the end of a computation, or a report sent to a classical optimizer between runs. It need not be. A measurement outcome is a classical bit, available immediately, and it can choose what happens next: which correction to apply, which basis to measure in, whether to try again.",
-   "This chapter develops measurement as a technique. We track computations that branch on outcomes, and learn when branching can be traded for coherent control. Feedback then rebuilds phase estimation with a single qubit, and clarifies the ultimate limit on estimating a phase. Finally measurement performs the computation itself: gates teleported through entangled states, whole computations driven by adaptive measurements, and the non-Clifford gates of fault-tolerant machines supplied by injected magic states."
+   "So far a measurement has been the end of a computation, or a report sent to a classical optimizer between runs. Every technique before it, from kickback to qubitization, was coherent until the final readout.",
+   "A measurement outcome is a classical bit, available the moment it is obtained. Could it choose what happens next: which correction to apply, which basis to measure in, whether to try again? And if it can, what does that buy that coherent control cannot?",
+   "We first track computations that branch on mid-circuit outcomes and find that branching can often be traded for coherent control, and the reverse. The reverse trade rebuilds phase estimation with a single control qubit and classical feedback, which raises the question of the ultimate limit on estimating a phase. Finally measurement performs the computation itself: gates teleported through entangled states, whole computations driven by adaptive measurements, and the non-Clifford gates of fault-tolerant machines supplied by injected magic states.",
+   "With measurement inside the circuit, every stage of the design process we began with has a technique behind it."
   ],
   "intro": "A measurement outcome is information available mid-computation; used well, it saves qubits, removes randomness, and even applies gates."
  }

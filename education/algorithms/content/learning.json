@@ -11,7 +11,7 @@
   ],
   "example": "Deutsch’s problem: decide whether a hidden one-bit function has equal outputs, using one coherent query. The same design is then extended to the n-bit Deutsch–Jozsa family.",
   "limits": "All gates and oracles are ideal. Query counts exclude oracle construction. The Deutsch–Jozsa separation is exact and worst-case; it disappears against bounded-error classical algorithms.",
-  "next": "Chapter 2 builds clean coherent subroutines: function evaluations that leave the answer and restore their scratch space, so that temporary records do not block interference.",
+  "next": "the Coherent Computation chapter builds clean coherent subroutines: function evaluations that leave the answer and restore their scratch space, so that temporary records do not block interference.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -60,7 +60,7 @@
      "Write \\(f(x)=x\\cdot a\\) for a fixed string \\(a\\).",
      "The sum is \\(4\\) when every term is \\(+1\\) and \\(0\\) when half the terms are \\(-1\\)."
     ],
-    "answer": "For \\(f(x)=x_1\\oplus x_2=x\\cdot 11\\), the exponent is \\(x\\cdot(11\\oplus z)\\). When \\(z=11\\) every term is \\(+1\\) and the amplitude is \\(1\\); for any other \\(z\\) the string \\(11\\oplus z\\) is nonzero, exactly half the four inputs give \\(-1\\), and the amplitude is \\(0\\). The circuit outputs \\(11\\) with certainty. For \\(f(x)=1\\oplus x_1\\), the exponent is \\(1+x\\cdot(10\\oplus z)\\), so the outcome \\(10\\) has amplitude \\(-1\\) and all others \\(0\\). Both functions are balanced and both give a nonzero string, as the promise problem requires. But more is true: whenever \\(f(x)=a\\cdot x\\) (possibly complemented), the circuit returns \\(a\\) itself. That observation is the Bernstein–Vazirani algorithm developed in Chapter 3.",
+    "answer": "For \\(f(x)=x_1\\oplus x_2=x\\cdot 11\\), the exponent is \\(x\\cdot(11\\oplus z)\\). When \\(z=11\\) every term is \\(+1\\) and the amplitude is \\(1\\); for any other \\(z\\) the string \\(11\\oplus z\\) is nonzero, exactly half the four inputs give \\(-1\\), and the amplitude is \\(0\\). The circuit outputs \\(11\\) with certainty. For \\(f(x)=1\\oplus x_1\\), the exponent is \\(1+x\\cdot(10\\oplus z)\\), so the outcome \\(10\\) has amplitude \\(-1\\) and all others \\(0\\). Both functions are balanced and both give a nonzero string, as the promise problem requires. But more is true: whenever \\(f(x)=a\\cdot x\\) (possibly complemented), the circuit returns \\(a\\) itself. That observation is the Bernstein–Vazirani algorithm developed in the Phase Encoding chapter.",
     "review": "topic-1-5-1"
    },
    {
@@ -117,7 +117,7 @@
  },
  "02-coherent-computation": {
   "purpose": "Build clean coherent subroutines: function evaluations and arithmetic that leave exactly the requested output, restore their workspace, and offer the inverse and controlled access later algorithms need.",
-  "before": "Use the oracle contract, phase kickback, and which-path records from Chapter 1, and the reversible gates (NOT, CNOT, Toffoli) from Quantum Computing.",
+  "before": "Use the oracle contract, phase kickback, and which-path records from the Quantum Algorithmic Thinking chapter, and the reversible gates (NOT, CNOT, Toffoli) from Quantum Computing.",
   "outcomes": [
    "State the clean oracle contract and check whether a circuit satisfies it.",
    "Translate a Boolean circuit into reversible gates and identify the garbage it leaves.",
@@ -128,7 +128,7 @@
   ],
   "example": "The three-bit predicate f(a,b,c) = (a AND b) XOR c, built first with garbage, then cleanly by compute–copy–uncompute, then as a phase oracle tested by an interference experiment.",
   "limits": "Gates are ideal and the input is a basis-state superposition. Gate counts are construction bounds in a stated gate set, not lower bounds. Controlled access to an unknown black box is not assumed.",
-  "next": "Chapter 3 uses clean phase oracles to encode a hidden linear function in signs and recovers it in one query with a layer of Hadamards, then extends the idea to hidden structure and numerical phases.",
+  "next": "the Phase Encoding chapter uses clean phase oracles to encode a hidden linear function in signs and recovers it in one query with a layer of Hadamards, then extends the idea to hidden structure and numerical phases.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -157,7 +157,7 @@
      "The state is \\(2^{-5}\\sum_x\\ket x\\ket{f(x)}\\).",
      "How many repetitions are expected before the target reads \\(1\\)?"
     ],
-    "answer": "The marked branch has amplitude \\(2^{-5}\\), so the target reads \\(1\\) with probability \\(1/1024\\). When it does, the input collapses to the marked string \\(\\ket{x^*}\\), which can be read out. But a success probability of \\(1/N\\) means about \\(N\\) repetitions on average, the same as testing inputs one by one. The clean oracle has written the answer into the state without making it likely to be observed. Increasing the marked amplitude before measuring is the job of amplitude amplification in Chapter 5, which needs the reflections built from clean preparation and inverse access.",
+    "answer": "The marked branch has amplitude \\(2^{-5}\\), so the target reads \\(1\\) with probability \\(1/1024\\). When it does, the input collapses to the marked string \\(\\ket{x^*}\\), which can be read out. But a success probability of \\(1/N\\) means about \\(N\\) repetitions on average, the same as testing inputs one by one. The clean oracle has written the answer into the state without making it likely to be observed. Increasing the marked amplitude before measuring is the job of amplitude amplification in the Amplitude Manipulation chapter, which needs the reflections built from clean preparation and inverse access.",
     "review": "topic-2-4-3"
    },
    {
@@ -187,7 +187,7 @@
      "If the input amplitudes are \\(c_j\\), the output amplitude on \\(\\ket j\\) is \\(c_{j-1}\\).",
      "Compare \\(c_{j-1}\\) with \\(c_j\\)."
     ],
-    "answer": "Since \\(\\mathrm{INC}\\sum_jc_j\\ket j=\\sum_jc_{j-1}\\ket j\\) (indices mod 4), each output amplitude is the input amplitude of the previous label. For \\(\\ket\\chi\\), \\(c_j=(-1)^j/2\\) and \\(c_{j-1}=-c_j\\), so \\(\\mathrm{INC}\\ket\\chi=-\\ket\\chi\\). For \\(\\ket\\eta\\), \\(c_j=i^j/2\\) and \\(c_{j-1}=i^{-1}c_j\\), so \\(\\mathrm{INC}\\ket\\eta=-i\\ket\\eta\\). In general \\(c_j=i^{jk}/2\\) gives \\(c_{j-1}=i^{-k}c_j\\): the state is unchanged except for the factor \\(e^{-2\\pi ik/4}\\). These four states, one for each \\(k\\), are the eigenstates of modular addition; the arithmetic shows up only as a phase. Chapter 4 exploits exactly this: controlled powers of modular arithmetic, applied to such states, write \\(k/4\\) into a phase that the Fourier transform can read.",
+    "answer": "Since \\(\\mathrm{INC}\\sum_jc_j\\ket j=\\sum_jc_{j-1}\\ket j\\) (indices mod 4), each output amplitude is the input amplitude of the previous label. For \\(\\ket\\chi\\), \\(c_j=(-1)^j/2\\) and \\(c_{j-1}=-c_j\\), so \\(\\mathrm{INC}\\ket\\chi=-\\ket\\chi\\). For \\(\\ket\\eta\\), \\(c_j=i^j/2\\) and \\(c_{j-1}=i^{-1}c_j\\), so \\(\\mathrm{INC}\\ket\\eta=-i\\ket\\eta\\). In general \\(c_j=i^{jk}/2\\) gives \\(c_{j-1}=i^{-k}c_j\\): the state is unchanged except for the factor \\(e^{-2\\pi ik/4}\\). These four states, one for each \\(k\\), are the eigenstates of modular addition; the arithmetic shows up only as a phase. The Fourier Methods chapter exploits exactly this: controlled powers of modular arithmetic, applied to such states, write \\(k/4\\) into a phase that the Fourier transform can read.",
     "review": "topic-2-1-3"
    },
    {
@@ -212,7 +212,7 @@
    },
    {
     "kind": "Extension",
-    "question": "A preparation circuit A uses 500 gates. Each amplification iteration in Chapter 5 uses one reflection about the prepared state and one phase oracle costing 300 gates. Estimate the gate cost of 20 iterations, including an initial preparation, and identify which access assumptions the count relies on.",
+    "question": "A preparation circuit A uses 500 gates. Each amplification iteration in the Amplitude Manipulation chapter uses one reflection about the prepared state and one phase oracle costing 300 gates. Estimate the gate cost of 20 iterations, including an initial preparation, and identify which access assumptions the count relies on.",
     "hints": [
      "The reflection about the prepared state uses A, A†, and a zero-state reflection.",
      "The zero-state reflection on n qubits costs O(n) Toffolis; call it z gates."
@@ -222,7 +222,7 @@
    },
    {
     "kind": "Extension",
-    "question": "Suppose uncomputation is imperfect, so the two input branches of the test in Section 2.2.3 carry workspace states \\(\\ket{g_0}\\) and \\(\\ket{g_1}\\) instead of identical ones. After the CNOT the state is \\(\\frac{1}{\\sqrt2}(\\ket{000}\\ket{g_0}-\\ket{100}\\ket{g_1})\\). Show that the Hadamard on the first bit gives outcome \\(1\\) with probability \\(\\frac12(1+\\mathrm{Re}\\braket{g_0}{g_1})\\). Evaluate it for \\(\\ket{g_0}=\\ket0,\\ket{g_1}=\\ket+\\), and interpret the clean and fully dirty cases.",
+    "question": "Suppose uncomputation is imperfect, so the two input branches of the garbage-interference test carry workspace states \\(\\ket{g_0}\\) and \\(\\ket{g_1}\\) instead of identical ones. After the CNOT the state is \\(\\frac{1}{\\sqrt2}(\\ket{000}\\ket{g_0}-\\ket{100}\\ket{g_1})\\). Show that the Hadamard on the first bit gives outcome \\(1\\) with probability \\(\\frac12(1+\\mathrm{Re}\\braket{g_0}{g_1})\\). Evaluate it for \\(\\ket{g_0}=\\ket0,\\ket{g_1}=\\ket+\\), and interpret the clean and fully dirty cases.",
     "hints": [
      "Collect the terms with first bit \\(0\\): their vector is \\(\\frac12\\ket{00}(\\ket{g_0}-\\ket{g_1})\\).",
      "\\(\\|\\ket{g_0}-\\ket{g_1}\\|^2=2-2\\,\\mathrm{Re}\\braket{g_0}{g_1}\\)."
@@ -234,7 +234,7 @@
  },
  "03-phase-encoding": {
   "purpose": "Encode information in relative phases and read it with interference: eigenstate kickback, the Hadamard test, sign patterns on many qubits, hidden-structure sampling, and finer phases from computed values.",
-  "before": "Use clean oracles and phase oracles from Chapter 2, and the Deutsch circuit and repetition bounds from Chapter 1.",
+  "before": "Use clean oracles and phase oracles from the Coherent Computation chapter, and the Deutsch circuit and repetition bounds from the Quantum Algorithmic Thinking chapter.",
   "outcomes": [
    "Explain phase kickback for a general unitary and eigenstate, and what it requires.",
    "Derive the Hadamard test probability and its cost to estimate a phase.",
@@ -245,7 +245,7 @@
   ],
   "example": "The hidden linear function s·x: one query writes the sign pattern (−1)^{s·x} and one Hadamard layer reads s. Simon’s problem then replaces the perfect pattern by random constraints combined classically.",
   "limits": "Separations are in the black-box query model with clean oracles. Deutsch–Jozsa’s exponential separation is exact-versus-exact; Simon’s holds against bounded-error classical algorithms. Phase gates of arbitrary angle are ideal unless synthesis error is stated.",
-  "next": "Chapter 4 replaces the binary sign patterns by phases e^{2πixy/N}, read by the quantum Fourier transform, and combines controlled powers with kickback into phase estimation and period finding.",
+  "next": "the Fourier Methods chapter replaces the binary sign patterns by phases e^{2πixy/N}, read by the quantum Fourier transform, and combines controlled powers with kickback into phase estimation and period finding.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -334,7 +334,7 @@
      "A change δ in φ changes cos φ by about sin φ · δ.",
      "cos(2φ) is also even in φ."
     ],
-    "answer": "Since d(cos φ)/dφ = −sin φ, an error ε in cos φ gives an error of about ε/|sin φ| in φ, which blows up near φ = 0 and π, where the cosine is flat. Using U² kicks back 2φ and measures cos 2φ, which is still an even function of φ, so φ and −φ remain indistinguishable; only the sin φ test (with S†) resolves the sign. Phase estimation in Chapter 4 avoids both problems by reading phases with a Fourier transform.",
+    "answer": "Since d(cos φ)/dφ = −sin φ, an error ε in cos φ gives an error of about ε/|sin φ| in φ, which blows up near φ = 0 and π, where the cosine is flat. Using U² kicks back 2φ and measures cos 2φ, which is still an even function of φ, so φ and −φ remain indistinguishable; only the sin φ test (with S†) resolves the sign. Phase estimation in the Fourier Methods chapter avoids both problems by reading phases with a Fourier transform.",
     "review": "topic-3-1-2"
    },
    {
@@ -351,7 +351,7 @@
  },
  "04-fourier-methods": {
   "purpose": "Build the quantum Fourier transform and use it with controlled powers and kickback to estimate eigenphases, find orders, and factor integers.",
-  "before": "Use phase kickback, controlled powers, the Hadamard test, and Simon’s algorithm from Chapter 3, and reversible arithmetic from Chapter 2.",
+  "before": "Use phase kickback, controlled powers, the Hadamard test, and Simon’s algorithm from the Phase Encoding chapter, and reversible arithmetic from the Coherent Computation chapter.",
   "outcomes": [
    "Prove that the Fourier transform is unitary using root-of-unity cancellation.",
    "Predict the Fourier transform of a periodic state.",
@@ -362,7 +362,7 @@
   ],
   "example": "Phase estimation with three control qubits on φ = 3/8, then order finding for a = 7 modulo 15 and for a = 2 modulo 21, the latter with continued fractions on the outcome 85/512.",
   "limits": "Gates are ideal; controlled powers are assumed available, and their cost is counted explicitly. The factoring speedup is relative to the best known classical algorithm, not a proven separation.",
-  "next": "Chapter 5 turns small success probabilities into large ones with pairs of reflections, and combines amplification with phase estimation into amplitude estimation.",
+  "next": "the Amplitude Manipulation chapter turns small success probabilities into large ones with pairs of reflections, and combines amplification with phase estimation into amplitude estimation.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -468,7 +468,7 @@
  },
  "05-amplitude-manipulation": {
   "purpose": "Raise small success probabilities by composing reflections, control the rotation with phase sequences, estimate probabilities with amplitude estimation, and know the limits of these speedups.",
-  "before": "Use reflections about prepared states and clean phase oracles (Chapter 2), and phase estimation on superpositions of eigenstates (Chapter 4).",
+  "before": "Use reflections about prepared states and clean phase oracles (Coherent Computation), and phase estimation on superpositions of eigenstates (Fourier Methods).",
   "outcomes": [
    "Reduce amplification of any preparation and predicate to a rotation in a two-dimensional plane.",
    "Compute the success probability after k iterations and choose k, including with unknown p.",
@@ -479,7 +479,7 @@
   ],
   "example": "A preparation with success probability p = 0.01: seven iterations reach success 0.995, fourteen nearly undo it, and amplitude estimation reads p from the eigenphases of the same iterate.",
   "limits": "Reflections are ideal and require both A and A†. Speedups are in queries or calls to A; each call may be expensive. Amplitude estimation requires long coherent circuits and controlled access.",
-  "next": "Chapter 6 composes reflections chosen from the local structure of a graph, giving quantum walks whose speed is governed by spectral gaps.",
+  "next": "the Quantum Walks chapter composes reflections chosen from the local structure of a graph, giving quantum walks whose speed is governed by spectral gaps.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -568,7 +568,7 @@
      "Make the classical algorithm reversible: its random bits become a uniform superposition prepared by Hadamards.",
      "Each call to A costs about T, and about 1/√p calls are needed."
     ],
-    "answer": "Treat the random bits as an input register prepared in uniform superposition; the reversible version of the algorithm (Chapter 2) is the preparation A, and checking the output is the predicate. Amplification with unknown p (exponential search) reaches success 1/2 with O(1/√p) calls to A and A†, for total time O(T/√p) versus O(T/p) classically. This requires a reversible implementation of the algorithm and a coherent checker, and the overhead of reversibility (garbage removal, roughly a factor of two plus workspace) is included in T.",
+    "answer": "Treat the random bits as an input register prepared in uniform superposition; the reversible version of the algorithm (Coherent Computation) is the preparation A, and checking the output is the predicate. Amplification with unknown p (exponential search) reaches success 1/2 with O(1/√p) calls to A and A†, for total time O(T/√p) versus O(T/p) classically. This requires a reversible implementation of the algorithm and a coherent checker, and the overhead of reversibility (garbage removal, roughly a factor of two plus workspace) is included in T.",
     "review": "topic-5-1-1"
    },
    {
@@ -585,7 +585,7 @@
  },
  "06-quantum-walks": {
   "purpose": "Replace random walks by coherent walks, analyze them through their spectra, and use the square-root relation between classical spectral gaps and quantum phase gaps to build search algorithms.",
-  "before": "Use reversible arithmetic (Chapter 2), Fourier states (Chapters 3–4), reflections and amplitude amplification (Chapter 5), and phase estimation (Chapter 4).",
+  "before": "Use reversible arithmetic (Coherent Computation), Fourier states (the chapters from Phase Encoding to Fourier Methods), reflections and amplitude amplification (Amplitude Manipulation), and phase estimation (Fourier Methods).",
   "outcomes": [
    "Explain why a coherent walk needs a coin or an edge register, and compute small coined walks by hand.",
    "Contrast ballistic quantum spreading with diffusive classical spreading.",
@@ -596,7 +596,7 @@
   ],
   "example": "A coined walk on the four-cycle, where three steps send the walker to vertex 3 with certainty, and element distinctness, where storing N^{2/3} values on a Johnson-graph walk gives an optimal O(N^{2/3}) query algorithm.",
   "limits": "Walks are ideal and coherent; neighbour access is assumed as an oracle. Query bounds do not include the cost of coherent memory. The glued-trees speedup is an oracle separation for a contrived problem.",
-  "next": "Chapter 7 embeds matrices that are not unitary inside larger unitaries, so that their actions, and later their spectra, can be manipulated by circuits.",
+  "next": "the Operator Embedding chapter embeds matrices that are not unitary inside larger unitaries, so that their actions, and later their spectra, can be manipulated by circuits.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -702,7 +702,7 @@
  },
  "07-operator-embedding": {
   "purpose": "Represent matrices that are not unitary as blocks of unitaries, build such block encodings from sums of unitaries, compose them, and account for subnormalization, success probability, and access costs.",
-  "before": "Use clean subroutines and controlled operations (Chapter 2), operator-norm error bounds (Chapter 3), and amplitude amplification (Chapter 5).",
+  "before": "Use clean subroutines and controlled operations (Coherent Computation), operator-norm error bounds (Phase Encoding), and amplitude amplification (Amplitude Manipulation).",
   "outcomes": [
    "Explain why a non-unitary matrix cannot be applied deterministically and define its operator norm.",
    "Verify a block encoding and compute postselection success probabilities.",
@@ -714,7 +714,7 @@
   ],
   "example": "The one-ancilla encoding of diag(1, 1/2), and the LCU encoding of (I + X)/2, which turns |0⟩ into |+⟩ with probability 1/2 where a random choice would give a mixture.",
   "limits": "Block encodings are assumed exact unless an error is stated. Costs depend on the access model; the cost of QRAM or data loading is not included in query counts.",
-  "next": "Chapter 8 applies polynomials of a block-encoded matrix with one extra qubit and a sequence of phases, giving filters, inversion, and simulation.",
+  "next": "the Polynomial Transformations chapter applies polynomials of a block-encoded matrix with one extra qubit and a sequence of phases, giving filters, inversion, and simulation.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -768,7 +768,7 @@
    },
    {
     "kind": "Worked problem",
-    "question": "Let \\(A=\\frac12(U+V)\\) for unitaries \\(U,V\\), encoded by LCU with one ancilla: \\(H\\), controlled-\\(U\\) on ancilla \\(0\\) and controlled-\\(V\\) on ancilla \\(1\\), then \\(H\\). Show that the success probability on input \\(\\ket\\psi\\) is \\(\\frac12\\big(1+\\mathrm{Re}\\bra\\psi U^\\dagger V\\ket\\psi\\big)\\). Which circuit from Chapter 3 is this, and when is the success probability \\(0\\)?",
+    "question": "Let \\(A=\\frac12(U+V)\\) for unitaries \\(U,V\\), encoded by LCU with one ancilla: \\(H\\), controlled-\\(U\\) on ancilla \\(0\\) and controlled-\\(V\\) on ancilla \\(1\\), then \\(H\\). Show that the success probability on input \\(\\ket\\psi\\) is \\(\\frac12\\big(1+\\mathrm{Re}\\bra\\psi U^\\dagger V\\ket\\psi\\big)\\). Which circuit from the Phase Encoding chapter is this, and when is the success probability \\(0\\)?",
     "hints": [
      "\\(\\|A\\psi\\|^2=\\frac14\\big(2+\\bra\\psi U^\\dagger V\\ket\\psi+\\bra\\psi V^\\dagger U\\ket\\psi\\big)\\).",
      "Compare with \\(\\Pr[0]\\) of the Hadamard test for \\(U^\\dagger V\\)."
@@ -820,7 +820,7 @@
  },
  "08-polynomial-transformations": {
   "purpose": "Apply polynomial functions to the eigenvalues or singular values of a block-encoded matrix, and design algorithms for filtering, inversion, and simulation by choosing polynomials.",
-  "before": "Use block encodings and LCU (Chapter 7), the spectral decomposition and matrix exponentials (Chapter 6), amplitude amplification (Chapter 5), and phase estimation (Chapter 4).",
+  "before": "Use block encodings and LCU (Operator Embedding), the spectral decomposition and matrix exponentials (Quantum Walks), amplitude amplification (Amplitude Manipulation), and phase estimation (Fourier Methods).",
   "outcomes": [
    "Compute the response of repeated signal calls and recognize Chebyshev polynomials.",
    "State the conditions for a polynomial to be achievable by quantum signal processing, and handle parity and boundedness.",
@@ -831,7 +831,7 @@
   ],
   "example": "Two signal calls with one phase in between give the response cos φ (2x² − 1) + i sin φ; qubitizing H = 0.5 Z⊗Z − 0.3 X⊗I gives walk eigenphases arccos(±0.583/0.8).",
   "limits": "The general signal-processing and QSVT statements are cited theorems; phase factors are assumed computed classically. Costs are in block-encoding calls; each call’s gate cost and subnormalization must be added.",
-  "next": "Chapter 9 compares polynomial simulation with product formulas, which build evolution from short evolutions of simple terms, and with adiabatic evolution, which changes the Hamiltonian itself.",
+  "next": "the Evolution Engineering chapter compares polynomial simulation with product formulas, which build evolution from short evolutions of simple terms, and with adiabatic evolution, which changes the Hamiltonian itself.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -937,7 +937,7 @@
  },
  "09-evolution-engineering": {
   "purpose": "Engineer time evolution: build e^{−iHt} from short evolutions of simple terms with controlled error, compare simulation strategies fairly, and use slowly changing Hamiltonians to prepare ground states.",
-  "before": "Use matrix exponentials and spectral decompositions (Chapter 6), operator-norm error composition (Chapter 3), Pauli-sum block encodings (Chapter 7), and polynomial simulation (Chapter 8).",
+  "before": "Use matrix exponentials and spectral decompositions (Quantum Walks), operator-norm error composition (Phase Encoding), Pauli-sum block encodings (Operator Embedding), and polynomial simulation (Polynomial Transformations).",
   "outcomes": [
    "State the simulation problem and the no-fast-forwarding limit.",
    "Compute commutators and explain why noncommuting terms cause product-formula error.",
@@ -949,7 +949,7 @@
   ],
   "example": "H = X + Z: first-order Trotter with r steps has error about 0.7/r against the bound 1/r, and the adiabatic path from −X to −Z succeeds once the total time is a few units.",
   "limits": "Error bounds are worst-case operator-norm bounds for bounded generators. Hardware noise is not modelled. Adiabatic runtimes depend on gaps that are rarely known for large instances.",
-  "next": "Chapter 10 drops guaranteed constructions: it optimizes the parameters of short circuits against measured objectives, and asks what such heuristics can and cannot establish.",
+  "next": "the Variational Methods chapter drops guaranteed constructions: it optimizes the parameters of short circuits against measured objectives, and asks what such heuristics can and cannot establish.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -1055,7 +1055,7 @@
  },
  "10-variational-methods": {
   "purpose": "Understand variational algorithms as heuristics: parameterized circuits, measured objectives, classical optimization, and the evidence needed to judge their performance.",
-  "before": "Use expectation values, Pauli decompositions and the 1-norm (Chapter 7), measurement statistics (Chapter 1), and adiabatic evolution (Chapter 9).",
+  "before": "Use expectation values, Pauli decompositions and the 1-norm (Operator Embedding), measurement statistics (Quantum Algorithmic Thinking), and adiabatic evolution (Evolution Engineering).",
   "outcomes": [
    "Describe an ansatz and the trade-off between expressiveness and cost.",
    "Estimate an energy from Pauli measurements and compute shot budgets with optimal allocation.",
@@ -1067,7 +1067,7 @@
   ],
   "example": "The two-qubit ansatz cos(θ/2)|00⟩ + sin(θ/2)|11⟩ minimizing E(θ) = −1 − sin θ for H = −ZZ − XX, and depth-1 QAOA on a single edge with expected cut ½ + ½ sin 4β sin γ.",
   "limits": "Calculations are noiseless unless stated. Variational methods carry no general performance guarantee; the stated QAOA approximation ratio is a cited result for a specific graph class.",
-  "next": "Chapter 11 brings measurement inside the computation: mid-circuit outcomes control later operations, trade coherent resources for classical feedback, and drive measurement-based computation.",
+  "next": "the Adaptive Measurement chapter brings measurement inside the computation: mid-circuit outcomes control later operations, trade coherent resources for classical feedback, and drive measurement-based computation.",
   "exercises": [
    {
     "kind": "Quick check",
@@ -1173,7 +1173,7 @@
  },
  "11-adaptive-measurement": {
   "purpose": "Use measurement inside a computation: branch on outcomes, defer or advance measurements, estimate phases adaptively with one qubit, and compute by measurement with teleported gates and injected magic states.",
-  "before": "Use phase estimation and the inverse QFT (Chapter 4), the Hadamard test (Chapter 3), postselection (Chapter 7), and gate costs in Clifford+T (Chapter 2).",
+  "before": "Use phase estimation and the inverse QFT (Fourier Methods), the Hadamard test (Phase Encoding), postselection (Operator Embedding), and gate costs in Clifford+T (Coherent Computation).",
   "outcomes": [
    "Track branch probabilities, conditional states, and classical records through mid-circuit measurements.",
    "Apply the deferred measurement principle in both directions and compare the resources.",
