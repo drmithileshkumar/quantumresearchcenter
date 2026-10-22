@@ -27,6 +27,7 @@ sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
 import chapter_summary
 from asset_versions import version_pages
+from site_logo import COURSE_LOGO
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 SUMMARIES=chapter_summary.load(ROOT,{c['stem'] for c in CHAPTERS})
 LEARNING=json.loads((ROOT/'content/learning.json').read_text())
@@ -36,7 +37,7 @@ def esc(s):return escape(str(s),quote=True)
 def slug(term):return re.sub(r'[^a-z0-9]+','-',plain(term).lower()).strip('-')
 
 def navigation(current):
- out=['<a class="book-home" href="index.html">Quantum Algorithms<span>Techniques and constructions</span></a><a class="nav-introduction" href="index.html">About this course</a>']
+ out=[COURSE_LOGO+'<a class="book-home" href="index.html">Quantum Algorithms<span>Techniques and constructions</span></a><a class="nav-introduction" href="index.html">About this course</a>']
  for i,c in enumerate(CHAPTERS,1):
   stem=c['stem']
   out.append(f'<details class="nav-chapter" {"open" if stem==current else ""}><summary><span>{i:02}</span> {esc(c["title"])}</summary><a class="chapter-start" href="{stem}.html">Chapter overview</a>')

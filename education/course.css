@@ -1,5 +1,5 @@
 /* Additions for developed course manuscripts; the shared book theme sets layout. */
-.ebook .book-section pre {max-width:100%;overflow-x:auto;padding:1rem;border:1px solid #d3ded8;background:var(--sidebar);font-size:.78em;line-height:1.55;white-space:pre;tab-size:4;}
+.ebook .book-section pre {max-width:100%;overflow-x:auto;padding:1rem;background:var(--sidebar);font-size:.78em;line-height:1.55;white-space:pre;tab-size:4;}
 .ebook .book-section pre code {white-space:pre;overflow-wrap:normal;word-break:normal;}
 .ebook .book-section .drawing-scroll:focus-visible {outline:3px solid var(--focus,#1b5884);outline-offset:3px;}
 @media print {

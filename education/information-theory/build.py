@@ -9,13 +9,14 @@ import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
 from asset_versions import version_pages
+from site_logo import COURSE_LOGO
 import chapter_exercises
 import chapter_summary
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 EXERCISES=chapter_exercises.load(ROOT)
 SUMMARIES=chapter_summary.load(ROOT,{c['stem'] for c in CHAPTERS})
 def navigation(current,data):
- out='<a class="book-home" href="index.html">Quantum Information Theory<span>Information, resources, and limits</span></a><a class="nav-introduction" href="index.html">About this course</a>'
+ out=COURSE_LOGO+'<a class="book-home" href="index.html">Quantum Information Theory<span>Information, resources, and limits</span></a><a class="nav-introduction" href="index.html">About this course</a>'
  for i,c in enumerate(CHAPTERS,1):
   stem=c['stem'];active=' open' if stem==current else ''
   out+=f'<details class="nav-chapter"{active}><summary><span>{i:02}</span> {esc(c["title"])}</summary><a class="chapter-start" href="{stem}.html"'+(' aria-current="page"' if stem==current else '')+'>Chapter overview</a>'

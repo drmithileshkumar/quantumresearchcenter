@@ -18,8 +18,8 @@
 .qm-tree ul::before{content:"";position:absolute;left:-33px;top:50%;width:32px;border-top:1px solid var(--line-strong,var(--line))}
 .qm-tree ul>li::before{content:"";position:absolute;left:-32px;top:50%;width:32px;border-top:1px solid var(--line-strong,var(--line))}
 .qm-tree .qm-node{box-sizing:border-box;display:flex;align-items:center;gap:12px;width:205px;min-height:55px;padding:12px 14px;border:1px solid var(--line-strong,var(--line));border-left:3px solid var(--qm-color,var(--blue));border-radius:8px;background:var(--card,#fff);color:var(--ink);text-decoration:none;font:inherit;cursor:pointer;flex-shrink:0;box-shadow:0 3px 8px #00000005}
-.qm-tree summary::before{content:'+';color:var(--qm-color,var(--blue));font-size:19px}
-.qm-tree details[open]>summary::before{content:'−'}
+.qm-tree summary::before{content:'▸';color:var(--icon-muted,#8b959f);font-size:11px}  /* the site's disclosure triangle (styles.css) */
+.qm-tree details[open]>summary::before{content:'▾'}
 .qm-tree summary::marker{content:''}.qm-tree summary::-webkit-details-marker{display:none}
 .qm-count{margin-left:auto;color:var(--muted);font-size:10px}
 .qm-tree .qm-node:hover{border-color:var(--qm-color,var(--blue));background:var(--surface)}

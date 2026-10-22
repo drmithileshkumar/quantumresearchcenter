@@ -35,7 +35,7 @@
 .visual-link{text-align:center;color:var(--accent);font-size:20px;line-height:1}
 .teaching-visual figcaption{margin-top:18px!important}
 .checkpoint{font-size:.82em;border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
-.checkpoint summary{color:var(--accent);font-weight:600;cursor:pointer}
+
 .checkpoint p{margin:10px 0 0;line-height:1.5}
 @media screen and (min-width:801px) and (max-height:820px){.visual-step{padding:10px;font-size:16px}.visual-step strong{font-size:14px}.visual-sequence{gap:5px}.classical-deck .teaching-visual{padding:14px}.checkpoint{margin-top:10px;padding-top:8px}}
 @media print{.visual-step{font-size:13pt;padding:10px}.checkpoint{display:none}}

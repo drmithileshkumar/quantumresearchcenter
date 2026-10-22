@@ -12,6 +12,7 @@ sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
 import chapter_summary
 from asset_versions import version_pages
+from site_logo import COURSE_LOGO
 META=json.loads((ROOT/'chapters.json').read_text())
 SUMMARIES=chapter_summary.load(ROOT,{m[0] for m in META})
 def esc(s):return html.escape(str(s),quote=True)
@@ -24,7 +25,7 @@ def chapter_redirect(previous,target):
   script=f'<script>location.replace({json.dumps(target+".html")}+location.hash.replace(/^#(topic|section)-{old}-/,"#$1-{new}-"));</script>'
  return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chapter moved</title><link rel="canonical" href="https://quantumresearch.center/education/computing/{target}.html">{script}<meta http-equiv="refresh" content="0;url={target}.html"></head><body><main><h1>Chapter moved</h1><p>The book has been reorganized. <a href="{target}.html">Continue to the revised book</a>.</p></main></body></html>'
 def navigation(current,data):
- pieces=['<a class="book-home" href="index.html">Quantum Computing<span>From classical to quantum</span></a><a class="nav-introduction" href="index.html">About this book</a>']
+ pieces=[COURSE_LOGO+'<a class="book-home" href="index.html">Quantum Computing<span>From classical to quantum</span></a><a class="nav-introduction" href="index.html">About this book</a>']
  for i,(meta,m) in enumerate(zip(META,data)):
   stem,title,*_=meta
   pieces.append(f'<details class="nav-chapter" {"open" if current==stem else ""}><summary><span>{str(i+1).zfill(2) if stem!="appendices" else "A–E"}</span> {esc(title)}</summary><a class="chapter-start" href="{stem}.html">Chapter overview</a>')

@@ -27,7 +27,7 @@ body.ebook{margin:0;background:var(--paper,#fff);color:var(--ink);font-family:va
 .chapter-subtitle{font-size:1.25em;font-style:italic;color:var(--muted);line-height:1.45;margin:0 0 1.7em}
 .chapter-intro{font-size:1.07em;line-height:1.7}.reading-prompt{font-size:.88em;color:var(--muted);border-left:2px solid #bfcec7;padding-left:18px}
 .chapter-header{padding-bottom:42px;border-bottom:1px solid var(--line);margin-bottom:50px}
-.chapter-contents{font:14px/1.6 var(--sans);margin-top:30px;padding:16px 0 0;border-top:1px solid var(--line)}.chapter-contents summary{cursor:pointer;color:var(--accent)}.chapter-contents ol{list-style:none;padding-left:0}.chapter-contents li{margin:5px 0}.chapter-contents a{text-decoration:none}.chapter-contents a span{font-size:11px;color:var(--muted);margin-right:8px}
+.chapter-contents{font:14px/1.6 var(--sans);margin-top:30px;padding:16px 0 0;border-top:1px solid var(--line)}.chapter-contents ol{list-style:none;padding-left:0}.chapter-contents li{margin:5px 0}.chapter-contents a{text-decoration:none}.chapter-contents a span{font-size:11px;color:var(--muted);margin-right:8px}
 .ebook .book-section{display:block!important;min-height:0!important;height:auto!important;padding:0 0 42px!important;margin:0 0 48px;border:0;border-bottom:1px solid var(--line);overflow:visible!important;scroll-margin-top:85px}
 .ebook .book-section>h2{font-size:1.5em;line-height:1.3;margin:0 0 1em;letter-spacing:0;font-family:var(--reading-font)}
 .heading-link{font:16px var(--sans);text-decoration:none;opacity:0;margin-left:12px}.book-section h2:hover .heading-link,.heading-link:focus{opacity:1}
@@ -95,10 +95,10 @@ body.ebook{margin:0;background:var(--paper,#fff);color:var(--ink);font-family:va
 .ebook .understanding-check{margin:2em 0 3em;padding:1.2em 0;border-block:1px solid var(--line);font-size:.93em}
 .ebook .understanding-check h3{font:600 13px var(--sans);color:var(--accent);margin:0 0 1em}
 .ebook .understanding-check p{margin:0 0 1em}
-.ebook .understanding-check summary{font:14px/1.5 var(--sans);cursor:pointer;color:var(--accent)}
+
 .ebook .understanding-check details p{margin:1em 0 0}
 .chapter-contents .contents-part{margin:18px 0}.contents-part>a{font-weight:600}
-.chapter-contents .contents-part details{margin:6px 0 0 22px}.contents-part summary{font-size:12px}
+.chapter-contents .contents-part details{margin:6px 0 0 22px}
 #book-navigation a.nav-group{font:600 11px/1.5 var(--sans);text-transform:none;letter-spacing:0;margin:18px 0 5px;color:#47655a}
 @media print{.ebook .book-part{break-before:page}.ebook .book-part h2,.ebook .topic-heading{break-after:avoid}.ebook .understanding-check{break-inside:avoid}}
 .ebook .reading-topic .teaching-visual .visual-step>strong{display:block;margin-bottom:6px}

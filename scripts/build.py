@@ -6,6 +6,7 @@ import html
 import json
 import os
 import re
+import sys
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
@@ -16,6 +17,8 @@ RESEARCH_REDIRECTS = json.loads((Path(__file__).resolve().parents[1]/'content/re
 UNLISTED = {'news/papers.html', *RESEARCH_REDIRECTS}
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT/'education'))
+from site_logo import site_logo  # noqa: E402  (shared with the course builds)
 def esc(value): return html.escape(str(value), quote=True)
 def path(item): return item['_path']
 def relative(target, source): return os.path.relpath(target, Path(source).parent).replace(os.sep, '/')
@@ -250,12 +253,6 @@ def interference_hero(phi=0.4):
             f'<input id="hx-phase" type="range" min="0" max="200" step="1" value="{round(phi*100)}"><output id="hx-value" for="hx-phase">{phi:.2f}π</output></div>'
             '<figcaption>Two paths, one outcome</figcaption><button type="button" data-motion hidden>Pause motion</button></figure><script defer src="hero.js"></script>')
 
-def site_logo(cls,href):
-    # Wordmark lockup: the favicon's interference bars beside "Quantum" set in the logo face.
-    bars=''.join(f'<rect x="{x}" y="{50-h/2:g}" width="{w}" height="{h}" rx="{w/2:g}"{a}/>' for x,w,h,a in
-        ((10,2.4,18,' opacity=".35"'),(19.5,4,30,' opacity=".6"'),(31,6.5,44,''),(45,10,60,' class="logo-peak"'),(62.5,6.5,44,''),(76.5,4,30,' opacity=".6"'),(87.6,2.4,18,' opacity=".35"')))
-    return (f'<a class="site-logo {cls}" href="{href}"><svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false">{bars}</svg>'
-        '<span class="logo-word"><span class="logo-name">Quantum</span> <span class="logo-sub">Research Center</span></span></a>')
 def social_meta(title,description,url,kind):
     # Link previews (Open Graph / Twitter); TeX delimiters read badly in a preview card.
     text=re.sub(r'\\[()\[\]]','',description)
