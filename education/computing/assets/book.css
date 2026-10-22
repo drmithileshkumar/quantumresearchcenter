@@ -1,14 +1,14 @@
 /* Reading typography: Georgia-style serif prose, with a quiet sans-serif UI. */
-:root{--book-text-size:20px;--reading-font:Georgia,"Bitstream Charter","Times New Roman",serif;--ink:#272c30;--muted:#6b7175;--accent:#225c66;--paper:#fff;--line:#e2e5e3;--course-sidebar:278px;color-scheme:light;background:white}
+:root{--book-text-size:20px;--reading-font:Georgia,"Bitstream Charter","Times New Roman",serif;--ink:#272c30;--muted:#6b7175;--accent:#225c66;--paper:#fcfcfb;--line:#e2e5e3;--course-sidebar:278px;color-scheme:light;background:white}
 html{scroll-padding-top:85px;scroll-behavior:smooth}
-body.ebook{margin:0;background:white;color:var(--ink);font-family:var(--reading-font);font-size:var(--book-text-size);line-height:1.7}
+body.ebook{margin:0;background:var(--paper,#fff);color:var(--ink);font-family:var(--reading-font);font-size:var(--book-text-size);line-height:1.75;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
 .ebook [hidden]{display:none!important}
 .ebook a{color:var(--accent);text-underline-offset:3px}
 .ebook button,.ebook input,.ebook select{font-family:var(--sans);font-size:14px}
 .ebook button{line-height:1.4}
 .ebook a:focus-visible,.ebook button:focus-visible,.ebook input:focus-visible,.ebook summary:focus-visible{outline:3px solid var(--focus,#1b5884);outline-offset:3px}
 .skip-link{position:fixed;top:-100px;left:20px;padding:10px;background:white;z-index:100}.skip-link:focus{top:6px}
-.book-toolbar{position:fixed;top:0;left:var(--course-sidebar);right:0;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.97);z-index:30;font:13px var(--sans)}
+.book-toolbar{position:fixed;top:0;left:var(--course-sidebar);right:0;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:30;font:13px var(--sans)}
 .book-toolbar button{border:0;border-radius:5px;padding:7px 9px;color:var(--muted)}
 .book-toolbar .toolbar-title{text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:.02em}
 .reading-tools{display:flex;gap:3px;align-items:center}.reading-tools kbd{font-size:11px}

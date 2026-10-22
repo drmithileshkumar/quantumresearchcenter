@@ -49,3 +49,9 @@ if (active && !mobile.matches) {
   const sidebar = document.querySelector('.sidebar');
   sidebar.scrollTop = Math.max(0, active.offsetTop - sidebar.clientHeight / 2);
 }
+const updateProgress = () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  if (max > 0) document.documentElement.style.setProperty('--scroll-progress', `${Math.min(100, Math.max(0, (window.scrollY / max) * 100))}%`);
+};
+addEventListener('scroll', updateProgress, {passive: true});
+updateProgress();

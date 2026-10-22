@@ -35,14 +35,53 @@ def main():
     d.arrow([(570,230),(570,270),(475,270)]);d.box(315,270,160,38,r'\(R\)',True)
     d.save('logic-proof-network')
 
-    d=Diagram('Hilbert’s program: study the proof rules','The object theory uses axioms and inference rules to produce formal proofs. Metamathematical reasoning studies these finite proofs, aiming to establish that none proves a contradiction.',340)
-    d.frame(30,55,660,125);d.text(60,79,'OBJECT THEORY','label','start')
-    d.box(55,100,185,55,['Axioms and','inference rules']);d.arrow([(240,127),(305,127)])
-    d.box(305,100,350,55,['Finite formal proofs','and their conclusions'])
-    d.box(40,235,255,65,['Finitary reasoning','about proof construction'],True)
-    d.arrow([(167,235),(167,200),(480,200),(480,155)])
-    d.box(385,235,295,65,['Goal: no permitted proof','derives a contradiction'],True);d.arrow([(295,267),(385,267)])
-    d.text(360,326,'A proposed justification, not an assumption that consistency is guaranteed.','small')
+    d = Diagram('Hilbert’s program: proving consistency', 'Inside the formal system, axioms and rules derive valid theorems like 2+2=4. A contradiction like 0=1 must be impossible. Hilbert’s program studies the rules from the outside to prove that the contradiction branch is permanently closed.', 250)
+    d.parts.append('''<style>
+.tag-ok{font:600 11.5px system-ui,sans-serif;fill:#15803d}
+.tag-no{font:600 11.5px system-ui,sans-serif;fill:#b91c1c}
+.box-header{font:600 13px system-ui,sans-serif;fill:#0f172a}
+.box-sub{font:11.5px system-ui,sans-serif;fill:#64748b}
+.danger-node{fill:#fffafa;stroke:#fca5a5;stroke-width:1.5;rx:6px}
+.edge-text{font:600 11px system-ui,sans-serif;fill:#246593}
+.meta-head{font:700 11.5px system-ui,sans-serif;fill:#1e3a5f;letter-spacing:0.04em}
+.meta-desc{font:12px system-ui,sans-serif;fill:#334155}
+</style>''')
+
+    # Left: Axioms Box
+    d.parts.append('<rect x="45" y="46" width="145" height="76" class="node"/>')
+    d.parts.append('<text x="117" y="77" text-anchor="middle" class="box-header">Axioms</text>')
+    d.parts.append('<text x="117" y="98" text-anchor="middle" class="box-sub">Starting assumptions</text>')
+
+    # Stem to fork
+    d.parts.append('<path d="M190 84 L245 84" class="edge"/>')
+    d.parts.append('<text x="217" y="76" text-anchor="middle" class="edge-text">deduction</text>')
+
+    # Top branch: Valid Theorems
+    d.parts.append('<path d="M245 84 L270 84 L270 56 L320 56" class="edge"/>')
+    d.parts.append('<rect x="322" y="35" width="353" height="42" class="node"/>')
+    d.parts.append('<text x="338" y="61" class="box-header" text-anchor="start">Valid Theorems</text>')
+    d.parts.append(svg_text(450, 61, r'(e.g. \(2 + 2 = 4\))', ' class="box-sub" text-anchor="start"'))
+    d.parts.append('<text x="660" y="61" class="tag-ok" text-anchor="end">✓ Permitted</text>')
+
+    # Bottom branch: Contradiction (Blocked)
+    d.parts.append('<path d="M245 84 L270 84 L270 112 L320 112" fill="none" stroke="#cbd5e1" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>')
+    # Cross over the branch
+    d.parts.append('<line x1="288" y1="105" x2="302" y2="119" stroke="#b91c1c" stroke-width="2.2" stroke-linecap="round"/>')
+    d.parts.append('<line x1="302" y1="105" x2="288" y2="119" stroke="#b91c1c" stroke-width="2.2" stroke-linecap="round"/>')
+
+    d.parts.append('<rect x="322" y="91" width="353" height="42" class="danger-node"/>')
+    d.parts.append('<text x="338" y="117" class="box-header" text-anchor="start" fill="#991b1b">Contradiction</text>')
+    d.parts.append(svg_text(450, 117, r'(e.g. \(0 = 1\))', ' class="box-sub" text-anchor="start" fill="#7f1d1d"'))
+    d.parts.append('<text x="660" y="117" class="tag-no" text-anchor="end">✗ Forbidden</text>')
+
+    # Upward Arrow from Hilbert's box to the contradiction box
+    d.parts.append('<path d="M498 176 L498 141" class="edge"/>')
+    d.parts.append('<text x="508" y="161" class="edge-text">guarantees this branch never occurs</text>')
+
+    # Box 3: Hilbert's Program (Metamathematics)
+    d.parts.append('<rect x="45" y="176" width="630" height="56" class="accent"/>')
+    d.parts.append('<text x="65" y="198" class="meta-head">HILBERT’S METAMATHEMATICS (OUTSIDE VIEW)</text>')
+    d.parts.append(svg_text(65, 218, r'Analyzes the rules as physical symbol moves to prove that “\(0 = 1\)” is impossible.', ' class="meta-desc"'))
     d.save('logic-hilbert-program')
 
     d=Diagram('Checking, searching, and deciding','Checking accepts or rejects a supplied record. Search enumerates and checks candidates, looping on failure and stopping on a proof. A decision procedure must also halt with no when no proof exists.',390)

@@ -37,7 +37,7 @@
  .ebook .chapter-practice,.ebook .glossary-list {overflow:visible;}
 }
 
- .ebook .probing-question {margin:1.6rem 0 .4rem;padding:.2rem 0 .2rem 1.1rem;border-left:2px solid #aab9c5;}
+ .ebook .probing-question {margin:1.6rem 0 .4rem;padding:.2rem 0 .2rem 1.1rem;border-left:2px solid var(--line-strong);}
 .ebook .probing-question .question-label {font-family:var(--sans);font-size:1em;font-weight:600;color:var(--ink-soft);margin:0 0 .7rem;}
 .ebook .probing-question ol {margin:0;padding-left:1.5em;list-style:decimal;}
 .ebook .probing-question li {margin:0 0 .8rem;padding-left:.25em;}
@@ -45,12 +45,14 @@
 @media print {.ebook .probing-question {break-inside:auto;} .ebook .probing-question li {break-inside:avoid;}}
 
 .ebook .probing-question .problem-text {margin:0 0 .65rem;}
-.ebook .problem-solution {margin:.65rem 0 1.25rem;padding:.55rem .8rem;border:1px solid var(--line-strong);border-radius:4px;}
-.ebook .problem-solution summary {font-family:var(--sans);font-size:.85em;color:var(--ink-soft);}
+.ebook .problem-solution {margin:.65rem 0 1.25rem;padding:.55rem .8rem;border:1px solid var(--line-strong);border-radius:6px;transition:border-color .15s ease,background .15s ease;}
+.ebook .problem-solution summary {display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:6px;background:var(--card);border:1px solid var(--line-strong);font-family:var(--sans);font-size:.82em;font-weight:550;color:var(--blue-strong);cursor:pointer;transition:all .15s ease;}
+.ebook .problem-solution summary:hover {background:var(--blue-wash);border-color:var(--blue);color:var(--blue);}
 .ebook .problem-solution p {margin:.75rem 0 0;}
 .ebook .problem-solution .solution-open {display:none;}
 .ebook .problem-solution[open] .solution-open {display:inline;}
 .ebook .problem-solution[open] .solution-closed {display:none;}
+.ebook .problem-solution[open] {margin-top:.7rem;padding:.8rem 1.1rem;border-left:3px solid var(--blue);border-radius:6px;background:var(--card);box-shadow:0 2px 8px rgba(0,0,0,.02);}
 @media print {
  .ebook .probing-question li {break-inside:auto;}
  .ebook .problem-solution summary {display:none;}
@@ -96,11 +98,13 @@
 }
 
 /* Keep exercises available without interrupting the exposition. */
-.ebook details.probing-question {border-left:0;padding:0;}
-.ebook details.probing-question>summary.question-label {margin:0;padding:.4rem 0;color:var(--accent);font-size:.85em;}
-.ebook details.probing-question[open]>summary.question-label {margin-bottom:.7rem;}
-.ebook details.probing-question>ol {border-left:2px solid #aab9c5;padding-left:2em;}
-@media print {.ebook details.probing-question>summary.question-label {font-size:1em;color:inherit;}}
+.ebook details.probing-question {margin:1.8rem 0 1.2rem;padding:10px 16px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.02);transition:border-color .18s ease,box-shadow .18s ease;}
+.ebook details.probing-question:hover {border-color:var(--blue);box-shadow:0 2px 8px rgba(36,101,147,.08);}
+.ebook details.probing-question>summary.question-label {margin:0;padding:2px 0;color:var(--blue);font-size:.88em;font-weight:650;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;}
+.ebook details.probing-question[open] {padding:14px 18px 18px;}
+.ebook details.probing-question[open]>summary.question-label {margin-bottom:1rem;padding-bottom:8px;border-bottom:1px solid var(--line);}
+.ebook details.probing-question>ol {border-left:2px solid var(--blue-soft);padding-left:1.8em;margin:0;}
+@media print {.ebook details.probing-question {border:0;padding:0;background:none;box-shadow:none;}.ebook details.probing-question>summary.question-label {font-size:1em;color:inherit;}}
 
 .ebook .keywords {margin:-.2rem 0 .7rem;padding:0;font-family:var(--sans);font-size:.8em;line-height:1.45;font-variant-caps:small-caps;letter-spacing:.03em;color:var(--muted);}
 .ebook .keywords .keyword-sep {font-variant:normal;}
