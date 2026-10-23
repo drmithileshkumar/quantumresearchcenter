@@ -251,7 +251,7 @@
           "\\(|1+e^{i\\phi}|^2=2+2\\cos\\phi\\)."
         ],
         "answer": "\\(|1+e^{i\\pi/3}|^2/4=(2+2\\cos60^\\circ)/4=3/4\\). Squaring each path first would give \\(1/4+1/4=1/2\\): the phases partly reinforce.",
-        "review": "topic-3-4-2"
+        "review": "topic-3-4-3"
       },
       {
         "kind": "Quick check",
@@ -261,7 +261,7 @@
           "\\(|u+iv|^2=u^2+v^2\\)."
         ],
         "answer": "(a) \\(\\frac14+\\frac14=\\frac12\\): not normalized, so these amplitudes cannot describe a state as they stand. (b) \\(\\frac12+\\frac12=1\\): normalized, probabilities \\(\\frac12,\\frac12\\). (c) \\(0.36+0.64=1\\): normalized, probabilities \\(0.36\\) and \\(0.64\\). (d) \\(|1+i|^2/4=2/4=\\frac12\\) for each: normalized, probabilities \\(\\frac12,\\frac12\\). Signs and complex phases do not affect normalization; only magnitudes do.",
-        "review": "topic-3-4-1"
+        "review": "topic-3-4-2"
       },
       {
         "kind": "Quick check",
@@ -271,7 +271,7 @@
           "\\(B\\) is \\(A\\) multiplied by \\(-1\\)."
         ],
         "answer": "\\(A\\) becomes \\((1,0)\\), so the result is \\(0\\) with certainty. \\(B\\) becomes \\((-1,0)\\), also \\(0\\) with certainty. \\(C\\) becomes \\((0,1)\\), so the result is \\(1\\) with certainty. \\(A\\) and \\(B\\) differ by a global phase \\(-1\\), which multiplies every later amplitude by the same factor and never changes a probability. \\(A\\) and \\(C\\) differ in relative phase, which the Hadamard step converts into a difference in outcome. Equal probabilities do not mean equal states.",
-        "review": "topic-3-4-2"
+        "review": "topic-3-4-3"
       },
       {
         "kind": "Worked problem",
@@ -281,7 +281,7 @@
           "Two steps from \\(0\\) give \\(\\cos2\\alpha\\) at \\(0\\) and \\(\\sin2\\alpha\\) at \\(1\\)."
         ],
         "answer": "The squares leaving each configuration add to \\(\\cos^2\\alpha+\\sin^2\\alpha=1\\), and the cross sum is \\(-\\cos\\alpha\\sin\\alpha+\\sin\\alpha\\cos\\alpha=0\\). From \\(0\\): weight \\(\\cos^2\\alpha-\\sin^2\\alpha=\\cos2\\alpha\\) at \\(0\\) and \\(2\\sin\\alpha\\cos\\alpha=\\sin2\\alpha\\) at \\(1\\). From \\(1\\): \\(-\\sin2\\alpha\\) at \\(0\\) and \\(\\cos2\\alpha\\) at \\(1\\). At \\(\\alpha=\\pi/4\\), two steps send \\(0\\) to \\(1\\) and \\(1\\) to \\(-0\\): NOT, except for a relative sign. Real weights reach NOT only up to this sign; exactly NOT needs complex weights.",
-        "review": "topic-3-4-1"
+        "review": "topic-3-4-2"
       },
       {
         "kind": "Worked problem",
@@ -291,7 +291,7 @@
           "Each new amplitude is \\(\\frac{1}{\\sqrt2}(v_0+v_1)\\)."
         ],
         "answer": "(a) From \\(0\\) or from \\(1\\) the outgoing squared magnitudes are \\(\\frac12+\\frac12=1\\), so definite inputs stay normalized. (b) The cross sum is \\(\\frac12+\\frac12=1\\neq0\\), so the condition fails. (c) Each new amplitude is \\(\\frac{1}{\\sqrt2}\\big(\\frac{1}{\\sqrt2}+\\frac{1}{\\sqrt2}\\big)=1\\), so the output is \\((1,1)\\), with total \\(2\\). The “probabilities” would add to \\(2\\). Because contributions from the two inputs always reinforce, the cross terms add instead of cancelling. The Hadamard step avoids this with its single negative weight, which makes the cross sum \\(\\frac12-\\frac12=0\\). Checking definite inputs alone is not enough.",
-        "review": "topic-3-4-1"
+        "review": "topic-3-4-2"
       },
       {
         "kind": "Worked problem",
@@ -305,13 +305,13 @@
       },
       {
         "kind": "Worked problem",
-        "question": "Repeat the path-information experiment of Section 3.4.3 with a different “record”: between the two Hadamard steps on the first label, apply NOT to the record bit whatever the first label is. Track the four amplitudes from \\(00\\) and find the final probabilities. Does the first label still return to \\(0\\) with certainty? Explain using complete configurations.",
+        "question": "Repeat the path-information experiment of Section 3.4.4 with a different “record”: between the two Hadamard steps on the first label, apply NOT to the record bit whatever the first label is. Track the four amplitudes from \\(00\\) and find the final probabilities. Does the first label still return to \\(0\\) with certainty? Explain using complete configurations.",
         "hints": [
           "After the first \\(H\\), the occupied configurations are \\(00\\) and \\(10\\); NOT on the record turns them into \\(01\\) and \\(11\\).",
           "Both paths now carry the same record value."
         ],
         "answer": "After the first \\(H\\): \\(00\\) and \\(10\\), each with amplitude \\(\\frac{1}{\\sqrt2}\\). NOT on the record gives \\(01\\) and \\(11\\). The final \\(H\\) on the first label sends \\(01\\) to \\(01\\) and \\(11\\) with weights \\(\\frac{1}{\\sqrt2}\\), and \\(11\\) to \\(01\\) with \\(\\frac{1}{\\sqrt2}\\) and to \\(11\\) with \\(-\\frac{1}{\\sqrt2}\\). The totals are \\(\\frac12+\\frac12=1\\) at \\(01\\) and \\(\\frac12-\\frac12=0\\) at \\(11\\). So the outcome is \\(01\\) with certainty: the first label returns to \\(0\\), and the record reads \\(1\\). The record changed, but identically on both paths, so the two paths still meet at the same complete configurations and interfere. Only a record that distinguishes the paths prevents interference.",
-        "review": "topic-3-4-3"
+        "review": "topic-3-4-4"
       },
       {
         "kind": "Misconception",
@@ -321,7 +321,7 @@
           "Would a fair coin have the same amplitudes, or only the same probabilities?"
         ],
         "answer": "Two Hadamard steps from \\(0\\) give amplitude \\(\\frac12+\\frac12=1\\) at \\(0\\) and \\(\\frac12-\\frac12=0\\) at \\(1\\): the result is \\(0\\) with certainty. The student treated the intermediate state as a probability distribution and combined the two paths by adding probabilities, \\(\\frac14+\\frac14\\). But the intermediate state is the amplitude list \\((\\frac{1}{\\sqrt2},\\frac{1}{\\sqrt2})\\), and the paths to each endpoint must be combined by adding amplitudes, which can cancel. Equal probabilities after one step do not determine what happens after the next. The amplitudes carry the signs that make cancellation possible, and a coin’s probabilities do not.",
-        "review": "topic-3-4-2"
+        "review": "topic-3-4-3"
       },
       {
         "kind": "Extension",
@@ -331,7 +331,7 @@
           "The path through \\(1\\) picks up the factor \\(e^{i\\phi}\\)."
         ],
         "answer": "To \\(0\\): \\(\\tfrac12+\\tfrac12e^{i\\phi}\\). To \\(1\\): \\(\\tfrac12-\\tfrac12e^{i\\phi}\\). The probability of \\(0\\) is \\(|1+e^{i\\phi}|^2/4=(1+\\cos\\phi)/2\\). Outcome \\(0\\) is certain at \\(\\phi=0\\) and outcome \\(1\\) at \\(\\phi=\\pi\\). A phase that no direct measurement sees controls the result completely.",
-        "review": "topic-3-4-2"
+        "review": "topic-3-4-3"
       },
       {
         "kind": "Extension",
@@ -341,7 +341,7 @@
           "Use \\(p(0)=(1+\\cos\\phi)/2\\) for a relative phase \\(\\phi\\)."
         ],
         "answer": "Two steps of a diagonal step multiply each weight by itself, so \\(p^2=1\\) and \\(q^2=-1\\): \\(p=\\pm1\\) and \\(q=\\pm i\\). That gives four steps, and each satisfies normalization because \\(|p|=|q|=1\\). Take \\(A\\) with \\(p=1\\), \\(q=i\\). After \\(H\\) the amplitudes are \\((\\frac{1}{\\sqrt2},\\frac{1}{\\sqrt2})\\); \\(A\\) changes them to \\((\\frac{1}{\\sqrt2},\\frac{i}{\\sqrt2})\\), a relative phase \\(\\pi/2\\). The final \\(H\\) gives \\(p(0)=(1+\\cos\\frac\\pi2)/2=\\frac12\\). With \\(Z\\), the relative phase is \\(\\pi\\) and \\(p(0)=0\\); with no step it is \\(0\\) and \\(p(0)=1\\). Half the phase gives a probability halfway between, not a step halfway between “keep” and “flip.” The step with \\(q=i\\) reappears in later chapters as the phase gate \\(S\\).",
-        "review": "topic-3-4-2"
+        "review": "topic-3-4-3"
       }
     ]
   },

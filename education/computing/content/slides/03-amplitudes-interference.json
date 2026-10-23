@@ -431,31 +431,6 @@
  },
  {
   "kind": "content",
-  "title": "Adding amplitudes",
-  "topic": "3.4.1",
-  "blocks": [
-   {
-    "p": "Along one path, magnitudes multiply: \\(|z_1z_2|^2=|z_1|^2|z_2|^2\\). Where paths meet, add amplitudes first, then square:"
-   },
-   {
-    "math": "\\[|A+B|^2=|A|^2+|B|^2+AB^*+A^*B .\\]"
-   },
-   {
-    "p": "The cross terms record reinforcement or cancellation. For \\(\\sqrt X\\sqrt X\\), the return paths give \\(A=\\tfrac i2\\), \\(B=-\\tfrac i2\\): \\(|A+B|^2=0\\), whereas \\(|A|^2+|B|^2=\\tfrac12\\) would miss the cancellation."
-   },
-   {
-    "p": "Which steps keep total probability equal to 1 for every input? Expanding \\(\\sum_j|v_j^\\prime|^2\\) shows two conditions are needed:"
-   },
-   {
-    "math": "\\[\\sum_j|\\bra jS\\ket i|^2=1\\ \\text{(each input)},\\qquad \\sum_j\\bigl(\\bra jS\\ket i\\bigr)^*\\bra jS\\ket k=0\\ \\ (i\\ne k).\\]"
-   },
-   {
-    "p": "The second (cross-sum) condition makes probability lost by cancellation at one endpoint reappear at another. For \\(\\sqrt X\\): \\(a^*b+b^*a=-\\tfrac i2+\\tfrac i2=0\\)."
-   }
-  ]
- },
- {
-  "kind": "content",
   "title": "Phase",
   "topic": "3.4.1",
   "blocks": [
@@ -479,8 +454,29 @@
  },
  {
   "kind": "content",
-  "title": "Interference and phase",
+  "title": "Conservation of probability",
   "topic": "3.4.2",
+  "blocks": [
+   {
+    "p": "Along one path, magnitudes multiply: \\(|z_1z_2|^2=|z_1|^2|z_2|^2\\). Where paths meet, add amplitudes first, then square: \\(|A+B|^2=|A|^2+|B|^2+AB^*+A^*B\\)."
+   },
+   {
+    "p": "For any step \\(S\\), updating \\(v'_j=\\sum_i\\bra jS\\ket i\\,v_i\\) and summing \\(|v'_j|^2\\) over all outputs \\(j\\) requires two conditions to keep total probability equal to 1:"
+   },
+   {
+    "math": "\\[\\sum_j|\\bra jS\\ket i|^2=1\\ \\text{(each input)},\\qquad \\sum_j\\bigl(\\bra jS\\ket i\\bigr)^*\\bra jS\\ket k=0\\ \\ (i\\ne k).\\]"
+   },
+   {
+    "p": "Interpreting \\((\\bra jS\\ket i)^*\\bra jS\\ket k\\) as a forward arrow \\(k\\to j\\) followed by a reversed, conjugated arrow \\(j\\to i\\) shows that return paths \\(i\\to j\\to i\\) add to 1 and cross paths \\(k\\to j\\to i\\) cancel to 0—so conservation of probability automatically makes \\(S\\) reversible. For \\(\\sqrt X\\): \\(a^*b+b^*a=-\\tfrac i2+\\tfrac i2=0\\)."
+   }
+  ],
+  "figure": "cross-sum-paths.svg",
+  "figure_side": "right"
+ },
+ {
+  "kind": "content",
+  "title": "Interference and phase",
+  "topic": "3.4.3",
   "blocks": [
    {
     "p": "For an endpoint \\(k\\): \\(p(k)=\\bigl|\\sum_{\\text{paths to }k}\\text{amplitude}\\bigr|^2\\). Two Hadamard steps from 0: paths to 0 give \\(\\tfrac12+\\tfrac12\\), paths to 1 give \\(\\tfrac12-\\tfrac12\\). Squaring first would give \\(\\tfrac12\\) at each. This is interference."
@@ -495,13 +491,13 @@
     "p": "\\(\\phi=0\\): \\(p(0)=1\\); \\(\\phi=\\pi\\): 0; \\(\\phi=\\pi/2\\): \\(\\tfrac12\\). The phase flip \\(Z\\) (\\(\\ket1\\mapsto-\\ket1\\)) adds \\(\\pi\\): \\(H,Z,H\\) sends 0 to 1 with certainty."
    }
   ],
-  "figure": "subsections/topic-3-4-2.svg",
+  "figure": "subsections/topic-3-4-3.svg",
   "figure_side": "right"
  },
  {
   "kind": "content",
   "title": "Path information destroys interference",
-  "topic": "3.4.3",
+  "topic": "3.4.4",
   "blocks": [
    {
     "p": "Add a record bit, initially 0. Configurations are now pairs: first bit, then record. Apply \\(H\\) to the first bit, then CNOT (first bit controls the record):"
@@ -525,7 +521,7 @@
  {
   "kind": "content",
   "title": "Restoring interference by uncomputation",
-  "topic": "3.4.3",
+  "topic": "3.4.4",
   "blocks": [
    {
     "p": "Apply a second CNOT before the final \\(H\\). Since CNOT is its own inverse, \\(\\ket{00}\\mapsto\\ket{00}\\) and \\(\\ket{11}\\mapsto\\ket{10}\\): the record returns to 0 on both branches, with amplitudes unchanged."

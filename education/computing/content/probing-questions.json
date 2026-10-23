@@ -175,11 +175,16 @@
     "challenge": "Find every operation with \\(S(0\\to0)=S(1\\to1)=a\\) and \\(S(0\\to1)=S(1\\to0)=b\\) whose two steps give NOT. Show in particular that \\(a\\) and \\(b\\) cannot both be real."
   },
   "topic-3-4-2": {
+    "foundation": "Check the outgoing normalization condition and the cross-sum condition for the Hadamard step \\(H\\) using its four arrow weights.",
+    "application": "A proposed one-bit step \\(S\\) has all four arrow weights equal to \\(1/\\sqrt2\\). Show that its return paths from \\(0\\) and from \\(1\\) each sum to \\(1\\), but its cross paths \\(0\\to j\\to 1\\) fail to cancel.",
+    "challenge": "Show using the two-step round-trip paths \\(k\\to j\\to i\\) why any step \\(S\\) that satisfies outgoing normalization and the cross-sum condition is reversed by reversing its arrows and conjugating their weights."
+  },
+  "topic-3-4-3": {
     "foundation": "Two paths reach an outcome with amplitudes \\(1/2\\) and \\(i/2\\). What is its probability? Is the interference constructive, destructive, or neither?",
     "application": "Two paths contribute \\(0.6\\) and \\(-0.2\\) to an outcome. Compare the probability obtained by adding first with the result of squaring first.",
     "challenge": "Start with amplitudes \\((1/\\sqrt2,e^{i\\phi}/\\sqrt2)\\) and apply \\(H\\). The probability of \\(0\\) is \\((1+\\cos\\phi)/2\\). Which values of \\(\\phi\\) give the same probabilities, and what extra operation could distinguish them?"
   },
-  "topic-3-4-3": {
+  "topic-3-4-4": {
     "foundation": "After retaining the record, what is the probability of each final configuration? What is the probability that the record is one?",
     "application": "Follow the routes from the two configurations after recording, \\(00\\) and \\(11\\), through the final \\(H\\). Calculate the four final amplitudes and explain why the contributions to first-label value one do not cancel.",
     "challenge": "Suppose the recording is undone only after the final \\(H\\). Track the four amplitudes through this extra controlled-NOT. Does the first label now return to zero with certainty? Explain why the timing matters."
