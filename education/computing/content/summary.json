@@ -24,7 +24,7 @@
   "<strong>Complex amplitudes go further.</strong> Complex weights permit steps such as a square root of NOT, which no real rule allows. A configuration with amplitude \\(v_j\\) has probability \\(|v_j|^2\\). This is a postulate that the examples motivate, not a derivation.",
   "<strong>Preserving probability constrains every step.</strong> For every input state, total probability stays one only if each configuration’s outgoing amplitudes are normalized and the cross sums between different inputs vanish.",
   "<strong>Add amplitudes first, then square.</strong> Paths to a common endpoint interfere, constructively or destructively. A global phase changes no probability, while a relative phase changes the probabilities produced by later steps.",
-  "<strong>Path records destroy interference.</strong> A record of which path was taken sends the paths to different complete configurations, so they cannot cancel, whether or not anyone reads the record. Uncomputing the record restores the interference."
+  "<strong>Imprints on outside bits prevent expected interference.</strong> If an intermediate step leaves information about which path was taken imprinted on any outside bit, the paths end at different complete configurations and fail to cancel—whether or not anyone inspects that outside bit. Erasing the imprint by uncomputation restores the expected interference."
  ],
  "04-states-measurement": [
   "<strong>States are vectors.</strong> The weighted sum \\(\\ket\\psi=\\sum_iv_i\\ket i\\) becomes a column of amplitudes, and its bookkeeping rules become vector addition and multiplication by a number. The kets \\(\\ket0,\\ket1\\) form the computational basis.",

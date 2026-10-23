@@ -237,7 +237,7 @@
       "Show why the same two-state probabilistic rule cannot reproduce two Hadamard steps.",
       "Use the Born rule, and derive the constraints that preserve total probability.",
       "Construct a complex square root of NOT.",
-      "Explain how a leftover record destroys interference and how uncomputation restores it."
+      "Explain why leaving intermediate information imprinted on outside bits prevents the expected interference, and how uncomputation restores it."
     ],
     "limits": "The Born rule and unitary evolution are physical postulates. The examples motivate them; they do not derive quantum mechanics from classical probability. The next chapter explains the state after measurement.",
     "example": "The same bit, updated twice, runs through the whole chapter. Its quantum version, two Hadamard steps, returns in Deutsch’s algorithm.",
