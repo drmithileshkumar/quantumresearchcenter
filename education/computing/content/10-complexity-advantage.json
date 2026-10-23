@@ -112,11 +112,7 @@
       "number": "10.4"
     }
   ],
-  "opening": "Exhibiting a fast quantum algorithm shows only what is possible; proving a genuine advantage requires also showing what is impossible for every competing algorithm under the same rules. Even when Grover’s search reduces \\(N\\) oracle queries to about \\(\\sqrt{N}\\), can a cleverer quantum circuit do better still—say, in \\(\\log N\\) queries—or is \\(\\sqrt{N}\\) an unbreakable barrier built into the linearity of quantum mechanics?",
-  "opening_continuation": [
-    "Why isn’t a faster algorithm by itself enough to establish a computational separation? Because an upper bound only bounds the cost of one method, leaving open whether an equally fast classical algorithm is waiting to be discovered, or whether the speedup disappears once input encoding, gate overhead, and readout are counted on equal terms."
-  ],
-  "intro_continuation": [
-    "This chapter develops the framework needed to state and test claims of quantum advantage rigorously. We begin by fixing how computational costs are measured: input size, success criteria, asymptotic growth, and the distinction between query, gate, and space complexity. We then organize problems into complexity classes—P, NP, BPP, and BQP—to separate what is proved from what remains open about factoring and search. Next, we prove the matching \\(\\Omega(\\sqrt{N})\\) quantum query lower bound for unstructured search via both the hybrid argument and polynomial degree, showing that Grover’s algorithm is optimal. Finally, we step back to assess the scope and limits of quantum computation and where the subject continues."
-  ]
+  "opening": "In Chapters 7 and 9, we saw quantum algorithms that solve problems using fewer oracle queries than any classical procedure. When does a reduction in queries justify claiming that quantum computers are more powerful than classical ones?",
+  "opening_continuation": "We first fix how computational resources and problem difficulty are measured and compared. We then prove that the \\(\\sqrt{N}\\) query count for unstructured search cannot be improved, and examine the scope and limits of quantum advantage.",
+  "intro_continuation": "For example, in Chapter 9 we saw a quantum search algorithm that finds a marked item among \\(N\\) candidates using about \\(\\frac{\\pi}{4}\\sqrt{N}\\) queries. Does that mean no quantum algorithm could ever find the marked item in far fewer queries—say, \\(\\log_2 N\\)—or is \\(\\sqrt{N}\\) a fundamental limit? Answering such questions requires a precise way to measure costs and prove limits on all possible algorithms."
 }
