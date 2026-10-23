@@ -74,7 +74,7 @@
       "number": "4.2"
     }
   ],
-  "opening": "In Chapter 3, we wrote a state as a weighted sum of configuration kets, \\(\\sum_i v_i\\ket{i}\\), and described each step \\(S\\) by its transition weights \\(\\bra{j}S\\ket{i}\\), multiplying weights along paths and adding amplitudes that reach the same configuration. As the number of configurations and steps grows, tracking individual paths rapidly becomes unwieldy.",
-  "opening_continuation": "We first organize states and transitions into the language of vectors, inner products, and matrices. We then use this mathematical framework to state the physical postulates of quantum mechanics.",
-  "intro_continuation": "Notice that a state \\(v_0\\ket{0} + v_1\\ket{1}\\) is specified by an ordered list of amplitudes, and a step \\(S\\) is specified by a table of transition weights \\(\\bra{j}S\\ket{i}\\). How can we express multi-step updates and probability preservation directly in terms of these lists and tables, and what physical rule governs the state after an outcome is observed?"
+  "opening": "In Chapter 3, we represented a state as a weighted sum of configurations and updated it step by step by multiplying weights along paths and summing amplitudes at each endpoint. As the number of configurations and steps grows, tracking individual paths by hand quickly becomes unwieldy.",
+  "opening_continuation": "",
+  "intro_continuation": "Once states and transitions are expressed in the language of vectors and matrices, we can state the physical postulates that govern quantum states, reversible evolution, measurement, and composite systems."
 }

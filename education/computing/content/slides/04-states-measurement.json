@@ -31,32 +31,6 @@
  },
  {
   "kind": "content",
-  "title": "Steps and larger registers as columns",
-  "topic": "4.1.1",
-  "columns": [
-   [
-    {
-     "p": "The Hadamard step, written on columns:"
-    },
-    {
-     "math": "\\[H:\\ \\begin{pmatrix}1\\\\0\\end{pmatrix}\\mapsto\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\1\\end{pmatrix},\\quad \\begin{pmatrix}0\\\\1\\end{pmatrix}\\mapsto\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\-1\\end{pmatrix}.\\]"
-    },
-    {
-     "p": "Each coordinate of an image is an arrow weight \\(\\bra jH\\ket i\\); the minus sign is the negative arrow \\(1\\to1\\)."
-    },
-    {
-     "p": "Nothing is special about two configurations. With \\(00,01,10,11\\) in that order,"
-    },
-    {
-     "math": "\\[\\frac{\\ket{00}-\\ket{11}}{\\sqrt2}=\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\0\\\\0\\\\-1\\end{pmatrix}.\\]"
-    }
-   ]
-  ],
-  "figure": "hadamard-ket-notation.svg",
-  "figure_side": "right"
- },
- {
-  "kind": "content",
   "title": "The amplitude between two states",
   "topic": "4.1.2",
   "blocks": [

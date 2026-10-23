@@ -24,7 +24,7 @@
     "04-states-measurement",
     "Quantum States and Measurement",
     "How do path calculations become a geometry of states, and what happens when we observe a quantum system?",
-    "In Chapter 3, updating a state by a step meant multiplying each starting weight \\(v_i\\) by the transition weight \\(\\bra{j}S\\ket{i}\\) and summing over \\(i\\), while preserving total probability required the outgoing normalization and cross-sum conditions.",
+    "Representing states as column vectors and transition rules as matrices turns multi-step path sums into standard matrix multiplication and gives amplitudes a geometric meaning in terms of lengths and angles.",
     ""
   ],
   [
