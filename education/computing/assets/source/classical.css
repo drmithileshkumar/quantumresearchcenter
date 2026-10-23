@@ -2,7 +2,7 @@
 .classical-deck .concept-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:32px;align-items:center}
 .classical-deck .concept-layout .slide-content{font-size:clamp(17px,1.45vw,23px);line-height:1.5;min-width:0}
 .classical-deck .concept-layout .slide-content li{margin-bottom:.65em}
-.classical-deck .concept-visual{margin:0;min-width:0;background:#f0f4ef;border:1px solid #dce5de;border-radius:18px;padding:14px}
+.classical-deck .concept-visual{margin:0;min-width:0;background:#f0f4ef;border:1px solid #dce5de;border-radius:8px;padding:14px}
 .classical-deck .concept-visual > svg{display:block;width:100%;max-height:49vh}
 .classical-deck .concept-visual > svg rect{fill:#fff;stroke:#7ea5a0;stroke-width:1.5}
 .classical-deck .concept-visual > svg rect.warm{fill:#fbf0e3;stroke:#bd8b59}
@@ -30,7 +30,7 @@
 /* Conceptual bridge slides use HTML so all formulas are native MathJax. */
 .classical-deck .teaching-visual{padding:22px}
 .visual-sequence{display:flex;flex-direction:column;gap:8px}
-.visual-step{background:#fff;border:1px solid #9bbab2;border-radius:12px;padding:16px 12px;text-align:center;font-size:18px;line-height:1.5}
+.visual-step{background:#fff;border:1px solid #9bbab2;border-radius:8px;padding:16px 12px;text-align:center;font-size:18px;line-height:1.5}
 .visual-step strong{color:var(--accent);font-size:16px}
 .visual-link{text-align:center;color:var(--accent);font-size:20px;line-height:1}
 .teaching-visual figcaption{margin-top:18px!important}
@@ -111,7 +111,7 @@
 .cfg-rows{display:flex;flex-direction:column;gap:4px;margin-top:8px;align-items:center}
 .cfg-row{display:grid;grid-template-columns:28px 52px auto;align-items:center;gap:8px}
 .cfg-name{font-size:14px;color:var(--muted)}
-.cfg-state{font-size:13px;font-weight:600;color:var(--accent);background:#cde6db;border-radius:999px;padding:1px 8px;text-align:center}
+.cfg-state{font-size:13px;font-weight:600;color:var(--accent);background:#cde6db;border-radius:8px;padding:1px 8px;text-align:center}
 .cfg-tape{display:flex;gap:3px}
 .cfg-c{display:grid;place-items:center;width:24px;height:24px;border:1px solid #9bbab2;border-radius:5px;background:white;font-size:15px;font-variant-numeric:tabular-nums}
 .cfg-c.is-read{background:#e1e9e2;color:#8a9a91}
@@ -143,7 +143,7 @@
 .diag-table .diag-x{color:#a33427;font-weight:700;font-size:18px}
 @media screen and (min-width:801px) and (max-height:820px){.diag-table{font-size:14px;gap:3px 8px}.proof-display{font-size:.85em}}
 /* Slide 41: O / Omega / Theta definitions and the sandwich plot. */
-.bigo-defs{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:.4em 0 .2em;padding:10px 14px;background:#eef5f1;border-radius:12px;align-items:baseline}
+.bigo-defs{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:.4em 0 .2em;padding:10px 14px;background:#eef5f1;border-radius:8px;align-items:baseline}
 .bigo-defs dt{font-weight:700;color:var(--accent);white-space:nowrap}
 .bigo-defs dd{margin:0;font-size:.9em}
 .classical-deck .concept-visual > svg polyline{fill:none;stroke-width:2.5}
@@ -157,7 +157,7 @@
 /* Slide 1: list of sections. */
 .deck-toc .toc-head{margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 .deck-toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.deck-toc a{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:8px 12px;background:#fff;border:1px solid #9bbab2;border-radius:10px;color:var(--ink);text-decoration:none;font-size:16px;transition:border-color .15s,background .15s}
+.deck-toc a{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:8px 12px;background:#fff;border:1px solid #9bbab2;border-radius:8px;color:var(--ink);text-decoration:none;font-size:16px;transition:border-color .15s,background .15s}
 .deck-toc a:hover,.deck-toc a:focus-visible{border-color:var(--accent);background:#eef5f1}
 .deck-toc .toc-num{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#cde6db;color:var(--accent);font-weight:700;font-size:13px}
 .deck-toc .toc-range{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -200,7 +200,7 @@
 .classical-deck .concept-visual > svg text.pal-fail{font-size:20px;fill:#9aa8a6}
 .classical-deck .concept-visual > svg path.lba-fence{stroke:#b56b2c;stroke-width:4}
 .classical-deck .concept-visual > svg text.enc-string{font-size:21px;letter-spacing:2px;font-weight:600;fill:#176c70}
-.classical-deck .derivation-table{width:100%;font-size:19px;background:#fff;border-radius:12px;overflow:hidden;border-collapse:collapse}
+.classical-deck .derivation-table{width:100%;font-size:19px;background:#fff;border-radius:8px;overflow:hidden;border-collapse:collapse}
 .classical-deck .derivation-table th{font-size:13px;color:var(--muted);padding:8px 14px}
 .classical-deck .derivation-table td{padding:5px 14px}
 .classical-deck .derivation-table tr.is-phase td{border-top:2px solid #7ea5a0}
@@ -236,15 +236,15 @@
 .cc-story .slide-content li{margin-bottom:12px}
 .cc-story .checkpoint{font-size:12px;margin-top:12px}
 .cc-story .cc-result{background:#eee8f5;border-left:3px solid #705297;padding:12px;margin-top:16px;font-size:15px;line-height:1.45}
-.cc-story .cc-vector-map{background:white;border:1px solid #dce5de;border-radius:9px;padding:22px 10px;margin:12px 0;font-size:22px;text-align:center}
-.cc-story .cc-question{padding:16px;background:white;border:1px solid #dce5de;border-radius:10px;font-size:16px;text-align:left}
+.cc-story .cc-vector-map{background:white;border:1px solid #dce5de;border-radius:8px;padding:22px 10px;margin:12px 0;font-size:22px;text-align:center}
+.cc-story .cc-question{padding:16px;background:white;border:1px solid #dce5de;border-radius:8px;font-size:16px;text-align:left}
 .cc-question strong{color:var(--accent);font-size:13px}.cc-question p{margin:8px 0 0}.cc-story figure figcaption{font-size:12px;line-height:1.45}
 @media screen and (min-width:801px) and (max-height:900px){.classical-deck .cc-story{padding-top:18px;padding-bottom:12px}.cc-story .eyebrow{margin-bottom:12px}.cc-story h2{font-size:32px;margin-bottom:18px}.classical-deck .cc-story .slide-content{font-size:16px}.cc-story .cc-lead{margin-bottom:12px}.cc-story .slide-content li{margin-bottom:10px}}
 @media screen and (min-width:801px) and (max-height:760px){.classical-deck .cc-story .slide-content{font-size:15px}.cc-story h2{font-size:29px;margin-bottom:14px}.cc-story .cc-lead{margin-bottom:10px}.cc-story .slide-content li{margin-bottom:9px}.cc-story .cc-vector-map{padding:15px 8px;font-size:19px}.cc-story .cc-question{padding:12px;font-size:14px}}
 @media(max-width:800px){.classical-deck .cc-story .slide-content{font-size:18px}.cc-story .cc-vector-map{font-size:18px}}
 @media screen and (min-width:801px) and (max-height:760px){.cc-recap .visual-step{padding:8px;font-size:15px;line-height:1.4}.cc-recap .visual-step .grammar-note{font-size:12px}.cc-recap .visual-link{line-height:1.1}}
 /* Derive the circuit model from Boolean polynomials. */
-.cp-card{background:white;border:1px solid #dce5de;border-radius:10px;padding:15px 12px;margin:10px 0;font-size:18px;line-height:1.5}
+.cp-card{background:white;border:1px solid #dce5de;border-radius:8px;padding:15px 12px;margin:10px 0;font-size:18px;line-height:1.5}
 .cp-card>strong{display:block;font-size:12px;color:var(--accent);margin-bottom:8px}
 .classical-deck .cp-visual .truth-table{font-size:15px;margin:12px 0;width:100%}
 .classical-deck .cp-visual .truth-table td,.classical-deck .cp-visual .truth-table th{padding:8px 5px}
@@ -265,7 +265,7 @@
 .growth-definitions dd{margin:0;line-height:1.4}
 .growth-definitions dd>div{margin-top:4px}
 .growth-conditions{font-size:.85em;line-height:1.4;margin:12px 0 0}
-.growth-example{border:1px solid #dce5de;border-radius:9px;background:white;padding:12px;margin-top:10px;font-size:15px;line-height:1.4}
+.growth-example{border:1px solid #dce5de;border-radius:8px;background:white;padding:12px;margin-top:10px;font-size:15px;line-height:1.4}
 .growth-example strong{color:var(--accent);font-size:13px}.growth-example p{margin:7px 0 0}
 .classical-deck .growth-intro .concept-visual>svg{max-height:28vh}
 @media screen and (min-width:801px) and (max-height:760px){.growth-definitions{gap:3px;margin:7px 0}.growth-definitions dt{margin-top:5px}.growth-definitions dd>div{margin-top:2px}.growth-conditions{margin-top:7px}.growth-example{font-size:13px;padding:9px}.classical-deck .growth-intro .concept-visual>svg{max-height:23vh}.classical-deck .growth-intro .slide-content{font-size:14px}}
@@ -295,7 +295,7 @@
 }
 /* Standard reversible symbols above ordinary NAND realizations. */
 .rg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.rg-card{background:#edf3ef;border:1px solid #d6e3db;border-radius:12px;padding:10px 12px}
+.rg-card{background:#edf3ef;border:1px solid #d6e3db;border-radius:8px;padding:10px 12px}
 .rg-card h3{font-size:20px;color:var(--accent);margin:0}
 .rg-subtitle{font-size:12px;margin:3px 0 0;color:var(--muted)}
 .rg-card>svg{display:block;width:100%}
@@ -355,7 +355,7 @@
 .controlled-intro .rg-symbol{max-height:70px}
 .controlled-intro .rg-note{font-size:12px}
 .cn-example{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px;margin-top:12px;align-items:center}
-.cn-example figure{margin:0;background:#edf3ef;border:1px solid #d6e3db;border-radius:10px;padding:10px}
+.cn-example figure{margin:0;background:#edf3ef;border:1px solid #d6e3db;border-radius:8px;padding:10px}
 .cn-example h3{font-size:14px;color:var(--accent);margin:0 0 6px}
 .cn-example figure>svg{display:block;width:100%;max-height:140px}
 .cn-example svg>path{stroke:#176c70;stroke-width:1.8;fill:none}
@@ -406,7 +406,7 @@
 .classical-deck .gc-table td,.classical-deck .gc-table th{padding:.15em .35em;font-size:13px;text-align:center}
 @media screen and (min-width:801px) and (max-height:820px){.classical-deck .concept-visual svg.gc-circuit{max-height:19vh}}
 /* Slide 54: general reversible-computation recipe */
-.recipe-box{background:#fff;border:1px solid #9bbab2;border-radius:12px;padding:10px 14px;margin:8px 0 4px;font-size:14px;line-height:1.4}
+.recipe-box{background:#fff;border:1px solid #9bbab2;border-radius:8px;padding:10px 14px;margin:8px 0 4px;font-size:14px;line-height:1.4}
 .recipe-box strong{color:var(--accent)}
 .recipe-box ol{margin:.3em 0;padding-left:1.3em}
 .recipe-map{text-align:center;margin:.3em 0;font-size:15px}

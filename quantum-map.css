@@ -8,7 +8,7 @@
 .qm-controls button:hover{border-color:var(--blue);color:var(--blue)}
 .qm-controls button:disabled{opacity:.5;cursor:default}
 .quantum-map #qm-help,.quantum-map .qm-note{font:13px/1.75 system-ui,sans-serif;color:var(--muted);max-width:780px}
-.qm-viewport{max-height:640px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle,var(--line) .7px,transparent .8px) 0 0/20px 20px,var(--surface);padding:32px 24px;overscroll-behavior-x:contain}
+.qm-viewport{max-height:640px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:32px 24px;overscroll-behavior-x:contain}
 .qm-tree,.qm-tree ul{list-style:none;padding:0;margin:0}
 .qm-tree{width:max-content;min-width:100%;font:13px/1.45 system-ui,sans-serif}
 .qm-tree li{position:relative;margin:0;padding:7px 0}

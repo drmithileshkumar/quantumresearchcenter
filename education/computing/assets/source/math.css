@@ -4,9 +4,9 @@ mjx-container[jax="SVG"][display="true"]{margin:.65em 0!important}
 .math-inline{white-space:normal}
 .formula-panel{padding:24px!important}
 .formula-panel .formula-label{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
-.formula-panel .formula-expression{background:white;border:1px solid #7ea5a0;border-radius:12px;padding:10px 8px;font-size:clamp(16px,1.6vw,24px)}
+.formula-panel .formula-expression{background:white;border:1px solid #7ea5a0;border-radius:8px;padding:10px 8px;font-size:clamp(16px,1.6vw,24px)}
 .formula-panel .formula-key{font-size:14px;line-height:1.65;color:#546a70;margin:12px 0 24px}
-.formula-panel .validity-question{background:#fbf0e3;border:1px solid #bd8b59;border-radius:10px;padding:12px;font-size:14px;text-align:center}
+.formula-panel .validity-question{background:#fbf0e3;border:1px solid #bd8b59;border-radius:8px;padding:12px;font-size:14px;text-align:center}
 .formula-panel figcaption{margin:18px 0 0!important}
 @media print{.math-display{overflow:visible}.formula-panel .formula-expression{font-size:17pt}}
 .math-display{overflow-y:hidden;padding:.35em 0}
