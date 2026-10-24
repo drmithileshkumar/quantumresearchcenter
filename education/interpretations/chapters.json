@@ -1,0 +1,362 @@
+[
+  {
+    "stem": "01-measurement-problem",
+    "title": "What Needs Interpreting?",
+    "question": "If the equations predict the detector statistics, what is left for an interpretation to explain?",
+    "prerequisites": "Quantum Foundations: states, tensor products, projective measurement, and probability.",
+    "example": "A qubit and a two-state pointer coupled by a controlled NOT.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "A reduced density matrix that predicts outcomes does not, by itself, specify what physically occurs in one run.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "number": "1.1",
+        "title": "A detector is a quantum system",
+        "subsections": [
+          "Follow the amplitudes into the apparatus"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "number": "1.2",
+        "title": "Three claims in tension",
+        "subsections": [
+          "State exactly where the problem enters"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "number": "1.3",
+        "title": "Predictions and physical accounts",
+        "subsections": [
+          "Separate the formalism from an explanation"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "02-decoherence",
+    "title": "Decoherence and the Classical Record",
+    "question": "How can interference disappear from view while remaining in the joint state?",
+    "prerequisites": "Chapters 1–1; familiarity with density operators and linear algebra.",
+    "example": "A qubit records its Z value in many environmental qubits.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "Decoherence suppresses accessible interference; it does not independently select one outcome.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "number": "2.1",
+        "title": "Losing access to a phase",
+        "subsections": [
+          "Trace out the environmental record"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "number": "2.2",
+        "title": "Why some records persist",
+        "subsections": [
+          "The interaction selects stable alternatives"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "number": "2.3",
+        "title": "Mixtures and reversibility",
+        "subsections": [
+          "Distinguish local equivalence from global identity"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "03-bell-and-contextuality",
+    "title": "Bell, Contextuality, and the Limits of Classical Accounts",
+    "question": "Which assumptions about reality are actually excluded by quantum correlations?",
+    "prerequisites": "Chapters 1–2; familiarity with density operators and linear algebra.",
+    "example": "CHSH correlations and a two-qubit Peres–Mermin square.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "Bell violations do not exclude every hidden-variable theory, and no-signalling is weaker than Bell locality.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "number": "3.1",
+        "title": "A precise locality condition",
+        "subsections": [
+          "Derive the CHSH bound"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "number": "3.2",
+        "title": "Quantum correlations without messages",
+        "subsections": [
+          "Separate factorization from no-signalling"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "number": "3.3",
+        "title": "Contextual values",
+        "subsections": [
+          "An algebraic obstruction to a global value table"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "04-operational-and-histories",
+    "title": "Operational Accounts and Consistent Histories",
+    "question": "When can we use probabilities without assigning one universal classical story?",
+    "prerequisites": "Chapters 1–3; familiarity with density operators and linear algebra.",
+    "example": "Sequential Z and X questions about a qubit initially in |+⟩.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "An operational recipe, historical Copenhagen views, and consistent histories are related topics, not identical doctrines.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "number": "4.1",
+        "title": "What a measurement prescription supplies",
+        "subsections": [
+          "Conditioning within a specified experimental context"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "number": "4.2",
+        "title": "Histories as quantum alternatives",
+        "subsections": [
+          "Compute the decoherence functional"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "number": "4.3",
+        "title": "One framework at a time",
+        "subsections": [
+          "Find exactly where classical addition fails"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "05-everett",
+    "title": "Everett and Relative States",
+    "question": "What happens if the measurement interaction is never replaced by collapse?",
+    "prerequisites": "Chapters 1–4; familiarity with density operators and linear algebra.",
+    "example": "A correlated observer record and unequal branch weights.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "Counting branches is not a well-defined substitute for the Born rule.",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "number": "5.1",
+        "title": "Relative states",
+        "subsections": [
+          "Condition a description without deleting the global state"
+        ]
+      },
+      {
+        "id": "section-5-2",
+        "number": "5.2",
+        "title": "Branches and stable records",
+        "subsections": [
+          "Use decoherence rather than an arbitrary basis expansion"
+        ]
+      },
+      {
+        "id": "section-5-3",
+        "number": "5.3",
+        "title": "Probability in a unitary world",
+        "subsections": [
+          "Identify the assumptions behind a weight rule"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "06-bohmian-mechanics",
+    "title": "Bohmian Mechanics",
+    "question": "What changes when particles have positions in addition to a wavefunction?",
+    "prerequisites": "Chapters 1–5; familiarity with density operators and linear algebra.",
+    "example": "Probability current, a travelling wave, and an apparatus with separated packets.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "Definite positions do not imply pre-existing values for every measured operator.",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "number": "6.1",
+        "title": "State and guiding law",
+        "subsections": [
+          "Derive a velocity field from probability current"
+        ]
+      },
+      {
+        "id": "section-6-2",
+        "number": "6.2",
+        "title": "Quantum equilibrium",
+        "subsections": [
+          "Why the Born density is preserved"
+        ]
+      },
+      {
+        "id": "section-6-3",
+        "number": "6.3",
+        "title": "Measurement and nonlocality",
+        "subsections": [
+          "Follow the actual configuration into a record"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "07-collapse-models",
+    "title": "Objective Collapse and Experimental Alternatives",
+    "question": "What would it mean for reduction to be an actual physical process?",
+    "prerequisites": "Chapters 1–6; familiarity with density operators and linear algebra.",
+    "example": "Poisson-distributed position localizations and a qubit dephasing toy model.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "An ensemble master equation alone does not show that individual trajectories localize.",
+    "sections": [
+      {
+        "id": "section-7-1",
+        "number": "7.1",
+        "title": "Changing the dynamics",
+        "subsections": [
+          "Specify a jump law and its probability density"
+        ]
+      },
+      {
+        "id": "section-7-2",
+        "number": "7.2",
+        "title": "Amplification and ensemble evolution",
+        "subsections": [
+          "Separate trajectories from their average"
+        ]
+      },
+      {
+        "id": "section-7-3",
+        "number": "7.3",
+        "title": "A testable proposal",
+        "subsections": [
+          "Distinguish new dynamics from ordinary environmental noise"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "08-relational-and-qbism",
+    "title": "Relational Quantum Mechanics and QBism",
+    "question": "Who or what is a quantum state a state for?",
+    "prerequisites": "Chapters 1–7; familiarity with density operators and linear algebra.",
+    "example": "A friend records a qubit while another system describes the combined laboratory.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "Relational quantum mechanics and QBism differ about events, agents, and the role of probabilities.",
+    "sections": [
+      {
+        "id": "section-8-1",
+        "number": "8.1",
+        "title": "Relational events",
+        "subsections": [
+          "Make the reference system explicit"
+        ]
+      },
+      {
+        "id": "section-8-2",
+        "number": "8.2",
+        "title": "Agents and probability assignments",
+        "subsections": [
+          "Use the Born rule as a normative constraint"
+        ]
+      },
+      {
+        "id": "section-8-3",
+        "number": "8.3",
+        "title": "Agreement and comparison",
+        "subsections": [
+          "Do not exchange states without exchanging their conditions"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "09-quantum-state-ontology",
+    "title": "Quantum-State Ontology and the PBR Argument",
+    "question": "Can distinct pure quantum states represent overlapping ignorance about the same underlying reality?",
+    "prerequisites": "Chapters 1–8; familiarity with density operators and linear algebra.",
+    "example": "A four-outcome measurement excluding four nonorthogonal two-qubit preparations.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "ψ-ontic does not mean complete, a material wave in ordinary space, or a proof that every informational interpretation is impossible.",
+    "sections": [
+      {
+        "id": "section-9-1",
+        "number": "9.1",
+        "title": "An ontological-model vocabulary",
+        "subsections": [
+          "Separate an underlying state from its preparation distribution"
+        ]
+      },
+      {
+        "id": "section-9-2",
+        "number": "9.2",
+        "title": "Preparation independence",
+        "subsections": [
+          "Build the two-copy exclusion experiment"
+        ]
+      },
+      {
+        "id": "section-9-3",
+        "number": "9.3",
+        "title": "What the contradiction establishes",
+        "subsections": [
+          "Keep the assumptions attached to the conclusion"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "10-quantum-observers",
+    "title": "Quantum Observers and Comparing Interpretations",
+    "question": "Can we consistently reason about observers who are themselves measured quantum mechanically?",
+    "prerequisites": "Chapters 1–9; familiarity with density operators and linear algebra.",
+    "example": "A reversible friend interaction and a four-agent inference puzzle.",
+    "method": "Calculate a concrete experiment, identify the assumptions, then compare what different accounts explain.",
+    "pitfall": "A contradiction between an assumption package is not a proof that quantum mechanics is unusable or that one interpretation wins.",
+    "sections": [
+      {
+        "id": "section-10-1",
+        "number": "10.1",
+        "title": "Wigner’s friend as an experiment",
+        "subsections": [
+          "Specify which laboratory observable is measured"
+        ]
+      },
+      {
+        "id": "section-10-2",
+        "number": "10.2",
+        "title": "Cross-agent inference",
+        "subsections": [
+          "Separate a joint amplitude from a chain of certainty claims"
+        ]
+      },
+      {
+        "id": "section-10-3",
+        "number": "10.3",
+        "title": "A comparative research practicum",
+        "subsections": [
+          "Evaluate accounts with the same mathematical benchmark"
+        ]
+      }
+    ],
+    "status": "draft"
+  }
+]

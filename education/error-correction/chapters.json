@@ -1,0 +1,362 @@
+[
+  {
+    "stem": "01-protecting-a-qubit",
+    "title": "Protecting an Unknown Quantum State",
+    "question": "How can we learn what went wrong without learning the state we wanted to protect?",
+    "prerequisites": "Qubits, tensor products, measurements, and basic quantum circuits.",
+    "example": "Encoding α|0⟩+β|1⟩ into α|000⟩+β|111⟩.",
+    "method": "Compare the information revealed by a measurement with the information that must remain private.",
+    "pitfall": "An encoding distributes amplitudes; it does not make independent copies of a state.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "number": "1.1",
+        "title": "Why a spare copy does not solve it",
+        "subsections": [
+          "Encoding is different from cloning"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "number": "1.2",
+        "title": "Learning an error without reading a message",
+        "subsections": [
+          "Parity keeps the logical alternatives together"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "number": "1.3",
+        "title": "What has actually been protected",
+        "subsections": [
+          "A restricted error model and a stronger success test"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "02-correctable-errors",
+    "title": "Correctable Errors",
+    "question": "What condition guarantees that one recovery works for every logical state?",
+    "prerequisites": "Chapter 1; channels, Kraus operators, and reduced states from Quantum Information Theory.",
+    "example": "The repetition code tested against {I,X₁,X₂,X₃} and against {I,Z₁}.",
+    "method": "Derive a code-space condition from the environment’s reduced density matrix.",
+    "pitfall": "Checking only diagonal error probabilities misses coherence leaking to the environment.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "number": "2.1",
+        "title": "Where the environment gets information",
+        "subsections": [
+          "Inspect the entire environmental state"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "number": "2.2",
+        "title": "Constructing a recovery",
+        "subsections": [
+          "Separate error spaces, then reverse their isometries"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "number": "2.3",
+        "title": "From discrete errors to continuous noise",
+        "subsections": [
+          "Linearity protects an error span"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "03-stabilizer-codes",
+    "title": "Stabilizer Codes",
+    "question": "Can we specify a large quantum code by a small list of measurable constraints?",
+    "prerequisites": "Chapters 1–2; Pauli matrices and commutation.",
+    "example": "The [[5,1,3]] code specified by four cyclic Pauli checks.",
+    "method": "Describe a code as a simultaneous +1 eigenspace and compute syndromes by anticommutation.",
+    "pitfall": "Independent commuting checks must exclude −I, or their common +1 eigenspace is empty.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "number": "3.1",
+        "title": "Checks as a definition of a subspace",
+        "subsections": [
+          "Counting what commuting constraints leave free"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "number": "3.2",
+        "title": "Reading an error through its commutators",
+        "subsections": [
+          "Syndromes without state-vector simulation"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "number": "3.3",
+        "title": "A code that handles every single-qubit Pauli",
+        "subsections": [
+          "The five-qubit construction"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "04-css-codes",
+    "title": "CSS Codes and Classical Coding Theory",
+    "question": "How can classical parity checks protect both quantum amplitudes and phases?",
+    "prerequisites": "Chapters 1–3; binary strings and stabilizer commutation.",
+    "example": "The seven-qubit Steane code built from a binary Hamming parity-check matrix.",
+    "method": "Translate binary parity checks into X- and Z-type operators, then impose cross-commutation.",
+    "pitfall": "Two independently chosen classical codes need not produce compatible quantum checks.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "number": "4.1",
+        "title": "Classical parity checks",
+        "subsections": [
+          "A syndrome is a linear function of the error"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "number": "4.2",
+        "title": "Two kinds of parity",
+        "subsections": [
+          "The CSS compatibility condition"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "number": "4.3",
+        "title": "Constructing logical states",
+        "subsections": [
+          "Superpositions over classical cosets"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "05-logical-operators",
+    "title": "Logical Operators and Code Distance",
+    "question": "Which errors can evade every check while changing the encoded information?",
+    "prerequisites": "Chapters 1–4; stabilizers, syndromes, and CSS codes.",
+    "example": "Comparing the repetition code’s logical Z with the Steane code’s weight-three logical operators.",
+    "method": "Separate stabilizers from nontrivial operators in the Pauli centralizer.",
+    "pitfall": "The smallest nontrivial logical operator sets distance, not the largest generator weight.",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "number": "5.1",
+        "title": "Invisible operations",
+        "subsections": [
+          "Stabilizers versus logical Paulis"
+        ]
+      },
+      {
+        "id": "section-5-2",
+        "number": "5.2",
+        "title": "Distance and correctable weight",
+        "subsections": [
+          "Why products of two errors appear"
+        ]
+      },
+      {
+        "id": "section-5-3",
+        "number": "5.3",
+        "title": "Finding a short logical operator",
+        "subsections": [
+          "Distance is a lower and upper bound problem"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "06-syndromes-and-decoding",
+    "title": "Syndrome Extraction and Decoding",
+    "question": "How can a circuit record parity without reading the logical state, and how should we interpret its record?",
+    "prerequisites": "Chapters 1–5; CNOT and projective measurement.",
+    "example": "Measuring Z₁Z₂ with one ancilla and decoding repeated parity records.",
+    "method": "Derive the measurement operators of a parity circuit, then separate inference from correction.",
+    "pitfall": "A syndrome is evidence about an error class, not a guaranteed record of a unique physical event.",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "number": "6.1",
+        "title": "Building a parity measurement",
+        "subsections": [
+          "An ancilla records only the joint eigenvalue"
+        ]
+      },
+      {
+        "id": "section-6-2",
+        "number": "6.2",
+        "title": "Decoding a syndrome",
+        "subsections": [
+          "Choose a logical class, not a microscopic history"
+        ]
+      },
+      {
+        "id": "section-6-3",
+        "number": "6.3",
+        "title": "When the record is noisy",
+        "subsections": [
+          "Changes in time reveal more than one measurement"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "07-surface-codes",
+    "title": "Surface Codes",
+    "question": "How can local parity checks protect information stored in a global geometric pattern?",
+    "prerequisites": "Chapters 1–6; CSS checks, distance, and syndrome decoding.",
+    "example": "A square lattice with periodic boundaries, followed by a planar code patch.",
+    "method": "Interpret Pauli errors as chains, their syndromes as endpoints, and logical operators as nontrivial paths.",
+    "pitfall": "A toric code and a planar surface-code patch have different boundaries and logical-qubit counts.",
+    "sections": [
+      {
+        "id": "section-7-1",
+        "number": "7.1",
+        "title": "A lattice of compatible checks",
+        "subsections": [
+          "First remove the complication of boundaries"
+        ]
+      },
+      {
+        "id": "section-7-2",
+        "number": "7.2",
+        "title": "Errors as paths",
+        "subsections": [
+          "Endpoints reveal damage but not the whole history"
+        ]
+      },
+      {
+        "id": "section-7-3",
+        "number": "7.3",
+        "title": "Opening the surface",
+        "subsections": [
+          "Boundaries determine which paths become logical"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "08-fault-tolerant-operations",
+    "title": "Fault-Tolerant Operations",
+    "question": "What prevents the correction machinery itself from creating an uncorrectable error?",
+    "prerequisites": "Chapters 1–7; CNOT propagation, distance, and syndrome circuits.",
+    "example": "An ancilla fault in a parity circuit and a transversal CNOT between encoded blocks.",
+    "method": "Track faults through gates and distinguish logical implementation from fault containment.",
+    "pitfall": "A circuit implementing the correct ideal logical operation is not automatically fault tolerant.",
+    "sections": [
+      {
+        "id": "section-8-1",
+        "number": "8.1",
+        "title": "Following a fault through a gate",
+        "subsections": [
+          "Propagation depends on both Pauli type and direction"
+        ]
+      },
+      {
+        "id": "section-8-2",
+        "number": "8.2",
+        "title": "Transversal gates",
+        "subsections": [
+          "Contain spread without giving up logical action"
+        ]
+      },
+      {
+        "id": "section-8-3",
+        "number": "8.3",
+        "title": "Making syndrome extraction reliable",
+        "subsections": [
+          "A gadget needs a fault argument, not only a circuit"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "09-universal-logical-computation",
+    "title": "Universal Logical Computation",
+    "question": "How can we obtain a universal gate set when the easiest protected gates are restricted?",
+    "prerequisites": "Chapters 1–8; Clifford gates, logical operators, and measurements.",
+    "example": "Injecting a T gate using an ancilla (|0⟩+e^(iπ/4)|1⟩)/√2.",
+    "method": "Derive each measurement branch and account for the resource state consumed.",
+    "pitfall": "A state-injection identity assumes a sufficiently accurate resource; it is not itself a fault-tolerance proof.",
+    "sections": [
+      {
+        "id": "section-9-1",
+        "number": "9.1",
+        "title": "The protected gate set has limits",
+        "subsections": [
+          "Clifford operations and transversality"
+        ]
+      },
+      {
+        "id": "section-9-2",
+        "number": "9.2",
+        "title": "Injecting a gate from a state",
+        "subsections": [
+          "Calculate both outcomes before claiming success"
+        ]
+      },
+      {
+        "id": "section-9-3",
+        "number": "9.3",
+        "title": "Improving and budgeting resource states",
+        "subsections": [
+          "Distillation has assumptions and a yield"
+        ]
+      }
+    ],
+    "status": "draft"
+  },
+  {
+    "stem": "10-thresholds-and-resources",
+    "title": "Thresholds and Resource Estimates",
+    "question": "When does adding protection improve a computation, and what does that protection cost?",
+    "prerequisites": "Chapters 1–9; error probabilities, logical circuits, and resource-state accounting.",
+    "example": "An explicitly hypothetical surface-code model and a small concatenation recurrence.",
+    "method": "Budget total failure probability, invert a declared scaling model, and expose omitted resources.",
+    "pitfall": "A threshold is tied to a noise model, code family, decoder, and circuit; it is not a universal device number.",
+    "sections": [
+      {
+        "id": "section-10-1",
+        "number": "10.1",
+        "title": "Why a threshold can exist",
+        "subsections": [
+          "Suppress faults faster than we add locations"
+        ]
+      },
+      {
+        "id": "section-10-2",
+        "number": "10.2",
+        "title": "Budgeting an entire computation",
+        "subsections": [
+          "Invert a scaling model with units attached"
+        ]
+      },
+      {
+        "id": "section-10-3",
+        "number": "10.3",
+        "title": "A reproducible resource study",
+        "subsections": [
+          "Report what the model establishes"
+        ]
+      }
+    ],
+    "status": "draft"
+  }
+]

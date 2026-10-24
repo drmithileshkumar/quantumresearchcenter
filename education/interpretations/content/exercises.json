@@ -1,0 +1,922 @@
+{
+  "01-measurement-problem": [
+    {
+      "kind": "Quick check",
+      "question": "Compute the pointer probabilities for α=√3/2 and β=i/2.",
+      "hints": [
+        "Take squared magnitudes."
+      ],
+      "answer": "They are 3/4 and 1/4; the relative phase does not change these Z statistics.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find the reduced system purity for general normalized α,β.",
+      "hints": [
+        "The eigenvalues are |α|² and |β|²."
+      ],
+      "answer": "The purity is |α|⁴+|β|⁴. It is one only when one amplitude vanishes.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Why does the measurement interaction not clone an arbitrary qubit?",
+      "hints": [
+        "Compare α|00⟩+β|11⟩ with a tensor square."
+      ],
+      "answer": "The tensor square has cross terms αβ|01⟩ and αβ|10⟩ and squared amplitudes. The correlated output copies basis labels, not arbitrary states.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "List one commitment that a collapse model changes.",
+      "hints": [
+        "Look at the dynamical claim."
+      ],
+      "answer": "Universal unitary evolution is modified by stochastic localization; single outcomes are then associated with an additional physical process.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Explain why tracing out a system is not a physical collapse.",
+      "hints": [
+        "Compare the global state before and after the calculation."
+      ],
+      "answer": "The partial trace changes which observables we describe, leaving the global state untouched. Collapse would change the state or its physical interpretation.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What additional value rule is used in the three-claim tension?",
+      "hints": [
+        "Which states count as definite pointer values?"
+      ],
+      "answer": "A definite record is represented by a state in its corresponding pointer subspace. Changing the relation between state and definite properties changes the argument.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "For E±=(I±ηZ)/2, determine allowed real η.",
+      "hints": [
+        "Require both eigenvalues of each effect to be nonnegative."
+      ],
+      "answer": "The eigenvalues are (1+η)/2 and (1−η)/2, so −1≤η≤1; their sum gives I.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Calculate p(+) for ρ=(I+rZ)/2 and E+ above.",
+      "hints": [
+        "Use Tr Z=0 and Tr I=2."
+      ],
+      "answer": "The probability is (1+ηr)/2. It depends on both the state and the measurement sharpness.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Why are effects insufficient for predicting a second measurement?",
+      "hints": [
+        "Compare the two instruments in the worked check."
+      ],
+      "answer": "The effects fix outcome probabilities but not conditional output states. The disturbance map is needed for subsequent statistics.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Design a comparison rubric for two interpretations.",
+      "hints": [
+        "Use the assumption ledger."
+      ],
+      "answer": "Specify the state meaning, ontology, dynamics, outcome account, probability rule, and empirical domain for each. Compare the same apparatus model before discussing explanatory preferences.",
+      "review": "section-1-3"
+    }
+  ],
+  "02-decoherence": [
+    {
+      "kind": "Quick check",
+      "question": "For α=β=1/√2 and real γ, find the eigenvalues of the reduced matrix.",
+      "hints": [
+        "Use the X eigenbasis."
+      ],
+      "answer": "They are (1+γ)/2 and (1−γ)/2; positivity requires |γ|≤1.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For γ=i/2, find the reduced-state purity.",
+      "hints": [
+        "Use the magnitude of the off-diagonal entries."
+      ],
+      "answer": "For equal populations, purity is (1+|γ|²)/2=5/8. The phase changes the Bloch direction, not its length.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "How many independent fragments with g=1/2 reduce the overlap below 10⁻³?",
+      "hints": [
+        "Solve 2⁻ᴺ<0.001."
+      ],
+      "answer": "N=10 suffices since 2⁻¹⁰≈0.0009766; N=9 does not.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Which basis does X⊗B monitor?",
+      "hints": [
+        "Diagonalize the system operator."
+      ],
+      "answer": "The X eigenstates |+⟩ and |−⟩ acquire different environmental records and are unchanged as system states by this interaction alone.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Does damping off-diagonal elements specify a trajectory for one run?",
+      "hints": [
+        "Distinguish a channel from an unraveling."
+      ],
+      "answer": "No. An ensemble map constrains averages. A trajectory requires a measurement scheme or additional dynamical postulates.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Calculate the X expectation after dephasing time t for |+⟩.",
+      "hints": [
+        "Read the off-diagonal element."
+      ],
+      "answer": "It is exp(−Γt). Z remains zero and the state approaches I/2 as t grows.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Compute the ZZ expectation in the Bell state and the mixture.",
+      "hints": [
+        "Both have only 00 and 11 populations."
+      ],
+      "answer": "It is +1 in both, so ZZ does not detect their coherence difference.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Can a local measurement distinguish these two global states?",
+      "hints": [
+        "Compare the partial traces."
+      ],
+      "answer": "No. Both reduced states are I/2, hence every local POVM has identical probabilities.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Apply inverse premeasurement to the mixture.",
+      "hints": [
+        "Map 00→00 and 11→10."
+      ],
+      "answer": "The result is I/2 on the first qubit tensored with |0⟩⟨0| on the second. An X+ test succeeds with probability 1/2.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "State precisely what decoherence establishes in this model.",
+      "hints": [
+        "Mention both a calculation and its scope."
+      ],
+      "answer": "It multiplies reduced off-diagonal entries by environmental overlap and explains lost local visibility. It does not turn the global pure state into one uniquely selected product term.",
+      "review": "section-2-3"
+    }
+  ],
+  "03-bell-and-contextuality": [
+    {
+      "kind": "Quick check",
+      "question": "What role does measurement independence play in the average?",
+      "hints": [
+        "Consider a different μ for each setting pair."
+      ],
+      "answer": "A common μ permits combining four correlations into one bounded integrand. Setting-dependent distributions invalidate that step.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Prove |u+v|+|u−v|≤2 for u,v∈[−1,1].",
+      "hints": [
+        "Order their absolute values."
+      ],
+      "answer": "The expression equals 2 max(|u|,|v|), which is at most two.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Must Bell-local responses be deterministic?",
+      "hints": [
+        "Use conditional means."
+      ],
+      "answer": "No. The bound holds for all means in [−1,1], including stochastic response functions.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Compute E₁₁ for the specified Bell experiment.",
+      "hints": [
+        "Use XX=1 and XZ=0."
+      ],
+      "answer": "The expectation of X⊗(Z−X)/√2 is −1/√2.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "For v=0.8 calculate S.",
+      "hints": [
+        "Multiply 2√2 by visibility."
+      ],
+      "answer": "S≈2.2627, above two for these ideal measurements.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why does postselecting on Bob’s outcome not enable signalling?",
+      "hints": [
+        "Who has access to the outcome label?"
+      ],
+      "answer": "Conditional ensembles can differ, but Alice must receive Bob’s outcome information to select them. Her unconditioned statistics do not depend on his setting.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Verify the third row product of the square.",
+      "hints": [
+        "Use XZ=−iY and ZX=iY."
+      ],
+      "answer": "(X⊗Z)(Z⊗X)=Y⊗Y, whose square is I, so the row product is +I.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Why is assigning a new value in each context an escape from the contradiction?",
+      "hints": [
+        "Count repeated variables in the product argument."
+      ],
+      "answer": "The same observable no longer supplies the same variable twice. The squared-value cancellation fails; this is precisely contextuality.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Does the square establish a contradiction for a single qubit?",
+      "hints": [
+        "Count the Hilbert-space dimension."
+      ],
+      "answer": "No. The construction uses two qubits, dimension four. Its nine observables cannot be read as a single-qubit value table.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Contrast Bell locality and generalized noncontextuality.",
+      "hints": [
+        "Identify what is held fixed in each assumption."
+      ],
+      "answer": "Bell locality constrains spatial conditional probabilities given λ. Generalized noncontextuality requires identical representations for operationally equivalent procedures. Their assumptions and experimental structures differ.",
+      "review": "section-3-3"
+    }
+  ],
+  "04-operational-and-histories": [
+    {
+      "kind": "Quick check",
+      "question": "Compare p(Z=0 then X=+) with p(X=+ then Z=0) for |0⟩.",
+      "hints": [
+        "Use the sequential projectors."
+      ],
+      "answer": "The first is 1×1/2=1/2. The second is 1/2×1/2=1/4. Measurement order changes the experiment.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Does omitting a detector outcome from a report restore interference?",
+      "hints": [
+        "Trace out the record instead of reversing the coupling."
+      ],
+      "answer": "No. Forgetting corresponds to a nonselective instrument. Restoration requires erasing or reversing the physical distinguishing record coherently.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Why avoid using Copenhagen as an exact equation set?",
+      "hints": [
+        "Distinguish historical families from a defined model."
+      ],
+      "answer": "The name covers distinct views about classical descriptions and reduction. State the particular prescription or commitments being analyzed.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Show that a single-time projective history family is consistent.",
+      "hints": [
+        "Use cyclicity of the trace and orthogonal projectors."
+      ],
+      "answer": "For a≠b, Tr(PaρPb)=Tr(PbPaρ)=0. Thus its off-diagonal decoherence-functional entries vanish.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Derive the interference term for a union of two histories.",
+      "hints": [
+        "Expand (Cα+Cβ)ρ(Cα+Cβ)†."
+      ],
+      "answer": "The probability is Dαα+Dββ+Dαβ+Dβα, hence the two diagonals plus 2 Re Dαβ.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Is medium decoherence necessary for just one pairwise sum rule?",
+      "hints": [
+        "Compare D=0 with Re D=0."
+      ],
+      "answer": "No. For a given pair, a vanishing real part suffices for additivity. We use the stronger condition to specify a convenient consistent framework.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Compute D for the two histories ending in X=+.",
+      "hints": [
+        "Take their branch-vector overlap."
+      ],
+      "answer": "Each vector is |+⟩/2, so the cross term is 1/4 and this family fails medium decoherence.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "What changes when orthogonal records are appended?",
+      "hints": [
+        "Include record overlaps in D."
+      ],
+      "answer": "The cross term gains a factor ⟨A1|A0⟩=0. The enlarged experiment can admit additive probabilities for the recorded alternatives.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Can two separately consistent frameworks always be combined?",
+      "hints": [
+        "Ask whether their common refinement remains consistent and compatible."
+      ],
+      "answer": "No. The single-framework rule forbids combining incompatible families. Separate internal consistency does not establish a common probability space.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Propose a fair research question about framework selection.",
+      "hints": [
+        "Specify both the physical experiment and the interpretive demand."
+      ],
+      "answer": "Given a decohering apparatus model, determine which families track stable records, then ask whether stability singles out a unique family or only an approximate class of useful descriptions.",
+      "review": "section-4-3"
+    }
+  ],
+  "05-everett": [
+    {
+      "kind": "Quick check",
+      "question": "Is a relative-state projection necessarily a new physical collapse?",
+      "hints": [
+        "Distinguish extracting a conditional description from global evolution."
+      ],
+      "answer": "No. In the relative-state account the projection defines a conditional state while the universal vector is retained.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What happens when the conditioning record has zero amplitude?",
+      "hints": [
+        "Inspect the denominator."
+      ],
+      "answer": "The normalized relative state is undefined because the conditioning event has zero norm; it is not an additional realized branch.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "What extra interpretive claim distinguishes Everett from ordinary conditional-state calculations?",
+      "hints": [
+        "Ask what happens to the global vector."
+      ],
+      "answer": "Everett retains universal unitary evolution and treats the full state as describing the physical situation, including observer correlations.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Write |Φ+⟩ in the X basis.",
+      "hints": [
+        "Expand |++⟩ and |−−⟩."
+      ],
+      "answer": "It equals (|++⟩+|−−⟩)/√2. This demonstrates that a basis expansion alone does not identify a classical record basis.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Why is environmental refinement a problem for branch counting?",
+      "hints": [
+        "Let only one macro-outcome acquire more subrecords."
+      ],
+      "answer": "Counting changes its relative frequency of terms although its total norm and macro-observable predictions are unchanged.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Is decoherence an exact count of worlds?",
+      "hints": [
+        "Recall the use of coarse-graining and approximate autonomy."
+      ],
+      "answer": "No. It supplies dynamical criteria for robust approximately independent records, generally without a unique exact branch count.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Prove additivity of squared norm for orthogonal vectors.",
+      "hints": [
+        "Expand the inner product."
+      ],
+      "answer": "The cross terms ⟨u|v⟩ and its conjugate vanish, leaving ||u||²+||v||².",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "For N=2 and p=1/4 find weights of k=0,1,2.",
+      "hints": [
+        "Use the binomial distribution."
+      ],
+      "answer": "They are 9/16, 6/16, and 1/16. The two one-success sequences contribute separately to the middle weight.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Does binomial concentration alone solve the probability problem?",
+      "hints": [
+        "Identify what measure defined the distribution."
+      ],
+      "answer": "No. It establishes concentration with respect to Born weight; the interpretive justification for using that weight remains an assumption or further argument.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How should a decision-theoretic Born-rule claim be evaluated?",
+      "hints": [
+        "Inspect its premises, not just its conclusion."
+      ],
+      "answer": "State the allowed acts, preference axioms, continuity or equivalence assumptions, and conclusion. Then examine whether those assumptions are justified for observers in a branching state.",
+      "review": "section-5-3"
+    }
+  ],
+  "06-bohmian-mechanics": [
+    {
+      "kind": "Quick check",
+      "question": "For a real stationary spatial wavefunction, calculate velocity away from nodes.",
+      "hints": [
+        "The ratio of gradient to wavefunction is real."
+      ],
+      "answer": "Its imaginary part vanishes, so the velocity is zero. The global time-dependent phase does not change the spatial derivative.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why exclude nodes when writing ∇Ψ/Ψ?",
+      "hints": [
+        "Inspect the denominator."
+      ],
+      "answer": "The expression is undefined at Ψ=0. Trajectory existence and behavior near nodes require additional mathematical care; the local formula assumes nonzero density.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "For a ring of length L with k=2πn/L, find the speed.",
+      "hints": [
+        "Use the plane-wave guiding law."
+      ],
+      "answer": "The signed velocity is 2πℏn/(mL), with magnitude its absolute value.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Substitute ρ=|Ψ|² into the configuration continuity equation.",
+      "hints": [
+        "Use ρv=j."
+      ],
+      "answer": "It becomes exactly the Schrödinger continuity equation. This establishes preservation of the equilibrium distribution under appropriate regularity conditions.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Does equivariance prove relaxation from any initial distribution?",
+      "hints": [
+        "Distinguish invariance from attraction."
+      ],
+      "answer": "No. Invariance says an initially matching density remains matching. Relaxation of other densities is a separate dynamical claim and is not universally guaranteed.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why does an equilibrium ensemble reproduce pointer frequencies?",
+      "hints": [
+        "Partition configuration space into disjoint record regions."
+      ],
+      "answer": "Their probabilities are integrals of |Ψ|² over those regions. For normalized separated record packets, these give the corresponding squared amplitudes.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Is effective collapse a modification of Schrödinger evolution?",
+      "hints": [
+        "Track the full wavefunction."
+      ],
+      "answer": "No. The full state continues evolving unitarily. One packet suffices approximately for guidance while supports remain separated near the actual configuration.",
+      "review": "section-6-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Does Bell’s theorem exclude this theory because it has hidden variables?",
+      "hints": [
+        "Check the factorization assumption."
+      ],
+      "answer": "No. The guiding dynamics is generally nonlocal for entangled states. It does not satisfy the Bell-local assumption excluded by the inequality.",
+      "review": "section-6-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Why does a definite position not imply a predetermined value of every observable?",
+      "hints": [
+        "An apparatus may couple and evolve before a pointer is read."
+      ],
+      "answer": "The recorded value depends on wavefunction, configuration, and measurement arrangement. It need not reveal a context-independent property associated with the operator.",
+      "review": "section-6-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "State a limitation of the equations in this chapter.",
+      "hints": [
+        "Read the physical scope."
+      ],
+      "answer": "They describe nonrelativistic spinless particles without vector potentials. Spin, gauge fields, particle creation, and relativistic structure need additional formulation.",
+      "review": "section-6-3"
+    }
+  ],
+  "07-collapse-models": [
+    {
+      "kind": "Quick check",
+      "question": "Why is the jump-center expression a probability density rather than one probability?",
+      "hints": [
+        "The center ranges continuously over space."
+      ],
+      "answer": "The probability in a region is the integral of ||L(x)Ψ||² over that region. The completeness integral ensures total probability one.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Verify the one-dimensional Gaussian completeness normalization.",
+      "hints": [
+        "Square (πr²)⁻¹/⁴ exp[−(q−x)²/(2r²)] and integrate over x."
+      ],
+      "answer": "The squared prefactor is 1/(√π r), and the Gaussian integral is √π r, giving one for each q.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a Gaussian jump eliminate all distant amplitude exactly?",
+      "hints": [
+        "Examine its tails."
+      ],
+      "answer": "No. The multiplier is nonzero at finite separation. Suppression can be very strong without compact support or exact elimination.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "For a Poisson process with total rate Nλ, find the mean waiting time.",
+      "hints": [
+        "Use the exponential survival distribution."
+      ],
+      "answer": "The mean is 1/(Nλ), assuming independent constant-rate constituent events.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Why might a jump fail to distinguish two branches?",
+      "hints": [
+        "Compare their position separation with r_C."
+      ],
+      "answer": "If their positions nearly coincide on the localization scale, the Gaussian factors are similar. The event gives little relative suppression.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show trace preservation of the ensemble jump term.",
+      "hints": [
+        "Use cyclicity and the completeness integral."
+      ],
+      "answer": "The integrated gain has trace Tr[ρ∫L†L]=Trρ, which cancels the loss term for each particle.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does observed decoherence uniquely identify objective collapse?",
+      "hints": [
+        "List an ordinary competing cause."
+      ],
+      "answer": "No. Environmental entanglement can produce the same reduced coherence loss. Discriminating tests need calibrated alternatives and model-specific signatures.",
+      "review": "section-7-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "What does a negative upper bound in the visibility toy model mean?",
+      "hints": [
+        "Require Γ_new≥0."
+      ],
+      "answer": "The stated inputs cannot all fit that model with a nonnegative extra rate. Check calibration, uncertainties, and environmental assumptions.",
+      "review": "section-7-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Why can’t a bound on Γ_new be directly called a bound on λ?",
+      "hints": [
+        "Look for a map between the quantities."
+      ],
+      "answer": "The effective visibility rate depends on geometry, particle content, separation, and r_C as well as λ. That relation must be derived for the selected collapse model.",
+      "review": "section-7-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Design a minimal report for a hypothetical collapse test.",
+      "hints": [
+        "Include models and uncertainty."
+      ],
+      "answer": "Specify preparation, mass and geometry, separation and time, environmental budget, measured observable and confidence procedure, collapse equation and parameter convention, and the resulting conditional parameter region.",
+      "review": "section-7-3"
+    }
+  ],
+  "08-relational-and-qbism": [
+    {
+      "kind": "Quick check",
+      "question": "Does relational observer mean conscious mind?",
+      "hints": [
+        "Use the physical-interaction definition."
+      ],
+      "answer": "No. A system participating in an interaction can serve as a relational reference; consciousness is not required by that usage.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Write the outside state after an ideal friend measurement of |+⟩.",
+      "hints": [
+        "Apply linearity to the record coupling."
+      ],
+      "answer": "It is (|0,F₀⟩+|1,F₁⟩)/√2 if the full laboratory remains coherent.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Why is reading the friend’s record different from measuring interference of the laboratory?",
+      "hints": [
+        "Compare the measured projectors."
+      ],
+      "answer": "The record measurement distinguishes |0,F₀⟩ and |1,F₁⟩. An interference measurement projects onto their superpositions; it is an incompatible procedure.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Find p(X+) and p(Z+) for r=(0.6,0,0.8).",
+      "hints": [
+        "Check the Bloch length and use the formula."
+      ],
+      "answer": "The state is pure because |r|=1. The probabilities are 0.8 and 0.9.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "If p(Z+)=1, what is p(X+) for a valid qubit state?",
+      "hints": [
+        "Use positivity."
+      ],
+      "answer": "r_z=1 forces r_x=r_y=0, so p(X+)=1/2.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why is QBism not merely unrestricted subjective guessing?",
+      "hints": [
+        "Identify the constraints on assignments."
+      ],
+      "answer": "Probabilities must satisfy coherence conditions and quantum constraints such as positivity and the Born rule linking different actions.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Give one important distinction between QBism and relational quantum mechanics.",
+      "hints": [
+        "Compare the central entities in each account."
+      ],
+      "answer": "QBism centers an agent’s actions, experiences, and personal probabilities; relational mechanics centers physical events relative to interacting systems.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Does personal probability automatically imply a ψ-epistemic ontological model?",
+      "hints": [
+        "Compare probability commitments with distributions over λ."
+      ],
+      "answer": "No. A ψ-epistemic ontological model presupposes an underlying state space and overlapping preparation distributions. QBism need not adopt that model structure.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What can the ideal agreement calculation establish?",
+      "hints": [
+        "Read the joint record amplitudes."
+      ],
+      "answer": "It establishes zero probability of mismatched records for the specified comparison. It does not by itself establish an observer-independent global event ontology.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How should a claim that an interpretation is local be assessed?",
+      "hints": [
+        "Separate operational and ontological meanings."
+      ],
+      "answer": "Ask whether it means no controllable signalling, Bell-local factorization, or a different account of physical events. The first does not imply the second, and CHSH statistics remain unchanged.",
+      "review": "section-8-3"
+    }
+  ],
+  "09-quantum-state-ontology": [
+    {
+      "kind": "Quick check",
+      "question": "Explain the difference between ψ-ontic and ψ-complete.",
+      "hints": [
+        "Ask whether λ can have additional components."
+      ],
+      "answer": "ψ-ontic means distinct pure states have disjoint underlying supports. ψ-complete additionally treats the wavefunction as a complete state description; extra variables can make an ontic model incomplete in that sense.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why must perfectly distinguishable states have disjoint supports?",
+      "hints": [
+        "Use one outcome with probabilities one and zero."
+      ],
+      "answer": "On shared positive support, the response would have to be both one and zero almost everywhere to reproduce the two deterministic predictions, an impossibility.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Is any personal-probability interpretation automatically a PBR model?",
+      "hints": [
+        "Check whether it posits λ and μψ."
+      ],
+      "answer": "No. The theorem applies to the specified ontological-model framework. A philosophy of probability need not adopt that underlying representation.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Expand ξ₀₊ in the computational basis.",
+      "hints": [
+        "Expand |−⟩ and |+⟩."
+      ],
+      "answer": "It is (|00⟩−|01⟩+|10⟩+|11⟩)/2.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Expand ξ₊₀ and check its overlap with |+0⟩.",
+      "hints": [
+        "Expand both first-qubit states."
+      ],
+      "answer": "It is (|00⟩+|01⟩−|10⟩+|11⟩)/2. The overlap with (|00⟩+|10⟩)/√2 is zero.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show ξ₀₊ and ξ₊₀ are orthogonal.",
+      "hints": [
+        "Take the dot product of their four real coefficients."
+      ],
+      "answer": "The numerator is 1−1−1+1=0, divided by four.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "If the single-system overlap weight is ω, what is the product-overlap weight under preparation independence?",
+      "hints": [
+        "Factor the two integrals for the shared subdistribution."
+      ],
+      "answer": "It is ω², positive whenever ω>0. This is why a shared two-system region cannot be ignored.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Identify the exact contradiction on the joint overlap.",
+      "hints": [
+        "Sum all response probabilities."
+      ],
+      "answer": "Each outcome has zero response there because some possible preparation forbids it. Their sum becomes zero, contradicting normalization to one.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Does the exclusion measurement identify every preparation perfectly?",
+      "hints": [
+        "Distinguish exclusion from discrimination."
+      ],
+      "answer": "No. Outcome ab rules out preparation ab, but it can be compatible with multiple other preparations. Nonorthogonal states have not become perfectly distinguishable.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What must change in the proof for noisy observations?",
+      "hints": [
+        "Replace exact zero statements with bounds."
+      ],
+      "answer": "Small probabilities no longer force response functions to vanish. One needs a quantitative bound on overlap from the observed forbidden-outcome probabilities and experimental assumptions.",
+      "review": "section-9-3"
+    }
+  ],
+  "10-quantum-observers": [
+    {
+      "kind": "Quick check",
+      "question": "Why is Wigner’s interference test not a routine reading of a notebook?",
+      "hints": [
+        "Identify the measurement basis."
+      ],
+      "answer": "It projects onto superpositions of whole record states and requires coherent control of all relevant record degrees of freedom. Reading the notebook measures the record basis.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For γ=0.2, compute the interference-test probability.",
+      "hints": [
+        "Use the equal-population formula."
+      ],
+      "answer": "It is (1+0.2)/2=0.6. This assumes γ is real in the chosen phase convention.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "What happens to the friend’s record under exact reversal?",
+      "hints": [
+        "Apply the inverse of the record unitary."
+      ],
+      "answer": "Both correlated branches return the memory to the ready state. The interference test erases the original record rather than preserving it as a simultaneously readable classical fact.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Normalize the three-term two-laboratory state.",
+      "hints": [
+        "Its three basis terms are orthogonal."
+      ],
+      "answer": "The squared norm is 3×(1/3)=1, so the stated coefficient 1/√3 is correct.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Calculate the joint amplitude for both ok outcomes.",
+      "hints": [
+        "Keep all three relative signs."
+      ],
+      "answer": "The contributions are +1/√12, −1/√12, and +1/√12. Their sum is 1/√12 and its squared magnitude is 1/12.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What is p(ok|t) in the record-conditioned state?",
+      "hints": [
+        "The second system is (d+u)/√2."
+      ],
+      "answer": "It is zero because ok=(d−u)/√2 is orthogonal to that conditional vector. Transferring this certainty to incompatible observer contexts requires additional justification.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Why can’t the no-go title be read as a universal proof of inconsistency?",
+      "hints": [
+        "Identify the extra reasoning assumptions."
+      ],
+      "answer": "The contradiction concerns a specified package of quantum predictions, cross-agent certainty rules, and single-outcome commitments. Different approaches can reject or restrict different premises.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Give a fair criterion for empirical equivalence in the final project.",
+      "hints": [
+        "Hold the preparation and available interventions fixed."
+      ],
+      "answer": "The two accounts must assign identical probabilities to every outcome of the specified operational protocols, using their own correctly applied state and dynamics rules.",
+      "review": "section-10-3"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Name one possible empirical difference for a collapse proposal.",
+      "hints": [
+        "Compare retained coherence under otherwise controlled evolution."
+      ],
+      "answer": "A specified collapse law can predict additional interference suppression or diffusion beyond the environmental model. The predicted size must be calculated from its parameters.",
+      "review": "section-10-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Write an assumption audit for the coherent friend test.",
+      "hints": [
+        "List preparation, dynamics, and measurement access."
+      ],
+      "answer": "Assume a pure |+⟩ input, a reversible record interaction, coherent isolation or access to all records, the chosen global projector, and the interpretation’s state-update rules. Removing coherent access changes the experiment and the inference.",
+      "review": "section-10-3"
+    }
+  ]
+}

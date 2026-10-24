@@ -1,0 +1,922 @@
+{
+  "01-protecting-a-qubit": [
+    {
+      "kind": "Quick check",
+      "question": "How many physical and logical qubits are in the repetition encoding?",
+      "hints": [
+        "Distinguish the ambient space from the code subspace."
+      ],
+      "answer": "There are three physical qubits and one logical qubit. The code subspace is two-dimensional inside an eight-dimensional Hilbert space.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What syndrome identifies X₃?",
+      "hints": [
+        "Only the second parity changes."
+      ],
+      "answer": "The syndrome is 01: Z₁Z₂ remains +1 and Z₂Z₃ becomes −1.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Encode α=√3/2 and β=i/2.",
+      "hints": [
+        "Carry amplitudes unchanged into the codewords."
+      ],
+      "answer": "The encoded state is \\((\\sqrt3/2)|000\\rangle+(i/2)|111\\rangle\\). Its norm is 3/4+1/4=1.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Determine the syndrome and corrected action of X₁X₂.",
+      "hints": [
+        "Compute parities, then apply the single-error recovery."
+      ],
+      "answer": "Its syndrome is 01, so the decoder applies X₃. The combined action is X₁X₂X₃, which swaps |0_L⟩ and |1_L⟩: a logical X error.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Evaluate p_L at p=0.2.",
+      "hints": [
+        "Use the probabilities of two and three flips."
+      ],
+      "answer": "p_L=3(0.2)²−2(0.2)³=0.104. The improvement is conditional on the ideal bit-flip model.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show that recovery improves the bit-flip probability when 0<p<1/2.",
+      "hints": [
+        "Factor p−p_L."
+      ],
+      "answer": "p−p_L=p(1−p)(1−2p), positive in that interval. At p=1/2 the two probabilities coincide.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What happens to a logical |+⟩ if all physical qubits are measured before re-encoding?",
+      "hints": [
+        "Keep track of the measurement record."
+      ],
+      "answer": "The pure encoded superposition becomes an equal classical mixture of |0_L⟩ and |1_L⟩ when outcomes are forgotten. Re-encoding cannot recover its lost phase or reference entanglement.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does the encoding violate no-cloning?",
+      "hints": [
+        "Expand the tensor cube of an unknown state."
+      ],
+      "answer": "No. α|000⟩+β|111⟩ differs from (α|0⟩+β|1⟩)⊗³. The encoding stores one joint logical state, not three copies.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does successful correction of |0_L⟩ and |1_L⟩ prove recovery for all inputs?",
+      "hints": [
+        "Test a superposition or a reference-entangled state."
+      ],
+      "answer": "No. A logical measurement followed by re-preparation succeeds on both basis states while destroying coherence. Recovery must preserve off-diagonal logical operators as well.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Design the analogous three-qubit phase-flip code.",
+      "hints": [
+        "Conjugate the entire bit-flip code by H⊗³."
+      ],
+      "answer": "Use codewords |+++⟩ and |−−−⟩, checks X₁X₂ and X₂X₃, and Z corrections. Hadamard conjugation exchanges X and Z, so the earlier reasoning corrects single phase flips; it does not also correct all bit flips.",
+      "review": "section-1-3"
+    }
+  ],
+  "02-correctable-errors": [
+    {
+      "kind": "Quick check",
+      "question": "What does cₐᵦ depend on?",
+      "hints": [
+        "Compare logical input with physical error labels."
+      ],
+      "answer": "It may depend on the code and the two errors, but it must not depend on the logical state stored in the code.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Which condition excludes logical information from environmental coherences?",
+      "hints": [
+        "Look beyond a=b."
+      ],
+      "answer": "The cross conditions PEₐ†EᵦP=cₐᵦP with a≠b. Equal individual error probabilities alone do not constrain these coherences.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Evaluate PX₁†X₂P for the repetition code.",
+      "hints": [
+        "A two-bit flip takes each codeword outside the code."
+      ],
+      "answer": "It is zero. The vectors X₁|ψ_L⟩ and X₂|φ_L⟩ lie in orthogonal syndrome sectors for all logical inputs.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Evaluate PZ₁P in the logical basis.",
+      "hints": [
+        "Apply Z₁ to |000⟩ and |111⟩."
+      ],
+      "answer": "It is diag(1,−1), a logical Z, so {I,Z₁} fails the correction condition.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show that equal environmental diagonals are insufficient using errors I/√2 and Z₁/√2.",
+      "hints": [
+        "Compute their diagonal and off-diagonal products."
+      ],
+      "answer": "Each diagonal product is I/2, independent of the input. The off-diagonal product is Z₁/2, whose code expectation depends on the logical state. The channel dephases logical coherence.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Express a general 2×2 matrix in the Pauli basis.",
+      "hints": [
+        "Take traces against orthogonal Pauli matrices."
+      ],
+      "answer": "\\(A=(\\tr A)I/2+(\\tr XA)X/2+(\\tr YA)Y/2+(\\tr ZA)Z/2\\). The coefficients can be complex, so the statement includes nonunitary Kraus operators.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why may zero eigenvalues of c be discarded in constructing recovery?",
+      "hints": [
+        "Compute the norm of Fᵣ|ψ⟩."
+      ],
+      "answer": "If dᵣ=0, that norm is zero for every code vector. The associated error combination has no action on the code.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Must recovery identify the physical error uniquely?",
+      "hints": [
+        "Consider two errors differing by a code stabilizer."
+      ],
+      "answer": "No. If they act identically up to a common phase on the code, the same recovery works. Distinguishing them is not required.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does correction of arbitrary one-qubit noise imply exact correction of independent noise on all qubits?",
+      "hints": [
+        "Expand a tensor product of local Kraus operators."
+      ],
+      "answer": "No. The expansion contains multi-qubit terms outside the correctable span. Their probabilities or amplitudes must be bounded using a noise model.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Prove that the correction condition is unchanged by a unitary change of Kraus basis.",
+      "hints": [
+        "Insert the new linear combinations into the compressed products."
+      ],
+      "answer": "If Fᵣ=ΣₐuᵣₐEₐ, then PFᵣ†FₛP=Σₐᵦuᵣₐ* uₛᵦ cₐᵦ P. The new coefficient matrix is a unitary basis transform of c, still independent of the logical input.",
+      "review": "section-2-3"
+    }
+  ],
+  "03-stabilizer-codes": [
+    {
+      "kind": "Quick check",
+      "question": "How many dimensions remain for n=7 and r=6 independent checks?",
+      "hints": [
+        "Use the trace of the code projector."
+      ],
+      "answer": "The code dimension is 2, corresponding to one logical qubit.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "Why can −I not belong to a stabilizer?",
+      "hints": [
+        "Apply the +1 eigenvalue requirement."
+      ],
+      "answer": "It would require −|ψ⟩=|ψ⟩, forcing |ψ⟩=0. There would be no physical code state.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find the binary vector of XIZY.",
+      "hints": [
+        "Record X and Z components independently."
+      ],
+      "answer": "In order, x=(1,0,0,1) and z=(0,0,1,1). The Y factor contributes to both vectors.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the syndrome of Z₁ for the five-qubit generators.",
+      "hints": [
+        "List the first factor of each generator."
+      ],
+      "answer": "The factors are X,I,X,Z, so Z₁ anticommutes with the first and third: syndrome 1010.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the syndrome of Y₁.",
+      "hints": [
+        "Add the syndromes of X₁ and Z₁ modulo two."
+      ],
+      "answer": "0001+1010=1011. Overall phases do not affect syndrome.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show that Z₁Z₃ is redundant in the repetition code.",
+      "hints": [
+        "Multiply its two generators."
+      ],
+      "answer": "(Z₁Z₂)(Z₂Z₃)=Z₁Z₃ because Z₂²=I. It does not add an independent constraint or change the code dimension.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Explain why an error anticommuting with a stabilizer has PEP=0.",
+      "hints": [
+        "Insert the stabilizer on both sides of the compressed operator."
+      ],
+      "answer": "Since Pg=P and gP=P, PEP=PgEgP=−PEP. Therefore the compression vanishes.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does zero syndrome mean no physical error happened?",
+      "hints": [
+        "Consider a stabilizer string."
+      ],
+      "answer": "No. A nonidentity stabilizer acts trivially on the code and has zero syndrome. A nontrivial logical operator can also have zero syndrome, with a harmful action.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does the binary Pauli vector retain the overall sign?",
+      "hints": [
+        "Compare X and −X."
+      ],
+      "answer": "No. They have the same vector and commutation relations. Algorithms requiring multiplication phases must store those separately.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "How would you verify that all fifteen single-qubit syndromes are different?",
+      "hints": [
+        "Enumerate positions and Pauli labels."
+      ],
+      "answer": "For each position and each of X,Y,Z, compute its four commutation bits and insert the tuple in a set. Verify no tuple is zero and the set has size fifteen. The supplied verifier performs this finite certificate.",
+      "review": "section-3-3"
+    }
+  ],
+  "04-css-codes": [
+    {
+      "kind": "Quick check",
+      "question": "What is the classical syndrome of an error e on a codeword?",
+      "hints": [
+        "Use Hv=0."
+      ],
+      "answer": "It is H(v+e)=He, independent of the transmitted codeword.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "How many logical qubits does the seven-qubit construction encode?",
+      "hints": [
+        "Count independent X and Z generators."
+      ],
+      "answer": "There are six independent generators, leaving 7−6=1 logical qubit.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show that columns 1,2,3 of H sum to zero.",
+      "hints": [
+        "Add each row modulo two."
+      ],
+      "answer": "The columns are 100,010,110; their sum is 000. Thus the corresponding weight-three vector lies in the classical code.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the Z-check and X-check syndromes of Y₆.",
+      "hints": [
+        "Its X and Z components both occupy position 6."
+      ],
+      "answer": "Both are 011. Which triple is written first in a combined syndrome must be specified by the decoder.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Give two even-weight rows whose associated cross checks anticommute.",
+      "hints": [
+        "Make their overlap odd."
+      ],
+      "answer": "Rows 110 and 011 both have weight two but overlap once. X(110) and Z(011) anticommute; even row weight alone is insufficient.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why does an X stabilizer permute the terms in |0_L⟩?",
+      "hints": [
+        "Add a row-space vector to every row-space element."
+      ],
+      "answer": "The map u↦u+h is a bijection of D whenever h∈D. All amplitudes are equal, so the sum is unchanged.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Verify normalization of |0_L⟩.",
+      "hints": [
+        "The eight computational strings are orthogonal."
+      ],
+      "answer": "Its squared norm is eight times 1/8=1. Orthogonality of distinct strings removes cross terms.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Can any two classical parity-check matrices be used as CSS checks?",
+      "hints": [
+        "Test cross commutation."
+      ],
+      "answer": "No. They must satisfy HₓH𝓏ᵀ=0. Otherwise some checks have incompatible eigenvalue requirements.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does decoding X and Z components separately always maximize likelihood?",
+      "hints": [
+        "Consider correlated X/Z components of Y noise."
+      ],
+      "answer": "No. Independent decoding is convenient but may ignore correlations. Maximum-likelihood decoding should use the actual joint noise model.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Enumerate the row space of H and check the weight pattern.",
+      "hints": [
+        "Take all eight binary combinations of the three rows."
+      ],
+      "answer": "The zero combination has weight zero; each of the other seven combinations has weight four. This verifies the coset weight claims and supports the later transversal-phase calculation.",
+      "review": "section-4-3"
+    }
+  ],
+  "05-logical-operators": [
+    {
+      "kind": "Quick check",
+      "question": "Define Pauli weight.",
+      "hints": [
+        "Count affected physical positions."
+      ],
+      "answer": "It is the number of nonidentity tensor factors, independent of the overall phase.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is the full distance of the three-qubit repetition code?",
+      "hints": [
+        "Look for an undetected phase operation."
+      ],
+      "answer": "It is one, because Z₁ is a weight-one nontrivial logical operator.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How many arbitrary unknown-position errors are guaranteed correctable at d=7?",
+      "hints": [
+        "Solve 2t<d."
+      ],
+      "answer": "t=3. Known-location erasures can be corrected on up to six positions.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Reduce X⊗⁷ by the first X stabilizer from the Hamming matrix.",
+      "hints": [
+        "Cancel X at positions 1,3,5,7."
+      ],
+      "answer": "The remaining support is positions 2,4,6, a weight-three representative of logical X.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why do same-syndrome errors have a zero-syndrome product?",
+      "hints": [
+        "Syndrome bits add modulo two."
+      ],
+      "answer": "Each commutation sign multiplies, so equal syndrome bits cancel. Their product is in the centralizer, but may be stabilizer or logical.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show logical X and Z anticommute on the repetition code.",
+      "hints": [
+        "Count their overlapping nonidentity positions."
+      ],
+      "answer": "X₁X₂X₃ overlaps Z₁ once, so the product changes sign when reversed. Restricted to the code, they satisfy the qubit Pauli relation.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Explain why the erasure bound uses d−1 rather than floor((d−1)/2).",
+      "hints": [
+        "Both candidate errors have the same known support."
+      ],
+      "answer": "Their product lies on that same set, so its weight is bounded by the number of erased positions rather than twice that number.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a zero final syndrome certify successful decoding?",
+      "hints": [
+        "Ask what logical operation might remain."
+      ],
+      "answer": "No. A nontrivial logical operator commutes with every check. The decoder can return to the code space while changing the logical state.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a weight-four stabilizer imply distance four?",
+      "hints": [
+        "Compare checks with logical operators."
+      ],
+      "answer": "No. Stabilizer weight describes a constraint, while distance minimizes the weight of nontrivial logical operators. They are different quantities.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Outline an exhaustive distance check for a small stabilizer code.",
+      "hints": [
+        "Search Paulis in increasing weight and quotient by stabilizers."
+      ],
+      "answer": "Generate the stabilizer group with phases ignored. Enumerate Pauli strings by weight; test commutation with every generator and membership in that group. The first commuting nonmember gives distance, because all smaller weights were exhausted.",
+      "review": "section-5-3"
+    }
+  ],
+  "06-syndromes-and-decoding": [
+    {
+      "kind": "Quick check",
+      "question": "What ancilla state is used for the Z-parity circuit?",
+      "hints": [
+        "Track XOR into a target register."
+      ],
+      "answer": "Initialize |0⟩, use the data as controls and the ancilla as target, and measure the ancilla in Z.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What do even and odd mean for Z₁Z₂?",
+      "hints": [
+        "Multiply the Z eigenvalues."
+      ],
+      "answer": "Even parity corresponds to eigenvalue +1 and syndrome 0; odd parity to eigenvalue −1 and syndrome 1.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the odd-parity branch of a Z₁Z₂ measurement on |++⟩.",
+      "hints": [
+        "Project onto |01⟩ and |10⟩."
+      ],
+      "answer": "The branch probability is 1/2 and the normalized state is (|01⟩+|10⟩)/√2.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why are P₀ and P₁ a complete projective measurement?",
+      "hints": [
+        "Use (Z₁Z₂)²=I."
+      ],
+      "answer": "Each is Hermitian and idempotent, P₀P₁=0, and P₀+P₁=I. Their outcome probabilities therefore sum to one.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "At p=0.8, compare X₁ and X₂X₃ under independent bit flips.",
+      "hints": [
+        "Use their exact pattern probabilities."
+      ],
+      "answer": "The probabilities are 0.032 and 0.128 respectively. The two-flip pattern is four times more likely, reversing the usual low-noise decoding choice.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find detection events for record 0,1,1,0.",
+      "hints": [
+        "XOR successive values."
+      ],
+      "answer": "The successive differences are 1,0,1. A boundary convention would add any event relative to a known initial syndrome.",
+      "review": "section-6-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A Pauli frame contains X before a Z measurement. How should the outcome be interpreted?",
+      "hints": [
+        "X anticommutes with Z."
+      ],
+      "answer": "Invert the reported Z eigenvalue or measurement bit relative to the frame-free logical interpretation. No physical X application is required for this readout.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Is recording all individual bits and computing parity equivalent to measuring parity?",
+      "hints": [
+        "Compare state updates on a Bell state."
+      ],
+      "answer": "No. It yields the same parity result on that state but leaks the individual logical alternative and destroys coherence. A parity-only instrument preserves the even superposition.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a minimum-weight decoder always maximize logical success?",
+      "hints": [
+        "Sum probabilities over stabilizer-equivalent errors."
+      ],
+      "answer": "No. Noise bias and the number of equivalent patterns can favor another logical class. Minimum weight is a model-dependent approximation.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Propose a decoder-validation experiment for repeated noisy checks.",
+      "hints": [
+        "Separate data faults from readout faults in the model."
+      ],
+      "answer": "Generate records with known independent data and measurement fault rates, include initial and final boundary information, decode, and compare the residual logical action with the known injected history. Report logical failure rather than merely a zero final syndrome.",
+      "review": "section-6-3"
+    }
+  ],
+  "07-surface-codes": [
+    {
+      "kind": "Quick check",
+      "question": "How many data qubits are on an L=4 toric lattice?",
+      "hints": [
+        "Count horizontal and vertical edges."
+      ],
+      "answer": "There are 2L²=32 physical data qubits.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What syndrome does a single Z edge create?",
+      "hints": [
+        "Find vertex checks that overlap it once."
+      ],
+      "answer": "Two vertex defects at the edge’s endpoints. It commutes with the face Z checks.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find k for the L=4 toric code.",
+      "hints": [
+        "Subtract the independent check count."
+      ],
+      "answer": "There are 32 physical qubits and 30 independent checks, so k=2.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How many arbitrary unknown-position errors does the L=5 toric code guarantee to correct?",
+      "hints": [
+        "Use d=L and 2t<d."
+      ],
+      "answer": "It guarantees correction of t=2 arbitrary errors under ideal syndrome extraction.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find the minimal data-plus-check-ancilla count for a rotated d=5 patch.",
+      "hints": [
+        "Use one ancilla for each independent check."
+      ],
+      "answer": "There are 25 data qubits and 24 ancillas, totaling 49. This is not a full architecture estimate.",
+      "review": "section-7-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why do adjacent face boundaries cancel along their common edge?",
+      "hints": [
+        "Multiply the Z operators."
+      ],
+      "answer": "The shared edge appears twice and Z²=I, leaving the outer boundary of the combined region.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why can crossing logical X and Z strings anticommute?",
+      "hints": [
+        "Count intersections modulo two."
+      ],
+      "answer": "At a single crossing, X and Z act on the same edge and anticommute. Other disjoint factors commute, so the full operators anticommute.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Is every zero-syndrome loop harmless?",
+      "hints": [
+        "Compare contractible and winding loops."
+      ],
+      "answer": "No. Contractible loops are products of local checks; noncontractible toric loops can be nontrivial logical operators.",
+      "review": "section-7-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does increasing the weight of a stabilizer increase code distance?",
+      "hints": [
+        "Compare local checks with long logical paths."
+      ],
+      "answer": "Not in general. In the toric family, check weight stays four while distance grows with L.",
+      "review": "section-7-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Describe a small toric-code verification using binary matrices.",
+      "hints": [
+        "Build vertex-edge and face-edge incidence."
+      ],
+      "answer": "For L=3, enumerate eighteen edges, construct nine X rows and nine Z rows, verify cross product zero modulo two, check each rank is eight, and enumerate short commuting nonstabilizer Paulis to verify distance three.",
+      "review": "section-7-1"
+    }
+  ],
+  "08-fault-tolerant-operations": [
+    {
+      "kind": "Quick check",
+      "question": "Which Pauli propagates from target to control through CNOT?",
+      "hints": [
+        "Use conjugation by CNOT."
+      ],
+      "answer": "Z on the target becomes Z on both target and control. X on the target stays on the target.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What distinguishes a transversal gate?",
+      "hints": [
+        "Count touched positions inside each code block."
+      ],
+      "answer": "Each elementary coupling touches at most one physical position per block, limiting within-block propagation from a single gate fault.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Propagate Y on a CNOT control.",
+      "hints": [
+        "Use Y=iXZ and the two control rules."
+      ],
+      "answer": "Up to overall phase, it becomes Y on the control and X on the target.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Propagate X on control and Z on target simultaneously.",
+      "hints": [
+        "Conjugate their product carefully."
+      ],
+      "answer": "The resulting Pauli is, up to phase, Y on both qubits. Each input component spreads according to its own direction.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Explain why H⊗⁷ preserves the Steane stabilizer group.",
+      "hints": [
+        "The X and Z check matrices coincide."
+      ],
+      "answer": "Hadamard exchanges X and Z on every position, taking each X generator to its paired Z generator and vice versa. The common +1 space is preserved.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Track a target-block logical Z through encoded CNOT.",
+      "hints": [
+        "Use the physical rule at each support position."
+      ],
+      "answer": "It maps to logical Z on both blocks. A control logical X similarly maps to logical X on both blocks, matching a logical CNOT.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why can repeating a faulty check fail to undo a hook error?",
+      "hints": [
+        "Separate a wrong report from a damaged data state."
+      ],
+      "answer": "The repeated check may correctly report the syndrome of correlated data damage already created. If that damage is logically ambiguous under the decoder model, repetition alone does not fix it.",
+      "review": "section-8-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does a correct ideal encoded gate automatically satisfy fault tolerance?",
+      "hints": [
+        "Consider a circuit that fans one error through a block."
+      ],
+      "answer": "No. Its fault-free logical action can be correct while a single physical fault spreads to an uncorrectable pattern.",
+      "review": "section-8-2"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Are hook errors always logical failures?",
+      "hints": [
+        "Consider their geometry and the code’s equivalence classes."
+      ],
+      "answer": "No. Some are harmless or recoverable. Their danger depends on the code, schedule, record, and decoder; circuit-level analysis must determine it.",
+      "review": "section-8-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Specify a bounded one-fault audit for a proposed syndrome gadget.",
+      "hints": [
+        "List locations, fault components, records, and residual actions."
+      ],
+      "answer": "Enumerate preparation, gate, idle, and measurement faults from the declared model; propagate them; collect syndrome and flag records; apply the candidate decoder; and test logical equivalence of residuals. Report assumptions and any ambiguous record rather than inferring safety from ideal behavior.",
+      "review": "section-8-3"
+    }
+  ],
+  "09-universal-logical-computation": [
+    {
+      "kind": "Quick check",
+      "question": "Define a Clifford unitary.",
+      "hints": [
+        "State its action on Paulis."
+      ],
+      "answer": "It maps every Pauli operator to another Pauli, including an allowed phase, under conjugation.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What state supplies the non-Clifford resource for the injection example?",
+      "hints": [
+        "Apply T to |+⟩."
+      ],
+      "answer": "\\(|A\\rangle=(|0\\rangle+e^{i\\pi/4}|1\\rangle)/\\sqrt2\\). It is consumed by the measurement-based implementation.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Verify ST†=T using diagonal entries.",
+      "hints": [
+        "Multiply the lower-right phases."
+      ],
+      "answer": "\\(i e^{-i\\pi/4}=e^{i\\pi/4}\\), while the upper-left entry remains one. Therefore ST†=T.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the probability of ancilla outcome zero for normalized a,b.",
+      "hints": [
+        "Use its unnormalized branch vector."
+      ],
+      "answer": "The squared norm is (|a|²+|b|²)/2=1/2, independent of the input. The other branch has the same probability.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Evaluate the illustrative leading error 35q³ at q=0.005.",
+      "hints": [
+        "Cube q before multiplying."
+      ],
+      "answer": "It is 4.375×10⁻⁶. This is a leading-order estimate under the stated ideal-processing and independent-input assumptions.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find expected input cost for m=15,a=0.8.",
+      "hints": [
+        "Divide inputs per attempt by acceptance."
+      ],
+      "answer": "The expected cost is 18.75 input states per accepted output, before protected-circuit and storage overhead.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For two identical-yield rounds with a=0.9, estimate raw input consumption.",
+      "hints": [
+        "Each final input requires its own accepted first-round output."
+      ],
+      "answer": "The mean is (15/0.9)²≈277.78 raw states per accepted second-round output, assuming independent attempts and no resource reuse.",
+      "review": "section-9-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does Eastin–Knill forbid all universal fault-tolerant computation?",
+      "hints": [
+        "Keep the theorem’s transversal restriction."
+      ],
+      "answer": "No. Its restriction is on a universal transversal gate set for a fixed code under its assumptions. Measurements, magic states, and other constructions provide alternatives.",
+      "review": "section-9-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does the ideal injection circuit prove a noisy implementation is fault tolerant?",
+      "hints": [
+        "Identify which resource was assumed perfect."
+      ],
+      "answer": "No. It establishes a gate identity with the specified ancilla. Ancilla quality and faults in encoded operations require a separate error analysis.",
+      "review": "section-9-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "How could correlated input errors invalidate a cubic distillation estimate?",
+      "hints": [
+        "Compare a triple event probability with q³."
+      ],
+      "answer": "If a mechanism creates a harmful correlated triple with probability of order q, its contribution is not of order q³. Marginal input error rates alone do not establish the independence assumption behind the leading formula.",
+      "review": "section-9-3"
+    }
+  ],
+  "10-thresholds-and-resources": [
+    {
+      "kind": "Quick check",
+      "question": "What total-failure bound follows from N opportunities each bounded by pL?",
+      "hints": [
+        "Use the union bound."
+      ],
+      "answer": "The probability of at least one failure is at most NpL, capped trivially by one. Independence is not needed.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What is the suppression condition in the illustrative recurrence pₗ₊₁≤Apₗ²?",
+      "hints": [
+        "Inspect Ap in the iterated expression."
+      ],
+      "answer": "Ap<1 ensures the upper bound shrinks with concatenation level, assuming the recurrence applies at every level.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute three levels for A=100,p=0.001.",
+      "hints": [
+        "Square the current bound and multiply by 100."
+      ],
+      "answer": "The upper bounds are 10⁻⁴,10⁻⁶,10⁻¹⁰. They are model bounds rather than measured logical error rates.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Find the per-opportunity target for N=10⁷ and ε=0.001.",
+      "hints": [
+        "Divide the error budget by opportunity count."
+      ],
+      "answer": "The sufficient target is 10⁻¹⁰ per opportunity.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For the chapter’s scaling model, evaluate pL at d=15.",
+      "hints": [
+        "The exponent is (15+1)/2=8."
+      ],
+      "answer": "pL=0.1(0.1)⁸=10⁻⁹. With N=10⁸, the union bound is 0.1, above the 0.01 budget.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the minimal data-plus-ancilla count for d=19.",
+      "hints": [
+        "Use 2d²−1."
+      ],
+      "answer": "It is 721 qubits per patch: 361 data and 360 check ancillas. Factories, routing, and spares are not included.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "If a state factory produces 1000 accepted states per second and M=10⁶ are needed, what throughput-only time bound follows?",
+      "hints": [
+        "Divide demand by accepted-output rate."
+      ],
+      "answer": "At least 1000 seconds of factory production are needed. Parallelization, preproduction, buffering, and computation scheduling determine the actual wall-clock runtime.",
+      "review": "section-10-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Is a quoted threshold meaningful without a noise model?",
+      "hints": [
+        "Ask what faults and correlations it covers."
+      ],
+      "answer": "Not as a reliable prediction. A threshold belongs to specified codes, circuits, noise assumptions, and decoding; changing these can change the applicable value.",
+      "review": "section-10-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Does the 57,700-qubit estimate describe a complete computer?",
+      "hints": [
+        "List the omitted resources."
+      ],
+      "answer": "No. It counts only one hundred minimal distance-17 patches under a hypothetical scaling model. Routing, logical gates, factories, spares, scheduling, and model uncertainty remain to be included.",
+      "review": "section-10-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Design a sensitivity study that avoids presenting the model as hardware data.",
+      "hints": [
+        "Vary one assumed input at a time and keep units fixed."
+      ],
+      "answer": "Sweep physical error p below the assumed pth, solve the smallest odd d for a fixed N and ε, and report patch counts. Repeat for several A values and budgets. Label every curve hypothetical and state that no numerical fit or hardware validation has been performed.",
+      "review": "section-10-3"
+    }
+  ]
+}

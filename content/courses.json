@@ -20,6 +20,26 @@
     "level": "advanced"
   },
   {
+    "title": "Quantum Error Correction",
+    "path": "education/error-correction/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "Protect unknown quantum states using stabilizer and CSS codes, decode syndromes, contain circuit faults, and estimate the resources for reliable quantum computation.",
+    "details": "10 draft chapters · 100 solved exercises · Verified code and circuit examples",
+    "prerequisite": "Quantum Information Theory and basic Quantum Computing, or equivalent knowledge of states, channels, Pauli operators, reference systems, and circuits. Binary coding theory is introduced in context.",
+    "summary": "Construct quantum codes and carry their protection through noisy computations.",
+    "level": "advanced"
+  },
+  {
+    "title": "Interpretations of Quantum Mechanics",
+    "path": "education/interpretations/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "Examine the measurement problem, decoherence, Bell and contextuality constraints, and competing accounts of states, outcomes, and probability through mathematical examples.",
+    "details": "10 draft chapters · 100 exercises with hints and worked solutions · Comparative research practicum",
+    "prerequisite": "Quantum Foundations or equivalent knowledge of states, density operators, tensor products, measurement, and probability. Quantum Information Theory is helpful; elementary calculus is used for Bohmian dynamics.",
+    "summary": "Compare interpretations through shared experiments, explicit assumptions, and mathematical arguments.",
+    "level": "advanced"
+  },
+  {
     "title": "Quantum Computing",
     "path": "education/computing/index.html",
     "format": "Self-paced course · Interactive textbook",

@@ -1,0 +1,52 @@
+{
+  "01-measurement-problem": [
+    "Unitary premeasurement produces correlations between system and pointer.",
+    "A partial trace predicts local statistics without selecting a global outcome.",
+    "Compare ontology, dynamics, outcomes, and probabilities separately."
+  ],
+  "02-decoherence": [
+    "Environmental overlaps determine residual coherence.",
+    "Pointer stability depends on the interaction and the accessible observables.",
+    "Local equality of density operators does not imply global equality of states."
+  ],
+  "03-bell-and-contextuality": [
+    "CHSH follows from factorization and setting independence, including stochastic response models.",
+    "Quantum Bell correlations violate CHSH while preserving operational no-signalling.",
+    "The Peres–Mermin square rules out context-independent values obeying commuting product rules."
+  ],
+  "04-operational-and-histories": [
+    "Sequential probabilities refer to a specified instrument and ordering.",
+    "History probabilities require a consistency condition before classical coarse-graining is valid.",
+    "The single-framework rule constrains combining quantum propositions."
+  ],
+  "05-everett": [
+    "Relative states describe conditional correlations while retaining the global vector.",
+    "Decoherence supports approximate branch autonomy, not a unique branch count.",
+    "Probability arguments require explicit assumptions connecting norm weights to expectation."
+  ],
+  "06-bohmian-mechanics": [
+    "The Bohmian state includes an actual configuration guided by the wavefunction.",
+    "Equivariance preserves quantum equilibrium but does not prove arbitrary distributions relax to it.",
+    "Effective collapse, nonlocal dynamics, and contextual measurement outcomes have distinct roles."
+  ],
+  "07-collapse-models": [
+    "Objective-collapse proposals add stochastic dynamics and can alter empirical predictions.",
+    "Amplification depends on both event rates and separation on the localization scale.",
+    "Averaged decoherence and individual localization are different claims."
+  ],
+  "08-relational-and-qbism": [
+    "Relational descriptions index events by interacting systems.",
+    "QBist state assignments express constrained agent probabilities, not arbitrary numbers.",
+    "Record comparison requires a specified interaction; the two approaches are not interchangeable."
+  ],
+  "09-quantum-state-ontology": [
+    "Ontological-model terminology has precise distributional definitions.",
+    "Preparation independence turns single-system overlap into a joint overlap.",
+    "PBR constrains overlap under stated assumptions without choosing a unique interpretation."
+  ],
+  "10-quantum-observers": [
+    "Global interference measurements and ordinary record comparisons are different protocols.",
+    "Cross-agent certainty requires an explicit rule about conditioning and measurement context.",
+    "A fair comparison uses the same experiment and each approach’s own dynamics and state assignments."
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "01-protecting-a-qubit": [
+    "Encoding spreads one unknown state across a joint system; it does not clone it.",
+    "A syndrome must reveal the error sector without revealing the logical amplitudes.",
+    "State the error family and preserve reference correlations before calling a recovery successful."
+  ],
+  "02-correctable-errors": [
+    "Exact recovery requires the environment to learn no logical information, including coherence.",
+    "The Knill–Laflamme condition is both an impossibility test and a route to a recovery construction.",
+    "Correctability extends to an operator span, but a realistic noise channel may also contain terms outside that span."
+  ],
+  "03-stabilizer-codes": [
+    "Independent commuting Pauli checks define a code of dimension 2^(n−r).",
+    "Syndromes are anticommutation records, independent of logical amplitudes.",
+    "A short generator list can certify correction without constructing every codeword."
+  ],
+  "04-css-codes": [
+    "Classical syndromes remove the codeword and retain a linear signature of the error.",
+    "CSS construction requires HₓH𝓏ᵀ=0, not just two individually good classical codes.",
+    "The Steane code encodes quantum superpositions over classical cosets."
+  ],
+  "05-logical-operators": [
+    "A zero syndrome identifies the centralizer, not necessarily the identity action.",
+    "Distance is the minimum nontrivial logical Pauli weight; arbitrary t-error correction needs 2t<d.",
+    "Constructing one logical operator proves an upper bound; proving distance also needs a lower bound."
+  ],
+  "06-syndromes-and-decoding": [
+    "A parity circuit must preserve coherence inside each eigenspace.",
+    "Decoding chooses a logical equivalence class under an explicit noise model.",
+    "Noisy syndrome histories require temporal information and boundary handling."
+  ],
+  "07-surface-codes": [
+    "Local stabilizer checks detect chain endpoints; they do not reveal a unique error path.",
+    "Logical failure occurs when error and recovery combine into a nontrivial path class.",
+    "Toric and planar boundary conditions change logical counts and resource estimates."
+  ],
+  "08-fault-tolerant-operations": [
+    "Fault propagation has direction and Pauli type; a target Z can spread backward through CNOT.",
+    "Logical correctness and fault containment require separate arguments.",
+    "Verified ancillas, flags, and repeated checks need circuit-specific fault proofs."
+  ],
+  "09-universal-logical-computation": [
+    "Clifford operations are useful but need an additional resource for universality.",
+    "Gate injection must account for every measurement branch and its conditional correction.",
+    "Distillation trades input states and protected operations for output accuracy; correlations and yield matter."
+  ],
+  "10-thresholds-and-resources": [
+    "Threshold arguments depend on a declared local noise model and fault-tolerant gadget construction.",
+    "A computation needs a total error budget with consistent per-round or per-gate units.",
+    "Resource estimates must include yield, time, factories, and omitted architecture costs—not only data qubits."
+  ]
+}

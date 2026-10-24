@@ -1,6 +1,186 @@
 {
- "reviewed_on": "2026-10-22",
+ "reviewed_on": "2026-10-24",
  "papers": [
+  {
+   "id": "2610.30473",
+   "url": "2610.30473/index.html",
+   "title": "Photon localization: Local measurements, localized states, and causality",
+   "authors": "Jan Gulla; Johannes Skaar",
+   "topic": "foundations",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-24",
+   "problem": "What does it mean for a photon to be localized in quantum field theory, where there is no position operator, the vacuum is entangled across regions, and no-go theorems (Hegerfeldt, Malament, Reeh–Schlieder) seem to forbid localized particles altogether?",
+   "result": "The review argues that localization should be defined through local measurement: a state is strictly localized to a spacetime region \\(\\mathcal O\\) if no observable outside \\(\\mathcal O\\) can tell it from the vacuum. With this definition, single photons (and any state with a bounded photon number) cannot be strictly localized, while coherent states, squeezed states and states arbitrarily close to single photons can. On-demand sources must produce strictly localized states.",
+   "techniques": [
+    "Prove non-localizability from a nonvanishing vacuum matrix element",
+    "Build localized states from the polar part of a smeared field"
+   ]
+  },
+  {
+   "id": "2610.30266",
+   "url": "2610.30266/index.html",
+   "title": "Discrete Time Liquids",
+   "authors": "Zuo Wang; Paul M. Schindler; Marin Bukov; Marios H. Michael",
+   "topic": "foundations",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-24",
+   "problem": "Time crystals break the discrete time-translation symmetry of a perfectly periodic drive. Can temporal order also emerge from noise, when the only drive is the thermal fluctuation of a cavity mode with finite coherence time?",
+   "result": "Yes. A two-dimensional classical spin lattice coupled to a thermal cavity mode locks to half the cavity frequency within a window of bath temperatures. When the cavity coherence time is short, single trajectories switch stochastically between the two period-doubled configurations. These switches, called time-solitons, destroy long-range temporal coherence while preserving local period doubling: a discrete time liquid. A one-parameter toy model with independent sign flips reproduces the full distribution of single-trajectory correlation times.",
+   "techniques": [
+    "Treat a narrow-band thermal mode as a random-amplitude, random-phase drive",
+    "Separate defects from decay with three nested correlation times"
+   ]
+  },
+  {
+   "id": "2610.30315",
+   "url": "2610.30315/index.html",
+   "title": "Normal-Form Characterization of Adaptivity and Entanglement in Pauli-Based Computation",
+   "authors": "Filipa C. R. Peres; Selman Ipek; Daniel Lovsted; Joshua Nevin; Anne Broadbent",
+   "topic": "computing",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-24",
+   "problem": "Pauli-based computation (PBC) runs a Clifford+\\(T\\) circuit as a sequence of commuting Pauli measurements on magic states, chosen adaptively from earlier outcomes. The adaptive tree of measurements is exponentially large. Is there a compact description of how branches differ, comparable to flow in one-way computing?",
+   "result": "Yes. Every branch of the PBC tree is obtained from the all-zero reference branch by conjugating each observable with phase gates \\(S\\) on the magic qubits whose earlier outcomes were 1. This normal form groups measurements into adaptive layers, gives a duality with a computation-specific one-way computation, detects unnecessary magic qubits in polynomial rather than exponential time, and allows ahead-of-time compilation. The resulting circuits use on average about 50% fewer CNOTs and 40% less quantum memory than state-of-the-art compilers on random circuits.",
+   "techniques": [
+    "Move outcome-dependent corrections onto the input state",
+    "Detect removable resources by checking one branch against a symmetry"
+   ]
+  },
+  {
+   "id": "2610.30279",
+   "url": "2610.30279/index.html",
+   "title": "Transversal syndrome extraction: A unifying construction for measuring the error syndromes of any stabilizer code",
+   "authors": "Miles D. Gorman",
+   "topic": "computing",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-24",
+   "problem": "Fault-tolerant syndrome extraction for a general stabilizer code is either deep (Shor’s method measures one stabilizer at a time with cat states) or wide (Steane’s method measures everything at once with a \\(2n\\)-qubit encoded ancilla). Configurable middle grounds were known only for CSS codes. Is there one for every stabilizer code?",
+   "result": "Yes. Partitioning the stabilizer generators into sets measured together, and building a matching ancilla stabilizer state from the generalized Steane ancilla, gives a family of transversal gadgets for any stabilizer code. Shor and Steane extraction appear as the two limits, so depth can be traded for width. For example, the full syndrome of an \\([[8,2,3]]\\) code can be measured with four layers of data–ancilla gates using at most 12 ancilla qubits. Simulated logical error rates fall between those of Shor and Steane extraction.",
+   "techniques": [
+    "Design ancillas so that propagated stabilizers carry the syndrome and nothing else",
+    "Interpolate between two known gadgets by deleting rows and qubits"
+   ]
+  },
+  {
+   "id": "2610.30295",
+   "url": "2610.30295/index.html",
+   "title": "Pure states are optimal for total energy-constrained quantum channel discrimination",
+   "authors": "Christos N. Gagatsos",
+   "topic": "information",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-24",
+   "problem": "When discriminating two bosonic channels with a probe of fixed mean photon number and no ancilla, is a pure probe always optimal? Convexity suggests yes, but the pure components of a mixed probe generally have different photon numbers, so the best component may break the energy budget.",
+   "result": "Yes. Every state of mean photon number \\(\\bar n\\) is a mixture of pure states each with mean photon number exactly \\(\\bar n\\), including for infinite rank. Combined with Lieb concavity, this shows that for any two channels some equal-energy pure probe does at least as well as any mixed probe. This holds for the quantum Chernoff exponent, for every Chernoff quantity \\(Q_s\\), and for the single-shot error probability.",
+   "techniques": [
+    "Equalize a constraint across a decomposition by pairwise rotations",
+    "From concavity at one \\(s\\) to optimality of the minimized exponent"
+   ]
+  },
+  {
+   "id": "2610.30462",
+   "url": "2610.30462/index.html",
+   "title": "Distributed dual-comb spectroscopy",
+   "authors": "Haowei Shi; Kartikeya Arora; Zheshen Zhang; Quntao Zhuang",
+   "topic": "information",
+   "submitted": "2026-10-21",
+   "approved_on": "2026-10-24",
+   "problem": "Quantum-enhanced dual-comb spectroscopy uses squeezed or entangled frequency combs to beat shot noise over a broad band, and distributed quantum sensing uses entanglement across sites to estimate global quantities. Can one combine both, estimating weighted averages of absorption across many samples and many frequencies, with a single quantum light source?",
+   "result": "Yes. Each sample sits in a Mach–Zehnder interferometer with a bright classical comb in one port and a share of a single two-mode-squeezed comb, split \\(K\\) ways by a passive beam splitter, in the dark port. With splitter weights matched to the target weights, the variance of every weighted-average estimator falls by the squeezing gain \\(G\\). Splitters that do not depend on frequency force a trade-off between gases with different targets: for orthogonal targets the guaranteed advantage is \\(2G/(G+1)\\), at most 3 dB.",
+   "techniques": [
+    "Match the entanglement splitter to the estimated linear functional",
+    "Bound multi-target advantage by a shared-resource geometry"
+   ]
+  },
+  {
+   "id": "2610.31632",
+   "url": "2610.31632/index.html",
+   "title": "What does quantum parameter estimation estimate? A no-go result for true quantity values",
+   "authors": "Jacques L. Pienaar; Eran Tal; Asya Ciftci",
+   "topic": "foundations",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-23",
+   "problem": "Quantum metrology speaks of estimating an unknown “true value”. Is that reading consistent when the estimated quantity is itself quantum and can become entangled with the probes?",
+   "result": "No, not without a cost. Embedding the parameter as an observable \\(\\hat\\theta\\) reproduces standard estimation whenever its state is diagonal. But five assumptions cannot all hold together: Uniqueness, Pre-existing Value and Independence (the realist reading of a true value), Entanglement between quantity and probes, and Completeness of the quantum state (no hidden variables). Dropping any one restores consistency.",
+   "techniques": [
+    "Embed a classical parameter as a controlling quantum register",
+    "Locate a no-go theorem by listing jointly inconsistent assumptions"
+   ]
+  },
+  {
+   "id": "2610.31580",
+   "url": "2610.31580/index.html",
+   "title": "Mixed State Deep Thermalization under Generic Quantum Errors",
+   "authors": "Xie-Hang Yu; Pavel Kos",
+   "topic": "foundations",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-23",
+   "problem": "After chaotic dynamics, the states of a subsystem conditioned on measuring the rest follow a universal (Haar) distribution. What distribution emerges when local errors make those conditional states mixed?",
+   "result": "A universal one fixed by the error alone. The late-time ensemble of conditional states is the channel-induced ensemble, \\(\\tilde\\rho=XMX^\\dagger\\) with \\(X\\) a complex Gaussian (Ginibre) matrix and Born weight \\(\\operatorname{Tr}XMX^\\dagger\\). Here \\(M\\) is the normalized Choi state of the error, and only its spectrum matters. This is derived for dual-unitary circuits, global Haar dynamics and local Haar circuits at large local dimension, and checked numerically in qubit circuits and kicked Ising dynamics.",
+   "techniques": [
+    "A random-matrix reference ensemble built from the Choi state",
+    "Born-weighted moments of a projected ensemble"
+   ]
+  },
+  {
+   "id": "2610.31115",
+   "url": "2610.31115/index.html",
+   "title": "The limits of magic-state distillation",
+   "authors": "Llorenç Balada Gaggioli; Jakub Mareček",
+   "topic": "computing",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-23",
+   "problem": "How few noisy T states can any stabilizer protocol, however adaptive, postselected or multistage, consume to output a magic state with error \\(O(p^d)\\)?",
+   "result": "Exact minima for small factories. Fault tolerance of any protocol reduces to projection onto a single stabilizer code, and for rational targets a fault pattern is harmful exactly when its complement is. Exhaustive search then shows: quadratic distillation of one T state needs exactly 9 inputs (a new 9-input factory is found), controlled-S needs 8, and the 8-input CCZ factory is optimal. At every order \\(d\\), one T state needs at least \\(2d\\) inputs.",
+   "techniques": [
+    "Reduce all protocols to one code projection",
+    "Galois conjugation pairs complementary faults"
+   ]
+  },
+  {
+   "id": "2610.31571",
+   "url": "2610.31571/index.html",
+   "title": "Size-independent Logarithmic Sobolev Inequalities for Quantum Gibbs Samplers",
+   "authors": "Hongrui Chen; Zhiyan Ding; Jianfeng Lu",
+   "topic": "computing",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-23",
+   "problem": "Does relative entropy decay at a rate independent of system size under quasi-local quantum Gibbs samplers for non-commuting Hamiltonians?",
+   "result": "Yes, in two regimes. For the Gaussian KMS Gibbs sampler, both the \\(L^2\\) logarithmic Sobolev inequality and the modified one (MLSI) hold with system-size-independent constants: in one dimension at every finite temperature, and in any fixed dimension at sufficiently high temperature. This gives \\(O(\\log n+\\log(1/\\epsilon))\\) mixing time.",
+   "techniques": [
+    "Transport a functional inequality along a unitary path",
+    "Upgrade Rényi-2 contraction to relative-entropy contraction with tensor powers"
+   ]
+  },
+  {
+   "id": "2610.31501",
+   "url": "2610.31501/index.html",
+   "title": "One-shot entanglement generation and distillation via Petz recovery and binary hypothesis testing",
+   "authors": "Matthew Can; Mark M. Wilde",
+   "topic": "information",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-23",
+   "problem": "How much entanglement can two laboratories obtain from one use of a noisy channel or one copy of a shared noisy state, and can the answer be expressed as a binary hypothesis-testing cost?",
+   "result": "An \\((m,\\varepsilon)\\) entanglement generation or one-way distillation protocol exists whenever \\(e_{d,m}(1-e_{d,m}/dm)\\le\\varepsilon\\). Here \\(e_{d,m}\\) is the optimal error for testing \\(\\rho_{AB}\\) against an explicit alternative \\(B_{d,m}\\propto dI_A\\otimes\\rho_B-\\rho_{AB}\\). Consequently \\(\\log_2m\\le I_H^{\\varepsilon-\\nu}(A\\rangle B)-\\log_2(1/\\nu)\\) suffices, and repeated use gives \\(nI_c+\\sqrt{nV_c}\\,\\Phi^{-1}(\\varepsilon)-\\tfrac12\\log_2n-c\\) ebits.",
+   "techniques": [
+    "Apply Cheng’s trace inequality before averaging over random codes",
+    "From a binary test to an integer code dimension"
+   ]
+  },
+  {
+   "id": "2610.30761",
+   "url": "2610.30761/index.html",
+   "title": "A simple proof of unitary parallelization via port-based teleportation",
+   "authors": "Anurag Anshu; Quynh T. Nguyen",
+   "topic": "information",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-23",
+   "problem": "Can port-based teleportation be implemented by an elementary low-depth circuit, and does that give a simple proof that every unitary can be parallelized?",
+   "result": "Yes. A single reflection on Alice’s registers implements port-based teleportation with \\(N\\) ports and dimension \\(d\\) to diamond error \\(2(d^2-1)/N+\\delta\\), in depth \\(\\operatorname{polylog}(Nd/\\delta)\\). Feeding Choi states of \\(U\\) into the ports implements any \\(n\\)-qubit unitary in depth \\(\\operatorname{poly}(n,\\log1/\\varepsilon)\\) and width \\(2^{O(n)}\\operatorname{poly}(1/\\varepsilon)\\).",
+   "techniques": [
+    "Teleport with a single reflection",
+    "Read out sums of swaps with parallel random SWAP tests"
+   ]
+  },
   {
    "id": "2610.29804",
    "url": "2610.29804/index.html",
