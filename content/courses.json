@@ -30,6 +30,16 @@
     "level": "advanced"
   },
   {
+    "title": "Quantum Cryptography",
+    "path": "education/cryptography/index.html",
+    "format": "Self-paced course · Draft textbook",
+    "description": "Derive quantum cryptographic security from states and adversaries through BB84, entanglement, entropy bounds, reconciliation, universal hashing, decoy states, and cryptographic limitations.",
+    "details": "6 developed draft chapters · 60 solved exercises · Reproducible Python laboratory · Protocol audit project",
+    "prerequisite": "Quantum Information or equivalent knowledge of qubits, measurement, tensor products, and elementary probability. No prior cryptography required.",
+    "summary": "Turn quantum signals into secret keys and examine the assumptions behind security.",
+    "level": "advanced"
+  },
+  {
     "title": "Interpretations of Quantum Mechanics",
     "path": "education/interpretations/index.html",
     "format": "Self-paced course · Draft textbook",

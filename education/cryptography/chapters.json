@@ -1,0 +1,260 @@
+[
+  {
+    "stem": "01-security-foundations",
+    "title": "What Does a Secret Key Promise?",
+    "question": "What must a key hide, and from whom?",
+    "prerequisites": "Qubits, measurement, and elementary probability.",
+    "example": "A one-time pad with a public parity leak.",
+    "method": "Trace the protocol, calculate an example, and identify the security assumptions.",
+    "pitfall": "A random-looking key need not be secret from Eve.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "number": "1.1",
+        "title": "Keys, messages, and adversaries",
+        "subsections": [
+          "Start with the one-time pad",
+          "Derive perfect secrecy before invoking quantum mechanics",
+          "A public channel can be private without being authentic"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "number": "1.2",
+        "title": "Quantum states and copying",
+        "subsections": [
+          "Use an inner-product test",
+          "Build the density matrices Eve must distinguish",
+          "Disturbance comes from correlations with a memory"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "number": "1.3",
+        "title": "Authentication and composability",
+        "subsections": [
+          "Define the ideal output",
+          "Write the real and ideal key states",
+          "Test secrecy with an explicit counterexample"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "02-bb84",
+    "title": "BB84: Preparing and Measuring",
+    "question": "How do incompatible bases expose a simple interception attack?",
+    "prerequisites": "Chapter 1 of this course.",
+    "example": "A six-signal BB84 transcript with separate test and key positions.",
+    "method": "Trace the protocol, calculate an example, and identify the security assumptions.",
+    "pitfall": "A simple attack calculation is not a general security proof.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "number": "2.1",
+        "title": "Preparation, measurement, and sifting",
+        "subsections": [
+          "Trace the protocol",
+          "Specify the registers and the order of announcements",
+          "Follow one block without confusing its denominators"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "number": "2.2",
+        "title": "Intercept and resend",
+        "subsections": [
+          "Condition on the sifted positions",
+          "Compare three attacks on the same protocol",
+          "Derive the measure-and-resend disturbance for a tilted basis"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "number": "2.3",
+        "title": "Sampling and aborting",
+        "subsections": [
+          "Treat uncertainty as part of the protocol",
+          "Invert an exact sampling model",
+          "Identify what the sample does and does not certify"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "03-entanglement",
+    "title": "Entanglement and Security Proofs",
+    "question": "How can a virtual entanglement protocol explain prepare-and-measure security?",
+    "prerequisites": "Chapters 1–2 of this course.",
+    "example": "A Bell pair compared with a classically correlated mixture.",
+    "method": "Trace the protocol, calculate an example, and identify the security assumptions.",
+    "pitfall": "Agreement in one basis does not bound phase errors.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "number": "3.1",
+        "title": "A source shared by Alice and Bob",
+        "subsections": [
+          "Calculate Bell-pair correlations",
+          "Derive remote preparation as an equality of experiments",
+          "A pure shared pair leaves Eve uncorrelated"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "number": "3.2",
+        "title": "Bit errors and phase errors",
+        "subsections": [
+          "Look in complementary bases",
+          "Use Bell labels as an error ledger",
+          "Count the information needed to correct a typical error pattern"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "number": "3.3",
+        "title": "An asymptotic key fraction",
+        "subsections": [
+          "State what the formula assumes",
+          "Recover the rate and locate its threshold",
+          "Connect complementarity to an entropy proof"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "04-key-extraction",
+    "title": "From Raw Bits to a Usable Key",
+    "question": "How do reconciliation and privacy amplification have different jobs?",
+    "prerequisites": "Chapters 1–3 of this course.",
+    "example": "A seven-bit syndrome decoder followed by Toeplitz extraction.",
+    "method": "Trace the protocol, calculate an example, and identify the security assumptions.",
+    "pitfall": "Do not count public leakage twice.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "number": "4.1",
+        "title": "Reconciliation and verification",
+        "subsections": [
+          "Account for the transcript",
+          "Correct a string using a syndrome",
+          "Count rank, communication, and verification separately"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "number": "4.2",
+        "title": "Min-entropy and hashing",
+        "subsections": [
+          "Compress uncertainty into uniformity",
+          "Distinguish min-entropy from average uncertainty",
+          "Construct a hash and explain why its seed can be public"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "number": "4.3",
+        "title": "A finite-block ledger",
+        "subsections": [
+          "Keep each deduction visible",
+          "Build the length formula from its inputs",
+          "Make a failure budget without changing theorem conventions"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "05-practical-devices",
+    "title": "Sources, Detectors, and Quantum Links",
+    "question": "Which physical assumptions make the mathematical protocol applicable?",
+    "prerequisites": "Chapters 1–4 of this course.",
+    "example": "A vacuum-plus-weak-decoy estimate through a lossy optical link.",
+    "method": "Trace the protocol, calculate an example, and identify the security assumptions.",
+    "pitfall": "An ideal qubit model does not certify an optical implementation.",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "number": "5.1",
+        "title": "Weak pulses and photon number",
+        "subsections": [
+          "Distinguish a qubit from a laser pulse",
+          "Derive the photon-number mixture",
+          "Infer a single-photon yield from decoy intensities"
+        ]
+      },
+      {
+        "id": "section-5-2",
+        "number": "5.2",
+        "title": "Transmission and observed rates",
+        "subsections": [
+          "Keep loss separate from error",
+          "Combine loss with background counts",
+          "Use the correct rate for a weak-pulse source"
+        ]
+      },
+      {
+        "id": "section-5-3",
+        "number": "5.3",
+        "title": "Trust in measurement devices",
+        "subsections": [
+          "Compare security models",
+          "Understand what an untrusted relay measures",
+          "Calculate a Bell test before using the word independent"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "06-beyond-qkd",
+    "title": "Beyond Key Distribution",
+    "question": "Which cryptographic tasks can quantum theory enable, and which remain constrained?",
+    "prerequisites": "Chapters 1–5 of this course.",
+    "example": "Pauli encryption and a delayed-measurement commitment attack.",
+    "method": "Trace the protocol, calculate an example, and identify the security assumptions.",
+    "pitfall": "A cryptographic claim is meaningful only within its stated model.",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "number": "6.1",
+        "title": "Encrypting a quantum message",
+        "subsections": [
+          "Average over Pauli keys",
+          "Prove the Pauli average for an arbitrary qubit",
+          "Show why encryption does not authenticate a quantum state"
+        ]
+      },
+      {
+        "id": "section-6-2",
+        "number": "6.2",
+        "title": "Commitment and its limitations",
+        "subsections": [
+          "Specify the cheating parties",
+          "Construct a coherent cheating strategy",
+          "Explain the mechanism behind the general obstruction"
+        ]
+      },
+      {
+        "id": "section-6-3",
+        "number": "6.3",
+        "title": "Protocol audit and final project",
+        "subsections": [
+          "Make a reviewable security argument",
+          "Run a reproducible experiment and diagnose its limits",
+          "Submit a protocol dossier with explicit acceptance criteria"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  }
+]

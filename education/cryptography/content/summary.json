@@ -1,0 +1,32 @@
+{
+  "01-security-foundations": [
+    "A one-time pad needs a uniform key that is independent of the message, secret from Eve, and used once; it costs one key bit per message bit.",
+    "No-cloning constrains attacks but is not a protocol security proof.",
+    "Correctness, secrecy, authentication, and availability are distinct requirements; secrecy compares the real key state with an ideal one by trace distance."
+  ],
+  "02-bb84": [
+    "Sifting keeps matching bases; revealed test bits are public and cannot count as key.",
+    "Full random-basis intercept–resend gives 25% sifted QBER, but the same aggregate can hide different basis-resolved statistics.",
+    "A finite sample supports only a classical population bound, which a separate quantum theorem must turn into a phase-error and key-length statement."
+  ],
+  "03-entanglement": [
+    "Source replacement rewrites prepare-and-measure as measurements on a shared pair; a pure pair leaves Eve uncorrelated, while an impure one must be analysed.",
+    "Bit and phase errors are distinct: a Z error preserves Z agreement and only the complementary correlation exposes it, so two measured rates never fix the four Bell-label weights.",
+    "The asymptotic rate 1−h₂(e_b)−h₂(e_p) holds per sifted bit under named assumptions; reconciliation overhead moves its zero crossing from 11.0% to about 9.9% at f=1.15."
+  ],
+  "04-key-extraction": [
+    "Reconciliation aligns strings while leaking public information.",
+    "Quantum-proof hashing extracts a shorter key from conditional min-entropy.",
+    "A finite-block ledger must avoid double-counting leakage."
+  ],
+  "05-practical-devices": [
+    "An attenuated laser emits mostly vacuum and a few multiphoton pulses; phase randomization is a physical operation the Poisson mixture assumes.",
+    "Two decoy intensities bound the single-photon yield only if preparations are indistinguishable, and the naive estimate Q_νe^ν/ν overstates it.",
+    "Loss and background clicks use different denominators, and MDI or device-independent labels trade device trust for other assumptions rather than removing them."
+  ],
+  "06-beyond-qkd": [
+    "Uniform Pauli encryption uses two secret classical bits per qubit and decorrelates the ciphertext from any reference, but it does not authenticate.",
+    "Commitment needs both hiding and binding; in the standard model a coherent unmeasured purification breaks binding, and perfect hiding is exactly what gives Alice that freedom.",
+    "A protocol dossier separates calculations, assumptions, and cited theorems, and names the entropy theorem that no simulation can supply."
+  ]
+}

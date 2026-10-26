@@ -7,7 +7,7 @@ import {fileURLToPath, pathToFileURL} from 'node:url';
 import {tmpdir} from 'node:os';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const courses=process.argv.slice(2).length?process.argv.slice(2):['algorithms','programming','information','hardware'];
-if(courses.some(c=>!['algorithms','programming','information','hardware'].includes(c)))throw Error('Unknown course');
+if(courses.some(c=>!['algorithms','programming','information','hardware','cryptography'].includes(c)))throw Error('Unknown course');
 const work=await mkdtemp(resolve(tmpdir(),'quantum-course-render-'));
 const chrome=spawn('google-chrome',['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-background-networking','--disable-component-update','--no-first-run','--remote-debugging-port=0',`--user-data-dir=${work}/profile`],{stdio:['ignore','ignore','pipe']});
 let socket;
@@ -45,6 +45,8 @@ try {
   console.log('PASS mobile',course,chapters.length,'chapters');
  }
  for(const [name,file,anchor,width] of [
+  ['cryptography','education/cryptography/03-entanglement.html','rate-explorer',1440],
+  ['cryptography-mobile','education/cryptography/02-bb84.html','section-2-1',390],
   ['algorithms','education/algorithms/04-fourier-methods.html','section-4-1',1440],
   ['programming','education/programming/06-sampling-and-estimation.html','section-6-3',1440],
   ['information','education/information/08-state-discrimination.html','section-8-2',1440],
@@ -57,6 +59,24 @@ try {
   await evaluate('new Promise(resolve=>setTimeout(resolve,500))');
   const {data}=await tab('Page.captureScreenshot',{format:'png'});
   await writeFile(`${work}/${name}.png`,Buffer.from(data,'base64'));
+ }
+ if(courses.includes('cryptography')){
+  await tab('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+  await open('education/cryptography/03-entanglement.html');
+  const interaction=await evaluate(`(() => {
+    const q=document.getElementById('rate-q');
+    q.value='0';q.dispatchEvent(new Event('input'));
+    const zero=document.getElementById('rate-key').textContent;
+    q.value='20';q.dispatchEvent(new Event('input'));
+    const high=document.getElementById('rate-key').textContent;
+    const verdict=document.getElementById('rate-verdict').textContent;
+    document.getElementById('search-open').click();
+    const search=document.getElementById('book-search');search.value='Toeplitz';search.dispatchEvent(new Event('input'));
+    return {zero,high,verdict,hits:document.querySelectorAll('#search-results li').length,dialog:document.getElementById('search-dialog').open};
+  })()`);
+  if(interaction.zero!=='1.0000'||interaction.high!=='0.0000'||!interaction.verdict.includes('no positive')||!interaction.hits||!interaction.dialog)throw Error('Cryptography interaction check: '+JSON.stringify(interaction));
+  await open('education/cryptography/index.html');
+  console.log('PASS cryptography rate controls, search, and overview');
  }
  console.log('Browser checks passed. Screenshots:',work);
 } finally {

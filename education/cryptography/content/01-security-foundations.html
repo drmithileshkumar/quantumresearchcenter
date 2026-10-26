@@ -1,0 +1,256 @@
+<aside class="learning-guide">
+<p><strong>After this chapter, you should be able to:</strong></p>
+<ul class="crypto-outcomes">
+<li>State the four resources a one-time pad assumes and show, by direct calculation, how a biased key breaks secrecy.</li>
+<li>Explain why no-cloning rules out perfect copying of nonorthogonal states but does not by itself prove a protocol secure.</li>
+<li>Compute the trace distance between a real and an ideal key state for a small example and interpret it operationally.</li>
+</ul>
+<p><strong>Study method:</strong> Read each subsection once for the argument, then reproduce the displayed derivations on paper. Attempt each worked example before revealing its solution, and finish with the ten end-of-chapter problems.</p>
+<p><strong>Notation.</strong> Messages, keys, and ciphertexts are bit strings, and \(\oplus\) is bitwise XOR. A basis is a pair of orthonormal states. Trace distance \(T(\rho,\sigma)\) is defined in <a href="#section-1-3">Section 1.3</a>.</p>
+</aside>
+
+<p>Alice and Bob want to agree on a key that Eve cannot guess, even though Eve controls the channel between them. Quantum mechanics will not hand them a secret out of nothing: it lets them test whether Eve has been listening and bounds how much she could know. To see why that is valuable—and what it does not buy—we first need a precise account of what a key is supposed to do.</p>
+
+<section aria-labelledby="section-1-1-heading" class="book-section" id="section-1-1">
+<h2 id="section-1-1-heading">1.1 Keys, messages, and adversaries</h2>
+<p>A security claim is only as strong as the resource it assumes. Before asking what quantum mechanics adds, this section fixes the classical benchmark: what a one-time pad promises, what it costs, and what it leaves unprotected.</p>
+
+<h3>1.1.1 Start with the one-time pad</h3>
+<p>Alice holds a classical message \(M\) and a key \(K\) of the same length, both bit strings. She sends the ciphertext \(C=M\oplus K\), and Bob, who also has \(K\), recovers \(M=C\oplus K\). The scheme is symmetric, deterministic, and costs one key bit per message bit.</p>
+<p>Its security claim is conditional on four resources. The key must be uniform, independent of the message, secret from Eve, and used once. Drop any one and the claim fails in a different way: a biased key leaves a statistical trace (<a href="#topic-1-1-2">Section 1.1.2</a>), reuse leaks relations between messages (<a href="#topic-1-1-3">Section 1.1.3</a>), and a compromised key is simply known to Eve. QKD produces key material that is close to uniform and independent of Eve even when she controls the channel, but it does not remove the one-time-use requirement.</p>
+<p>The pad also has blind spots. It hides content, not length, and it supplies neither integrity nor authentication: anyone can flip ciphertext bits, and the receiver will decrypt a corrupted message. These are separate tasks requiring separate resources. Against an unbounded Eve the guarantee is information-theoretic—no amount of extra computation helps her—whereas a computational cipher assumes Eve cannot solve a specific problem. Before comparing schemes, state the resource each one assumes and the task it actually implements.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Encrypt 1011 with key 0110. What does Eve learn if the same key also encrypts 0011?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The ciphertexts are \(1011\oplus0110=1101\) and \(0011\oplus0110=0101\). XORing them cancels the key and gives \(1101\oplus0101=1000\), which is exactly \(1011\oplus0011\). Eve learns how the two messages differ without learning either. One guess about one message then determines the other.</p>
+</details>
+</div>
+
+<h3>1.1.2 Derive perfect secrecy before invoking quantum mechanics</h3>
+<p>Perfect secrecy says that seeing the ciphertext changes nothing about Eve's beliefs. Formally, for every message \(m\) and ciphertext \(c\) with \(P(C=c)>0\),</p>
+\[P(M=m\mid C=c)=P(M=m).\]
+<p>The definition compares a posterior with a prior. It says nothing about whether the prior itself is uniform.</p>
+<p>Why does a uniform pad satisfy it? Fix \(m\) and \(c\), each of length \(n\). Exactly one key produces that ciphertext from that message, namely \(k=m\oplus c\). Uniformity and independence give</p>
+\[P(C=c\mid M=m)=P(K=m\oplus c)=2^{-n},\]
+<p>and the right side does not depend on \(m\). Summing over messages gives \(P(C=c)=2^{-n}\), so Bayes' rule returns the prior:</p>
+\[P(M=m\mid C=c)=\frac{P(C=c\mid M=m)\,P(M=m)}{P(C=c)}=P(M=m).\]
+<p>Two features of this calculation are easy to miss. First, the message distribution may be arbitrarily biased: if Eve already believes one message is likely, she still believes that after seeing \(c\), because the ciphertext supplies no new evidence. Second, the key must be uniform <em>relative to Eve</em>. A key that looks random to Alice but is known to Eve is not a key in this sense.</p>
+<p>A biased key shows the failure concretely. Take a one-bit message, a uniform message prior, and \(P(K=0)=0.9\). Then \(P(C=0\mid M=0)=0.9\) while \(P(C=0\mid M=1)=0.1\). Observing \(C=0\) raises the posterior for \(M=0\) from \(1/2\) to</p>
+\[\frac{0.9\cdot0.5}{0.9\cdot0.5+0.1\cdot0.5}=0.9.\]
+<p>Secrecy also costs key length. Fix a ciphertext \(c\). Correct decryption assigns at most one message to each key, so at most \(|K|\) messages can be recovered from \(c\). Perfect secrecy, for a prior that gives every message positive probability, requires every message to remain possible given \(c\), so all \(|M|\) messages must be recoverable. Hence \(|K|\ge|M|\). QKD does not repeal this accounting; it supplies the shared randomness that encryption later consumes.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Two-bit messages are encrypted with a uniform key drawn from \(\{00,01,10\}\). Which message is ruled out by the ciphertext \(00\), and why does that violate perfect secrecy?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>With \(C=00\) the compatible messages are the three keys themselves, \(\{00,01,10\}\). If the message prior is uniform, \(P(M=11\mid C=00)=0\) while \(P(M=11)=1/4\). Three keys cannot hide four messages: every ciphertext excludes at least one message. Adding the fourth key restores perfect secrecy.</p>
+</details>
+</div>
+
+<h3>1.1.3 A public channel can be private without being authentic</h3>
+<p>Perfect secrecy is a statement about a single use. Reuse the same pad for two messages and the key cancels:</p>
+\[C_1\oplus C_2=(M_1\oplus K)\oplus(M_2\oplus K)=M_1\oplus M_2.\]
+<p>Eve now holds a relation between the plaintexts. If she can guess one message, even partially, she recovers the corresponding part of the other. The one-time condition is not bureaucratic; it is what prevents this cancellation.</p>
+<p>Confidentiality and integrity fail for different reasons, so repairing one does not repair the other. An attacker who cannot read \(C\) can still replace it with \(C\oplus\Delta\), and decryption then yields \(M\oplus\Delta\). Bob cannot notice unless the message or the channel supplies authentication. A one-time pad used correctly therefore guarantees confidentiality and nothing else.</p>
+<p>It helps to draw the QKD setting as two channels with different powers for Eve.</p>
+<div class="crypto-table">
+<table>
+<caption>Eve's capabilities on the two channels used by a key-distribution protocol.</caption>
+<thead><tr><th scope="col">Channel</th><th scope="col">Eve may</th><th scope="col">What the claim assumes</th></tr></thead>
+<tbody>
+<tr><td>Quantum</td><td>replace, block, entangle, or store signals</td><td>her actions obey the stated quantum model</td></tr>
+<tr><td>Classical</td><td>read and delay messages</td><td>a forgery succeeds with probability at most \(\epsilon_{\rm auth}\)</td></tr>
+</tbody>
+</table>
+</div>
+<p>If the classical channel were public but unauthenticated, Eve could sit between Alice and Bob, run one exchange with each, and relay messages. Both parties would see ordinary quantum statistics while each final key was shared with Eve rather than with each other. This is why QKD consumes an initial short secret to authenticate, and why that cost must be budgeted rather than assumed away.</p>
+<div class="exercise"><p><strong>Worked derivation.</strong> Alice and Bob hold independent uniform bits \(X_1,X_2\) and publicly announce \(P=X_1\oplus X_2\). Are the individual bits still uniform? How much uncertainty about the pair remains?</p>
+<details class="problem-solution"><summary>Follow the conditional distribution</summary>
+<p>Yes. Given \(P=0\) the pair is \(00\) or \(11\) with probability \(1/2\) each, so each bit is uniform; given \(P=1\) the candidates are \(01\) and \(10\), and again each bit is uniform. But the pair is confined to one of two strings instead of four. Public reconciliation information can leave every marginal untouched while removing entropy from the joint string, which is why the secrecy definition must include the transcript.</p>
+</details>
+</div>
+<p>A key is therefore defined by a joint state, not by a list of bits that look random. Section 1.2 shows what quantum mechanics restricts, and Section 1.3 makes the joint-state comparison precise.</p>
+</section>
+
+<section aria-labelledby="section-1-2-heading" class="book-section" id="section-1-2">
+<h2 id="section-1-2-heading">1.2 Quantum states and copying</h2>
+<p>Quantum mechanics enters the argument twice: it restricts what Eve can copy, and it forces a detectable price when she obtains information. This section develops both statements one qubit at a time and marks clearly where a security proof is still missing.</p>
+
+<h3>1.2.1 Use an inner-product test</h3>
+<p>Fix the two bases used throughout the course. The Z basis is \(\{|0\rangle,|1\rangle\}\); the X basis is \(\{|+\rangle,|-\rangle\}\), where</p>
+\[|\pm\rangle=\frac{|0\rangle\pm|1\rangle}{\sqrt2}.\]
+<p>The bases are incompatible: a Z eigenstate measured in X gives each outcome with probability \(1/2\), and vice versa. That fact is the resource the protocol will exploit.</p>
+<p>Suppose a unitary \(U\) copied two states perfectly into a fixed blank register \(|b\rangle\):</p>
+\[U|\psi\rangle|b\rangle=|\psi\rangle|\psi\rangle,\qquad U|\phi\rangle|b\rangle=|\phi\rangle|\phi\rangle.\]
+<p>Take inner products of the two equations and use that \(U\) preserves inner products:</p>
+\[\langle\psi|\phi\rangle=\langle\psi|\phi\rangle^{2}.\]
+<p>Writing \(s=\langle\psi|\phi\rangle\), the condition \(s=s^2\) forces \(s=0\) or \(s=1\). Two distinct nonorthogonal states cannot both be copied by the same machine. Orthogonal states can: a controlled-NOT with the state as control and a blank \(|0\rangle\) as target copies \(|0\rangle\) and \(|1\rangle\) exactly.</p>
+<p>This is a real restriction, but it is not a protocol security proof. Eve need not copy. She can interact weakly with many signals, keep a quantum memory, exploit channel loss, or coordinate a collective attack, and she may accept a nonzero chance that the protocol aborts. No-cloning rules out one strategy; security must bound every strategy the physical model allows.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Apply the copying condition to \(|0\rangle\) and \(|+\rangle\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The input overlap is \(\langle0|+\rangle=1/\sqrt2\). The two copied outputs \(|0\rangle|0\rangle\) and \(|+\rangle|+\rangle\) would have overlap \(1/2\). A unitary preserves overlaps, so the required equality fails and no perfect copier exists. The gap between \(1/\sqrt2\) and \(1/2\) is the quantitative obstruction.</p>
+</details>
+</div>
+
+<h3>1.2.2 Build the density matrices Eve must distinguish</h3>
+<p>A classical label and the quantum signal carrying it are different objects, and it pays to keep them apart. If Alice sends the X-basis bit \(+\), the state held by Bob or Eve is</p>
+\[\rho_+=\frac12\begin{pmatrix}1&amp;1\\1&amp;1\end{pmatrix},\qquad \rho_-=\frac12\begin{pmatrix}1&amp;-1\\-1&amp;1\end{pmatrix}.\]
+<p>These are \(|+\rangle\langle+|\) and \(|-\rangle\langle-|\) written in the Z basis. The diagonal entries are the Z-measurement probabilities; the off-diagonal entries are the coherences that an X measurement reads.</p>
+<p>Now average over the bit. A uniform mixture cancels the off-diagonal entries:</p>
+\[\frac{\rho_++\rho_-}{2}=\frac{I}{2},\]
+<p>and the same is true of \((|0\rangle\langle0|+|1\rangle\langle1|)/2\). If the bit is uniform and nothing else leaks the basis, the state Eve holds is \(I/2\) whichever basis Alice used. No measurement can tell the two cases apart, because the two descriptions are literally the same operator. This is an identity about states, not a statement about Eve's ignorance of the notation.</p>
+<p>Before the basis is announced, Eve faces a different question: she may know that the bit is uniform but not which basis was used. The two candidate states are</p>
+\[\rho_0=\frac{|0\rangle\langle0|+|+\rangle\langle+|}{2},\qquad \rho_1=\frac{|1\rangle\langle1|+|-\rangle\langle-|}{2},\]
+<p>The first averages the Z and X preparations of bit \(0\), the second the preparations of bit \(1\), each weighted equally because Eve does not know the basis. Their difference is \((X+Z)/2\), whose eigenvalues are \(\pm1/\sqrt2\). The optimal binary discrimination probability is given by the Helstrom formula</p>
+\[p_{\rm guess}=\frac12+\frac{\|\rho_0-\rho_1\|_1}{4},\]
+<p>where the trace norm is the sum of the singular values. For this pair the trace norm is \(2/\sqrt2=\sqrt2\), so \(p_{\rm guess}=(1+1/\sqrt2)/2\approx0.8536\). Eve can beat a coin flip by a wide margin if she is willing to consume the signal in that measurement.</p>
+<p>That number is not yet a successful attack. Eve must hand Bob a signal, and Alice later announces the basis, so Eve's guess is judged on the whole transcript rather than on one measurement. The calculation measures how much the two bit hypotheses overlap; it does not say how much information survives the rest of the protocol.</p>
+<figure class="crypto-figure" id="figure-1-2-2">
+<svg viewBox="0 0 460 300" role="img" aria-labelledby="fig-bloch-title fig-bloch-desc">
+<title id="fig-bloch-title">Bloch-circle picture of the states Eve must distinguish</title>
+<desc id="fig-bloch-desc">In the X-Z plane, the pure states ket zero, ket one, ket plus, and ket minus sit on a dashed unit circle. The mixed states rho zero and rho one lie inside, on opposite diagonal directions, at radius one over root two.</desc>
+<circle class="ring" cx="230" cy="150" r="100"/>
+<line class="axis" x1="230" y1="36" x2="230" y2="264"/>
+<line class="axis" x1="116" y1="150" x2="344" y2="150"/>
+<text x="214" y="28" text-anchor="end">Z</text>
+<text x="344" y="170" text-anchor="end">X</text>
+<circle class="state" cx="230" cy="50" r="4"/>
+<circle class="state" cx="230" cy="250" r="4"/>
+<circle class="state" cx="330" cy="150" r="4"/>
+<circle class="state" cx="130" cy="150" r="4"/>
+<line class="vector" x1="230" y1="150" x2="274" y2="106"/>
+<line class="vector" x1="230" y1="150" x2="186" y2="194"/>
+<path class="vhead" d="M280,100 L276.4,109.2 L270.8,103.6 z"/>
+<path class="vhead" d="M180,200 L189.2,196.4 L183.6,190.8 z"/>
+<circle class="mix" cx="280" cy="100" r="5"/>
+<circle class="mix" cx="180" cy="200" r="5"/>
+<text x="240" y="36" text-anchor="start">|0⟩</text>
+<text x="240" y="278" text-anchor="start">|1⟩</text>
+<text x="330" y="138" text-anchor="middle">|+⟩</text>
+<text x="130" y="138" text-anchor="middle">|−⟩</text>
+<text class="muted" x="290" y="94" text-anchor="start">ρ₀</text>
+<text class="muted" x="170" y="218" text-anchor="end">ρ₁</text>
+</svg>
+<figcaption>The X–Z plane of the Bloch sphere. The four pure basis states sit on the dashed circle. Averaging over which basis was used places \(\rho_0\) and \(\rho_1\) inside it, at radius \(1/\sqrt2\). Their separation is \(\sqrt2\), which fixes the Helstrom probability in the text.</figcaption>
+</figure>
+<div class="exercise"><h4>Worked example</h4>
+<p>Use the same formula for \(\rho_+\) and \(\rho_-\). What is the optimal success probability, and why is it not a contradiction?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Their difference is \(\rho_+-\rho_-=X\), whose eigenvalues are \(\pm1\), so the trace norm is \(2\) and \(p_{\rm guess}=1/2+2/4=1\). The states are orthogonal and can be told apart perfectly. There is no contradiction: here the basis is known to be X, while the earlier question asked Eve to discriminate the two bit hypotheses without knowing the basis. Different ensembles, different answers.</p>
+</details>
+</div>
+
+<h3>1.2.3 Disturbance comes from correlations with a memory</h3>
+<p>Eve need not guess at all. She can let a unitary entangle each signal with an ancilla she keeps, so that her record is correlated with the bit while the signal continues to Bob. The price of that correlation is the subject of this subsection.</p>
+<p>Consider an attack that leaves the Z basis untouched but writes the value into Eve's ancilla:</p>
+\[|0\rangle|e\rangle\mapsto|0\rangle|e_0\rangle,\qquad |1\rangle|e\rangle\mapsto|1\rangle|e_1\rangle.\]
+<p>Linearity fixes the action on superpositions. For \(|+\rangle\) the joint state becomes</p>
+\[\frac{|0\rangle|e_0\rangle+|1\rangle|e_1\rangle}{\sqrt2}.\]
+<p>Tracing out Eve leaves Bob with the reduced state</p>
+\[\rho_B=\frac12\begin{pmatrix}1&amp;\langle e_1|e_0\rangle\\ \langle e_0|e_1\rangle&amp;1\end{pmatrix}.\]
+<p>The off-diagonal coherence has been multiplied by the overlap \(\langle e_1|e_0\rangle\). Bob's X-basis error probability is the probability of the \(|-\rangle\) outcome,</p>
+\[P(-)=\frac{1-\operatorname{Re}\langle e_1|e_0\rangle}{2}.\]
+<p>The two extremes are instructive. If \(e_0=e_1\), the overlap is one, Eve's record is the same for both bits, and Bob sees no error. If \(\langle e_1|e_0\rangle=0\), Eve can read the Z bit perfectly, and Bob's X outcome is uniformly random. Partial overlap interpolates between the two: information and disturbance trade off quantitatively.</p>
+<figure class="crypto-figure" id="figure-1-2-3">
+<svg viewBox="0 0 540 220" role="img" aria-labelledby="fig-ancilla-title fig-ancilla-desc">
+<title id="fig-ancilla-title">Eve entangles the signal with an ancilla</title>
+<desc id="fig-ancilla-desc">Alice's qubit passes through Eve's unitary, which also receives an ancilla. The signal continues to Bob, while the ancilla, now correlated with the bit, stays in Eve's memory.</desc>
+<rect class="box" x="12" y="50" width="96" height="60" rx="6"/>
+<text x="60" y="78" text-anchor="middle">Alice</text>
+<text class="muted" x="60" y="98" text-anchor="middle">prepares |ψ⟩</text>
+<line class="wire" x1="108" y1="80" x2="196" y2="80"/>
+<path class="head" d="M196,80 l-8,-4 v8 z"/>
+<rect class="box" x="200" y="40" width="112" height="130" rx="6"/>
+<text x="256" y="94" text-anchor="middle">Eve</text>
+<text class="muted" x="256" y="114" text-anchor="middle">unitary U</text>
+<text class="muted" x="30" y="150">|e⟩</text>
+<line class="wire" x1="52" y1="160" x2="196" y2="160"/>
+<path class="head" d="M196,160 l-8,-4 v8 z"/>
+<line class="wire" x1="312" y1="80" x2="396" y2="80"/>
+<path class="head" d="M396,80 l-8,-4 v8 z"/>
+<rect class="box" x="400" y="50" width="92" height="60" rx="6"/>
+<text x="446" y="78" text-anchor="middle">Bob</text>
+<text class="muted" x="446" y="98" text-anchor="middle">measures</text>
+<line class="wire" x1="312" y1="160" x2="360" y2="160"/>
+<path class="head" d="M360,160 l-8,-4 v8 z"/>
+<rect class="mem" x="364" y="124" width="164" height="72" rx="8"/>
+<text x="446" y="154" text-anchor="middle">Eve's memory</text>
+<text class="muted" x="446" y="176" text-anchor="middle">|e₀⟩ or |e₁⟩</text>
+<text class="muted" x="120" y="70">signal</text>
+<text class="muted" x="112" y="190">ancilla</text>
+</svg>
+<figcaption>Eve couples each signal to an ancilla. The signal still reaches Bob, but the overlap \(\langle e_1|e_0\rangle\) of her two memory states controls how much X-basis coherence Bob sees.</figcaption>
+</figure>
+<p>This is the mechanism behind the slogan that measurement disturbs a state. Nothing reaches in and "kicks" the qubit. Eve's ancilla becomes correlated with the signal, the correlations are inaccessible to Bob, and the interference he would need to see disappears. It also explains why testing only Z is inadequate: this attack produces no Z errors at all while Eve holds a perfect record. BB84 tests complementary preparations precisely to expose the missing coherence, which is the subject of <a href="02-bb84.html#section-2-2">Section 2.2</a>.</p>
+</section>
+
+<section aria-labelledby="section-1-3-heading" class="book-section" id="section-1-3">
+<h2 id="section-1-3-heading">1.3 Authentication and composability</h2>
+<p>Secrecy needs a definition that survives composition with other protocols. This section states the definition, gives it an operational meaning, and tests it on an example where intuition alone would mislead.</p>
+
+<h3>1.3.1 Define the ideal output</h3>
+<p>A key protocol makes three separate promises, and each needs its own error parameter. <strong>Correctness</strong> bounds the probability that Alice and Bob accept while holding different keys. <strong>Secrecy</strong> says the key they hold is indistinguishable from a uniform key independent of Eve. <strong>Authentication</strong> bounds the chance that Eve can impersonate a party on the classical channel.</p>
+<p>These are separate on purpose. A protocol can be correct and secret but forgeable, or authenticated and secret but occasionally wrong. Availability is separate again: Eve can always block signals and prevent a key from being produced. A secrecy theorem for accepted runs does not contradict that; it says nothing about runs that abort.</p>
+<p>Authentication deserves emphasis because it is the resource QKD cannot manufacture from nothing. An authenticated classical channel lets Eve listen and delay but not undetectably alter messages. Without it, she can run one exchange with Alice and another with Bob, as described in <a href="#topic-1-1-3">Section 1.1.3</a>. In practice authentication uses a short pre-shared secret and a universal hash family: the tag gives a bounded forgery probability per message, and the key cost must be budgeted explicitly.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>A protocol has secrecy error \(10^{-9}\), correctness error \(10^{-12}\), and authentication error \(10^{-12}\). Give a composable upper bound on its total failure probability.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Each requirement bounds the probability of a different bad event, so the union bound adds them: \(10^{-9}+10^{-12}+10^{-12}=1.002\times10^{-9}\). The result bounds failure or distinguishability; it does not predict that any particular attack will be observed.</p>
+</details>
+</div>
+
+<h3>1.3.2 Write the real and ideal key states</h3>
+<p>To compare a real protocol with an ideal one, put both in the same mathematical form. Let \(K\) be the \(\ell\)-bit classical output and let \(E\) denote everything Eve holds: her quantum memory, her classical records, and the public transcript. The joint state is classical on Alice and Bob's side and quantum on Eve's:</p>
+\[\rho_{KE}=\sum_k p_k\,|k\rangle\langle k|\otimes\rho_E^k.\]
+<p>The ideal state is a uniform key independent of Eve:</p>
+\[\tau_K\otimes\rho_E,\qquad \tau_K=2^{-\ell}\sum_k|k\rangle\langle k|.\]
+<p>The distance between the two is measured by the trace distance</p>
+\[T(\rho,\sigma)=\frac12\|\rho-\sigma\|_1,\]
+<p>where the trace norm is the sum of the singular values. For states diagonal in the same basis this is exactly the classical total variation distance, \(T=\frac12\sum_x|p_x-q_x|\). The quantum definition has the operational meaning we need: substituting one state for the other changes the probability of any subsequent event by at most \(T\). Equivalently, an optimal test distinguishing the two with equal prior succeeds with probability \(\frac12+\frac{T}{2}\).</p>
+<p>Protocols can abort, so the comparison is made on accepted runs and weighted by the probability of accepting:</p>
+\[p_{\rm pass}\,T\!\left(\rho_{KE\mid\mathrm{pass}},\;\tau_K\otimes\rho_{E\mid\mathrm{pass}}\right)\le\epsilon_{\rm sec}.\]
+<p>The weighting matters. Conditioning on a rare acceptance event can make the conditional state far from ideal, while the unconditional claim remains meaningful because that event is unlikely. If acceptance never occurs, the left side is interpreted as zero. Correctness is bounded separately by \(P[K_A\ne K_B\ \text{and pass}]\le\epsilon_{\rm cor}\).</p>
+<p>If the output length is announced after the fact, the ideal state must be uniform for each announced length. The examples in this course fix the length in advance, which keeps the accounting simple.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Alice and Bob share a uniform \(\ell\)-bit key, and Eve holds a perfect copy. Show that the trace distance from the ideal independent state is \(1-2^{-\ell}\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The real distribution is supported on the \(2^\ell\) pairs \((k,k)\), each with probability \(2^{-\ell}\). The ideal distribution spreads probability \(2^{-2\ell}\) over all \(2^{2\ell}\) pairs. Every real pair contributes \(2^{-\ell}-2^{-2\ell}\), and every ideal-only pair contributes \(2^{-2\ell}\). The real pairs therefore contribute \(1-2^{-\ell}\) in total, and the \(2^{2\ell}-2^\ell\) ideal-only pairs contribute the same amount, so</p>
+\[T=\tfrac12\left(1-2^{-\ell}+1-2^{-\ell}\right)=1-2^{-\ell}.\]
+<p>For one bit this is \(1/2\), matching the counterexample in <a href="#topic-1-3-3">Section 1.3.3</a>. As \(\ell\) grows, an exactly known key becomes almost perfectly distinguishable from an independent one.</p>
+</details>
+</div>
+
+<h3>1.3.3 Test secrecy with an explicit counterexample</h3>
+<p>Suppose Alice and Bob share a uniform bit and Eve has a perfect copy. Correctness is perfect, and each honest party sees zeros exactly half the time, so a histogram of \(K\) alone looks ideal. The joint distribution tells a different story.</p>
+<div class="crypto-table">
+<table>
+<caption>Joint probabilities for a one-bit key that Eve knows. The real protocol is perfectly correlated; the ideal one is independent.</caption>
+<thead><tr><th scope="col">Pair \((K,E)\)</th><th scope="col">Real probability</th><th scope="col">Ideal probability</th></tr></thead>
+<tbody>
+<tr><td>(0,0)</td><td>1/2</td><td>1/4</td></tr>
+<tr><td>(0,1)</td><td>0</td><td>1/4</td></tr>
+<tr><td>(1,0)</td><td>0</td><td>1/4</td></tr>
+<tr><td>(1,1)</td><td>1/2</td><td>1/4</td></tr>
+</tbody>
+</table>
+</div>
+<p>Here \(E\) is classical, so the trace distance reduces to half the sum of the absolute differences:</p>
+\[T=\frac12\left(\left|\tfrac12-\tfrac14\right|+\left|0-\tfrac14\right|+\left|0-\tfrac14\right|+\left|\tfrac12-\tfrac14\right|\right)=\frac12.\]
+<p>The operational difference is easy to see. Ask whether \(K=E\). In the real protocol the answer is always yes; in the ideal protocol it is yes with probability \(1/2\). A test that looks only at the key's histogram cannot detect the leak, but a test that looks at the key together with Eve's information can.</p>
+<p>The distance also composes. Any later processing—hashing, encryption, an adversary's measurement—cannot increase trace distance, so replacing the real key by an ideal key inside a larger protocol changes its output by at most the secrecy error. Applying several such replacements in sequence adds their errors by the triangle inequality. That is what makes a small \(\epsilon_{\rm sec}\) a usable guarantee rather than a decorative number.</p>
+<p>One interpretation of \(\epsilon_{\rm sec}\) should be avoided. It does not mean that Eve knows the entire key with probability \(\epsilon\), or that she knows nothing otherwise. It means the real joint state is close to one in which she knows nothing, and the distance bounds what any distinguisher can notice.</p>
+<p>Authentication fits the same replacement argument. A universal-hash tag with a secret hash choice gives a bounded forgery probability per message, but the hash key is consumed, and reusing it degrades the bound. We will budget authentication bits explicitly rather than treat the public channel as free.</p>
+<p>The chapter's three ideas now connect: a key is a resource with a precise cost (1.1); quantum mechanics constrains how Eve can acquire it and makes her acquisition visible (1.2); and composable security compares the whole joint state, transcript included, with an ideal key (1.3). <a href="02-bb84.html#section-2-1">Chapter 2</a> turns these ingredients into the BB84 protocol.</p>
+</section>
+
+<section id="reading">
+<h2>Further reading</h2>
+<p>These sources supply the classical results quoted above and the quantum tools used later.</p>
+<ul>
+<li><a href="https://doi.org/10.1002/j.1538-7305.1949.tb00928.x">Shannon, Communication Theory of Secrecy Systems (1949)</a> —the original definition of perfect secrecy and the key-length argument.</li>
+<li><a href="https://doi.org/10.1038/299802a0">Wootters and Zurek, A single quantum cannot be cloned (1982)</a> and <a href="https://doi.org/10.1016/0375-9601(82)90084-6">Dieks, Communication by EPR devices (1982)</a> —independent statements of the no-cloning theorem.</li>
+<li><a href="https://link.springer.com/book/10.1007/978-1-4757-1463-0">Helstrom, Quantum Detection and Estimation Theory (1976)</a> —the discrimination bound used in Section 1.2.2.</li>
+<li><a href="https://doi.org/10.1016/0022-0000(81)90033-7">Wegman and Carter, New hash functions and their use in authentication and set equality (1981)</a> —the authentication resource and its key cost.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/0512258">Renner, Security of Quantum Key Distribution (2005)</a> —composable security definitions with quantum side information.</li>
+<li><a href="https://arxiv.org/abs/1906.01645">Pirandola et al., Advances in Quantum Cryptography (2020)</a> —a survey placing QKD among other quantum cryptographic tasks.</li>
+</ul>
+</section>

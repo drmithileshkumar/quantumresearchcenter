@@ -1,0 +1,346 @@
+<aside class="learning-guide">
+<p><strong>After this chapter, you should be able to:</strong></p>
+<ul class="crypto-outcomes">
+<li>Derive photon-number probabilities and the two-intensity decoy yield bound, and say which assumption makes that inference valid.</li>
+<li>Calculate rates with loss, background clicks, and basis or intensity selection, keeping the denominators distinct.</li>
+<li>Distinguish trusted-device, measurement-device-independent, and device-independent assumptions, and state what each still requires.</li>
+</ul>
+<p><strong>Study method:</strong> Reproduce each displayed derivation with your own numbers, attempt every worked example before opening its solution, then solve the ten end-of-chapter problems.</p>
+<p><strong>Notation.</strong> \(\mu\) and \(\nu\) are mean photon numbers (signal and decoy), \(P_n\) the probability of \(n\) photons, \(Y_n\) the detection probability given \(n\) photons, \(Q_x\) the gain at intensity \(x\), \(\eta\) the transmission, \(d\) the detector efficiency, \(Y_0\) the background-click probability per window, \(e_d\) the misalignment error, \(F\) the pulse rate, and \(h_2\) the binary entropy in bits. Logarithms are base two except where \(\ln\) or \(e^{x}\) appears.</p>
+</aside>
+
+<p>Chapters 1 to 4 analysed an abstract qubit, a noiseless detector, and a source that emits exactly one photon on demand. No laboratory provides all three. This chapter asks what changes when the source is an attenuated laser, the link is a lossy fibre, the detectors click for reasons of their own, and the measurement station might be under Eve's control. The aim is not to make the protocol sound fragile, but to keep the boundary between a proved statement and a modelled one in clear view.</p>
+
+<section aria-labelledby="section-5-1-heading" class="book-section" id="section-5-1">
+<h2 id="section-5-1-heading">5.1 Weak pulses and photon number</h2>
+<p>The first idealisation to go is the single-photon source. This section derives what an attenuated laser actually emits, shows why the difference is a security problem rather than a technicality, and reconstructs the single-photon contribution from measurements at two intensities.</p>
+
+<h3>5.1.1 Distinguish a qubit from a laser pulse</h3>
+<p>A phase-randomized coherent pulse with mean photon number \(\mu\) has photon-number probabilities</p>
+\[P_n=e^{-\mu}\frac{\mu^n}{n!},\]
+<p>so the vacuum and multiphoton fractions are</p>
+\[P_{\text{vac}}=e^{-\mu},\qquad P_{\ge2}=1-e^{-\mu}(1+\mu).\]
+<p>Attenuating a laser therefore does not produce one photon per trial. Most pulses are empty, some carry one photon, and a small fraction carry two or more. Only the last group is dangerous. In a multiphoton pulse Eve can, in an idealised attack, keep one photon and forward the rest: after the basis announcement her stored copy reveals the bit without the intercept–resend disturbance derived in Section <a href="02-bb84.html#topic-2-2-1">2.2.1</a>. Channel loss helps her, because she can forward only the pulses that suit her and let the others disappear into the loss budget.</p>
+<p>Decoy-state methods answer this by varying the intensity and using the observed detection statistics to bound the single-photon contribution. The inference has a precondition: conditioned on the photon number, the signal and decoy preparations must be indistinguishable in all modes that Eve can access. A source whose pulses differ in spectrum or timing between intensities provides no such inference, however good the statistics.</p>
+<p>What follows in this section is a source calculation plus one decoy bound. It describes a model; it is not a decoy-state security proof, which additionally fixes the attack model, the finite-count statistics, and the failure budget.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Calculate the multiphoton probability at \(\mu=0.1\), per emitted pulse and among pulses that are not vacuum.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>\(P_{\ge2}=1-e^{-0.1}(1.1)\approx0.004679\), about 0.468% of emitted pulses. Dividing by the nonvacuum probability \(1-e^{-0.1}\approx0.095163\) gives \(0.0492\), so roughly 4.9% of the pulses that reach the channel at all carry two or more photons. The two numbers answer different questions: the first sizes the hazard against the clock rate, the second against the surviving detections—and an adversary who benefits from loss cares about the second kind of fraction.</p>
+</details>
+</div>
+
+<h3>5.1.2 Derive the photon-number mixture</h3>
+<p>A coherent state of complex amplitude \(\alpha\) has the expansion</p>
+\[|\alpha\rangle=e^{-|\alpha|^2/2}\sum_{n\ge0}\frac{\alpha^n}{\sqrt{n!}}|n\rangle,\]
+<p>which is a superposition, not a mixture: the relative phases between different \(n\) are fixed and observable in principle. Write \(\alpha=\sqrt\mu\,e^{i\theta}\) and randomize \(\theta\) uniformly, then discard it. Every off-diagonal term carries a factor</p>
+\[\frac{1}{2\pi}\int_0^{2\pi}e^{i(n-m)\theta}\,d\theta=\delta_{nm},\]
+<p>so all coherence between different photon numbers vanishes and what remains is diagonal:</p>
+\[\rho_\mu=\sum_{n=0}^{\infty}e^{-\mu}\frac{\mu^n}{n!}|n\rangle\langle n|.\]
+<p>Phase randomization is therefore a physical operation the model relies on, not a figure of speech. Calling a pulse “weak” establishes nothing by itself: an unrandomised weak pulse has a definite phase and is not described by \(\rho_\mu\).</p>
+<figure class="crypto-figure" id="figure-5-1-2">
+<svg viewBox="0 0 580 240" role="img" aria-labelledby="fig-photon-title fig-photon-desc">
+<title id="fig-photon-title">Photon-number content of two weak coherent pulses</title>
+<desc id="fig-photon-desc">Two proportional stacked bars. At mean photon number 0.1, 90.5 percent of pulses are vacuum, 9.0 percent carry one photon and 0.5 percent carry two or more. At mean photon number 0.5 the shares become 60.7, 30.3 and 9.0 percent.</desc>
+<text class="muted" x="90" y="44">μ = 0.1</text>
+<rect class="seg-vac" x="90" y="52" width="389.1" height="34"/>
+<rect class="seg-one" x="479.1" y="52" width="38.9" height="34"/>
+<rect class="seg-multi" x="518" y="52" width="2" height="34"/>
+<text x="284" y="74" text-anchor="middle">90.5% vacuum</text>
+<text class="muted halo" x="479" y="42" text-anchor="middle">9.0%</text>
+<text class="muted halo" x="526" y="74" text-anchor="start">0.5%</text>
+<text class="muted" x="90" y="122">μ = 0.5</text>
+<rect class="seg-vac" x="90" y="130" width="260.8" height="34"/>
+<rect class="seg-one" x="350.8" y="130" width="130.4" height="34"/>
+<rect class="seg-multi" x="481.2" y="130" width="38.8" height="34"/>
+<text x="220" y="152" text-anchor="middle">60.7% vacuum</text>
+<text class="seg-label" x="416" y="152" text-anchor="middle">30.3%</text>
+<text class="seg-label" x="500" y="152" text-anchor="middle">9.0%</text>
+<rect class="seg-vac" x="90" y="196" width="16" height="16"/>
+<text class="muted" x="114" y="209" text-anchor="start">vacuum</text>
+<rect class="seg-one" x="196" y="196" width="16" height="16"/>
+<text class="muted" x="220" y="209" text-anchor="start">one photon</text>
+<rect class="seg-multi" x="318" y="196" width="16" height="16"/>
+<text class="muted" x="342" y="209" text-anchor="start">two or more</text>
+</svg>
+<figcaption>Photon-number content of phase-randomized pulses, drawn to scale. Raising \(\mu\) from 0.1 to 0.5 lifts the single-photon share from 9.0% to 30.3% but also lifts the multiphoton share from 0.5% to 9.0%—and to about 23% of the nonvacuum pulses. A weak-pulse source therefore trades key rate against a hazard that a security proof must bound rather than ignore.</figcaption>
+</figure>
+<p>The trade is easiest to read as a table.</p>
+<div class="crypto-table">
+<table>
+<caption>Photon-number fractions at three intensities. The last column divides by the nonvacuum probability.</caption>
+<thead><tr><th scope="col">\(\mu\)</th><th scope="col">Vacuum \(P_0\)</th><th scope="col">One photon \(P_1\)</th><th scope="col">Two or more \(P_{\ge2}\)</th><th scope="col">\(P_{\ge2}\) given nonvacuum</th></tr></thead>
+<tbody>
+<tr><td>0.1</td><td>0.9048</td><td>0.0905</td><td>0.0047</td><td>0.049</td></tr>
+<tr><td>0.5</td><td>0.6065</td><td>0.3033</td><td>0.0902</td><td>0.229</td></tr>
+<tr><td>1.0</td><td>0.3679</td><td>0.3679</td><td>0.2642</td><td>0.418</td></tr>
+</tbody>
+</table>
+</div>
+<p>Conditioning changes what a small percentage means. At \(\mu=0.1\) the multiphoton fraction is 0.468% of pulses but 4.92% of nonvacuum pulses; at \(\mu=0.5\) it is 9.02% of pulses but 22.9% of nonvacuum pulses. A protocol that reasons only about the unconditional fraction will underestimate the danger in a lossy link.</p>
+<p>Photon-number splitting shows why this is a security question rather than an engineering detail. Eve keeps one photon of a multiphoton signal, forwards the rest, waits for the basis announcement, and then measures her copy in the right basis. She gains full information with no additional disturbance to the single-photon events that the error test is calibrated on. A security proof is allowed to grant Eve this capability even when a laboratory implementation would find it hard; the proof must hold for the adversary, not for the most convenient one.</p>
+
+<h3>5.1.3 Infer a single-photon yield from decoy intensities</h3>
+<p>Let \(Y_n\) be the probability of a detection given an \(n\)-photon emission, and \(Q_\mu\) the measured detection probability per pulse at intensity \(\mu\). If the conditional \(n\)-photon preparations are identical across intensities—the assumption stated in Section 5.1.1—then the gains decompose by photon number:</p>
+\[Q_\mu e^{\mu}=\sum_{n\ge0}\frac{\mu^n}{n!}Y_n.\]
+<p>Each intensity gives one such linear equation in the unknowns \(Y_n\); measuring two intensities gives two equations, not enough to solve for all of them. The decoy trick extracts a <em>bound</em> on \(Y_1\) instead. With \(0<\nu<\mu\), subtract \((\nu^2/\mu^2)\,Q_\mu e^{\mu}\) from \(Q_\nu e^{\nu}\). The \(n=2\) coefficient vanishes, and for \(n\ge3\) the coefficient is</p>
+\[\nu^n-\nu^2\mu^{n-2}=\nu^2\bigl(\nu^{n-2}-\mu^{n-2}\bigr)\le0,\]
+<p>because \(\nu<\mu\). Yields are nonnegative, so those higher terms can only lower the difference. The difference is therefore bounded above by its vacuum and single-photon terms alone, and rearranging gives the asymptotic vacuum-plus-weak-decoy bound</p>
+\[Y_1\ge Y_1^L=\frac{\mu}{\mu\nu-\nu^2}\,D,\]
+<p>where \(D\) collects the measured gains and the background estimate,</p>
+\[D=Q_\nu e^\nu-\frac{\nu^2}{\mu^2}Q_\mu e^\mu-\frac{\mu^2-\nu^2}{\mu^2}Y_0.\]
+<p>Three practical rules follow from the algebra. Clip the result at zero: a negative lower bound means the data certify no single-photon yield, not a negative one. Treat a value above one as evidence of inconsistent inputs or of statistical fluctuations left out of the exact calculation, never as a yield. And remember that the bound is only as good as the indistinguishability assumption; exact arithmetic cannot repair a source that behaves differently at different intensities.</p>
+<figure class="crypto-figure" id="figure-5-1-3">
+<svg viewBox="0 0 580 330" role="img" aria-labelledby="fig-gain-title fig-gain-desc">
+<title id="fig-gain-title">Where the detected clicks come from</title>
+<desc id="fig-gain-desc">Bars show the contribution of each photon number to the total gain at mean photon number 0.5 and transmission 0.1. Single photons contribute 62 percent, two-photon pulses 30 percent, three-photon pulses 7 percent, and four or more the remainder.</desc>
+<line class="axis" x1="80" y1="40" x2="80" y2="240"/>
+<line class="axis" x1="80" y1="240" x2="520" y2="240"/>
+<line class="grid" x1="80" y1="177.5" x2="510" y2="177.5"/>
+<text class="muted" x="72" y="56" text-anchor="end">0.03</text>
+<text class="muted" x="72" y="181" text-anchor="end">0.01</text>
+<text class="muted" x="72" y="244" text-anchor="end">0</text>
+<text x="34" y="140" text-anchor="middle" transform="rotate(-90 34 140)">gain contribution</text>
+<rect class="bar" x="94" y="50.5" width="60" height="189.5" rx="3"/>
+<rect class="bar-alt" x="182" y="150" width="60" height="90" rx="3"/>
+<rect class="bar-alt" x="270" y="218.6" width="60" height="21.4" rx="3"/>
+<rect class="bar-alt" x="358" y="236.6" width="60" height="3.4" rx="2"/>
+<rect class="bar-alt" x="446" y="238" width="60" height="2" rx="1"/>
+<text class="muted" x="124" y="42" text-anchor="middle">62.2%</text>
+<text class="muted" x="212" y="142" text-anchor="middle">29.5%</text>
+<text class="muted" x="300" y="210" text-anchor="middle">7.0%</text>
+<text class="muted" x="388" y="228" text-anchor="middle">1.1%</text>
+<text class="muted" x="476" y="230" text-anchor="middle">0.1%</text>
+<text class="muted" x="124" y="262" text-anchor="middle">1</text>
+<text class="muted" x="212" y="262" text-anchor="middle">2</text>
+<text class="muted" x="300" y="262" text-anchor="middle">3</text>
+<text class="muted" x="388" y="262" text-anchor="middle">4</text>
+<text class="muted" x="476" y="262" text-anchor="middle">5</text>
+<text class="muted" x="300" y="284" text-anchor="middle">Photons in the pulse n</text>
+<rect class="bar" x="80" y="300" width="16" height="16"/>
+<text class="muted" x="104" y="313" text-anchor="start">credited as single-photon gain</text>
+<rect class="bar-alt" x="330" y="300" width="16" height="16"/>
+<text class="muted" x="354" y="313" text-anchor="start">must be bounded, not credited</text>
+</svg>
+<figcaption>Where the detected clicks come from at \(\mu=0.5\), \(\eta=0.1\), and unit detector efficiency. Each bar is the gain contributed by \(n\)-photon pulses, \(P_nY_n\) with \(Y_n=1-(1-\eta)^n\); together they sum to \(Q_\mu\approx0.0488\). Only the \(n=1\) bar is the single-photon contribution that a decoy analysis credits. Almost 38% of detections come from pulses carrying two or more photons, so a rate model that ignored source statistics would overstate the secret key substantially.</figcaption>
+</figure>
+<div class="exercise"><h4>Worked example</h4>
+<p>For a pure-loss channel with \(\eta=0.1\), \(\mu=0.5\), \(\nu=0.1\), and no background, compare the true \(Y_1\), the decoy bound, and the naive estimate \(Q_\nu e^\nu/\nu\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Here \(Q_x=1-e^{-\eta x}\), so \(Q_\nu\approx0.009950\) and \(Q_\mu\approx0.048771\). The bound gives \(Y_1^L\approx0.09725\), safely below the true \(Y_1=\eta=0.1\) and corresponding to a single-photon gain \(Q_1^L=\mu e^{-\mu}Y_1^L\approx0.02949\). The naive estimate returns \(Q_\nu e^\nu/\nu\approx0.110\), which exceeds the physical value: it credits every detection at the weak intensity to single photons while multiphoton emissions contribute as well. The subtraction is precisely what removes that credit, and its conservatism—2.75% low here—is the price of not knowing the individual yields.</p>
+</details>
+</div>
+
+
+<p>The decoy bound converts two measured gains into one certified quantity. It does not, by itself, bound Eve's information: that requires relating the single-photon phase error to the observed error rate, which is the entanglement argument of Chapter 3 applied to the single-photon component. Nor does it account for finite counts, which enter through confidence bounds whose signs must be tracked carefully in the subtraction—an upper bound on \(Q_\mu\) and a lower bound on \(Q_\nu\) both make \(Y_1^L\) smaller. <a href="https://arxiv.org/abs/quant-ph/0503005">Ma and colleagues</a> develop the protocol analysis in detail, and the educational laboratory in this course recomputes the bound and checks it against the known pure-loss model.</p>
+</section>
+
+<section aria-labelledby="section-5-2-heading" class="book-section" id="section-5-2">
+<h2 id="section-5-2-heading">5.2 Transmission and observed rates</h2>
+<p>A key rate is a ratio, and most confusion about QKD performance comes from mixing the ratios. This section separates transmission from error, adds background clicks, and then multiplies the pieces together in the right order.</p>
+
+<h3>5.2.1 Keep loss separate from error</h3>
+<p>For a fibre with attenuation \(\alpha\) decibels per kilometre over length \(L\), the transmission factor is</p>
+\[\eta=10^{-\alpha L/10}.\]
+<p>Detector efficiency, connector loss, basis sifting, and protocol acceptance reduce usable counts further. None of these factors is an error rate. A signal that never arrives carries no bit and cannot be wrong: the QBER conditions on retained detections, and is therefore blind to loss by construction.</p>
+<p>For an idealised single-photon source pulsed at rate \(F\) through transmission \(\eta\) into detectors of efficiency \(d\), with unbiased bases, the sifted count rate is approximately</p>
+\[R_{\text{sift}}\approx\frac{F\eta d}{2},\]
+<p>if further losses and dead time are neglected. Multiplying this by a secret fraction produces a planning model, not a performance claim. A reported number should carry its assumed parameters explicitly—attenuation, length, pulse rate, detector efficiency, background, and dead time—and any parameter that was chosen rather than measured should be labelled as hypothetical.</p>
+<div class="crypto-table">
+<table>
+<caption>How the same fibre shrinks the raw count rate at \(\alpha=0.2\) dB/km, \(F=10^{6}\)/s, \(d=0.2\), and ideal single photons.</caption>
+<thead><tr><th scope="col">Length</th><th scope="col">Loss</th><th scope="col">\(\eta\)</th><th scope="col">Sifted rate</th></tr></thead>
+<tbody>
+<tr><td>10 km</td><td>2 dB</td><td>0.63</td><td>63,000 /s</td></tr>
+<tr><td>50 km</td><td>10 dB</td><td>0.10</td><td>10,000 /s</td></tr>
+<tr><td>100 km</td><td>20 dB</td><td>0.010</td><td>1,000 /s</td></tr>
+<tr><td>200 km</td><td>40 dB</td><td>0.00010</td><td>10 /s</td></tr>
+</tbody>
+</table>
+</div>
+<p>Every 50 km costs a factor of ten in rate; every 100 km costs a factor of a hundred. That exponential is why loss, rather than the error rate, sets the practical distance record of a QKD link—until background clicks take over, which is the subject of the next subsection.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Use \(\alpha=0.2\) dB/km, \(L=50\) km, \(F=10^{6}\)/s, and \(d=0.2\). Find the simplified sifted rate, and the rate at 100 km.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The loss is \(0.2\times50=10\) dB, so \(\eta=10^{-1}=0.1\). The sifted rate is \(10^{6}\times0.1\times0.2/2=10{,}000\) bits/s before testing and extraction. At 100 km the loss doubles to 20 dB, \(\eta=0.01\), and the rate falls to 1,000 bits/s. Both figures assume unit quantum efficiency beyond \(d\), no dark counts, and an ideal single-photon source; a weak-pulse source with realistic intensities does considerably worse.</p>
+</details>
+</div>
+
+<h3>5.2.2 Combine loss with background counts</h3>
+<p>Let \(d\) be detector efficiency and \(\eta\) the channel transmission. For a phase-randomized coherent pulse, the probability that at least one signal photon is detected is</p>
+\[p_s=1-e^{-\mu\eta d}.\]
+<p>If the background-click probability per time window is \(Y_0\), an independent-click model gives the total gain</p>
+\[Q=1-(1-Y_0)e^{-\mu\eta d}\approx Y_0+\mu\eta d\]
+<p>in the low-click regime. If signal clicks carry misalignment error \(e_d\) while background bits are random, the observed error rate is the mixture of the two contributions:</p>
+\[E\approx\frac{\tfrac12Y_0+e_d\,p_s}{Y_0+p_s}.\]
+<p>The expression neglects simultaneous clicks and the rule used to assign them, so it is a model rather than a measurement formula. It still shows a physical limit. As \(p_s\to0\), the numerator and denominator are both dominated by \(Y_0\), so \(E\to1/2\) even though nothing has changed in the detector's alignment. Loss does not flip bits; it dilutes the signal until the background is all that is left, and a rate model that reduces the count while holding the observed error fixed will therefore overstate the achievable distance.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>For \(Y_0=10^{-5}\), \(p_s=10^{-3}\), and \(e_d=0.01\), compute \(E\). Repeat for \(p_s=10^{-5}\) and \(p_s\to0\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>At \(p_s=10^{-3}\): \((5\times10^{-6}+10^{-5})/(1.01\times10^{-3})\approx0.0149\), still close to the misalignment value. At \(p_s=10^{-5}\) the same formula gives \((5\times10^{-6}+10^{-7})/(1.1\times10^{-5})\approx0.255\). As \(p_s\to0\) it tends to \(1/2\). A detector whose alignment never changed has become useless because the signal now competes with its own dark counts, and a 25% error rate is far above the 11% threshold of the ideal model (Section <a href="03-entanglement.html#topic-3-3-2">3.3.2</a>).</p>
+</details>
+</div>
+<figure class="crypto-figure" id="figure-5-2-2">
+<svg viewBox="0 0 580 300" role="img" aria-labelledby="fig-err-title fig-err-desc">
+<title id="fig-err-title">Observed error rate against signal strength</title>
+<desc id="fig-err-desc">With background about one part in a hundred thousand and one percent misalignment, the observed error stays near one percent while the signal-click probability is above about five in ten thousand. As the signal weakens below that, the error climbs steeply and approaches one half.</desc>
+<line class="axis" x1="70" y1="240" x2="510" y2="240"/>
+<line class="axis" x1="70" y1="40" x2="70" y2="250"/>
+<line class="grid" x1="70" y1="40" x2="500" y2="40"/>
+<line class="grid" x1="70" y1="140" x2="500" y2="140"/>
+<line class="threshold" x1="70" y1="196" x2="500" y2="196"/>
+<text class="muted" x="62" y="44" text-anchor="end">0.5</text>
+<text class="muted" x="62" y="144" text-anchor="end">0.25</text>
+<text class="muted" x="62" y="244" text-anchor="end">0</text>
+<text class="muted" x="70" y="262" text-anchor="middle">10⁻⁶</text>
+<text class="muted" x="177.5" y="262" text-anchor="middle">10⁻⁵</text>
+<text class="muted" x="285" y="262" text-anchor="middle">10⁻⁴</text>
+<text class="muted" x="392.5" y="262" text-anchor="middle">10⁻³</text>
+<text class="muted" x="500" y="262" text-anchor="middle">10⁻²</text>
+<text class="muted" x="290" y="282" text-anchor="middle">Signal-click probability pₛ</text>
+<text class="muted halo" x="504" y="190" text-anchor="end">11% key threshold</text>
+<polyline class="curve" points="70,57.8 121.3,85.2 177.5,138 228.8,187 285,218.2 336.3,229.7 392.5,234.1 443.8,235.3 500,235.8"/>
+<circle class="point" cx="392.5" cy="234.1" r="4.5"/>
+<circle class="point" cx="177.5" cy="138" r="4.5"/>
+</svg>
+<figcaption>Observed error rate for \(Y_0=10^{-5}\) and \(e_d=0.01\), from the low-click mixture model. Above \(p_s\sim10^{-3}\) the error stays near 1%, close to the misalignment value. Below it, background clicks dominate and the error climbs through the 11% threshold of the ideal BB84 model and on towards 1/2. The two marked points are \(p_s=10^{-3}\) (0.0149) and \(p_s=10^{-5}\) (0.255).</figcaption>
+</figure>
+
+<h3>5.2.3 Use the correct rate for a weak-pulse source</h3>
+<p>The ideal single-photon expression \(1-h_2(e_b)-h_2(e_p)\) is a fraction <em>per sifted single-photon key bit</em>. Multiplying it by every detected coherent pulse would credit vacuum events (which carry no bit) and multiphoton events (whose information Eve may share) with secrecy they do not have. In a conventional asymptotic decoy analysis, a common lower-rate form per emitted signal pulse is</p>
+\[R\ge q\left[Q_1^L\bigl(1-h_2(e_1^U)\bigr)-Q_\mu f_{\rm EC}h_2(E_\mu)\right],\]
+<p>where \(q\) is the basis and key-selection factor, \(Q_1^L\) a certified single-photon gain from Section 5.1.3, and \(e_1^U\) an upper bound on the single-photon phase error in the stated symmetric model. The structure is worth reading aloud: the positive term credits only the certified single-photon part, while reconciliation is paid on <em>all</em> retained signal detections, because that is what was actually discussed in public. Substituting a single-photon rate into the second term would understate the leakage.</p>
+<p>This is a stated asymptotic rate model, not a finite-size prescription. It has no smoothing terms, no confidence intervals on the gains, and no acceptance probability.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>With the pure-loss gains above, take \(e_1^U=E_\mu=0.02\), \(f_{\rm EC}=1.1\), and \(q=1/2\). Compute the rate and interpret the two terms.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>\(Q_\mu\approx0.048771\), \(Q_1^L\approx0.029493\), and \(h_2(0.02)\approx0.14144\). The privacy term is \(0.029493\times0.85856\approx0.025322\) and the reconciliation term is \(0.048771\times1.1\times0.14144\approx0.007588\). Their difference, scaled by \(q=0.5\), is about \(0.00887\) secret bits per signal pulse. Roughly a third of the privacy credit is spent on reconciliation, which is why reconciliation efficiency matters even when the error rate is small. If decoy pulses occupy some clock slots, multiply by the signal-intensity selection probability as well; using the full clock rate would overcount.</p>
+</details>
+</div>
+</section>
+
+<section aria-labelledby="section-5-3-heading" class="book-section" id="section-5-3">
+<h2 id="section-5-3-heading">5.3 Trust in measurement devices</h2>
+<p>Every result so far assumed that a detector implements the measurement the proof describes. Real detectors can be blinded, saturated, or made to click on command, so the question of which devices a proof must trust is a security question in its own right.</p>
+
+<h3>5.3.1 Compare security models</h3>
+<p>A detector is a physical apparatus, and its behaviour outside the assumed input range need not match the textbook measurement. Tailored bright illumination, for instance, has been used to force commercial detectors into click patterns of an attacker's choosing, which is why “the detector is fine because it passes its calibration” is not a security argument.</p>
+<p>Two labels are often used to describe protocols that reduce this trust. <strong>Measurement-device-independent</strong> QKD places a joint measurement at an untrusted relay while keeping characterised sources and the rest of the laboratory model. <strong>Device-independent</strong> QKD uses Bell-test statistics to certify security under a different model, which requires suitable isolation, trusted randomness for setting choices, and control of detection loopholes.</p>
+<p>Neither label removes every assumption, and the labels are not nested in a way that makes one strictly safer. A Bell violation by itself is not a finite-key certificate, and a conventional entanglement-based protocol is not automatically device independent just because it uses entanglement.</p>
+<div class="crypto-table">
+<table>
+<caption>What changes across three security models, and what each still assumes.</caption>
+<thead><tr><th scope="col">Model</th><th scope="col">Removed from trust</th><th scope="col">Still assumed</th><th scope="col">Evidence used</th></tr></thead>
+<tbody>
+<tr><td>Prepare-and-measure BB84</td><td>Nothing in the receiver or source, beyond the stated proof model</td><td>Sources and detectors behave as specified for the states and ranges used</td><td>Basis-resolved detection and error statistics</td></tr>
+<tr><td>MDI QKD</td><td>The relay's measurement, which may be arbitrarily malicious</td><td>Characterised sources, basis announcements, authentication, and decoy inference</td><td>Joint gains, errors, and single-photon bounds</td></tr>
+<tr><td>Device-independent QKD</td><td>Both measuring devices, and the internal workings of the sources</td><td>Laboratory isolation, free random choices, loophole-free detection, and a key-extraction theorem</td><td>Loophole-controlled Bell statistics plus key correlations</td></tr>
+</tbody>
+</table>
+</div>
+<figure class="crypto-figure" id="figure-5-3-1">
+<svg viewBox="0 0 580 335" role="img" aria-labelledby="fig-trust-title fig-trust-desc">
+<title id="fig-trust-title">Which components each security model trusts</title>
+<desc id="fig-trust-desc">Three rows. In prepare-and-measure BB84 both endpoint devices are characterised while the channel is Eve's. In measurement-device-independent QKD the middle relay is untrusted while both sources are characterised. In device-independent QKD both endpoint devices are untrusted and only the channel model remains, with isolation and free choices assumed.</desc>
+<text class="muted" x="40" y="32">Prepare-and-measure BB84</text>
+<rect class="pill" x="40" y="42" width="104" height="42" rx="6"/>
+<text x="92" y="68" text-anchor="middle">Alice</text>
+<rect class="mem" x="238" y="42" width="104" height="42" rx="6"/>
+<text x="290" y="68" text-anchor="middle">channel</text>
+<rect class="pill" x="436" y="42" width="104" height="42" rx="6"/>
+<text x="488" y="68" text-anchor="middle">Bob</text>
+<line class="wire" x1="144" y1="63" x2="230" y2="63"/>
+<path class="head" d="M238,63 l-9,-4.5 v9 z"/>
+<line class="wire" x1="342" y1="63" x2="428" y2="63"/>
+<path class="head" d="M436,63 l-9,-4.5 v9 z"/>
+<text class="muted" x="40" y="132">Measurement-device-independent QKD</text>
+<rect class="pill" x="40" y="142" width="104" height="42" rx="6"/>
+<text x="92" y="168" text-anchor="middle">Alice</text>
+<rect class="mem" x="238" y="142" width="104" height="42" rx="6"/>
+<text x="290" y="160" text-anchor="middle">relay</text>
+<text class="muted" x="290" y="176" text-anchor="middle">may lie</text>
+<rect class="pill" x="436" y="142" width="104" height="42" rx="6"/>
+<text x="488" y="168" text-anchor="middle">Bob</text>
+<line class="wire" x1="144" y1="163" x2="230" y2="163"/>
+<path class="head" d="M238,163 l-9,-4.5 v9 z"/>
+<line class="wire" x1="436" y1="163" x2="350" y2="163"/>
+<path class="head" d="M342,163 l9,-4.5 v9 z"/>
+<text class="muted" x="40" y="232">Device-independent QKD</text>
+<rect class="mem" x="40" y="242" width="104" height="42" rx="6"/>
+<text x="92" y="268" text-anchor="middle">Alice</text>
+<rect class="mem" x="238" y="242" width="104" height="42" rx="6"/>
+<text x="290" y="268" text-anchor="middle">channel</text>
+<rect class="mem" x="436" y="242" width="104" height="42" rx="6"/>
+<text x="488" y="268" text-anchor="middle">Bob</text>
+<line class="wire" x1="144" y1="263" x2="230" y2="263"/>
+<path class="head" d="M238,263 l-9,-4.5 v9 z"/>
+<line class="wire" x1="342" y1="263" x2="428" y2="263"/>
+<path class="head" d="M436,263 l-9,-4.5 v9 z"/>
+<text class="muted" x="290" y="322" text-anchor="middle">solid: characterised by the proof · dashed: untrusted</text>
+</svg>
+<figcaption>Which components each proof model characterises. Solid boxes are trusted to behave as the proof describes; dashed boxes may do anything. Moving down the figure removes devices from trust but adds non-device assumptions—isolation, free randomness, and loophole-free detection—so no row is assumption-free.</figcaption>
+</figure>
+<p>For any proposed experiment, list four things before interpreting a click as key material: which components Eve controls, what information can leave each laboratory, how the random choices are generated, and which statistics the proof consumes. Those four answers determine which row of the table the implementation occupies—and whether its security claim applies at all.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>A relay reports a successful Bell-state measurement. Does that alone certify a secret key?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>No. Even in an MDI protocol, Alice and Bob must authenticate their messages, estimate errors and the single-photon contribution as applicable, and run the prescribed reconciliation and extraction under valid source assumptions. The relay's announcement is an input to those steps, not a substitute for them—and a malicious relay is free to announce anything it likes, which is exactly why the proof must be written for that case.</p>
+</details>
+</div>
+
+<h3>5.3.2 Understand what an untrusted relay measures</h3>
+<p>In MDI QKD, Alice and Bob each prepare signals and send them to a relay, which performs a joint measurement and announces its outcome. Consider an ideal projection onto the antisymmetric Bell state</p>
+\[|\psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt2}.\]
+<p>For opposite Z inputs, \(|\langle\psi^-|01\rangle|^2=|\langle\psi^-|10\rangle|^2=1/2\); for equal Z inputs, both amplitudes vanish. A successful announcement therefore selects anticorrelated bits, and one party flips to align the raw strings. The same projection is antisymmetric in X, so the property holds in both bases—which is why the relay's announcement is useful to Alice and Bob whatever the relay intended.</p>
+<p>What makes the arrangement measurement-device-independent is that the security argument never needs to know what the relay actually did. A malicious relay can announce arbitrary results, so the proof uses the observed basis-dependent statistics together with source characterisation to bound what accepted announcements can imply. The successful projection is a correlation-generating operation, not a trusted declaration of secrecy. In an optical implementation, decoy methods bound the events in which both sources emitted exactly one photon, which is where the single-photon inference of Section 5.1.3 reappears. <a href="https://arxiv.org/abs/1109.1473">Lo, Curty, and Qi</a> establish the measurement-device-independent approach.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Give the projection probabilities onto \(|\psi^-\rangle\) for the four Z-basis input pairs, and for the two X-basis antipodal pairs.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>For \(|01\rangle\) and \(|10\rangle\) the probabilities are \(1/2\) each; for \(|00\rangle\) and \(|11\rangle\) they are zero. In X, \(|\psi^-\rangle=(|+-\rangle-|-+\rangle)/\sqrt2\), so \(|+-\rangle\) and \(|-+\rangle\) each project with probability \(1/2\), while \(|++\rangle\) and \(|−−\rangle\) project to zero. In both bases the relay's success signals opposite, not equal, inputs—so the relay cannot force agreement, and any successful announcement leaves Alice and Bob with a correlation they can check against their own data.</p>
+</details>
+</div>
+
+<h3>5.3.3 Calculate a Bell test before using the word independent</h3>
+<p>For outputs \(a,b\in\{-1,+1\}\), define the correlators \(E_{xy}=\langle ab\rangle\) for settings \(x,y\) and the CHSH combination</p>
+\[S=E_{00}+E_{01}+E_{10}-E_{11}.\]
+<p>A deterministic local assignment \(a_x,b_y\in\{\pm1\}\) gives</p>
+\[S=a_0(b_0+b_1)+a_1(b_0-b_1).\]
+<p>Exactly one parenthesis vanishes and the other equals \(\pm2\), so \(|S|=2\). Probabilistic local strategies are convex mixtures of such assignments and cannot exceed the bound, provided the settings are chosen independently of any hidden variables and each response depends only on its own setting and shared randomness. That proviso is the substance of the word “independent”: without it the bound does not apply.</p>
+<p>For \(|\Phi^+\rangle\), take \(A_0=Z\), \(A_1=X\), \(B_0=(Z+X)/\sqrt2\), and \(B_1=(Z-X)/\sqrt2\). The ZZ and XX correlations equal one and the cross correlations vanish, so each term contributes \(1/\sqrt2\):</p>
+<div class="crypto-table">
+<table>
+<caption>The four CHSH terms for \(|\Phi^+\rangle\) with the settings above. Each correlator is \(\pm1/\sqrt2\), and the signs are chosen so that all four terms add.</caption>
+<thead><tr><th scope="col">Correlator</th><th scope="col">Settings</th><th scope="col">Value</th><th scope="col">Contribution to \(S\)</th></tr></thead>
+<tbody>
+<tr><td>\(E_{00}\)</td><td>\(A_0=Z\), \(B_0=(Z+X)/\sqrt2\)</td><td>\(1/\sqrt2\)</td><td>\(+1/\sqrt2\)</td></tr>
+<tr><td>\(E_{01}\)</td><td>\(A_0=Z\), \(B_1=(Z-X)/\sqrt2\)</td><td>\(1/\sqrt2\)</td><td>\(+1/\sqrt2\)</td></tr>
+<tr><td>\(E_{10}\)</td><td>\(A_1=X\), \(B_0=(Z+X)/\sqrt2\)</td><td>\(1/\sqrt2\)</td><td>\(+1/\sqrt2\)</td></tr>
+<tr><td>\(E_{11}\)</td><td>\(A_1=X\), \(B_1=(Z-X)/\sqrt2\)</td><td>\(-1/\sqrt2\)</td><td>\(+1/\sqrt2\)</td></tr>
+</tbody>
+</table>
+</div>
+<p>The total is \(S=4/\sqrt2=2\sqrt2\approx2.828\), the largest value quantum theory allows for two-outcome measurements on a qubit—the Tsirelson bound. Mixing the pair with maximally mixed noise,</p>
+\[\rho_v=v\,|\Phi^+\rangle\langle\Phi^+|+(1-v)\frac{I}{4},\]
+<p>scales every correlator by \(v\), so \(S=2\sqrt2\,v\) and the local bound is violated only when \(v>1/\sqrt2\approx0.707\). A visibility below that value is compatible with a local model, and no device-independent claim can be based on it.</p>
+<p>A loophole-controlled violation constrains local explanations and can support a device-independent security proof, but converting \(S\) into a key length needs a separate theorem plus treatment of finite statistics, device memory, isolation, free setting choices, and detection events. <a href="https://arxiv.org/abs/quant-ph/0702152">Acín and colleagues</a> derive a collective-attack security bound; that scope should not be relabelled as a general finite-key result.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>A source produces \(|\Phi^+\rangle\) with visibility \(v=0.9\) against white noise. Compute \(S\), the Z-basis error rate, and say what still must be proved before a key can be extracted.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>\(S=2\sqrt2(0.9)\approx2.546\), comfortably above the local bound of 2. The white-noise part gives a Z disagreement probability of \(1/2\), so the observed error is \((1-0.9)/2=0.05\). Both numbers look promising, and neither is a key length: a device-independent theorem must turn the violation into a min-entropy bound, finite statistics must cover the estimated \(S\), the experiment must close the detection and locality loopholes, and setting choices must be independent. Two favourable expectations are not a proof.</p>
+</details>
+</div>
+</section>
+
+<section id="reading">
+<h2>Further reading</h2>
+<p>These sources cover the source model, the decoy analysis, the two device-trust frameworks, and the detector attacks that motivate them.</p>
+<ul>
+<li><a href="https://arxiv.org/abs/quant-ph/0101098">Gisin, Ribordy, Tittel, and Zbinden, Quantum cryptography (2002)</a> — a review of optical implementations, loss, and detector behaviour.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/0211153">Hwang, Quantum key distribution with high loss: toward global secure communication (2003)</a> — the decoy-state idea.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/0411004">Lo, Ma, and Chen, Decoy state quantum key distribution (2005)</a> — the analysis that made decoy states practical.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/0503005">Ma, Qi, Zhao, and Lo, Practical decoy state for quantum key distribution (2005)</a> — the two-intensity bounds used in Section 5.1.3.</li>
+<li><a href="https://arxiv.org/abs/1008.4593">Lydersen, Wiechers, Wittmann, Elser, Skaar, and Makarov, Hacking commercial quantum cryptography systems by tailored bright illumination (2010)</a> — why detector trust is a security question.</li>
+<li><a href="https://arxiv.org/abs/1109.1473">Lo, Curty, and Qi, Measurement-device-independent quantum key distribution (2012)</a> and <a href="https://arxiv.org/abs/1109.2330">Braunstein and Pirandola, Side-channel-free quantum key distribution (2012)</a> — the two independent routes to removing detector trust.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/0702152">Acín, Brunner, Gisin, Massar, Pironio, and Scarani, Device-independent security of quantum cryptography against collective attacks (2007)</a> — the Bell-based security bound and its attack scope.</li>
+</ul>
+</section>

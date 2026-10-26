@@ -1,0 +1,554 @@
+{
+  "01-security-foundations": [
+    {
+      "kind": "Worked problem",
+      "question": "How many possible keys encrypt a fixed four-bit message to a specified ciphertext?",
+      "hints": [
+        "Solve C=M XOR K."
+      ],
+      "answer": "Exactly one: K=M XOR C. Uniform selection among all 16 keys makes the ciphertext uniform.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Does a one-time pad authenticate a message?",
+      "hints": [
+        "Flip a ciphertext bit."
+      ],
+      "answer": "No. A flipped ciphertext bit flips the corresponding plaintext bit. Authentication must be supplied separately.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Can |0⟩ and |1⟩ be copied?",
+      "hints": [
+        "Evaluate their overlap."
+      ],
+      "answer": "Yes. They are orthogonal; a CNOT with a blank |0⟩ target copies this basis label.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "If a device copies Z states, what happens to |+⟩?",
+      "hints": [
+        "Apply CNOT linearly."
+      ],
+      "answer": "It produces (|00⟩+|11⟩)/√2, an entangled state, rather than |+⟩|+⟩.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why include the public transcript in Eve’s system?",
+      "hints": [
+        "Consider a publicly announced parity."
+      ],
+      "answer": "It can reveal information about the raw key even though the quantum signals were private.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Can Eve force a secure protocol to abort?",
+      "hints": [
+        "Separate availability from secrecy."
+      ],
+      "answer": "Yes. Blocking all signals prevents key generation without violating the secrecy guarantee for accepted keys.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Prove that a uniform n-bit pad hides any message distribution, then explain why the proof fails when the key is correlated with the message.",
+      "hints": [
+        "Fix a message and a ciphertext, and solve for their unique connecting key."
+      ],
+      "answer": "For each m,c, the unique key is k=m XOR c. Independence gives P(K=k|M=m)=P(K=k)=2^(−n), so P(C=c|M=m)=2^(−n)=P(C=c). Bayes gives P(M=m|C=c)=P(M=m). If K=M, independence fails: C is always zero and the receiver cannot decode without already knowing M through K. Correlation invalidates the substitution P(K=k|M=m)=P(K=k); the resource assumptions must be checked before applying the argument.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A uniform two-bit key K has Eve’s record E=K₁ XOR K₂. Compute its conditional guessing probability, conditional min-entropy, and trace distance from an independent uniform key with the same E marginal.",
+      "hints": [
+        "For each parity, list the two compatible and two incompatible key strings."
+      ],
+      "answer": "Given either parity, two keys remain equally likely, so pguess=1/2 and Hmin(K|E)=1 bit. The real joint distribution has four compatible (K,E) pairs with probability 1/4 each; the ideal independent distribution has all eight pairs with probability 1/8. The distance is (1/2)[4|1/4−1/8|+4|0−1/8|]=1/2. Every individual key bit remains uniform, but the full key is not independent of Eve.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For the ancilla attack in Section 1.2, let the real overlap ⟨e₁|e₀⟩ equal 0.6. Derive Bob’s density matrix for input |+⟩ and the X-basis error probability.",
+      "hints": [
+        "Trace out Eve in the four outer-product terms."
+      ],
+      "answer": "Bob’s matrix is (1/2)[[1,0.6],[0.6,1]]. Its expectation in |−⟩ is (1−0.6)/2=0.2, so 20% of X outcomes are wrong. Z eigenstates still pass undisturbed. The nonorthogonal Eve records encode partial information; the coherence factor quantifies the complementary disturbance.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A protocol accepts with probability 0.001, has accepted-state key distance 0.02, unconditional correctness failure 10⁻⁷, and authentication failure 10⁻⁸. Bound its combined deviation using the course conventions.",
+      "hints": [
+        "Weight only the conditional secrecy term by the pass probability."
+      ],
+      "answer": "Secrecy contributes 0.001×0.02=2×10⁻⁵. Adding the already unconditional correctness and authentication terms yields 0.00002011. Multiplying those latter terms by the pass probability again would be unjustified. This does not assert that the accepted key has distance at most 0.00002011; its conditional distance was specified as 0.02.",
+      "review": "section-1-3"
+    }
+  ],
+  "02-bb84": [
+    {
+      "kind": "Worked problem",
+      "question": "For 2,000 detected signals and independent fair bases, what is the expected sifted size?",
+      "hints": [
+        "Compute the matching probability."
+      ],
+      "answer": "The probability is 1/2, so the expectation is 1,000; an individual run fluctuates.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "If both use Z with probability 0.9 independently, what fraction matches?",
+      "hints": [
+        "Include both Z and X matches."
+      ],
+      "answer": "0.9²+0.1²=0.82. A sufficient X sample is still needed to estimate complementary-basis errors.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Under full intercept-resend, what is the chance ten independent test bits contain no error?",
+      "hints": [
+        "Each test passes with probability 3/4."
+      ],
+      "answer": "(3/4)¹⁰≈0.0563. This uses the independent attack model.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Does zero observed error imply zero error in the remaining block?",
+      "hints": [
+        "Distinguish a sample from a population."
+      ],
+      "answer": "No. Finite samples can miss errors, so an upper confidence bound is needed.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How does the deviation change if m is quadrupled?",
+      "hints": [
+        "Inspect the square root."
+      ],
+      "answer": "It is halved for fixed ε.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why discard revealed test bits?",
+      "hints": [
+        "Eve hears their values."
+      ],
+      "answer": "They are public and cannot be counted as fresh secret raw bits.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Alice and Bob independently choose Z with probability 0.95 and use only Z matches for key. Out of one million ideal detected rounds, find expected Z-key candidates and X tests, and compare with probability 0.9.",
+      "hints": [
+        "Keep Z matches and X matches in separate bins."
+      ],
+      "answer": "At 0.95 the expectations are 0.95²×10⁶=902500 Z candidates and 0.05²×10⁶=2500 X tests. At 0.9 they are 810000 and 10000. The gain in candidate count accompanies a fourfold drop in test count, approximately doubling a square-root sampling margin. These are expectations, not guaranteed run counts.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For Eve’s tilted measure-and-resend basis at θ=π/12, derive qZ, qX, and their equal-basis average. Would their average remain 25% if 90% of sifted rounds were Z rounds?",
+      "hints": [
+        "Use the two trigonometric error expressions and then apply the actual weights."
+      ],
+      "answer": "Here sin²(π/6)=1/4 and cos²(π/6)=3/4, so qZ=1/8 and qX=3/8. The equally weighted average is 1/4. With 90% Z weight it is 0.9/8+0.1×3/8=0.15. Aggregate QBER depends on the sifted basis mix; phase-error inference must preserve the basis-resolved statistics.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "With N=20, m=5, and t=0 errors, derive the 95% upper bound on total errors using the hypergeometric tail, and convert it to the unseen error fraction.",
+      "hints": [
+        "Compare W=8 and W=9, using the monotonicity of the no-error sample probability."
+      ],
+      "answer": "The probability is C(20−W,5)/C(20,5). For W=8 this equals 792/15504≈0.05108, above 0.05; for W=9 it equals 462/15504≈0.02980, below 0.05. Larger W have still smaller tails. Thus WU=8 and the remaining fraction is bounded by 8/15≈0.5333 by this procedure. No errors in a tiny sample still leaves a weak bound.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Run the simulator at attack fractions 0, 0.2, and 1 using five fixed seeds. Explain which results are exact and which should fluctuate, and why its hidden raw QBER cannot be measured freely in a real run.",
+      "hints": [
+        "Distinguish ideal-model identities from finite-sample estimates."
+      ],
+      "answer": "With no channel noise and no attack, all sifted and raw bits agree exactly. For the other fractions, expected QBER is f/4 but sample and hidden raw QBER fluctuate across seeds. Sifted counts fluctuate around half the emitted count. Revealing raw comparisons in a real protocol would publish additional information and require discarding or accounting for those bits. A table of simulated rates validates this attack model, not a general secrecy claim.",
+      "review": "section-2-3"
+    }
+  ],
+  "03-entanglement": [
+    {
+      "kind": "Worked problem",
+      "question": "If Bob applies X before Z measurement, what changes?",
+      "hints": [
+        "Apply X to the second ket."
+      ],
+      "answer": "The pair becomes (|01⟩+|10⟩)/√2 and Z outcomes are anticorrelated.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Can Alice send a chosen bit by measuring her half?",
+      "hints": [
+        "Inspect Bob’s marginal."
+      ],
+      "answer": "No. Bob’s unconditioned state remains I/2; Alice cannot select her random outcome.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Which Pauli error changes both correlation tests?",
+      "hints": [
+        "Use Y=iXZ."
+      ],
+      "answer": "Y flips both, with its overall phase irrelevant to probabilities.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Can perfect Z agreement certify a secret key?",
+      "hints": [
+        "Consider a mixture of |00⟩ and |11⟩ known to Eve."
+      ],
+      "answer": "No. The outcomes may agree while Eve knows them; complementary tests are essential.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What is the expression at q=0?",
+      "hints": [
+        "Use h₂(0)=0."
+      ],
+      "answer": "It is one bit per sifted bit before finite-block and authentication costs.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What happens at q=0.5?",
+      "hints": [
+        "Use h₂(1/2)=1."
+      ],
+      "answer": "The expression is −1; the operational guaranteed rate is set to zero, rather than producing a negative key.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For the Bell-diagonal mixture p00=0.88, p10=0.04, p01=0.06, p11=0.02, calculate bit and phase errors and the ideal asymptotic lower fraction.",
+      "hints": [
+        "Use both syndrome labels, then substitute into binary entropy."
+      ],
+      "answer": "The bit error is 0.04+0.02=0.06 and the phase error 0.06+0.02=0.08. The expression is 1−h₂(0.06)−h₂(0.08)≈1−0.327445−0.402179=0.270376. This is per sifted bit under the stated ideal asymptotic model, not per emitted optical pulse.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For fixed eb=ep=q≤1/2, parameterize every Bell-diagonal probability distribution compatible with those errors.",
+      "hints": [
+        "Choose p11 as the free variable and enforce nonnegative probabilities."
+      ],
+      "answer": "Set p11=t, p10=p01=q−t, and p00=1−2q+t. Nonnegativity gives max(0,2q−1)≤t≤q; for q≤1/2 this is 0≤t≤q. Distinct joint error correlations produce the same two observed rates, so an analysis must handle the whole compatible family.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Prove that the symmetric one-way expression has exactly one zero on (0,1/2), and locate it numerically to three decimal places.",
+      "hints": [
+        "Differentiate binary entropy and use endpoint values, then bisect."
+      ],
+      "answer": "h₂′(q)=log₂((1−q)/q)>0 on (0,1/2). Thus 1−2h₂(q) decreases strictly from 1 to −1, so continuity gives exactly one root. Repeated bisection gives q≈0.110028, or 0.110 to three decimal places. This is a threshold of that expression, not a universal QKD limit.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A shared AB state is exactly pure. Prove that an arbitrary extension to Eve is a product, and explain why the proof does not apply to perfect Z agreement alone.",
+      "hints": [
+        "Purify the extension and inspect its Schmidt rank across AB and the remaining systems."
+      ],
+      "answer": "A pure reduced AB state has rank one, so the Schmidt decomposition of a purification has a single term. The purification factors, and tracing any extra environment preserves the product with Eve. Perfect Z agreement permits the mixed state (|00⟩⟨00|+|11⟩⟨11|)/2, whose rank is two and which can be correlated with an Eve record. Agreement does not imply purity.",
+      "review": "section-3-1"
+    }
+  ],
+  "04-key-extraction": [
+    {
+      "kind": "Worked problem",
+      "question": "How many independent parity constraints leave a uniform eight-bit string with 32 candidates?",
+      "hints": [
+        "Use the rank of the parity equations."
+      ],
+      "answer": "Three independent constraints: 2^(8−3)=32.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What verification tag length gives collision probability at most 2⁻⁴⁰?",
+      "hints": [
+        "Apply the universal-hash bound."
+      ],
+      "answer": "A 40-bit tag under the stated family and independence assumptions; authentication still has its own failure budget.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What is min-entropy if Eve’s optimal guess succeeds with probability 1/8?",
+      "hints": [
+        "Take minus the binary logarithm."
+      ],
+      "answer": "Three bits, regardless of how long the encoded string is.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Must the universal-hash seed be secret?",
+      "hints": [
+        "Distinguish independent from hidden."
+      ],
+      "answer": "No. A strong extractor permits a public seed, provided it is chosen independently as required by the theorem.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "If the certified post-transcript entropy is only 70 bits at the same εPA, what happens?",
+      "hints": [
+        "Compare entropy with the 80-bit extraction penalty."
+      ],
+      "answer": "The conservative bound permits no positive output; abort key generation.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why is an assumed entropy bound insufficient for a deployment?",
+      "hints": [
+        "Ask how observations imply that bound."
+      ],
+      "answer": "It needs a protocol-specific security theorem and validated device assumptions linking the measured data to Eve’s information.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For x=1011001, use the chapter parity-check matrix to correct a flip at position five. Then flip positions one and two instead and show the one-error decoder fails.",
+      "hints": [
+        "The syndrome of a single error is the corresponding matrix column."
+      ],
+      "answer": "Hx=010. With the fifth bit flipped, Hy=111, so the difference is 101, selecting position five. With errors at one and two, the difference is 001 XOR 010=011, selecting position three. The decoder flips that third position and leaves errors at one, two, and three. The output has the same syndrome as x but is not x, which motivates independent verification.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Enumerate all 32 seeds of a 2×4 Toeplitz family. For every nonzero four-bit difference d, how many seeds give Td=00? Explain why the count is the same for all 15 differences.",
+      "hints": [
+        "Use the first nonzero coordinate of d to find two independent seed constraints."
+      ],
+      "answer": "For each nonzero d, the two output equations constrain two independent diagonal seed bits, leaving three of the five seed bits free. Exactly 2³=8 seeds collide, giving probability 8/32=1/4. Exhaustive enumeration in the checker verifies all 15 differences. A single convenient matrix is not enough to prove a family-wide collision bound.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Assume pre-transcript unsmoothed min-entropy 7500, reconciliation leakage 1300, a 40-bit verification tag, εPA=2⁻⁴⁰, and 128 consumed authentication bits. Find output length and net expansion, then state what the calculation has not established.",
+      "hints": [
+        "Subtract leakage and verification before the 80-bit extraction penalty."
+      ],
+      "answer": "The output length is floor(7500−1300−40−80)=6080 bits and net expansion is 6080−128=5952 bits. This assumes the 7500-bit bound is valid for the actual protocol, acceptance conditioning, and Eve system; it does not derive that bound from data. Correctness, authentication, and any estimation/smoothing errors still need their own compatible accounting.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Derive the conservative hash length from the unsmoothed leftover-hash inequality, and explain why revealing the hash seed does not violate its conclusion.",
+      "hints": [
+        "Solve (1/2) sqrt(2^(ℓ−k))≤ε, then compare with the course’s slightly shorter choice."
+      ],
+      "answer": "The exact inequality permits ℓ≤k−2 log₂(1/ε)+2. The course conservatively chooses ℓ≤k−2 log₂(1/ε), which gives distance at most ε/2. The theorem compares the joint state KFE with a uniform K independent of FE, so the public seed is already included in the adversary’s final information. It must still be independent of XE when chosen.",
+      "review": "section-4-2"
+    }
+  ],
+  "05-practical-devices": [
+    {
+      "kind": "Worked problem",
+      "question": "What is the single-photon probability at μ=0.1?",
+      "hints": [
+        "Use n=1 in the Poisson formula."
+      ],
+      "answer": "0.1e⁻⁰·¹≈0.090484.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why can a small multiphoton emission fraction still matter in a lossy channel?",
+      "hints": [
+        "Compare emissions with detections."
+      ],
+      "answer": "Eve can selectively transmit those pulses, so their fraction among detected events can be much larger.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How does transmission change over another 50 km at the same attenuation?",
+      "hints": [
+        "Add decibels, multiply transmission."
+      ],
+      "answer": "It gains a factor 0.1; total transmission over 100 km is 0.01.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Do 90% lost pulses imply 90% QBER?",
+      "hints": [
+        "Check the QBER denominator."
+      ],
+      "answer": "No. QBER counts incorrect retained outcomes divided by retained outcomes, rather than lost emissions.",
+      "review": "section-5-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Does MDI QKD certify an arbitrary defective source?",
+      "hints": [
+        "Identify the part of the apparatus removed from trust."
+      ],
+      "answer": "No. It removes trust in the measurement station under its proof model, not all source assumptions.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Why is ignoring undetected Bell trials dangerous?",
+      "hints": [
+        "Consider selection correlated with measurement settings."
+      ],
+      "answer": "Selective detection can bias the retained correlations and open a detection loophole unless handled by the proof.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Derive the lower bound on Y1 from the two gain series at μ and ν. Explain the sign of every multiphoton coefficient.",
+      "hints": [
+        "Subtract (ν/μ)² times the μ series from the ν series."
+      ],
+      "answer": "The vacuum coefficient is 1−ν²/μ²; the single-photon coefficient is ν−ν²/μ; the n=2 coefficient is zero. For n≥3, νⁿ−ν²μ^(n−2)≤0 since ν<μ. Nonnegative Yn means these higher terms only lower the difference. Therefore the difference is no greater than the vacuum plus single-photon terms; subtract the vacuum contribution and divide by the positive single-photon coefficient to obtain Y1L.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "At μ=0.1, calculate the multiphoton probability both per emitted pulse and conditioned on a nonvacuum pulse. Explain which denominator matters for a selective-forwarding attack.",
+      "hints": [
+        "Divide 1−exp(−μ)(1+μ) by 1−exp(−μ) for the conditional probability."
+      ],
+      "answer": "The per-emission value is about 0.00467884. Dividing by 0.09516258 gives about 0.0491668. Neither is automatically the fraction among Bob’s detections: adversarial selection and loss can enrich those detections in multiphoton events. The security analysis needs a bound on the contribution to detected key events.",
+      "review": "section-5-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For a noisy Bell pair with visibility v=0.8, compute the CHSH value and the error rate when both parties use Z. Does a Bell violation itself supply a finite secret-key length?",
+      "hints": [
+        "The white-noise component has zero correlations and gives Z disagreement with probability one half."
+      ],
+      "answer": "S=2√2×0.8≈2.26274, exceeding two. The Z error is (1−v)/2=0.1. A key length still requires a specific device-independent theorem, finite-statistical treatment, isolation, setting independence, and a detection/acceptance model. The two expectations alone do not constitute a finite-key proof.",
+      "review": "section-5-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Using Y0=10⁻⁵ and ed=0.01, compare the low-click QBER estimates at signal-click probabilities 10⁻³ and 10⁻⁵. Explain the limiting behavior as signal vanishes.",
+      "hints": [
+        "Weight random background bits by 1/2 and signal bits by ed."
+      ],
+      "answer": "At 10⁻³, E=(5×10⁻⁶+10⁻⁵)/(0.00101)≈0.01485. At 10⁻⁵, E=(5×10⁻⁶+10⁻⁷)/(2×10⁻⁵)=0.255. As the signal tends to zero, the numerator tends to Y0/2 and denominator to Y0, so E tends to 1/2. This approximation neglects simultaneous-click handling.",
+      "review": "section-5-2"
+    }
+  ],
+  "06-beyond-qkd": [
+    {
+      "kind": "Worked problem",
+      "question": "Why is random X alone insufficient for arbitrary qubits?",
+      "hints": [
+        "Try input |+⟩."
+      ],
+      "answer": "X leaves |+⟩ unchanged, so that input is not randomized; Z randomization is also needed.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How many key bits does this construction use for n qubits?",
+      "hints": [
+        "Use two independent bits for each qubit."
+      ],
+      "answer": "2n classical bits, with fresh independent choices for the stated one-time construction.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What do hiding and binding protect against?",
+      "hints": [
+        "Identify each possible cheater."
+      ],
+      "answer": "Hiding protects an honest Alice from a cheating Bob; binding protects an honest Bob from a cheating Alice.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Does the toy attack prove every proposed commitment scheme insecure?",
+      "hints": [
+        "Distinguish example from theorem."
+      ],
+      "answer": "No. It defeats this scheme. General impossibility requires a theorem with explicit model assumptions.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "List the minimum deliverables for this project.",
+      "hints": [
+        "Separate specification, computation, and argument."
+      ],
+      "answer": "A protocol/transcript specification; reproducible rate and attack calculations; an entropy and failure-budget ledger; and an assumption audit with sources.",
+      "review": "section-6-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "What is a useful extension after this course?",
+      "hints": [
+        "Choose one assumption to replace with a theorem."
+      ],
+      "answer": "Implement a finite-key analysis from a chosen primary paper, documenting its model and checking that the estimator, leakage, and failure terms match the protocol.",
+      "review": "section-6-3"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Prove that averaging over the four Pauli encryptions sends every qubit state to I/2, then extend the result to a qubit entangled with a reference.",
+      "hints": [
+        "Expand first in the Pauli basis, then use linearity on matrix units."
+      ],
+      "answer": "Each nonidentity Pauli component appears with two positive and two negative signs under conjugation and cancels, while I survives. Thus the map on any operator A is Tr(A)I/2. Applying this to the Q matrix units of a joint QR state gives I_Q/2 tensor ρ_R. A fixed marginal output is insufficient by itself; the joint identity proves decoupling from the reference.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Show algebraically that an attacker’s Pauli X on a Pauli-encrypted qubit becomes a logical X after decryption, regardless of the secret key.",
+      "hints": [
+        "Commute X through each possible encryption Pauli."
+      ],
+      "answer": "For each encryption Pauli P, P†XP equals X or −X because Paulis commute or anticommute. The sign is a global phase and disappears from density operators. The receiver therefore obtains XρX instead of ρ. This is a deliberate modification despite perfect confidentiality, so the pad alone is not authentication.",
+      "review": "section-6-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Write the two conditional states that Bob receives when a dishonest committer measures her half of |Φ+⟩ in Z or X at the opening stage. Explain why hiding survives while binding fails.",
+      "hints": [
+        "Project Alice’s half onto a basis vector and normalize Bob’s state."
+      ],
+      "answer": "A Z outcome a occurs with probability 1/2 and leaves Bob in |a⟩; an X outcome ± occurs with probability 1/2 and leaves Bob in |±⟩. Before receiving the opening, Bob has I/2 in both cases, so hiding remains. Alice can select the basis only at opening and pass either commitment test, so the proposal is not binding.",
+      "review": "section-6-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Audit the claim: “Our simulation produced identical random-looking strings, so our device distributes information-theoretically secure keys.” Give three independent missing arguments and a corrected conclusion.",
+      "hints": [
+        "Consider Eve’s information, the physical model, and post-processing."
+      ],
+      "answer": "Agreement does not establish independence from Eve; simulation of selected attacks does not bound arbitrary attacks; and an ideal signal model does not validate the real source, detector, authentication, and leakage assumptions. A corrected conclusion is that the program reproduces specified correlations under its model. A security claim needs a theorem linking observed data to conditional entropy, validated assumptions, and composable processing/error accounting.",
+      "review": "section-6-3"
+    }
+  ]
+}

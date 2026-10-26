@@ -1,0 +1,49 @@
+.crypto-table {max-width:100%;overflow-x:auto;margin:1.5em 0;}
+.crypto-table table {width:100%;border-collapse:collapse;font-size:.88em;}
+.crypto-table th,.crypto-table td {padding:.65em .8em;border:1px solid var(--line);text-align:left;vertical-align:top;}
+.crypto-table th {background:var(--sidebar);}
+.crypto-table caption {text-align:left;color:var(--muted);padding-bottom:.75em;}
+.crypto-explorer {margin:2em 0;padding:1.2em;border:1px solid var(--line);border-radius:6px;background:var(--sidebar);}
+.crypto-explorer label {display:block;font-weight:600;margin:.8em 0 .3em;}
+.crypto-explorer input[type=range] {display:block;width:100%;accent-color:var(--blue);}
+.crypto-explorer svg {display:block;width:100%;height:auto;color:var(--ink);}
+.crypto-explorer .rate-curve {fill:none;stroke:var(--blue);stroke-width:3;}
+.crypto-explorer .rate-marker {fill:var(--ink);}
+.crypto-explorer .rate-axis {stroke:var(--muted);stroke-width:1;}
+.crypto-explorer .rate-label {fill:currentColor;font:14px sans-serif;}
+.crypto-explorer output {font-variant-numeric:tabular-nums;}
+.crypto-explorer .rate-result {padding:.8em 0;border-top:1px solid var(--line);}
+.crypto-outcomes {padding-left:1.4em;}
+@media print {.crypto-explorer input {display:none;}.crypto-table {overflow:visible;}}
+.crypto-figure {margin:1.6em 0;}
+.crypto-figure figcaption {font:13px/1.55 var(--sans,sans-serif);color:var(--muted);margin-top:.6em;}
+.crypto-figure svg text {fill:currentColor;font:14px var(--sans,sans-serif);}
+.crypto-figure svg .muted {fill:var(--muted);}
+.crypto-figure .axis {stroke:var(--line);stroke-width:1.2;}
+.crypto-figure .ring {fill:none;stroke:var(--muted);stroke-dasharray:5 5;}
+.crypto-figure .state {fill:currentColor;}
+.crypto-figure .mix {fill:var(--blue);}
+.crypto-figure .vector {fill:none;stroke:var(--blue);stroke-width:2;}
+.crypto-figure .wire {fill:none;stroke:currentColor;stroke-width:1.6;}
+.crypto-figure .box {fill:none;stroke:currentColor;stroke-width:1.6;}
+.crypto-figure .mem {fill:none;stroke:var(--blue);stroke-dasharray:6 4;stroke-width:1.6;}
+.crypto-figure .head {fill:currentColor;}
+@media print {.crypto-figure {break-inside:avoid;}}
+.crypto-figure .vhead {fill:var(--blue);}
+.crypto-figure .grid {stroke:var(--line);stroke-width:1;stroke-dasharray:2 4;opacity:.8;}
+.crypto-figure .curve {fill:none;stroke:var(--blue);stroke-width:2.4;}
+.crypto-figure .curve-alt {fill:none;stroke:currentColor;stroke-width:2.4;stroke-dasharray:6 4;}
+.crypto-figure .threshold {stroke:var(--muted);stroke-width:1.4;stroke-dasharray:5 4;}
+.crypto-figure .point {fill:var(--blue);}
+.crypto-figure .bar {fill:var(--blue);opacity:.72;}
+.crypto-figure .bar-alt {fill:currentColor;opacity:.3;}
+.crypto-figure .pill {fill:none;stroke:currentColor;stroke-width:1.4;}
+.crypto-figure .halo {stroke:var(--paper);stroke-width:5px;stroke-linejoin:round;paint-order:stroke;}
+.crypto-figure .mask {fill:var(--paper);}
+.ebook .book-section mjx-container[display="true"] {max-width:100%;overflow-x:auto;overflow-y:hidden;}
+.ebook .book-section :is(p,li,td,figcaption) code {overflow-wrap:anywhere;}
+.crypto-figure .seg-vac {fill:none;stroke:currentColor;stroke-width:1.2;}
+.crypto-figure .seg-one {fill:var(--blue);opacity:.75;}
+.crypto-figure .seg-multi {fill:var(--warm);opacity:.85;}
+.crypto-figure .seg-label {fill:var(--paper);}
+.crypto-figure .cut {stroke:var(--muted);stroke-width:2.4;}

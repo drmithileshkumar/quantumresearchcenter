@@ -1,0 +1,310 @@
+<aside class="learning-guide">
+<p><strong>After this chapter, you should be able to:</strong></p>
+<ul class="crypto-outcomes">
+<li>Derive the remote-preparation rule and show why a pure Bell pair leaves Eve with no correlated record.</li>
+<li>Track bit and phase errors through Bell labels, and explain why two measured rates do not fix the underlying distribution.</li>
+<li>Explain both the CSS-counting and uncertainty-relation routes to a key-rate bound, and say which assumptions each needs.</li>
+</ul>
+<p><strong>Study method:</strong> Derive each displayed relation yourself before reading the paragraph that follows it, attempt every worked example before opening its solution, then solve the ten end-of-chapter problems.</p>
+<p><strong>Notation.</strong> \(\Phi^\pm,\Psi^\pm\) denote the four Bell states, \(X,Z,Y\) the Pauli matrices, \(e_b\) the bit-error rate, \(e_p\) the phase-error rate, \(h_2\) the binary entropy in bits, and \(\varepsilon\) a smoothing or failure parameter. \(H_{\min}^{\varepsilon}\) and \(H_{\max}^{\varepsilon}\) are smooth min- and max-entropies, not Shannon entropies. Logarithms are base two.</p>
+</aside>
+
+<p>Chapters 1 and 2 treated BB84 as an experiment Alice performs and Bob measures. Security, though, is a statement about what Eve could know, and the cleanest way to bound that is to describe the same experiment differently: as a source that hands Alice and Bob an entangled pair which they each measure. If the pair is pure, Eve is provably uncorrelated; if the pair is noisy, the noise splits into two measurable kinds—bit errors and phase errors—each of which costs key material. This chapter builds that description, keeps its assumptions visible, and derives the asymptotic rate that Chapters 4 and 5 will refine.</p>
+
+<section aria-labelledby="section-3-1-heading" class="book-section" id="section-3-1">
+<h2 id="section-3-1-heading">3.1 A source shared by Alice and Bob</h2>
+<p>Everything in this chapter rests on one equivalence: a prepare-and-measure protocol can be rewritten as a measurement on a shared entangled state without changing any statistic either Bob or Eve can observe. This section establishes the equivalence and then asks when the resulting pair is clean enough to imply secrecy.</p>
+
+<h3>3.1.1 Calculate Bell-pair correlations</h3>
+<p>The Bell state \(|\Phi^+\rangle=(|00\rangle+|11\rangle)/\sqrt2\) gives identical random outcomes when both parties measure Z. Rewriting it in the X basis,</p>
+\[|\Phi^+\rangle=\frac{|++\rangle+|--\rangle}{\sqrt2},\]
+<p>shows the same property in the complementary basis. The two expansions are the same vector written differently, so no measurement can prefer one. Each party alone holds the reduced state</p>
+\[\rho_A=\operatorname{tr}_B|\Phi^+\rangle\langle\Phi^+|=I/2,\]
+<p>and likewise for Bob. Perfect correlation between the parties is therefore fully compatible with a local bit that is uniform and unpredictable—the same \(I/2\) state met in Section <a href="01-security-foundations.html#topic-1-2-2">1.2.2</a>.</p>
+<p>The four Bell states organise these correlations, and it pays to keep their two axes separate from the start.</p>
+<div class="crypto-table">
+<table>
+<caption>The four Bell states. "Agree" means equal outcomes, "differ" means opposite outcomes; every row is uniform in both bases.</caption>
+<thead><tr><th scope="col">State</th><th scope="col">Expansion</th><th scope="col">Z outcomes</th><th scope="col">X outcomes</th></tr></thead>
+<tbody>
+<tr><td>\(|\Phi^+\rangle\)</td><td>\((|00\rangle+|11\rangle)/\sqrt2\)</td><td>agree</td><td>agree</td></tr>
+<tr><td>\(|\Phi^-\rangle\)</td><td>\((|00\rangle-|11\rangle)/\sqrt2\)</td><td>agree</td><td>differ</td></tr>
+<tr><td>\(|\Psi^+\rangle\)</td><td>\((|01\rangle+|10\rangle)/\sqrt2\)</td><td>differ</td><td>agree</td></tr>
+<tr><td>\(|\Psi^-\rangle\)</td><td>\((|01\rangle-|10\rangle)/\sqrt2\)</td><td>differ</td><td>differ</td></tr>
+</tbody>
+</table>
+</div>
+<p>Alice can measure her half first and thereby prepare a definite state for Bob. That observation is not a communication channel—Bob's unconditional state stays \(I/2\) and Alice cannot steer her own random outcome—but it does give a virtual description of BB84 for ideal sources. The description earns its place because entanglement purification connects noise correction to secrecy, as Section 3.3 makes quantitative.</p>
+<p>It also needs the correct source model. A real emitter that leaks basis information into another optical mode does not automatically match this virtual experiment. A source outside the laboratories may even be distrusted, but only if the security proof is written for that arrangement; an argument that assumes a pure, isolated pair cannot be applied to a device that does not provide one.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>What are the joint Z probabilities for \(|\Phi^+\rangle\), and what is Alice's reduced state?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>\(P(00)=P(11)=1/2\) and \(P(01)=P(10)=0\). Tracing out Bob removes the cross terms \(|00\rangle\langle11|\) and \(|11\rangle\langle00|\), leaving \(I/2\). Note that the reduced state is maximally mixed even though the joint state is pure: local randomness and perfect correlation are two features of one vector.</p>
+</details>
+</div>
+
+<h3>3.1.2 Derive remote preparation as an equality of experiments</h3>
+<p>Start from \(|\Phi^+\rangle_{AB}=(|00\rangle+|11\rangle)/\sqrt2\) and let Alice measure Z, obtaining \(a\). The unnormalised conditional state on Bob is</p>
+\[\langle a|\Phi^+\rangle=|a\rangle/\sqrt2,\]
+<p>whose squared norm is \(1/2\); dividing by that norm leaves \(|a\rangle\). Repeating the calculation for a real X-basis vector produces \(|+\rangle\) or \(|-\rangle\) with equal probability. So Alice's outcome, although random, fixes Bob's conditional state exactly.</p>
+<p>For a general complex vector \(|u\rangle\) the rule is</p>
+\[(\langle u|\otimes I)|\Phi^+\rangle=|u^*\rangle/\sqrt2,\]
+<p>with the complex conjugate appearing because \(|\Phi^+\rangle=\sum_j|j\rangle|j\rangle\) pairs matching indices. This is why one should check the chosen basis rather than assume every entangled preparation carries identical labels. BB84's Z and X states are real, so the conjugation leaves the protocol unchanged; a protocol using \(Y\)-basis states would not be so forgiving.</p>
+<p>The equivalence itself rests on commutation. Alice's measurement acts on \(A\), while Eve's channel and Bob's measurement act on \(B\) and its environment. Operations on different subsystems commute, so Alice's measurement may be delayed, even until after Bob's, without changing any joint probability. That is the source-replacement argument: a convenient virtual experiment reproduces the actual observable one.</p>
+<figure class="crypto-figure" id="figure-3-1-2">
+<svg viewBox="0 0 580 320" role="img" aria-labelledby="fig-replace-title fig-replace-desc">
+<title id="fig-replace-title">Actual and virtual descriptions of one BB84 round</title>
+<desc id="fig-replace-desc">Top: Alice prepares a state in her chosen basis, sends it through Eve's channel, and Bob measures in his basis. Bottom: a source emits a Bell pair, Alice measures one half, and the other half passes through Eve's channel to Bob. Because operations on different subsystems commute, both descriptions give the same joint statistics.</desc>
+<text class="muted" x="40" y="30">Actual experiment</text>
+<rect class="pill" x="40" y="40" width="118" height="46" rx="6"/>
+<text x="99" y="60" text-anchor="middle">Alice</text>
+<text class="muted" x="99" y="76" text-anchor="middle">prepares |a⟩ in θ</text>
+<line class="wire" x1="158" y1="63" x2="222" y2="63"/>
+<path class="head" d="M230,63 l-9,-4.5 v9 z"/>
+<rect class="mem" x="232" y="40" width="96" height="46" rx="6"/>
+<text x="280" y="60" text-anchor="middle">Eve</text>
+<text class="muted" x="280" y="76" text-anchor="middle">channel</text>
+<line class="wire" x1="328" y1="63" x2="392" y2="63"/>
+<path class="head" d="M400,63 l-9,-4.5 v9 z"/>
+<rect class="pill" x="402" y="40" width="130" height="46" rx="6"/>
+<text x="467" y="60" text-anchor="middle">Bob</text>
+<text class="muted" x="467" y="76" text-anchor="middle">measures in φ</text>
+<text class="muted" x="40" y="132">Virtual experiment</text>
+<rect class="pill" x="40" y="146" width="118" height="46" rx="6"/>
+<text x="99" y="166" text-anchor="middle">Alice</text>
+<text class="muted" x="99" y="182" text-anchor="middle">measures half A</text>
+<rect class="pill" x="40" y="222" width="118" height="46" rx="6"/>
+<text x="99" y="242" text-anchor="middle">Source</text>
+<text class="muted" x="99" y="258" text-anchor="middle">emits |Φ⁺⟩</text>
+<line class="wire" x1="99" y1="220" x2="99" y2="198"/>
+<path class="head" d="M99,192 l-4.5,9 h9 z"/>
+<line class="wire" x1="158" y1="245" x2="222" y2="245"/>
+<path class="head" d="M230,245 l-9,-4.5 v9 z"/>
+<rect class="mem" x="232" y="222" width="96" height="46" rx="6"/>
+<text x="280" y="242" text-anchor="middle">Eve</text>
+<text class="muted" x="280" y="258" text-anchor="middle">channel</text>
+<line class="wire" x1="328" y1="245" x2="392" y2="245"/>
+<path class="head" d="M400,245 l-9,-4.5 v9 z"/>
+<rect class="pill" x="402" y="222" width="130" height="46" rx="6"/>
+<text x="467" y="242" text-anchor="middle">Bob</text>
+<text class="muted" x="467" y="258" text-anchor="middle">measures in φ</text>
+<text class="muted halo" x="110" y="212" text-anchor="start">half A</text>
+<text class="muted halo" x="164" y="235" text-anchor="start">half B</text>
+</svg>
+<figcaption>The same round in two descriptions. In the actual experiment Alice's preparation is a state travelling to Bob; in the virtual one a source emits \(|\Phi^+\rangle_{AB}\), Alice measures half A and Bob later measures half B. Delaying Alice's measurement changes no joint statistic, so the equivalence is about probabilities, not about hardware: it does not claim that every transmitter emits a pure Bell pair.</figcaption>
+</figure>
+<div class="exercise"><h4>Worked example</h4>
+<p>Apply the rule to \(|u\rangle=(|0\rangle+i|1\rangle)/\sqrt2\). Which state is prepared on Bob's side, and what goes wrong if one ignores the conjugation?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The rule gives \(|u^*\rangle=(|0\rangle-i|1\rangle)/\sqrt2\), the opposite relative phase. Ignoring the conjugation would predict the original state and therefore the wrong probabilities for any later measurement that reads that phase, for instance a Y-basis measurement. For the real BB84 states \(u^*=u\), which is exactly why the protocol is insensitive to this subtlety—and why a careless generalisation to complex bases can fail silently.</p>
+</details>
+</div>
+
+<h3>3.1.3 A pure shared pair leaves Eve uncorrelated</h3>
+<p>Suppose \(AB\) is exactly pure and in a Bell state, and Eve holds any extension whatsoever, possibly entangled with both halves. Because the reduced state on \(AB\) is pure, it has rank one. Purify the full state and expand in a Schmidt decomposition across \(AB\) versus everything else: a rank-one reduced state admits exactly one nonzero Schmidt coefficient, so the extension factors as</p>
+\[\rho_{ABE}=|\Phi^+\rangle\langle\Phi^+|_{AB}\otimes\rho_E.\]
+<p>The product form is the whole argument. Because the state factorises across the \(AB\)–\(E\) split, Eve's marginal is the same no matter which outcome Alice records, so no measurement of hers can reveal anything about it. A correlated record would have required a second nonzero Schmidt term, and a rank-one reduced state has none to offer.</p>
+<p>This is the connection between entanglement and secrecy. Measuring a perfect Bell pair in Z gives uniform bits that are equal on both sides and independent of Eve. Approximate Bell pairs need a quantitative continuity argument: a state close in trace distance to a pure pair yields a key close to ideal, with the distance supplying the error term. That is the shape of an entanglement-based proof—distil nearly pure pairs, then measure—even when the implemented protocol only prepares, measures, and processes classical data.</p>
+<div class="exercise"><p><strong>Worked derivation.</strong> Compare a Bell pair with the apparently similar state \(\rho_{AB}=(|00\rangle\langle00|+|11\rangle\langle11|)/2\).</p>
+<details class="problem-solution"><summary>Choose a distinguishing correlation test</summary>
+<p>Both give identical uniform Z bits. The pure pair has \(\langle X\otimes X\rangle=1\), whereas the mixture gives zero X correlation, because each product state \(|00\rangle\) or \(|11\rangle\) produces independent fair X outcomes. The mixture can also be extended by Eve holding the common Z label, so its Z agreement says nothing about secrecy. Purity is not visible in the basis you happen to test; the complementary correlation is what distinguishes coherence from a classical record.</p>
+</details>
+</div>
+</section>
+
+<section aria-labelledby="section-3-2-heading" class="book-section" id="section-3-2">
+<h2 id="section-3-2-heading">3.2 Bit errors and phase errors</h2>
+<p>A real pair is not pure, and Bob's measured string will disagree with Alice's somewhere. This section separates that noise into two kinds, gives each kind a label, and shows why correcting only the visible one is not enough.</p>
+
+<h3>3.2.1 Look in complementary bases</h3>
+<p>Apply \(Z\) to Bob's half of \(|\Phi^+\rangle\) and the state becomes \(|\Phi^-\rangle=(|00\rangle-|11\rangle)/\sqrt2\). Its Z outcomes still agree, but its X outcomes now differ, as the table in Section 3.1.1 records. A phase error is therefore invisible to a Z-only agreement test: the two states are indistinguishable unless you look in the complementary basis.</p>
+<p>For a Z-basis raw key, complementary-basis observations are what constrain the phase errors entering a security proof. In a simplified Bell-diagonal picture the rule is easy to remember:</p>
+<div class="crypto-table">
+<table>
+<caption>How each Pauli error acts on the two correlation tests of a Bell pair.</caption>
+<thead><tr><th scope="col">Error on one half</th><th scope="col">Effect on Z correlation</th><th scope="col">Effect on X correlation</th><th scope="col">Seen as</th></tr></thead>
+<tbody>
+<tr><td>\(I\)</td><td>unchanged</td><td>unchanged</td><td>no error</td></tr>
+<tr><td>\(X\)</td><td>flipped</td><td>unchanged</td><td>bit error</td></tr>
+<tr><td>\(Z\)</td><td>unchanged</td><td>flipped</td><td>phase error</td></tr>
+<tr><td>\(Y=iXZ\)</td><td>flipped</td><td>flipped</td><td>both</td></tr>
+</tbody>
+</table>
+</div>
+<p>Two lessons follow. Correcting bit disagreement alone does not erase Eve's knowledge, because a Z error leaves the key bits intact while destroying the coherence a proof relies on; the conceptual role of virtual phase correction is precisely to explain why privacy amplification is also required. And the correspondence cannot be assumed for free. Translating observed X errors into a bound on Z-key phase errors requires random sampling and a stated source model—it cannot be done by declaring the two error rates equal (Section <a href="02-bb84.html#topic-2-3-3">2.3.3</a>).</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>A Bell-diagonal channel applies \(I,X,Z,Y\) with probabilities \(0.90,0.03,0.05,0.02\). Find the two error rates.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The Z-basis bit error is \(p_X+p_Y=0.03+0.02=0.05\), because either error flips the Z correlation. The X-basis error is \(p_Z+p_Y=0.05+0.02=0.07\), which is the phase-error rate in this model. The two rates differ, so a protocol that reported only one of them would misdescribe the channel.</p>
+</details>
+</div>
+
+<h3>3.2.2 Use Bell labels as an error ledger</h3>
+<p>Define \(|\beta_{uv}\rangle=(I\otimes X^uZ^v)|\Phi^+\rangle\) for binary \(u\) and \(v\). The stabilisers \(Z\otimes Z\) and \(X\otimes X\) have eigenvalues \((-1)^u\) and \((-1)^v\) respectively, so \(u\) records a bit disagreement and \(v\) a phase disagreement. A Bell-diagonal state is then a classical mixture of these four labels,</p>
+\[\rho_{AB}=\sum_{u,v}p_{uv}|\beta_{uv}\rangle\langle\beta_{uv}|,\]
+<p>and the two measured rates read off its weights:</p>
+\[e_b=p_{10}+p_{11},\qquad e_p=p_{01}+p_{11}.\]
+<div class="crypto-table">
+<table>
+<caption>The Bell-label ledger. Each pair \((u,v)\) names one error combination, and the last column records how it is counted in the two rates.</caption>
+<thead><tr><th scope="col">Label \((u,v)\)</th><th scope="col">State</th><th scope="col">\(Z\otimes Z\)</th><th scope="col">\(X\otimes X\)</th><th scope="col">Counting</th></tr></thead>
+<tbody>
+<tr><td>\((0,0)\)</td><td>\(|\Phi^+\rangle\)</td><td>\(+1\)</td><td>\(+1\)</td><td>clean</td></tr>
+<tr><td>\((1,0)\)</td><td>\(|\Psi^+\rangle\)</td><td>\(-1\)</td><td>\(+1\)</td><td>bit error \(e_b\)</td></tr>
+<tr><td>\((0,1)\)</td><td>\(|\Phi^-\rangle\)</td><td>\(+1\)</td><td>\(-1\)</td><td>phase error \(e_p\)</td></tr>
+<tr><td>\((1,1)\)</td><td>\(|\Psi^-\rangle\)</td><td>\(-1\)</td><td>\(-1\)</td><td>both</td></tr>
+</tbody>
+</table>
+</div>
+<p>The two measured rates do not determine all four probabilities, and that gap is where careless proofs fail. Given \(e_b=e_p=q\), the value of \(p_{11}\) can range over</p>
+\[\max(0,2q-1)\le p_{11}\le q,\]
+<p>with \(p_{10}=p_{01}=q-p_{11}\) and \(p_{00}=1-2q+p_{11}\). Every admissible \(p_{11}\) reproduces the same two observed rates while correlating the two error types differently, so a security argument must hold for the whole family rather than for one convenient member. The Bell-diagonal form itself is a modelling choice: it is justified in appropriately symmetrised analyses, and must not be assumed to describe every laboratory state without argument.</p>
+<p>The labels also explain the algebra. A single Z error changes the relative sign of \(|00\rangle-|11\rangle\), which alters interference in the X basis while leaving Z probabilities untouched. For \(Y\), use \(Y=iXZ\): the global phase is immaterial to probabilities, and both labels flip. This bookkeeping lets a proof track virtual corrections without ever suggesting that Bob measures one qubit in two incompatible bases during a single run.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>The observed rates are \(e_b=e_p=0.55\). What is the admissible range of \(p_{11}\), and why is it not \(0\le p_{11}\le q\)?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Here \(2q-1=0.1\), so \(0.1\le p_{11}\le0.55\). The lower bound is not zero because \(p_{00}=1-2q+p_{11}=p_{11}-0.1\) must stay nonnegative: a Bell-diagonal mixture cannot carry more than half its weight in errors and still reproduce these two rates without some weight on the clean state. At \(p_{11}=0.1\) the clean weight vanishes; at \(p_{11}=0.55\) the mixed-error weight does, leaving \(p_{00}=0.45\) and \(p_{10}=p_{01}=0\). Two entirely different joint distributions, one pair of measurements.</p>
+</details>
+</div>
+
+<h3>3.2.3 Count the information needed to correct a typical error pattern</h3>
+<p>Suppose a block of \(n\) bits carries independent errors at rate \(q\). A typical string has about \(nq\) errors, and the number of ways to place them is \(\binom n{nq}\). Stirling's approximation gives</p>
+\[\log_2\binom n{nq}\approx n\,h_2(q)\]
+<p>to leading order in \(n\), where</p>
+\[h_2(q)=-q\log_2q-(1-q)\log_2(1-q)\]
+<p>is the binary entropy in bits, with endpoint values set by continuity. Naming one of those patterns therefore costs roughly \(nh_2(q)\) bits: that is the origin of the entropy term in ideal asymptotic reconciliation, and it is a counting statement, not a property of any particular code.</p>
+<p>A separate virtual phase-error correction is governed by \(nh_2(e_p)\). In a CSS-code proof, compatible families of bit and phase checks connect these two costs to the number of distillable logical Bell pairs. The commutation of the checks and the construction of the codes are essential to that argument; subtracting two counts is useful intuition, not a construction.</p>
+<p>Translating the virtual protocol back into classical data processing identifies the operations: bit correction becomes reconciliation, and virtual phase correction becomes privacy amplification. Alice and Bob never store \(n\) physical qubits or perform both corrections in the laboratory. What the proof establishes is an equivalence between the operations that matter for the final classical key. <a href="https://arxiv.org/abs/quant-ph/0003004">Shor and Preskill</a> give the full CSS-based argument; the counting above is why its rate has exactly two entropy terms.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>For \(n=1000\) and \(q=0.05\), how many bits does a typical error pattern cost to name, and how does that compare with listing the positions explicitly?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>\(h_2(0.05)\approx0.2864\), so there are about \(2^{286}\) typical patterns and naming one needs about 286 bits. Transcribing the 50 positions instead would cost \(50\log_2 1000\approx500\) bits—more than necessary, because a transcript ignores what the decoder already knows: roughly how many errors to expect. The entropy count is the target a good reconciliation protocol approaches, not a length every code attains at \(n=1000\).</p>
+</details>
+</div>
+</section>
+
+<section aria-labelledby="section-3-3-heading" class="book-section" id="section-3-3">
+<h2 id="section-3-3-heading">3.3 An asymptotic key fraction</h2>
+<p>With a bit-error cost and a phase-error cost in hand, the rate follows by subtraction. This section states the resulting bound, locates its zero, and then shows the second, entropy-based route that does not go through CSS codes at all.</p>
+
+<h3>3.3.1 State what the formula assumes</h3>
+<p>For ideal single-photon BB84 with one-way processing, a familiar asymptotic lower bound per sifted key bit is</p>
+\[r\ge 1-h_2(e_b)-h_2(e_p),\]
+<p>with \(h_2\) the binary entropy in bits. The formula is short only because it hides its assumptions.</p>
+<div class="crypto-table">
+<table>
+<caption>What the asymptotic rate formula assumes, and what breaks without it.</caption>
+<thead><tr><th scope="col">Assumption</th><th scope="col">Meaning here</th><th scope="col">Without it</th></tr></thead>
+<tbody>
+<tr><td>Ideal single photons</td><td>No vacuum or multiphoton components in the source</td><td>Decoy-state or equivalent analysis is needed (Chapter 5)</td></tr>
+<tr><td>Asymptotic block</td><td>Fluctuations and smoothing terms are negligible</td><td>Finite-key penalties are subtracted (Chapter 4)</td></tr>
+<tr><td>One-way processing</td><td>Reconciliation and extraction run in one direction</td><td>Two-way schemes need a different proof and can tolerate more error</td></tr>
+<tr><td>Ideal reconciliation</td><td>Leakage equals \(nh_2(e_b)\) exactly</td><td>Replace by \(f_{\rm EC}nh_2(e_b)\) with \(f_{\rm EC}\ge1\)</td></tr>
+<tr><td>Valid error bounds</td><td>\(e_b,e_p\) bound the whole sifted block</td><td>Only estimates are available, so an abort rule is required</td></tr>
+<tr><td>Authenticated channel</td><td>Classical messages cannot be forged</td><td>Eve can run separate exchanges (Section <a href="01-security-foundations.html#topic-1-3-1">1.3.1</a>)</td></tr>
+</tbody>
+</table>
+</div>
+<p>Two common readings of the formula are wrong. It is not the number of secret bits per emitted pulse: detection and sifting factors must also enter that rate. And a negative lower bound supplies no positive key guarantee <em>from this expression</em>; it does not prove that every other protocol is impossible. In the symmetric case \(e_b=e_p=q\) the bound reduces to \(1-2h_2(q)\), which is the curve plotted by the explorer at the end of this section. The full proof machinery lies beyond this lesson; the linked Shor–Preskill paper carries the entanglement-purification argument.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Evaluate the symmetric lower bound at \(q=0.05\), and at \(q=0\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>\(h_2(0.05)\approx0.2864\), so \(r\ge1-2(0.2864)=0.4272\) secret bits per sifted bit in this asymptotic model. At \(q=0\) the entropy vanishes and the expression equals one—the ideal case where every sifted bit could survive, before finite-block and authentication costs.</p>
+</details>
+</div>
+
+<h3>3.3.2 Recover the rate and locate its threshold</h3>
+<p>The binary entropy vanishes at zero error, equals one at \(q=1/2\), and increases on \([0,1/2]\). Differentiation gives</p>
+\[h_2'(q)=\log_2\frac{1-q}{q},\]
+<p>which is positive before \(q=1/2\). Hence \(1-2h_2(q)\) decreases continuously from one at \(q=0\) to minus one at \(q=1/2\) and crosses zero exactly once on that interval. Numerical bisection locates the crossing at</p>
+\[q^\ast\approx0.110028,\]
+<p>about 11.0% for this ideal asymptotic, one-way formula. Note what has and has not been shown: the existence and uniqueness of the root follows from monotonicity, while the value 0.110028 is a numerical approximation to a transcendental equation.</p>
+<p>The often-quoted threshold is not a universal law for every QKD protocol. Inefficient reconciliation, finite-size penalties, multiphoton emission, and different processing all move it. If reconciliation reveals \(f_{\rm EC}nh_2(e_b)\) bits with efficiency overhead \(f_{\rm EC}\ge1\), the bookkeeping expression becomes</p>
+\[r\gtrsim 1-f_{\rm EC}h_2(e_b)-h_2(e_p).\]
+<p>At \(e_b=e_p=0.05\) and \(f_{\rm EC}=1.15\) this gives \(1-2.15(0.2864)=0.3842\), against \(0.4272\) for ideal reconciliation. At a sifted rate of 10,000 bits per second those correspond to about 3,842 and 4,272 bits per second before other costs, under the same model. The overhead does not merely scale the rate; it moves the zero, as the next figure shows.</p>
+<figure class="crypto-figure" id="figure-3-3-2">
+<svg viewBox="0 0 580 300" role="img" aria-labelledby="fig-threshold-title fig-threshold-desc">
+<title id="fig-threshold-title">Zero crossing of the rate against reconciliation overhead</title>
+<desc id="fig-threshold-desc">As the reconciliation overhead factor rises from one to 1.3, the error rate at which the asymptotic key fraction reaches zero falls from about 11 percent to about 9 percent. The crossing is 11.0 percent at overhead one and 9.9 percent at overhead 1.15.</desc>
+<line class="axis" x1="70" y1="240" x2="510" y2="240"/>
+<line class="axis" x1="70" y1="40" x2="70" y2="250"/>
+<line class="grid" x1="70" y1="73.3" x2="500" y2="73.3"/>
+<line class="grid" x1="70" y1="140" x2="500" y2="140"/>
+<line class="grid" x1="70" y1="206.7" x2="500" y2="206.7"/>
+<text class="muted" x="62" y="77" text-anchor="end">11%</text>
+<text class="muted" x="62" y="144" text-anchor="end">10%</text>
+<text class="muted" x="62" y="211" text-anchor="end">9%</text>
+<text class="muted" x="70" y="262" text-anchor="middle">1.00</text>
+<text class="muted" x="285" y="262" text-anchor="middle">1.15</text>
+<text class="muted" x="500" y="262" text-anchor="middle">1.30</text>
+<text class="muted" x="290" y="282" text-anchor="middle">Reconciliation overhead f</text>
+<polyline class="curve" points="70,73.3 141.7,100 213.3,124.7 285,148 356.7,170 428.3,190.7 500,210"/>
+<circle class="point" cx="70" cy="73.3" r="4.5"/>
+<circle class="point" cx="285" cy="148" r="4.5"/>
+<text class="muted halo" x="80" y="66" text-anchor="start">11.0%</text>
+<text class="muted halo" x="296" y="177" text-anchor="start">9.88%</text>
+</svg>
+<figcaption>The error rate at which \(1-(1+f)h_2(q)\) reaches zero, as a function of reconciliation overhead \(f\). Ideal reconciliation crosses at 11.0%; overhead 1.15 moves the crossing to 9.88%, and 1.30 to 8.95%. Every point on this curve solves \(h_2(q^\ast)=1/(1+f)\).</figcaption>
+</figure>
+<div class="exercise"><h4>Worked example</h4>
+<p>Show that \(r=0.0002\) at \(q=0.11\) with ideal reconciliation, and find the overhead at which \(q=0.11\) would already give a nonpositive rate.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Since \(h_2(0.11)\approx0.49992\), the rate is \(1-2(0.49992)=0.00017\), essentially zero—the crossing is just below 11%. Requiring \(1-(1+f)h_2(0.11)\le0\) gives \(f\ge1/0.49992-1\approx1.0003\), so even a 0.03% reconciliation overhead pushes 11% error into the no-key regime. The crossing therefore belongs to a protocol specification—post-processing included—rather than to BB84 as a name.</p>
+</details>
+</div>
+
+<h3>3.3.3 Connect complementarity to an entropy proof</h3>
+<p>A second route bounds Eve's uncertainty directly and does not pass through CSS codes. For two measurements with overlap</p>
+\[c=\max_{z,x}|\langle z|x\rangle|^2,\]
+<p>a smooth-entropy uncertainty theorem relates the Z outcomes that are unpredictable to Eve to the hypothetical X outcomes that are unpredictable to Bob. For complementary \(n\)-qubit Z/X measurements, where \(c=1/2\), the relevant form is</p>
+\[H_{\min}^{\varepsilon}(Z_A^n|E)+H_{\max}^{\varepsilon}(X_A^n|B)\ge n.\]
+<p>The first term measures how much uncertainty about the key survives in Eve's hands; the second measures how hard it is to predict Bob's complementary outcomes. Neither is the Shannon entropy of Alice's measured histogram. The inequality is a theorem, quoted here rather than proved; see <a href="https://arxiv.org/abs/1009.2015">Tomamichel and Renner</a>.</p>
+<figure class="crypto-figure" id="figure-3-3-3">
+<svg viewBox="0 0 580 170" role="img" aria-labelledby="fig-chain-title fig-chain-desc">
+<title id="fig-chain-title">The chain from physical overlap to key length</title>
+<desc id="fig-chain-desc">Four stages in order: the physical overlap of the two measurements, a bound on how well Bob's complementary outcomes can be predicted, a lower bound on Eve's uncertainty about the key, and finally a key length after leakage and margins are subtracted.</desc>
+<rect class="pill" x="10" y="40" width="126" height="78" rx="6"/>
+<text x="73" y="62" text-anchor="middle">① overlap</text>
+<text class="muted" x="73" y="82" text-anchor="middle">c = 1/2</text>
+<text class="muted" x="73" y="100" text-anchor="middle">for Z and X</text>
+<line class="wire" x1="136" y1="79" x2="150" y2="79"/>
+<path class="head" d="M158,79 l-9,-4.5 v9 z"/>
+<rect class="pill" x="160" y="40" width="126" height="78" rx="6"/>
+<text x="223" y="62" text-anchor="middle">② predictability</text>
+<text class="muted" x="223" y="82" text-anchor="middle">H<tspan font-size="10" dy="3">max</tspan><tspan font-size="14" dy="-3">(X|B)</tspan></text>
+<text class="muted" x="223" y="100" text-anchor="middle">≤ n h₂(ē<tspan font-size="10" dy="3">p</tspan><tspan font-size="14" dy="-3">)</tspan></text>
+<line class="wire" x1="286" y1="79" x2="300" y2="79"/>
+<path class="head" d="M308,79 l-9,-4.5 v9 z"/>
+<rect class="pill" x="310" y="40" width="126" height="78" rx="6"/>
+<text x="373" y="62" text-anchor="middle">③ uncertainty</text>
+<text class="muted" x="373" y="82" text-anchor="middle">H<tspan font-size="10" dy="3">min</tspan><tspan font-size="14" dy="-3">(Z|E)</tspan></text>
+<text class="muted" x="373" y="100" text-anchor="middle">≥ n[1−h₂(ē<tspan font-size="10" dy="3">p</tspan><tspan font-size="14" dy="-3">)]</tspan></text>
+<line class="wire" x1="436" y1="79" x2="450" y2="79"/>
+<path class="head" d="M458,79 l-9,-4.5 v9 z"/>
+<rect class="pill" x="460" y="40" width="110" height="78" rx="6"/>
+<text x="515" y="62" text-anchor="middle">④ key</text>
+<text class="muted" x="515" y="82" text-anchor="middle">minus leakage</text>
+<text class="muted" x="515" y="100" text-anchor="middle">and margins</text>
+<text class="muted" x="290" y="140" text-anchor="middle">each arrow is a theorem; none is an identity</text>
+</svg>
+<figcaption>The dependency chain of an entropy-based proof. Each arrow replaces a statement about physical states with a statement about entropies, and each replacement needs its own hypotheses: the overlap fixes the constant in stage ①, sampling supplies the phase-error bound in ②, the uncertainty relation gives ③, and the leftover-hash lemma plus a leakage accounting gives ④.</figcaption>
+</figure>
+<p>A phase-error analysis bounding the second term by approximately \(nh_2(\bar e_p)\) then supplies a min-entropy lower bound near \(n[1-h_2(\bar e_p)]\). Subtracting reconciliation leakage and applying the quantum leftover-hash lemma yields a secret length. That chain—physical overlap, complementary predictability, Eve's conditional entropy, extraction—makes the logical dependencies visible.</p>
+<p>For a finite block the conventions must match across steps: smoothing, conditioning on acceptance, parameter-estimation failure, and leakage each consume part of the same error budget, and a term counted twice produces an optimistic key length. <a href="https://arxiv.org/abs/1103.4130">Tight Finite-Key Analysis for Quantum Cryptography</a> gives a protocol-specific treatment. Chapter 4 teaches the extraction and accounting steps without pretending that one asymptotic formula already covers those finite-size details.</p>
+<aside aria-labelledby="rate-explorer-title" class="crypto-explorer" id="rate-explorer"><h4 id="rate-explorer-title">Explore the asymptotic rate</h4><p>Assume ideal single photons, equal bit and phase error q, and reconciliation overhead f. The curve shows r = 1 − (1 + f)h₂(q), per sifted bit. Finite-block and authentication costs are excluded.</p><label for="rate-q">Error q: <output for="rate-q" id="rate-q-value">5.0%</output></label><input id="rate-q" max="20" min="0" step="0.1" type="range" value="5"/><label for="rate-overhead">Reconciliation overhead f: <output for="rate-overhead" id="rate-overhead-value">1.00</output></label><input id="rate-overhead" max="1.3" min="1" step="0.01" type="range" value="1"/><svg aria-labelledby="rate-plot-title rate-plot-desc" role="img" viewbox="0 0 530 280"><title id="rate-plot-title">Ideal BB84 rate as error increases</title><desc id="rate-plot-desc">The rate decreases with error and crosses zero near eleven percent for ideal reconciliation. The current point and numeric output update with the controls.</desc><line class="rate-axis" x1="54" x2="54" y1="28" y2="238"></line><line class="rate-axis" x1="54" x2="494" y1="151.53" y2="151.53"></line><text class="rate-label" x="30" y="34">1</text><text class="rate-label" x="30" y="157">0</text><text class="rate-label" x="48" y="260">0%</text><text class="rate-label" x="259" y="260">10%</text><text class="rate-label" x="473" y="260">20%</text><path class="rate-curve" d="M54,28 L164,98.76 L274,143.87 L384,178.78 L494,206.36" id="rate-curve"></path><circle class="rate-marker" cx="164" cy="98.76" id="rate-marker" r="5"></circle></svg><p class="rate-result" role="status">Expression: <output id="rate-expression">0.4272</output>. Guaranteed nonnegative fraction from this model: <output id="rate-key">0.4272</output>. <span id="rate-verdict">Positive asymptotic bound under these assumptions.</span></p><p>Try increasing f while holding q fixed. Why does reconciliation overhead change the zero crossing? Without JavaScript, the displayed values show q=5%, f=1.</p></aside>
+</section>
+
+<section id="reading">
+<h2>Further reading</h2>
+<p>These sources carry the constructions and theorems this chapter quotes.</p>
+<ul>
+<li><a href="https://arxiv.org/abs/quant-ph/9604039">Deutsch, Ekert, Jozsa, Macchiavello, Popescu, and Sanpera, Quantum privacy amplification and the security of quantum cryptography over noisy channels (1996)</a> — the first entanglement-purification security argument.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/9511027">Bennett, Brassard, Popescu, Schumacher, Smolin, and Wootters, Purification of noisy entanglement and faithful teleportation via noisy channels (1996)</a> — the purification procedure behind that argument.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/9604024">Bennett, DiVincenzo, Smolin, and Wootters, Mixed-state entanglement and quantum error correction (1996)</a> — the equivalence between one-way purification and quantum codes, and the Bell-diagonal case.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/0003004">Shor and Preskill, Simple proof of security of the BB84 quantum key distribution protocol (2000)</a> — the CSS route from bit and phase errors to the rate in Section 3.3.1.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/9803006">Lo and Chau, Unconditional security of quantum key distribution over arbitrarily long distances (1999)</a> — the complementary entanglement-based proof.</li>
+<li><a href="https://arxiv.org/abs/1009.2015">Tomamichel and Renner, The uncertainty relation for smooth entropies (2011)</a> — the inequality quoted in Section 3.3.3.</li>
+<li><a href="https://arxiv.org/abs/quant-ph/0512258">Renner, Security of Quantum Key Distribution (2005)</a> — smooth entropies, the leftover-hash lemma, and the conventions used in Chapter 4.</li>
+<li><a href="https://arxiv.org/abs/1103.4130">Tomamichel, Lim, Gisin, and Renner, Tight finite-key analysis for quantum cryptography (2012)</a> — the finite-block accounting that follows.</li>
+</ul>
+</section>
