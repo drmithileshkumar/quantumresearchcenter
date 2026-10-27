@@ -1,0 +1,20 @@
+{
+  "slug": "beyond-the-qubit-count",
+  "title": "Beyond the qubit count: how to read a quantum computing headline",
+  "summary": "A bigger processor is only part of the story. Reliability and the work a machine can actually perform matter too.",
+  "author": "Quantum Research Center",
+  "published": "2026-10-26",
+  "status": "published",
+  "topic": "discoveries",
+  "format": "Explainer",
+  "sections": [
+    {"heading": "What is being counted?", "paragraphs": ["A physical qubit is a component of a quantum processor. A logical qubit encodes quantum information across physical qubits so that errors can be detected and corrected. The two counts describe different things."]},
+    {"heading": "Reliability changes the picture", "paragraphs": ["A useful comparison asks how reliably a processor preserves information and performs operations, and how long it can keep a computation running. Error correction must operate repeatedly during computation; a single successful demonstration does not establish every capability needed for larger applications."]},
+    {"heading": "Three questions to bring to the next announcement", "paragraphs": ["Are the reported qubits physical or logical? Which operations were demonstrated, and with what error rates? What resources and running time would the proposed application require?", "These questions help separate a hardware milestone from evidence of practical usefulness. A company roadmap describes an intended destination; the experiment shows what has been achieved so far."]}
+  ],
+  "sources": [
+    {"title": "Microsoft Quantum: scalable logical qubits (22 September 2026)", "url": "https://quantum.microsoft.com/en-us/insights/blogs/scalable-logical-qubits"}
+  ],
+  "related_articles": ["quantum-safe-security"],
+  "related_papers": []
+}

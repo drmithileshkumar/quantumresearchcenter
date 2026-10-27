@@ -1,0 +1,57 @@
+/* Additions for developed course manuscripts; the shared book theme sets layout. */
+.ebook .book-section pre {max-width:100%;overflow-x:auto;padding:1rem;background:var(--sidebar);font-size:.78em;line-height:1.55;white-space:pre;tab-size:4;}
+.ebook .book-section pre code {white-space:pre;overflow-wrap:normal;word-break:normal;}
+.ebook .book-section .drawing-scroll:focus-visible {outline:3px solid var(--focus,#1b5884);outline-offset:3px;}
+.ebook .book-section :is(p,li,td,figcaption) code {overflow-wrap:anywhere;}
+
+/* Tables and figures shared by the chapters. */
+.qml-table {max-width:100%;overflow-x:auto;margin:1.5em 0;}
+.qml-table table {width:100%;border-collapse:collapse;font-size:.88em;}
+.qml-table th,.qml-table td {padding:.65em .8em;border:1px solid var(--line);text-align:left;vertical-align:top;}
+.qml-table th {background:var(--sidebar);}
+.qml-table caption {text-align:left;color:var(--muted);padding-bottom:.75em;}
+.qml-outcomes {padding-left:1.4em;}
+
+.qml-figure {margin:1.6em 0;}
+.qml-figure figcaption {font:13px/1.55 var(--sans,sans-serif);color:var(--muted);margin-top:.6em;}
+.qml-figure > svg {display:block;width:100%;height:auto;max-width:600px;margin:0 auto;}
+.qml-figure > svg text {fill:currentColor;font:14px var(--sans,sans-serif);}
+.qml-figure .muted {fill:var(--muted);}
+.qml-figure .halo {stroke:var(--paper);stroke-width:5px;stroke-linejoin:round;paint-order:stroke;}
+.qml-figure .mask {fill:var(--paper);}
+.qml-figure .axis {stroke:var(--line);stroke-width:1.2;}
+.qml-figure .grid {stroke:var(--line);stroke-width:1;stroke-dasharray:2 4;opacity:.8;}
+.qml-figure .ring {fill:none;stroke:var(--muted);stroke-dasharray:5 5;}
+.qml-figure .wire {fill:none;stroke:currentColor;stroke-width:1.6;}
+.qml-figure .head {fill:currentColor;}
+.qml-figure .pill {fill:none;stroke:currentColor;stroke-width:1.4;}
+.qml-figure .mem {fill:none;stroke:var(--blue);stroke-dasharray:6 4;stroke-width:1.6;}
+.qml-figure .curve {fill:none;stroke:var(--blue);stroke-width:2.4;}
+.qml-figure .curve-alt {fill:none;stroke:currentColor;stroke-width:2.4;stroke-dasharray:6 4;}
+.qml-figure .threshold {stroke:var(--muted);stroke-width:1.4;stroke-dasharray:5 4;}
+.qml-figure .point {fill:var(--blue);}
+.qml-figure .bar {fill:var(--blue);opacity:.72;}
+.qml-figure .bar-alt {fill:currentColor;opacity:.3;}
+.qml-figure .band {fill:var(--blue);opacity:.14;}
+.qml-figure .cut {stroke:var(--muted);stroke-width:2.4;}
+
+/* Interactive model explorer. */
+.qml-explorer {margin:2em 0;padding:1.2em;border:1px solid var(--line);border-radius:6px;background:var(--sidebar);}
+.qml-explorer label {display:block;font-weight:600;margin:.8em 0 .3em;}
+.qml-explorer input[type=range] {display:block;width:100%;accent-color:var(--blue);}
+.qml-explorer svg {display:block;width:100%;height:auto;color:var(--ink);}
+.qml-explorer .ex-curve {fill:none;stroke:var(--blue);stroke-width:3;}
+.qml-explorer .ex-marker {fill:var(--ink);}
+.qml-explorer .ex-axis {stroke:var(--muted);stroke-width:1;}
+.qml-explorer .ex-label {fill:currentColor;font:14px sans-serif;}
+.qml-explorer output {font-variant-numeric:tabular-nums;}
+.qml-explorer .ex-result {padding:.8em 0;border-top:1px solid var(--line);}
+
+.ebook .book-section mjx-container[display="true"] {max-width:100%;overflow-x:auto;overflow-y:hidden;}
+@media print {
+ .ebook .book-section pre {white-space:pre-wrap;overflow:visible;overflow-wrap:anywhere;}
+ .ebook .book-section pre code {white-space:pre-wrap;}
+ .qml-explorer input {display:none;}
+ .qml-table {overflow:visible;}
+ .qml-figure,.qml-explorer {break-inside:avoid;}
+}

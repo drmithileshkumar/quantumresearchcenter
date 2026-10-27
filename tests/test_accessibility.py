@@ -67,7 +67,7 @@ def published_pages():
 
 def audit(page):
     text = page.read_text(errors='ignore')
-    if not re.search(r'<html\b', text, re.I): return []   # snippets (e.g. icons/HOW-TO-USE.html), not pages
+    if not re.search(r'<html\b', text, re.I): return []   # HTML snippets, not pages
     # An image's alt text names the link or button around it.
     text = re.sub(r'<img\b[^>]*\balt="([^"]+)"[^>]*>', lambda m: m.group(0) + m.group(1), text)
     doc = Audit(text)

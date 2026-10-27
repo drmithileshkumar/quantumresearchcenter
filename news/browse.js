@@ -24,8 +24,8 @@
       if (link) link.hidden = month.hidden;
     }
     for (const link of links) {
-      const linkTopic = new URLSearchParams(link.search).get('topic') || (link.hash ? null : 'all');
-      if (linkTopic) link.toggleAttribute('aria-current', linkTopic === topic.value);
+      const linkTopic = new URLSearchParams(link.search).get('topic') || (link.getAttribute('href') === 'index.html' ? 'all' : null);
+      if (linkTopic) { if (linkTopic === topic.value) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current'); }
     }
     document.getElementById('news-count').textContent = count ? `${count} of ${entries.length} papers` : 'No matching papers. Try another search or research area.';
   }
@@ -40,7 +40,7 @@
   document.getElementById('news-filters').hidden = false;
   filter();
 
-  fetch('index.json', {cache: 'no-store'}).then(response => response.ok ? response.json() : null).then(index => {
+  fetch('../index.json', {cache: 'no-store'}).then(response => response.ok ? response.json() : null).then(index => {
     if (!index) return;
     for (const paper of index.papers) {
       const fields = [paper.title, paper.authors, paper.problem, paper.result, ...paper.techniques];
@@ -54,7 +54,7 @@
     fetch('/api/news-editor', {cache: 'no-store'}).then(response => {
       if (!response.ok) return;
       const link = document.createElement('a');
-      link.href = 'papers.html'; link.textContent = 'Review & approve';
+      link.href = '../papers.html'; link.textContent = 'Review & approve';
       document.querySelector('.news-toolbar nav').append(link);
     }).catch(() => {});
   }

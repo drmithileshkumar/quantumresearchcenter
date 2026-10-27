@@ -15,7 +15,8 @@ python3 -m unittest discover -s tests
 ```
 
 Course chapters under `education/<course>/` have their own `build.py`. News curation is described in
-`content/PAPERS.md`.
+`content/PAPERS.md`. General-audience articles and homepage selection are described in
+`content/NEWS.md`.
 
 GitHub Actions runs the build check and tests on every push (`.github/workflows/checks.yml`) and checks
 external links weekly (`.github/workflows/links.yml`; run locally with `python3 scripts/check_links.py`).
@@ -31,3 +32,21 @@ motion, `prefers-contrast`, Windows high-contrast mode).
 `tests/test_accessibility.py` checks every page's markup (language, title, one `<h1>`, skip link, alt text,
 named links and buttons, labelled form fields, unique ids, zoom allowed), and
 `tests/test_palette_contrast.py` checks the token palette against WCAG AA contrast in both themes.
+
+## Shared templates
+
+Content is separate from presentation: `scripts/build.py` renders research pages,
+`scripts/news_articles.py` renders the homepage and public articles, and the course
+builders render their reader layouts. All three use `education/site_navigation.py`
+for **Home · News · Education · Research**, including relative links and the active
+section. `navigation.js` decorates utility buttons only; primary links retain their
+visible labels with or without JavaScript.
+
+After changing shared navigation or styles, rebuild the site and course readers
+(the Computing build also refreshes its offline download):
+
+```sh
+for course in education/*/build.py; do python3 "$course"; done
+python3 scripts/build.py
+python3 -m unittest discover -s tests
+```

@@ -1,0 +1,170 @@
+<aside class="learning-guide">
+<p><strong>After this chapter, you should be able to:</strong></p>
+<ul class="qml-outcomes">
+<li>Derive the representer theorem and explain why a kernel method's cost is set by the sample size, not the feature dimension.</li>
+<li>Design a circuit that estimates one kernel entry, and price it in shots.</li>
+<li>Recognise kernel concentration and state what it does to a classifier.</li>
+</ul>
+<p><strong>Study method:</strong> Work the small-matrix examples with a pencil—most of the content is linear algebra on Gram matrices—then reproduce the shot-count estimates numerically. The explorer at the end of Section 3.2 rewards a few minutes of play.</p>
+<p><strong>Notation.</strong> \(K\in\mathbb R^{N\times N}\) is the Gram matrix with \(K_{ij}=K(x_i,x_j)\), \(\lambda\) a ridge parameter, \(S\) the number of shots, and \(d=2^n\) the Hilbert-space dimension. \(\|\cdot\|_2\) is the spectral norm, \(J\) the all-ones matrix, and \(\alpha\in\mathbb R^N\) the dual coefficients.</p>
+</aside>
+
+<p>Kernel methods are the cleanest way to ask whether a quantum model is better than a classical one, because they make the comparison arithmetic. A kernel is a similarity function; a quantum feature map defines one by an inner product of states. Everything else—training, regularisation, generalisation—is classical theory applied to the resulting matrix. This chapter builds that view, prices the matrix, and shows the limit that appears when the matrix goes flat.</p>
+
+<section aria-labelledby="section-3-1-heading" class="book-section" id="section-3-1">
+<h2 id="section-3-1-heading">3.1 Kernel methods without the quantum part</h2>
+<p>A kernel encodes a notion of similarity, and the learning algorithm never touches the features themselves. Getting this structure right first makes the quantum addition easy to place.</p>
+
+<h3>3.1.1 The kernel trick and the representer theorem</h3>
+<p>Let \(K\) be a positive semi-definite function on \(\mathcal X\times\mathcal X\). It defines a reproducing-kernel Hilbert space \(\mathcal H_K\) and a feature map \(\phi\) with \(K(x,x')=\langle\phi(x),\phi(x')\rangle\), although the map never has to be written down. Consider any regularised empirical risk of the form</p>
+\[\min_{f\in\mathcal H_K}\ \frac1N\sum_{i=1}^N\ell\bigl(f(x_i),y_i\bigr)+\lambda\|f\|_{\mathcal H_K}^2 .\]
+<p>The representer theorem states that a minimiser has the form</p>
+\[f(x)=\sum_{i=1}^N\alpha_i\,K(x,x_i),\]
+<p>so the search is over \(N\) coefficients rather than over a function space. Substituting the expansion turns the problem into one that depends on the data only through the Gram matrix. That is the kernel trick: the cost scales with the number of examples, not with the dimension of the feature space—which is exactly why an exponentially large quantum feature space is not automatically disqualifying.</p>
+<p>Two consequences follow immediately. Training cost is at least \(O(N^2)\) to form \(K\) and \(O(N^3)\) to solve the resulting system, so the method is suited to moderate \(N\) with large feature dimension. And the whole model is determined by \(K\), so comparing two quantum models is comparing two matrices.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Three training points have Gram matrix \(K=\begin{pmatrix}1&amp;0.5&amp;0\\0.5&amp;1&amp;0\\0&amp;0&amp;1\end{pmatrix}\) and dual coefficients \(\alpha=(1,-1,0.5)\). Evaluate \(f\) at a test point whose similarities are \(K(x,x_i)=(0.2,0.1,0.9)\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The representer expansion gives \(f(x)=1(0.2)+(-1)(0.1)+0.5(0.9)=0.2-0.1+0.45=0.55\), with the sign of the prediction taken from the threshold of the classifier. The first two examples have opposite coefficients, so their contributions nearly cancel at a point where the two similarities are close. This is the mechanism by which a kernel classifier expresses "different from this class but similar to that one", and it is visible entirely in the row of the Gram matrix.</p>
+</details>
+</div>
+
+<h3>3.1.2 What a good kernel does</h3>
+<p>A kernel is useful when its similarity agrees with the labels. Two quantities capture the agreement.</p>
+<p>The first is <em>target alignment</em>, the normalised inner product between \(K\) and the label kernel \(yy^{\top}\):</p>
+\[A(K,y)=\frac{\langle K,\,yy^{\top}\rangle}{\|K\|_F\,\|yy^{\top}\|_F}.\]
+<p>It is cheap to compute and useful for diagnostics, but it is not a performance guarantee—a kernel can align well with the training labels and still generalise poorly. The second is the eigenvalue spectrum. A kernel with a few large eigenvalues behaves like a low-dimensional linear model; a kernel with many comparable eigenvalues can fit anything and needs strong regularisation. The spectrum is where concentration damages a quantum kernel, as Section 3.2.3 shows.</p>
+<p>Two further properties are non-negotiable. \(K\) must be positive semi-definite, or the optimisation is not convex and the representer theorem does not apply; and the diagonal should be constant if the kernel is to be translation invariant—otherwise the model has a built-in preference for some training points.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Compute the alignment of the identity kernel \(K=I\) with labels \(y=(1,1,-1,-1)\), and of the rank-one kernel \(K=J\) with the same labels.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>For \(K=I\): \(\langle I,yy^{\top}\rangle=\sum_i y_i^2=4\), \(\|I\|_F=2\), \(\|yy^{\top}\|_F=\|y\|^2=4\), so \(A=4/(2\cdot4)=0.5\). For \(K=J\): \(\langle J,yy^{\top}\rangle=(\sum_i y_i)^2=0\), so \(A=0\). The identity kernel declares every point unrelated to every other, and the constant kernel declares them all identical; neither can express the two-cluster structure. Alignment detects both failures without training anything.</p>
+</details>
+</div>
+
+<h3>3.1.3 Regularisation and the dual problem</h3>
+<p>For squared loss, substituting the representer expansion gives the linear system</p>
+\[(K+\lambda I)\,\alpha=y,\qquad f(x)=\sum_i\alpha_i K(x,x_i).\]
+<p>The parameter \(\lambda\) does two jobs at once: it controls overfitting, and it controls conditioning. The solution's sensitivity to noise in \(K\) is governed by the condition number \(\kappa(K+\lambda I)\), which grows as the smallest eigenvalue of \(K\) shrinks. Every kernel matrix estimated from finitely many shots is noisy, so an ill-conditioned \(K\) turns shot noise into large coefficient errors—a failure mode that has nothing to do with the quantum model's expressivity.</p>
+<p>For a soft-margin classifier the dual is a quadratic programme in \(\alpha\) with box constraints, again depending on the data only through \(K\). In both cases the practical message is the same: the kernel matrix is the interface, and its numerical properties decide whether training succeeds.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Let \(K=\begin{pmatrix}1&amp;0.99\\0.99&amp;1\end{pmatrix}\) and \(y=(1,-1)\). Solve the ridge system for \(\lambda=0.01\) and for \(\lambda=1\), and compare the coefficient magnitudes.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The eigenvalues of \(K\) are \(1.99\) and \(0.01\). With \(\lambda=0.01\) the shifted eigenvalues are \(2.0\) and \(0.02\), a condition number of \(100\); solving gives coefficients of roughly \((0.5,-0.5)\) amplified along the near-null direction, with magnitude about \(25\) in the eigenbasis. With \(\lambda=1\) the eigenvalues become \(2.99\) and \(1.01\), the condition number falls to about \(3\), and the coefficients are order one. The data did not change; only the numerical conditioning did—which is why an experiment must report \(\lambda\) alongside any accuracy figure.</p>
+</details>
+</div>
+</section>
+
+<section aria-labelledby="section-3-2-heading" class="book-section" id="section-3-2">
+<h2 id="section-3-2-heading">3.2 Estimating a quantum kernel</h2>
+<p>A quantum feature map defines a kernel by an inner product of states. Estimating one entry is a small, well-understood circuit problem; estimating a matrix of them is where the cost appears.</p>
+
+<h3>3.2.1 Overlap as a kernel value</h3>
+<p>With \(U_\phi(x)|0\rangle=|\psi(x)\rangle\), the kernel is the squared overlap</p>
+\[K(x,x')=\bigl|\langle 0|U_\phi(x')^{\dagger}U_\phi(x)|0\rangle\bigr|^2 .\]
+<p>The estimate is direct: apply \(U_\phi(x)\), then \(U_\phi(x')^{\dagger}\), and measure all qubits in the computational basis. The probability of the all-zeros outcome is exactly \(K(x,x')\), so if the outcome occurs \(c\) times in \(S\) shots, \(\hat K=c/S\) is an unbiased estimate with variance \(K(1-K)/S\). No ancilla and no tomography are required—one circuit, run many times.</p>
+<p>This is the reason quantum kernels became a practical research topic: the entry cost is a single circuit whose depth is twice the encoding depth, not an exponential state-reconstruction procedure. The depth still matters, because near-term devices accumulate error per gate, and the circuit must be run once per matrix entry.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>An entry with true value \(K=0.25\) is estimated from \(S=400\) shots. Give the standard deviation, and the number of shots needed to halve it.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The variance is \(K(1-K)/S=0.25\cdot0.75/400=4.7\times10^{-4}\), so the standard deviation is about \(0.0217\)—roughly 9% of the value. Halving that requires quadrupling the shots to 1600, because the deviation scales as \(S^{-1/2}\). The arithmetic is unforgiving: every factor of two in precision costs a factor of four in circuit executions, and the factor applies to every entry of the Gram matrix separately.</p>
+</details>
+</div>
+
+<h3>3.2.2 Shot noise and the cost of one entry</h3>
+<p>Because \(\hat K\) is a sample mean, its <em>relative</em> error is what matters for a classifier:</p>
+\[\frac{\sigma_{\hat K}}{K}=\sqrt{\frac{1-K}{SK}}\approx\frac{1}{\sqrt{SK}}\quad (K\ll1).\]
+<p>The approximation exposes the danger. If the typical kernel value is small—say \(K\sim2^{-n}\), which is what concentration produces—then constant relative precision requires \(S\sim2^{n}\) shots <em>per entry</em>. The Gram matrix then costs \(\Theta(N^2 2^n)\) circuit executions, and the exponential that amplitude encoding avoided reappears in the estimator.</p>
+<figure class="qml-figure" id="figure-3-2-2">
+<svg viewBox="0 0 580 300" role="img" aria-labelledby="fig-shots-title fig-shots-desc">
+<title id="fig-shots-title">Shots needed for a fixed relative precision</title>
+<desc id="fig-shots-desc">The number of shots required for ten percent relative precision grows as one over the kernel value. For kernel values near a thousandth, about a hundred thousand shots are needed per matrix entry.</desc>
+<line class="axis" x1="70" y1="240" x2="520" y2="240"/>
+<line class="axis" x1="70" y1="40" x2="70" y2="250"/>
+<text class="muted" x="62" y="44" text-anchor="end">10⁶</text>
+<text class="muted" x="62" y="144" text-anchor="end">10³</text>
+<text class="muted" x="62" y="244" text-anchor="end">1</text>
+<text class="muted" x="70" y="262" text-anchor="middle">10⁻⁶</text>
+<text class="muted" x="220" y="262" text-anchor="middle">10⁻⁴</text>
+<text class="muted" x="370" y="262" text-anchor="middle">10⁻²</text>
+<text class="muted" x="520" y="262" text-anchor="middle">1</text>
+<text class="muted" x="295" y="284" text-anchor="middle">typical kernel value K</text>
+<polyline class="curve" points="70,240 220,180 370,120 520,60"/>
+<circle class="point" cx="220" cy="180" r="5"/>
+<text class="muted halo" x="230" y="172" text-anchor="start">K = 10⁻⁴ → 10⁵ shots</text>
+</svg>
+<figcaption>Shots per matrix entry for a 10% relative error, from \(S\approx100/K\). The relation is a straight line on log–log axes: every additional order of magnitude in smallness of the kernel costs an order of magnitude in shots. Concentration, which makes \(K\) small, therefore attacks the estimator as well as the model.</figcaption>
+</figure>
+<div class="exercise"><h4>Worked example</h4>
+<p>For \(n=10\) qubits under the concentration model of Section 3.2.3, the typical off-diagonal entry is about \(2^{-n}\). How many shots give a 10% relative error?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>\(K\approx2^{-10}\approx9.8\times10^{-4}\). A 10% relative error needs a standard deviation of \(0.1K\), so \(K(1-K)/S=(0.1K)^2\), giving \(S\approx(1-K)/(0.01K)\approx10^{5}\). Each Gram-matrix entry then needs about a hundred thousand shots; with \(N=500\) points the matrix has \(2.5\times10^{5}\) entries, so the total is \(2.5\times10^{10}\) circuit executions. The estimator, not the circuit, has become the bottleneck.</p>
+</details>
+</div>
+
+<h3>3.2.3 Concentration: kernels that go flat</h3>
+<p>The final difficulty is structural. For a feature map whose states behave like random states in a \(d=2^n\)-dimensional space, the squared overlap between two distinct encoded points behaves like \(X=\bigl|\langle\psi|\phi\rangle\bigr|^2\) with \(X\sim\text{Beta}(1,d-1)\). Hence</p>
+\[\mathbb E[X]=\frac1d,\qquad \operatorname{Var}[X]=\frac{d-1}{d^{3}}\approx\frac{1}{d^{2}},\]
+<p>so the typical off-diagonal entry is \(1/d\) and its spread is also about \(1/d\). Two conclusions follow, and they point in opposite directions. In absolute terms the matrix approaches a constant: entries shrink towards zero, so the kernel's ability to distinguish pairs by their similarity fades. In relative terms the noise does not shrink at all: the fluctuations are as large as the mean, so every entry is a poor estimate unless the shot count grows exponentially.</p>
+<p>This is the mechanism behind the exponential concentration results for quantum kernels. It is a statement about the <em>model</em>, not about hardware: a kernel whose entries all approach the same value can be reproduced by a trivial classifier, and no amount of shot precision restores the lost distinction.</p>
+<aside aria-labelledby="kernel-explorer-title" class="qml-explorer" id="kernel-explorer"><h4 id="kernel-explorer-title">Explore kernel concentration</h4><p>Assume the encoded states behave like Haar-random states in dimension d = 2<sup>n</sup>. The curve shows the standard deviation of an off-diagonal kernel entry against the number of qubits; the mean is 1/d.</p><label for="kernel-n">Qubits n: <output for="kernel-n" id="kernel-n-value">6</output></label><input id="kernel-n" max="12" min="1" step="1" type="range" value="6"/><svg aria-labelledby="kernel-plot-title kernel-plot-desc" role="img" viewbox="0 0 530 280"><title id="kernel-plot-title">Kernel spread against qubit count</title><desc id="kernel-plot-desc">The spread of an off-diagonal kernel entry falls roughly by half for every added qubit, on a logarithmic axis. The current point and numeric output update with the control.</desc><line class="ex-axis" x1="54" x2="54" y1="28" y2="238"></line><line class="ex-axis" x1="54" x2="494" y1="238" y2="238"></line><text class="ex-label" x="44" y="34" text-anchor="end">10⁰</text><text class="ex-label" x="44" y="108" text-anchor="end">10⁻²</text><text class="ex-label" x="44" y="182" text-anchor="end">10⁻⁴</text><text class="ex-label" x="44" y="242" text-anchor="end">10⁻⁶</text><text class="ex-label" x="54" y="258" text-anchor="middle">1</text><text class="ex-label" x="254" y="258" text-anchor="middle">6</text><text class="ex-label" x="494" y="258" text-anchor="middle">12</text><path class="ex-curve" d="M54,51.7 L94,62.9 L134,76.9 L174,92.0 L214,107.4 L254,123.0 L294,138.7 L334,154.5 L374,170.3 L414,186.1 L454,201.9 L494,217.7" id="kernel-curve"></path><circle class="ex-marker" cx="254" cy="123" id="kernel-marker" r="5"></circle></svg><p class="ex-result" role="status">Dimension: <output id="kernel-dim">64</output>. Mean entry: <output id="kernel-mean">0.015625</output>. Spread: <output id="kernel-spread">0.015502</output>. <span id="kernel-verdict">Spread is comparable to the mean: entries are noise around a constant.</span></p><p>Without JavaScript, the curve shows all twelve values and the numbers above are for n = 6. The spread halves with every added qubit, but so does the mean—so the <em>ratio</em> stays near one, and the kernel never becomes more informative with relative precision.</p></aside>
+</section>
+
+<section aria-labelledby="section-3-3-heading" class="book-section" id="section-3-3">
+<h2 id="section-3-3-heading">3.3 When a quantum kernel can help</h2>
+<p>Concentration rules out one kind of hope—that a richer feature map automatically gives better similarity—but not every quantum kernel is concentrated. This section states the conditions under which a kernel can help and the checks that a serious comparison needs.</p>
+
+<h3>3.3.1 Geometric difference</h3>
+<p>To compare two kernels on the same data, Huang and colleagues introduce a quantity that measures how differently they organise the feature space:</p>
+\[g(K_1\|K_2)=\Bigl\|\sqrt{K_2}\,K_1^{-1}\sqrt{K_2}\Bigr\|_\infty ,\]
+<p>where \(\infty\) is the spectral norm and the kernels are taken on the training set. A large \(g\) means the two kernels induce very different geometries. The relevant theorem, stated with its hypotheses, says roughly that if a quantum kernel can fit the target well, then either the classical kernel can too, or \(g\) is large; a provable advantage therefore requires both a large geometric difference and a target that the quantum geometry happens to match.</p>
+<p>This is a useful discipline. It converts "our kernel is more expressive" into two checkable numbers: the geometric difference, and the alignment on training folds. Neither is decisive on its own, but a claimed advantage with a small \(g\) is in immediate trouble.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Take \(K_1=\operatorname{diag}(1,0.1)\) and \(K_2=I\) on two training points. Compute \(g(K_1\|K_2)\) and \(g(K_2\|K_1)\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>For the first, \(\sqrt{K_2}K_1^{-1}\sqrt{K_2}=\operatorname{diag}(1,10)\), whose spectral norm is \(10\). For the second, \(\sqrt{K_1}K_2^{-1}\sqrt{K_1}=\operatorname{diag}(1,0.1)\), with norm \(1\). So \(g\) is not symmetric: \(g(K_1\|K_2)=10\) but \(g(K_2\|K_1)=1\). The asymmetry is the point—the expression measures how far \(K_1\) stretches the geometry that \(K_2\) defines, and reversing the roles is a different question. Numerical care is needed too: with a near-singular \(K_1\) the inverse amplifies noise, which is why implementations regularise before inverting.</p>
+</details>
+</div>
+
+<h3>3.3.2 Constructed data and the extrapolation question</h3>
+<p>The best-known separation result for quantum kernels uses data whose labels are defined by a discrete logarithm, together with a feature map built from the same structure. For that construction, the quantum kernel provably generalises from a polynomial number of examples while any classical kernel needs exponentially many.</p>
+<p>The result is real and worth understanding, and it is also the clearest example of why the three claim types of Chapter 1 matter. It establishes an existence separation: there is a task, a distribution, and a model with a stated access model that separates the two. It does not establish that the same separation survives on data anyone actually has, because the construction encodes the problem's structure into the feature map by hand—and if that structure is known, a classical algorithm can often be built from it too.</p>
+<p>The honest reading is that separations tell us where to look. They identify the structural conditions—hard-to-compute inner products, a target aligned with them, no classical shortcut—that a practical demonstration would have to satisfy.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>A paper reports a quantum kernel with 99% accuracy and a classical baseline with 60%. List three questions that must be answered before this counts as evidence of a separation.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>First, what is the access model? If the quantum feature map uses structure that a classical algorithm could also exploit, the comparison is between a clever model and a naive one. Second, how was the baseline tuned, and was it given the same tuning budget as the quantum model? Third, how large is the geometric difference, and does the advantage persist when the classical model is allowed the same number of features? A separation claim needs all three; a single accuracy number answers none of them.</p>
+</details>
+</div>
+
+<h3>3.3.3 A checklist before training</h3>
+<p>The chapter's content condenses into a short protocol. Running it before a training run saves weeks.</p>
+<div class="qml-table">
+<table>
+<caption>A pre-flight checklist for a quantum kernel experiment.</caption>
+<thead><tr><th scope="col">Check</th><th scope="col">Why it matters</th></tr></thead>
+<tbody>
+<tr><td>Is the encoding injective on the data range?</td><td>Periodic maps make distant points identical (Section 2.2.3)</td></tr>
+<tr><td>Is the circuit classically simulable at this size?</td><td>If so, the classical simulator is the baseline</td></tr>
+<tr><td>What is the typical off-diagonal entry, and its spread?</td><td>Concentration makes the classifier blind (Section 3.2.3)</td></tr>
+<tr><td>How many shots per entry, and what is the resulting matrix error?</td><td>Shot noise propagates through \(K^{-1}\)</td></tr>
+<tr><td>What is the condition number of \(K+\lambda I\)?</td><td>Ill-conditioning amplifies that noise</td></tr>
+<tr><td>What is the geometric difference from the classical kernel?</td><td>A small value leaves no room for an advantage</td></tr>
+<tr><td>Was the map fixed before the test set was opened?</td><td>Otherwise the comparison is leaking (Chapter 1)</td></tr>
+</tbody>
+</table>
+</div>
+<p>Chapter 4 turns to the other major family—variational models trained by a classical optimiser—and Chapter 6 shows that the trainability problems there are cousins of the concentration effect derived here.</p>
+</section>
+
+<section id="reading">
+<h2>Further reading</h2>
+<p>These sources develop the kernel view, the concentration results, and the geometric comparison used in this chapter.</p>
+<ul>
+<li><a href="https://arxiv.org/abs/2101.11020">Schuld, Supervised quantum machine learning models are kernel methods (2021)</a> — the general argument that quantum models with a fixed measurement are kernel methods.</li>
+<li><a href="https://arxiv.org/abs/1804.11326">Havlíček et al., Supervised learning with quantum-enhanced feature spaces (2018)</a> — the kernel-estimation circuit of Section 3.2.1.</li>
+<li><a href="https://arxiv.org/abs/2208.11060">Thanasilp, Wang, Cerezo, and Holmes, Exponential concentration in quantum kernel methods (2022)</a> — concentration bounds and their consequences for training.</li>
+<li><a href="https://arxiv.org/abs/2011.01938">Huang et al., Power of data in quantum machine learning (2021)</a> — geometric difference, the constructed separation, and the classical-surrogate argument.</li>
+<li><a href="https://arxiv.org/abs/1803.07128">Schuld and Killoran, Quantum machine learning in feature Hilbert spaces (2018)</a> — feature maps and kernels as the organising structure of quantum models.</li>
+</ul>
+</section>

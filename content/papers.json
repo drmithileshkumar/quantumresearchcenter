@@ -1,5 +1,5 @@
 {
-  "reviewed_on": "2026-10-25",
+  "reviewed_on": "2026-10-26",
   "papers": [
     {
       "id": "2609.10508",
@@ -1369,7 +1369,7 @@
       "result": "Yes. An exact operator identity shows that dephasing feeds energy into the transverse interaction, which local decay removes with a delay of order \\(1/\\Gamma_1\\). In homogeneous mean field there is no periodic orbit without dephasing, and on a periodic orbit the delayed feedback exactly pays for the transverse damping. Liouvillian spectra for \\(N=80\\)–\\(300\\) show oscillatory decay rates falling as \\(N^{-0.32}\\) and \\(N^{-0.46}\\), with frequencies approaching the mean-field values.",
       "significance": "It turns a ubiquitous decoherence channel into a control parameter for autonomous temporal order. The identity gives a testable amplitude–phase relation between energy and magnetization in every oscillatory mode, which can be checked beyond all-to-all models. The oscillating state also takes part in metastable switching between two stationary states.",
       "limitations": "The necessity proof holds in homogeneous mean field. At finite \\(N\\) the evidence is power-law fits over \\(N\\le300\\), not a proof that decay rates vanish. The limit cycle coexists with two stable fixed points, so whether oscillations appear depends on the initial state. Fluctuations and photon-counting readout are treated with a semiclassical diffusion model rather than exact quantum trajectories, and no experiment is reported.",
-      "status": "candidate",
+      "status": "approved",
       "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
       "verified_on": "2026-10-25",
       "methods": [
@@ -1401,7 +1401,8 @@
         "The mechanism comes from the shifted energy \\(Q_N=2H/N+h_zI\\). Because it commutes with \\(H\\), only the dissipators change it, and \\(\\mathcal L^\\dagger Q_N=-\\Gamma_1Q_N+4J\\gamma_\\phi U_N\\), where \\(U_N\\) is the transverse pair correlation. Ferromagnetically aligned transverse spins lower the interaction energy, and dephasing destroys that alignment, so it raises the energy. In mean field \\(\\dot Q=-\\Gamma_1Q+4J\\gamma_\\phi m_x^2\\). Eliminating \\(m_y\\) and \\(m_z\\) leaves a damped nonlinear oscillator for \\(m_x\\) with an extra force \\(-2JQm_x\\). Without dephasing \\(Q\\) decays to zero, and an energy argument over one period forces \\(\\dot m_x\\equiv0\\), so no periodic orbit exists.",
         "Charging alone does not explain motion, because charging and loss can also balance at a fixed point. What matters is that \\(Q\\) follows \\(m_x^2\\) through a memory kernel \\(e^{-\\Gamma_1s}\\), so each harmonic lags by \\(\\arctan(\\nu/\\Gamma_1)\\). The lag makes the orbit enclose an area in the \\((m_x^2,Q)\\) plane, and the feedback work around this loop equals \\(\\langle\\dot Q^2\\rangle/(4\\gamma_\\phi)>0\\). It exactly balances the damping \\(2\\Gamma_2\\oint\\dot m_x^2\\,dt\\). An instantaneous response would retrace a line and do no work.",
         "Beyond mean field, the Liouvillian is diagonalized in Dicke blocks for \\(N=80\\)–\\(300\\). The odd and even oscillatory branches become longer lived (\\(\\kappa\\propto N^{-0.323}\\), \\(N^{-0.458}\\)), their frequencies approach \\(\\Omega\\) and \\(2\\Omega\\), and the per-spin oscillatory weights in stationary correlations stay of comparable size. Projecting the identity onto an eigenmode gives \\(q_k/u_k=4J\\gamma_\\phi/(\\Gamma_1+\\lambda_k)\\), the quantum version of the mean-field lag. Semiclassical trajectories at \\(N=10^5\\) show oscillatory episodes interrupted by stays near \\(F_\\pm\\), about 13% of the time, followed by reactivation. Simulated photon counting at efficiency 0.3 resolves the \\(2\\Omega\\) peak from \\(N=10^5\\) upward."
-      ]
+      ],
+      "approved_on": "2026-10-27"
     },
     {
       "id": "2610.31187",
@@ -1415,7 +1416,7 @@
       "result": "Not from one sideband: every set of single-sideband moments has a fully separable explanation. Adding the two neighbouring sidebands supplies moments \\(U\\) and \\(V\\), and \\(|Q|^2>UV\\) then certifies IR–XUV entanglement through the partial transpose. A further bound \\(|Q|>H(U,V)\\) certifies genuine three-mode entanglement and is tight when \\(U=0\\). On model states, a displaced two-mode squeezed state is certified only in a window of displacement and squeezing, and a non-Gaussian GME family only for squeezing \\(r<0.043\\).",
       "significance": "These are the first proven separability bounds for attosecond quantum light that use only electron spectra. They turn an established pulse-characterization technique into an entanglement test across very different frequencies, without auxiliary optical measurements.",
       "limitations": "The witnesses are sufficient, not necessary, and miss much entanglement: the Gaussian example is entangled for all parameters but certified only in a small region. The model keeps three modes at lowest perturbative order; noise, finite resolution and detector effects are not analysed, and the tight two-mode bound needs spectral masking of neighbouring harmonics. XUV–XUV entanglement would need electron coincidences beyond standard RABBIT. No experiment is reported.",
-      "status": "candidate",
+      "status": "approved",
       "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
       "verified_on": "2026-10-25",
       "methods": [
@@ -1447,7 +1448,8 @@
         "A fringe alone certifies nothing. Writing \\(Q=\\langle A^\\dagger B\\rangle\\) with \\(A=a_2a_0^\\dagger\\) and \\(B=a_1a_0\\), Cauchy–Schwarz gives \\(|Q|^2\\le D_1D_2\\) for every state. Moreover, every allowed triple \\((Q,D_1,D_2)\\) is reproduced by a fully separable state: squeezed IR vacuum, a coherent upper harmonic and a phase-averaged lower harmonic. No criterion built only from one sideband can work.",
         "The neighbouring sidebands pair \\(a_2\\) with IR absorption and \\(a_1\\) with IR emission, so they measure \\(U=\\langle N_2N_0\\rangle\\) and \\(V=\\langle N_1(N_0+1)\\rangle\\), with the vacuum term moved to the other harmonic. These are exactly the entries of a moment matrix of the partially transposed state, so every state with positive partial transpose obeys \\(|Q|^2\\le UV\\), and violation certifies entanglement between the IR and the harmonics. In an unshaped spectrum further harmonics add terms to the outer sidebands. Their cycle-averaged constant parts still bound \\(U\\) and \\(V\\) from above, so a weaker test survives, and masking those harmonics recovers the tight one.",
         "Genuine tripartite entanglement must exclude mixtures of states separable across different cuts. Splitting \\(Q\\) by Fock sector and bounding each cut gives, for all biseparable states, \\[|Q|\\le H(U,V)=\\sqrt{(2-\\sqrt3)V}+(1+\\sqrt2)\\sqrt{U(V+1)}+\\sqrt{2UV}.\\] At \\(U=0\\) the bound \\(|Q|^2\\le(2-\\sqrt3)V\\) is attained by an explicit biseparable state, so it is optimal. For a displaced two-mode squeezed IR–harmonic pair with a coherent second harmonic, certification requires pair occupation \\(n<(4\\sqrt2-2)/7\\approx0.52\\) and displacement inside a window, while the exact Gaussian test detects entanglement everywhere. Certifying XUV–XUV entanglement through \\(|\\langle a_2^\\dagger a_1\\rangle|^2>\\langle N_2N_1\\rangle\\) would need electron coincidences."
-      ]
+      ],
+      "approved_on": "2026-10-27"
     },
     {
       "id": "2610.31500",
@@ -1461,7 +1463,7 @@
       "result": "For any gate set and sampling distribution forming a sequence-asymptotic unitary 2-design, Pauli-stochastic rates are the only errors that enter the decay linearly. Hamiltonian rates enter through a quadratic form that vanishes on gauge directions. For direct RB of \\(\\{X_{\\pi/2},Y_{\\pi/2}\\}\\) with probability \\(p\\) of \\(X\\), the form is explicit in two over-rotations and one relative axis tilt. Equal over-rotations \\(\\theta\\) give \\(r=3\\theta^2/4\\) at \\(p=1/2\\), three times each gate’s infidelity, and about 16.6 times at \\(p=0.9\\). For Clifford RB, a fixed form with weights \\(1/9\\) and \\(1/18\\) is filtered through the compilation.",
       "significance": "It explains why direct-RB rates depend on the sampling distribution and Clifford-RB rates on the compilation, and it turns an RB number into a function of physical, gauge-invariant error parameters. Running at several sampling probabilities gives quadratic constraints on coherent errors.",
       "limitations": "The expansion is perturbative at fixed sampling. Its coefficients diverge as \\(p\\to0\\) or \\(1\\), and it fails first there. Explicit forms are given only for one single-qubit gate set. Correlation and active generators are treated only at leading order, and multi-qubit gate sets are left open. Quadratic constraints cannot fix the signs of errors. Drift, leakage and non-Markovian noise are excluded.",
-      "status": "candidate",
+      "status": "approved",
       "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
       "verified_on": "2026-10-25",
       "methods": [
@@ -1493,7 +1495,8 @@
         "Each noisy gate is written as \\(\\widetilde{\\mathcal G}_k=e^{L_k}\\mathcal G_k\\), with \\(L_k\\) expanded in Hamiltonian, stochastic, correlation and active generators. A small gauge change \\(e^K\\) shifts \\(L_k\\) by \\(K-\\mathcal G_kK\\mathcal G_k^{-1}\\), and first-order gauge-invariant (FOGI) coordinates are the combinations unchanged by every such shift. The RB decay is the eigenvalue \\(\\gamma\\) of \\(\\mathscr L=\\sum_k\\Omega_k\\mathcal G_k\\otimes\\widetilde{\\mathcal G}_k\\) continuing the ideal depolarizing mode. A spectral gap of the ideal moment operator, which defines a sequence-asymptotic 2-design, keeps it isolated for small errors, and \\(r=\\tfrac{d^2-1}{d^2}(1-\\gamma)\\).",
         "Theorem 1 states \\[\\gamma=1-\\tfrac{d^2}{d^2-1}\\sum_{k,P}\\Omega_ks_P^{(k)}-Q_H(\\mathbf h;\\Omega)+O(\\delta^2,\\delta\\theta,\\theta^3).\\] The linear term follows from degenerate perturbation theory on the two-dimensional ideal eigenspace: only the superoperator trace of the averaged generator matters, and only stochastic generators have nonzero trace. The quadratic term is gauge invariant because \\(\\gamma\\) is exactly invariant under similarity transformations and has no linear Hamiltonian part. Therefore \\(Q_H\\) annihilates every linearized gauge direction and depends only on FOGI coordinates.",
         "For \\(\\{X_{\\pi/2},Y_{\\pi/2}\\}\\), the \\(6\\times6\\) Hamiltonian form has rank 3 with the gauge directions as kernel. Its reduced form in \\(F_1\\approx\\theta_X/2\\), \\(F_2\\approx\\theta_Y/2\\) and the relational \\(F_3\\approx\\phi/2\\) is \\(\\mathbf Q_{\\rm DRB}(p)\\). The tilt weight \\(16pq/3\\) vanishes when either gate disappears. The intrinsic weights diverge like \\(1/q\\) and \\(1/p\\) because consecutive copies of the same gate add their errors coherently. For Clifford RB, first-order compiled vectors \\(\\mathbf h_C\\) give \\(Q^{(2)}_{\\rm CRB}=\\tfrac1{18}\\sum_C\\|\\mathbf h_C\\|^2+\\tfrac1{216}\\mathbf u\\cdot\\mathbf w\\), equivalent to weight \\(1/9\\) on three symmetric directions, \\(1/18\\) on the other 66 and zero on gauge. Compilation changes how native errors project onto these sectors."
-      ]
+      ],
+      "approved_on": "2026-10-27"
     },
     {
       "id": "2610.31515",
@@ -1507,7 +1510,7 @@
       "result": "Yes, with StateDRIFT. To fourth order in \\(dt\\), bias and variance depend on the distribution only through a few \\(t=0\\) quantities built from \\(|\\psi\\rangle\\), \\(O\\) and the Hamiltonian terms. This gives closed-form variance-optimal rules, an interpolating family that provably improves both bias and variance at one step for sign-definite inputs, and an optimized family for deeper circuits. For molecules of 6 to 18 qubits the dynamics resolves in 1.7–26 times fewer steps and 1.2–11 times fewer two-qubit gates; for BeH\\(_2\\) the gate count falls from 11,201 to 983. Mixing with 20% of the vanilla distribution bounds every reweighting by a factor of 5.",
       "significance": "It is an ancilla-free change to randomized simulation that targets the quantity actually estimated. Its inputs can come from a bond-dimension-4 matrix-product state surrogate (for LiH) or from matchgate shadows with polynomially many snapshots, without full classical simulation.",
       "limitations": "The expansion is fourth order. Its truncation bound scales as \\((\\lambda T)^3\\) and is loose, so the method targets short times: water fails at \\(T=1\\), as the validity metric predicts. Most benchmarks use exact inputs on classically simulable sizes. A Hartree–Fock surrogate performs worse than vanilla qDRIFT for LiH. The distribution is fixed at \\(t=0\\), and gate savings depend on the cost model.",
-      "status": "candidate",
+      "status": "approved",
       "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
       "verified_on": "2026-10-25",
       "methods": [
@@ -1539,7 +1542,8 @@
         "For \\(N\\) steps, \\(B_N=N(b_{\\gamma,2}-\\tfrac12\\varphi_{H,H})dt^2+O(dt^3)\\), with \\(b_{\\gamma,2}=\\sum_jc_j^2\\gamma_j/q_j\\) and \\(\\varphi_{H,H}=d^2\\langle O\\rangle/dt^2|_0\\). The variance starts at \\(Nv_{\\beta^2,2}dt^2\\). Cross-step terms carry higher powers of \\(N\\) but still fall as \\(1/N\\) at fixed \\(T\\). If the state, observable and terms are real in some basis, as for real-orbital chemistry with Hartree–Fock references, then \\(\\beta_j=0\\) and odd orders vanish. When the \\(\\gamma_j\\) have mixed signs, a distribution can make \\(b_{\\gamma,2}=\\tfrac12\\varphi_{H,H}\\) and cancel the \\(dt^2\\) bias.",
         "Densities of the form \\(\\sum_jc_j^2f_j/q_j\\) are minimized by \\(q_j\\propto|c_j|\\sqrt{f_j}\\), a Neyman allocation. This gives \\(q_j\\propto|c_j|\\sqrt{|\\gamma_j|}\\) when \\(\\beta_j=0\\), \\(q_j\\propto|c_j||\\beta_j|\\) otherwise, and the family \\(q_j\\propto|c_j|\\sqrt{|\\gamma_j|+\\alpha\\beta_j^2}\\) between them. Along this family the bias density grows and the variance density shrinks, so for sign-definite \\(\\gamma\\) some \\(\\alpha\\) beats vanilla in both. Deeper circuits use per-term weights on five densities, optimized for mean-squared error with neither bias nor variance more than 5% worse than vanilla. Earlier state-aware rules are special cases with \\(O=|\\psi\\rangle\\langle\\psi|\\), for which \\(\\gamma_j\\le0\\) and the bias cannot be cancelled.",
         "For random product states under five lattice models of 6–18 qubits, most single-step instances improve both bias and variance. For quenches between molecular geometries, from H\\(_3\\) to CH\\(_4\\), the steps needed to resolve the change in a weighted occupation fall 1.7–26 times. A validity ratio \\(R^{(4)}_{\\rm val}>2\\) separated wins from losses in every case tested. For deployment, a Hartree–Fock surrogate misjudges correlated LiH and does worse than vanilla, while an MPS with \\(\\chi=4\\) suffices. Matchgate shadows need only the 3-RDM for every distribution-dependent input and the 5-RDM for one fixed term, with \\(O(n^5\\log n/\\varepsilon^2)\\) snapshots."
-      ]
+      ],
+      "approved_on": "2026-10-27"
     },
     {
       "id": "2610.30645",
@@ -1553,7 +1557,7 @@
       "result": "Yes, in FVQKD, a Rocq development of about 151,000 lines, 102,000 of them new, with no admitted lemmas and only the kernel plus three standard axioms. It proves composable finite-key security of BB84 at the tight Tomamichel et al. bound, for every initial state and every adversary channel acting on a formally specified protocol program. Mechanization exposed a missing case in the published argument: after conditioning on the test passing, the smoothing parameter \\(\\varepsilon/\\sqrt{p_{\\rm pass}}\\) can exceed 1, outside the domain of the uncertainty relation. A second proof branch using the abort probability repairs it, and the key-length formula is unchanged. A concrete instance with \\(n=k=10^4\\) certifies a 2000-bit key.",
       "significance": "This is the first end-to-end machine-checked QKD security proof. About two thirds of the code is protocol independent: purified distance, smooth-entropy duality, the uncertainty relation, the quantum leftover hash lemma, Serfling’s bound and SDP strong duality. Decoy-state and measurement-device-independent proofs on the same route can reuse it, which matters for certification.",
       "limitations": "Only the information-theoretic argument is verified. Side channels and device imperfections are assumed away, and the executable endpoint is restricted to ideal projective \\(X/Z\\) devices with basis-independent detection. Weak-coherent sources, decoy states and the key consumed by authentication are not modelled. Device-independent and continuous-variable QKD need new libraries. The finding is a gap in a proof, not an attack.",
-      "status": "candidate",
+      "status": "approved",
       "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
       "verified_on": "2026-10-25",
       "methods": [
@@ -1584,7 +1588,8 @@
         "The development has five modules in dependency order, \\(\\texttt{utils}<\\texttt{entropy}<\\{\\texttt{lhl},\\texttt{eur}\\}<\\texttt{qkd}\\), built on MathComp, MathComp-Analysis and CoqQ. The lower four contain no protocol-specific content. They include Uhlmann’s theorem, purified distance with monotonicity under trace-nonincreasing maps, smooth min- and max-entropies and their duality, the POVM-general smooth uncertainty relation, the quantum leftover hash lemma, Serfling’s bound, and what the authors describe as the first machine-checked SDP strong-duality theorem. The top layer composes them as sealed theorems.",
         "A small command language with classical and quantum variables, sampling, measurement and an adversary channel action gives the protocol a formal semantics on classical–quantum states. Sifting, parameter estimation and verification become program branches ending in \\(\\perp\\). Theorem 10 quantifies over every initial state and every transcript-dependent adversary. Six trust assumptions, such as no side channels, an authenticated classical channel and a characterized source, appear as explicit hypotheses or device obligations. For \\(n=k=10^4\\), \\(Q_{\\rm tol}=1\\%\\), \\(\\mathrm{leak}_{\\rm EC}=1024\\) and \\(\\varepsilon\\) parameters \\(2^{-34}\\), the artifact proves the key-length expression is at least 2625 bits, certifying \\(\\ell=2000\\) at \\(\\varepsilon_{\\rm tot}=3\\cdot2^{-34}\\).",
         "Two side conditions were missing from the published proof. Smooth entropies need \\(\\varepsilon<\\sqrt{\\operatorname{Tr}\\rho}\\). Conditioning on the test passing rescales \\(\\varepsilon\\) to \\(\\varepsilon/\\sqrt{p_{\\rm pass}}\\), which an adversary forcing aborts can push above 1: \\(p_{\\rm pass}=10^{-12}\\) and \\(\\varepsilon=10^{-5}\\) give 10. The key is also conditioned on verification accepting, a second event the published proof does not treat. Beyond these gaps, the six source papers define smoothing balls by purified distance or by a generalized trace distance, and optimize over normalized or sub-normalized witnesses. The duality \\(H^\\varepsilon_{\\max}(A|B)=-H^\\varepsilon_{\\min}(A|C)\\) relies on purified distance, so FVQKD fixes one convention and bridges the others with coercion lemmas."
-      ]
+      ],
+      "approved_on": "2026-10-27"
     },
     {
       "id": "2610.31249",
@@ -1598,7 +1603,7 @@
       "result": "Sometimes, and the paper says exactly when. An exact identity for \\(\\partial_rF\\) gives a first-order test for local enhancement. For a thermal qubit reset to its ground state, steady-state thermometry improves if and only if \\(0<\\beta\\omega<\\ln(2+\\sqrt5)\\) and \\(r\\) is below a threshold, with optimum \\(r_{\\rm opt}=\\gamma(2+\\sqrt5-e^{\\beta\\omega})/(e^{\\beta\\omega}-1)\\). For diagonal dynamics, reset cannot change the leading short-time Fisher information of a static parameter, but it raises elapsed-time information immediately, roughly as \\(r^2\\). For frequency estimation with reset to \\(|+\\rangle\\), the gain at \\(t=1/\\gamma\\) is about 7 times, 91% of it from the coherence (eigenvector) part.",
       "significance": "Reset is easy to implement by optical pumping or measurement and feedback. The paper gives exact windows rather than a blanket claim, and a diagnostic computable from the unreset Liouvillian modes.",
       "limitations": "Only qubit examples are worked out. The identity is local in \\(r\\), so finite-\\(r\\) advantage needs the integrated response. Reaching the frequency bound needs phase-sensitive measurements. The time, energy and imperfection costs of reset are not included. Large gain ratios occur where the baseline Fisher information is small, so absolute values matter.",
-      "status": "candidate",
+      "status": "approved",
       "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
       "verified_on": "2026-10-25",
       "methods": [
@@ -1630,7 +1635,285 @@
         "When the dynamics stays diagonal in a fixed basis, populations obey \\(\\mathbf p(t)=\\mathbf p_0+t[W_\\theta\\mathbf p_0+r(\\mathbf p_\\delta-\\mathbf p_0)]+O(t^2)\\). For a static parameter, the leading Fisher information \\(t^2\\sum_i[(\\partial_\\theta W)\\mathbf p_0]_i^2/(\\mathbf p_0)_i\\) contains no \\(r\\), so any gain needs time to build up. For elapsed-time estimation, the instantaneous Fisher information is \\(\\sum_i[W\\mathbf p_0+r(\\mathbf p_\\delta-\\mathbf p_0)]_i^2/(\\mathbf p_0)_i\\), which depends on \\(r\\) at \\(t=0\\).",
         "For a thermal qubit with bosonic rates and ground-state reset, \\(p^{\\rm ss}=\\gamma/[\\gamma(e^{\\beta\\omega}+1)+r(e^{\\beta\\omega}-1)]\\), which gives a closed-form steady Fisher information and the exact advantage window. Outside the high-temperature window, reset only pins the probe near a temperature-blind state. With a temporary reset pulse, transient thermometry reaches a high-information window earlier, and for suitable \\(r\\) can exceed the equilibrium Fisher information for a while. Strong reset suppresses temperature susceptibility. Time-estimation Fisher information jumps by more than two orders of magnitude just after reset switches on, then decays as the state nears its new fixed point.",
         "For frequency estimation, an amplitude-damped qubit is reset to \\(|+\\rangle\\). The populations do not depend on \\(\\omega\\), so all information sits in the coherence \\(c_{\\omega,r}(t)\\), and \\(F_\\omega=4|\\partial_\\omega c|^2+[\\partial_\\omega|c|^2]^2/(p(1-p)-|c|^2)\\). Without reset \\(F^{(0)}_\\omega=4|c_0|^2t^2e^{-\\gamma t}\\) decays as coherence is lost. Reset replenishes the coherent modes that carry the phase. At \\(t=1\\) the optimum \\(r\\approx1.73\\gamma\\) gives a gain of 6.96, dominated by the eigenvector term \\(s^2|\\partial_\\omega\\hat{\\mathbf s}|^2\\), so energy-basis readout cannot access it."
-      ]
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.32319",
+      "topic": "foundations",
+      "title": "Finite Nonsignalling Resources Suffice to Simulate Entangled Qubits",
+      "authors": "Ziao Tang; Xin Wang; Ge Bai",
+      "submitted": "2026-10-23",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "One PR box (a binary-input nonsignalling resource) plus shared randomness reproduces all projective-measurement statistics of a maximally entangled qubit pair. Some partially entangled states cannot be simulated with one PR box, and every known exact protocol for them uses a box with real-valued inputs. Is a continuous input alphabet necessary, as Gisin asked?",
+      "result": "No. For every pure state \\(\\cos\\theta|00\\rangle+\\sin\\theta|11\\rangle\\), shared randomness and at most \\(K(\\theta)=4\\lceil\\sqrt2\\pi\\cot^2\\theta\\rceil^2\\le128\\cot^4\\theta\\) PR boxes, used in parallel, reproduce all local projective statistics exactly, without communication or postselection. The budget does not depend on the measurement settings. The construction extends to every mixed two-qubit state and to all binary-outcome POVMs.",
+      "significance": "It separates the continuity of quantum correlations from the alphabet of the resources needed to simulate them: continuous data can live in shared randomness and local processing, while nonlocal coordination needs only finitely many binary boxes. The finite-selection lemma behind it applies to any correlation family with a continuous distributed-sampling representation.",
+      "limitations": "The budget is explicit but not optimal, and it diverges as \\(\\theta\\to0\\) (worst case \\(O(\\theta^{-4})\\), mean \\(O(\\theta^{-2})\\)); the authors stress that this reflects the construction, not a proven necessity. Whether one finite budget serves all states, and the optimal PR cost, remain open. Shared randomness is continuous and local processing is exact; finite-precision implementations are only partly analysed. Multi-outcome POVMs are not covered.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+      "verified_on": "2026-10-26",
+      "methods": [
+        {
+          "technique": "Exact sampling from an input-dependent density using a fixed shared list",
+          "explanation": "When one party must draw from a distribution that depends on its private input, while the other must react to the draw, prepare a list of candidates in advance and let the first party choose an index with local coins. Averaging over the list, not over each run, then reproduces the target distribution exactly.",
+          "math": [
+            "Partition the sphere into cells \\(C_j\\) with masses \\(\\mu(C_j)\\) and references \\(v_j\\), such that \\(|f_x(\\lambda)-f_x(v_j)|\\le\\tfrac12\\) on \\(C_j\\) for all \\(x\\). Set \\(\\gamma_j(x)=[f_x(v_j)-\\tfrac12]_+\\), the envelope \\(\\underline f_x=\\sum_j\\gamma_j\\mathbf 1_{C_j}\\le f_x\\), and the residual \\(h_x=f_x-\\underline f_x\\in[0,1]\\).",
+            "Draw \\(\\Lambda_j\\) uniform in \\(C_j\\) and \\(\\Lambda_N\\) uniform on the sphere. Choose \\(I=N\\) with probability \\(h_x(\\omega_N)\\), otherwise \\(I=j\\) with probability \\(w_j/W_x\\), where \\(w_j=\\mu(C_j)\\gamma_j\\). Because \\(\\int(1-h_x)\\,d\\mu=\\int\\underline f_x\\,d\\mu=W_x\\), \\(P(I=j)=w_j\\). The cell candidates then contribute density \\(\\sum_jw_j\\mathbf 1_{C_j}/\\mu(C_j)=\\underline f_x\\) and the global one \\(h_x\\), for a total of \\(f_x\\).",
+            "Editorial check: Monte Carlo over \\(2\\times10^6\\) points at \\(\\theta=\\pi/8\\) gives \\(\\int f_x\\,d\\mu=1.000\\pm0.001\\) for random \\(x\\), with maxima up to about 4. The budget formula gives \\(K=2704\\) at \\(\\theta=\\pi/8\\) against the bound \\(128\\cot^4\\theta\\approx4348\\), with mean usage \\((1-\\cos2\\theta)K\\approx792\\)."
+          ],
+          "transfer": "Whenever a protocol needs a sample whose distribution depends on one party’s input but whose value must stay hidden from the other (distributed sampling, communication-free simulation, private randomness extraction), try a fixed-length shared list plus local selection. It needs a density that is uniformly continuous in both arguments, so that a finite partition keeps the residual bounded."
+        },
+        {
+          "technique": "A random-access index box from parallel PR boxes",
+          "explanation": "An index box lets Alice’s index pick an entry of Bob’s table as the parity of their outputs, without either learning the other’s data. Each PR box fires its correlation only on Alice’s chosen position, and differences against a reference entry make the parity come out right.",
+          "math": [
+            "For \\(j<N\\), feed PR box \\(j\\) with \\(a_j=\\mathbf 1\\{I=j\\}\\) and \\(b_j=z_j\\oplus z_N\\); it returns \\(u_j\\oplus v_j=a_jb_j\\). With a shared fair bit \\(H\\), set \\(u=H\\oplus\\bigoplus_ju_j\\) and \\(v=H\\oplus z_N\\oplus\\bigoplus_jv_j\\).",
+            "Editorial derivation: \\(u\\oplus v=z_N\\oplus\\bigoplus_ja_jb_j\\). If \\(I<N\\), only \\(a_I=1\\), giving \\(z_N\\oplus z_I\\oplus z_N=z_I\\); if \\(I=N\\), every \\(a_j=0\\) and the parity is \\(z_N\\). Each output alone is uniform because of \\(H\\) and the PR marginals. An exhaustive check over all inputs for \\(N=5\\) confirms \\(u\\oplus v=z_I\\)."
+          ],
+          "transfer": "Any task needing a nonlocal random-access correlation, such as oblivious-transfer-like primitives, distributed Boolean functions or communication-complexity reductions, can use this wiring at \\(N-1\\) PR boxes for an \\(N\\)-entry table. The authors prove this count is optimal for the full input domain of the index box."
+        }
+      ],
+      "methods_source_section": "Local–nonlocal decomposition (Eqs. 6–9); Steps 1–4 of the nonlocal branch (Eqs. 10–17); PR implementation and budget (Eqs. 18–20); SM Secs. S2–S4",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "With \\(c=\\cos2\\theta\\), \\(s=\\sin2\\theta\\) and \\(T=\\operatorname{diag}(s,-s,1)\\), the target statistics are \\(P_\\theta(\\alpha,\\beta|x,y)=\\tfrac14[1+\\alpha cx_z+\\beta cy_z+\\alpha\\beta\\,x^{\\mathsf T}Ty]\\) for Bloch directions \\(x,y\\). A known decomposition writes \\(P_\\theta=cP_L+(1-c)P_N\\), where \\(P_L\\) is local and \\(P_N\\) has uniform marginals and correlator \\(C_N(x,y)=\\int a_x(\\lambda)b_y(\\lambda)\\,\\nu_x(d\\lambda)\\). Here \\(a_x=\\operatorname{sgn}(Tx\\cdot\\lambda)\\), \\(b_y=\\operatorname{sgn}(y\\cdot\\lambda)\\), and \\(\\nu_x\\) has density \\(f_x\\propto[|Tx\\cdot\\lambda|-c|\\lambda_z|]_+\\) on the sphere. Earlier protocols had Alice send the sampled \\(\\lambda\\) to Bob, which is communication.",
+        "The new step replaces that message with a finite list. Before inputs arrive, both parties draw one direction uniformly in each of \\(m\\) cells of a fixed partition and one more over the whole sphere. Alice splits \\(f_x\\) into a piecewise-constant lower envelope and a residual bounded by 1, and with local coins picks one index \\(I\\). The global candidate is taken with probability equal to the residual at that point, otherwise a cell is chosen with weight proportional to its envelope mass. Averaged over the shared list, the chosen direction has exactly the distribution \\(\\nu_x\\), even though each run uses only one of finitely many candidates.",
+        "Bob does not know \\(I\\), so he computes his sign bit \\(z_j\\) for every candidate. An index box takes Alice’s \\(I\\) and Bob’s whole table and returns individually fair bits \\(u,v\\) with \\(u\\oplus v=z_I\\). It is built from \\(N-1\\) parallel PR boxes and one shared bit. Alice outputs \\((-1)^{u\\oplus d}\\), with \\(d\\) her own sign bit, and Bob outputs \\((-1)^v\\), so \\(AB=a_x(\\omega_I)b_y(\\omega_I)\\) and averaging reproduces \\(C_N\\). The partition must keep \\(f_x\\) within \\(1/2\\) of its reference value in every cell for every \\(x\\); an explicit grid of \\(4n_\\theta^2\\) paired cells with \\(n_\\theta=\\lceil\\sqrt2\\pi\\cot^2\\theta\\rceil\\) achieves this, which fixes the budget.",
+        "Mixed states follow by sampling a pure-state component with shared randomness, and binary POVMs by local post-processing of a projective outcome, at no extra PR cost. A single budget \\(K(\\theta_0)\\) covers all \\(\\theta\\in[\\theta_0,\\pi/4)\\). At the endpoints, product states need no box and the maximally entangled state needs one. A stability bound covers sampling errors, assuming exact sign evaluation."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.32937",
+      "topic": "foundations",
+      "title": "Certain Quantum States Already Require Quantum Time Evolution",
+      "authors": "Joel D. Huber; Matthias Kleinmann",
+      "submitted": "2026-10-23",
+      "version": "v1",
+      "kind": "Theory and numerical analysis",
+      "problem": "Bell tests check quantum theory without assuming a model, but only its static structure. Could the dynamics be tested the same way? In phase-space theories where states are quasi-probability distributions and evolution is given by a generalized bracket, does the presence of certain states in the theory force the bracket to be the quantum (Moyal) one?",
+      "result": "Yes. Requiring that position and momentum marginals stay nonnegative under anharmonic evolution ties states to dynamics. If a particular superposition of the lowest three oscillator states is admissible, the bracket must be the Moyal bracket to all orders in \\(\\hbar^2\\). If only the first excited oscillator state is admissible, the leading correction must equal the quantum value \\(a_1=-1/24\\). The ground state alone allows any \\(a_1\\) between the classical value 0 and \\(-1/24\\).",
+      "significance": "It turns a structural question about modified dynamics into a tomography experiment: the tomography uses only harmonic evolution, which is identical in every theory considered, so it does not presuppose quantum mechanics. Existing tomography of a motional Fock state already rules out part of the parameter range.",
+      "limitations": "The class of theories is the generalized Moyal bracket: antisymmetric bidifferential operators with linear action of quadratic Hamiltonians. The first-excited-state result constrains only the leading order \\(a_1\\), and the all-orders result uses a state that is hard to prepare and needs arbitrary odd-power potentials. Simulations neglect the kinetic term. The existing experiment, at fidelity 0.43 with the excited state, does not exclude values between classical and quantum dynamics.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+      "verified_on": "2026-10-26",
+      "methods": [
+        {
+          "technique": "Positivity of marginals under evolution as a consistency test between states and dynamics",
+          "explanation": "A theory is consistent only if its admissible states stay admissible under its dynamics. Marginal positivity is a necessary condition that does not require specifying the full state space, so a single preparable state with fine structure can rule out families of dynamical laws.",
+          "math": [
+            "For \\(H\\approx\\gamma q^3\\), Fourier transforming in \\(p\\) (\\(\\partial_p\\to ik\\)) gives \\(\\partial_t\\hat\\rho=3i\\gamma k(q^2-2a_1\\hbar^2k^2)\\hat\\rho\\), so \\(\\hat\\rho(q,k,t)=\\hat\\rho_0(q,k)\\,e^{3i\\gamma tk(q^2-2a_1\\hbar^2k^2)}\\). The momentum marginal is the \\(q\\)-integral of the inverse transform; the \\(k^3\\) phase is an Airy-type convolution that creates fringes whose sign depends on \\(a_1\\).",
+            "Editorial check: evolving the oscillator states (\\(\\hbar=m=\\omega=1\\)) to \\(t\\gamma=1.5\\,\\sigma_q^2/\\sigma_p\\) with this solution, the ground-state marginal stays nonnegative (to \\(10^{-9}\\)) for \\(a_1=0\\), \\(-1/48\\) and \\(-1/24\\), but dips to \\(-17\\%\\) and \\(-1\\%\\) of its maximum for \\(a_1=+0.02\\) and \\(-0.06\\). For the first excited state only \\(a_1=-1/24\\) stays nonnegative; \\(a_1=0\\) and \\(-1/48\\) give minima of \\(-73\\%\\) and \\(-18\\%\\) of the maximum."
+          ],
+          "transfer": "To test a proposed modification of a dynamical law, find a state that the modified theory must also contain (for instance one with a theory-independent preparation and tomography) and evolve it under a strongly nonlinear generator. Look for the first order at which the marginals could turn negative. This works whenever the observable statistics are marginals of a linearly evolving quasi-distribution."
+        },
+        {
+          "technique": "Zeros of a marginal as a short-time probe of higher-order terms",
+          "explanation": "When a state’s marginal vanishes at a point, the first nonzero time derivative there decides whether it becomes negative. Because a zero offers no slack, this gives sharp inequalities on the coefficients of the generator that complement the long-time asymptotics.",
+          "math": [
+            "The first excited state has \\(P_p(0,0)=0\\) as a minimum. Expanding \\(P_p(0,t)\\) in \\(t\\) under the generalized bracket, the companion analysis shows that the leading nonvanishing term is negative for \\(-\\tfrac1{24}<a_1<\\tfrac18\\). The asymptotic analysis separately requires \\(-\\tfrac1{24}\\le a_1\\le0\\). The only common value is \\(a_1=-\\tfrac1{24}\\), the Moyal coefficient \\(a_1^{\\rm M}=-1/(4\\cdot3!)\\).",
+            "Editorial remark: the ground state has no zero in its marginal, which is why it admits a whole interval of \\(a_1\\). States with nodes, such as Fock states, are the natural probes."
+          ],
+          "transfer": "In any positivity-based consistency argument (generalized probabilistic theories, modified master equations, quasi-probability dynamics), look first at states whose observable distributions have exact zeros. Their short-time expansion often gives the strongest constraints at the lowest order, without solving the full dynamics."
+        }
+      ],
+      "methods_source_section": "Phase-space dynamics (Eqs. 1–3); consistency condition (Eq. 4); cubic potential (Eqs. 5–9); tomography and experimental constraints; Appendix A",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "In a phase-space theory a state is a normalized quasi-probability \\(\\rho(q,p)\\) whose marginals are the position and momentum distributions. Classical mechanics evolves states with the Poisson bracket and quantum mechanics with the Moyal bracket \\(\\tfrac2\\hbar f\\sin(\\tfrac\\hbar2D)g\\). The paper studies \\(\\{f,g\\}_{\\rm GM}=\\{f,g\\}_{\\rm P}+\\sum_na_n\\hbar^{2n}fD^{2n+1}g\\), which includes both (\\(a_n^{\\rm P}=0\\), \\(a_n^{\\rm M}=(-1)^n/[2^{2n}(2n+1)!]\\)). It is the most general antisymmetric bidifferential bracket consistent with the Poisson bracket for \\(H=T(p)+V(q)\\), and it need not satisfy the Jacobi identity. Consistency means that every admissible state keeps nonnegative marginals at all times.",
+        "For potentials up to \\(q^4\\) only \\(a_1\\) enters. In a cubic potential with the kinetic term neglected, \\(\\dot\\rho=3\\gamma(q^2\\partial_p\\rho+2a_1\\hbar^2\\partial_p^3\\rho)\\), so each slice in \\(q\\) is shifted in momentum while the third-derivative term builds interference fringes. For the oscillator ground state, marginals stay nonnegative exactly when \\(a_1^{\\rm M}\\le a_1\\le a_1^{\\rm P}\\). The first excited state has a zero of \\(P_p\\) at the origin. Short-time analysis shows that this zero turns negative unless \\(a_1\\le-1/24\\) or \\(a_1\\ge1/8\\), and combined with the same asymptotic window this leaves only \\(a_1=-1/24\\).",
+        "A state proportional to \\(\\tfrac1{\\sqrt6}|0\\rangle+\\tfrac i{\\sqrt2}|1\\rangle-\\tfrac1{\\sqrt3}|2\\rangle\\) is stronger. If it is admissible and every potential \\(q^{2n+1}\\) can be applied for short times, positivity of the momentum marginal forces \\(a_n=a_n^{\\rm M}\\) for all \\(n\\). Because this state is neither an eigenstate nor rotationally symmetric, it is hard to certify, which motivates the first-excited-state result.",
+        "Harmonic potentials rotate phase space identically in every theory of this class, so tomography by rotation and the inverse Radon transform is theory independent. Random rotation times give rotationally symmetrized states, which suffice for the first excited state. Second-quantized optical Fock states are unsuitable because only weak anharmonicity (Kerr) is available, so motional states of atoms or ions are proposed. A recent \\({}^{87}\\)Rb tweezer reconstruction constrains \\(a_1\\) only to the range already allowed by the ground state; a mixture \\(0.2\\rho_0+0.8\\rho_1\\) would exclude \\(a_1\\le-0.0444\\) and \\(a_1\\ge-0.0125\\)."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.32693",
+      "topic": "computing",
+      "title": "Elementary proofs of quantum lower bounds for element distinctness and k-sum",
+      "authors": "Andris Ambainis; Martins Kokainis",
+      "submitted": "2026-10-23",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "Element distinctness needs \\(\\Theta(n^{2/3})\\) quantum queries, but the known lower-bound proofs use the polynomial method, negative-weight adversaries or compressed oracles. The \\(k\\)-sum bound \\(\\Omega(n^{k/(k+1)})\\) needs the negative-weight adversary. Can these bounds be proved with basic linear algebra?",
+      "result": "Yes, in under two pages each. Refining the hybrid argument of Bennett, Bernstein, Brassard and Vazirani, the proof tracks second-order differences of algorithm states under changes to two input positions. This gives \\(E\\|\\psi_T(y)-\\psi_T(x)\\|^2=O(T/n+T^3/n^2)\\) between a distinct input and one with a planted collision, hence \\(T=\\Omega(n^{2/3})\\). With \\(k\\)th-order differences the same scheme gives \\(\\Omega(n^{k/(k+1)})\\) for \\(k\\)-sum over groups with \\(|G|\\ge n^k\\).",
+      "significance": "These are two sharp bounds beyond unstructured search that need no machinery. The proof isolates what makes collision-type problems hard: the information an algorithm gains about one position is small, and the joint effect of two positions is smaller still. The authors report finding the proof while working with an AI model.",
+      "limitations": "The element-distinctness proof assumes an alphabet of at least \\(n+1\\) symbols, and \\(k\\)-sum is proved for fixed \\(k\\) and large groups; constants are not optimized. The method looks best suited to problems with small certificates; \\(k\\)-distinctness and triangle finding remain open targets.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+      "verified_on": "2026-10-26",
+      "methods": [
+        {
+          "technique": "Hybrid argument with a sensitivity budget",
+          "explanation": "Track how far the algorithm’s state moves when one input position is replaced by a value from the same distribution. Each query can add only a bounded total of this movement, summed over positions, because the query amplitude is spread across indices.",
+          "math": [
+            "\\(O_x\\) and \\(O_{x^{(i)}}\\) agree outside index \\(i\\), so \\[\\begin{aligned}\\|\\delta_{i,t+1}\\|^2&=\\|(I-P_i)\\delta_{i,t}\\|^2+\\|O_{x^{(i)}}P_i\\psi_t(x^{(i)})-O_xP_i\\psi_t(x)\\|^2\\\\&\\le\\|\\delta_{i,t}\\|^2+2\\|P_i\\psi_t(x^{(i)})\\|^2+2\\|P_i\\psi_t(x)\\|^2.\\end{aligned}\\]",
+            "Summing over \\(i\\) and using that \\(x^{(i)}\\) and \\(x\\) have the same distribution, the last two terms contribute \\(4\\sum_iE\\|P_i\\psi_t(x)\\|^2=4\\), so \\(S_t\\le4t\\).",
+            "Editorial check: for a random 6-query algorithm on \\(n=3\\) positions, 4 symbols and a 2-dimensional workspace, averaging exactly over all distinct-symbol inputs gives \\(S_t=2.05,3.51,4.43,5.19,5.46,5.68\\) for \\(t=1,\\ldots,6\\), well under \\(4t\\). The second-order difference \\(E\\|\\Delta_t\\|^2\\) stays below the unrolled bound \\(\\tfrac{4t}{\\binom n2}\\sum_{s<t}S_s\\) at every step."
+          ],
+          "transfer": "For any query problem, ask which single-position changes preserve the input distribution, then bound the summed sensitivity per query. This alone gives \\(\\Omega(\\sqrt n)\\) bounds; it becomes powerful when combined with higher-order differences that exploit how certificates combine positions."
+        },
+        {
+          "technique": "Higher-order differences driven only by lower-order ones",
+          "explanation": "The \\(k\\)th-order inclusion–exclusion difference of states vanishes initially and is fed at each query only by \\((k-1)\\)th-order differences restricted to the remaining position. Orthogonality of query indices and averaging over the planted set make this feed small.",
+          "math": [
+            "With \\(O_y=O_x+D_u+D_v\\) and \\(D_i=P_iD_iP_i\\), expanding the four evolutions gives \\(\\Delta_{t+1}=U_{t+1}(O_y\\Delta_t+D_v\\delta_{u,t}+D_u\\delta_{v,t})\\); the cross terms \\(D_uD_v\\) vanish because \\(P_uP_v=0\\).",
+            "The source terms live on indices \\(v\\) and \\(u\\) respectively, so they are orthogonal, and \\(\\|D_v\\delta_{u,t}\\|^2\\le4\\|P_v\\delta_{u,t}\\|^2\\). Averaging over pairs, \\(\\sum_{i\\ne j}E\\|P_j\\delta_{i,t}\\|^2\\le S_t\\), so the source is at most \\(4S_t/\\binom n2\\). Unrolling with Cauchy–Schwarz over \\(T\\) terms gives \\(E\\|\\Delta_T\\|^2\\le\\tfrac{4T}{\\binom n2}\\sum_{t<T}S_t\\le\\tfrac{8T^3}{\\binom n2}\\).",
+            "For \\(k\\) positions the same steps give \\[S_{j,t}\\le4^j\\tbinom tj,\\qquad E\\|\\Delta_T\\|^2\\le\\frac{4^kT\\binom Tk}{\\binom nk}=O_k\\!\\left(\\frac{T^{k+1}}{n^k}\\right).\\]"
+          ],
+          "transfer": "For a problem whose positive certificates have size \\(k\\), plant a certificate so that all its proper subsets look like independent random changes. Then bound the \\(k\\)th-order difference through the \\((k-1)\\)th-order sensitivities. The planted distribution must make proper sub-certificates indistinguishable from noise, which is the main design step."
+        }
+      ],
+      "methods_source_section": "Section 2 (Lemma 1, Eqs. 1–9); Section 3 (Lemma 2, Eqs. 10–16)",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "A \\(T\\)-query algorithm alternates input-independent unitaries with the oracle \\(O_z|i,b,w\\rangle=|i,(b+z_i)\\bmod m,w\\rangle\\). Choose \\(n+1\\) distinct random symbols \\(a,x_1,\\ldots,x_n\\), let \\(x\\) be the distinct input, and let \\(x^{(i)}\\) replace \\(x_i\\) by \\(a\\). Swapping \\(a\\) and \\(x_i\\) shows that \\(x^{(i)}\\) has the same distribution as \\(x\\). With \\(\\delta_{i,t}=\\psi_t(x^{(i)})-\\psi_t(x)\\), the total sensitivity \\(S_t=\\sum_iE\\|\\delta_{i,t}\\|^2\\) grows by at most 4 per query, because the two oracles differ only on index \\(i\\) and the query weights on the indices sum to 1.",
+        "Planting a collision at a random pair \\(\\{u,v\\}\\) gives \\(y\\). Define the second-order difference \\(\\Delta_t=\\psi_t(y)-\\psi_t(x^{(u)})-\\psi_t(x^{(v)})+\\psi_t(x)\\), so \\(\\psi_t(y)-\\psi_t(x)=\\delta_{u,t}+\\delta_{v,t}+\\Delta_t\\). The first two terms contribute \\(2S_T/n\\le8T/n\\) on average. With \\(D_i=O_{x^{(i)}}-O_x\\) supported on index \\(i\\), \\(\\Delta\\) evolves as \\(\\Delta_{t+1}=U_{t+1}(O_y\\Delta_t+D_v\\delta_{u,t}+D_u\\delta_{v,t})\\).",
+        "The two source terms act on different query indices, so they are orthogonal, and only the weight that \\(\\delta_{u,t}\\) places on index \\(v\\) matters. Averaging over pairs bounds their squared norm by \\(4S_t/\\binom n2\\). Unrolling over \\(T\\) steps with Cauchy–Schwarz gives \\(E\\|\\Delta_T\\|^2\\le\\tfrac{4T}{\\binom n2}\\sum_tS_t=O(T^3/n^2)\\). A bounded-error algorithm needs \\(\\|\\psi_T(y)-\\psi_T(x)\\|\\ge1/6\\), so \\(T/n+T^3/n^2=\\Omega(1)\\) and \\(T=\\Omega(n^{2/3})\\).",
+        "For \\(k\\)-sum, take independent uniform \\(x,b\\in G^n\\) and inclusion–exclusion differences \\(\\delta_U\\) over subsets \\(U\\). The sensitivities obey \\(S_{j,t+1}\\le S_{j,t}+4S_{j-1,t}\\), so \\(S_{j,t}\\le4^j\\binom tj\\). Planting a solution on a random \\(k\\)-set \\(S\\), with values uniform subject to summing to \\(c\\), keeps every proper subset distributed like independent replacements. Then \\(E\\|\\Delta_T\\|^2=O(T^{k+1}/n^k)\\), lower orders give \\(O((T/n)^j)\\), and a union bound handles accidental solutions in \\(x\\)."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.32347",
+      "topic": "computing",
+      "title": "Entangled logical qubits on a superconducting quantum processor",
+      "authors": "Robin Harper; Xanda C. Kolesnikow; Campbell K. McLauchlan; Georgia M. Nixon; Stephen D. Bartlett; Benjamin J. Brown",
+      "submitted": "2026-10-23",
+      "version": "v1",
+      "kind": "Experiment",
+      "problem": "On large superconducting chips, two effects not handled by standard surface-code circuits limit logical performance: leakage out of the qubit subspace and a fraction of underperforming qubits and couplers. Can a 120-qubit IBM processor with fast reset support logical memories, entangling operations and teleportation at useful fidelity?",
+      "result": "Yes. On ibm_phoenix, excluding bad components by re-purposing ancillas halves the distance-5 logical error per round from 1.9% to 0.9%, comparable to the best distance-3 patches. Lattice surgery between adjacent distance-3 codes gives logical Bell-state fidelity above 93%. Three logical qubits give state, Bell-pair and gate teleportation at 78–93%. A stability experiment with resets on every qubit every two rounds reaches about \\(2\\times10^{-7}\\) failure probability at 170 rounds.",
+      "significance": "It shows that defect-aware syndrome circuits are necessary on current large chips, since informing the decoder alone did not get below 1% per round, and that hardware reset removes the leakage floor seen in earlier IBM experiments. These are commercial-device demonstrations of the primitives needed for logical computation.",
+      "limitations": "Codes are distance 3 and 5 only, and the entangling results post-select on clean code-space preparation (yields about 40% for two qubits and 1.2% for Bell-pair transfer). Bell fidelities are bounds from \\(\\langle XX\\rangle\\) and \\(\\langle ZZ\\rangle\\), without \\(\\langle YY\\rangle\\). T states are prepared non-fault-tolerantly, and gates are checked by state tomography, not process tomography. Crosstalk roughly doubles correlated failures of neighbouring logical qubits, and only Clifford logic is demonstrated.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+      "verified_on": "2026-10-26",
+      "methods": [
+        {
+          "technique": "Bounding Bell-state fidelity from two stabilizer expectations",
+          "explanation": "Measuring \\(\\langle YY\\rangle\\) on logical qubits is expensive and noisy here, so the fidelity with \\(|\\Phi^+\\rangle\\) is bracketed using only \\(\\langle XX\\rangle\\) and \\(\\langle ZZ\\rangle\\). Positivity of the Bell-basis populations limits the unknown \\(\\langle YY\\rangle\\).",
+          "math": [
+            "Editorial derivation: write \\(x=\\langle XX\\rangle\\), \\(z=\\langle ZZ\\rangle\\), \\(y=\\langle YY\\rangle\\). The Bell populations are \\(\\tfrac14(1+x-y+z)\\) for \\(\\Phi^+\\), \\(\\tfrac14(1-x+y+z)\\) for \\(\\Phi^-\\), \\(\\tfrac14(1+x+y-z)\\) for \\(\\Psi^+\\) and \\(\\tfrac14(1-x-y-z)\\) for \\(\\Psi^-\\). Nonnegativity gives \\(|x-z|-1\\le y\\le1-|x+z|\\), so \\[\\frac{x+z}2\\le F_{\\Phi^+}\\le\\frac{1+\\min(x,z)}2\\quad(x+z\\ge0).\\]",
+            "Editorial check: the reported Bell-pair transfer bounds 85.4% and 91.4% correspond to \\(\\langle XX\\rangle,\\langle ZZ\\rangle\\approx0.828\\) and 0.880. For 20,000 random two-qubit states, the bracket contained the true fidelity every time."
+          ],
+          "transfer": "Whenever one Pauli correlator of a two-qubit (or logical) state is costly to measure, report this bracket rather than assuming depolarizing noise. The bracket closes when the two measured correlators are equal, and it extends to GHZ-type states with stabilizer subsets."
+        },
+        {
+          "technique": "Ancilla re-purposing with gauge checks",
+          "explanation": "When an ancilla or its couplers are bad, its weight-4 stabilizer can still be obtained as the product of two weight-2 checks measured by neighbouring ancillas. These anticommute with some neighbouring stabilizers, so measurement alternates between rounds and detectors are formed from products that commute.",
+          "math": [
+            "Round 1 measures the ordinary stabilizers except the missing one; the stabilizers that will anticommute with the new weight-2 checks become gauge operators. Round 2 measures the two weight-2 checks with re-purposed ancillas. Their product equals the missing weight-4 stabilizer and commutes with the products of the gauge operators, so detectors span two rounds (6- and 8-body).",
+            "The fit used for every memory: \\(2S-1=Ap^m\\), single-round fidelity \\((p+1)/2\\), error per round \\((1-p)/2\\). Editorial check: independent \\(X\\) and \\(Z\\) flips predict a \\(Y\\) error per round of \\(p_x+p_z-2p_xp_z=1.712\\%\\) from the measured 0.872% and 0.855%, against a measured 1.690%."
+          ],
+          "transfer": "On any planar code with fabrication defects, try removing each candidate ancilla in turn and measuring logical error per round before trusting decoder reweighting. The method preserves distance when defects are isolated, but each removal lengthens detectors and slows syndrome extraction, so it helps only when the excluded component is bad enough."
+        }
+      ],
+      "methods_source_section": "Section II.1–II.4; Appendix A (noise model, crosstalk); Appendix B (ancilla re-purposing); Appendix C (fitting, Y basis); Appendices D–E (compressed lattice surgery, three-qubit protocols)",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "ibm_phoenix is a 120-qubit square lattice with a new unconditional fast reset. Calibration maps show a few poor qubits and couplers inside the distance-5 footprint. Ancilla re-purposing removes them: the stabilizer that a bad ancilla would measure is inferred from two weight-2 gauge checks measured by neighbours in alternate rounds, so syndrome extraction takes two rounds and some detectors span both. For each of the ten distance-3 patches inside the footprint, all four single-ancilla removals were tried, and every patch improved with exactly one of them.",
+        "Logical error per round is fitted over 50 rounds rather than the first few, because leakage on data qubits makes early rounds look better. The fit model is \\(2S-1=Ap^m\\), with error per round \\((1-p)/2\\). Belief-matching decoding is informed by a detector error model built from averaged circuit eigenvalue sampling and rescaled with daily calibrations. Logical \\(Y\\) memories show an error per round close to the sum of the \\(X\\) and \\(Z\\) rates, as predicted for independent flips.",
+        "Compressed lattice surgery merges adjacent codes without a buffer region. Either the two codes share the seam ancilla in alternate rounds, or one code takes it and the other measures its seam stabilizer with a re-purposed neighbour; the merged patch is \\(3\\times6\\) instead of \\(3\\times7\\). A logical \\(XX\\) measurement between two \\(|0\\rangle\\) codes prepares a Bell state with fidelity above 93%, and the same circuit teleports cardinal states. With three codes, A–B Bell preparation followed by B–C surgery teleports states and gates (identity, or \\(S^\\dagger\\) by choosing B’s readout basis) and transfers a Bell pair to non-neighbouring patches. That transfer has fidelity between 85.4% and 91.4%.",
+        "Stability experiments on a \\(4\\times4\\) patch compare no reset, reset of ancillas only, and a walking circuit that swaps data and ancilla roles so that every qubit is reset every two rounds. Without reset the error stops falling as rounds accumulate, a signature of leakage. Ancilla reset helps but still levels off, while the walking circuit keeps improving: 8 failures in 50 million runs at 170 rounds. Simultaneously running two logical memories shows crosstalk with a lift of about 2 in conditional failure probability."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.32923",
+      "topic": "information",
+      "title": "One-sided-DIQKD using any pure bipartite entangled state secure against all attacks",
+      "authors": "Bohnishikha Ghosh; Chithra Raj; Shubhayan Sarkar",
+      "submitted": "2026-10-23",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "In one-sided device-independent QKD, Bob’s measurements are trusted and Alice’s device is a black box, so security rests on quantum steering. Existing protocols use maximally entangled states, which are costly to make. Can every pure entangled state of any dimension yield a secret key in this setting, including with lossy detectors and noisy sources?",
+      "result": "Yes. In the noiseless case, self-testing of any pure state \\(\\sum_i\\alpha_i|ii\\rangle\\) gives a key rate equal to its entanglement entropy. With depolarizing visibility \\(\\nu\\) and efficiency \\(\\eta\\) on Alice’s side, an entropic-uncertainty bound gives a closed-form rate that is affine in \\(\\eta\\), and hence a critical efficiency for every pure state and visibility. The critical efficiency is 1/2 for maximally entangled states and rises only slowly as entanglement falls.",
+      "significance": "The protocol fits the bank-and-user setting with a trusted side, and it shows that weakly entangled states, which are cheaper or more robust to produce, still give keys. Unlike in Bell tests, non-maximal entanglement does not lower the efficiency threshold under this bound.",
+      "limitations": "The rate is asymptotic (Devetak–Winter) and the realistic case is only a lower bound. Security against coherent attacks is argued through entropy accumulation under its conditions rather than with a finite-key analysis. Noise is depolarizing and loss is modelled by a no-click outcome; Bob’s losses are handled by fair sampling. As printed, the Corollary’s \\(\\nu=1\\) threshold formula has a sign that disagrees with Theorem 2 (see methods).",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+      "verified_on": "2026-10-26",
+      "methods": [
+        {
+          "technique": "Key rate from the uncertainty relation with a trusted side",
+          "explanation": "When one party’s measurements are trusted and mutually unbiased, Eve’s uncertainty about the key basis is bounded by how well the untrusted party predicts the conjugate basis. Only observed conditional entropies are needed, with no model of the black box.",
+          "math": [
+            "The entropic uncertainty relation with quantum memory gives \\(H(B_Z|E)+H(B_X|A)\\ge\\log_2d\\) for Bob’s mutually unbiased bases, so \\(H(B|E)\\ge\\log_2d-H(B|A,X,X^*)\\) and \\(r_\\infty\\ge\\log_2d-H(B|A,Z,Z^*)-H(B|A,X,X^*)\\).",
+            "No-click rounds leave Bob’s \\(X\\) outcome uniform and his \\(Z\\) outcome distributed as \\(\\delta_b=\\nu\\alpha_b^2+(1-\\nu)/d\\), so \\(H(B|A,X)=\\eta C_X+(1-\\eta)\\log_2d\\) and \\(H(B|A,Z)=\\eta C_Z+(1-\\eta)N_Z\\). Substituting gives \\[r_\\infty\\ge\\eta(N_Z+\\log_2d-C_Z-C_X)-N_Z.\\]",
+            "Editorial check: building the joint distributions of Eqs. (24)–(27) explicitly and evaluating \\(\\log_2d-H(B|A,Z)-H(B|A,X)\\) reproduces the closed form to \\(10^{-5}\\) for \\(d=2,4,8\\) at several \\((\\nu,\\eta)\\). For a maximally entangled state, \\(N_Z=\\log_2d\\) and \\(C_Z=C_X=0\\), giving \\(\\eta_{\\rm crit}=1/2\\)."
+          ],
+          "transfer": "In any one-sided device-independent task (steering-based randomness, verification with a trusted lab), compute both conditional entropies from the observed joint table, keeping no-click outcomes, and apply the uncertainty relation. It requires the trusted measurements to be rank-one and mutually unbiased, so it does not carry over to the fully device-independent case."
+        },
+        {
+          "technique": "Critical efficiency from an affine rate, and a check on the printed formula",
+          "explanation": "Because loss enters only through mixing with no-click outcomes, the rate bound is affine in \\(\\eta\\) and its zero gives the critical efficiency directly. At \\(\\nu=1\\) the terms simplify to the entanglement entropy and the Fourier spectrum of the Schmidt coefficients.",
+          "math": [
+            "At \\(\\nu=1\\), \\(C_Z=0\\), \\(N_Z=S(\\rho_B)\\) and \\(C_X=-\\sum_kt_k\\log_2t_k\\) with \\(t_k=|F_k|^2/d\\), so Theorem 2 gives \\[\\eta_{\\rm crit}=\\frac{S(\\rho_B)}{S(\\rho_B)+\\log_2d+\\frac1d\\sum_k|F_k|^2\\log_2\\frac{|F_k|^2}d}.\\]",
+            "Editorial note: the Corollary as printed has a minus sign before the sum. For \\(d=2\\), \\(s=0.85\\), Theorem 2 gives \\(\\eta_{\\rm crit}=0.599\\) while the printed form gives 0.277; for \\(d=8\\), \\(s=0.3\\), the values are 0.523 and 0.455. Only the Theorem 2 values agree with the direct entropy computation and with the paper’s remark that partial entanglement does not lower the threshold below 1/2.",
+            "Editorial remark: with nonnegative Schmidt coefficients, \\(|F_0|^2=(\\sum\\alpha_i)^2>1\\) for any entangled state, so \\(t\\) is not uniform, \\(C_X<\\log_2d\\) and the slope is positive. This is why every pure entangled state yields a positive rate at high enough efficiency."
+          ],
+          "transfer": "For any protocol whose loss model mixes in a fixed no-click outcome, write the rate as \\(\\eta\\cdot\\text{slope}-\\text{intercept}\\) and read off \\(\\eta_{\\rm crit}\\). Recompute the special cases from the general formula rather than trusting a simplified display."
+        }
+      ],
+      "methods_source_section": "1SDI-QKD protocol and Eq. (1); Theorem 1 (Eqs. 2–7); Theorem 2 and Corollary (Eqs. 8–20); Appendix A (Eqs. 21–43)",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "An untrusted source sends \\(\\rho_{AB}\\). Alice measures with uncharacterized POVMs, and Bob’s conditional states form an assemblage that must not admit a local-hidden-state model. Bob extracts the key from his \\(Z^*\\) outcomes, Alice corrects her string to his with one-way reconciliation, and Alice’s no-click events are kept as an extra outcome to avoid the detection loophole. The asymptotic rate is bounded by \\(H(B|E)-H(B|A)\\), with Eve holding a purification.",
+        "With Alice measuring \\(Z_d\\) and the Fourier basis \\(X_d\\), and Bob their complex conjugates, the noiseless statistics self-test the state and Alice’s measurements. Eve’s system then factorizes from Bob’s, so \\(H(B|E)=H(B)=-\\sum\\alpha_i^2\\log_2\\alpha_i^2=S(\\rho_B)\\), and perfect \\(Z\\) correlations give \\(H(B|A)=0\\). Every pure entangled state therefore yields a key at the rate of its entanglement entropy.",
+        "With noise and loss the statistics no longer self-test. Because Bob’s bases are mutually unbiased and trusted, \\(H(B|E)\\ge\\log_2d-H(B|A,X,X^*)\\). The joint distributions are explicit: in \\(Z\\), \\(\\eta[\\nu\\alpha_a^2\\delta_{ab}+(1-\\nu)/d^2]\\) plus no-click terms, and in \\(X\\), \\(\\tfrac\\eta{d^2}[\\nu|F_{a-b}|^2+1-\\nu]\\) with \\(F_k=\\sum_i\\alpha_i\\omega^{-ki}\\). This gives \\(r_\\infty\\ge\\eta[N_Z+\\log_2d-C_Z-C_X]-N_Z\\), where \\(N_Z\\), \\(C_Z\\) and \\(C_X\\) are Shannon entropies of the source and conditional distributions. The bound is affine in \\(\\eta\\) and vanishes at \\(\\eta_{\\rm crit}=N_Z/(N_Z+\\log_2d-C_Z-C_X)\\).",
+        "For the family \\(\\sqrt s|00\\rangle+\\sqrt{(1-s)/(d-1)}\\sum_{i\\ge1}|ii\\rangle\\) with \\(d=8\\), the critical efficiency rises with the largest Schmidt probability \\(s\\), more steeply at lower visibility. The key rate grows with entanglement and falls linearly with loss, and the maximally entangled state gives the largest rate at every visibility. Extending the bound to fully device-independent QKD would need an uncertainty relation without a trusted side."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.32724",
+      "topic": "information",
+      "title": "Optimal probes for estimating the dephasing of a quantum spin system",
+      "authors": "Leonardo Ratini; Stefano Carretta; Francesco Albarelli",
+      "submitted": "2026-10-23",
+      "version": "v1",
+      "kind": "Theory and numerical analysis",
+      "problem": "To estimate the strength of dephasing on a spin \\(J\\) (or \\(2J\\) qubits), which superposition of levels should be prepared? A spin cat state is optimal for weak Gaussian phase diffusion, but its coherence is the first to decay. Over what range does the cat stay optimal, and what works beyond it?",
+      "result": "For general dephasing channels, the QFI is concave in the probe populations and an ancilla never helps. The channel QFI is a second-order cone program whose dual variables are the optimal populations. For Gaussian diffusion the cat is globally optimal exactly for \\(\\Delta\\le0.1424\\) at \\(J=1\\) and \\(\\Delta\\le0.065\\) at \\(J=3/2\\); for larger \\(J\\) its range shrinks at least as \\(1/J^2\\). Beyond it, uniform superpositions, or a one-parameter interpolation between cat and uniform, are near optimal.",
+      "significance": "The structural results (concavity, reflection symmetry, a cone program that returns the probe) reduce probe design for any dephasing channel to cheap convex optimization. The \\(1/J^2\\) limit shows that cat-state advantages for noise sensing vanish quickly with size, which is relevant to qudit platforms such as antimony donors and strontium nuclear spins.",
+      "limitations": "Measurement and preparation costs are idealized, and the comparisons use the QFI, which may require strength-dependent measurements. The bath simulation is one random hydrogen configuration with one pulse sequence, and the channel there is only approximately pure dephasing. Estimation is local; joint estimation with the mean phase and Bayesian priors are left open.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+      "verified_on": "2026-10-26",
+      "methods": [
+        {
+          "technique": "Concavity of the QFI in probe populations",
+          "explanation": "For channels that commute with a fixed diagonal basis, the probe is fixed by its populations, and a parameter-independent instrument can split a superposition of two population vectors into the two corresponding states with a classical record. Monotonicity of the QFI then makes the QFI concave in the populations, so symmetric averaging and local slope tests decide global optimality.",
+          "math": [
+            "With \\(D_1=\\sum_m\\sqrt{\\lambda p_m/(\\lambda p_m+(1-\\lambda)q_m)}\\,|m\\rangle\\langle m|\\) and \\(D_2\\) defined likewise, the channel \\(\\rho\\mapsto|1\\rangle\\langle1|\\otimes D_1\\rho D_1^\\dagger+|2\\rangle\\langle2|\\otimes D_2\\rho D_2^\\dagger\\) commutes with dephasing and maps \\(\\rho_\\theta(\\lambda p+(1-\\lambda)q)\\) to \\(\\lambda\\rho_\\theta(p)\\oplus(1-\\lambda)\\rho_\\theta(q)\\). Monotonicity gives \\(F_\\theta(\\lambda p+(1-\\lambda)q)\\ge\\lambda F_\\theta(p)+(1-\\lambda)F_\\theta(q)\\).",
+            "Along an affine family \\(p(\\epsilon)=p(0)+\\epsilon p_1\\), concavity gives \\(F(p(\\epsilon))\\le F(p(0))+\\epsilon F'(0)\\), so \\(F'(0)\\le0\\) is necessary and sufficient for \\(p(0)\\) to be optimal in the family. For \\(J=1\\) the symmetric family is one-dimensional, which is why the sign of \\(C(u)\\) settles global optimality.",
+            "Editorial check: the positive root of \\(C(u)\\) is \\(u_1=0.75223\\), so \\(\\Delta_1=0.14236\\). Direct QFI computation shows a small central population beating the cat at \\(\\Delta=0.16\\) but not at 0.13. For \\(J=3/2\\) the cat is beaten between \\(\\Delta=0.064\\) and 0.066, matching \\(\\delta_{3/2}\\approx0.065\\), and the kitten formula matches direct computation to six digits."
+          ],
+          "transfer": "For any channel diagonal in a known basis (dephasing, random diagonal unitaries, some thermometry channels), optimize over populations with concave methods, symmetrize under any channel symmetry, and certify a candidate by its directional derivatives. The argument fails once the channel moves population between levels."
+        },
+        {
+          "technique": "Channel QFI as a cone program whose dual is the optimal probe",
+          "explanation": "The channel QFI is four times the minimum over Kraus representations of the norm of \\(\\alpha(h)=\\sum_k\\dot K_k^\\dagger\\dot K_k\\). Diagonal Kraus operators make \\(\\alpha\\) diagonal, so the matrix constraint becomes one Euclidean norm bound per level, and the multipliers of those bounds are exactly the probe populations.",
+          "math": [
+            "With \\(K_k=\\sum_mc_{km}|m\\rangle\\langle m|\\) and \\(\\dot K_k(h)=\\partial_\\theta K_k-i\\sum_lh_{kl}K_l\\), \\([\\alpha(h)]_{mm}=\\|\\dot c_m-ihc_m\\|_2^2\\). So \\(F_Q[\\Lambda_\\theta]=4t^{\\star2}\\), where \\(t^\\star\\) minimizes \\(t\\) subject to \\(\\|\\dot c_m-ihc_m\\|_2\\le t\\) for all \\(m\\) over Hermitian \\(h\\).",
+            "The Lagrangian has multipliers \\(\\mu_m\\ge0\\) with \\(\\sum_m\\mu_m=1\\) at optimum, and stationarity in \\(h\\) is the condition \\(\\sum_mp_m\\nabla_h\\sqrt{[\\alpha(h)]_{mm}}=0\\) for an optimal probe. Hence \\(p_m=\\mu_m^\\star\\) attains the channel QFI, and populations vanish on levels whose constraint is slack.",
+            "Editorial remark: for the Gaussian channel the classical bound \\(1/(2\\Delta^2)\\) caps every probe, and the cat QFI \\(16J^4/(e^{8J^2\\Delta}-1)\\) respects it for every \\(J\\) and \\(\\Delta\\) checked, approaching it only as \\(J^2\\Delta\\to0\\)."
+          ],
+          "transfer": "For any multilevel noise-estimation problem whose channel is diagonal (dephasing from an arbitrary diagonal generator, or a bath channel computed by cluster expansion), solve this cone program once per parameter value to get both the bound and a probe achieving it. Off-the-shelf solvers return the duals directly."
+        }
+      ],
+      "methods_source_section": "Section III (Eqs. 15–26); Section IV.1 (Eqs. 27–33); Appendix A (cone program and dual); Appendix C (spin-1, spin-3/2 and kitten bounds)",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "A dephasing channel multiplies coherences entrywise, \\(\\Lambda_\\theta(\\rho)=E_\\theta\\circ\\rho\\), with \\(E_\\theta\\succeq0\\) and unit diagonal. Random rotations generated by \\(J_z\\) give Toeplitz matrices; Gaussian phase diffusion has \\((E_\\Delta)_{mn}=e^{-\\Delta(m-n)^2}\\), equivalent to Markovian dephasing with \\(\\Delta=\\gamma t\\). Observing the random phase itself bounds every probe by the classical Fisher information \\(1/(2\\Delta^2)\\). For rate estimation at fixed total time, the relevant figure is QFI per interrogation time.",
+        "Pure probes \\(\\sum_m\\sqrt{p_m}|m\\rangle\\) suffice, and phases are irrelevant. Any ancilla-assisted input is an isometric image of such a probe, so the channel QFI needs no ancilla. Mixing two population vectors and preparing the pure superposition does at least as well as the average of their QFIs (concavity), proved by a diagonal two-outcome instrument that splits the superposition back into its parts. With reflection symmetry, optimal populations can be taken symmetric, and a nonpositive directional derivative at the cat is necessary and sufficient for global optimality along any affine family.",
+        "Diagonal Kraus operators reduce the channel-QFI program, a minimization over Kraus gauges, to one norm constraint per level, \\(\\|\\dot c_m-ihc_m\\|_2\\le t\\): a second-order cone program. The dual variables \\(\\mu_m^\\star\\) sum to one and are the populations of an optimal probe, so one solve gives both. For \\(J=1\\) the derivative at the cat is \\(-8uC(u)/[(1-u^2)(1+u^2)^2]\\) with \\(u=e^{-2\\Delta}\\) and \\(C(u)=2u^5+u^4+4u^3-2u-1\\), whose root \\(u_1\\approx0.7522\\) sets the threshold. Embedding \\(\\{-J,0,J\\}\\) or kitten states \\((|{-m}\\rangle+|m\\rangle)/\\sqrt2\\), with QFI \\(16m^4/(e^{8m^2\\Delta}-1)\\), bounds the cat range for larger spins.",
+        "Numerically, the cat is best for weak dephasing but collapses quickly. Uniform superpositions have coherences at every separation and are nearly optimal once the cat fails, and the cat–uniform interpolation tracks the optimum across \\(J\\) and \\(\\Delta\\). At \\(\\Delta=10^{-3}\\), QFI per unit spin peaks at \\(J=10.5\\), slightly before the cat loses optimality. For a \\(J_z^2\\) generator the cat is blind to the noise and the optimum concentrates on \\(|m|\\le7\\). For a spin-3/2 probe among 50 hydrogen spins simulated with the cluster-correlation expansion, the cat wins under free evolution, but under a four-pulse sequence the uniform state gives the highest QFI rate, at \\(t\\approx2.5\\,\\mu\\)s."
+      ],
+      "approved_on": "2026-10-27"
     }
   ]
 }

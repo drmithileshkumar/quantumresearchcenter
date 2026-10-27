@@ -7,7 +7,7 @@ import {fileURLToPath, pathToFileURL} from 'node:url';
 import {tmpdir} from 'node:os';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const courses=process.argv.slice(2).length?process.argv.slice(2):['algorithms','programming','information','hardware'];
-if(courses.some(c=>!['algorithms','programming','information','hardware','cryptography'].includes(c)))throw Error('Unknown course');
+if(courses.some(c=>!['algorithms','programming','information','hardware','cryptography','qml'].includes(c)))throw Error('Unknown course');
 const work=await mkdtemp(resolve(tmpdir(),'quantum-course-render-'));
 const chrome=spawn('google-chrome',['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-background-networking','--disable-component-update','--no-first-run','--remote-debugging-port=0',`--user-data-dir=${work}/profile`],{stdio:['ignore','ignore','pipe']});
 let socket;
@@ -52,7 +52,9 @@ try {
   ['information','education/information/08-state-discrimination.html','section-8-2',1440],
   ['mobile','education/information/10-entanglement-protocols.html','section-10-1',390],
   ['hardware','education/hardware/03-coherent-control.html','section-3-1',1440],
-  ['hardware-mobile','education/hardware/18-fault-tolerant-hardware.html','section-18-1',390]]){
+  ['hardware-mobile','education/hardware/18-fault-tolerant-hardware.html','section-18-1',390],
+  ['qml','education/qml/03-kernels.html','kernel-explorer',1440],
+  ['qml-mobile','education/qml/04-variational.html','section-4-2',390]]){
   if(!courses.some(c=>file.includes('/'+c+'/')))continue;
   await tab('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width<500});
   await open(file);await evaluate(`document.getElementById(${JSON.stringify(anchor)}).scrollIntoView();true`);
@@ -77,6 +79,27 @@ try {
   if(interaction.zero!=='1.0000'||interaction.high!=='0.0000'||!interaction.verdict.includes('no positive')||!interaction.hits||!interaction.dialog)throw Error('Cryptography interaction check: '+JSON.stringify(interaction));
   await open('education/cryptography/index.html');
   console.log('PASS cryptography rate controls, search, and overview');
+ }
+ if(courses.includes('qml')){
+  await tab('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+  await open('education/qml/03-kernels.html');
+  const interaction=await evaluate(`(() => {
+    const n=document.getElementById('kernel-n');
+    const read=()=>({n:document.getElementById('kernel-n-value').textContent,dim:document.getElementById('kernel-dim').textContent,mean:document.getElementById('kernel-mean').textContent,spread:document.getElementById('kernel-spread').textContent,cx:document.getElementById('kernel-marker').getAttribute('cx'),verdict:document.getElementById('kernel-verdict').textContent});
+    n.value='1';n.dispatchEvent(new Event('input'));
+    const low=read();
+    n.value='12';n.dispatchEvent(new Event('input'));
+    const high=read();
+    document.getElementById('search-open').click();
+    const search=document.getElementById('book-search');search.value='concentration';search.dispatchEvent(new Event('input'));
+    return {low,high,hits:document.querySelectorAll('#search-results li').length,dialog:document.getElementById('search-dialog').open};
+  })()`);
+  const {low,high}=interaction;
+  if(low.dim!=='2'||low.mean!=='5.000e-1'||low.spread!=='3.536e-1'||low.cx!=='54.00')throw Error('QML explorer start: '+JSON.stringify(interaction));
+  if(high.dim!=='4096'||high.mean!=='2.441e-4'||!high.verdict.includes('shots'))throw Error('QML explorer end: '+JSON.stringify(interaction));
+  if(!interaction.hits||!interaction.dialog)throw Error('QML search: '+JSON.stringify(interaction));
+  await open('education/qml/index.html');
+  console.log('PASS qml kernel explorer, search, and overview');
  }
  console.log('Browser checks passed. Screenshots:',work);
 } finally {

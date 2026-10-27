@@ -28,6 +28,7 @@ from course_map import render_course_map, render_chapter_map
 import chapter_summary
 from asset_versions import version_pages
 from site_logo import COURSE_LOGO
+from site_navigation import COURSE_NAV
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 SUMMARIES=chapter_summary.load(ROOT,{c['stem'] for c in CHAPTERS})
 LEARNING=json.loads((ROOT/'content/learning.json').read_text())
@@ -54,7 +55,7 @@ def shell(stem,title,body):
  return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="An interactive course on quantum algorithms by Mithilesh Kumar, organized around reusable computational techniques."><title>{esc(title)} · {COURSE}</title><link rel="icon" href="../../icons/icon.svg"><link rel="canonical" href="https://quantumresearch.center/education/algorithms/{"" if stem=="index" else stem+".html"}"><script src="../computing/assets/theme.js"></script><script src="../../navigation.js"></script>{css}{js}</head>
 <body class="ebook revised-book" data-chapter="{stem}"><a class="skip-link" href="#main">Skip to content</a>
-<header class="book-toolbar"><button id="menu-toggle" aria-controls="book-navigation" aria-expanded="false" aria-label="Toggle table of contents">☰ <span>Contents</span></button><a href="../index.html" class="toolbar-title">Education / {COURSE}</a><nav class="site-nav" aria-label="Site navigation"><a href="../../index.html">Home</a><a href="../index.html">Education</a><a href="../../research/index.html">Research</a></nav><div class="reading-tools"><button id="print-chapter" hidden data-print>Print chapter</button><button id="search-open" aria-label="Search the book">Search <kbd>/</kbd></button><button id="text-smaller" aria-label="Decrease reading text size">A−</button><button id="text-larger" aria-label="Increase reading text size">A+</button></div></header>
+<header class="book-toolbar"><button id="menu-toggle" aria-controls="book-navigation" aria-expanded="false" aria-label="Toggle table of contents">☰ <span>Contents</span></button><a href="../index.html" class="toolbar-title">Education / {COURSE}</a>{COURSE_NAV}<div class="reading-tools"><button id="print-chapter" hidden data-print>Print chapter</button><button id="search-open" aria-label="Search the book">Search <kbd>/</kbd></button><button id="text-smaller" aria-label="Decrease reading text size">A−</button><button id="text-larger" aria-label="Increase reading text size">A+</button></div></header>
 <aside id="book-navigation" aria-label="Book navigation">{navigation(stem)}<p class="nav-credit">Mithilesh Kumar</p></aside><button id="nav-scrim" aria-label="Close contents" hidden></button>
 <main id="main" tabindex="-1">{body}<footer class="book-footer">Mithilesh Kumar · {COURSE} <a href="#chapter-top">Back to top ↑</a></footer></main>
 <dialog id="search-dialog" aria-labelledby="search-title"><div class="search-heading"><h2 id="search-title">Search this book</h2><button id="search-close" aria-label="Close search">Close ×</button></div><label for="book-search">Find a concept, equation, or section</label><input id="book-search" type="search" autocomplete="off" placeholder="Try Fourier, walks, or block encoding"><p id="search-status" role="status">Search the course.</p><ol id="search-results"></ol></dialog>

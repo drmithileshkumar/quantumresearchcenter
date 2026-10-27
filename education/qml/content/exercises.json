@@ -1,0 +1,370 @@
+{
+  "01-quantum-models": [
+    {
+      "kind": "Quick check",
+      "question": "Which part of a learning task does a quantum circuit replace?",
+      "hints": [
+        "Look at the triple (distribution, class, loss)."
+      ],
+      "answer": "The hypothesis class. The distribution and the loss are properties of the task; the circuit only fixes which functions are available and how they are computed.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Four points have labels (0,0,0,1). What is the empirical risk of the best constant classifier under zero–one loss?",
+      "hints": [
+        "Choose the majority label."
+      ],
+      "answer": "Predicting 0 is wrong once, so the risk is 1/4 = 0.25. Predicting 1 is wrong three times. A constant classifier on a balanced set gives 0.5.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "A 20-qubit circuit has 2^20 amplitudes, so it has 2^20 parameters and is automatically more expressive than a 20-parameter classical model. Correct this.",
+      "hints": [
+        "Separate the dimension of the state space from the number of trainable parameters."
+      ],
+      "answer": "No. A circuit with p angles is a p-dimensional family of functions, exactly like a classical model with p weights. The state space is large, but the model explores only a p-dimensional slice of it. Expressivity is a property of that slice, not of the Hilbert-space dimension.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For h(x)=cos(θ+x) with θ=π/4, compute h(0) and h(π/2).",
+      "hints": [
+        "Substitute, then use exact cosine values."
+      ],
+      "answer": "h(0)=cos(π/4)≈0.7071 and h(π/2)=cos(3π/4)≈−0.7071. Both values lie in the reachable range of the single-frequency model, which is a degree-one trigonometric polynomial.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Quick check",
+      "question": "What fixes the set of frequencies a Pauli-encoded circuit can represent?",
+      "hints": [
+        "Consider the generator eigenvalues and the number of encoding layers."
+      ],
+      "answer": "The eigenvalues of the encoding generators, together with the number of times the encoding is applied. With L Pauli-generated layers and integer eigenvalues, the accessible frequencies are the integers from −L to L in each feature.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Misconception",
+      "question": "A training loss that does not decrease means the optimiser has converged. Correct this.",
+      "hints": [
+        "Think of a stationary point that is not a minimum."
+      ],
+      "answer": "No. A flat loss means the gradient is (near) zero, which happens at minima, maxima, and saddles alike, and also at initialisation points that sit exactly on a stationary value. The statement to check is where the trajectory started and whether the value is one you would accept.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For L(θ)=1−cos θ with gradient descent started at θ=π, describe the trajectory and classify the point.",
+      "hints": [
+        "Compute the gradient at π."
+      ],
+      "answer": "The gradient sin π = 0, so the trajectory never moves and L stays at 2, the maximum of the loss. The model could achieve L=0 at θ=0, so this is an initialisation failure, not an expressivity limit.",
+      "review": "section-1-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A quantum kernel experiment uses N=200 points and S=1000 shots per entry. Count circuit executions for the Gram matrix, and the time at 1 microsecond per shot.",
+      "hints": [
+        "Square N, then multiply by S."
+      ],
+      "answer": "The matrix has 200² = 40,000 entries, each needing 1000 shots, so 4×10^7 shots, about 40 seconds at 1 microsecond each. Training and testing add more evaluations on top of this.",
+      "review": "section-1-2"
+    },
+    {
+      "kind": "Extension",
+      "question": "Rewrite 'quantum kernels outperform classical kernels on our dataset' as a claim that could be checked.",
+      "hints": [
+        "Name the dataset, baseline, metric, uncertainty, and budget."
+      ],
+      "answer": "A checkable version names the dataset and split, the classical baseline and how it was tuned, the metric, the uncertainty over splits, and the cost budget at which both were compared. It also states whether the claim is an existence separation, a runtime speedup, or a practical advantage.",
+      "review": "section-1-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "A paper reports 95% test accuracy for a 10-qubit kernel and 80% for an RBF kernel, with the feature map chosen by inspecting test accuracy. Name the two failures and the repair.",
+      "hints": [
+        "Consider selection and baseline strength."
+      ],
+      "answer": "Test leakage (the map was selected using test labels) and a possibly weak baseline. The repair is to select the map and its hyperparameters on training folds only, tune the classical baseline under the same protocol, and report both with the spread over splits.",
+      "review": "section-1-3"
+    }
+  ],
+  "02-data-encoding": [
+    {
+      "kind": "Quick check",
+      "question": "How many qubits and gates does basis encoding of a 4-bit string need?",
+      "hints": [
+        "One qubit per bit; X for each 1."
+      ],
+      "answer": "Four qubits and one X gate per 1 in the string: for 1011, three X gates.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Write the amplitude-encoded state for x=(1,1,1,1) and give a circuit that prepares it.",
+      "hints": [
+        "Normalise, then recognise the uniform superposition."
+      ],
+      "answer": "The state is (1,1,1,1)/2, which is H⊗H|00⟩. Two Hadamard gates prepare it, and no data-dependent angles are needed.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How many real parameters does a general 5-qubit state have, and what does that imply for preparation?",
+      "hints": [
+        "A general n-qubit pure state has 2^(n+1) − 2 real parameters."
+      ],
+      "answer": "2^6 − 2 = 62 parameters. Each gate supplies a constant number, so preparing an arbitrary 5-qubit state needs on the order of 60 gates; for n qubits the count scales as 2^n.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For the product-state angle encoding, compute K between x=(π/2, 0) and x'=(0, 0).",
+      "hints": [
+        "The overlap factorises into cos((x_i − x'_i)/2)."
+      ],
+      "answer": "cos(π/4)·cos(0) = 0.7071, so K = 0.5. The second feature is identical in both points and contributes a factor of one.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Angle encoding maps every real feature value to a distinct quantum state, so it loses no information. Correct this.",
+      "hints": [
+        "Check the period of a rotation."
+      ],
+      "answer": "No. R_y(α+2π) = −R_y(α), so the state is unchanged when a feature shifts by 2π. Values differing by 2π are indistinguishable, and a feature ranging over [0,10π] wraps five times.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Encode x=(3,4) and x=(6,8) by amplitude encoding. What is lost?",
+      "hints": [
+        "Normalise both vectors."
+      ],
+      "answer": "Both give (0.6, 0.8): the norm is discarded, so positive rescalings produce the same state. If the norm carries information it must be encoded separately.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Two encoded states have fidelity F = 0.5. What is the squared Euclidean distance between them, and what does that say about the encoding?",
+      "hints": [
+        "Use ‖ψ−ψ'‖² = 2 − 2F for unit vectors."
+      ],
+      "answer": "‖ψ−ψ'‖² = 2 − 1 = 1. For amplitude encoding this equals the squared distance between the corresponding normalised feature vectors, so the encoding preserves Euclidean geometry up to the norm.",
+      "review": "section-2-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "With L=3 encoding layers of a Pauli-generated map, list the accessible frequencies in one feature.",
+      "hints": [
+        "Each layer adds one unit of frequency in either direction."
+      ],
+      "answer": "The integers from −3 to 3: seven frequencies, of which ±1, ±2, ±3 correspond to three distinct periods. Adding layers increases the count linearly.",
+      "review": "section-2-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "A dataset has 1024 features per point. Compare the gate count of amplitude encoding with that of angle encoding at equal input size.",
+      "hints": [
+        "Count qubits for amplitude encoding, then count rotations for angle encoding."
+      ],
+      "answer": "Amplitude encoding uses 10 qubits and up to about 1024 two-qubit gates in the worst case; angle encoding uses 1024 qubits and 1024 rotations. Amplitude encoding is cheaper in qubits and comparable in gates here, but its worst-case preparation is exponential in qubits while its feature count is exponential too—so the crossover depends on the ratio of features to qubits.",
+      "review": "section-2-1"
+    },
+    {
+      "kind": "Extension",
+      "question": "Choose an encoding for a task with 8 continuous features in [0,1] and 500 samples, and justify the choice in three sentences.",
+      "hints": [
+        "Consider cost, geometry, and periodicity."
+      ],
+      "answer": "Angle encoding with 8 qubits fits the data range inside one period, costs eight rotations per layer, and gives a kernel that is cheap to compute but classically simulable at this size; if a classically hard kernel is needed, add entangling layers and accept the deeper circuit; amplitude encoding would need only 3 qubits but its preparation cost dominates at 500 samples.",
+      "review": "section-2-3"
+    }
+  ],
+  "03-kernels": [
+    {
+      "kind": "Quick check",
+      "question": "State the representer theorem in one sentence.",
+      "hints": [
+        "What form does a minimiser take?"
+      ],
+      "answer": "For a regularised empirical risk in a reproducing-kernel Hilbert space, a minimiser is a linear combination of kernel evaluations at the training points, f(x) = Σ α_i K(x, x_i), so the search is over N coefficients rather than a function space.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute the target alignment of K = I with y = (1,1,1,−1).",
+      "hints": [
+        "⟨I, yyᵀ⟩ = Σ y_i²."
+      ],
+      "answer": "The inner product is 4, ‖I‖_F = 2, and ‖yyᵀ‖_F = 4, so the alignment is 4/(2·4) = 0.5.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Is K = [[1,2],[2,1]] a valid kernel matrix?",
+      "hints": [
+        "Compute its eigenvalues."
+      ],
+      "answer": "No. The eigenvalues are 3 and −1, so K is not positive semi-definite and the induced optimisation is not convex. A valid Gram matrix must have nonnegative eigenvalues.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "For K = I, λ = 1, and y = (1,−1), solve the ridge system for α.",
+      "hints": [
+        "The system is (K + λI)α = y."
+      ],
+      "answer": "The matrix is 2I, so α = (0.5, −0.5). The prediction at a point with similarities (1,0) is 0.5.",
+      "review": "section-3-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "An entry with K = 0.5 is estimated from 100 shots. Give the standard deviation and the number of shots needed to halve it.",
+      "hints": [
+        "Variance is K(1−K)/S."
+      ],
+      "answer": "Variance 0.25/100 = 0.0025, standard deviation 0.05. Halving it needs 400 shots, since the deviation scales as the inverse square root of the shot count.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How many shots give a 10% relative error for a kernel value of 10⁻⁴?",
+      "hints": [
+        "Use S ≈ (1 − K)/(0.01K)."
+      ],
+      "answer": "S ≈ 1/(0.01·10⁻⁴) = 10^5 shots for that single entry. Every entry of the Gram matrix pays this cost separately.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Under the Haar concentration model with n = 8, give the mean and spread of an off-diagonal kernel entry.",
+      "hints": [
+        "Mean is 1/d and spread is about 1/d for d = 2^n."
+      ],
+      "answer": "With d = 256 the mean is 1/256 ≈ 0.0039 and the spread is √(255/256³) ≈ 0.0039. The two are equal, so entries are noise around a constant.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A Gram matrix has N = 1000 points and each entry needs 1000 shots. How many circuit executions, and how long at 1 microsecond per shot?",
+      "hints": [
+        "Square N and multiply by the shot count."
+      ],
+      "answer": "10^6 entries × 10^3 shots = 10^9 executions, about 1000 seconds. This excludes training, testing, and any repeated runs for error bars.",
+      "review": "section-3-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Compute g(K1‖K2) and g(K2‖K1) for K1 = diag(1, 0.5) and K2 = I.",
+      "hints": [
+        "The expression is ‖√K2 K1⁻¹ √K2‖_∞."
+      ],
+      "answer": "For the first, K1⁻¹ = diag(1, 2), so the spectral norm is 2. For the second, √K1 K2⁻¹ √K1 = diag(1, 0.5), with norm 1. The quantity is asymmetric by construction.",
+      "review": "section-3-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Design a three-step pre-flight check for a claimed quantum-kernel advantage on a new dataset.",
+      "hints": [
+        "Cover the estimator, the baseline, and the selection protocol."
+      ],
+      "answer": "First, estimate a few thousand off-diagonal entries and check that the spread is small relative to the mean at the planned shot budget; second, fit the strongest classical kernel available under the same tuning budget; third, fix the feature map and hyperparameters using training folds only, then report accuracy differences with uncertainty over splits. A claim that survives all three is worth pursuing; one that fails the first is not.",
+      "review": "section-3-3"
+    }
+  ],
+  "04-variational": [
+    {
+      "kind": "Quick check",
+      "question": "Name the four choices that define a variational model, and say which one is usually called the ansatz.",
+      "hints": [
+        "Think encoding, circuit, measurement, optimiser."
+      ],
+      "answer": "The data-encoding map, the parameterised circuit, the readout observables, and the training rule. Only the parameterised circuit is normally called the ansatz, yet all four determine what the model can represent, and the readout alone can decide whether it trains.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A six-qubit hardware-efficient layer applies R_y and R_z to every qubit, then a ring of six CNOTs. Count the parameters and CNOTs for two layers.",
+      "hints": [
+        "Two angles per qubit per layer; a ring has one CNOT per qubit."
+      ],
+      "answer": "Each layer has 2 x 6 = 12 angles and 6 CNOTs, so p = 24 and 12 CNOTs. Compare with the 2^7 - 2 = 126 real parameters of a general six-qubit pure state: the model is a 24-dimensional slice.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "An eight-qubit circuit is cut into two groups of four. What is the largest Schmidt rank a two-layer ansatz can produce across that cut, and what does a maximally entangled state need?",
+      "hints": [
+        "Each straddling two-qubit gate can at most double the rank."
+      ],
+      "answer": "Two layers give rank at most 2^2 = 4, while a maximally entangled 4|4 state needs rank 2^4 = 16. No training schedule can close that gap; the ansatz, not the optimiser, sets the floor.",
+      "review": "section-4-1"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Counts from 1,000 shots of a two-qubit experiment are 450 for 00, 50 for 01, 60 for 10, and 440 for 11. Estimate the expectation of Z on the first qubit and of Z (x) Z.",
+      "hints": [
+        "Sum counts with the sign of each eigenvalue."
+      ],
+      "answer": "For Z on qubit 1 the sign is + for 00 and 01, so (450 + 50 - 60 - 440)/1000 = 0. For Z (x) Z the sign is + only for 00 and 11, giving (450 + 440 - 50 - 60)/1000 = 0.78. The two marginals are balanced while the correlation is strong, which a single-qubit readout would have missed entirely.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "How many shots are needed to resolve a single Pauli expectation value to plus or minus 0.005?",
+      "hints": [
+        "Worst-case standard deviation is 1/sqrt(S)."
+      ],
+      "answer": "S = 1/0.005^2 = 40,000 shots, and that is for one term only. Three decimal digits on a full Hamiltonian is a million-shot-per-term proposition unless the allocation is optimised.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "Two terms have coefficients 0.5 and 0.3 with 1,000 and 5,000 shots. Estimate the standard deviation of the combined estimator, then propose a better allocation for a fixed total of 6,000 shots.",
+      "hints": [
+        "Errors add in quadrature; allocate shots in proportion to the coefficient magnitude."
+      ],
+      "answer": "The variances are 0.25/1000 = 2.5e-4 and 0.09/5000 = 1.8e-5, summing to 2.68e-4, so the deviation is about 0.016. Allocating shots as |c_j| splits 6,000 into 3,750 and 2,250, giving 0.25/3750 + 0.09/2250 = 1.07e-4, a deviation of about 0.010 with the same budget.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "A qubit has symmetric readout error 0.08 and the measured excited-state population is 0.60. Correct it and give the variance penalty.",
+      "hints": [
+        "Invert the assignment matrix, then look at the denominator."
+      ],
+      "answer": "The corrected value is (0.60 - 0.08)/0.84 = 0.619, so the raw number was biased low by about 0.019. The variance is inflated by 1/(0.84)^2 = 1.42, so about 42% more shots are needed. At 15% error the factor exceeds two and the inversion becomes unreliable.",
+      "review": "section-4-2"
+    },
+    {
+      "kind": "Worked problem",
+      "question": "An optimiser needs 60 measurement settings for a 200-term Hamiltonian, 2,000 shots per setting, and 150 iterations. Count the shots and the time at one microsecond each.",
+      "hints": [
+        "Settings x shots x iterations."
+      ],
+      "answer": "60 x 2,000 x 150 = 1.8 x 10^7 shots, about 18 seconds of pure shot time. Wall-clock time on hardware is dominated by latency and reset, so a run of this size takes hours, not seconds; and a gradient-based optimiser multiplies the per-iteration cost again.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Misconception",
+      "question": "Adding layers makes a variational model better, because more depth means more expressibility.",
+      "hints": [
+        "Consider the two directions the trade-off runs in."
+      ],
+      "answer": "No. Depth raises expressibility and, past a point, destroys trainability: gradients concentrate and hardware error accumulates with every layer. The useful depth is the smallest one whose reachable set contains a good solution, which is why adaptive schemes add layers only when the loss stops improving.",
+      "review": "section-4-3"
+    },
+    {
+      "kind": "Extension",
+      "question": "Design a measurement plan for the four-qubit Heisenberg Hamiltonian with six XX+YY+ZZ bond terms plus four field terms, and state how many settings you need.",
+      "hints": [
+        "Group by qubit-wise commuting sets; note that XX, YY, and ZZ on the same bond do not commute."
+      ],
+      "answer": "ZZ on the four bonds plus the four Z field terms are all qubit-wise commuting, so they share one setting. XX terms on different bonds overlap, so a chain needs two alternating settings for the XX strings and two for YY; with the field terms folded in, five to seven settings is realistic. Estimating each setting to plus or minus 0.01 costs 10^4 shots each, so one energy evaluation is roughly 5 x 10^4 to 7 x 10^4 shots before any optimisation.",
+      "review": "section-4-2"
+    }
+  ]
+}

@@ -1,4 +1,7 @@
-# arXiv papers and news
+# Research Papers
+
+For general-audience articles and the news-led homepage, see [NEWS.md](NEWS.md).
+The public news hub is `news/index.html`; the technical feed is `news/papers/index.html`.
 
 The site uses an editorial workflow: fetch → review and summarize → choose → approve → build.
 The six initial candidates were sourced from arXiv abstract pages on 19 October 2026.
@@ -6,12 +9,12 @@ They are recommendations for review, not an objective ranking or a complete late
 Summaries are abstract-based; read the linked version before approving a news article.
 
 - `content/papers.json` holds curated summaries and explicit editorial status.
-- `news/papers.html` lets readers filter candidates and select papers. It is published but unlisted: the public news page does not link to it (the **Review & approve** link appears only when the page is served by the local editor), it is left out of `sitemap.xml`, and it carries `noindex`. Anyone with the URL can still open it, so do not put anything confidential in candidate entries. In the local editor, **Approve selected papers** saves approval to the repository and rebuilds both news pages. On a static host, approval is disabled and the page explains how to start the local editor. This page is public if deployed; the approval service only binds to loopback and checks a session token and request origin.
-- `news/index.html` lists approved papers compactly (question, result, technique names), grouped by the month they were selected. The sidebar filters by research area (`?topic=computing` links work) and jumps by month.
-- Each approved paper gets its own page, `news/<arXiv id>/index.html`, holding the full description, the methods with derivations, and context. MathJax loads only on pages that contain TeX, so the listing stays light as papers accumulate.
+- `news/papers.html` lets readers filter candidates and select papers. It is published but unlisted: the public news page does not link to it (the **Review & approve** link appears only when the page is served by the local editor), it is left out of `sitemap.xml`, and it carries `noindex`. Anyone with the URL can still open it, so do not put anything confidential in candidate entries. In the local editor, **Approve selected papers** saves approval to the repository and rebuilds the news pages and homepage. On a static host, approval is disabled and the page explains how to start the local editor. This page is public if deployed; the approval service only binds to loopback and checks a session token and request origin.
+- `news/papers/index.html` lists approved papers compactly (question, result, technique names), grouped by the month they were selected. The sidebar filters by research area (`?topic=computing` links work) and jumps by month.
+- Each approved paper gets its own page, `news/papers/<arXiv id>/index.html`, holding the full description, the methods with derivations, and context. MathJax loads only on pages that contain TeX, so the listing stays light as papers accumulate.
 - `news/index.json` is a small search index (title, authors, topic, dates, question, result, technique names) used by the listing's search box. It is the basis for later archive pages, which can search papers that are no longer on the main list.
 - `news/papers.html` shows only papers still awaiting approval.
-- `news/feed.xml` is an RSS feed of the 30 most recent selections; every news page advertises it, and paper pages carry link-preview (Open Graph) metadata.
+- `news/feed.xml` is an RSS feed of the 30 most recent selections; news pages advertise it, and paper pages carry link-preview (Open Graph) metadata.
 - Withdrawing a paper (back to `candidate`) removes its page on the next build; `build.py --check` fails if a withdrawn paper's page is still present.
 - `scripts/paper_news.py` renders both pages through the existing build system. Do not edit generated HTML.
 

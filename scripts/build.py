@@ -10,14 +10,15 @@ import sys
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
-from paper_news import render_news
-from quantum_map import render_quantum_map
+from paper_news import paper_path, render_news
 # Editorial pages and legacy redirects stay out of the public sitemap.
 RESEARCH_REDIRECTS = json.loads((Path(__file__).resolve().parents[1]/'content/research-redirects.json').read_text())
 UNLISTED = {'news/papers.html', *RESEARCH_REDIRECTS}
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'education'))
+from site_navigation import site_navigation
+from news_articles import render_editorial, stream_nav
 from site_logo import site_logo  # noqa: E402  (shared with the course builds)
 def esc(value): return html.escape(str(value), quote=True)
 def path(item): return item['_path']
@@ -91,8 +92,8 @@ def render(book):
             navigation=''.join(f'<p class="kicker">{esc(label)}</p>' if href is None else f'<a href="{esc(href)}">{esc(label)}</a>' for href,label in sections)
             mathjax=f'<script defer src="{up}education/computing/assets/source/mathjax-config.js"></script><script defer src="{up}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>' if '\\(' in body or '\\[' in body else ''
             outputs[source]=f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description or 'Selected quantum research papers: problems, results, and transferable methods.')}"><link rel="canonical" href="{book['url']}/{source.removesuffix('index.html')}">{social_meta(title,description or 'Selected quantum research papers: problems, results, and transferable methods.',book['url']+'/'+source.removesuffix('index.html'),'article' if re.fullmatch(r'news/[^/]+/index\.html',source) else 'website')}{article_data(book['url'],source,title,description) if re.fullmatch(r'news/[^/]+/index\.html',source) else ''}<link rel="alternate" type="application/rss+xml" title="Selected papers | Quantum Research Center" href="{up}news/feed.xml">{'<meta name="robots" content="noindex">' if source in UNLISTED else ''}<link rel="icon" href="{up}icons/icon.svg"><script src="{up}education/computing/assets/theme.js"></script><script src="{up}navigation.js"></script><link rel="stylesheet" href="{up}styles.css">{mathjax}</head>
-<body class="news-reader"><a class="skip-link" href="#main">Skip to content</a><header class="news-toolbar">{site_logo('news-brand',up+'index.html')}<nav aria-label="Site navigation"><a href="{up}index.html">Home</a><a href="{up}education/index.html">Education</a><a href="{up}research/index.html">Research</a><a href="{up}news/index.html" {'aria-current="page"' if source=='news/index.html' else ''}>Selected papers</a>{'<a href="papers.html" aria-current="page">Review &amp; approve</a>' if source=='news/papers.html' else ''}</nav></header><div class="news-layout"><aside class="news-index"><details open><summary>Browse</summary><nav aria-label="Section navigation">{navigation}</nav></details><script>if(matchMedia("(max-width:900px)").matches)document.currentScript.previousElementSibling.open=false</script></aside><main id="main" tabindex="-1">{body}<footer>Quantum Research Center · <a href="mailto:{book['email']}">Contact</a></footer></main></div></body></html>'''
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description or 'Selected quantum research papers: problems, results, and transferable methods.')}"><link rel="canonical" href="{book['url']}/{source.removesuffix('index.html')}">{social_meta(title,description or 'Selected quantum research papers: problems, results, and transferable methods.',book['url']+'/'+source.removesuffix('index.html'),'article' if re.fullmatch(r'news/papers/(?:[0-9]{4}\.[0-9]+|quant-ph-[0-9]+)/index\.html',source) else 'website')}{article_data(book['url'],source,title,description) if re.fullmatch(r'news/papers/[^/]+/index\.html',source) else ''}<link rel="alternate" type="application/rss+xml" title="Selected papers | Quantum Research Center" href="{up}news/feed.xml">{'<meta name="robots" content="noindex">' if source in UNLISTED else ''}<link rel="icon" href="{up}icons/icon.svg"><script src="{up}education/computing/assets/theme.js"></script><script src="{up}navigation.js"></script><link rel="stylesheet" href="{up}styles.css"><link rel="stylesheet" href="{up}news/editorial.css">{mathjax}</head>
+<body class="news-reader"><a class="skip-link" href="#main">Skip to content</a><header class="news-toolbar">{site_logo('news-brand',up+'index.html')}{site_navigation(source, extra='<a href="papers.html" aria-current="page">Review &amp; approve</a>' if source=='news/papers.html' else '')}</header><div class="news-layout"><aside class="news-index"><details open><summary>Browse</summary><nav aria-label="Section navigation">{navigation}</nav></details><script>if(matchMedia("(max-width:900px)").matches)document.currentScript.previousElementSibling.open=false</script></aside><main id="main" tabindex="-1">{stream_nav(source, "papers" if source=="news/papers/index.html" else "")}{body}<footer>Quantum Research Center · <a href="mailto:{book['email']}">Contact</a></footer></main></div></body></html>'''
             return
         prefix=relative('index.html',source).removesuffix('index.html')
         pager='<nav class="page-navigation" aria-label="Reading navigation">'
@@ -106,7 +107,7 @@ def render(book):
         description = 'Courses in quantum science and computing, with interactive lessons and structured reading.' if source=='education/index.html' else (current['summary'] if current else book['subtitle'])
         if source=='index.html': description='Explore quantum science through courses, interactive lessons, research overviews, and selected literature.'
         canonical=book['url']+'/'+source.removesuffix('index.html')
-        site_nav=f'<nav class="site-nav" aria-label="Site navigation"><a href="{prefix}index.html"'+(' aria-current="page"' if source=='index.html' else '')+f'>Home</a><a href="{prefix}education/index.html"'+(' aria-current="page"' if source=='education/index.html' else '')+f'>Education</a><a href="{prefix}research/index.html"'+(' aria-current="page"' if source=='research/index.html' else '')+'>Research</a></nav>'
+        site_nav=site_navigation(source)
         sidebar_contents = ('<ul class="contents-list">'+''.join(f'<li class="part-label">{label}</li>'+''.join(f'<li class="chapter"><a href="{esc(relative(course["path"], source))}">{esc(course["title"])}</a></li>' for course in courses if course['level']==level) for level,label in course_levels)+'</ul>' if source=='education/index.html' else toc(source,current))
         if source=='index.html':
             sidebar_contents='<ul class="contents-list"><li class="part-label">Explore the site</li><li class="chapter"><a href="education/index.html">Education</a></li><li class="chapter"><a href="research/index.html">Research</a></li></ul>'
@@ -128,10 +129,8 @@ def render(book):
         intro+='<section class="research-category"><p class="kicker">'+f'{number:02} · {len(children.get(path(category),[]))} questions'+'</p><h3>'+link(category,'research/index.html')+'</h3><p>'+esc(category['summary'])+'</p>'+keywords(children.get(path(category),[]),'research/index.html')+'</section>'
     intro+='</div></section><section id="literature"><h2>Read the argument, then the source</h2><p>Known results link to papers near the claims they support. Each question also has an annotated reading list. Model assumptions and theorem scope matter as much as the equation itself.</p><a href="../references/index.html">Browse the bibliography →</a></section><section id="students"><h2>People and contributions</h2><p>Explore the projects and documented contributions of students working with the Center.</p><a href="students/index.html">Students and contributions →</a></section>'
     page('research/index.html','Quantum Research',intro,[('introduction','How to explore'),('contents-overview','Research questions'),('literature','Sources'),('students','People')])
-    home='''<header class="landing-hero" id="welcome"><p class="kicker">Quantum Research Center</p><h1>The study of quantum science</h1><p class="subtitle">A place for learning and inquiry into quantum theory, computation, and information. Courses and research notes connect foundational ideas, mathematical reasoning, and open questions.</p>'''+interference_hero()+'''<div class="landing-actions"><a class="primary-link" href="education/index.html">Explore courses →</a><a href="research/index.html">Read research notes →</a></div></header>'''+render_quantum_map(ROOT)+'''<div class="landing-paths"><section id="education"><p class="kicker">Education</p><h2>Courses in quantum science</h2><p>The courses develop concepts through explanations, mathematical examples, and interactive experiments. Quantum Computing begins with classical logic and proceeds through quantum states, circuits, and algorithms.</p><a href="education/index.html">Browse courses →</a></section><section id="research"><p class="kicker">Research</p><h2>Topics and open questions</h2><p>Explore questions in the foundations of quantum mechanics, quantum computation, quantum information, and quantum technology. Follow the mathematics from known results to a next investigation.</p><a href="research/index.html">Explore research →</a></section></div><section class="landing-literature" id="references"><div><p class="kicker">References</p><h2>Papers and further reading</h2><p>The bibliography collects papers and reviews cited in the research notes, with brief annotations on their relevance.</p></div><a href="references/index.html">Browse the bibliography →</a></section>'''
-    home+='<section class="landing-literature" id="news"><div><p class="kicker">Research updates</p><h2>News &amp; articles</h2><p>Explore recent arXiv papers and editor-selected research summaries.</p></div><a href="news/index.html">Browse news &amp; papers →</a></section>'
     render_news(ROOT, page, outputs, book['url'])
-    page('index.html','Home',home,[('welcome','Welcome'),('quantum-world','Quantum world'),('education','Education'),('research','Research'),('references','References'),('news','News & articles')])
+    article_dates = render_editorial(ROOT, outputs, book, site_logo, social_meta, json_ld)
     course_icons=['<circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="11" ry="4"/><path d="M16 16L23 7M16 3V29"/>', '<path d="M2 17C7 1 9 1 16 17S25 33 30 17M2 17H30"/>', '<path d="M2 9H30M2 23H30M16 9V23"/><circle cx="16" cy="9" r="2"/><rect x="12" y="19" width="8" height="8"/>', '<path d="M7 7L25 16L7 25Z"/><circle cx="7" cy="7" r="3"/><circle cx="25" cy="16" r="3"/><circle cx="7" cy="25" r="3"/>', '<rect x="8" y="8" width="16" height="16" rx="3"/><path d="M12 2V8M20 2V8M12 24V30M20 24V30M2 12H8M2 20H8M24 12H30M24 20H30"/>']
     course_icons=dict(zip(('education/computing/index.html','education/algorithms/index.html','education/programming/index.html','education/information/index.html','education/hardware/index.html'),course_icons))
     course_icons['education/foundations/index.html']='<circle cx="16" cy="16" r="3"/><ellipse cx="16" cy="16" rx="13" ry="5"/><ellipse cx="16" cy="16" rx="13" ry="5" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="13" ry="5" transform="rotate(120 16 16)"/>'
@@ -213,7 +212,8 @@ def render(book):
     for extra in sorted(ROOT.glob('education/*/*.html')):
         name=extra.relative_to(ROOT).as_posix(); text=extra.read_text(errors='ignore')
         if name not in listed and '<title>' in text and 'noindex' not in text and 'http-equiv="refresh"' not in text: listed.append(name)
-    approved={'news/'+paper['id']+'/index.html':paper['approved_on'] for paper in json.loads((ROOT/'content/papers.json').read_text())['papers'] if paper.get('approved_on')}
+    approved={paper_path(paper):paper['approved_on'] for paper in json.loads((ROOT/'content/papers.json').read_text())['papers'] if paper.get('approved_on')}
+    approved.update(article_dates)
     outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc>'+(f'<lastmod>{approved[p]}</lastmod>' if p in approved else '')+'</url>' for p in dict.fromkeys(listed))+'</urlset>\n'
     # Chapter fragments under content/ are build inputs, not pages.
     outputs['robots.txt']='User-agent: *\nAllow: /\nDisallow: /content/\nDisallow: /education/*/content/\nSitemap: '+book['url']+'/sitemap.xml\n'
@@ -271,7 +271,7 @@ def site_data(url):
 
 def article_data(url,source,title,description):
     # A news page summarizes one arXiv paper; the paper itself is cited, not claimed.
-    paper=next((p for p in json.loads((ROOT/'content/papers.json').read_text())['papers'] if 'news/'+p['id']+'/index.html'==source),None)
+    paper=next((p for p in json.loads((ROOT/'content/papers.json').read_text())['papers'] if paper_path(p)==source),None)
     if not paper: return ''
     data={'@context':'https://schema.org','@type':'Article','headline':title[:110],'description':re.sub(r'\\[()\[\]]','',description or ''),
         'url':url+'/'+source.removesuffix('index.html'),'datePublished':paper.get('approved_on'),'inLanguage':'en',
@@ -376,8 +376,12 @@ def main():
     print(f"{sum(name.endswith('.html') for name in output)} HTML pages validated; all local links and page reachability pass.")
 
 def orphaned_news_pages(output):
-    # Per-paper pages whose paper is no longer approved.
-    return [p for p in (ROOT/'news').glob('*/index.html') if str(p.relative_to(ROOT)) not in output]
+    # Only managed article/paper pages can be withdrawn; never remove hand-authored sections.
+    candidates = [p for pattern in ('*/index.html', 'papers/*/index.html') for p in (ROOT/'news').glob(pattern)
+                  if re.fullmatch(r'(?:[0-9]{4}\.[0-9]{4,5}|quant-ph-[0-9]{7})', p.parent.name)]
+    candidates.extend((ROOT/'news/articles').glob('*/index.html'))
+    return [p for p in candidates if str(p.relative_to(ROOT)) not in output
+            and GENERATED_NOTE in p.read_text()]
 
 def remove_page(target):
     target.unlink()

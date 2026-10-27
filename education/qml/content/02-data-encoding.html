@@ -1,0 +1,179 @@
+<aside class="learning-guide">
+<p><strong>After this chapter, you should be able to:</strong></p>
+<ul class="qml-outcomes">
+<li>Describe basis, amplitude, and angle encodings, and say what each one costs in qubits and gates.</li>
+<li>Compute the kernel induced by a product-state angle encoding and explain why it is a classical kernel.</li>
+<li>Identify the periodicity and normalisation traps that make an encoding non-injective.</li>
+</ul>
+<p><strong>Study method:</strong> For each encoding, write down the state for a small example before reading the paragraph that analyses it. Then solve the exercises, which ask you to count gates rather than to quote complexity claims.</p>
+<p><strong>Notation.</strong> \(x\in\mathbb R^d\) is a classical feature vector, \(n\) the number of qubits, \(U_\phi(x)\) the encoding unitary, and \(|\psi(x)\rangle=U_\phi(x)|0\rangle^{\otimes n}\) the encoded state. \(K(x,x')=|\langle\psi(x)|\psi(x')\rangle|^2\) is the induced kernel. \(R_y(\alpha)=\exp(-i\alpha Y/2)\) and \(R_z(\alpha)=\exp(-i\alpha Z/2)\) are rotations by angle \(\alpha\).</p>
+</aside>
+
+<p>Every quantum model begins with a decision that is usually made in a single line of code and rarely justified: how the classical data become a quantum state. That decision fixes the geometry of the problem—which points are close, which functions are reachable, how many frequencies the model can represent—and it fixes the cost of the first step of every training iteration. This chapter treats encodings as modelling choices with measurable consequences rather than as neutral plumbing.</p>
+
+<section aria-labelledby="section-2-1-heading" class="book-section" id="section-2-1">
+<h2 id="section-2-1-heading">2.1 Three embeddings and what they preserve</h2>
+<p>Three families cover almost everything in use. They differ in how many features a qubit can carry, in what they cost to prepare, and in which classical geometry survives the trip into Hilbert space.</p>
+
+<h3>2.1.1 Basis encoding</h3>
+<p>The simplest embedding maps a bit string to a computational basis state:</p>
+\[x=(b_1,\dots,b_n)\in\{0,1\}^n\ \longmapsto\ |x\rangle=|b_1\cdots b_n\rangle .\]
+<p>It uses one qubit per bit and costs a layer of \(X\) gates. It is exact—measuring in the computational basis returns the input—and it preserves Hamming geometry: the distance between two encoded strings is the number of positions in which they differ.</p>
+<p>Its limitation is equally clear. Continuous features must be discretised first, and the discretisation is lossy in a way that is invisible to the model. More importantly, basis encoding gives no cheap way to evaluate a function of the whole string: a circuit that acts on \(|x\rangle\) sees a single computational basis state, so any superposition that makes the computation parallel must be created independently of the data.</p>
+<p>Basis encoding is nevertheless the right choice for genuinely discrete problems—combinatorial inputs, Boolean formulas, or the oracle models used to prove query-complexity separations. It is the wrong choice when the data come from a continuous measurement.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Encode the three-bit string \(101\) and the uniform superposition of all three-bit strings. How many gates does each require?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The string needs \(X\) on qubits 1 and 3, giving \(|101\rangle\): two gates. The uniform superposition is \(H^{\otimes3}|000\rangle=\frac{1}{\sqrt8}\sum_{x}|x\rangle\): three gates, and it is independent of any data. The contrast is the point. Data-dependent superpositions—the states that would let one circuit act on many inputs "at once"—are not produced by basis encoding; producing them requires a preparation whose cost scales with the number of amplitudes, which is the subject of Section 2.2.</p>
+</details>
+</div>
+
+<h3>2.1.2 Amplitude encoding</h3>
+<p>Amplitude encoding stores a real vector in the amplitudes of a state:</p>
+\[x\in\mathbb R^{2^n}\ \longmapsto\ |\psi(x)\rangle=\frac{1}{\|x\|}\sum_{i=0}^{2^n-1}x_i\,|i\rangle .\]
+<p>It is exponentially compressive: \(n\) qubits carry \(2^n\) numbers. It also preserves Euclidean geometry in a precise sense. For two unit vectors, the squared distance between the states is</p>
+\[\bigl\||\psi(x)\rangle-|\psi(x')\rangle\bigr\|^2=2-2\langle\psi(x)|\psi(x')\rangle,\]
+<p>so inner products of encoded states are inner products of normalised data vectors. A quantum computer that can estimate overlaps is therefore computing a linear kernel on the original features.</p>
+<p>Two costs come with the compression. The norm is discarded, and recovering it needs either a classical record or extra qubits. And preparing an arbitrary \(2^n\)-amplitude state requires \(\Theta(2^n)\) gates in the worst case, because a general \(n\)-qubit state has \(2^{n+1}-2\) real parameters and each gate supplies only a constant number. The compression is real; the preparation is where the exponential reappears.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Encode \(x=(1,1,1,1)\) and then \(x=(1,2,3,4)\) in two qubits. Which preparation is free?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The first vector is already normalised up to a factor, giving \(\tfrac12(1,1,1,1)=H^{\otimes2}|00\rangle\): two Hadamard gates, no data dependence beyond a check that the entries are equal. The second gives \(\frac{1}{\sqrt{30}}(1,2,3,4)\), which is a generic two-qubit state with three independent parameters; it needs a general preparation—two or three two-qubit gates with computed angles. The example scales the wrong way for the optimistic reading: the "free" case is a special symmetric vector, and the generic case is the norm. An algorithm that assumes cheap amplitude preparation is assuming structure in the data, and that assumption belongs in the ledger.</p>
+</details>
+</div>
+
+<h3>2.1.3 Angle and feature-map encoding</h3>
+<p>The third family uses features as rotation angles. With one feature per qubit,</p>
+\[x\in\mathbb R^{n}\ \longmapsto\ |\psi(x)\rangle=\bigotimes_{i=1}^{n}R_y(x_i)\,|0\rangle ,\]
+<p>which costs \(n\) gates for \(n\) features—linear, and cheap. The state is a product state, so it carries no entanglement; the model can still be nonlinear because the amplitudes are trigonometric functions of the data.</p>
+<p>Entangling gates interleaved with rotations turn this into a <em>feature map</em>. A single layer</p>
+\[U_\phi(x)=U_{\text{ent}}\Bigl(\bigotimes_i R_z(x_i)\Bigr)H^{\otimes n}\]
+<p>already produces states that are not product states, and the resulting kernel is no longer a product of univariate functions. Repeating the block \(L\) times creates frequencies up to \(\pm L\) in each feature, which is the mechanism behind the Fourier series of Chapter 1.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Compute the kernel of the product-state angle encoding for two features with \(x=(0,0)\) and \(x'=(\pi,0)\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>For a product state the overlap factorises: \(\langle\psi(x)|\psi(x')\rangle=\prod_i\cos\bigl((x_i-x'_i)/2\bigr)\). Here it is \(\cos(0)\cos(\pi/2)=0\), so \(K=0\). The two points are orthogonal in Hilbert space even though their Euclidean distance is \(\pi\). That is the encoding at work: the geometry of the features has been replaced by the geometry of rotations, and a distance of \(\pi\) in one feature is the maximum separating distance. Two features differing by \(2\pi\) would be indistinguishable—the trap examined in Section 2.2.3.</p>
+</details>
+</div>
+</section>
+
+<section aria-labelledby="section-2-2-heading" class="book-section" id="section-2-2">
+<h2 id="section-2-2-heading">2.2 The cost of getting data in</h2>
+<p>State preparation is the step most often assumed away. This section separates the cases where it is genuinely cheap from the cases where an oracle is being assumed, and then asks what the encoding does to distances.</p>
+
+<h3>2.2.1 Loading a vector: assumptions behind the oracle</h3>
+<p>There are only four honest routes to a quantum state that encodes classical data:</p>
+<div class="qml-table">
+<table>
+<caption>How a data state can be prepared, and what each route assumes.</caption>
+<thead><tr><th scope="col">Route</th><th scope="col">Cost</th><th scope="col">Assumption</th></tr></thead>
+<tbody>
+<tr><td>The data are already quantum</td><td>Sample supplied by the experiment</td><td>No classical vector exists to load</td></tr>
+<tr><td>Structured preparation</td><td>Polynomial in \(n\)</td><td>The vector has structure—uniform, sparse, low rank, or generated by a known circuit</td></tr>
+<tr><td>Quantum memory (QRAM)</td><td>Polylogarithmic queries</td><td>A hardware device that returns amplitudes on demand, with its own error and scaling costs</td></tr>
+<tr><td>Generic preparation</td><td>\(\Theta(2^n)\) gates</td><td>None; this is the honest baseline</td></tr>
+</tbody>
+</table>
+</div>
+<p>Most algorithms in the literature are stated with the third route. That is legitimate as complexity theory, because the oracle is part of the problem statement, but it is not a claim about hardware. When a paper says "assume access to a quantum random-access memory", the right response is to ask what the memory costs to build, how its errors propagate, and whether the claimed advantage survives when those costs are included.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>How many gates are needed to prepare an arbitrary 12-qubit state, and how many for the uniform superposition? Express both as a ratio.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>A general 12-qubit state has \(2^{13}-2=8190\) real parameters, so a gate-by-gate preparation needs on the order of \(10^{3}\) two-qubit gates. The uniform superposition needs 12 Hadamards. The ratio is roughly \(700:1\) at this size and doubles with every added qubit. This is why "amplitude encoding of a \(2^{12}\)-dimensional feature vector" is cheap only when the vector has a short description—a fact the encoding notation hides.</p>
+</details>
+</div>
+
+<h3>2.2.2 Normalisation and the geometry of encoded data</h3>
+<p>Amplitude encoding maps a vector to a ray, so the encoding is invariant under positive rescaling: \(x\) and \(cx\) give the same state for \(c>0\). Two consequences follow.</p>
+<p>First, information is lost. If the norm carries signal—it often does, for example when it measures an intensity or a concentration—it must be encoded separately, in extra qubits or a classical side channel. Second, distances become angular. For unit vectors the state distance and the feature distance agree, but for vectors of different lengths the comparison is between directions only, and two points can be far apart in Euclidean terms while mapping to nearby states.</p>
+<p>Angle encoding has a different pathology: periodicity. Since \(R_y(\alpha+2\pi)=-R_y(\alpha)\), the state is unchanged when a feature is shifted by \(2\pi\). Feature values therefore have to be rescaled into an interval narrower than \(2\pi\); if they are not, distinct data points receive identical states and no model can separate them. A rescaling that maps a large range into \([0,2\pi)\) compresses the far end of the distribution, which is a modelling decision with consequences for the kernel.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>A feature ranges over \([0,100]\). What goes wrong with the naive map \(x\mapsto R_y(x)\), and what is a reasonable repair?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>The map is \(2\pi\)-periodic, so the range wraps about sixteen times: \(x=0\), \(x=2\pi\), \(x=4\pi\) and so on all give the same state, and points differing by about \(6.28\) become indistinguishable. A repair is an affine rescaling \(x\mapsto 2\pi x/100\), which makes the map injective on the range but compresses all separations by a factor of about \(16\). The compressed map is not wrong, but it changes the kernel: differences that were large in the data become small in Hilbert space. Recording the scale in the model specification is part of the specification, not an implementation detail.</p>
+</details>
+</div>
+
+<h3>2.2.3 What encoding does to distances</h3>
+<p>Distances are the clearest way to compare encodings, because a kernel is a function of distance in feature space and the encoding changes what "distance" means.</p>
+<figure class="qml-figure" id="figure-2-2-3">
+<svg viewBox="0 0 580 300" role="img" aria-labelledby="fig-enc-kernel-title fig-enc-kernel-desc">
+<title id="fig-enc-kernel-title">Kernel against feature difference for two encodings</title>
+<desc id="fig-enc-kernel-desc">The angle-encoding kernel follows a squared cosine, falling to zero at a difference of pi and returning to one at two pi. A radial basis function kernel decays monotonically and stays near zero. The angle encoding therefore cannot distinguish features that differ by a full period.</desc>
+<line class="axis" x1="70" y1="240" x2="520" y2="240"/>
+<line class="axis" x1="70" y1="40" x2="70" y2="250"/>
+<line class="grid" x1="70" y1="40" x2="510" y2="40"/>
+<line class="grid" x1="70" y1="140" x2="510" y2="140"/>
+<text class="muted" x="62" y="44" text-anchor="end">1</text>
+<text class="muted" x="62" y="144" text-anchor="end">0.5</text>
+<text class="muted" x="62" y="244" text-anchor="end">0</text>
+<text class="muted" x="70" y="262" text-anchor="middle">0</text>
+<text class="muted" x="182" y="262" text-anchor="middle">π</text>
+<text class="muted" x="295" y="262" text-anchor="middle">2π</text>
+<text class="muted" x="408" y="262" text-anchor="middle">3π</text>
+<text class="muted" x="520" y="262" text-anchor="middle">4π</text>
+<text class="muted" x="295" y="284" text-anchor="middle">difference in one feature</text>
+<polyline class="curve" points="70,40 108,48 146,72 182,100 210,128 236,152 262,176 295,200 328,176 354,152 380,128 408,100 444,72 482,48 520,40"/>
+<polyline class="curve-alt" points="70,40 100,46 130,62 160,90 190,126 220,164 250,196 280,218 310,232 340,238 370,240 400,240 430,240 460,240 490,240 520,240"/>
+<text class="muted halo" x="150" y="62" text-anchor="start">angle encoding</text>
+<text class="muted halo" x="322" y="228" text-anchor="start">RBF kernel</text>
+</svg>
+<figcaption>Kernel value against the difference in a single feature. The angle-encoding kernel \(K=\cos^2(\Delta/2)\) is periodic: it reaches zero at \(\Delta=\pi\) and returns to one at \(\Delta=2\pi\), so two features a full period apart are encoded identically. A radial basis function decays monotonically instead. Neither is better in general—but only one of them is injective on an unbounded range.</figcaption>
+</figure>
+<p>This figure is the practical reason to state the encoding explicitly in every experiment. A model that appears to ignore a feature may simply be seeing the feature through a periodic map whose period is shorter than the data range, and a kernel that appears to separate classes may be relying on an aliasing artefact.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>For two points at feature difference \(\Delta\), find the kernel value at \(\Delta=\pi/2\) and at \(\Delta=2\pi\), for the angle encoding and for an RBF kernel with bandwidth \(\sigma=1\).</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Angle encoding: \(K=\cos^2(\Delta/2)\), so at \(\Delta=\pi/2\) we get \(\cos^2(\pi/4)=1/2\), and at \(\Delta=2\pi\) we get \(\cos^2(\pi)=1\). RBF: \(\exp(-\Delta^2/2)\), so at \(\Delta=\pi/2\) it is \(\exp(-\pi^2/8)\approx0.29\), and at \(2\pi\) it is \(\exp(-2\pi^2)\approx3\times10^{-9}\). The RBF says the far point is unrelated; the angle encoding says it is identical to the origin. Both are legitimate kernels, and the difference is entirely a property of the encoding.</p>
+</details>
+</div>
+</section>
+
+<section aria-labelledby="section-2-3-heading" class="book-section" id="section-2-3">
+<h2 id="section-2-3-heading">2.3 Feature maps and kernels</h2>
+<p>An encoding plus an inner product is a kernel. Making that explicit turns encoding choices into statements about similarity, which is the language Chapter 3 uses to compare quantum and classical models on equal terms.</p>
+
+<h3>2.3.1 From embedding to kernel</h3>
+<p>Given an encoding, define</p>
+\[K(x,x')=\bigl|\langle\psi(x)|\psi(x')\rangle\bigr|^2=\bigl|\langle 0|U_\phi(x')^{\dagger}U_\phi(x)|0\rangle\bigr|^2 .\]
+<p>This is a positive semi-definite function of the pair, because it is a Gram matrix of state vectors, and it is computable on a quantum device by the overlap circuit of Section 3.2. For the product-state angle encoding it factorises:</p>
+\[K(x,x')=\prod_{i=1}^{n}\cos^2\!\Bigl(\frac{x_i-x_i'}{2}\Bigr),\]
+<p>which is a product of univariate functions—a classical kernel in disguise. This is worth internalising, because it explains a recurring result: circuits without entanglement, or with entanglement that only commutes with the encoding, produce kernels that a classical computer can evaluate in time linear in \(n\). Entanglement is necessary for the kernel to be hard to compute, though as Chapter 3 shows it is not sufficient for the kernel to be useful.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>Show that the product-state kernel equals one whenever \(x_i-x_i'\in2\pi\mathbb Z\) for every feature, and interpret the result.</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Each factor is \(\cos^2(k\pi)=1\) for integer \(k\), so the product is one and the two points are indistinguishable to any model built on this kernel—regardless of how far apart they are in the original units. With more than one feature the ambiguity compounds: any vector difference whose components are multiples of \(2\pi\) is invisible. This is an aliasing effect, not a limitation of quantum hardware, and it is removed only by choosing a different encoding or by rescaling the data so the range is smaller than the period.</p>
+</details>
+</div>
+
+<h3>2.3.2 The feature-map circuit</h3>
+<p>The standard construction alternates a data-dependent rotation layer with a fixed entangling layer:</p>
+\[U_\phi(x)=\prod_{\ell=1}^{L}\Bigl[U_{\text{ent}}\prod_{i=1}^{n}R_z(x_i)\Bigr]H^{\otimes n}.\]
+<p>Each factor \(R_z(x_i)\) contributes a frequency of \(1\) in feature \(i\); the entangling layers mix features, so the composed map contains products such as \(x_ix_j\) inside phases. A widely used variant replaces the rotation layer with entangling rotations \(\exp(i x_i x_j Z_iZ_j)\) for each pair, at a cost of \(O(n^2)\) gates per layer rather than \(O(n)\).</p>
+<p>The frequency content is what makes the map a model rather than a convenience. With \(L\) repetitions of a Pauli-generated encoding, the reachable functions are trigonometric polynomials whose spectra in each feature are contained in \(\{-L,\dots,L\}\). More layers buy higher frequencies, and therefore the ability to fit more oscillatory targets—at the cost of more parameters and, as Chapter 6 shows, flatter gradients.</p>
+<div class="exercise"><h4>Worked example</h4>
+<p>How many distinct frequencies in a single feature are available with \(L=2\) encoding layers, and which ones?</p>
+<details class="problem-solution"><summary>Solution and reasoning</summary>
+<p>Each encoding layer contributes one unit of frequency in either direction, and the generator's eigenvalues are integers, so with two layers the accessible set is \(\{-2,-1,0,1,2\}\): five frequencies, of which the symmetric pair \(\pm k\) corresponds to the same period. A single layer would give only \(\{-1,0,1\}\). The count grows linearly in \(L\), which is why adding layers is the standard way to increase expressivity—and why the parameter count grows with it.</p>
+</details>
+</div>
+
+<h3>2.3.3 Choosing a map is modelling</h3>
+<p>Because the map fixes the kernel, choosing it is choosing a prior about which points should be considered similar. Three consequences deserve to be stated plainly.</p>
+<p><strong>Symmetries should match.</strong> If the task is invariant under a permutation of features, a map that treats features asymmetrically wastes capacity and data. Encoding a symmetry into the circuit is the quantum counterpart of using a convolutional architecture.</p>
+<p><strong>Expressivity trades against concentration.</strong> A richer map produces states that are, on average, more nearly orthogonal—the kernel concentrates, and the model becomes insensitive to differences between points. This is the subject of Section 3.2.3 and the reason "more expressivity" is not an unconditional good.</p>
+<p><strong>The map must be fixed before the test set is touched.</strong> Choosing the map, its depth, and its rescaling by observing test performance is fitting on the test set. The selection is part of the model and belongs to the training protocol.</p>
+<p>With these three commitments, the encoding is specified rather than inherited from a tutorial, and the comparisons of Chapter 3 become meaningful.</p>
+</section>
+
+<section id="reading">
+<h2>Further reading</h2>
+<p>These sources derive the Fourier structure of encoded circuits, define quantum feature spaces, and analyse the preparation cost that Section 2.2 treats as a ledger entry.</p>
+<ul>
+<li><a href="https://arxiv.org/abs/2008.08605">Schuld, Sweke, and Meyer, The effect of data encoding on the expressive power of variational quantum machine learning models (2020)</a> — the frequency spectrum of Pauli-generated encodings.</li>
+<li><a href="https://arxiv.org/abs/2101.11020">Schuld, Supervised quantum machine learning models are kernel methods (2021)</a> — the kernel reading of encodings, developed in Chapter 3.</li>
+<li><a href="https://arxiv.org/abs/1803.07128">Schuld and Killoran, Quantum machine learning in feature Hilbert spaces (2018)</a> — feature maps as embeddings into a Hilbert space, with the kernel induced by the inner product.</li>
+<li><a href="https://arxiv.org/abs/1804.11326">Havlíček, Córcoles, Temme, Harrow, Kandala, Chow, and Gambetta, Supervised learning with quantum-enhanced feature spaces (2018)</a> — the feature-map circuit and the kernel constructed from it.</li>
+<li><a href="https://arxiv.org/abs/1707.08561">Ciliberto, Herbster, Ialongo, Pontil, Rocchetto, Severini, and Wossnig, Quantum machine learning: a classical perspective (2017)</a> — a critical review of what classical learning theory already provides, including the cost of state preparation.</li>
+</ul>
+</section>

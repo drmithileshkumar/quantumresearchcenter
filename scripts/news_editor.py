@@ -37,8 +37,8 @@ def approve(ids):
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
         output = build.render(json.loads((ROOT / 'content/research.json').read_text()))
         build.check_output(output)
-        # Approval changes the news pages, the search index, and the sitemap.
-        for name in [n for n in output if n.startswith('news/') or n == 'sitemap.xml']:
+        # Approval also refreshes the homepage’s latest research papers.
+        for name in [n for n in output if n.startswith('news/') or n in ('index.html', 'sitemap.xml')]:
             target = ROOT / name
             target.parent.mkdir(parents=True, exist_ok=True)
             temporary = target.with_name(target.name + '.tmp')
@@ -46,7 +46,7 @@ def approve(ids):
             os.replace(temporary, target)
         for target in build.orphaned_news_pages(output):
             build.remove_page(target)
-        build.record_generated(output, [n for n in output if n.startswith('news/') or n == 'sitemap.xml'])
+        build.record_generated(output, [n for n in output if n.startswith('news/') or n in ('index.html', 'sitemap.xml')])
     except Exception:
         path.write_text(original)
         raise
@@ -92,7 +92,7 @@ class Handler(SimpleHTTPRequestHandler):
             if not isinstance(body, dict): raise ValueError('Invalid request.')
             with LOCK:
                 approved = approve(body.get('ids'))
-            self.json_response(200, {'approved': approved, 'news_url': '/news/index.html'})
+            self.json_response(200, {'approved': approved, 'news_url': '/news/papers/index.html'})
         except (ValueError, KeyError) as exc:
             self.json_response(400, {'error': str(exc)})
         except Exception:

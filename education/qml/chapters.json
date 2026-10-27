@@ -1,0 +1,174 @@
+[
+  {
+    "stem": "01-quantum-models",
+    "title": "What a Quantum Model Is",
+    "question": "What exactly is being learned when the model is a quantum circuit?",
+    "prerequisites": "Linear algebra, probability, and the basics of supervised learning.",
+    "example": "Two circuits that fit the same data while making different claims.",
+    "method": "Separate the model, the training rule, and the evidence for each claim.",
+    "pitfall": "A quantum circuit is not automatically a better hypothesis class.",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "number": "1.1",
+        "title": "Learning tasks and hypothesis classes",
+        "subsections": [
+          "State the task before the circuit",
+          "Hypothesis classes and what quantum adds",
+          "Separate the model from the training rule"
+        ]
+      },
+      {
+        "id": "section-1-2",
+        "number": "1.2",
+        "title": "Where an advantage could come from",
+        "subsections": [
+          "Data that is hard to load and hard to simulate",
+          "A three-way ledger: data, model, algorithm",
+          "Rule out the classical baseline first"
+        ]
+      },
+      {
+        "id": "section-1-3",
+        "number": "1.3",
+        "title": "Claims, assumptions, and honest comparisons",
+        "subsections": [
+          "Read an advantage claim as a conditional",
+          "Common failure modes",
+          "What this course will and will not prove"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "02-data-encoding",
+    "title": "Encoding Data into Quantum States",
+    "question": "What does it cost to turn a classical data point into a quantum state?",
+    "prerequisites": "Chapter 1 and the state-vector formalism.",
+    "example": "Three encodings of the same four-dimensional vector.",
+    "method": "Count qubits, gates, and preparation cost for each encoding.",
+    "pitfall": "An encoding is a modelling choice, not a neutral step.",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "number": "2.1",
+        "title": "Three embeddings and what they preserve",
+        "subsections": [
+          "Basis encoding",
+          "Amplitude encoding",
+          "Angle and feature-map encoding"
+        ]
+      },
+      {
+        "id": "section-2-2",
+        "number": "2.2",
+        "title": "The cost of getting data in",
+        "subsections": [
+          "Loading a vector: assumptions behind the oracle",
+          "Normalisation and the geometry of encoded data",
+          "What encoding does to distances"
+        ]
+      },
+      {
+        "id": "section-2-3",
+        "number": "2.3",
+        "title": "Feature maps and kernels",
+        "subsections": [
+          "From embedding to kernel",
+          "The feature-map circuit",
+          "Choosing a map is modelling"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "03-kernels",
+    "title": "Quantum Kernels and Kernel Methods",
+    "question": "When does a quantum feature map give a better kernel than a classical one?",
+    "prerequisites": "Chapter 2 and elementary statistical learning theory.",
+    "example": "A two-qubit kernel that is flat, and one that is not.",
+    "method": "Estimate the Gram matrix, then test it against a classical kernel.",
+    "pitfall": "A kernel that is hard to compute is not automatically one that generalises.",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "number": "3.1",
+        "title": "Kernel methods without the quantum part",
+        "subsections": [
+          "The kernel trick and the representer theorem",
+          "What a good kernel does",
+          "Regularisation and the dual problem"
+        ]
+      },
+      {
+        "id": "section-3-2",
+        "number": "3.2",
+        "title": "Estimating a quantum kernel",
+        "subsections": [
+          "Overlap as a kernel value",
+          "Shot noise and the cost of one entry",
+          "Concentration: kernels that go flat"
+        ]
+      },
+      {
+        "id": "section-3-3",
+        "number": "3.3",
+        "title": "When a quantum kernel can help",
+        "subsections": [
+          "Geometric difference",
+          "Constructed data and the extrapolation question",
+          "A checklist before training"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  },
+  {
+    "stem": "04-variational",
+    "title": "Variational Quantum Models",
+    "question": "What exactly is a parameterised quantum circuit learning, and what does it cost to measure?",
+    "prerequisites": "Chapters 1 to 3, and linear algebra including positive semi-definite matrices.",
+    "example": "A ten-qubit hardware-efficient layer, priced in parameters, settings, and shots.",
+    "method": "Count the parameters, plan the measurements, then price the training loop.",
+    "pitfall": "Reading a flat loss as convergence rather than as a property of the landscape.",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "number": "4.1",
+        "title": "Building a variational ansatz",
+        "subsections": [
+          "The four choices that define a model",
+          "Hardware-efficient and problem-inspired circuits",
+          "Depth, entanglement, and what a shallow circuit cannot do"
+        ]
+      },
+      {
+        "id": "section-4-2",
+        "number": "4.2",
+        "title": "From expectation value to loss",
+        "subsections": [
+          "Pauli decomposition and measurement settings",
+          "Shot noise and the precision target",
+          "Readout error and calibration"
+        ]
+      },
+      {
+        "id": "section-4-3",
+        "number": "4.3",
+        "title": "The optimisation problem in parameter space",
+        "subsections": [
+          "The landscape is a function of the circuit",
+          "Global versus local cost functions",
+          "Regularisation, early stopping, and the prior you did not choose"
+        ]
+      }
+    ],
+    "status": "draft",
+    "exercise_count": 10
+  }
+]

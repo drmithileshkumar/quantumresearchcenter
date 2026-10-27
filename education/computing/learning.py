@@ -160,7 +160,7 @@ def package():
    content=file.read_bytes()
    if file.suffix=='.html':
     text=content.decode()
-    for src,dest in [('../../index.html','https://quantumresearch.center/'),('../index.html','https://quantumresearch.center/education/'),('../../research/index.html','https://quantumresearch.center/research/')]:text=text.replace(f'href="{src}"',f'href="{dest}"')
+    for src,dest in [('../../index.html','https://quantumresearch.center/'),('../index.html','https://quantumresearch.center/education/'),('../../research/index.html','https://quantumresearch.center/research/'),('../../news/index.html','https://quantumresearch.center/news/')]:text=text.replace(f'href="{src}"',f'href="{dest}"')
     text=re.sub(r'<a[^>]*href="downloads/quantum-computing.zip"[^>]*>.*?</a>','<span>Offline edition (already downloaded)</span>',text)
     content=text.encode()
    add('education/computing/'+file.relative_to(ROOT).as_posix(),content)

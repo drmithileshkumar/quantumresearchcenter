@@ -1,0 +1,22 @@
+{
+  "slug": "quantum-safe-security",
+  "title": "Quantum-safe security starts with ordinary computers",
+  "summary": "Why preparing for quantum computers means changing the mathematics behind digital security.",
+  "author": "Quantum Research Center",
+  "published": "2026-10-26",
+  "status": "published",
+  "topic": "projects",
+  "format": "Explainer",
+  "sections": [
+    {"heading": "The change already has a starting point", "paragraphs": ["On 13 August 2024, NIST announced approval of three post-quantum cryptography standards. One provides a way for communicating parties to establish a shared secret; two concern digital signatures, which help verify who signed data and whether it has changed."]},
+    {"heading": "What does “post-quantum” mean?", "paragraphs": ["These methods run on conventional computers. Their mathematics is designed to withstand attacks from both conventional and future quantum computers. That is different from sending quantum states through a special communication link."]},
+    {"heading": "Why prepare ahead of time?", "paragraphs": ["A sufficiently capable quantum computer could undermine widely used public-key cryptography. Information intercepted today may still be sensitive when a future attacker can decrypt it, and replacing cryptography across existing systems takes time."]},
+    {"heading": "What the milestone does—and does not—show", "paragraphs": ["A published standard gives implementers a common specification. It does not mean every service has adopted it, or that an encryption-breaking quantum computer has been built. When reading a rollout announcement, look for which systems changed and what independent testing was performed."]}
+  ],
+  "sources": [
+    {"title": "NIST: approval of three post-quantum standards (13 August 2024)", "url": "https://csrc.nist.gov/News/2024/postquantum-cryptography-fips-approved"},
+    {"title": "NIST: what is post-quantum cryptography?", "url": "https://www.nist.gov/cybersecurity-and-privacy/what-post-quantum-cryptography"}
+  ],
+  "related_articles": ["beyond-the-qubit-count"],
+  "related_papers": []
+}

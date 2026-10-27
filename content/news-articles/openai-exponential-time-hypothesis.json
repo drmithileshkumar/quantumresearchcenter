@@ -1,0 +1,265 @@
+{
+  "slug": "openai-exponential-time-hypothesis",
+  "title": "Exponential Time Hypothesis collapses",
+  "summary": "A beginner’s guide to the Exponential Time Hypothesis, how the algorithm OpenAI has released is claimed to work, which results it overturns and which survive, and why it is a statement about growth rates rather than a faster SAT solver.",
+  "author": "Quantum Research Center",
+  "published": "2026-10-27",
+  "status": "published",
+  "topic": "discoveries",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What OpenAI announced",
+      "paragraphs": [
+        "OpenAI announced on 26 October 2026 that its AI system had disproved the Exponential Time Hypothesis, usually shortened to ETH. The company has released a 67-page manuscript, dated 17 October and revised 25 October, and materials for a formal proof in Lean, a computer-assisted proof checker. It says an external group led by Russell Impagliazzo, Ramamohan Paturi, and Ryan Williams will examine and explain the work.",
+        "If the claim stands up, it overturns one of the most heavily used assumptions in the study of how fast algorithms can be. The manuscript states that the same algorithm also refutes several stronger or related hypotheses: the Strong Exponential Time Hypothesis (SETH), its gap, nondeterministic and counting versions, and their randomized forms. The significance is theoretical. It changes which limits researchers can justify; it is not an announcement that difficult computations have become practical, a point we return to below."
+      ],
+      "source_refs": [
+        1,
+        3
+      ]
+    },
+    {
+      "heading": "Start with a puzzle made of switches",
+      "paragraphs": [
+        "Imagine a row of switches, each either on or off, together with rules about their settings. One rule might say: “A is on, or B is off, or C is on.” At least one of those three conditions must hold. Another rule might involve different switches. The task is to find settings that satisfy every rule at once.",
+        "This is the idea behind 3-SAT. A switch is a Boolean variable; a rule is a clause containing at most three conditions; \\(k\\)-SAT allows up to \\(k\\) conditions per clause. SAT asks whether a satisfying assignment exists. Checking a proposed setting is straightforward: inspect each rule. Finding a setting can be much harder.",
+        "With \\(n\\) switches there are \\(2^n\\) possible settings. Twenty switches give 1,048,576 possibilities; thirty give more than a billion. Trying every setting is an algorithm, but ten extra switches multiply its work by 1,024. The question is whether a clever method can reliably avoid that explosion, even on the hardest inputs."
+      ],
+      "source_refs": [
+        4
+      ]
+    },
+    {
+      "heading": "Forty years of shrinking the base, never the shape",
+      "paragraphs": [
+        "Clever methods do exist. In 1999 Uwe Schöning showed that a simple random walk, starting from a random setting and repeatedly flipping a variable in a violated rule, solves 3-SAT in about \\((4/3)^n\\) steps instead of \\(2^n\\). At 100 switches that is roughly three trillion steps instead of a number with 31 digits. The PPSZ family of algorithms, which first derives extra rules and then fixes variables in a random order, has since pushed the base down to about 1.308, and a 2026 preprint cited in the manuscript reports 1.307. The best deterministic bound cited there is about \\(1.328^n\\).",
+        "Every one of these running times has the form \\(c^n\\) with \\(c\\) larger than one. Each improvement lowered the base \\(c\\); none changed the shape of the curve. That pattern, over decades of effort by many researchers, is what ETH turned into a precise conjecture."
+      ],
+      "source_refs": [
+        3
+      ]
+    },
+    {
+      "heading": "What the hypothesis says, and why it mattered",
+      "paragraphs": [
+        "The famous P versus NP question asks, roughly, whether every problem whose proposed answer can be checked efficiently can also be solved efficiently, where “efficiently” means polynomial time. But even assuming P is different from NP leaves a large gap: a problem might have no polynomial-time algorithm and still be solvable much faster than exponential search.",
+        "ETH, formulated by Impagliazzo and Paturi and developed with Zane, fills that gap with a bold guess: there is some fixed positive constant \\(c\\) such that no algorithm solves 3-SAT in fewer than \\(2^{cn}\\) steps in the worst case. In other words, the shape \\(c^n\\) is permanent; only the base can improve. SETH went further, predicting that the best possible base approaches 2 as the clause size \\(k\\) grows, so that for long clauses nothing substantially beats trying every setting.",
+        "Both were conjectures, not theorems. Their power came from reductions: if problem X could be solved too quickly, the reduction would turn that speed into a fast SAT algorithm. Assuming ETH or SETH therefore gave precise lower bounds for many other problems, and researchers used those bounds to judge whether an algorithm was already as good as it could be."
+      ],
+      "source_refs": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "heading": "Faster exponential time is not the same as subexponential time",
+      "paragraphs": [
+        "An algorithm taking \\(2^n\\) steps and one taking \\(2^{n/100}\\) steps differ enormously in speed, but both are exponential: the exponent is a fixed positive fraction of \\(n\\). ETH allows improvements of that kind. What it rules out is an algorithm whose exponent is a fraction of \\(n\\) that shrinks towards zero as the inputs grow, written \\(2^{o(n)}\\), apart from a polynomial factor for reading the input.",
+        "For example, \\(2^{\\sqrt n}\\) is subexponential because \\(\\sqrt n\\) becomes small compared with \\(n\\). Subexponential does not mean easy: even that example needs about a trillion steps when \\(n\\) is 1,600. And a fraction that tends to zero may do so extremely slowly, as the claimed bounds show."
+      ],
+      "source_refs": [
+        5
+      ]
+    },
+    {
+      "heading": "What the released result actually claims",
+      "paragraphs": [
+        "The manuscript describes a deterministic algorithm that exactly counts the satisfying assignments of any \\(k\\)-SAT formula, for each fixed clause size \\(k\\). Counting is more informative than answering yes or no: a count of zero means no solution exists, and a positive count means at least one does. By fixing one variable at a time and recounting, the algorithm can also find a solution, or pick one exactly uniformly at random.",
+        "Its running time is a polynomial in the input size multiplied by \\(2^{O(n\\log\\log n/\\sqrt{\\log n})}\\), using only polynomial memory. When the number of clauses is at most a fixed multiple of \\(n\\), the exponent improves to \\(O(n/\\sqrt{\\log n})\\). The \\(O\\) hides constants that depend on \\(k\\). Because \\(\\log\\log n/\\sqrt{\\log n}\\) shrinks towards zero, the bound is subexponential, and it contradicts ETH.",
+        "The Lean formalization proves a slightly weaker exponent, \\(O\\bigl(n(\\log\\log n)^2/\\sqrt{\\log n}\\bigr)\\), and OpenAI’s notes state the difference explicitly. How slowly these fractions shrink is striking. The manuscript’s fraction \\(\\log\\log n/\\sqrt{\\log n}\\) is about 0.7 at a million variables and still about 0.36 at \\(10^{100}\\) variables. The Lean-checked fraction \\((\\log\\log n)^2/\\sqrt{\\log n}\\) is about 2 at both of those sizes and falls below 1 only when \\(n\\) has roughly 2,400 digits. These are our calculations from the stated formulas, ignoring the hidden constants; they show that the result is about eventual growth."
+      ],
+      "source_refs": [
+        2,
+        3
+      ],
+      "figure": {
+        "file": "growth.svg",
+        "alt": "Line chart of the exponent per variable against the number of variables from 10 cubed to 10 to the 100. Exhaustive search is a flat line at 1 and the best known algorithm a flat line at 0.386. The manuscript bound falls slowly from about 0.7 and crosses below the best known line near 10 to the 79. The Lean-checked bound stays near 2, above exhaustive search, across the whole range.",
+        "caption": "Exponent per variable, \\(\\log_2(\\text{steps})/n\\). An exponential algorithm \\(c^n\\) is a flat line at \\(\\log_2 c\\); a subexponential one falls towards zero. The two curves are the fractions in the manuscript and Lean bounds above, with the hidden constant set to 1, an illustrative choice: the true constants are not stated, and polynomial factors are ignored. Our calculation from the stated bounds."
+      }
+    },
+    {
+      "heading": "The proof idea, step one: split the formula into independent pieces",
+      "paragraphs": [
+        "The manuscript starts with a special case: every clause has at most three variables and every variable appears in at most three clauses. Each clause becomes a polynomial, an expression built from sums and products, that equals one when the clause is satisfied and zero otherwise. For “A or not B or C” it is \\(1-(1-A)\\,B\\,(1-C)\\). Multiplying the clause polynomials and adding the result over all \\(2^n\\) settings gives the number of solutions. Evaluated directly, that is still exhaustive search.",
+        "Now suppose the variables could be split into \\(r\\) groups so that no clause mixes two groups. Then each group could be counted on its own and the counts multiplied: every solution is one choice per group. Instead of \\(2^n\\) settings, the work would be about \\(r\\cdot 2^{n/r}\\). Real formulas almost never split like this; clauses tie the groups together. The whole proof is a way of making a formula behave as if it split."
+      ],
+      "source_refs": [
+        3
+      ]
+    },
+    {
+      "heading": "Step two: let groups talk only through a few summaries",
+      "paragraphs": [
+        "The manuscript introduces an auxiliary number \\(T\\) and rewrites every clause input as a weighted mixture of variables, with weights that are low-degree polynomials in \\(T\\). At \\(T=0\\) the mixture is just the original variable, so the formula is unchanged and the count is untouched. At each of \\(Q\\) chosen points \\(T=1,2,\\dots,Q\\), the mixtures are arranged so that a clause depends on variables outside its own group only through a few shared summaries: integer weighted sums such as \\(x_3-x_7+x_{12}\\), called measurements.",
+        "Fix the values of all the measurements, and the formula really does split: each group can be enumerated separately and the results multiplied. The algorithm then loops over every possible combination of measurement values. The design keeps both the number of measurements and the size of their coefficients small, so this outer loop costs far less than \\(2^n\\).",
+        "At the points \\(T=1,\\dots,Q\\) the mixed-up clause polynomials no longer count solutions; they compute some other number. That is acceptable, because those numbers are only stepping stones to the value at \\(T=0\\)."
+      ],
+      "source_refs": [
+        3
+      ],
+      "figure": {
+        "file": "split.svg",
+        "alt": "Two diagrams of three groups of four variables. In the first, orange clause links cross between groups. In the second, the cross links are gone and each group connects by a dashed line to a shared row of summaries held at fixed values.",
+        "caption": "Schematic. Once every shared summary is fixed, each group of about \\(n/r\\) variables can be enumerated on its own, so one pass costs about \\(r\\cdot 2^{n/r}\\) instead of \\(2^n\\). The algorithm repeats this for every combination of summary values; the construction keeps that number of combinations subexponential."
+      }
+    },
+    {
+      "heading": "Step three: work back to T = 0 by interpolation",
+      "paragraphs": [
+        "Write \\(H(T)\\) for the result of the whole sum as a function of \\(T\\). It is a polynomial whose degree is at most \\(3nR\\), where \\(R\\) is the degree of the mixing weights, and \\(H(0)\\) is the number of solutions. A polynomial is determined by enough exact information about it, just as two points fix a line. The algorithm cannot evaluate \\(H\\) at \\(0\\) cheaply, so it gathers information at the easy points instead.",
+        "\\(Q\\) values alone are not enough for a polynomial of degree \\(3nR\\), so at each point the algorithm also computes how \\(H\\) changes nearby: its first \\(q\\) Taylor coefficients, where \\(q\\) is about \\(3nR/Q\\). These derivatives are computed by fixing small sets of variables and combining the results by inclusion–exclusion. With values and derivatives at all \\(Q\\) points, Hermite interpolation, a standard generalization of fitting a curve through points, recovers \\(H(0)\\) exactly.",
+        "The running time is a product of three costs: the number of small variable sets used for the derivatives, which grows with \\(nR/Q\\); the number of measurement combinations; and \\(2^{2n/r}\\) settings inside one group. Choosing \\(r\\) of order \\(\\sqrt{\\log n}/(\\log\\log n)^2\\), \\(Q\\) of order \\(\\log n/\\log\\log n\\) and \\(R\\) of order \\(\\sqrt{\\log n}\\) makes all three subexponential at once, which gives the exponent \\(n(\\log\\log n)^2/\\sqrt{\\log n}\\) for this special case."
+      ],
+      "source_refs": [
+        3
+      ],
+      "figure": {
+        "file": "interpolation.svg",
+        "alt": "A curve H of T. At T equals 0 a hollow orange circle marks the number of solutions. At T equals 1, 2, 3 and 4 blue dots with short tangent segments mark points where the value and slopes are computed.",
+        "caption": "Schematic with \\(Q=4\\) points. The value \\(H(0)\\) is the solution count; it is never computed directly. Values and several derivatives at \\(T=1,\\dots,Q\\), each cheap because the formula separates there, determine the whole polynomial and hence \\(H(0)\\)."
+      }
+    },
+    {
+      "heading": "Where the low-degree mixtures come from",
+      "paragraphs": [
+        "The hardest step is building mixtures that separate the groups at every chosen point while keeping the degree \\(R\\) much smaller than \\(Q\\). The construction works with permutations that swap labels, and needs a polynomial that equals \\(+1\\) or \\(-1\\) alternately on a run of consecutive whole numbers. Such a polynomial has low degree only if the run is short.",
+        "Here the proof uses a familiar fact from probability. If you toss \\(Q\\) coins, the number of heads almost always lands within a few multiples of \\(\\sqrt Q\\) of its average. The polynomial only has to behave correctly on that narrow band, so a degree of order \\(\\sqrt Q\\) suffices. The rare directions that fall outside the band are exactly the ones handed to the shared measurements, and there are few of them.",
+        "General formulas need two more steps. A known “sparsification” technique splits the count across many formulas in which each variable appears only a limited number of times. Copying variables then reduces those formulas to the special case above, which already gives a subexponential bound. The sharper bound comes from turning the clauses into parity tests, checks on whether an even or odd number of clauses fail, built from expander codes and verified by exact counting. A tensor-network argument in an appendix gives the final exponent. This summarizes the manuscript’s outline; it is not an independent verification."
+      ],
+      "source_refs": [
+        3
+      ],
+      "figure": {
+        "file": "coins.svg",
+        "alt": "Bar chart of the probability of each number of heads in 100 fair coin tosses, from 26 to 74 heads. Bars from 41 to 60 are blue; the remaining tails are grey and together hold about 4.6 percent of the probability.",
+        "caption": "Concentration in numbers: with \\(Q=100\\) tosses, 95.4% of the probability lies on the 20 central values. A polynomial that must be exact only there can have low degree; the rare remainder is what the shared measurements absorb. The proof uses this idea with its own parameters, not these."
+      }
+    },
+    {
+      "heading": "What else the paper claims",
+      "paragraphs": [
+        "Because the algorithm counts rather than merely decides, the manuscript derives more than a SAT result. It claims deterministic \\(2^{o(v)}\\) algorithms for counting independent sets and proper colourings with a fixed number of colours in graphs with \\(v\\) vertices, and for counting perfect matchings. Under the counting version of ETH, a 2018 result by Curticapean had ruled out such a matching algorithm; the claim removes that premise as well.",
+        "It also claims randomized subexponential algorithms for Max-\\(k\\)-SAT that satisfy all but \\(\\varepsilon m\\) of the clauses an optimal assignment satisfies, for any fixed \\(\\varepsilon\\), where \\(m\\) is the number of clauses, and a new lower bound on the circuit size of a function in a large complexity class. These follow from the main theorem by standard arguments given in the manuscript. They stand or fall with it."
+      ],
+      "source_refs": [
+        3
+      ]
+    },
+    {
+      "heading": "What it does not give: reductions must run the right way",
+      "paragraphs": [
+        "A subexponential algorithm for SAT does not automatically help with every NP-complete problem. The usual reductions between NP problems may blow up the number of variables by a polynomial factor, and \\(2^{o(n)}\\) does not survive that: a problem of size \\(N\\) turned into a formula with \\(N^2\\) variables would still take \\(2^{o(N^2)}\\) time. The manuscript makes this point itself. To transfer the speed-up, one needs a reduction from the target problem to fixed-width SAT that keeps the number of variables roughly linear.",
+        "Some problems have such reductions. In Set Splitting, the task is to colour a set of elements in two colours so that no given small set is all one colour; one Boolean variable per element and two clauses per set give a \\(k\\)-SAT formula of the same size, so the claimed algorithm applies directly. Graph colouring, independent sets and perfect matchings work similarly. For many other problems, new ideas would be needed."
+      ],
+      "source_refs": [
+        3,
+        4
+      ]
+    },
+    {
+      "heading": "Which lower bounds fall, and which survive",
+      "paragraphs": [
+        "Results proved by assuming ETH lose that support. For example, ETH implied that finding a group of \\(k\\) mutually connected people in a network of \\(n\\) people (the Clique problem) cannot be done in time \\(f(k)\\cdot n^{o(k)}\\) for any function \\(f\\); that and similar parameterized bounds now need a different justification or may admit faster algorithms. A conditional theorem stays logically correct, “if ETH, then …”, but its premise is now claimed to be false.",
+        "Many famous bounds for problems that are already solvable in polynomial time rested on SETH. Some survive on weaker assumptions that are not refuted. The bounds for longest common subsequence and regular-expression matching also follow from the Orthogonal Vectors Conjecture, about finding a perpendicular pair among two lists of 0–1 vectors. Others, including bounds for Fréchet distance and graph diameter approximation, follow from a hypothesis about SAT formulas whose clauses may grow with \\(n\\), which a fixed-\\(k\\) algorithm does not address.",
+        "Edit distance, the fewest insertions, deletions and substitutions turning one string into another, is a notable case. Backurs and Indyk’s well-known result says that a substantially subquadratic edit-distance algorithm would solve SAT for general formulas, with clause width allowed to grow, in time \\(2^{(1-\\varepsilon)n}\\). The claimed algorithm only covers fixed clause width, so it does not refute that statement."
+      ],
+      "source_refs": [
+        3,
+        5,
+        7
+      ]
+    },
+    {
+      "heading": "How large is “sufficiently large”?",
+      "paragraphs": [
+        "Like many results in complexity theory, the theorem describes behaviour as \\(n\\) grows without bound. Its proof repeatedly assumes that \\(n\\) is sufficiently large, and it handles the finitely many smaller inputs by exhaustive search. That is a mathematically complete argument, but it says nothing about speed at sizes anyone can store.",
+        "To get a feel for the scale, we checked the explicit parameter choices given in the manuscript’s overview for the bounded-occurrence case. Their stated requirements, such as having at least two groups and enough evaluation points compared with the polynomial degree, are first met only when \\(\\log_2 n\\) exceeds about 11 billion, meaning formulas with more than \\(2^{11\\,000\\,000\\,000}\\) variables. The full proof may use different constants, so this is an illustration, not a measurement. It shows why the result should not be read as a new SAT solver: practical solvers, which succeed on real-world formulas by exploiting their structure, are not affected."
+      ],
+      "source_refs": [
+        3
+      ]
+    },
+    {
+      "heading": "What would change, and what remains unresolved",
+      "paragraphs": [
+        "The immediate opportunity is to revisit algorithms whose apparent limits rested on ETH or SETH, and to look for problems with variable-preserving reductions to fixed-width SAT. A second question is whether the ideas can be made efficient at realistic sizes, which would require very different constants.",
+        "P versus NP is untouched. A subexponential algorithm can still be slower than every polynomial, so the claim is compatible with either answer. NP-completeness does not disappear either: it describes how problems transform into one another, not a proof that they all need exponential time. Replacing “a major conjectured barrier has fallen” with “all difficult problems are now easy” would be a mistake."
+      ],
+      "source_refs": [
+        1,
+        3,
+        6
+      ]
+    },
+    {
+      "heading": "Why this matters to quantum computing",
+      "paragraphs": [
+        "Many proposals for quantum advantage on hard combinatorial problems compare a quantum algorithm with the best classical method. Grover’s algorithm, for example, searches \\(2^n\\) possibilities in about \\(2^{n/2}\\) steps, and that is optimal for black-box search. Any algorithm with running time \\(c^n\\), quantum or classical, would eventually be overtaken by a subexponential classical algorithm, if the claim is correct.",
+        "Two cautions keep that in proportion. First, “eventually” here means at sizes far beyond any computer, so the comparison at practical sizes is unchanged. Second, the result does not overturn the Bennett–Bernstein–Brassard–Vazirani lower bound for unstructured search, which concerns finding a marked item through black-box queries. A SAT formula exposes its internal structure, and the new algorithm exploits that structure; a black box offers nothing to exploit. Faster structured problem-solving and limits on black-box search are different statements.",
+        "Our interpretation is that the result raises the bar for theoretical claims of exponential quantum advantage on SAT-like problems, while leaving claims about specific, practical instances to be judged by concrete comparisons."
+      ],
+      "source_refs": [
+        3,
+        8
+      ]
+    },
+    {
+      "heading": "What readers should watch next",
+      "paragraphs": [
+        "OpenAI reports that the result has been verified in Lean, while its announcement also invites an open examination of the claim. Formal checking and scientific understanding serve complementary purposes: a checker tests a precisely encoded statement, while researchers must scrutinize the definitions, the correspondence to the intended problem, and the consequences. The released formalization covers the weaker of the two stated bounds.",
+        "As of this article’s publication on 27 October, the reporting here is based on the released announcement, manuscript and formalization scope. We have not independently rebuilt the Lean proof or certified the algorithm. Watch for the external group’s explanations, independent rechecks of the formal statement, simplifications of the proof, and any attempt to bring the method to practical sizes. Those will turn a striking announcement into an understanding of what computers can do."
+      ],
+      "source_refs": [
+        1,
+        2,
+        9
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "OpenAI announcement, 26 October 2026",
+      "url": "https://openai.com/index/building-scientific-understanding-with-academic-communities/"
+    },
+    {
+      "title": "OpenAI: scope of the ETH Lean formalization",
+      "url": "https://github.com/openai/math/blob/main/lean/docs/378.md"
+    },
+    {
+      "title": "OpenAI manuscript, “The Exponential Time Hypothesis is False”, revised 25 October 2026: Sections 1–2 and 6, Appendices C–D",
+      "url": "https://github.com/openai/math/blob/main/preprints/The-Exponential-Time-Hypothesis-is-False-October-25-2026/paper.pdf"
+    },
+    {
+      "title": "Impagliazzo, Paturi and Zane (2001): Which Problems Have Strongly Exponential Complexity?",
+      "url": "https://doi.org/10.1006/jcss.2001.1774"
+    },
+    {
+      "title": "Lokshtanov, Marx and Saurabh: Lower Bounds Based on the Exponential Time Hypothesis",
+      "url": "https://sites.cs.ucsb.edu/~daniello/papers/surveyETH.pdf"
+    },
+    {
+      "title": "Clay Mathematics Institute: P versus NP",
+      "url": "https://www.claymath.org/millennium/p-vs-np/"
+    },
+    {
+      "title": "Backurs and Indyk: Edit Distance Cannot Be Computed in Strongly Subquadratic Time (unless SETH is false)",
+      "url": "https://arxiv.org/abs/1412.0348"
+    },
+    {
+      "title": "Bennett, Bernstein, Brassard and Vazirani: Strengths and Weaknesses of Quantum Computing",
+      "url": "https://arxiv.org/abs/quant-ph/9701001"
+    },
+    {
+      "title": "OpenAI repository: formal-proof verification instructions",
+      "url": "https://github.com/openai/math/tree/main/lean/ComparatorChallenges"
+    }
+  ],
+  "related_articles": [
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": []
+}

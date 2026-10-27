@@ -1,0 +1,22 @@
+{
+  "01-quantum-models": [
+    "A quantum model is a hypothesis class fixed by an encoding, a parameterised circuit, and a measurement.",
+    "Expressivity, trainability, and generalisation need different evidence; none of them alone is an advantage.",
+    "An advantage claim is a conditional with a task, a baseline, a budget, and a quantifier order."
+  ],
+  "02-data-encoding": [
+    "Basis, amplitude, and angle encodings trade qubit count against preparation cost and preserved geometry.",
+    "Amplitude encoding discards the norm, and angle encoding is periodic, so both can be non-injective on real data.",
+    "The encoding fixes the kernel; a product-state angle encoding gives a classical kernel exactly."
+  ],
+  "03-kernels": [
+    "The representer theorem reduces a kernel method to linear algebra on the Gram matrix.",
+    "One kernel entry is one circuit run; the shot cost grows as 1/K, so small entries are expensive.",
+    "Concentration drives entries to 1/2^n with comparable spread, making the matrix uninformative."
+  ],
+  "04-variational": [
+    "A variational model is four decisions: encoding, ansatz, readout, and training rule; only the second is usually called the ansatz.",
+    "Measurement cost is settings times shots, and precision scales as 1/epsilon^2, so each decimal digit is a hundredfold increase.",
+    "Shallow depth bounds entanglement across a cut, and how the measured terms are combined decides whether gradients survive."
+  ]
+}

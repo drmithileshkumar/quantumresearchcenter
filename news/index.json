@@ -1,9 +1,189 @@
 {
- "reviewed_on": "2026-10-25",
+ "reviewed_on": "2026-10-26",
  "papers": [
   {
+   "id": "2610.32319",
+   "url": "papers/2610.32319/index.html",
+   "title": "Finite Nonsignalling Resources Suffice to Simulate Entangled Qubits",
+   "authors": "Ziao Tang; Xin Wang; Ge Bai",
+   "topic": "foundations",
+   "submitted": "2026-10-23",
+   "approved_on": "2026-10-27",
+   "problem": "One PR box (a binary-input nonsignalling resource) plus shared randomness reproduces all projective-measurement statistics of a maximally entangled qubit pair. Some partially entangled states cannot be simulated with one PR box, and every known exact protocol for them uses a box with real-valued inputs. Is a continuous input alphabet necessary, as Gisin asked?",
+   "result": "No. For every pure state \\(\\cos\\theta|00\\rangle+\\sin\\theta|11\\rangle\\), shared randomness and at most \\(K(\\theta)=4\\lceil\\sqrt2\\pi\\cot^2\\theta\\rceil^2\\le128\\cot^4\\theta\\) PR boxes, used in parallel, reproduce all local projective statistics exactly, without communication or postselection. The budget does not depend on the measurement settings. The construction extends to every mixed two-qubit state and to all binary-outcome POVMs.",
+   "techniques": [
+    "Exact sampling from an input-dependent density using a fixed shared list",
+    "A random-access index box from parallel PR boxes"
+   ]
+  },
+  {
+   "id": "2610.32937",
+   "url": "papers/2610.32937/index.html",
+   "title": "Certain Quantum States Already Require Quantum Time Evolution",
+   "authors": "Joel D. Huber; Matthias Kleinmann",
+   "topic": "foundations",
+   "submitted": "2026-10-23",
+   "approved_on": "2026-10-27",
+   "problem": "Bell tests check quantum theory without assuming a model, but only its static structure. Could the dynamics be tested the same way? In phase-space theories where states are quasi-probability distributions and evolution is given by a generalized bracket, does the presence of certain states in the theory force the bracket to be the quantum (Moyal) one?",
+   "result": "Yes. Requiring that position and momentum marginals stay nonnegative under anharmonic evolution ties states to dynamics. If a particular superposition of the lowest three oscillator states is admissible, the bracket must be the Moyal bracket to all orders in \\(\\hbar^2\\). If only the first excited oscillator state is admissible, the leading correction must equal the quantum value \\(a_1=-1/24\\). The ground state alone allows any \\(a_1\\) between the classical value 0 and \\(-1/24\\).",
+   "techniques": [
+    "Positivity of marginals under evolution as a consistency test between states and dynamics",
+    "Zeros of a marginal as a short-time probe of higher-order terms"
+   ]
+  },
+  {
+   "id": "2610.32693",
+   "url": "papers/2610.32693/index.html",
+   "title": "Elementary proofs of quantum lower bounds for element distinctness and k-sum",
+   "authors": "Andris Ambainis; Martins Kokainis",
+   "topic": "computing",
+   "submitted": "2026-10-23",
+   "approved_on": "2026-10-27",
+   "problem": "Element distinctness needs \\(\\Theta(n^{2/3})\\) quantum queries, but the known lower-bound proofs use the polynomial method, negative-weight adversaries or compressed oracles. The \\(k\\)-sum bound \\(\\Omega(n^{k/(k+1)})\\) needs the negative-weight adversary. Can these bounds be proved with basic linear algebra?",
+   "result": "Yes, in under two pages each. Refining the hybrid argument of Bennett, Bernstein, Brassard and Vazirani, the proof tracks second-order differences of algorithm states under changes to two input positions. This gives \\(E\\|\\psi_T(y)-\\psi_T(x)\\|^2=O(T/n+T^3/n^2)\\) between a distinct input and one with a planted collision, hence \\(T=\\Omega(n^{2/3})\\). With \\(k\\)th-order differences the same scheme gives \\(\\Omega(n^{k/(k+1)})\\) for \\(k\\)-sum over groups with \\(|G|\\ge n^k\\).",
+   "techniques": [
+    "Hybrid argument with a sensitivity budget",
+    "Higher-order differences driven only by lower-order ones"
+   ]
+  },
+  {
+   "id": "2610.32347",
+   "url": "papers/2610.32347/index.html",
+   "title": "Entangled logical qubits on a superconducting quantum processor",
+   "authors": "Robin Harper; Xanda C. Kolesnikow; Campbell K. McLauchlan; Georgia M. Nixon; Stephen D. Bartlett; Benjamin J. Brown",
+   "topic": "computing",
+   "submitted": "2026-10-23",
+   "approved_on": "2026-10-27",
+   "problem": "On large superconducting chips, two effects not handled by standard surface-code circuits limit logical performance: leakage out of the qubit subspace and a fraction of underperforming qubits and couplers. Can a 120-qubit IBM processor with fast reset support logical memories, entangling operations and teleportation at useful fidelity?",
+   "result": "Yes. On ibm_phoenix, excluding bad components by re-purposing ancillas halves the distance-5 logical error per round from 1.9% to 0.9%, comparable to the best distance-3 patches. Lattice surgery between adjacent distance-3 codes gives logical Bell-state fidelity above 93%. Three logical qubits give state, Bell-pair and gate teleportation at 78–93%. A stability experiment with resets on every qubit every two rounds reaches about \\(2\\times10^{-7}\\) failure probability at 170 rounds.",
+   "techniques": [
+    "Bounding Bell-state fidelity from two stabilizer expectations",
+    "Ancilla re-purposing with gauge checks"
+   ]
+  },
+  {
+   "id": "2610.32923",
+   "url": "papers/2610.32923/index.html",
+   "title": "One-sided-DIQKD using any pure bipartite entangled state secure against all attacks",
+   "authors": "Bohnishikha Ghosh; Chithra Raj; Shubhayan Sarkar",
+   "topic": "information",
+   "submitted": "2026-10-23",
+   "approved_on": "2026-10-27",
+   "problem": "In one-sided device-independent QKD, Bob’s measurements are trusted and Alice’s device is a black box, so security rests on quantum steering. Existing protocols use maximally entangled states, which are costly to make. Can every pure entangled state of any dimension yield a secret key in this setting, including with lossy detectors and noisy sources?",
+   "result": "Yes. In the noiseless case, self-testing of any pure state \\(\\sum_i\\alpha_i|ii\\rangle\\) gives a key rate equal to its entanglement entropy. With depolarizing visibility \\(\\nu\\) and efficiency \\(\\eta\\) on Alice’s side, an entropic-uncertainty bound gives a closed-form rate that is affine in \\(\\eta\\), and hence a critical efficiency for every pure state and visibility. The critical efficiency is 1/2 for maximally entangled states and rises only slowly as entanglement falls.",
+   "techniques": [
+    "Key rate from the uncertainty relation with a trusted side",
+    "Critical efficiency from an affine rate, and a check on the printed formula"
+   ]
+  },
+  {
+   "id": "2610.32724",
+   "url": "papers/2610.32724/index.html",
+   "title": "Optimal probes for estimating the dephasing of a quantum spin system",
+   "authors": "Leonardo Ratini; Stefano Carretta; Francesco Albarelli",
+   "topic": "information",
+   "submitted": "2026-10-23",
+   "approved_on": "2026-10-27",
+   "problem": "To estimate the strength of dephasing on a spin \\(J\\) (or \\(2J\\) qubits), which superposition of levels should be prepared? A spin cat state is optimal for weak Gaussian phase diffusion, but its coherence is the first to decay. Over what range does the cat stay optimal, and what works beyond it?",
+   "result": "For general dephasing channels, the QFI is concave in the probe populations and an ancilla never helps. The channel QFI is a second-order cone program whose dual variables are the optimal populations. For Gaussian diffusion the cat is globally optimal exactly for \\(\\Delta\\le0.1424\\) at \\(J=1\\) and \\(\\Delta\\le0.065\\) at \\(J=3/2\\); for larger \\(J\\) its range shrinks at least as \\(1/J^2\\). Beyond it, uniform superpositions, or a one-parameter interpolation between cat and uniform, are near optimal.",
+   "techniques": [
+    "Concavity of the QFI in probe populations",
+    "Channel QFI as a cone program whose dual is the optimal probe"
+   ]
+  },
+  {
+   "id": "2610.31230",
+   "url": "papers/2610.31230/index.html",
+   "title": "Local Dephasing Sustains Continuous Time Crystals in a Spin-1/2 Ensemble",
+   "authors": "Zhen-huan Yang; Dan-Bo Zhang",
+   "topic": "foundations",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-27",
+   "problem": "Pure dephasing destroys single-spin coherence and is normally counted as loss. In a fully connected ferromagnetic spin-\\(1/2\\) ensemble with local decay, can dephasing instead be what keeps a collective oscillation going, a continuous time crystal under time-independent dynamics?",
+   "result": "Yes. An exact operator identity shows that dephasing feeds energy into the transverse interaction, which local decay removes with a delay of order \\(1/\\Gamma_1\\). In homogeneous mean field there is no periodic orbit without dephasing, and on a periodic orbit the delayed feedback exactly pays for the transverse damping. Liouvillian spectra for \\(N=80\\)–\\(300\\) show oscillatory decay rates falling as \\(N^{-0.32}\\) and \\(N^{-0.46}\\), with frequencies approaching the mean-field values.",
+   "techniques": [
+    "Exact energy balance from an observable that commutes with the Hamiltonian",
+    "Cycle work of a lagged feedback variable"
+   ]
+  },
+  {
+   "id": "2610.31187",
+   "url": "papers/2610.31187/index.html",
+   "title": "Entanglement certification of attosecond light fields with photoelectron interferometry",
+   "authors": "Philipp Stammer",
+   "topic": "foundations",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-27",
+   "problem": "High-harmonic generation is predicted to entangle the infrared driving field with extreme-ultraviolet harmonics. Standard optical certification needs local oscillators or photon-correlation detectors that barely exist at XUV frequencies. Can photoelectron interferometry (RABBIT), already routine in attosecond science, certify that entanglement on its own?",
+   "result": "Not from one sideband: every set of single-sideband moments has a fully separable explanation. Adding the two neighbouring sidebands supplies moments \\(U\\) and \\(V\\), and \\(|Q|^2>UV\\) then certifies IR–XUV entanglement through the partial transpose. A further bound \\(|Q|>H(U,V)\\) certifies genuine three-mode entanglement and is tight when \\(U=0\\). On model states, a displaced two-mode squeezed state is certified only in a window of displacement and squeezing, and a non-Gaussian GME family only for squeezing \\(r<0.043\\).",
+   "techniques": [
+    "Partial-transpose moment matrices from the measured orderings",
+    "Biseparable bounds by isolating one Fock sector"
+   ]
+  },
+  {
+   "id": "2610.31500",
+   "url": "papers/2610.31500/index.html",
+   "title": "The Impact of Markovian Errors on Random Circuits",
+   "authors": "Anthony M. Polloreno; Timothy Proctor; Robin Blume-Kohout",
+   "topic": "computing",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-27",
+   "problem": "Randomized benchmarking reports one error rate, but under gate-dependent noise it is unclear what that number measures. Average gate infidelity is gauge dependent, so it cannot be the answer. For small Markovian errors, how does each elementary error (Pauli-stochastic, over-rotation, axis tilt) enter the RB decay?",
+   "result": "For any gate set and sampling distribution forming a sequence-asymptotic unitary 2-design, Pauli-stochastic rates are the only errors that enter the decay linearly. Hamiltonian rates enter through a quadratic form that vanishes on gauge directions. For direct RB of \\(\\{X_{\\pi/2},Y_{\\pi/2}\\}\\) with probability \\(p\\) of \\(X\\), the form is explicit in two over-rotations and one relative axis tilt. Equal over-rotations \\(\\theta\\) give \\(r=3\\theta^2/4\\) at \\(p=1/2\\), three times each gate’s infidelity, and about 16.6 times at \\(p=0.9\\). For Clifford RB, a fixed form with weights \\(1/9\\) and \\(1/18\\) is filtered through the compilation.",
+   "techniques": [
+    "First-order RB decay from a Choi-space projector",
+    "Gauge invariance forces the coherent term onto FOGI coordinates"
+   ]
+  },
+  {
+   "id": "2610.31515",
+   "url": "papers/2610.31515/index.html",
+   "title": "Problem-aware sampling for bias and variance reduction in randomised Hamiltonian simulation",
+   "authors": "Brian Coyle; Jonathan H. Fetherolf; Antonio Márquez Romero; Stefano Scali; Giuseppe Buonaiuto; Josh Kirsopp",
+   "topic": "computing",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-27",
+   "problem": "qDRIFT approximates \\(e^{-iHT}\\) by random Pauli rotations sampled in proportion to \\(|c_j|\\), ignoring the initial state and the observable. Its estimators carry bias and variance that cost many steps and trajectories. When the goal is a single \\(\\langle O(T)\\rangle\\) from a known initial state, can the sampling distribution be tuned to the problem while keeping qDRIFT’s guarantees?",
+   "result": "Yes, with StateDRIFT. To fourth order in \\(dt\\), bias and variance depend on the distribution only through a few \\(t=0\\) quantities built from \\(|\\psi\\rangle\\), \\(O\\) and the Hamiltonian terms. This gives closed-form variance-optimal rules, an interpolating family that provably improves both bias and variance at one step for sign-definite inputs, and an optimized family for deeper circuits. For molecules of 6 to 18 qubits the dynamics resolves in 1.7–26 times fewer steps and 1.2–11 times fewer two-qubit gates; for BeH\\(_2\\) the gate count falls from 11,201 to 983. Mixing with 20% of the vanilla distribution bounds every reweighting by a factor of 5.",
+   "techniques": [
+    "Neyman allocation for importance-sampled channels",
+    "Majorana degree counting fixes the RDM order"
+   ]
+  },
+  {
+   "id": "2610.30645",
+   "url": "papers/2610.30645/index.html",
+   "title": "FVQKD: A Formal Verification of Quantum Key Distribution Security in Rocq",
+   "authors": "Ruixuan Deng; Zhengfeng Ji; Jiayu Zhang; Li Zhou",
+   "topic": "information",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-27",
+   "problem": "QKD security rests on hand-checked proofs that chain smooth entropies, an entropic uncertainty relation, a sampling bound and the leftover hash lemma, drawn from several papers with differing conventions. Can the composable finite-key security of BB84 be machine-checked end to end, from a formal protocol program to the key-length theorem?",
+   "result": "Yes, in FVQKD, a Rocq development of about 151,000 lines, 102,000 of them new, with no admitted lemmas and only the kernel plus three standard axioms. It proves composable finite-key security of BB84 at the tight Tomamichel et al. bound, for every initial state and every adversary channel acting on a formally specified protocol program. Mechanization exposed a missing case in the published argument: after conditioning on the test passing, the smoothing parameter \\(\\varepsilon/\\sqrt{p_{\\rm pass}}\\) can exceed 1, outside the domain of the uncertainty relation. A second proof branch using the abort probability repairs it, and the key-length formula is unchanged. A concrete instance with \\(n=k=10^4\\) certifies a 2000-bit key.",
+   "techniques": [
+    "The finite-key bound as a chain of entropy inequalities",
+    "Split on the event probability when conditioning inflates a smoothing parameter"
+   ]
+  },
+  {
+   "id": "2610.31249",
+   "url": "papers/2610.31249/index.html",
+   "title": "Reset-Enhanced Dissipative Quantum Metrology",
+   "authors": "Silan Li; Qingjun Tong; Ruicheng Bao",
+   "topic": "information",
+   "submitted": "2026-10-22",
+   "approved_on": "2026-10-27",
+   "problem": "Dissipation in open quantum sensors usually washes out parameter information. Can the simplest dissipative control, a channel that resets the probe to a fixed state at rate \\(r\\), increase the quantum Fisher information in steady-state and transient sensing without changing the Hamiltonian or adding a coherent drive?",
+   "result": "Sometimes, and the paper says exactly when. An exact identity for \\(\\partial_rF\\) gives a first-order test for local enhancement. For a thermal qubit reset to its ground state, steady-state thermometry improves if and only if \\(0<\\beta\\omega<\\ln(2+\\sqrt5)\\) and \\(r\\) is below a threshold, with optimum \\(r_{\\rm opt}=\\gamma(2+\\sqrt5-e^{\\beta\\omega})/(e^{\\beta\\omega}-1)\\). For diagonal dynamics, reset cannot change the leading short-time Fisher information of a static parameter, but it raises elapsed-time information immediately, roughly as \\(r^2\\). For frequency estimation with reset to \\(|+\\rangle\\), the gain at \\(t=1/\\gamma\\) is about 7 times, 91% of it from the coherence (eigenvector) part.",
+   "techniques": [
+    "Response of the QFI to a control parameter through the SLD",
+    "Short-time expansion separating static parameters from time"
+   ]
+  },
+  {
    "id": "2610.30473",
-   "url": "2610.30473/index.html",
+   "url": "papers/2610.30473/index.html",
    "title": "Photon localization: Local measurements, localized states, and causality",
    "authors": "Jan Gulla; Johannes Skaar",
    "topic": "foundations",
@@ -18,7 +198,7 @@
   },
   {
    "id": "2610.30266",
-   "url": "2610.30266/index.html",
+   "url": "papers/2610.30266/index.html",
    "title": "Discrete Time Liquids",
    "authors": "Zuo Wang; Paul M. Schindler; Marin Bukov; Marios H. Michael",
    "topic": "foundations",
@@ -33,7 +213,7 @@
   },
   {
    "id": "2610.30315",
-   "url": "2610.30315/index.html",
+   "url": "papers/2610.30315/index.html",
    "title": "Normal-Form Characterization of Adaptivity and Entanglement in Pauli-Based Computation",
    "authors": "Filipa C. R. Peres; Selman Ipek; Daniel Lovsted; Joshua Nevin; Anne Broadbent",
    "topic": "computing",
@@ -48,7 +228,7 @@
   },
   {
    "id": "2610.30279",
-   "url": "2610.30279/index.html",
+   "url": "papers/2610.30279/index.html",
    "title": "Transversal syndrome extraction: A unifying construction for measuring the error syndromes of any stabilizer code",
    "authors": "Miles D. Gorman",
    "topic": "computing",
@@ -63,7 +243,7 @@
   },
   {
    "id": "2610.30295",
-   "url": "2610.30295/index.html",
+   "url": "papers/2610.30295/index.html",
    "title": "Pure states are optimal for total energy-constrained quantum channel discrimination",
    "authors": "Christos N. Gagatsos",
    "topic": "information",
@@ -78,7 +258,7 @@
   },
   {
    "id": "2610.30462",
-   "url": "2610.30462/index.html",
+   "url": "papers/2610.30462/index.html",
    "title": "Distributed dual-comb spectroscopy",
    "authors": "Haowei Shi; Kartikeya Arora; Zheshen Zhang; Quntao Zhuang",
    "topic": "information",
@@ -93,7 +273,7 @@
   },
   {
    "id": "2610.31632",
-   "url": "2610.31632/index.html",
+   "url": "papers/2610.31632/index.html",
    "title": "What does quantum parameter estimation estimate? A no-go result for true quantity values",
    "authors": "Jacques L. Pienaar; Eran Tal; Asya Ciftci",
    "topic": "foundations",
@@ -108,7 +288,7 @@
   },
   {
    "id": "2610.31580",
-   "url": "2610.31580/index.html",
+   "url": "papers/2610.31580/index.html",
    "title": "Mixed State Deep Thermalization under Generic Quantum Errors",
    "authors": "Xie-Hang Yu; Pavel Kos",
    "topic": "foundations",
@@ -123,7 +303,7 @@
   },
   {
    "id": "2610.31115",
-   "url": "2610.31115/index.html",
+   "url": "papers/2610.31115/index.html",
    "title": "The limits of magic-state distillation",
    "authors": "Llorenç Balada Gaggioli; Jakub Mareček",
    "topic": "computing",
@@ -138,7 +318,7 @@
   },
   {
    "id": "2610.31571",
-   "url": "2610.31571/index.html",
+   "url": "papers/2610.31571/index.html",
    "title": "Size-independent Logarithmic Sobolev Inequalities for Quantum Gibbs Samplers",
    "authors": "Hongrui Chen; Zhiyan Ding; Jianfeng Lu",
    "topic": "computing",
@@ -153,7 +333,7 @@
   },
   {
    "id": "2610.31501",
-   "url": "2610.31501/index.html",
+   "url": "papers/2610.31501/index.html",
    "title": "One-shot entanglement generation and distillation via Petz recovery and binary hypothesis testing",
    "authors": "Matthew Can; Mark M. Wilde",
    "topic": "information",
@@ -168,7 +348,7 @@
   },
   {
    "id": "2610.30761",
-   "url": "2610.30761/index.html",
+   "url": "papers/2610.30761/index.html",
    "title": "A simple proof of unitary parallelization via port-based teleportation",
    "authors": "Anurag Anshu; Quynh T. Nguyen",
    "topic": "information",
@@ -183,7 +363,7 @@
   },
   {
    "id": "2610.29804",
-   "url": "2610.29804/index.html",
+   "url": "papers/2610.29804/index.html",
    "title": "Conservation in Every Quantum Measurement Outcome?",
    "authors": "E. Okon; D. Sudarsky; M. Wiedemann",
    "topic": "foundations",
@@ -198,7 +378,7 @@
   },
   {
    "id": "2610.30040",
-   "url": "2610.30040/index.html",
+   "url": "papers/2610.30040/index.html",
    "title": "An entanglement band structure for general multiqubit states",
    "authors": "Chon-Fai Kam",
    "topic": "foundations",
@@ -213,7 +393,7 @@
   },
   {
    "id": "2610.30087",
-   "url": "2610.30087/index.html",
+   "url": "papers/2610.30087/index.html",
    "title": "Injection is all you need: parallel universal logic in high-rate concatenated self-dual codes",
    "authors": "Joseph Sullivan; David Amaro; Michael A. Perlin",
    "topic": "computing",
@@ -228,7 +408,7 @@
   },
   {
    "id": "2610.29955",
-   "url": "2610.29955/index.html",
+   "url": "papers/2610.29955/index.html",
    "title": "Finite Classification of Transversal Diagonal Gates Beyond Stabilizer Codes",
    "authors": "Xi He; Chao Zhang; Shilin Huang; Bei Zeng",
    "topic": "computing",
@@ -243,7 +423,7 @@
   },
   {
    "id": "2610.30052",
-   "url": "2610.30052/index.html",
+   "url": "papers/2610.30052/index.html",
    "title": "Tight Bounds on the Randomized Communication Complexity of Vector-in-Subspace",
    "authors": "Chengu Wang",
    "topic": "information",
@@ -258,7 +438,7 @@
   },
   {
    "id": "2610.29696",
-   "url": "2610.29696/index.html",
+   "url": "papers/2610.29696/index.html",
    "title": "Quantum f-divergences from retrodiction: a unifying classical variational principle",
    "authors": "Francesco Buscemi",
    "topic": "information",
@@ -273,7 +453,7 @@
   },
   {
    "id": "2610.28162",
-   "url": "2610.28162/index.html",
+   "url": "papers/2610.28162/index.html",
    "title": "Dimension-free marginal inequalities for pure three-party states",
    "authors": "Simon Morelli",
    "topic": "foundations",
@@ -288,7 +468,7 @@
   },
   {
    "id": "2610.27854",
-   "url": "2610.27854/index.html",
+   "url": "papers/2610.27854/index.html",
    "title": "Trapped-ion-based quantum repeater node across a 17 km metropolitan fiber",
    "authors": "K. Fabitha; T. Runggaldier; A. Winkler; F. Bernecker; J. Bate; M. Canteri; J. Helgert; T. E. Northup; V. Krutyanskiy; B. P. Lanyon",
    "topic": "information",
@@ -303,7 +483,7 @@
   },
   {
    "id": "2610.26465",
-   "url": "2610.26465/index.html",
+   "url": "papers/2610.26465/index.html",
    "title": "The Four-Qubit Hyperbolic Quadric Has Contextuality Degree 315",
    "authors": "Zhengyu Li; Amandeep Gupta; Vijay Ganesh",
    "topic": "foundations",
@@ -318,7 +498,7 @@
   },
   {
    "id": "2610.27065",
-   "url": "2610.27065/index.html",
+   "url": "papers/2610.27065/index.html",
    "title": "Polynomial-Time Classical Simulation of BosonSampling under Any Constant-Fraction Photon Loss",
    "authors": "Byeongseon Go; Hyunseok Jeong",
    "topic": "computing",
@@ -333,7 +513,7 @@
   },
   {
    "id": "2610.26785",
-   "url": "2610.26785/index.html",
+   "url": "papers/2610.26785/index.html",
    "title": "Correlated decoding loses the surface code’s effective distance below threshold",
    "authors": "César Hernando de la Fuente; Joonas Majaniemi; Evert van Nieuwenburg; Felix Frohnert",
    "topic": "computing",
@@ -348,7 +528,7 @@
   },
   {
    "id": "2610.25518",
-   "url": "2610.25518/index.html",
+   "url": "papers/2610.25518/index.html",
    "title": "Randomness Certification from Statistically Hiding Commitments",
    "authors": "Ilya Merkulov; Rotem Arnon",
    "topic": "information",
@@ -363,7 +543,7 @@
   },
   {
    "id": "2609.16364",
-   "url": "2609.16364/index.html",
+   "url": "papers/2609.16364/index.html",
    "title": "Pump-Free Microwave-Optical Bell Pair Generation for Teleportation-Based Quantum Transduction",
    "authors": "Fangxin Li et al.",
    "topic": "information",
@@ -378,7 +558,7 @@
   },
   {
    "id": "2609.10508",
-   "url": "2609.10508/index.html",
+   "url": "papers/2609.10508/index.html",
    "title": "Information Causality Characterizes the Set of Quantum Correlations in the Simplest Bell Scenario",
    "authors": "Mariami Gachechiladze; Nikolai Miklin",
    "topic": "foundations",
@@ -393,7 +573,7 @@
   },
   {
    "id": "2609.04157",
-   "url": "2609.04157/index.html",
+   "url": "papers/2609.04157/index.html",
    "title": "Spurious quantum correlations",
    "authors": "Shashaank Khanna; Matthew F. Pusey; Roger Colbeck",
    "topic": "foundations",
@@ -408,7 +588,7 @@
   },
   {
    "id": "2608.02773",
-   "url": "2608.02773/index.html",
+   "url": "papers/2608.02773/index.html",
    "title": "Quantum error correction at ultra-low overhead",
    "authors": "Zhide Lu; Weikang Li; Dong-Ling Deng",
    "topic": "computing",
@@ -423,7 +603,7 @@
   },
   {
    "id": "2607.21367",
-   "url": "2607.21367/index.html",
+   "url": "papers/2607.21367/index.html",
    "title": "A solution to 2-copy distillability of Werner states",
    "authors": "Jinshi Fu; Li Gao; Sang-Jun Park",
    "topic": "information",
@@ -438,7 +618,7 @@
   },
   {
    "id": "2606.04079",
-   "url": "2606.04079/index.html",
+   "url": "papers/2606.04079/index.html",
    "title": "Quantum error correction with the toric code",
    "authors": "Atom Computing and Collaborators",
    "topic": "computing",
