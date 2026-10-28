@@ -1,0 +1,2655 @@
+[
+  {
+    "id": "quantum-world",
+    "label": "Quantum world",
+    "parent": null,
+    "branch": "Quantum world",
+    "description": "Explore the language of quantum science, from its mathematical foundations to the technologies built on them."
+  },
+  {
+    "id": "quantum-mechanics",
+    "label": "Quantum mechanics",
+    "parent": "quantum-world",
+    "branch": "Quantum mechanics",
+    "description": "The framework for describing physical states, measurement, and dynamics at quantum scales."
+  },
+  {
+    "id": "mathematical-foundations",
+    "label": "Mathematical foundations",
+    "parent": "quantum-mechanics",
+    "branch": "Quantum mechanics",
+    "description": "Mathematical foundations is included under Quantum mechanics in this topic hierarchy."
+  },
+  {
+    "id": "hilbert-space",
+    "label": "Hilbert space",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Hilbert space is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "state-vectors",
+    "label": "State vectors",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "State vectors is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "dirac-notation",
+    "label": "Dirac notation",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Dirac notation is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "inner-product",
+    "label": "Inner product",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Inner product is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "tensor-product",
+    "label": "Tensor product",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Tensor product is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "linear-operators",
+    "label": "Linear operators",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Linear operators is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "eigenvalues-and-eigenvectors",
+    "label": "Eigenvalues and eigenvectors",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Eigenvalues and eigenvectors is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "spectral-theorem",
+    "label": "Spectral theorem",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Spectral theorem is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "commutators",
+    "label": "Commutators",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Commutators is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "unitary-operators",
+    "label": "Unitary operators",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Unitary operators is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "hermitian-operators",
+    "label": "Hermitian operators",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Hermitian operators is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "projectors",
+    "label": "Projectors",
+    "parent": "mathematical-foundations",
+    "branch": "Quantum mechanics",
+    "description": "Projectors is included under Mathematical foundations in this topic hierarchy."
+  },
+  {
+    "id": "quantum-states",
+    "label": "Quantum states",
+    "parent": "quantum-mechanics",
+    "branch": "Quantum mechanics",
+    "description": "Quantum states is included under Quantum mechanics in this topic hierarchy."
+  },
+  {
+    "id": "wavefunction",
+    "label": "Wavefunction",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Wavefunction is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "superposition",
+    "label": "Superposition",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Superposition is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "probability-amplitudes",
+    "label": "Probability amplitudes",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Probability amplitudes is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "born-rule",
+    "label": "Born rule",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Born rule is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "pure-states",
+    "label": "Pure states",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Pure states is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "mixed-states",
+    "label": "Mixed states",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Mixed states is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "density-operator",
+    "label": "Density operator",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Density operator is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "bloch-sphere",
+    "label": "Bloch sphere",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Bloch sphere is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "coherence",
+    "label": "Coherence",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "Coherence is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "state-preparation",
+    "label": "State preparation",
+    "parent": "quantum-states",
+    "branch": "Quantum mechanics",
+    "description": "State preparation is included under Quantum states in this topic hierarchy."
+  },
+  {
+    "id": "dynamics",
+    "label": "Dynamics",
+    "parent": "quantum-mechanics",
+    "branch": "Quantum mechanics",
+    "description": "Dynamics is included under Quantum mechanics in this topic hierarchy."
+  },
+  {
+    "id": "schr-dinger-equation",
+    "label": "Schrödinger equation",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Schrödinger equation is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "time-evolution",
+    "label": "Time evolution",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Time evolution is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "hamiltonian",
+    "label": "Hamiltonian",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Hamiltonian is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "heisenberg-picture",
+    "label": "Heisenberg picture",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Heisenberg picture is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "schr-dinger-picture",
+    "label": "Schrödinger picture",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Schrödinger picture is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "interaction-picture",
+    "label": "Interaction picture",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Interaction picture is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "propagators",
+    "label": "Propagators",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Propagators is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "path-integrals",
+    "label": "Path integrals",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Path integrals is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "adiabatic-theorem",
+    "label": "Adiabatic theorem",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Adiabatic theorem is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "berry-phase",
+    "label": "Berry phase",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Berry phase is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "quantum-speed-limits",
+    "label": "Quantum speed limits",
+    "parent": "dynamics",
+    "branch": "Quantum mechanics",
+    "description": "Quantum speed limits is included under Dynamics in this topic hierarchy."
+  },
+  {
+    "id": "measurement",
+    "label": "Measurement",
+    "parent": "quantum-mechanics",
+    "branch": "Quantum mechanics",
+    "description": "Measurement is included under Quantum mechanics in this topic hierarchy."
+  },
+  {
+    "id": "observables",
+    "label": "Observables",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Observables is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "projective-measurement",
+    "label": "Projective measurement",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Projective measurement is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "povms",
+    "label": "POVMs",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "POVMs is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "measurement-backaction",
+    "label": "Measurement backaction",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Measurement backaction is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "weak-measurement",
+    "label": "Weak measurement",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Weak measurement is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "continuous-measurement",
+    "label": "Continuous measurement",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Continuous measurement is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "uncertainty-relations",
+    "label": "Uncertainty relations",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Uncertainty relations is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "compatible-observables",
+    "label": "Compatible observables",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Compatible observables is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "quantum-instruments",
+    "label": "Quantum instruments",
+    "parent": "measurement",
+    "branch": "Quantum mechanics",
+    "description": "Quantum instruments is included under Measurement in this topic hierarchy."
+  },
+  {
+    "id": "canonical-systems",
+    "label": "Canonical systems",
+    "parent": "quantum-mechanics",
+    "branch": "Quantum mechanics",
+    "description": "Canonical systems is included under Quantum mechanics in this topic hierarchy."
+  },
+  {
+    "id": "particle-in-a-box",
+    "label": "Particle in a box",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Particle in a box is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "quantum-harmonic-oscillator",
+    "label": "Quantum harmonic oscillator",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Quantum harmonic oscillator is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "hydrogen-atom",
+    "label": "Hydrogen atom",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Hydrogen atom is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "potential-barriers",
+    "label": "Potential barriers",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Potential barriers is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "quantum-tunneling",
+    "label": "Quantum tunneling",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Quantum tunneling is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "angular-momentum",
+    "label": "Angular momentum",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Angular momentum is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "spin",
+    "label": "Spin",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Spin is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "addition-of-angular-momenta",
+    "label": "Addition of angular momenta",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Addition of angular momenta is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "identical-particles",
+    "label": "Identical particles",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Identical particles is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "bosons",
+    "label": "Bosons",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Bosons is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "fermions",
+    "label": "Fermions",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Fermions is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "pauli-exclusion-principle",
+    "label": "Pauli exclusion principle",
+    "parent": "canonical-systems",
+    "branch": "Quantum mechanics",
+    "description": "Pauli exclusion principle is included under Canonical systems in this topic hierarchy."
+  },
+  {
+    "id": "approximation-methods",
+    "label": "Approximation methods",
+    "parent": "quantum-mechanics",
+    "branch": "Quantum mechanics",
+    "description": "Approximation methods is included under Quantum mechanics in this topic hierarchy."
+  },
+  {
+    "id": "perturbation-theory",
+    "label": "Perturbation theory",
+    "parent": "approximation-methods",
+    "branch": "Quantum mechanics",
+    "description": "Perturbation theory is included under Approximation methods in this topic hierarchy."
+  },
+  {
+    "id": "variational-principle",
+    "label": "Variational principle",
+    "parent": "approximation-methods",
+    "branch": "Quantum mechanics",
+    "description": "Variational principle is included under Approximation methods in this topic hierarchy."
+  },
+  {
+    "id": "wkb-approximation",
+    "label": "WKB approximation",
+    "parent": "approximation-methods",
+    "branch": "Quantum mechanics",
+    "description": "WKB approximation is included under Approximation methods in this topic hierarchy."
+  },
+  {
+    "id": "scattering-theory",
+    "label": "Scattering theory",
+    "parent": "approximation-methods",
+    "branch": "Quantum mechanics",
+    "description": "Scattering theory is included under Approximation methods in this topic hierarchy."
+  },
+  {
+    "id": "born-approximation",
+    "label": "Born approximation",
+    "parent": "approximation-methods",
+    "branch": "Quantum mechanics",
+    "description": "Born approximation is included under Approximation methods in this topic hierarchy."
+  },
+  {
+    "id": "fermi-s-golden-rule",
+    "label": "Fermi’s golden rule",
+    "parent": "approximation-methods",
+    "branch": "Quantum mechanics",
+    "description": "Fermi’s golden rule is included under Approximation methods in this topic hierarchy."
+  },
+  {
+    "id": "foundations-and-interpretations",
+    "label": "Foundations and interpretations",
+    "parent": "quantum-mechanics",
+    "branch": "Quantum mechanics",
+    "description": "Foundations and interpretations is included under Quantum mechanics in this topic hierarchy."
+  },
+  {
+    "id": "measurement-problem",
+    "label": "Measurement problem",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Measurement problem is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "epr-paradox",
+    "label": "EPR paradox",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "EPR paradox is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "bell-inequalities",
+    "label": "Bell inequalities",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Bell inequalities is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "contextuality",
+    "label": "Contextuality",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Contextuality is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "kochen-specker-theorem",
+    "label": "Kochen–Specker theorem",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Kochen–Specker theorem is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "copenhagen-interpretation",
+    "label": "Copenhagen interpretation",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Copenhagen interpretation is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "many-worlds-interpretation",
+    "label": "Many-worlds interpretation",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Many-worlds interpretation is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "bohmian-mechanics",
+    "label": "Bohmian mechanics",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Bohmian mechanics is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "objective-collapse",
+    "label": "Objective collapse",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Objective collapse is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "quantum-bayesianism",
+    "label": "Quantum Bayesianism",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Quantum Bayesianism is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "decoherence",
+    "label": "Decoherence",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Decoherence is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "classical-limit",
+    "label": "Classical limit",
+    "parent": "foundations-and-interpretations",
+    "branch": "Quantum mechanics",
+    "description": "Classical limit is included under Foundations and interpretations in this topic hierarchy."
+  },
+  {
+    "id": "quantum-computing",
+    "label": "Quantum computing",
+    "parent": "quantum-world",
+    "branch": "Quantum computing",
+    "description": "Processing information using quantum states, gates, algorithms, and error-corrected hardware."
+  },
+  {
+    "id": "computational-models",
+    "label": "Computational models",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Computational models is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "qubits",
+    "label": "Qubits",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Qubits is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "qudits",
+    "label": "Qudits",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Qudits is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "quantum-circuits",
+    "label": "Quantum circuits",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Quantum circuits is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "universal-gate-sets",
+    "label": "Universal gate sets",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Universal gate sets is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "reversible-computation",
+    "label": "Reversible computation",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Reversible computation is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "measurement-based-computation",
+    "label": "Measurement-based computation",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Measurement-based computation is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "adiabatic-quantum-computing",
+    "label": "Adiabatic quantum computing",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Adiabatic quantum computing is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "topological-quantum-computing",
+    "label": "Topological quantum computing",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Topological quantum computing is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "analog-quantum-computing",
+    "label": "Analog quantum computing",
+    "parent": "computational-models",
+    "branch": "Quantum computing",
+    "description": "Analog quantum computing is included under Computational models in this topic hierarchy."
+  },
+  {
+    "id": "quantum-gates",
+    "label": "Quantum gates",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Quantum gates is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "pauli-gates",
+    "label": "Pauli gates",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Pauli gates is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "hadamard-gate",
+    "label": "Hadamard gate",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Hadamard gate is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "phase-gate",
+    "label": "Phase gate",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Phase gate is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "t-gate",
+    "label": "T gate",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "T gate is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "rotation-gates",
+    "label": "Rotation gates",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Rotation gates is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "controlled-not-gate",
+    "label": "Controlled-NOT gate",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Controlled-NOT gate is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "controlled-z-gate",
+    "label": "Controlled-Z gate",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Controlled-Z gate is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "swap-gate",
+    "label": "SWAP gate",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "SWAP gate is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "toffoli-gate",
+    "label": "Toffoli gate",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Toffoli gate is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "controlled-unitaries",
+    "label": "Controlled unitaries",
+    "parent": "quantum-gates",
+    "branch": "Quantum computing",
+    "description": "Controlled unitaries is included under Quantum gates in this topic hierarchy."
+  },
+  {
+    "id": "quantum-algorithms",
+    "label": "Quantum algorithms",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Quantum algorithms is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-fourier-transform",
+    "label": "Quantum Fourier transform",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum Fourier transform is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "phase-estimation",
+    "label": "Phase estimation",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Phase estimation is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "shor-s-algorithm",
+    "label": "Shor’s algorithm",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Shor’s algorithm is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "grover-s-algorithm",
+    "label": "Grover’s algorithm",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Grover’s algorithm is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "amplitude-amplification",
+    "label": "Amplitude amplification",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Amplitude amplification is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "amplitude-estimation",
+    "label": "Amplitude estimation",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Amplitude estimation is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-walks",
+    "label": "Quantum walks",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum walks is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "hamiltonian-simulation",
+    "label": "Hamiltonian simulation",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Hamiltonian simulation is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-signal-processing",
+    "label": "Quantum signal processing",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum signal processing is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-singular-value-transformation",
+    "label": "Quantum singular value transformation",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum singular value transformation is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "hhl-algorithm",
+    "label": "HHL algorithm",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "HHL algorithm is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "deutsch-jozsa-algorithm",
+    "label": "Deutsch–Jozsa algorithm",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Deutsch–Jozsa algorithm is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "simon-s-algorithm",
+    "label": "Simon’s algorithm",
+    "parent": "quantum-algorithms",
+    "branch": "Quantum computing",
+    "description": "Simon’s algorithm is included under Quantum algorithms in this topic hierarchy."
+  },
+  {
+    "id": "hybrid-algorithms",
+    "label": "Hybrid algorithms",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Hybrid algorithms is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "variational-quantum-eigensolver",
+    "label": "Variational quantum eigensolver",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Variational quantum eigensolver is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-approximate-optimization-algorithm",
+    "label": "Quantum approximate optimization algorithm",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum approximate optimization algorithm is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "variational-quantum-circuits",
+    "label": "Variational quantum circuits",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Variational quantum circuits is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "parameter-shift-rule",
+    "label": "Parameter-shift rule",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Parameter-shift rule is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "barren-plateaus",
+    "label": "Barren plateaus",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Barren plateaus is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-machine-learning",
+    "label": "Quantum machine learning",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum machine learning is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-kernels",
+    "label": "Quantum kernels",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum kernels is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-neural-networks",
+    "label": "Quantum neural networks",
+    "parent": "hybrid-algorithms",
+    "branch": "Quantum computing",
+    "description": "Quantum neural networks is included under Hybrid algorithms in this topic hierarchy."
+  },
+  {
+    "id": "complexity-theory",
+    "label": "Complexity theory",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Complexity theory is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "bqp",
+    "label": "BQP",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "BQP is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "qma",
+    "label": "QMA",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "QMA is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "quantum-query-complexity",
+    "label": "Quantum query complexity",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "Quantum query complexity is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "quantum-communication-complexity",
+    "label": "Quantum communication complexity",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "Quantum communication complexity is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "quantum-advantage",
+    "label": "Quantum advantage",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "Quantum advantage is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "quantum-supremacy",
+    "label": "Quantum supremacy",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "Quantum supremacy is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "classical-simulation",
+    "label": "Classical simulation",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "Classical simulation is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "stabilizer-simulation",
+    "label": "Stabilizer simulation",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "Stabilizer simulation is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "tensor-network-simulation",
+    "label": "Tensor-network simulation",
+    "parent": "complexity-theory",
+    "branch": "Quantum computing",
+    "description": "Tensor-network simulation is included under Complexity theory in this topic hierarchy."
+  },
+  {
+    "id": "error-correction",
+    "label": "Error correction",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Error correction is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-error-correcting-codes",
+    "label": "Quantum error-correcting codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Quantum error-correcting codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "stabilizer-codes",
+    "label": "Stabilizer codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Stabilizer codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "css-codes",
+    "label": "CSS codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "CSS codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "surface-codes",
+    "label": "Surface codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Surface codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "toric-code",
+    "label": "Toric code",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Toric code is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "color-codes",
+    "label": "Color codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Color codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "quantum-ldpc-codes",
+    "label": "Quantum LDPC codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Quantum LDPC codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "subsystem-codes",
+    "label": "Subsystem codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Subsystem codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "bosonic-codes",
+    "label": "Bosonic codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Bosonic codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "gkp-codes",
+    "label": "GKP codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "GKP codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "cat-codes",
+    "label": "Cat codes",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Cat codes is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "syndrome-measurement",
+    "label": "Syndrome measurement",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Syndrome measurement is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "logical-qubits",
+    "label": "Logical qubits",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Logical qubits is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "decoding",
+    "label": "Decoding",
+    "parent": "error-correction",
+    "branch": "Quantum computing",
+    "description": "Decoding is included under Error correction in this topic hierarchy."
+  },
+  {
+    "id": "fault-tolerance",
+    "label": "Fault tolerance",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Fault tolerance is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "threshold-theorem",
+    "label": "Threshold theorem",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Threshold theorem is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "fault-tolerant-gates",
+    "label": "Fault-tolerant gates",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Fault-tolerant gates is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "transversal-gates",
+    "label": "Transversal gates",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Transversal gates is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "magic-state-distillation",
+    "label": "Magic-state distillation",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Magic-state distillation is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "lattice-surgery",
+    "label": "Lattice surgery",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Lattice surgery is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "code-switching",
+    "label": "Code switching",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Code switching is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "quantum-error-mitigation",
+    "label": "Quantum error mitigation",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Quantum error mitigation is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "zero-noise-extrapolation",
+    "label": "Zero-noise extrapolation",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Zero-noise extrapolation is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "probabilistic-error-cancellation",
+    "label": "Probabilistic error cancellation",
+    "parent": "fault-tolerance",
+    "branch": "Quantum computing",
+    "description": "Probabilistic error cancellation is included under Fault tolerance in this topic hierarchy."
+  },
+  {
+    "id": "programming-and-compilation",
+    "label": "Programming and compilation",
+    "parent": "quantum-computing",
+    "branch": "Quantum computing",
+    "description": "Programming and compilation is included under Quantum computing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-programming-languages",
+    "label": "Quantum programming languages",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Quantum programming languages is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "circuit-synthesis",
+    "label": "Circuit synthesis",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Circuit synthesis is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "gate-decomposition",
+    "label": "Gate decomposition",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Gate decomposition is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "qubit-routing",
+    "label": "Qubit routing",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Qubit routing is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "circuit-optimization",
+    "label": "Circuit optimization",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Circuit optimization is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "resource-estimation",
+    "label": "Resource estimation",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Resource estimation is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "dynamic-circuits",
+    "label": "Dynamic circuits",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Dynamic circuits is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "quantum-intermediate-representations",
+    "label": "Quantum intermediate representations",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Quantum intermediate representations is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "quantum-verification",
+    "label": "Quantum verification",
+    "parent": "programming-and-compilation",
+    "branch": "Quantum computing",
+    "description": "Quantum verification is included under Programming and compilation in this topic hierarchy."
+  },
+  {
+    "id": "quantum-information",
+    "label": "Quantum information",
+    "parent": "quantum-world",
+    "branch": "Quantum information",
+    "description": "The structure, quantification, and transformation of information carried by quantum systems."
+  },
+  {
+    "id": "information-measures",
+    "label": "Information measures",
+    "parent": "quantum-information",
+    "branch": "Quantum information",
+    "description": "Information measures is included under Quantum information in this topic hierarchy."
+  },
+  {
+    "id": "von-neumann-entropy",
+    "label": "Von Neumann entropy",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Von Neumann entropy is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "quantum-relative-entropy",
+    "label": "Quantum relative entropy",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Quantum relative entropy is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "quantum-mutual-information",
+    "label": "Quantum mutual information",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Quantum mutual information is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "conditional-quantum-entropy",
+    "label": "Conditional quantum entropy",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Conditional quantum entropy is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "r-nyi-entropies",
+    "label": "Rényi entropies",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Rényi entropies is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "min-entropy",
+    "label": "Min-entropy",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Min-entropy is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "max-entropy",
+    "label": "Max-entropy",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Max-entropy is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "fidelity",
+    "label": "Fidelity",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Fidelity is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "trace-distance",
+    "label": "Trace distance",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Trace distance is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "purity",
+    "label": "Purity",
+    "parent": "information-measures",
+    "branch": "Quantum information",
+    "description": "Purity is included under Information measures in this topic hierarchy."
+  },
+  {
+    "id": "entanglement",
+    "label": "Entanglement",
+    "parent": "quantum-information",
+    "branch": "Quantum information",
+    "description": "Entanglement is included under Quantum information in this topic hierarchy."
+  },
+  {
+    "id": "bipartite-entanglement",
+    "label": "Bipartite entanglement",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Bipartite entanglement is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "multipartite-entanglement",
+    "label": "Multipartite entanglement",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Multipartite entanglement is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "bell-states",
+    "label": "Bell states",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Bell states is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "ghz-states",
+    "label": "GHZ states",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "GHZ states is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "w-states",
+    "label": "W states",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "W states is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "schmidt-decomposition",
+    "label": "Schmidt decomposition",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Schmidt decomposition is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-entropy",
+    "label": "Entanglement entropy",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Entanglement entropy is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-witnesses",
+    "label": "Entanglement witnesses",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Entanglement witnesses is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-measures",
+    "label": "Entanglement measures",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Entanglement measures is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-distillation",
+    "label": "Entanglement distillation",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Entanglement distillation is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-dilution",
+    "label": "Entanglement dilution",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Entanglement dilution is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "bound-entanglement",
+    "label": "Bound entanglement",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Bound entanglement is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "monogamy-of-entanglement",
+    "label": "Monogamy of entanglement",
+    "parent": "entanglement",
+    "branch": "Quantum information",
+    "description": "Monogamy of entanglement is included under Entanglement in this topic hierarchy."
+  },
+  {
+    "id": "quantum-channels",
+    "label": "Quantum channels",
+    "parent": "quantum-information",
+    "branch": "Quantum information",
+    "description": "Quantum channels is included under Quantum information in this topic hierarchy."
+  },
+  {
+    "id": "completely-positive-maps",
+    "label": "Completely positive maps",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Completely positive maps is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "trace-preserving-maps",
+    "label": "Trace-preserving maps",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Trace-preserving maps is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "kraus-operators",
+    "label": "Kraus operators",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Kraus operators is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "stinespring-dilation",
+    "label": "Stinespring dilation",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Stinespring dilation is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "choi-jamio-kowski-isomorphism",
+    "label": "Choi–Jamiołkowski isomorphism",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Choi–Jamiołkowski isomorphism is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "depolarizing-channel",
+    "label": "Depolarizing channel",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Depolarizing channel is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "dephasing-channel",
+    "label": "Dephasing channel",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Dephasing channel is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "amplitude-damping",
+    "label": "Amplitude damping",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Amplitude damping is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "quantum-channel-capacity",
+    "label": "Quantum channel capacity",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Quantum channel capacity is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "coherent-information",
+    "label": "Coherent information",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Coherent information is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-breaking-channels",
+    "label": "Entanglement-breaking channels",
+    "parent": "quantum-channels",
+    "branch": "Quantum information",
+    "description": "Entanglement-breaking channels is included under Quantum channels in this topic hierarchy."
+  },
+  {
+    "id": "information-protocols",
+    "label": "Information protocols",
+    "parent": "quantum-information",
+    "branch": "Quantum information",
+    "description": "Information protocols is included under Quantum information in this topic hierarchy."
+  },
+  {
+    "id": "quantum-teleportation",
+    "label": "Quantum teleportation",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "Quantum teleportation is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "superdense-coding",
+    "label": "Superdense coding",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "Superdense coding is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-swapping",
+    "label": "Entanglement swapping",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "Entanglement swapping is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "state-merging",
+    "label": "State merging",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "State merging is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "quantum-state-discrimination",
+    "label": "Quantum state discrimination",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "Quantum state discrimination is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "quantum-compression",
+    "label": "Quantum compression",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "Quantum compression is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "no-cloning-theorem",
+    "label": "No-cloning theorem",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "No-cloning theorem is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "no-broadcasting-theorem",
+    "label": "No-broadcasting theorem",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "No-broadcasting theorem is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "no-signalling-principle",
+    "label": "No-signalling principle",
+    "parent": "information-protocols",
+    "branch": "Quantum information",
+    "description": "No-signalling principle is included under Information protocols in this topic hierarchy."
+  },
+  {
+    "id": "resource-theories",
+    "label": "Resource theories",
+    "parent": "quantum-information",
+    "branch": "Quantum information",
+    "description": "Resource theories is included under Quantum information in this topic hierarchy."
+  },
+  {
+    "id": "local-operations-and-classical-communication",
+    "label": "Local operations and classical communication",
+    "parent": "resource-theories",
+    "branch": "Quantum information",
+    "description": "Local operations and classical communication is included under Resource theories in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-as-a-resource",
+    "label": "Entanglement as a resource",
+    "parent": "resource-theories",
+    "branch": "Quantum information",
+    "description": "Entanglement as a resource is included under Resource theories in this topic hierarchy."
+  },
+  {
+    "id": "coherence-as-a-resource",
+    "label": "Coherence as a resource",
+    "parent": "resource-theories",
+    "branch": "Quantum information",
+    "description": "Coherence as a resource is included under Resource theories in this topic hierarchy."
+  },
+  {
+    "id": "magic-states",
+    "label": "Magic states",
+    "parent": "resource-theories",
+    "branch": "Quantum information",
+    "description": "Magic states is included under Resource theories in this topic hierarchy."
+  },
+  {
+    "id": "asymmetry",
+    "label": "Asymmetry",
+    "parent": "resource-theories",
+    "branch": "Quantum information",
+    "description": "Asymmetry is included under Resource theories in this topic hierarchy."
+  },
+  {
+    "id": "quantum-thermodynamic-resources",
+    "label": "Quantum thermodynamic resources",
+    "parent": "resource-theories",
+    "branch": "Quantum information",
+    "description": "Quantum thermodynamic resources is included under Resource theories in this topic hierarchy."
+  },
+  {
+    "id": "characterization",
+    "label": "Characterization",
+    "parent": "quantum-information",
+    "branch": "Quantum information",
+    "description": "Characterization is included under Quantum information in this topic hierarchy."
+  },
+  {
+    "id": "quantum-state-tomography",
+    "label": "Quantum state tomography",
+    "parent": "characterization",
+    "branch": "Quantum information",
+    "description": "Quantum state tomography is included under Characterization in this topic hierarchy."
+  },
+  {
+    "id": "quantum-process-tomography",
+    "label": "Quantum process tomography",
+    "parent": "characterization",
+    "branch": "Quantum information",
+    "description": "Quantum process tomography is included under Characterization in this topic hierarchy."
+  },
+  {
+    "id": "gate-set-tomography",
+    "label": "Gate-set tomography",
+    "parent": "characterization",
+    "branch": "Quantum information",
+    "description": "Gate-set tomography is included under Characterization in this topic hierarchy."
+  },
+  {
+    "id": "randomized-benchmarking",
+    "label": "Randomized benchmarking",
+    "parent": "characterization",
+    "branch": "Quantum information",
+    "description": "Randomized benchmarking is included under Characterization in this topic hierarchy."
+  },
+  {
+    "id": "classical-shadows",
+    "label": "Classical shadows",
+    "parent": "characterization",
+    "branch": "Quantum information",
+    "description": "Classical shadows is included under Characterization in this topic hierarchy."
+  },
+  {
+    "id": "quantum-certification",
+    "label": "Quantum certification",
+    "parent": "characterization",
+    "branch": "Quantum information",
+    "description": "Quantum certification is included under Characterization in this topic hierarchy."
+  },
+  {
+    "id": "device-independent-certification",
+    "label": "Device-independent certification",
+    "parent": "characterization",
+    "branch": "Quantum information",
+    "description": "Device-independent certification is included under Characterization in this topic hierarchy."
+  },
+  {
+    "id": "quantum-communication",
+    "label": "Quantum communication",
+    "parent": "quantum-world",
+    "branch": "Quantum communication",
+    "description": "Transmitting quantum states and using quantum correlations for communication and cryptography."
+  },
+  {
+    "id": "quantum-cryptography",
+    "label": "Quantum cryptography",
+    "parent": "quantum-communication",
+    "branch": "Quantum communication",
+    "description": "Quantum cryptography is included under Quantum communication in this topic hierarchy."
+  },
+  {
+    "id": "quantum-key-distribution",
+    "label": "Quantum key distribution",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Quantum key distribution is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "bb84-protocol",
+    "label": "BB84 protocol",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "BB84 protocol is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "e91-protocol",
+    "label": "E91 protocol",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "E91 protocol is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "decoy-state-protocols",
+    "label": "Decoy-state protocols",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Decoy-state protocols is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "device-independent-qkd",
+    "label": "Device-independent QKD",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Device-independent QKD is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "measurement-device-independent-qkd",
+    "label": "Measurement-device-independent QKD",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Measurement-device-independent QKD is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "continuous-variable-qkd",
+    "label": "Continuous-variable QKD",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Continuous-variable QKD is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "quantum-randomness",
+    "label": "Quantum randomness",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Quantum randomness is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "quantum-digital-signatures",
+    "label": "Quantum digital signatures",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Quantum digital signatures is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "quantum-secret-sharing",
+    "label": "Quantum secret sharing",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Quantum secret sharing is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "blind-quantum-computing",
+    "label": "Blind quantum computing",
+    "parent": "quantum-cryptography",
+    "branch": "Quantum communication",
+    "description": "Blind quantum computing is included under Quantum cryptography in this topic hierarchy."
+  },
+  {
+    "id": "quantum-networks",
+    "label": "Quantum networks",
+    "parent": "quantum-communication",
+    "branch": "Quantum communication",
+    "description": "Quantum networks is included under Quantum communication in this topic hierarchy."
+  },
+  {
+    "id": "quantum-internet",
+    "label": "Quantum internet",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Quantum internet is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "quantum-repeaters",
+    "label": "Quantum repeaters",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Quantum repeaters is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "entanglement-distribution",
+    "label": "Entanglement distribution",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Entanglement distribution is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "quantum-memories",
+    "label": "Quantum memories",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Quantum memories is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "quantum-transduction",
+    "label": "Quantum transduction",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Quantum transduction is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "photonic-interconnects",
+    "label": "Photonic interconnects",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Photonic interconnects is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "network-routing",
+    "label": "Network routing",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Network routing is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "distributed-quantum-computing",
+    "label": "Distributed quantum computing",
+    "parent": "quantum-networks",
+    "branch": "Quantum communication",
+    "description": "Distributed quantum computing is included under Quantum networks in this topic hierarchy."
+  },
+  {
+    "id": "communication-platforms",
+    "label": "Communication platforms",
+    "parent": "quantum-communication",
+    "branch": "Quantum communication",
+    "description": "Communication platforms is included under Quantum communication in this topic hierarchy."
+  },
+  {
+    "id": "optical-fiber-links",
+    "label": "Optical fiber links",
+    "parent": "communication-platforms",
+    "branch": "Quantum communication",
+    "description": "Optical fiber links is included under Communication platforms in this topic hierarchy."
+  },
+  {
+    "id": "free-space-quantum-links",
+    "label": "Free-space quantum links",
+    "parent": "communication-platforms",
+    "branch": "Quantum communication",
+    "description": "Free-space quantum links is included under Communication platforms in this topic hierarchy."
+  },
+  {
+    "id": "satellite-quantum-communication",
+    "label": "Satellite quantum communication",
+    "parent": "communication-platforms",
+    "branch": "Quantum communication",
+    "description": "Satellite quantum communication is included under Communication platforms in this topic hierarchy."
+  },
+  {
+    "id": "single-photon-sources",
+    "label": "Single-photon sources",
+    "parent": "communication-platforms",
+    "branch": "Quantum communication",
+    "description": "Single-photon sources is included under Communication platforms in this topic hierarchy."
+  },
+  {
+    "id": "single-photon-detectors",
+    "label": "Single-photon detectors",
+    "parent": "communication-platforms",
+    "branch": "Quantum communication",
+    "description": "Single-photon detectors is included under Communication platforms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-frequency-conversion",
+    "label": "Quantum frequency conversion",
+    "parent": "communication-platforms",
+    "branch": "Quantum communication",
+    "description": "Quantum frequency conversion is included under Communication platforms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-matter-and-fields",
+    "label": "Quantum matter and fields",
+    "parent": "quantum-world",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum descriptions of particles, materials, molecules, fields, and gravity."
+  },
+  {
+    "id": "many-body-physics",
+    "label": "Many-body physics",
+    "parent": "quantum-matter-and-fields",
+    "branch": "Quantum matter and fields",
+    "description": "Many-body physics is included under Quantum matter and fields in this topic hierarchy."
+  },
+  {
+    "id": "second-quantization",
+    "label": "Second quantization",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Second quantization is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "fock-space",
+    "label": "Fock space",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Fock space is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "creation-and-annihilation-operators",
+    "label": "Creation and annihilation operators",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Creation and annihilation operators is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "bose-einstein-condensation",
+    "label": "Bose–Einstein condensation",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Bose–Einstein condensation is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "fermi-gases",
+    "label": "Fermi gases",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Fermi gases is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "hubbard-model",
+    "label": "Hubbard model",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Hubbard model is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "ising-model",
+    "label": "Ising model",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Ising model is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "heisenberg-model",
+    "label": "Heisenberg model",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Heisenberg model is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "quantum-phase-transitions",
+    "label": "Quantum phase transitions",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum phase transitions is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "quantum-criticality",
+    "label": "Quantum criticality",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum criticality is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "many-body-localization",
+    "label": "Many-body localization",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Many-body localization is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "eigenstate-thermalization",
+    "label": "Eigenstate thermalization",
+    "parent": "many-body-physics",
+    "branch": "Quantum matter and fields",
+    "description": "Eigenstate thermalization is included under Many-body physics in this topic hierarchy."
+  },
+  {
+    "id": "condensed-matter",
+    "label": "Condensed matter",
+    "parent": "quantum-matter-and-fields",
+    "branch": "Quantum matter and fields",
+    "description": "Condensed matter is included under Quantum matter and fields in this topic hierarchy."
+  },
+  {
+    "id": "band-theory",
+    "label": "Band theory",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Band theory is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "bloch-theorem",
+    "label": "Bloch theorem",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Bloch theorem is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "superconductivity",
+    "label": "Superconductivity",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Superconductivity is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "cooper-pairs",
+    "label": "Cooper pairs",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Cooper pairs is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "bcs-theory",
+    "label": "BCS theory",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "BCS theory is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "josephson-effect",
+    "label": "Josephson effect",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Josephson effect is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "quantum-hall-effect",
+    "label": "Quantum Hall effect",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum Hall effect is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "topological-insulators",
+    "label": "Topological insulators",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Topological insulators is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "topological-order",
+    "label": "Topological order",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Topological order is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "anyons",
+    "label": "Anyons",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Anyons is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "majorana-zero-modes",
+    "label": "Majorana zero modes",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Majorana zero modes is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "spin-liquids",
+    "label": "Spin liquids",
+    "parent": "condensed-matter",
+    "branch": "Quantum matter and fields",
+    "description": "Spin liquids is included under Condensed matter in this topic hierarchy."
+  },
+  {
+    "id": "quantum-field-theory",
+    "label": "Quantum field theory",
+    "parent": "quantum-matter-and-fields",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum field theory is included under Quantum matter and fields in this topic hierarchy."
+  },
+  {
+    "id": "quantum-fields",
+    "label": "Quantum fields",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum fields is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "canonical-quantization",
+    "label": "Canonical quantization",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Canonical quantization is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "path-integral-quantization",
+    "label": "Path-integral quantization",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Path-integral quantization is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "feynman-diagrams",
+    "label": "Feynman diagrams",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Feynman diagrams is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "renormalization",
+    "label": "Renormalization",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Renormalization is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "gauge-symmetry",
+    "label": "Gauge symmetry",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Gauge symmetry is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "quantum-electrodynamics",
+    "label": "Quantum electrodynamics",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum electrodynamics is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "quantum-chromodynamics",
+    "label": "Quantum chromodynamics",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum chromodynamics is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "standard-model",
+    "label": "Standard Model",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Standard Model is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "vacuum-fluctuations",
+    "label": "Vacuum fluctuations",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Vacuum fluctuations is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "casimir-effect",
+    "label": "Casimir effect",
+    "parent": "quantum-field-theory",
+    "branch": "Quantum matter and fields",
+    "description": "Casimir effect is included under Quantum field theory in this topic hierarchy."
+  },
+  {
+    "id": "quantum-gravity",
+    "label": "Quantum gravity",
+    "parent": "quantum-matter-and-fields",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum gravity is included under Quantum matter and fields in this topic hierarchy."
+  },
+  {
+    "id": "semiclassical-gravity",
+    "label": "Semiclassical gravity",
+    "parent": "quantum-gravity",
+    "branch": "Quantum matter and fields",
+    "description": "Semiclassical gravity is included under Quantum gravity in this topic hierarchy."
+  },
+  {
+    "id": "hawking-radiation",
+    "label": "Hawking radiation",
+    "parent": "quantum-gravity",
+    "branch": "Quantum matter and fields",
+    "description": "Hawking radiation is included under Quantum gravity in this topic hierarchy."
+  },
+  {
+    "id": "black-hole-information-problem",
+    "label": "Black-hole information problem",
+    "parent": "quantum-gravity",
+    "branch": "Quantum matter and fields",
+    "description": "Black-hole information problem is included under Quantum gravity in this topic hierarchy."
+  },
+  {
+    "id": "holographic-principle",
+    "label": "Holographic principle",
+    "parent": "quantum-gravity",
+    "branch": "Quantum matter and fields",
+    "description": "Holographic principle is included under Quantum gravity in this topic hierarchy."
+  },
+  {
+    "id": "ads-cft-correspondence",
+    "label": "AdS/CFT correspondence",
+    "parent": "quantum-gravity",
+    "branch": "Quantum matter and fields",
+    "description": "AdS/CFT correspondence is included under Quantum gravity in this topic hierarchy."
+  },
+  {
+    "id": "loop-quantum-gravity",
+    "label": "Loop quantum gravity",
+    "parent": "quantum-gravity",
+    "branch": "Quantum matter and fields",
+    "description": "Loop quantum gravity is included under Quantum gravity in this topic hierarchy."
+  },
+  {
+    "id": "string-theory",
+    "label": "String theory",
+    "parent": "quantum-gravity",
+    "branch": "Quantum matter and fields",
+    "description": "String theory is included under Quantum gravity in this topic hierarchy."
+  },
+  {
+    "id": "quantum-chemistry",
+    "label": "Quantum chemistry",
+    "parent": "quantum-matter-and-fields",
+    "branch": "Quantum matter and fields",
+    "description": "Quantum chemistry is included under Quantum matter and fields in this topic hierarchy."
+  },
+  {
+    "id": "electronic-structure",
+    "label": "Electronic structure",
+    "parent": "quantum-chemistry",
+    "branch": "Quantum matter and fields",
+    "description": "Electronic structure is included under Quantum chemistry in this topic hierarchy."
+  },
+  {
+    "id": "molecular-orbitals",
+    "label": "Molecular orbitals",
+    "parent": "quantum-chemistry",
+    "branch": "Quantum matter and fields",
+    "description": "Molecular orbitals is included under Quantum chemistry in this topic hierarchy."
+  },
+  {
+    "id": "hartree-fock-method",
+    "label": "Hartree–Fock method",
+    "parent": "quantum-chemistry",
+    "branch": "Quantum matter and fields",
+    "description": "Hartree–Fock method is included under Quantum chemistry in this topic hierarchy."
+  },
+  {
+    "id": "density-functional-theory",
+    "label": "Density functional theory",
+    "parent": "quantum-chemistry",
+    "branch": "Quantum matter and fields",
+    "description": "Density functional theory is included under Quantum chemistry in this topic hierarchy."
+  },
+  {
+    "id": "configuration-interaction",
+    "label": "Configuration interaction",
+    "parent": "quantum-chemistry",
+    "branch": "Quantum matter and fields",
+    "description": "Configuration interaction is included under Quantum chemistry in this topic hierarchy."
+  },
+  {
+    "id": "coupled-cluster",
+    "label": "Coupled cluster",
+    "parent": "quantum-chemistry",
+    "branch": "Quantum matter and fields",
+    "description": "Coupled cluster is included under Quantum chemistry in this topic hierarchy."
+  },
+  {
+    "id": "born-oppenheimer-approximation",
+    "label": "Born–Oppenheimer approximation",
+    "parent": "quantum-chemistry",
+    "branch": "Quantum matter and fields",
+    "description": "Born–Oppenheimer approximation is included under Quantum chemistry in this topic hierarchy."
+  },
+  {
+    "id": "quantum-technology",
+    "label": "Quantum technology",
+    "parent": "quantum-world",
+    "branch": "Quantum technology",
+    "description": "Platforms and methods for controlling quantum systems and using them to compute, communicate, and sense."
+  },
+  {
+    "id": "hardware-platforms",
+    "label": "Hardware platforms",
+    "parent": "quantum-technology",
+    "branch": "Quantum technology",
+    "description": "Hardware platforms is included under Quantum technology in this topic hierarchy."
+  },
+  {
+    "id": "superconducting-qubits",
+    "label": "Superconducting qubits",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Superconducting qubits is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "trapped-ion-qubits",
+    "label": "Trapped-ion qubits",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Trapped-ion qubits is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "neutral-atom-qubits",
+    "label": "Neutral-atom qubits",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Neutral-atom qubits is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "rydberg-atoms",
+    "label": "Rydberg atoms",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Rydberg atoms is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "photonic-qubits",
+    "label": "Photonic qubits",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Photonic qubits is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "semiconductor-spin-qubits",
+    "label": "Semiconductor spin qubits",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Semiconductor spin qubits is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-dots",
+    "label": "Quantum dots",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Quantum dots is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "diamond-nv-centers",
+    "label": "Diamond NV centers",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Diamond NV centers is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "topological-qubits",
+    "label": "Topological qubits",
+    "parent": "hardware-platforms",
+    "branch": "Quantum technology",
+    "description": "Topological qubits is included under Hardware platforms in this topic hierarchy."
+  },
+  {
+    "id": "quantum-optics",
+    "label": "Quantum optics",
+    "parent": "quantum-technology",
+    "branch": "Quantum technology",
+    "description": "Quantum optics is included under Quantum technology in this topic hierarchy."
+  },
+  {
+    "id": "photons",
+    "label": "Photons",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Photons is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "coherent-states",
+    "label": "Coherent states",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Coherent states is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "squeezed-states",
+    "label": "Squeezed states",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Squeezed states is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "fock-states",
+    "label": "Fock states",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Fock states is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "beam-splitters",
+    "label": "Beam splitters",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Beam splitters is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "optical-interferometry",
+    "label": "Optical interferometry",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Optical interferometry is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "hong-ou-mandel-effect",
+    "label": "Hong–Ou–Mandel effect",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Hong–Ou–Mandel effect is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "spontaneous-parametric-down-conversion",
+    "label": "Spontaneous parametric down-conversion",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Spontaneous parametric down-conversion is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "cavity-qed",
+    "label": "Cavity QED",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Cavity QED is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "circuit-qed",
+    "label": "Circuit QED",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Circuit QED is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "optomechanics",
+    "label": "Optomechanics",
+    "parent": "quantum-optics",
+    "branch": "Quantum technology",
+    "description": "Optomechanics is included under Quantum optics in this topic hierarchy."
+  },
+  {
+    "id": "quantum-sensing",
+    "label": "Quantum sensing",
+    "parent": "quantum-technology",
+    "branch": "Quantum technology",
+    "description": "Quantum sensing is included under Quantum technology in this topic hierarchy."
+  },
+  {
+    "id": "quantum-metrology",
+    "label": "Quantum metrology",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Quantum metrology is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-fisher-information",
+    "label": "Quantum Fisher information",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Quantum Fisher information is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-cram-r-rao-bound",
+    "label": "Quantum Cramér–Rao bound",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Quantum Cramér–Rao bound is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "standard-quantum-limit",
+    "label": "Standard quantum limit",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Standard quantum limit is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "heisenberg-limit",
+    "label": "Heisenberg limit",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Heisenberg limit is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "atomic-clocks",
+    "label": "Atomic clocks",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Atomic clocks is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-magnetometry",
+    "label": "Quantum magnetometry",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Quantum magnetometry is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-gravimetry",
+    "label": "Quantum gravimetry",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Quantum gravimetry is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "spin-squeezing",
+    "label": "Spin squeezing",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Spin squeezing is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "quantum-imaging",
+    "label": "Quantum imaging",
+    "parent": "quantum-sensing",
+    "branch": "Quantum technology",
+    "description": "Quantum imaging is included under Quantum sensing in this topic hierarchy."
+  },
+  {
+    "id": "open-quantum-systems",
+    "label": "Open quantum systems",
+    "parent": "quantum-technology",
+    "branch": "Quantum technology",
+    "description": "Open quantum systems is included under Quantum technology in this topic hierarchy."
+  },
+  {
+    "id": "system-environment-coupling",
+    "label": "System–environment coupling",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "System–environment coupling is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "master-equations",
+    "label": "Master equations",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Master equations is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "lindblad-equation",
+    "label": "Lindblad equation",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Lindblad equation is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "markovian-dynamics",
+    "label": "Markovian dynamics",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Markovian dynamics is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "non-markovian-dynamics",
+    "label": "Non-Markovian dynamics",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Non-Markovian dynamics is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "quantum-trajectories",
+    "label": "Quantum trajectories",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Quantum trajectories is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "dissipation",
+    "label": "Dissipation",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Dissipation is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "dephasing",
+    "label": "Dephasing",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Dephasing is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "relaxation",
+    "label": "Relaxation",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Relaxation is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "dynamical-decoupling",
+    "label": "Dynamical decoupling",
+    "parent": "open-quantum-systems",
+    "branch": "Quantum technology",
+    "description": "Dynamical decoupling is included under Open quantum systems in this topic hierarchy."
+  },
+  {
+    "id": "quantum-control",
+    "label": "Quantum control",
+    "parent": "quantum-technology",
+    "branch": "Quantum technology",
+    "description": "Quantum control is included under Quantum technology in this topic hierarchy."
+  },
+  {
+    "id": "coherent-control",
+    "label": "Coherent control",
+    "parent": "quantum-control",
+    "branch": "Quantum technology",
+    "description": "Coherent control is included under Quantum control in this topic hierarchy."
+  },
+  {
+    "id": "optimal-control",
+    "label": "Optimal control",
+    "parent": "quantum-control",
+    "branch": "Quantum technology",
+    "description": "Optimal control is included under Quantum control in this topic hierarchy."
+  },
+  {
+    "id": "pulse-shaping",
+    "label": "Pulse shaping",
+    "parent": "quantum-control",
+    "branch": "Quantum technology",
+    "description": "Pulse shaping is included under Quantum control in this topic hierarchy."
+  },
+  {
+    "id": "feedback-control",
+    "label": "Feedback control",
+    "parent": "quantum-control",
+    "branch": "Quantum technology",
+    "description": "Feedback control is included under Quantum control in this topic hierarchy."
+  },
+  {
+    "id": "laser-cooling",
+    "label": "Laser cooling",
+    "parent": "quantum-control",
+    "branch": "Quantum technology",
+    "description": "Laser cooling is included under Quantum control in this topic hierarchy."
+  },
+  {
+    "id": "sideband-cooling",
+    "label": "Sideband cooling",
+    "parent": "quantum-control",
+    "branch": "Quantum technology",
+    "description": "Sideband cooling is included under Quantum control in this topic hierarchy."
+  },
+  {
+    "id": "reservoir-engineering",
+    "label": "Reservoir engineering",
+    "parent": "quantum-control",
+    "branch": "Quantum technology",
+    "description": "Reservoir engineering is included under Quantum control in this topic hierarchy."
+  },
+  {
+    "id": "quantum-thermodynamics",
+    "label": "Quantum thermodynamics",
+    "parent": "quantum-technology",
+    "branch": "Quantum technology",
+    "description": "Quantum thermodynamics is included under Quantum technology in this topic hierarchy."
+  },
+  {
+    "id": "quantum-heat-engines",
+    "label": "Quantum heat engines",
+    "parent": "quantum-thermodynamics",
+    "branch": "Quantum technology",
+    "description": "Quantum heat engines is included under Quantum thermodynamics in this topic hierarchy."
+  },
+  {
+    "id": "quantum-work",
+    "label": "Quantum work",
+    "parent": "quantum-thermodynamics",
+    "branch": "Quantum technology",
+    "description": "Quantum work is included under Quantum thermodynamics in this topic hierarchy."
+  },
+  {
+    "id": "fluctuation-theorems",
+    "label": "Fluctuation theorems",
+    "parent": "quantum-thermodynamics",
+    "branch": "Quantum technology",
+    "description": "Fluctuation theorems is included under Quantum thermodynamics in this topic hierarchy."
+  },
+  {
+    "id": "thermal-states",
+    "label": "Thermal states",
+    "parent": "quantum-thermodynamics",
+    "branch": "Quantum technology",
+    "description": "Thermal states is included under Quantum thermodynamics in this topic hierarchy."
+  },
+  {
+    "id": "thermalization",
+    "label": "Thermalization",
+    "parent": "quantum-thermodynamics",
+    "branch": "Quantum technology",
+    "description": "Thermalization is included under Quantum thermodynamics in this topic hierarchy."
+  },
+  {
+    "id": "landauer-principle",
+    "label": "Landauer principle",
+    "parent": "quantum-thermodynamics",
+    "branch": "Quantum technology",
+    "description": "Landauer principle is included under Quantum thermodynamics in this topic hierarchy."
+  },
+  {
+    "id": "quantum-batteries",
+    "label": "Quantum batteries",
+    "parent": "quantum-thermodynamics",
+    "branch": "Quantum technology",
+    "description": "Quantum batteries is included under Quantum thermodynamics in this topic hierarchy."
+  }
+]
