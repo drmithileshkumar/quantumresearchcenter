@@ -1,0 +1,315 @@
+{
+  "counts": {
+    "title": "A detector, one trial at a time",
+    "label": "Probability of A",
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "value": 0.5,
+    "options": []
+  },
+  "energy": {
+    "title": "The photoelectric energy balance",
+    "label": "Photon energy (eV)",
+    "min": 0,
+    "max": 5,
+    "step": 0.05,
+    "value": 3,
+    "options": []
+  },
+  "slits": {
+    "title": "Build an interference pattern",
+    "label": "Visibility",
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "value": 1,
+    "options": []
+  },
+  "spin": {
+    "title": "Rotate the analyzer",
+    "label": "Analyzer angle (degrees)",
+    "min": 0,
+    "max": 180,
+    "step": 1,
+    "value": 90,
+    "options": []
+  },
+  "polarization": {
+    "title": "Three polarizers",
+    "label": "Middle angle (degrees)",
+    "min": 0,
+    "max": 90,
+    "step": 1,
+    "value": 45,
+    "options": []
+  },
+  "photons": {
+    "title": "Correlations between clicks",
+    "label": "Delay τ / τc",
+    "min": -4,
+    "max": 4,
+    "step": 0.05,
+    "value": 0,
+    "options": [
+      [
+        "single",
+        "Antibunched"
+      ],
+      [
+        "coherent",
+        "Coherent"
+      ],
+      [
+        "thermal",
+        "Thermal, one mode"
+      ]
+    ]
+  },
+  "mzi": {
+    "title": "Recombine the alternatives",
+    "label": "Phase (degrees)",
+    "min": 0,
+    "max": 360,
+    "step": 1,
+    "value": 0,
+    "options": []
+  },
+  "recoil": {
+    "title": "A record becomes distinguishable",
+    "label": "Separation Δ / σ",
+    "min": 0,
+    "max": 6,
+    "step": 0.05,
+    "value": 2,
+    "options": []
+  },
+  "delayed": {
+    "title": "Choose the final measurement",
+    "label": "Phase (degrees)",
+    "min": 0,
+    "max": 360,
+    "step": 1,
+    "value": 0,
+    "options": [
+      [
+        "closed",
+        "Closed interferometer"
+      ],
+      [
+        "open",
+        "Open interferometer"
+      ]
+    ]
+  },
+  "eraser": {
+    "title": "Sort the same signal records",
+    "label": "Phase (degrees)",
+    "min": 0,
+    "max": 360,
+    "step": 1,
+    "value": 0,
+    "options": []
+  },
+  "bomb": {
+    "title": "Keep every outcome in view",
+    "label": "Protocol stage",
+    "min": 0,
+    "max": 3,
+    "step": 1,
+    "value": 0,
+    "options": [
+      [
+        "present",
+        "Opaque object present"
+      ],
+      [
+        "absent",
+        "Object absent"
+      ]
+    ]
+  },
+  "tunnel": {
+    "title": "Transmission through a barrier",
+    "label": "Width κa",
+    "min": 0,
+    "max": 4,
+    "step": 0.05,
+    "value": 1,
+    "options": []
+  },
+  "rabi": {
+    "title": "Rotate a state with a pulse",
+    "label": "Pulse area (degrees)",
+    "min": 0,
+    "max": 720,
+    "step": 1,
+    "value": 0,
+    "options": []
+  },
+  "ramsey": {
+    "title": "A clock made from a superposition",
+    "label": "Delay t / T₂",
+    "min": 0,
+    "max": 4,
+    "step": 0.02,
+    "value": 1,
+    "options": [
+      [
+        "free",
+        "Free evolution"
+      ],
+      [
+        "echo",
+        "Ideal static-noise echo"
+      ]
+    ]
+  },
+  "tomography": {
+    "title": "Measure along three axes",
+    "label": "State polar angle (degrees)",
+    "min": 0,
+    "max": 180,
+    "step": 1,
+    "value": 60,
+    "options": [
+      [
+        "pure",
+        "Pure state"
+      ],
+      [
+        "mixed",
+        "Bloch length 0.4"
+      ],
+      [
+        "maxmixed",
+        "Maximally mixed"
+      ]
+    ]
+  },
+  "hom": {
+    "title": "Overlap two photons",
+    "label": "Relative delay",
+    "min": -4,
+    "max": 4,
+    "step": 0.05,
+    "value": 0,
+    "options": []
+  },
+  "bell": {
+    "title": "Four correlations, one bound",
+    "label": "Bob angle θ (degrees)",
+    "min": 0,
+    "max": 90,
+    "step": 1,
+    "value": 45,
+    "options": []
+  },
+  "ghz": {
+    "title": "Follow the product constraints",
+    "label": "Argument step",
+    "min": 0,
+    "max": 5,
+    "step": 1,
+    "value": 0,
+    "options": [
+      [
+        "ghz",
+        "GHZ correlations"
+      ],
+      [
+        "square",
+        "Peres–Mermin square"
+      ]
+    ]
+  },
+  "teleport": {
+    "title": "Four messages, one recovered state",
+    "label": "Input polar angle (degrees)",
+    "min": 0,
+    "max": 180,
+    "step": 1,
+    "value": 60,
+    "options": [
+      [
+        "0",
+        "Message 00"
+      ],
+      [
+        "1",
+        "Message 01"
+      ],
+      [
+        "2",
+        "Message 10"
+      ],
+      [
+        "3",
+        "Message 11"
+      ]
+    ]
+  },
+  "cat": {
+    "title": "Records and coherence",
+    "label": "Coherence γ",
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "value": 1,
+    "options": []
+  },
+  "friend": {
+    "title": "Inside the laboratory; outside the laboratory",
+    "label": "Coherence γ",
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "value": 1,
+    "options": [
+      [
+        "interference",
+        "Wigner tests interference"
+      ],
+      [
+        "record",
+        "Wigner reads the record"
+      ]
+    ]
+  },
+  "extended": {
+    "title": "Add signed amplitudes",
+    "label": "Contribution step",
+    "min": 0,
+    "max": 3,
+    "step": 1,
+    "value": 3,
+    "options": [
+      [
+        "outside",
+        "Outside ok/fail basis"
+      ],
+      [
+        "records",
+        "Friend record basis"
+      ]
+    ]
+  },
+  "sensing": {
+    "title": "Find a useful interrogation time",
+    "label": "Time t / T₂",
+    "min": 0.1,
+    "max": 4,
+    "step": 0.02,
+    "value": 1,
+    "options": []
+  },
+  "capstone": {
+    "title": "Audit a synthetic phase scan",
+    "label": "Generating visibility",
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "value": 0.7,
+    "options": []
+  }
+}

@@ -50,6 +50,16 @@
     "level": "advanced"
   },
   {
+    "title": "Quantum Experiments",
+    "path": "education/experiments/index.html",
+    "format": "Self-paced course · Interactive textbook",
+    "description": "Explore laboratory and thought experiments from single-particle interference to Wigner’s friend, with animated models, explicit assumptions, and quantitative investigations.",
+    "details": "24 developed chapters · 24 interactive models · 72 solved problems · Synthetic-data capstone",
+    "prerequisite": "Basic algebra, waves, and probability. Vectors and quantum notation are introduced through examples; later chapters use simple matrices and tensor products.",
+    "summary": "Connect quantum laboratory and thought experiments to predictions, measurements, and evidence.",
+    "level": "advanced"
+  },
+  {
     "title": "Quantum Computing",
     "path": "education/computing/index.html",
     "format": "Self-paced course · Interactive textbook",

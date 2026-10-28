@@ -1,6 +1,96 @@
 {
- "reviewed_on": "2026-10-26",
+ "reviewed_on": "2026-10-27",
  "papers": [
+  {
+   "id": "2610.35253",
+   "url": "papers/2610.35253/index.html",
+   "title": "Bargmann-invariant witness of the graviton commutator",
+   "authors": "Hiroki Matsui",
+   "topic": "foundations",
+   "submitted": "2026-10-26",
+   "approved_on": "2026-10-27",
+   "problem": "Experiments proposed to show that gravity is quantum look for gravitationally induced entanglement or decoherence, but Newtonian entangling phases can be mimicked by assigning a classical field to each branch, and decoherence can be mimicked by classical noise. Is there an interference observable that no branchwise-definite classical gravitational field can reproduce?",
+   "result": "Yes. For matter coupled linearly to linearized gravity, each branch coherence factorizes exactly into a conservative phase, the characteristic functional of the graviton state, and a phase from the field commutator. For two interferometers, the phase \\(\\mathfrak B\\) of a four-cycle Bargmann invariant cancels everything except the commutator: it is independent of the graviton state and of all Newtonian interactions, and it vanishes for every branchwise-definite classical model. It is bounded by which-path decoherence, \\(\\mathfrak B^2\\le16\\,\\Gamma_X\\Gamma_Y\\).",
+   "techniques": [
+    "A cycle of coherences that cancels everything classical",
+    "Bounding a commutator signal by decoherence"
+   ]
+  },
+  {
+   "id": "2610.35099",
+   "url": "papers/2610.35099/index.html",
+   "title": "Self-Correcting 3D Surface Code with Growing Local Dimension",
+   "authors": "Jinkang Guo",
+   "topic": "computing",
+   "submitted": "2026-10-26",
+   "approved_on": "2026-10-27",
+   "problem": "A self-correcting quantum memory keeps information for a time growing exponentially in a power of its size under local thermal dynamics, with no active correction. The 4D toric code achieves this, but in three dimensions a no-go theorem for fixed local dimension and the string-like logical operator of the 3D surface code stand in the way. Does allowing the local dimension \\(q\\) to grow with system size help?",
+   "result": "Yes. Changing only the Pauli powers of the 3D surface code along one axis, so that its string-like logical operator carries powers \\(1,2,4,\\dots\\) modulo \\(q\\), gives a translation-invariant code in which, with odd \\(q\\ge cL^3\\) and below a critical temperature, both error sectors have memory time at least \\(e^{\\Omega(N^{1/3})}\\) under single-qudit Metropolis dynamics. Numerics suggest \\(\\log t_{\\rm mem}\\sim\\min\\{q,N^{1/3}\\}\\), so much smaller \\(q\\) may suffice.",
+   "techniques": [
+    "Weighted chain complexes: change powers, keep supports",
+    "Energy against entropy, with a Lee-weight Boltzmann sum"
+   ]
+  },
+  {
+   "id": "2610.35722",
+   "url": "papers/2610.35722/index.html",
+   "title": "Distillable entanglement is continuous",
+   "authors": "Lukas Schmitt; David Sutter",
+   "topic": "information",
+   "submitted": "2026-10-26",
+   "approved_on": "2026-10-27",
+   "problem": "Distillable entanglement, the best rate at which copies of a state can be turned into Bell pairs by local operations and classical communication, is defined operationally and has no single-letter formula. It was known to be lower semicontinuous and continuous on the interior of distillable states, but not continuous in general. Is it continuous everywhere, with an explicit bound?",
+   "result": "Yes. For states within trace distance \\(\\varepsilon<1/16\\), \\[|E_D(\\rho)-E_D(\\sigma)|\\le4\\sqrt\\varepsilon\\log d+4h(\\sqrt\\varepsilon),\\] with \\(d\\) the smaller local dimension. The same bound holds for entanglement cost. The proof builds an explicit LOCC protocol that converts copies of \\(\\sigma\\) into copies of \\(\\rho\\) using a number of ebits per copy that vanishes as the states approach each other.",
+   "techniques": [
+    "Continuity by a cheap conversion protocol",
+    "Locating rare outcomes with Grover search instead of measuring every copy"
+   ]
+  },
+  {
+   "id": "2610.35632",
+   "url": "papers/2610.35632/index.html",
+   "title": "Quantum-enhanced metrology with classical shadows",
+   "authors": "Luca Ion; Manuel Gessner",
+   "topic": "information",
+   "submitted": "2026-10-26",
+   "approved_on": "2026-10-27",
+   "problem": "Reaching the best precision in quantum metrology usually requires measuring a specific, often complicated observable tailored to the probe and encoding. Can one instead measure every qubit in random Pauli bases, as in classical shadows, and still estimate a parameter well, and how much entanglement advantage survives?",
+   "result": "Yes, with a quantified cost. Combining all Pauli moments up to weight \\(K\\) from one randomized data set by generalized least squares gives variance \\(1/(n\\mathcal I)\\), where the shadow information \\(\\mathcal I\\) has a closed form. Separable probes reach at most \\(\\mathcal I=N/3\\), so exceeding it witnesses entanglement, and no probe exceeds \\(2N^2/(N+2)<2N\\). Entanglement therefore gives a constant-factor gain, at most 6, not Heisenberg scaling: about 15% for twisted probes of 12 qubits.",
+   "techniques": [
+    "Generalized least squares over correlated shadow moments",
+    "Separable benchmark for witnessing useful entanglement"
+   ]
+  },
+  {
+   "id": "2610.34364",
+   "url": "papers/2610.34364/index.html",
+   "title": "Exact Identification of Quantum Correlations in the Minimal Bell Scenario",
+   "authors": "Liang-Liang Sun; Jie Wang; Sixia Yu",
+   "topic": "foundations",
+   "submitted": "2026-10-25",
+   "approved_on": "2026-10-27",
+   "problem": "In the simplest Bell experiment, two parties with two binary measurements each, the extreme points of the quantum set are known, but deciding whether a given list of eight statistics is quantum still requires searching over mixtures of many of them or climbing a semidefinite hierarchy that converges only in the limit. Is there an exact, finite test?",
+   "result": "Yes. A behaviour is quantum if and only if it is a mixture of a single behaviour produced by projective measurements on a pure two-qubit state and a local (classical) behaviour. The key step is a proof that every Bell functional with a strict quantum advantage has exactly one quantum maximizer. Membership then reduces to a system of trigonometric equations in five angles, and every quantum behaviour can be realized in dimension \\(6\\times6\\).",
+   "techniques": [
+    "A same-marginal local model that dominates every correlator",
+    "Eliminating mixture weights to test membership with five equations in five angles"
+   ]
+  },
+  {
+   "id": "2610.34446",
+   "url": "papers/2610.34446/index.html",
+   "title": "Ancilla-free optimal quantum adder",
+   "authors": "Junhong Nie; Jialiang Tang; Xiaoming Sun; Wei Zi",
+   "topic": "computing",
+   "submitted": "2026-10-25",
+   "approved_on": "2026-10-27",
+   "problem": "Quantum addition sits inside factoring, discrete logarithms and many oracles. Ripple-carry adders need no extra qubits but have linear depth; carry-lookahead adders reach logarithmic depth only with extra workspace. Can an exact \\(n\\)-bit adder have \\(O(n)\\) gates and \\(O(\\log n)\\) depth with no ancillary qubits at all?",
+   "result": "Yes. Using only X, CNOT and Toffoli gates with all-to-all connectivity, the paper builds an exact ancilla-free adder with \\(O(n)\\) gates and \\(O(\\log n)\\) depth, which is optimal for both. A simpler recursive version achieves \\(O(n\\log\\log n)\\) gates at the same depth. The construction borrows existing control and data wires as dirty workspace and always restores them.",
+   "techniques": [
+    "Echoes: apply a map using dirty borrowed bits and restore them",
+    "Reducing addition to two controlled ladders"
+   ]
+  },
   {
    "id": "2610.32319",
    "url": "papers/2610.32319/index.html",

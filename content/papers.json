@@ -1,5 +1,5 @@
 {
-  "reviewed_on": "2026-10-26",
+  "reviewed_on": "2026-10-27",
   "papers": [
     {
       "id": "2609.10508",
@@ -1912,6 +1912,280 @@
         "Pure probes \\(\\sum_m\\sqrt{p_m}|m\\rangle\\) suffice, and phases are irrelevant. Any ancilla-assisted input is an isometric image of such a probe, so the channel QFI needs no ancilla. Mixing two population vectors and preparing the pure superposition does at least as well as the average of their QFIs (concavity), proved by a diagonal two-outcome instrument that splits the superposition back into its parts. With reflection symmetry, optimal populations can be taken symmetric, and a nonpositive directional derivative at the cat is necessary and sufficient for global optimality along any affine family.",
         "Diagonal Kraus operators reduce the channel-QFI program, a minimization over Kraus gauges, to one norm constraint per level, \\(\\|\\dot c_m-ihc_m\\|_2\\le t\\): a second-order cone program. The dual variables \\(\\mu_m^\\star\\) sum to one and are the populations of an optimal probe, so one solve gives both. For \\(J=1\\) the derivative at the cat is \\(-8uC(u)/[(1-u^2)(1+u^2)^2]\\) with \\(u=e^{-2\\Delta}\\) and \\(C(u)=2u^5+u^4+4u^3-2u-1\\), whose root \\(u_1\\approx0.7522\\) sets the threshold. Embedding \\(\\{-J,0,J\\}\\) or kitten states \\((|{-m}\\rangle+|m\\rangle)/\\sqrt2\\), with QFI \\(16m^4/(e^{8m^2\\Delta}-1)\\), bounds the cat range for larger spins.",
         "Numerically, the cat is best for weak dephasing but collapses quickly. Uniform superpositions have coherences at every separation and are nearly optimal once the cat fails, and the cat–uniform interpolation tracks the optimum across \\(J\\) and \\(\\Delta\\). At \\(\\Delta=10^{-3}\\), QFI per unit spin peaks at \\(J=10.5\\), slightly before the cat loses optimality. For a \\(J_z^2\\) generator the cat is blind to the noise and the optimum concentrates on \\(|m|\\le7\\). For a spin-3/2 probe among 50 hydrogen spins simulated with the cluster-correlation expansion, the cat wins under free evolution, but under a four-pulse sequence the uniform state gives the highest QFI rate, at \\(t\\approx2.5\\,\\mu\\)s."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.34364",
+      "topic": "foundations",
+      "title": "Exact Identification of Quantum Correlations in the Minimal Bell Scenario",
+      "authors": "Liang-Liang Sun; Jie Wang; Sixia Yu",
+      "submitted": "2026-10-25",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "In the simplest Bell experiment, two parties with two binary measurements each, the extreme points of the quantum set are known, but deciding whether a given list of eight statistics is quantum still requires searching over mixtures of many of them or climbing a semidefinite hierarchy that converges only in the limit. Is there an exact, finite test?",
+      "result": "Yes. A behaviour is quantum if and only if it is a mixture of a single behaviour produced by projective measurements on a pure two-qubit state and a local (classical) behaviour. The key step is a proof that every Bell functional with a strict quantum advantage has exactly one quantum maximizer. Membership then reduces to a system of trigonometric equations in five angles, and every quantum behaviour can be realized in dimension \\(6\\times6\\).",
+      "significance": "It turns the known description of extreme points into a usable test of what nature can produce in this scenario, settles a conjecture about unique maximizers, and gives a finite classification of the boundary faces through each nonlocal exposed point. Exact boundaries of this kind are the benchmark against which physical principles such as information causality are tested.",
+      "limitations": "The results are specific to the two-input, two-output, two-party scenario. The test is exact in principle, but the reported implementation is a local numerical search: a failed search leaves an input undecided rather than proving it nonquantum, and the timing figures are not worst-case bounds. The face classification is carried out explicitly for an example point.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+      "verified_on": "2026-10-27",
+      "methods": [
+        {
+          "technique": "A same-marginal local model that dominates every correlator",
+          "explanation": "Given any marginals, a single shared uniform random variable produces a local behaviour whose correlators are as large as no-signalling allows. Comparing a quantum behaviour with this model shows when a Bell functional cannot favour quantum theory.",
+          "math": [
+            "Let \\(U\\) be uniform on \\([0,1]\\); Alice outputs \\(+1\\) when \\(U\\le(1+A_x)/2\\) and Bob when \\(U\\le(1+B_y)/2\\). The marginals are reproduced and the outputs disagree with probability \\(|A_x-B_y|/2\\), so \\(E^{\\rm Loc}_{xy}=1-|A_x-B_y|\\). Writing \\(r=p(+-|xy)\\), \\(s=p(-+|xy)\\) for the original behaviour, \\(E_{xy}=1-2(r+s)\\) and \\(A_x-B_y=2(r-s)\\), hence \\[E^{\\rm Loc}_{xy}-E_{xy}=4\\min\\{p(+-|xy),p(-+|xy)\\}\\ge0.\\]",
+            "If the correlator signs are not frustrated, output flips make all \\(c_{xy}\\ge0\\) (a four-cycle with an even number of negative edges can be switched to all positive), and replacing \\(E\\) by \\(E^{\\rm Loc}\\) cannot lower the Bell value. So a strict quantum advantage needs \\(c_{00}c_{01}c_{10}c_{11}<0\\).",
+            "Editorial check: on 2,000 random two-qubit states and measurements the identity holds to \\(8\\times10^{-16}\\). Maximizing six random non-frustrated functionals over the five-angle family (which contains all extreme points) never exceeded the best local vertex by more than numerical noise, while a frustrated CHSH-type functional exceeded it by 0.127."
+          ],
+          "transfer": "In any Bell scenario with binary outcomes, this coupling gives a quick certificate that a candidate inequality has no quantum violation: check whether output relabelling can make all its correlator coefficients nonnegative. It is a necessary condition for advantage, not a sufficient one."
+        },
+        {
+          "technique": "Eliminating mixture weights to test membership with five equations in five angles",
+          "explanation": "To decide whether a behaviour \\(\\vec Q\\) equals \\(\\lambda_0\\vec Q_{\\vec\\theta}+\\lambda_i\\vec L_i+\\lambda_j\\vec L_j\\), the unknown weights enter linearly. Projecting onto the orthogonal complement of the span of the known vectors removes them, leaving only angle equations; the weights are then read off and checked.",
+          "math": [
+            "Divide by \\(\\lambda_0>0\\): \\(\\vec Q_{\\vec\\theta}=z_0\\vec Q-z_i\\vec L_i-z_j\\vec L_j\\). With \\(C_{ij}=[\\vec Q,-\\vec L_i,-\\vec L_j]\\) of rank three, choose \\(D_{ij}\\) with \\(D_{ij}C_{ij}=0\\) and rank 5 and a left inverse \\(K_{ij}\\). Then \\(\\vec Q_{\\vec\\theta}\\) lies in the column space exactly when \\(D_{ij}\\vec Q_{\\vec\\theta}=0\\), five equations in five angles, and \\((z_0,z_i,z_j)=K_{ij}\\vec Q_{\\vec\\theta}\\).",
+            "Physical weights require \\(z_i,z_j\\ge0\\) and \\(\\lambda_0+\\lambda_i+\\lambda_j=(1+z_i+z_j)/z_0\\le1\\), equivalently \\(z_0-z_i-z_j\\ge1\\), which already forces \\(z_0>0\\).",
+            "Editorial check: the paper’s example point \\((5\\pi/6,3\\pi/2,2\\pi/3,7\\pi/5,11\\pi/20)\\) violates a CHSH inequality with value 2.453, and its \\(8\\times5\\) tangent matrix has rank 5, as used for the normal-cone count."
+          ],
+          "transfer": "Whenever a convex set is generated by one curved family plus finitely many vertices, write membership as a linear system in the weights, project out the weights, and solve only for the curve parameters. The same move turns many mixture-detection problems (states, channels, correlations) into a small nonlinear system plus linear feasibility checks."
+        }
+      ],
+      "methods_source_section": "Sections I–III (Eqs. 1–12, Theorems 1–2, Corollary 3); Appendix A.4 (Lemma 1, Proposition 3); Appendices C and E",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "The eight numbers \\(\\langle A_x\\rangle\\), \\(\\langle B_y\\rangle\\) and \\(E_{xy}=\\langle A_xB_y\\rangle\\) describe any behaviour. Behaviours from projective measurements on a pure two-qubit state form a five-angle family \\[A_x=\\cos\\theta\\cos a_x,\\quad B_y=\\cos\\theta\\cos b_y,\\quad E_{xy}=\\cos a_x\\cos b_y+\\sin\\theta\\sin a_x\\sin b_y,\\] which contains every extreme point of the quantum set. Carathéodory’s theorem allows up to nine extreme points in a decomposition, and the free parameters make that search intractable; the semidefinite hierarchy only converges in the limit.",
+        "A sign condition does much of the work. Call a Bell functional frustrated if the product of its four correlator coefficients is negative. For any behaviour there is a local model with the same marginals and correlators \\(1-|A_x-B_y|\\ge E_{xy}\\), so if all correlator coefficients can be made nonnegative by relabelling outputs, no quantum behaviour beats the local bound. A quantum advantage therefore requires frustration, and a maximizer with all joint probabilities positive forces it.",
+        "The main technical theorem shows that a frustrated functional maximized at a nonlocal exposed point has no other nonlocal extreme maximizer; local vertices may share the face, but only one quantum point. Hence every maximal face through such a point is the convex hull of that point and some deterministic local vertices. Every interior quantum behaviour lies between an interior local point and such a face, which gives the one-point-plus-local decomposition, and compactness extends it to the boundary.",
+        "The normal cone of a nonlocal point is cut by five tangent conditions and a normalization, leaving a two-parameter family of supporting functionals, so only finitely many maximal faces pass through each point. For membership, choosing two local vertices and eliminating the mixture weights by linear algebra leaves five equations in the five angles; a complete eight-vertex version covers all cases. A direct-sum construction realizes the two-qubit part and the local part together, so \\(6\\otimes6\\) dimensions always suffice."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.35253",
+      "topic": "foundations",
+      "title": "Bargmann-invariant witness of the graviton commutator",
+      "authors": "Hiroki Matsui",
+      "submitted": "2026-10-26",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "Experiments proposed to show that gravity is quantum look for gravitationally induced entanglement or decoherence, but Newtonian entangling phases can be mimicked by assigning a classical field to each branch, and decoherence can be mimicked by classical noise. Is there an interference observable that no branchwise-definite classical gravitational field can reproduce?",
+      "result": "Yes. For matter coupled linearly to linearized gravity, each branch coherence factorizes exactly into a conservative phase, the characteristic functional of the graviton state, and a phase from the field commutator. For two interferometers, the phase \\(\\mathfrak B\\) of a four-cycle Bargmann invariant cancels everything except the commutator: it is independent of the graviton state and of all Newtonian interactions, and it vanishes for every branchwise-definite classical model. It is bounded by which-path decoherence, \\(\\mathfrak B^2\\le16\\,\\Gamma_X\\Gamma_Y\\).",
+      "significance": "It identifies precisely which interferometric quantity carries the quantum nature of the field, explains why decoherence alone cannot certify it, and ties the signal to a decoherence budget. The same algebra gives a trapped-ion analog where the witness is of order one.",
+      "limitations": "For gravity the effect is about \\(10^{-60}\\) radians for the most optimistic proposed parameters, requiring about \\(10^{119}\\) repetitions. A nonzero witness excludes branchwise-definite models but not hybrid classical–quantum dynamics, which reproduce the same phase and differ only in their noise. The analysis assumes linear coupling, linearized gravity and additive sources.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+      "verified_on": "2026-10-27",
+      "methods": [
+        {
+          "technique": "A cycle of coherences that cancels everything classical",
+          "explanation": "Products of coherences around a closed cycle of branches are invariant under local rephasings, so branch-dependent phases cancel, and noise factors pair up as moduli. Whatever phase survives must come from non-commuting contributions, here the field commutator.",
+          "math": [
+            "Around \\((00)\\to(10)\\to(11)\\to(01)\\), the terms \\(S_a-S_b\\) telescope to zero. The noise factors give \\(\\chi[-X]\\chi[-Y]\\chi[X]\\chi[Y]=|\\chi[X]\\chi[Y]|^2\\ge0\\) because \\(\\chi[-T]=\\chi[T]^*\\). The commutator phases add to \\(\\mathfrak B_{\\rm Q}=(X|G_{\\rm PJ}|Y)=2\\operatorname{Im}\\langle\\alpha_Y,\\alpha_X\\rangle\\).",
+            "In the classical class, \\(M^{\\mathscr C}_{ab}=e^{i(s_a-s_b)}\\Phi_P[T_a-T_b]\\), so the same cycle gives \\(\\arg|\\Phi_P[X]\\Phi_P[Y]|^2=0\\) for every distribution \\(P\\) and every choice of phases \\(s_a\\).",
+            "Editorial check: simulating two qubits that displace a shared oscillator mode by \\(\\alpha_X=0.5\\) and then \\(\\alpha_Y=0.5i\\), the four-cycle phase is \\(-0.500\\) for both the vacuum and a thermal state with mean occupation 0.5, matching \\(2\\operatorname{Im}(\\alpha_Y^*\\alpha_X)\\) in magnitude, while a classical Gaussian random-field model gives \\(0.000\\). The budget \\(|\\sin(\\mathfrak B/2)|V_{X+Y}\\le\\sqrt{(1-V_X^2)(1-V_Y^2)}\\) holds in both cases (0.193 against 0.221 for the vacuum)."
+          ],
+          "transfer": "To separate a genuinely quantum effect from classical phases and noise in any multi-branch interference experiment, look for a rephasing-invariant cycle of coherences. Branchwise phases cancel, noise contributes only moduli, and the surviving phase isolates commutator or geometric-phase physics."
+        },
+        {
+          "technique": "Bounding a commutator signal by decoherence",
+          "explanation": "The commutator of two displacement operators is a phase times another displacement, so the uncertainty relation for unitary operators turns the Bargmann phase into a quantity bounded by the visibilities that measure which-path information.",
+          "math": [
+            "For unitaries, \\(\\Delta U\\,\\Delta V\\ge\\tfrac12|\\langle[U,V]\\rangle|\\) with \\(\\Delta U^2=1-|\\langle U\\rangle|^2\\). With \\(U=e^{ih[J_X]}\\), \\(V=e^{\\pm ih[J_Y]}\\), \\(|\\langle[U,V]\\rangle|=2|\\sin(\\mathfrak B/2)|\\,|\\chi[X\\pm Y]|\\), which gives \\[|\\sin(\\mathfrak B/2)|\\,V_{X\\pm Y}\\le\\sqrt{(1-V_X^2)(1-V_Y^2)},\\] and in the weak-coupling regime \\(\\mathfrak B^2\\le16\\Gamma_X\\Gamma_Y\\).",
+            "Editorial check: with \\(I(\\delta)=\\sqrt{\\pi/2}(\\delta^5-10\\delta^3+15\\delta)e^{-\\delta^2/2}\\), the parallel-axis budget ratio \\(|I|/8\\) peaks at 0.906 for \\(\\delta=0.617\\), and the identical-interferometer ratio \\(|\\mathfrak B|/\\Gamma_{\\rm vac}=|I|_{\\max}/2=3.62\\), as stated."
+          ],
+          "transfer": "Wherever a coherent effect is mediated by a field that also records which-path information, an uncertainty relation of this form bounds the effect by the decoherence it causes. It is a quick feasibility test: a predicted signal larger than the budget signals an error in the model."
+        }
+      ],
+      "methods_source_section": "Branch evolution (Eqs. 1–5); branchwise-definite models and Theorem 1 (Eq. 6); Bargmann witness (Eqs. 7–10); quantumness budget (Eqs. 11–12); gravity and analog test (Eqs. 13–14); Supplemental S4–S5",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "Each matter branch \\(a\\) sources a classical stress tensor \\(T_a\\). Because the coupling is linear, the evolution in branch \\(a\\) is \\(U_a=e^{iS_a}e^{ih[J_a]}\\), and tracing out the gravitons gives \\[M_{ab}=e^{i(S_a-S_b)}\\,e^{\\frac i2(T_a|G_{\\rm PJ}|T_b)}\\,\\chi[T_a-T_b].\\] The first factor contains the Newtonian potential and all conservative post-Newtonian interactions, the last is the characteristic functional of the graviton state, and the middle one comes from the commutator (Pauli–Jordan) kernel, which is state independent and fixed by on-shell gravitons.",
+        "The comparison class contains every model in which each branch acquires a deterministic phase plus the phase of one classical random field acting on all branches; it covers semiclassical gravity, quantum-controlled classical fields and Diósi–Penrose-type noise. If the graviton state has a nonnegative Wigner functional (vacuum, thermal, coherent, squeezed, inflationary relic states) and the commutator terms between branch differences vanish, all coherences are reproducible in this class. For a single interferometer they always vanish, so its decoherence can always be explained classically.",
+        "With two interferometers \\(A\\) and \\(B\\) with difference sources \\(X\\) and \\(Y\\), the phase \\(\\mathfrak B=\\arg(\\rho_{00,10}\\rho_{10,11}\\rho_{11,01}\\rho_{01,00})\\) cancels the conservative phases and turns the \\(\\chi\\) factors into a nonnegative product, leaving \\(\\mathfrak B=(X|G_{\\rm PJ}|Y)\\); every classical-class model gives zero. Operationally, \\(\\mathfrak B\\) is the difference between the fringe shift that \\(B\\) induces on \\(A\\) and vice versa: quantum fields give one-way, causal influence, which a branchwise-definite model can match only by allowing signalling. An uncertainty relation for displacement operators bounds the witness by the visibilities.",
+        "For slow sources the witness reduces to the cross term of the Burke–Thorne radiation-reaction potential at 2.5 post-Newtonian order. In a Gaussian trajectory model the ratio to its budget reaches 0.906 for parallel axes at a delay \\(\\delta\\simeq0.62\\), so gravitational radiation nearly saturates the bound, but the absolute size is about \\(3\\times10^{-60}\\). In a trapped-ion analog, qubits play the branches and a shared motional mode the field; open displacements \\(\\alpha_X,\\alpha_Y\\) in orthogonal quadratures give \\(\\mathfrak B=2\\operatorname{Im}(\\alpha_Y^*\\alpha_X)\\) for any motional state, about 0.5 for \\(|\\alpha|\\simeq0.5\\)."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.34446",
+      "topic": "computing",
+      "title": "Ancilla-free optimal quantum adder",
+      "authors": "Junhong Nie; Jialiang Tang; Xiaoming Sun; Wei Zi",
+      "submitted": "2026-10-25",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "Quantum addition sits inside factoring, discrete logarithms and many oracles. Ripple-carry adders need no extra qubits but have linear depth; carry-lookahead adders reach logarithmic depth only with extra workspace. Can an exact \\(n\\)-bit adder have \\(O(n)\\) gates and \\(O(\\log n)\\) depth with no ancillary qubits at all?",
+      "result": "Yes. Using only X, CNOT and Toffoli gates with all-to-all connectivity, the paper builds an exact ancilla-free adder with \\(O(n)\\) gates and \\(O(\\log n)\\) depth, which is optimal for both. A simpler recursive version achieves \\(O(n\\log\\log n)\\) gates at the same depth. The construction borrows existing control and data wires as dirty workspace and always restores them.",
+      "significance": "It closes the gap between size, depth and space for one of the most used arithmetic primitives, and the circuit is classically reversible, so it can be tested on bit strings. Its tools, workspace borrowed from dirty wires and restored by echoes, and a Pascal-matrix factorization of ladders, apply to other reversible circuits.",
+      "limitations": "The bounds are asymptotic, and the paper does not give concrete gate counts or compare constants with existing adders at practical sizes. All-to-all connectivity is assumed; nearest-neighbour hardware would add routing costs. Toffoli gates are counted as unit cost, whereas fault-tolerant compilation makes them expensive.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+      "verified_on": "2026-10-27",
+      "methods": [
+        {
+          "technique": "Echoes: apply a map using dirty borrowed bits and restore them",
+          "explanation": "If a linear map can be written as \\(I+A\\) with \\(A^2=0\\), and a shift \\(D\\) satisfies \\(ADA=A\\), then four additions between the target and a borrowed register implement \\(I+A\\) on the target and leave the borrowed register exactly as it was, whatever it held.",
+          "math": [
+            "Starting from \\((\\zeta,Z)\\): add \\(AZ\\) to \\(\\zeta\\); add \\(DA\\zeta\\) to \\(Z\\); add \\(AZ\\) to \\(\\zeta\\) again; add \\(DA\\zeta\\) to \\(Z\\) again. Using \\(A^2=0\\), the two copies of \\(AZ\\) cancel and \\(ADA=A\\) leaves \\(A\\zeta\\) in the target; the last step restores \\(Z\\) because \\(DA^2=0\\). Result: \\(((I+A)\\zeta,Z)\\).",
+            "Pascal matrices make this possible: \\(L=P_1P_0\\) modulo 2 with \\(P_0^2=P_1^2=I\\), where \\((P_0)_{ij}=\\binom ij\\bmod2\\). Weighting entries by control products preserves both identities because the weights from \\(j\\) to \\(k\\) and \\(k\\) to \\(i\\) multiply to the weight from \\(j\\) to \\(i\\).",
+            "Editorial check: \\(L=P_1P_0\\) and both involutions hold modulo 2 for every size up to 32; for 300 random control patterns and register contents, the four-addition echo applies \\(I+A\\) and restores the borrowed register exactly."
+          ],
+          "transfer": "When a reversible circuit needs scratch space but none is free, look for a factorization of the target map into involutions and use echoes on borrowed dirty wires. It works for any \\(\\mathbb F_2\\)-linear step whose nilpotent part admits a shift with \\(ADA=A\\)."
+        },
+        {
+          "technique": "Reducing addition to two controlled ladders",
+          "explanation": "The carry recurrence of binary addition becomes a controlled ladder after a change of variables, so a fast ladder gives a fast adder with only CNOT layers around it. The same two ladders also uncompute the carries, so no workspace remains.",
+          "math": [
+            "With \\(\\rho_i=a_i+b_i\\) and carries \\(c_{i+1}=a_ib_i+\\rho_ic_i\\), the bits \\(u_i=a_i+c_i\\) satisfy \\(u_0=a_0\\), \\(u_i=a_i+a_{i-1}+\\rho_{i-1}u_{i-1}\\): a ladder on the differenced register with controls \\(\\rho\\). After XORing \\(u\\) into the second register, the identity \\((1+\\rho_i+u_i)u_i=\\rho_iu_i\\) lets an inverse ladder with complemented controls restore the first register; a final XOR leaves the sum bits \\(\\rho+c\\).",
+            "Editorial check: implementing the seven stages literally on 6-bit registers reproduces \\((a,a+b\\bmod2^6)\\) on all 4,096 inputs."
+          ],
+          "transfer": "For any reversible arithmetic built from carry-like recurrences (comparison, increment, subtraction), look for a change of variables that turns the recurrence into a controlled ladder. Ladder acceleration then transfers directly, at the cost of linear-size, logarithmic-depth CNOT layers."
+        }
+      ],
+      "methods_source_section": "Sections 1.2, 2.2–2.3 (Lemmas 3–4); Section 3 (Lemma 5); Section 4.1 (Eqs. 15–19); Section 5",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "A standard reduction turns addition into two controlled ladders plus linear-size, log-depth CNOT layers. The ladder maps \\(x\\) to \\(y\\) with \\(y_0=x_0\\) and \\(y_i=x_i+p_iy_{i-1}\\) over \\(\\mathbb F_2\\), where \\(p\\) is a control register. Run directly it has depth \\(n-1\\). The first ladder computes \\(u_i=a_i+c_i\\) from the carry recurrence, and a second ladder with complemented controls erases it.",
+        "The data are split into blocks. Local ladders run in parallel inside each block; then only the block endpoints need updating, and they obey a shorter ladder with controls \\(\\pi_j\\), the product of all controls in block \\(j\\). Finally each interior is corrected from the incoming endpoint. Everything hinges on the endpoint update, which must be done with no free qubits.",
+        "The inverse endpoint map factors as \\(J=Q_1Q_0\\), where \\(Q_0,Q_1\\) are Pascal matrices modulo 2 weighted by control products, and each squares to the identity. Writing \\(Q_0=I+A\\), four additions between the endpoints and a borrowed register apply \\(I+A\\) and return the register to its original, arbitrary value. The required control products are computed from one control wire per block used as a dirty flag, together with zero tests on complemented controls that serve as conditional workspace.",
+        "With blocks of size about \\(\\sqrt n\\), each endpoint walks along up to \\(r\\) earlier endpoints, which forces recursion and costs \\(O(n\\log\\log n)\\) gates. The linear construction decomposes the endpoint map into two forests of height \\(O(\\log r)\\), so each walk has \\(O(\\log r)\\) stops; dyadic intervals of controls are each encoded by one bit plus a constant number of original controls. Blocks of size \\(\\Theta(\\log n)\\) then suffice, the recursion disappears, and the total is \\(O(n)\\) gates in \\(O(\\log n)\\) depth."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.35099",
+      "topic": "computing",
+      "title": "Self-Correcting 3D Surface Code with Growing Local Dimension",
+      "authors": "Jinkang Guo",
+      "submitted": "2026-10-26",
+      "version": "v1",
+      "kind": "Theory and numerical analysis",
+      "problem": "A self-correcting quantum memory keeps information for a time growing exponentially in a power of its size under local thermal dynamics, with no active correction. The 4D toric code achieves this, but in three dimensions a no-go theorem for fixed local dimension and the string-like logical operator of the 3D surface code stand in the way. Does allowing the local dimension \\(q\\) to grow with system size help?",
+      "result": "Yes. Changing only the Pauli powers of the 3D surface code along one axis, so that its string-like logical operator carries powers \\(1,2,4,\\dots\\) modulo \\(q\\), gives a translation-invariant code in which, with odd \\(q\\ge cL^3\\) and below a critical temperature, both error sectors have memory time at least \\(e^{\\Omega(N^{1/3})}\\) under single-qudit Metropolis dynamics. Numerics suggest \\(\\log t_{\\rm mem}\\sim\\min\\{q,N^{1/3}\\}\\), so much smaller \\(q\\) may suffice.",
+      "significance": "It identifies local Hilbert-space dimension as a resource for passive protection while keeping the simple geometry, stabilizer supports and local dynamics of the 3D surface code. Counted in qubits, \\(q=\\Theta(N)\\) costs only a logarithmic overhead.",
+      "limitations": "The noise model allows only shifts by \\(\\pm1\\) (Lee-metric errors); errors that jump across many levels would defeat the construction. The proven requirement \\(q\\ge cL^3\\) comes from a loose bound. Physical qudits of dimension of order \\(N\\) with these stabilizer interactions are not yet available, and the argument does not extend to two dimensions for this error model.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+      "verified_on": "2026-10-27",
+      "methods": [
+        {
+          "technique": "Weighted chain complexes: change powers, keep supports",
+          "explanation": "Replacing a boundary map’s entries by other integers, here \\(-2\\) instead of \\(-1\\), changes the homology generator into a geometric sequence while leaving the stabilizer supports and locality untouched. In the Lee metric, a logical operator with exponentially growing powers needs exponentially many unit shifts.",
+          "math": [
+            "With \\((K_L)_{jk}=-2\\delta_{jk}+\\delta_{j+1,k}\\), the kernel is spanned by \\(u_L=(1,2,\\dots,2^{L-1})\\), since \\(-2\\cdot2^{k-1}+2^k=0\\). The Künneth formula gives \\(H_1\\cong\\mathbb Z\\) with no torsion, and the universal coefficient theorem gives exactly one logical qudit after reducing modulo \\(q\\).",
+            "Editorial check: building the tensor-product complex with Koszul signs for \\(L=3\\), \\(q=7\\) (51 qudits) and \\(L=4\\), \\(q=11\\) (136 qudits), \\(H_XH_Z^{\\mathsf T}=0\\bmod q\\), the code has exactly one logical qudit, \\(\\ell_Z=\\sum_k2^{k-1}e_k\\) satisfies \\(H_X\\ell_Z=0\\), \\(\\ell_X\\) satisfies \\(H_Z\\ell_X=0\\), and \\(\\langle\\ell_X,\\ell_Z\\rangle=1\\)."
+          ],
+          "transfer": "When a code’s weak logical operator is string-like, try reweighting the boundary map along the string so that the logical carries growing powers modulo \\(q\\). It helps only against noise that moves in small steps, so the physical error model must favour small shifts."
+        },
+        {
+          "technique": "Energy against entropy, with a Lee-weight Boltzmann sum",
+          "explanation": "Self-correction proofs count bad configurations and weigh them by their Boltzmann factor. For qudits with Lee-weight energy, the sum over all nonzero values at one site is bounded independently of \\(q\\), so the critical temperature does not degrade as \\(q\\) grows.",
+          "math": [
+            "For one syndrome coordinate, \\(\\sum_{a\\ne0}e^{-\\beta|a|_L}\\le2\\sum_{k\\ge1}e^{-\\beta k}=2/(e^\\beta-1)\\). A connected support of size \\(\\alpha L\\) therefore has total weight at most \\((2/(e^\\beta-1))^{\\alpha L}\\), while the number of such supports grows as \\(e^{cL}\\); below \\(\\beta_c\\) independent of \\(q\\), large clusters have weight \\(e^{-\\Omega(L)}\\).",
+            "Editorial check: at \\(\\beta=1.3\\) the single-site sum is 0.734 for \\(q=7\\) and 0.749 for \\(q=31\\) and \\(q=1001\\), never above \\(2/(e^\\beta-1)=0.749\\)."
+          ],
+          "transfer": "For any qudit memory or lattice model with Lee-type or other distance-weighted energies, bound the per-site partition sum uniformly in the local dimension before running a Peierls-type argument; that is what keeps thresholds and critical temperatures independent of \\(q\\)."
+        }
+      ],
+      "methods_source_section": "Section II (Eqs. 1–9); Section III (Eqs. 10–14, proof sketch); Section IV (Eqs. 15–18); Appendices A–B",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "The code comes from a chain complex: open repetition codes along \\(x\\) and \\(y\\) tensored with a helical repetition code along \\(z\\), whose boundary map \\(K_L\\) has entries \\(-2\\) and \\(1\\) instead of \\(-1\\) and \\(1\\). Its integer homology is generated by \\(u_L=(1,2,4,\\dots,2^{L-1})\\). Reducing modulo odd \\(q\\) gives a CSS code with one logical qudit. Stabilizers keep the supports of the ordinary 3D surface code; only the powers on vertical edges change, to \\(-2\\) and \\(+2\\) in some places.",
+        "Errors are single-qudit \\(X^{\\pm1}\\) or \\(Z^{\\pm1}\\) shifts, measured by the Lee weight \\(|a|_L=\\min\\{a,q-a\\}\\). The energy is the Lee weight of the syndrome, and Metropolis moves change it by at most a constant. In the \\(X\\) sector the argument is the usual one for the membrane-like logical: a logical change requires a connected syndrome cluster of size of order \\(L\\), and the Boltzmann weight of such clusters beats their number below a temperature independent of \\(q\\).",
+        "The \\(Z\\) sector is where the weights matter. The string-like logical operator has exponents \\(1,2,\\dots,2^{L-1}\\) along a column, so over the integers its Lee distance is exponential in \\(L\\). Reduction modulo \\(q\\) opens a second escape route: a syndrome coordinate reaching Lee weight near \\(q/2\\). The proof lifts the dynamics to the integers and surrounds each codeword by a cylinder; reaching a cap takes at least \\(2^{L-2}\\) moves, and reaching the side costs energy of order \\(q\\), which is exponentially unlikely when \\(q\\ge cL^3\\).",
+        "Monte Carlo simulations at \\(\\beta=2\\) with \\(q\\simeq L^3\\) give memory times growing as \\(e^{0.36L}\\) and \\(e^{1.51L}\\) in the two sectors. At \\(\\beta=1\\) with \\(q\\) scaling as different powers of \\(L\\), the \\(Z\\)-sector times collapse onto \\(e^{0.477q}\\), suggesting the time is set by \\(q\\) once \\(q\\gg\\log N\\). A transference bound shows that in two dimensions one sector always has Lee distance \\(O(N)\\), so this mechanism does not carry over directly."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.35722",
+      "topic": "information",
+      "title": "Distillable entanglement is continuous",
+      "authors": "Lukas Schmitt; David Sutter",
+      "submitted": "2026-10-26",
+      "version": "v1",
+      "kind": "Theory",
+      "problem": "Distillable entanglement, the best rate at which copies of a state can be turned into Bell pairs by local operations and classical communication, is defined operationally and has no single-letter formula. It was known to be lower semicontinuous and continuous on the interior of distillable states, but not continuous in general. Is it continuous everywhere, with an explicit bound?",
+      "result": "Yes. For states within trace distance \\(\\varepsilon<1/16\\), \\[|E_D(\\rho)-E_D(\\sigma)|\\le4\\sqrt\\varepsilon\\log d+4h(\\sqrt\\varepsilon),\\] with \\(d\\) the smaller local dimension. The same bound holds for entanglement cost. The proof builds an explicit LOCC protocol that converts copies of \\(\\sigma\\) into copies of \\(\\rho\\) using a number of ebits per copy that vanishes as the states approach each other.",
+      "significance": "Continuity is basic for any physically meaningful resource measure: small preparation errors should change rates only slightly. The bound has the same logarithmic dimension dependence as those for conditional entropy and relative entropy of entanglement, and the conversion protocol is a reusable tool.",
+      "limitations": "The bound scales as \\(\\sqrt\\varepsilon\\), weaker than the linear-in-\\(\\varepsilon\\) bounds known for some other quantities, and it holds only for \\(\\varepsilon<1/16\\). It is an asymptotic statement about rates and gives no finite-copy guarantees. It does not settle whether distillable entanglement can be computed.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+      "verified_on": "2026-10-27",
+      "methods": [
+        {
+          "technique": "Continuity by a cheap conversion protocol",
+          "explanation": "For operationally defined rates without formulas, prove continuity by constructing a protocol that turns one state into the other using a vanishing amount of the resource. Any protocol for the second state then works for the first, at a cost that the conversion bounds.",
+          "math": [
+            "The mixture \\(\\omega=(\\rho+\\delta\\gamma_-)/(1+\\delta)=(\\sigma+\\delta\\gamma_+)/(1+\\delta)\\) uses \\(\\mathrm{tr}\\,\\gamma_\\pm=1\\), since \\((\\rho-\\sigma)_\\pm\\) have orthogonal supports and equal traces \\(\\delta\\). The ebit budget is \\(\\kappa_\\delta=\\delta\\log d+(1+\\delta)c(\\delta/(1+\\delta))\\), and the conversion gives \\(E_D(\\rho)\\le E_D(\\sigma)+\\kappa_\\delta\\).",
+            "Editorial check: for random \\(4\\times4\\) density matrices the two expressions for \\(\\omega\\) agree to \\(2\\times10^{-16}\\) and both \\(\\gamma_\\pm\\) have unit trace. Scanning \\(\\delta\\in(0,1/16)\\) and \\(d\\) from 2 to \\(2^{20}\\), \\(\\min\\{\\log d,\\kappa_\\delta\\}\\) never exceeds \\(4\\sqrt\\delta\\log d+4h(\\sqrt\\delta)\\); the closest approach is 0.002 below."
+          ],
+          "transfer": "For any resource defined by an optimal asymptotic rate (secret key, coherence distillation, channel capacities with assistance), continuity follows from a sublinear-cost conversion between nearby states plus a bound on how much borrowed resource can increase the rate. The decomposition through a common mixture \\(\\omega\\) is the general first step."
+        },
+        {
+          "technique": "Locating rare outcomes with Grover search instead of measuring every copy",
+          "explanation": "Measuring a two-outcome projector on every copy of a shared bipartite state costs order \\(n\\) ebits. When one outcome is rare, the parties can instead search coherently for the positions where it occurs, using the projector as a phase oracle, so the ebit cost scales with the number of rare outcomes.",
+          "math": [
+            "On the branch \\(|\\Omega_z\\rangle=\\Pi_z|\\Omega\\rangle\\) with outcome string \\(z\\), \\((I-2P_i^\\perp)|\\Omega_z\\rangle=(-1)^{z_i}|\\Omega_z\\rangle\\), a phase oracle for bit \\(z_i\\). Grover searches over random short lists find the ones; with at most about \\(pn+n^{2/3}\\) ones, which holds except with probability \\(e^{-2n^{1/3}}\\), the cost is \\(nc(p)+o(n)\\) ebits.",
+            "The error of the coherent procedure is converted into trace distance by a gentle-measurement style bound: average failure \\(\\delta_n\\) gives distance at most \\(\\sqrt{2\\delta_n+2e^{-2n^{1/3}}}\\)."
+          ],
+          "transfer": "In distributed or communication-limited settings, when you must learn a sparse binary string held in superposition, implement each bit as a phase oracle and search rather than read out every position. The saving is large whenever the expected number of ones is a small fraction of \\(n\\)."
+        }
+      ],
+      "methods_source_section": "Section 1 (Theorem 1.2, Eqs. 6–10); Section 2 (Lemmas 2.1–2.2, Corollary 2.3); Section 3 (Lemmas 3.1–3.4); Appendix A",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "Write \\(\\delta\\) for the trace distance and \\(\\gamma_\\pm\\) for the normalized positive and negative parts of \\(\\rho-\\sigma\\). The state \\(\\omega=(\\rho+\\delta\\gamma_-)/(1+\\delta)=(\\sigma+\\delta\\gamma_+)/(1+\\delta)\\) is a mixture of \\(\\sigma\\) with a little \\(\\gamma_+\\), and also a mixture of \\(\\rho\\) with a little \\(\\gamma_-\\). The protocol goes from \\(\\sigma\\) to \\(\\omega\\) and then from \\(\\omega\\) to \\(\\rho\\).",
+        "Step one: sample which copies of \\(\\omega\\) should be \\(\\gamma_+\\); about \\(\\delta n\\) of them. Prepare those by teleporting the smaller subsystem, which costs \\(\\delta n\\log d\\) ebits, and use \\(n+O(n^{2/3})\\) copies of \\(\\sigma\\) for the rest. Hoeffding’s inequality makes the sampling error vanish.",
+        "Step two: \\(\\rho\\) is a large part of \\(\\omega\\), so a projector \\(P\\) on \\(\\omega\\) plus an ancilla flags the \\(\\rho\\) component, failing on at most a fraction \\(\\delta/(1+\\delta)\\) of copies. Measuring \\(P\\) on each copy by teleportation would cost order \\(n\\) ebits, but failures are rare, so the parties instead run a Grover-type search for the few failed positions, using \\(I-2P^\\perp\\) as a phase oracle implemented with few ebits. This costs \\(n(1+\\delta)c(\\delta/(1+\\delta))\\) ebits, where \\(c(x)\\to0\\) as \\(x\\to0\\).",
+        "Composing with any distillation protocol for \\(\\rho\\) gives Bell pairs at rate \\(E_D(\\rho)\\) from copies of \\(\\sigma\\) plus \\(n\\kappa_\\delta\\) ebits. An ebit-assisted bound shows that borrowed ebits cannot raise the distillation rate by more than their number, so \\(E_D(\\rho)\\le E_D(\\sigma)+\\kappa_\\delta\\); swapping the roles and simplifying \\(\\min\\{\\log d,\\kappa_\\delta\\}\\) gives the stated bound. The same conversion, run after diluting ebits into \\(\\sigma\\), proves the bound for entanglement cost."
+      ],
+      "approved_on": "2026-10-27"
+    },
+    {
+      "id": "2610.35632",
+      "topic": "information",
+      "title": "Quantum-enhanced metrology with classical shadows",
+      "authors": "Luca Ion; Manuel Gessner",
+      "submitted": "2026-10-26",
+      "version": "v1",
+      "kind": "Theory and numerical analysis",
+      "problem": "Reaching the best precision in quantum metrology usually requires measuring a specific, often complicated observable tailored to the probe and encoding. Can one instead measure every qubit in random Pauli bases, as in classical shadows, and still estimate a parameter well, and how much entanglement advantage survives?",
+      "result": "Yes, with a quantified cost. Combining all Pauli moments up to weight \\(K\\) from one randomized data set by generalized least squares gives variance \\(1/(n\\mathcal I)\\), where the shadow information \\(\\mathcal I\\) has a closed form. Separable probes reach at most \\(\\mathcal I=N/3\\), so exceeding it witnesses entanglement, and no probe exceeds \\(2N^2/(N+2)<2N\\). Entanglement therefore gives a constant-factor gain, at most 6, not Heisenberg scaling: about 15% for twisted probes of 12 qubits.",
+      "significance": "It gives an observable-agnostic way to do metrology on circuit platforms: one fixed measurement strategy works for any probe and encoding, with explicit variance and sample-complexity guarantees and a clean separable benchmark. Under realistic noise, where the quantum Fisher information scales only linearly anyway, the precision cost of random readout is modest.",
+      "limitations": "Randomized local readout caps the variance at order \\(1/N\\) even for highly entangled probes, so Heisenberg scaling is lost. The analysis assumes known calibration (responses and covariances) at a working point and excludes the cost of obtaining it. Numerical results cover one-axis-twisted probes up to modest \\(N\\); the code is not yet released.",
+      "status": "approved",
+      "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+      "verified_on": "2026-10-27",
+      "methods": [
+        {
+          "technique": "Generalized least squares over correlated shadow moments",
+          "explanation": "Many noisy estimates of different moments, all drawn from the same randomized data, can be combined optimally if their joint covariance is known. Weighting by the inverse covariance extracts the best locally unbiased estimate without choosing an observable in advance.",
+          "math": [
+            "With response vector \\(\\mathbf s\\) and single-shot covariance \\(\\Gamma\\), the estimator \\(\\hat\\theta=\\theta_0+\\mathbf a^{\\mathsf T}(\\hat{\\mathbf\\mu}-\\mathbf\\mu_0)\\), \\(\\mathbf a=\\Gamma^{-1}\\mathbf s/(\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s)\\), minimizes \\(\\mathbf a^{\\mathsf T}\\Gamma\\mathbf a/(\\mathbf a^{\\mathsf T}\\mathbf s)^2\\), giving variance \\(1/(n\\,\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s)\\). The combined observable \\(A=\\sum_Pa_PP\\) is the effective measurement.",
+            "Editorial check: computing the shadow covariance for a random two-qubit state by summing over all 9 bases and 4 outcomes reproduces the closed form for all 15 Pauli strings to \\(2\\times10^{-15}\\). For a single qubit polarized perpendicular to the rotation axis, \\(\\Gamma=3I-\\mathbf\\mu\\mathbf\\mu^{\\mathsf T}\\) and \\(\\mathbf s\\perp\\mathbf\\mu\\) with \\(|\\mathbf s|=1\\), so \\(\\mathcal I=1/3\\) per qubit, the separable benchmark."
+          ],
+          "transfer": "Whenever a randomized-measurement data set already exists (shadows, randomized benchmarking records), estimate a parameter by GLS over every moment it supports rather than designing a new measurement. The method needs a calibrated response and covariance at the working point, which can come from a model or a pilot experiment."
+        },
+        {
+          "technique": "Separable benchmark for witnessing useful entanglement",
+          "explanation": "A precision bound valid for all separable probes turns precision itself into an entanglement test: beating it certifies entanglement that is useful for this specific protocol, not just entanglement in general.",
+          "math": [
+            "For product probes only weight-one moments carry information and \\(\\mathcal I\\le N/3\\); convexity, \\(\\mathcal I[\\sum_\\lambda p_\\lambda\\rho_\\lambda]\\le\\sum_\\lambda p_\\lambda\\mathcal I[\\rho_\\lambda]\\), extends this to all separable states. With \\(F_Q\\le N^2\\), every probe obeys \\(\\mathcal I\\le2N^2/(N+2)<6\\cdot N/3\\).",
+            "Editorial check: recomputing the \\(K=1\\) shadow information of one-axis-twisted probes at \\(N=12\\), \\(\\theta_0=-0.5\\), in the 13-dimensional symmetric subspace, the variance ratio to the coherent state reaches 0.865 at \\(\\tau\\approx0.08\\), a 13.5% improvement from linear moments alone, consistent with the paper’s figure of about 15% with most of it already at \\(K=1\\)."
+          ],
+          "transfer": "For any restricted measurement strategy (local, randomized, few-body), compute its separable-state precision limit; beating that limit is an operational entanglement witness tailored to the strategy. It also tells you the most entanglement can buy, here a factor below 6."
+        }
+      ],
+      "methods_source_section": "Main text Eqs. 1–20; Supplemental Material (shadow covariance, convexity, Appendix H product-state bound, Appendix I numerics)",
+      "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+      "description": [
+        "Each shot measures every qubit in a uniformly random Pauli basis. For a Pauli string \\(P\\), the single-shot estimate is \\(3^{\\mathrm{wt}(P)}\\) times the product of outcomes on its support if the sampled basis matches \\(P\\) there, and zero otherwise. All strings up to weight \\(K\\) are estimated from the same shots, so their estimates are correlated; the covariance has the closed form \\[\\Gamma_{PQ}=3^{|\\mathrm{supp}P\\cap\\mathrm{supp}Q|}\\langle PQ\\rangle-\\mu_P\\mu_Q\\] when \\(P\\) and \\(Q\\) agree on their common support, and \\(-\\mu_P\\mu_Q\\) otherwise.",
+        "Near a working point the moments respond as \\(\\mathbf\\mu(\\theta)\\approx\\mathbf\\mu(\\theta_0)+\\mathbf s(\\theta-\\theta_0)\\). Generalized least squares combines them into a locally unbiased estimator with variance \\(1/(n\\,\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s)\\), defining the shadow information \\(\\mathcal I=\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s\\). Bernstein bounds give sample complexity of order \\(\\log(1/\\delta)/(\\eta^2\\mathcal I)\\), and adding higher-weight strings can never lower \\(\\mathcal I\\).",
+        "For collective rotations, \\(\\mathcal I\\) is bounded by the generalized squeezing parameter of the optimal combined observable, and the full classical Fisher information of the shadow record obeys \\(F_{\\rm cs}\\le2NF_Q/(2N+F_Q)\\le2N\\). Hence the variance is at least \\(\\tfrac1n(1/F_Q+1/(2N))\\): the probe’s quantum Fisher information plus a readout penalty. Product states give exactly \\(N/3\\), and convexity of \\(\\mathcal I\\) extends this to all separable states.",
+        "For one-axis-twisted probes \\(e^{-i\\tau J_y^2}|0\\rangle^{\\otimes N}\\) with rotation about the largest-variance axis at \\(\\theta_0=-0.5\\), the variance ratio to the coherent state drops below one already with linear moments, by about 15% at \\(N=12\\) after optimizing \\(\\tau\\). Higher-weight strings matter more as the state becomes non-Gaussian at longer twisting. The bounds limit the ratio to at least \\(2/3\\) for \\(K=1\\) and above \\((N+2)/(6N)\\) for any \\(K\\)."
       ],
       "approved_on": "2026-10-27"
     }

@@ -1,0 +1,674 @@
+[
+  {
+    "stem": "01-evidence",
+    "title": "From Clicks to Evidence",
+    "part": "I · Observations and models",
+    "kind": "counts",
+    "question": "How does a detector click become evidence for a physical claim?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-1-1",
+        "number": "1.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-1-2",
+        "number": "1.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-1-3",
+        "number": "1.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "02-energy",
+    "title": "Energy Comes in Steps",
+    "part": "I · Observations and models",
+    "kind": "energy",
+    "question": "How do spectra and photoelectric measurements reveal energy scales?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-2-1",
+        "number": "2.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-2-2",
+        "number": "2.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-2-3",
+        "number": "2.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "03-matter-waves",
+    "title": "Matter Waves and the Double Slit",
+    "part": "I · Observations and models",
+    "kind": "slits",
+    "question": "How can separate detection events form an interference pattern?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-3-1",
+        "number": "3.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-3-2",
+        "number": "3.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-3-3",
+        "number": "3.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "04-stern-gerlach",
+    "title": "Stern–Gerlach and Sequential Measurements",
+    "part": "I · Observations and models",
+    "kind": "spin",
+    "question": "Why does inserting a different measurement change later outcomes?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-4-1",
+        "number": "4.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-4-2",
+        "number": "4.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-4-3",
+        "number": "4.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "05-polarization",
+    "title": "Polarization and Three Filters",
+    "part": "I · Observations and models",
+    "kind": "polarization",
+    "question": "Why can adding a polarizer increase transmission through crossed filters?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-5-1",
+        "number": "5.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-5-2",
+        "number": "5.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-5-3",
+        "number": "5.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "06-photon-counting",
+    "title": "Single Photons and Coincidences",
+    "part": "I · Observations and models",
+    "kind": "photons",
+    "question": "What makes a source of light nonclassical?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-6-1",
+        "number": "6.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-6-2",
+        "number": "6.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-6-3",
+        "number": "6.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "07-interferometer",
+    "title": "Mach–Zehnder: Adding Alternatives",
+    "part": "II · Paths, information, and time",
+    "kind": "mzi",
+    "question": "How can two individually random beam splitters give a certain output?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-7-1",
+        "number": "7.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-7-2",
+        "number": "7.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-7-3",
+        "number": "7.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "08-recoiling-slit",
+    "title": "Einstein’s Recoiling Slit",
+    "part": "II · Paths, information, and time",
+    "kind": "recoil",
+    "question": "Can a movable slit record a path without changing interference?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-8-1",
+        "number": "8.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-8-2",
+        "number": "8.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-8-3",
+        "number": "8.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "09-delayed-choice",
+    "title": "Wheeler’s Delayed Choice",
+    "part": "II · Paths, information, and time",
+    "kind": "delayed",
+    "question": "Does choosing the measurement late change what happened earlier?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-9-1",
+        "number": "9.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-9-2",
+        "number": "9.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-9-3",
+        "number": "9.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "10-quantum-eraser",
+    "title": "Quantum Erasure and Conditional Fringes",
+    "part": "II · Paths, information, and time",
+    "kind": "eraser",
+    "question": "Where are the fringes hiding when path information is available?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-10-1",
+        "number": "10.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-10-2",
+        "number": "10.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-10-3",
+        "number": "10.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "11-interaction-free",
+    "title": "The Elitzur–Vaidman Bomb Tester",
+    "part": "II · Paths, information, and time",
+    "kind": "bomb",
+    "question": "Can an object be detected in a trial in which it absorbs nothing?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-11-1",
+        "number": "11.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-11-2",
+        "number": "11.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-11-3",
+        "number": "11.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "12-tunnelling",
+    "title": "Tunnelling Through a Barrier",
+    "part": "III · Control and reconstruction",
+    "kind": "tunnel",
+    "question": "How can transmission occur when the particle energy is below a barrier?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-12-1",
+        "number": "12.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-12-2",
+        "number": "12.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-12-3",
+        "number": "12.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "13-rabi",
+    "title": "Rabi Oscillations and Coherent Control",
+    "part": "III · Control and reconstruction",
+    "kind": "rabi",
+    "question": "How does a pulse prepare a chosen quantum state?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-13-1",
+        "number": "13.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-13-2",
+        "number": "13.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-13-3",
+        "number": "13.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "14-ramsey",
+    "title": "Ramsey, Decoherence, and Echo",
+    "part": "III · Control and reconstruction",
+    "kind": "ramsey",
+    "question": "How can phase evolution reveal coherence and its loss?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-14-1",
+        "number": "14.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-14-2",
+        "number": "14.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-14-3",
+        "number": "14.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "15-tomography",
+    "title": "Reconstructing a Quantum State",
+    "part": "III · Control and reconstruction",
+    "kind": "tomography",
+    "question": "How can several incompatible measurements describe one preparation?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-15-1",
+        "number": "15.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-15-2",
+        "number": "15.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-15-3",
+        "number": "15.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "16-two-photon",
+    "title": "Two-Photon Interference and Entanglement",
+    "part": "IV · Correlations and constraints",
+    "kind": "hom",
+    "question": "What changes when two indistinguishable photons meet?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-16-1",
+        "number": "16.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-16-2",
+        "number": "16.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-16-3",
+        "number": "16.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "17-epr-bell",
+    "title": "EPR, Bohm, and Bell Tests",
+    "part": "IV · Correlations and constraints",
+    "kind": "bell",
+    "question": "Which assumptions about separated systems can correlations test?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-17-1",
+        "number": "17.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-17-2",
+        "number": "17.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-17-3",
+        "number": "17.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "18-ghz-contextuality",
+    "title": "GHZ and Contextuality",
+    "part": "IV · Correlations and constraints",
+    "kind": "ghz",
+    "question": "Can every possible measurement have a context-independent value?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-18-1",
+        "number": "18.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-18-2",
+        "number": "18.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-18-3",
+        "number": "18.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "19-teleportation",
+    "title": "Teleportation and Entanglement Swapping",
+    "part": "IV · Correlations and constraints",
+    "kind": "teleport",
+    "question": "What is transferred when a quantum state is teleported?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-19-1",
+        "number": "19.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-19-2",
+        "number": "19.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-19-3",
+        "number": "19.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "20-schrodinger-cat",
+    "title": "Schrödinger’s Cat and the Measurement Problem",
+    "part": "V · Records and observers",
+    "kind": "cat",
+    "question": "Does a correlated wavefunction describe one observed outcome?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-20-1",
+        "number": "20.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-20-2",
+        "number": "20.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-20-3",
+        "number": "20.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "21-wigners-friend",
+    "title": "Wigner’s Friend",
+    "part": "V · Records and observers",
+    "kind": "friend",
+    "question": "Can an observer and an outside experimenter assign different states consistently?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-21-1",
+        "number": "21.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-21-2",
+        "number": "21.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-21-3",
+        "number": "21.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "22-extended-friends",
+    "title": "Extended Friends and Consistency",
+    "part": "V · Records and observers",
+    "kind": "extended",
+    "question": "Which assumptions make different observers’ certainty claims conflict?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-22-1",
+        "number": "22.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-22-2",
+        "number": "22.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-22-3",
+        "number": "22.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "23-sensing",
+    "title": "Quantum Sensing and Atomic Clocks",
+    "part": "VI · From models to investigation",
+    "kind": "sensing",
+    "question": "How does a phase become a precise estimate of a field or frequency?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-23-1",
+        "number": "23.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-23-2",
+        "number": "23.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-23-3",
+        "number": "23.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  },
+  {
+    "stem": "24-investigation",
+    "title": "Capstone: Audit an Interference Claim",
+    "part": "VI · From models to investigation",
+    "kind": "capstone",
+    "question": "Can you turn counts into a reproducible, appropriately limited conclusion?",
+    "status": "developed",
+    "sections": [
+      {
+        "id": "section-24-1",
+        "number": "24.1",
+        "title": "The question and the apparatus",
+        "subsections": []
+      },
+      {
+        "id": "section-24-2",
+        "number": "24.2",
+        "title": "Build a prediction",
+        "subsections": []
+      },
+      {
+        "id": "section-24-3",
+        "number": "24.3",
+        "title": "What the evidence can establish",
+        "subsections": []
+      }
+    ]
+  }
+]
