@@ -39,10 +39,11 @@ class NavigationTests(unittest.TestCase):
     def test_nested_pages_highlight_the_section_and_resolve_links(self):
         for source, active in [('index.html', 'Home'), ('news/articles/example/index.html', 'News'),
                                ('education/computing/01-example.html', 'Education'),
-                               ('research/students/index.html', 'Research')]:
+                               ('research/students/index.html', 'Research'),
+                               ('tools/single-qubit.html', 'Tools')]:
             with self.subTest(source=source):
                 nav = PrimaryNavigation(site_navigation(source)).navs[0]
-                self.assertEqual([a['text'] for a in nav['links']], ['Home', 'News', 'Education', 'Research'])
+                self.assertEqual([a['text'] for a in nav['links']], ['Home', 'News', 'Education', 'Research', 'Tools'])
                 self.assertEqual([a['text'] for a in nav['links'] if 'aria-current' in a], [active])
                 for a in nav['links']:
                     self.assertTrue((ROOT / posixpath.normpath(posixpath.join(posixpath.dirname(source), a['href']))).is_file())
@@ -56,8 +57,8 @@ class NavigationTests(unittest.TestCase):
                 checked += 1
                 with self.subTest(page=str(path.relative_to(ROOT))):
                     self.assertIn('primary-nav', nav['attrs'].get('class', '').split())
-                    self.assertEqual([a['text'] for a in nav['links'][:4]], ['Home', 'News', 'Education', 'Research'])
-                    for a in nav['links'][:4]:
+                    self.assertEqual([a['text'] for a in nav['links'][:5]], ['Home', 'News', 'Education', 'Research', 'Tools'])
+                    for a in nav['links'][:5]:
                         self.assertNotIn('icon-nav', a.get('class', ''))
                         self.assertTrue((path.parent / a['href']).is_file())
         self.assertGreater(checked, 100)

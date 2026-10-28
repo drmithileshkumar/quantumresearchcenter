@@ -3,7 +3,8 @@ from html import escape
 import posixpath
 
 SECTIONS = (('index.html', 'Home'), ('news/index.html', 'News'),
-            ('education/index.html', 'Education'), ('research/index.html', 'Research'))
+            ('education/index.html', 'Education'), ('research/index.html', 'Research'),
+            ('tools/index.html', 'Tools'))
 
 
 def site_navigation(source, cls='site-nav', extra=''):

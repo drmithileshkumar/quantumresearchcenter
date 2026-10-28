@@ -7,8 +7,10 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from conferences import render_conferences
 from paper_news import long_date, paper_path, plain
 from site_navigation import site_navigation
+from tools import render_tools
 
 TOPICS = {'discoveries': 'Discoveries', 'companies': 'Companies',
           'government': 'Government & Policy', 'projects': 'Projects & Infrastructure'}
@@ -149,19 +151,23 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
     featured = next((a for a in published if a['slug'] == config.get('featured')), published[0] if published else None)
     site_url = book['url']
 
-    def shell(source, title, description, body, article=None):
+    def shell(source, title, description, body, article=None, assets=''):
         up = '../' * source.count('/')
         canonical = site_url + '/' + source.removesuffix('index.html')
         structured = {'@context': 'https://schema.org', '@type': 'WebSite' if source == 'index.html' else 'CollectionPage', 'name': title, 'url': canonical, 'description': description}
         if article:
             structured.update({'@type': 'NewsArticle' if article['format'] == 'News' else 'Article', 'headline': title, 'datePublished': article['published'], 'dateModified': article.get('updated', article['published']), 'author': {'@type': 'Organization' if article['author'] == 'Quantum Research Center' else 'Person', 'name': article['author']}, 'publisher': {'@type': 'Organization', 'name': 'Quantum Research Center'}, 'citation': [s['url'] for s in article['sources']]})
-        nav = site_navigation(source, 'editorial-nav')
+        home_extra = '<a href="conferences/index.html">Conferences</a>' if source == 'index.html' else ''
+        nav = site_navigation(source, 'editorial-nav', extra=home_extra)
         # Article text may contain TeX (\(...\) inline, \[...\] displayed); load MathJax only where it is used.
         mathjax = (f'<script defer src="{up}education/computing/assets/source/mathjax-config.js"></script>'
                    f'<script defer src="{up}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>') if '\\(' in body or '\\[' in body else ''
         outputs[source] = f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}">{social_meta(title, description, canonical, 'article' if article else 'website')}{json_ld(structured)}<link rel="icon" href="{up}icons/icon.svg"><link rel="alternate" type="application/rss+xml" title="Quantum News" href="{up}news/articles/feed.xml"><link rel="alternate" type="application/rss+xml" title="Research Papers" href="{up}news/feed.xml"><script src="{up}education/computing/assets/theme.js"></script><script src="{up}navigation.js"></script><link rel="stylesheet" href="{up}styles.css"><link rel="stylesheet" href="{up}news/editorial.css"><script defer src="{up}news/articles.js"></script>{mathjax}</head>
-<body class="editorial"><a class="skip-link" href="#main">Skip to content</a><header class="toolbar editorial-header">{site_logo('editorial-brand',up+'index.html')}{nav}</header><main id="main" tabindex="-1" class="editorial-main">{body}</main><footer class="editorial-footer"><div><strong>Quantum Research Center</strong><p>News, learning, and inquiry into quantum science.</p></div><nav aria-label="Footer"><a href="{up}news/articles/feed.xml">Quantum News RSS</a><a href="{up}news/feed.xml">Research Papers RSS</a><a href="{up}references/index.html">Bibliography</a><a href="mailto:{book['email']}">Contact</a></nav></footer></body></html>'''
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}">{social_meta(title, description, canonical, 'article' if article else 'website')}{json_ld(structured)}<link rel="icon" href="{up}icons/icon.svg"><link rel="alternate" type="application/rss+xml" title="Quantum News" href="{up}news/articles/feed.xml"><link rel="alternate" type="application/rss+xml" title="Research Papers" href="{up}news/feed.xml"><script src="{up}education/computing/assets/theme.js"></script><script src="{up}navigation.js"></script><link rel="stylesheet" href="{up}styles.css"><link rel="stylesheet" href="{up}news/editorial.css"><script defer src="{up}news/articles.js"></script>{mathjax}{assets}</head>
+<body class="editorial"><a class="skip-link" href="#main">Skip to content</a><header class="toolbar editorial-header">{site_logo('editorial-brand',up+'index.html')}{nav}</header><main id="main" tabindex="-1" class="editorial-main">{body}</main><footer class="editorial-footer"><div><strong>Quantum Research Center</strong><p>News, learning, and inquiry into quantum science.</p></div><nav aria-label="Footer"><a href="{up}conferences/index.html">Conferences</a><a href="{up}news/articles/feed.xml">Quantum News RSS</a><a href="{up}news/feed.xml">Research Papers RSS</a><a href="{up}references/index.html">Bibliography</a><a href="mailto:{book['email']}">Contact</a></nav></footer></body></html>'''
+
+    render_conferences(root, shell)
+    render_tools(root, shell)
 
     for source in ('index.html', 'news/index.html'):
         home = source == 'index.html'
@@ -173,7 +179,7 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
             body += '<section class="empty-news"><h2>Quantum News</h2><p>Our first stories are on the way. Explore the research papers and courses below.</p></section>'
         recent = [a for a in published if a != featured][:6]
         body += '<section class="latest-stories"><div class="section-top"><div><p class="eyebrow">For curious minds</p><h2>News &amp; explainers</h2></div><a href="'+relative('news/articles/index.html', source)+'">All Quantum News ↗</a></div><div class="story-grid">'+''.join(card(a, source) for a in recent)+'</div></section>'
-        body += '<section class="explore-paths" aria-label="Explore quantum science"><div><p class="eyebrow">Build your understanding</p><h2>Start with a question.<br>Follow it further.</h2></div><a href="'+relative('education/index.html', source)+'"><span>01 / Education</span><strong>Learn the foundations ↗</strong><p>Courses, worked examples, and interactive experiments.</p></a><a href="'+relative('research/index.html', source)+'"><span>02 / Research</span><strong>Explore open questions ↗</strong><p>Follow the ideas and mathematics behind our research.</p></a><a href="'+relative('map/index.html', source)+'"><span>03 / Maps</span><strong>See how ideas connect ↗</strong><p>An atlas of quantum topics, from foundations to technology.</p></a></section>'
+        body += '<section class="explore-paths" aria-label="Explore quantum science"><div><p class="eyebrow">Build your understanding</p><h2>Start with a question.<br>Follow it further.</h2><p><a href="'+relative('conferences/index.html', source)+'">Find a quantum conference ↗</a></p></div><a href="'+relative('education/index.html', source)+'"><span>01 / Education</span><strong>Learn the foundations ↗</strong><p>Courses, worked examples, and interactive experiments.</p></a><a href="'+relative('research/index.html', source)+'"><span>02 / Research</span><strong>Explore open questions ↗</strong><p>Follow the ideas and mathematics behind our research.</p></a><a href="'+relative('map/index.html', source)+'"><span>03 / Maps</span><strong>See how ideas connect ↗</strong><p>An atlas of quantum topics, from foundations to technology.</p></a></section>'
         body += paper_preview(approved, source)
         shell(source, 'Quantum science, news & ideas' if home else 'News', 'Accessible quantum news and explainers, alongside technical research papers, courses, and open questions.', body)
 

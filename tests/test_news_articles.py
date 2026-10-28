@@ -99,8 +99,10 @@ class NewsPublishingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / 'content').mkdir()
+            (root / 'content/conferences.json').write_text(json.dumps({'checked': '2026-10-28', 'conferences': []}))
             (root / 'content/news.json').write_text('{"featured": null}')
             (root / 'content/papers.json').write_text(json.dumps({'papers': []}))
+            (root / 'content/tools.json').write_text(json.dumps({'intro': 'Tools.', 'tools': [], 'planned': []}))
             output = {}
             news_articles.render_editorial(root, output, self.book, build.site_logo, build.social_meta, build.json_ld)
             self.assertIn('Our first stories are on the way', output['index.html'])

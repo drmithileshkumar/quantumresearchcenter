@@ -1,0 +1,80 @@
+{
+  "slug": "quantinuum-color-code-error-record",
+  "title": "Quantinuum reports a tenfold drop in logical error rate",
+  "summary": "A trapped-ion experiment runs a color code well below threshold, with about five errors per million operations on one logical qubit. What was shown, what it means for scaling, and what is still a goal.",
+  "author": "Quantum Research Center",
+  "published": "2026-10-28",
+  "status": "published",
+  "topic": "discoveries",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What was announced",
+      "paragraphs": [
+        "On 19 October 2026 Quantinuum announced that its Helios trapped-ion computer had protected a logical qubit with a logical fidelity of 99.9995 percent, about five errors per million operations. The company says this is ten times lower than its own record from September 2026. The technical paper, by Ali Lavasani and 22 coauthors, was posted to arXiv on 16 October as “Quantum error correction well below the color code threshold” and has not yet been peer reviewed."
+      ],
+      "source_refs": [
+        1,
+        2
+      ]
+    },
+    {
+      "heading": "Why logical qubits are the number to watch",
+      "paragraphs": [
+        "Physical qubits make errors far too often for long calculations. Error correction spreads one logical qubit over many physical ones and repeatedly checks them for faults, so that the logical qubit fails much less often than its parts. This only pays off below a threshold: if the physical error rate is low enough, making the code larger suppresses logical errors further, and above it, larger codes make things worse.",
+        "The figure that summarizes this is the suppression factor, often called lambda: how much the logical error rate falls each time the code distance increases by one step. A large factor means fewer physical qubits are needed to reach a given reliability."
+      ]
+    },
+    {
+      "heading": "What the experiment shows",
+      "paragraphs": [
+        "The team used triangular color codes at distances 3, 5 and 7 on Helios, which Science News reports has 98 physical qubits. The largest code used 37 physical qubits for one logical qubit. According to the paper, the logical error rate reached about 5 in a million, and each step up in distance cut logical errors by roughly a factor of 12. Techniques that remove leakage, where an ion leaves the two levels that form the qubit, were part of reaching these numbers.",
+        "For comparison, Google Quantum AI’s 2024 surface-code experiment on a superconducting processor, published in Nature, reported errors halving with each step, a factor of about 2. The paper also encodes two logical qubits in distance-3 and distance-5 codes and runs randomized sequences of logical operations, reporting about 7 errors per hundred thousand logical operations at distance 5. Neural-network decoders that keep up with the measurement rate were tested alongside conventional ones."
+      ],
+      "source_refs": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "heading": "What it does not show yet",
+      "paragraphs": [
+        "The headline number describes a single logical qubit being preserved, not a useful computation. Science News notes that the “megaquop” regime the field is aiming for, about a million reliable operations, would need roughly 50 to 100 logical qubits working together. Robin Blume-Kohout of Sandia National Laboratories, who was not involved, said in the company’s release that a scaled-up version could reach useful fault tolerance with fewer than a million physical qubits; that is a projection, not a measurement.",
+        "Quantinuum links the result to its plan for Apollo, a universal fault-tolerant computer it expects by 2029, and says its accuracy is now within Apollo’s target range. The company’s own statement cautions that results achieved in experimental settings may not carry over at larger scale. The 2029 machine is a goal; the October result is a laboratory demonstration on one logical qubit."
+      ],
+      "source_refs": [
+        1,
+        3
+      ]
+    },
+    {
+      "heading": "How to read it",
+      "paragraphs": [
+        "The useful comparison is not qubit count but how fast logical errors fall as codes grow, and at what cost in physical qubits and time per operation. Trapped ions have high gate fidelity but are slower than superconducting circuits, so a fair comparison of platforms also needs the time each round of error correction takes. Independent replication and peer review of the preprint are the next things to watch."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Quantinuum press release, 19 October 2026",
+      "url": "https://www.quantinuum.com/press-releases/quantinuum-breaks-error-correction-world-record-by-10x-validating-its-leading-path-to-fault-tolerant-quantum-computing-by-2029"
+    },
+    {
+      "title": "Lavasani et al., Quantum error correction well below the color code threshold, arXiv:2610.24077",
+      "url": "https://arxiv.org/abs/2610.24077"
+    },
+    {
+      "title": "Science News, A quantum computing feat brings the ‘megaquops’ era a step closer, 20 October 2026",
+      "url": "https://www.sciencenews.org/article/quantum-computer-megaquops-error-correction"
+    },
+    {
+      "title": "Google Quantum AI, Quantum error correction below the surface code threshold, Nature (2024)",
+      "url": "https://doi.org/10.1038/s41586-024-08449-y"
+    }
+  ],
+  "related_articles": [
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": []
+}

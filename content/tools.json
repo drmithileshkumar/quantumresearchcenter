@@ -1,0 +1,32 @@
+{
+  "intro": "Small, self-contained models for building intuition about quantum states. Each tool runs entirely in your browser: nothing you set is sent anywhere, and every control has a keyboard equivalent.",
+  "tools": [
+    {
+      "id": "single-qubit",
+      "kind": "Visualizer",
+      "title": "Single-qubit state visualizer",
+      "href": "tools/single-qubit.html",
+      "summary": "Point a qubit state on the Bloch sphere by dragging or by setting its two angles. Apply gates, measure the qubit, and read the amplitudes behind the picture.",
+      "features": [
+        "Bloch sphere",
+        "Gates X, Y, Z, H, S, T",
+        "Measurement and collapse",
+        "Amplitudes α and β"
+      ]
+    }
+  ],
+  "planned": [
+    {
+      "title": "Two-qubit states",
+      "summary": "Entangled and product states side by side, with the concurrence and the reduced single-qubit pictures."
+    },
+    {
+      "title": "Measurement statistics",
+      "summary": "Sample outcomes from repeated measurements and compare the histogram with the predicted probabilities."
+    },
+    {
+      "title": "Gate sequences",
+      "summary": "Build a short circuit on one or two qubits and follow the state through each step."
+    }
+  ]
+}

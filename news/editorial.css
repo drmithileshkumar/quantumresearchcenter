@@ -133,6 +133,8 @@ html[data-theme=dark] .article-figure{--fig-1:#3987e5;--fig-2:#d95926}
 .article-figure .fig-fill-2{fill:var(--fig-2)}
 .article-figure .fig-fill-muted{fill:var(--line-strong)}
 .article-figure .fig-box{fill:var(--surface);stroke:var(--line-strong);stroke-width:1}
+.article-figure .fig-box-claimed{fill:var(--surface);stroke:var(--fig-1);stroke-width:2}
+.article-figure .fig-box-open{fill:var(--surface);stroke:var(--fig-2);stroke-width:2;stroke-dasharray:5 4}
 .article-figure .fig-node{fill:var(--paper);stroke:var(--ink-soft);stroke-width:1.5}
 .article-figure .fig-hollow{fill:var(--paper);stroke:var(--fig-2);stroke-width:2.5}
 .article-figure .fig-link{stroke:var(--ink-soft);stroke-width:1.5;fill:none}

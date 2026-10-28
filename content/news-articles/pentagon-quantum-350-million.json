@@ -1,0 +1,67 @@
+{
+  "slug": "pentagon-quantum-350-million",
+  "title": "US Department of War announces $350 million for quantum computing",
+  "summary": "New money for DARPA’s benchmarking programme, four more companies in its final evaluation stage, and a conditional loan to PsiQuantum. What each part is, and what it is not.",
+  "author": "Quantum Research Center",
+  "published": "2026-10-28",
+  "status": "published",
+  "topic": "government",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What was announced",
+      "paragraphs": [
+        "On 9 October 2026 the US Department of War, as the Department of Defense is now styled, announced quantum computing initiatives worth about $350 million. The package has three different kinds of commitment: about $200 million in new funding connected to DARPA’s Quantum Benchmarking Initiative, a conditional loan commitment of about $150 million to PsiQuantum, and a programme of application workshops."
+      ],
+      "source_refs": [
+        1,
+        2
+      ]
+    },
+    {
+      "heading": "The benchmarking programme",
+      "paragraphs": [
+        "The Quantum Benchmarking Initiative, launched in 2024, asks whether any approach to quantum computing can reach utility scale by 2033, which DARPA defines as computational value exceeding the cost of the machine. It does not pick a single winner. DARPA has evaluated more than 20 companies so far.",
+        "Four companies have now advanced to Stage C, the final phase, in which the government verifies and validates hardware rather than reviewing plans: Atom Computing (neutral atoms), Diraq (silicon spin qubits made with standard chip processes), IBM (modular superconducting processors) and IonQ (trapped ions). Microsoft and PsiQuantum had already advanced through an earlier pilot programme. Reaching Stage C means a design has passed review, not that a utility-scale machine exists."
+      ],
+      "source_refs": [
+        1
+      ]
+    },
+    {
+      "heading": "The loan and the workshops",
+      "paragraphs": [
+        "The roughly $150 million for PsiQuantum, which builds photonic quantum computers, is a conditional loan commitment from the department’s Office of Strategic Capital, not a grant. It depends on financial, legal, technical and regulatory conditions and is meant to expand manufacturing, testing and cryogenic infrastructure at the company’s 140,000-square-foot facility in Milpitas, California.",
+        "The workshops, run by DARPA with the Department of Energy’s Office of Science, the National Nuclear Security Administration and the Laboratory for Physical Sciences, are to begin before January 2027. They will bring military users together with algorithm experts to identify problems in chemistry, materials science and physics where quantum computers could matter."
+      ],
+      "source_refs": [
+        1,
+        3
+      ]
+    },
+    {
+      "heading": "How to read it",
+      "paragraphs": [
+        "Headline totals often mix grants, loans and programme changes. Here, about $200 million is new funding, $150 million is a loan that may or may not be drawn, and the Stage C list is an evaluation milestone. The benchmarking programme is notable because it asks for an independent, cost-based test of usefulness, which is the question most company roadmaps leave open."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Military & Aerospace Electronics, DoD announces $350 million in quantum computing initiatives, 9 October 2026",
+      "url": "https://www.militaryaerospace.com/computers/article/55410692/dod-announces-350-million-in-quantum-computing-initiatives"
+    },
+    {
+      "title": "US Department of War release: $350 million in quantum computing initiatives",
+      "url": "https://www.war.gov/News/Releases/Release/Article/4622109/department-of-war-announces-350-million-in-quantum-computing-initiatives/"
+    },
+    {
+      "title": "The Quantum Insider, PsiQuantum receives conditional $150M loan commitment, 8 October 2026",
+      "url": "https://thequantuminsider.com/2026/10/08/psiquantum-conditional-150m-loan-california-quantum-facility/"
+    }
+  ],
+  "related_articles": [
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": []
+}

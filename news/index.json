@@ -1,6 +1,96 @@
 {
- "reviewed_on": "2026-10-27",
+ "reviewed_on": "2026-10-28",
  "papers": [
+  {
+   "id": "2610.37293",
+   "url": "papers/2610.37293/index.html",
+   "title": "Experimental evidence for quantum Brownian motion in electron-metal decoherence",
+   "authors": "Wayne Cheng-Wei Huang; Zilin Chen; Herman Batelaan",
+   "topic": "foundations",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-28",
+   "problem": "Twenty years ago Anglin, Paz and Zurek proposed that an electron passing close to a metal loses coherence through quantum Brownian motion: its image charge dissipates energy in the metal, and by the fluctuation–dissipation theorem the same process randomizes the electron’s phase. Interferometer experiments near silicon found decoherence two orders of magnitude below the prediction, and those near gold were at the edge of detectability. Can electron–metal decoherence be measured and compared quantitatively with the theory?",
+   "result": "Yes, using a diffractometer instead of an interferometer. Diffracted 1.67 keV electrons enter a gold-plated microchannel at milliradian grazing incidence and bounce off the wall at sub-nanometre distance, which raises the interaction strength \\(\\Delta t/y^3\\) to about \\(10^7\\) ps/μm³. All diffraction orders broaden equally and fringe visibility falls to 30–60%. The measured decoherence rate peaks at 182 μm⁻² at a tilt of 4.6 mrad, close to the classical-trajectory prediction of 216 μm⁻², and a standing-wave model reproduces the turnover at small tilt with a fitted gold resistivity of \\(37\\pm5\\) nΩ m.",
+   "techniques": [
+    "Integrating a local decoherence rate along a trajectory",
+    "Intra-beam coherence as a short-baseline decoherence detector"
+   ]
+  },
+  {
+   "id": "2610.37635",
+   "url": "papers/2610.37635/index.html",
+   "title": "Classical Verification of Quantum Computation Beyond the Polynomial Hierarchy",
+   "authors": "Atul Mantri",
+   "topic": "computing",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-28",
+   "problem": "Can a classical polynomial-time verifier be convinced of the outcome of a quantum computation by the efficient quantum computer that ran it, with no cryptographic assumption? This is open for all of BQP, and every quantum problem known to have such a proof system lies in AM or was excluded only from MA relative to an oracle. Does efficient classical verification force a problem into the polynomial hierarchy?",
+   "result": "Not by any relativizing argument. Relative to a classical oracle, a variant of recursive Fourier sampling is decided exactly in quantum polynomial time, lies outside the polynomial hierarchy, and has a public-coin interactive proof with a classical verifier, an efficient quantum honest prover, perfect completeness and soundness error \\(1/4\\) against unbounded provers, using at most \\(\\log n/4\\) messages. The message count can be made to grow as slowly as any unbounded computable function, and for a suitable oracle it is optimal up to a constant factor.",
+   "techniques": [
+    "Recursive spot-checks with a height-independent soundness invariant",
+    "Switching under correlated projections via a rank bound"
+   ]
+  },
+  {
+   "id": "2610.36963",
+   "url": "papers/2610.36963/index.html",
+   "title": "Correlation-sensitive magic-state distillation from spin-squeezed neutral atoms",
+   "authors": "Ximo Wang; Ruyue Guo; Xinbo Li; Min Feng; Haozhe Wang; Zhenqi Bai; Yichi Zhang",
+   "topic": "computing",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-28",
+   "problem": "Magic-state distillation is analysed for independent noisy inputs, with a fidelity threshold above which each round improves the resource. Neutral-atom factories prepare many resource blocks in parallel under shared interactions and control fields, which correlates their errors. Can such correlations defeat distillation even when every input is above threshold, and which measurable quantity decides?",
+   "result": "Yes. For the five-to-one Bravyi–Kitaev protocol with independent local Clifford twirls, the accepted output depends on the joint input only through sums \\(A_k\\) of \\(k\\)-body correlators along the target axis: \\(p_{\\rm acc}=(3+A_4)/48\\) and \\(t_{\\rm out}=(A_3-2A_5)/(3+A_4)\\). Distillation improves on the mean input exactly when \\(G=A_3-2A_5-\\bar t(3+A_4)>0\\). Inputs with identical one- and two-qubit reduced states can have opposite gains, and in finite-range Ising simulations of a 25-atom source, interblock correlations reverse the gain while the product of the same local states gains.",
+   "techniques": [
+    "Stabilizer expansion of a code projection on correlated inputs",
+    "Symmetry selection under code projection"
+   ]
+  },
+  {
+   "id": "2610.37347",
+   "url": "papers/2610.37347/index.html",
+   "title": "Measurement incompatibility and noiseless quantum codes",
+   "authors": "Yu-Xuan Zhang; Jing-Ling Chen",
+   "topic": "information",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-28",
+   "problem": "A quantum channel can destroy the incompatibility of measurements but never create it. Which channels preserve the incompatibility of every finite family of measurements? Chitambar and Zhang conjectured that, when the input is larger than the output, such a channel must carry a noiseless copy of its output space, and Uola and coauthors asked whether every dimension has a measurement family that is incompatible on the full space but compatible on every proper subspace.",
+   "result": "Both questions are settled. A channel from dimension \\(D\\) to \\(d\\) preserves all incompatibility if and only if an isometry \\(W\\) encodes every output state noiselessly, \\(\\mathcal N(W\\rho W^\\dagger)=\\rho\\). One explicit family of \\(d^2\\) binary measurements is a complete test: its compatibility threshold is \\(s=1\\), and any channel that keeps that threshold has such a code. The same family is incompatible on \\(\\mathbb C^d\\) and compatible on every proper subspace, for every \\(d\\ge2\\). If the threshold shifts by a small \\(\\delta\\), an approximate encoding has diamond-norm error at most \\(2c^2\\delta^2\\).",
+   "techniques": [
+    "Dual-frame expansion of a dilation defect",
+    "Rigid parents of rank-one measurements"
+   ]
+  },
+  {
+   "id": "2610.35838",
+   "url": "papers/2610.35838/index.html",
+   "title": "Network nonlocality with tripartite entangled sources",
+   "authors": "Sudip Chakrabarty; Amit Kundu",
+   "topic": "foundations",
+   "submitted": "2026-10-26",
+   "approved_on": "2026-10-28",
+   "problem": "Network nonlocality has mostly been studied with sources that emit pairs of particles. A three-qubit source has two distinct notions of nonlocality: the Mermin inequality excludes fully local models, and the Svetlichny inequality certifies genuine tripartite nonlocality. When independent sources emit three-qubit states and central nodes measure without any input, how is a network violation related to these two single-source tests?",
+   "result": "It depends on the wiring. In the closed network, where two input-free central nodes each hold one particle from every source, Bell-state measurements give a two-copy value at least the normalized Svetlichny value, \\(\\mathcal N_{\\rm c}\\ge\\mathcal S/4\\); every entangled generalized GHZ state, and even some biseparable states, violate the network inequality. In the open network, with one central node, the value is at most the normalized Mermin value, \\(\\mathcal N_{\\rm o}\\le\\mathcal M/2\\). With \\(n\\) sources, the largest violation of these two-correlator inequalities is \\(\\sqrt2\\) (closed) or \\(2\\) (open) for even \\(n\\), but only \\(2^{1/2-1/(2n)}\\) or \\(2^{1-1/(2n)}\\) for odd \\(n\\).",
+   "techniques": [
+    "Two perpendicular directions from one end node",
+    "Anticommutation bound for input-free central nodes"
+   ]
+  },
+  {
+   "id": "2610.36156",
+   "url": "papers/2610.36156/index.html",
+   "title": "Many-body entanglement quantification in arbitrary states through a few partial-transpose moments",
+   "authors": "Sudip Chakrabarty; A. S. Majumdar",
+   "topic": "information",
+   "submitted": "2026-10-26",
+   "approved_on": "2026-10-28",
+   "problem": "Logarithmic negativity quantifies entanglement in mixed states, but computing it needs the full spectrum of the partial transpose and hence tomography. Moments of the partial transpose can be measured with randomized measurements or swap circuits. Given a few such moments, what is the largest amount of negativity they certify?",
+   "result": "Treating the normalized squared eigenvalues of the partial transpose as a probability measure turns the question into a truncated Hausdorff moment problem, solved exactly by Gauss or Gauss–Radau quadrature. The moments \\(p_2,\\dots,p_K\\) give the best possible lower bound \\(\\mathcal E_K\\). The bounds increase strictly until they become exact at \\(K=4s\\), where \\(s\\) is the number of distinct eigenvalue magnitudes, and converge for every state. For \\(K=4\\) the method reproduces the known bound \\(\\tfrac12\\ln(p_2^3/p_4)\\) and shows it is optimal.",
+   "techniques": [
+    "Hermite interpolation certificate for moment problems",
+    "Saturation by counting spectral levels"
+   ]
+  },
   {
    "id": "2610.35253",
    "url": "papers/2610.35253/index.html",

@@ -1,0 +1,103 @@
+/* Tools: the interactive-model catalogue and the single-qubit Bloch sphere.
+   Colours come from the shared tokens so both themes and the contrast settings keep working. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Catalogue */
+.tool-count{font:12px var(--sans);color:var(--muted)}
+.editorial .tool-list h2,.editorial .tool-reading h2{font:500 26px/1.3 var(--sans);letter-spacing:-.03em;margin:0 0 18px}
+.editorial .tool-list h3,.editorial .tool-planned h3{font:500 23px/1.3 var(--sans);letter-spacing:-.03em;margin:0 0 8px}
+.tool-catalog{margin-top:10px;border-top:1px solid var(--line);padding-top:26px}
+.tool-list{list-style:none;padding:0;margin:22px 0 0;border-top:1px solid var(--line)}
+.tool-card{display:grid;grid-template-columns:64px minmax(0,1fr);gap:22px;padding:28px 0;border-bottom:1px solid var(--line)}
+.tool-index{font:normal 30px/1.2 Georgia,serif;color:var(--line-strong);margin:2px 0 0}
+.tool-card h3 a{color:var(--heading)}
+.tool-card h3 a:hover{color:var(--blue-strong);text-decoration:underline}
+.tool-status{font:500 10px/1.6 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--blue-strong);margin:0 0 8px}
+.tool-summary{font:15px/1.75 var(--sans);color:var(--ink-soft);margin:0;max-width:760px}
+.tool-features{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:16px 0 0}
+.tool-features li{font:11px/1.5 var(--sans);color:var(--ink-soft);background:var(--surface);border:1px solid var(--line-strong);border-radius:3px;padding:4px 9px}
+.tool-planned{margin-top:52px;padding:30px;background:var(--surface);border-top:2px solid var(--blue)}
+.editorial .tool-planned h2{font:500 25px/1.3 var(--sans);margin:8px 0 12px}
+.tool-planned-intro{font:14px/1.75 var(--sans);color:var(--ink-soft);margin:0;max-width:720px}
+.tool-planned ul{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;padding:0;margin:26px 0 0}
+.tool-planned li{border-top:1px solid var(--line-strong);padding-top:16px}
+.tool-planned p{font:13px/1.7 var(--sans);color:var(--muted);margin:0}
+.tool-reading{margin-top:52px;border-top:1px solid var(--line);padding-top:30px}
+.tool-reading p{font:15px/1.8 var(--sans);color:var(--ink-soft);max-width:74ch;margin:0 0 16px}
+/* Single-qubit explorer: drawing beside the controls, stacked on narrow screens. */
+.qubit-intro{padding-bottom:8px}
+.qubit-lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,1fr);gap:38px;align-items:start;margin:26px 0 10px}
+.bloch-figure{margin:0;padding:16px 16px 12px;border:1px solid var(--line-strong);border-radius:4px;background:var(--surface)}
+.bloch{display:block;width:100%;max-width:540px;height:auto;margin:0 auto;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+.bloch.is-dragging{cursor:grabbing}
+.bloch-surface{fill:var(--blue-wash);stroke:var(--line-strong);stroke-width:1.5}
+.bloch-grid{fill:none;stroke:var(--line-strong);stroke-width:1}
+.bloch-equator{stroke:var(--field-border)}
+.bloch-meridian{stroke-opacity:.75}
+.bloch-grid .is-behind{stroke-dasharray:3 5;stroke-opacity:.55}
+.bloch-axis{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:2 4}
+.bloch-axis-label{fill:var(--ink-soft);font:12px var(--sans);letter-spacing:.01em}
+.bloch-vector{stroke:var(--blue-strong);stroke-width:2.6;stroke-linecap:round}
+.bloch-guide{stroke:var(--blue);stroke-width:1;stroke-dasharray:4 4;opacity:.65}
+.bloch-tip{fill:var(--warm);stroke:var(--surface);stroke-width:1.5}
+.bloch-origin{fill:var(--ink-soft)}
+.bloch-figure figcaption{font:12px/1.65 var(--sans);color:var(--muted);margin:8px 0 0;text-align:center}
+.qubit-panel{display:flex;flex-direction:column;gap:16px;min-width:0}
+.qubit-state{border:1px solid var(--line-strong);border-top:3px solid var(--blue);border-radius:4px;padding:18px 20px 20px;background:var(--paper)}
+.qubit-kicker{font:500 10px/1.6 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.qubit-ket{font:18px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--heading);margin:0 0 14px;overflow-wrap:anywhere}
+.qubit-values{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;margin:0 0 16px}
+.qubit-values div{display:flex;flex-direction:column;gap:2px}
+.qubit-values dt{font:500 11px/1.5 var(--sans);color:var(--muted)}
+.qubit-values dd{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--ink);margin:0;font-variant-numeric:tabular-nums}
+.qubit-meters{display:flex;flex-direction:column;gap:8px}
+.meter-label{display:grid;grid-template-columns:74px minmax(0,1fr);align-items:center;gap:10px;margin:0;font:11px/1.5 var(--sans);color:var(--muted)}
+.meter-track{display:block;height:8px;border-radius:99px;background:var(--blue-wash);border:1px solid var(--line);overflow:hidden}
+.meter-fill{display:block;height:100%;background:var(--blue);transition:width .18s ease}
+.qubit-group{border:1px solid var(--line);border-radius:4px;padding:12px 16px 16px;margin:0;min-width:0}
+.qubit-group legend{font:500 10px/1.5 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:0 6px}
+.slider-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px}
+.slider-row label{font:500 13px/1.5 var(--sans);color:var(--ink);white-space:nowrap}
+.slider-note{font-weight:400;color:var(--muted);font-size:11px}
+.slider-row output{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--ink);min-width:92px;text-align:right;font-variant-numeric:tabular-nums}
+.slider-row input[type=range]{width:100%;min-width:0;margin:0;accent-color:var(--blue);cursor:pointer}
+.slider-row input[type=range]:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.slider-hint{font:12px/1.65 var(--sans);color:var(--muted);margin:8px 0 0;max-width:60ch}
+.qubit-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.qubit-buttons button{min-height:40px;padding:8px 14px;border:1px solid var(--line-strong);border-radius:4px;background:var(--card);color:var(--ink);font:500 13px/1.4 var(--sans);cursor:pointer}
+.qubit-buttons button:hover{background:var(--hover);border-color:var(--field-border);color:var(--blue-strong)}
+.qubit-buttons button:active{background:var(--blue-soft)}
+.qubit-buttons [data-preset],.qubit-buttons [data-gate]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+.measure-result,.measure-tally{font:12px/1.65 var(--sans);margin:12px 0 0;color:var(--ink-soft);max-width:60ch}
+.measure-tally{color:var(--muted);font-variant-numeric:tabular-nums}
+.qubit-noscript{font:12px/1.65 var(--sans);color:var(--muted);margin:0;padding:12px 14px;border:1px dashed var(--line-strong);border-radius:4px}
+/* The explanation below the model. */
+.qubit-reading{margin-top:44px;border-top:1px solid var(--line);padding-top:30px}
+.editorial .qubit-reading h2{font:500 25px/1.3 var(--sans);letter-spacing:-.03em;margin:0 0 14px}
+.qubit-reading p{font:15px/1.8 var(--sans);color:var(--ink-soft);max-width:74ch;margin:0 0 16px}
+.qubit-reading sup{font-size:.72em}
+.qubit-try{font:15px/1.8 var(--sans);color:var(--ink-soft);max-width:74ch;padding-left:22px;margin:0 0 20px}
+.qubit-try li{margin-bottom:10px;padding-left:4px}
+.qubit-try li::marker{color:var(--blue-strong);font-weight:600}
+.qubit-note{border-left:2px solid var(--line-strong);padding-left:16px;font-size:14px!important;color:var(--muted)!important}
+@media(max-width:980px){
+  .qubit-lab{grid-template-columns:1fr;gap:26px}
+  .bloch{max-width:460px}
+  .tool-planned ul{grid-template-columns:1fr;gap:20px}
+}
+@media(max-width:760px){
+  .tool-card{grid-template-columns:1fr;gap:6px}
+  .tool-index{font-size:22px}
+  .tool-planned{padding:22px}
+  .qubit-values{grid-template-columns:1fr}
+  .slider-row{grid-template-columns:minmax(0,1fr) auto}
+  .slider-row label{grid-column:1/-1}
+  .slider-row output{min-width:0}
+}
+@media(max-width:430px){
+  .qubit-buttons button{flex:1 1 auto}
+  .meter-label{grid-template-columns:62px minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){.meter-fill{transition:none}}
+@media print{.qubit-panel,.bloch-figure{break-inside:avoid}}
+/* Displayed equations in the explanation scroll in their own box on narrow screens. */
+.qubit-reading mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:2px 0}

@@ -1,0 +1,242 @@
+{
+  "slug": "openai-yang-mills-existence",
+  "title": "OpenAI claims a proof that Yang–Mills theory exists",
+  "summary": "A beginner’s guide to the Yang–Mills Millennium Problem, what OpenAI says its models proved and what it did not, why the mass gap remains open, and why the proof has not been released.",
+  "author": "Quantum Research Center",
+  "published": "2026-10-28",
+  "status": "published",
+  "topic": "discoveries",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What OpenAI announced",
+      "paragraphs": [
+        "OpenAI announced on 26 October 2026, in the same post that described its claimed disproof of the Exponential Time Hypothesis, that its internal models had produced a mathematically rigorous existence proof for certain interacting quantum field theories in four dimensions. According to the company and to reporting on the post, a natural-language proof for pure Yang–Mills theory was produced on 9 September, a proof for quantum chromodynamics (QCD), which adds quarks, on 18 September, and a formal proof of the Yang–Mills result in Lean, a computer proof checker, was completed on 16 October. The post also refers to a unified completion of the Standard Model of particle physics.",
+        "Unlike the ETH result, none of the physics material has been released. OpenAI handed it to a five-member committee chaired by David Gross, who shared the 2004 Nobel Prize in Physics for discovering asymptotic freedom, with Michael Douglas, Arthur Jaffe, Igor Klebanov and Nikita Nekrasov. Their statement says the proofs run to 1,147 pages and that they will release them, with their assessment, only once they are convinced the work is correct.",
+        "The claim concerns the first half of one of the Clay Mathematics Institute’s Millennium Prize Problems. OpenAI says it has addressed existence, not the mass gap, and has said it will not seek the prize. If it is correct, it would be the first construction of an interacting four-dimensional quantum field theory of the kind physics actually uses. It would not change any prediction of particle physics, a point we return to below."
+      ],
+      "source_refs": [
+        1,
+        2,
+        3,
+        4,
+        11
+      ]
+    },
+    {
+      "heading": "Start with a field",
+      "paragraphs": [
+        "A field assigns a value to every point of space and time. The electromagnetic field is the familiar example: at each point it has an electric and a magnetic part, and Maxwell’s equations say how it changes. Light is a wave in this field. In quantum theory the field’s energy comes in packets, photons, and the theory that combines quantum mechanics with the electromagnetic field, quantum electrodynamics, is the most precisely tested theory in science.",
+        "Yang–Mills theory, introduced by Chen Ning Yang and Robert Mills in 1954, generalizes the electromagnetic field. Its field strength is written \\(F_{\\mu\\nu}\\), but now each component is a matrix rather than a number, and the matrices do not commute. One consequence is that, unlike photons, the field’s own quanta carry the charge they respond to, so they interact with each other even in empty space. The matrices are drawn from a symmetry group, the gauge group. With the group SU(3) and quarks added, Yang–Mills theory becomes QCD, the theory of the strong force that binds quarks into protons and neutrons; its field quanta are called gluons."
+      ],
+      "source_refs": [
+        5
+      ]
+    },
+    {
+      "heading": "A theory that works, without a definition",
+      "paragraphs": [
+        "Physicists trust QCD because it works. Its most striking property is asymptotic freedom, discovered by Gross, Frank Wilczek and David Politzer in 1973: the strong force weakens at short distances, or equivalently high energies, and grows strong at long distances. At high energies, calculations can therefore start from nearly free quarks and gluons and add corrections, and those calculations agree with decades of collider data. At low energies, where the force is strong, physicists use lattice simulations on supercomputers, which reproduce the masses of the proton and other particles.",
+        "What is missing is a mathematical definition. The usual way of computing in quantum field theory produces infinite intermediate quantities that are removed by a procedure called renormalization. The procedure gives finite, correct numbers, but it does not show that a well-defined mathematical object stands behind them. In the words of the Clay problem’s official description by Jaffe and Edward Witten, one does not yet have a mathematically complete example of a quantum gauge theory in four-dimensional space-time, nor even a precise definition of quantum gauge theory in four dimensions."
+      ],
+      "source_refs": [
+        5,
+        6
+      ],
+      "figure": {
+        "file": "running.svg",
+        "caption": "Asymptotic freedom. The strength of the strong force (the coupling) falls slowly as the energy scale rises, that is, as distances shrink. This is the textbook one-loop formula with five quark flavours, chosen to give the measured value of about 0.118 at the Z boson mass; it is an illustration, and real fits include higher-order corrections and quark thresholds.",
+        "alt": "A curve falling from about 0.4 at 1 or 2 GeV to under 0.09 at 1,000 GeV, with a marked point of about 0.118 at 91 GeV. Labels: strong at long distances; weak at short distances, asymptotic freedom."
+      }
+    },
+    {
+      "heading": "What it means for a quantum field theory to exist",
+      "paragraphs": [
+        "For a quantum field theory to exist mathematically, one must construct it and show that it has the properties every such theory should have. Wightman, and Osterwalder and Schrader, turned those properties into axioms in the 1950s to 1970s. Roughly: there is a space of physical states with a unique vacuum; energies are never negative; the theory looks the same to observers in uniform relative motion, as special relativity requires; and measurements in regions that no light signal can connect do not disturb each other.",
+        "Osterwalder and Schrader showed that it is enough to build the theory in imaginary time, where it becomes a problem in probability, much like statistical mechanics, provided one condition called reflection positivity holds. A real-time quantum theory can then be reconstructed. This is how constructive quantum field theory has proceeded since the 1970s, and it succeeded for interacting theories in two and three space-time dimensions. In four dimensions no interacting example satisfying these axioms is known, and some simple four-dimensional theories are believed, with substantial evidence, to have no interacting version at all."
+      ],
+      "source_refs": [
+        5,
+        6
+      ]
+    },
+    {
+      "heading": "The Millennium Problem has two parts",
+      "paragraphs": [
+        "The Clay problem asks: prove that for any compact simple gauge group G, a non-trivial quantum Yang–Mills theory exists on \\(\\mathbb R^4\\) and has a mass gap \\(\\Delta>0\\). Existence must include axiomatic properties at least as strong as those of Wightman or Osterwalder and Schrader. Non-trivial means the theory must genuinely interact; a free theory, which is easy to construct, does not count.",
+        "The mass gap is a statement about energy: every state other than the vacuum carries at least a fixed positive energy \\(\\Delta\\). Physically it is why the strong force has a short range even though gluons have no mass in the equations, and it is closely tied to confinement, the fact that quarks and gluons are never seen on their own. A solution must deliver both parts. OpenAI’s claim, and the committee’s statement, concern the first part only."
+      ],
+      "source_refs": [
+        6
+      ]
+    },
+    {
+      "heading": "The route: lattice, continuum, infinite volume",
+      "paragraphs": [
+        "The standard strategy has three stages. First, replace space-time by a finite grid of points inside a box, as Kenneth Wilson did in 1974. On a finite lattice the theory is an ordinary, if very large, integral, and it is perfectly well defined. Second, take the continuum limit: shrink the grid spacing to zero while adjusting the coupling, and show that the answers converge. This is the ultraviolet problem, about short distances. Third, take the infinite-volume limit: let the box grow to all of space-time, and show that the answers converge again. This is the infrared problem, about long distances.",
+        "Finally, the limiting object must be shown to satisfy the axioms, including reflection positivity and full rotation symmetry, which a cubic lattice breaks and the limit must restore. Asymptotic freedom helps with the ultraviolet stage, because the force is weak at short distances. It does nothing for the infrared stage, where the force is strong; that is also where the mass gap lives."
+      ],
+      "source_refs": [
+        6,
+        7
+      ],
+      "figure": {
+        "file": "ladder.svg",
+        "caption": "The steps from a lattice model to the Millennium Problem, marked by what is publicly claimed as of 28 October. The committee says OpenAI followed the theory to infinite distances and proved the existence of its continuum limit (steps 2 and 3); public documents do not say which axioms the result establishes or for which gauge groups; the mass gap is explicitly not claimed.",
+        "alt": "Five stacked boxes: lattice in a finite box; continuum limit; infinite volume; axioms of a quantum field theory; mass gap. Steps 2 and 3 are outlined in blue and labelled claimed, not yet public. Step 4 is labelled not stated publicly. Step 5 is dashed orange and labelled open, not claimed."
+      }
+    },
+    {
+      "heading": "Balaban’s unfinished programme",
+      "paragraphs": [
+        "The renormalization group is the tool for the ultraviolet stage. Starting from a fine lattice, one averages the field over small blocks to obtain an effective theory on a coarser lattice, then repeats. Each step integrates out the shortest-distance fluctuations. The hope, going back to Wilson, was to control this process well enough that the fine lattice could be made arbitrarily fine without the coarse-scale physics changing.",
+        "In a series of papers in the 1980s, Tadeusz Balaban carried this out rigorously for Yang–Mills theory on a lattice in a finite four-dimensional box, establishing what is called ultraviolet stability. The papers run to many hundreds of pages and did not reach a complete construction even in finite volume. Jaffe and Witten wrote that there is ample indication that known methods could be extended to construct Yang–Mills theory on a four-dimensional torus, but that present methods did not suggest how to obtain the infinite-volume limit. Roland Bauerschmidt of New York University told Scientific American that Balaban’s papers are not complete and are extraordinarily difficult to read.",
+        "The committee writes that Balaban’s ideas were among the important elements that enabled OpenAI to follow the theory all the way to infinite distances and prove the existence of its proper continuum limit. If that is right, the new work goes beyond the stage Jaffe and Witten thought within reach of known methods."
+      ],
+      "source_refs": [
+        2,
+        4,
+        6,
+        7
+      ],
+      "figure": {
+        "file": "blocking.svg",
+        "caption": "Block-spin renormalization, the idea behind Balaban’s method. Each 2 × 2 block (dashed) is replaced by one averaged variable on a coarser lattice; repeating the step removes fluctuations scale by scale. Controlling every step rigorously, with errors that do not accumulate, is the hard part. Real Yang–Mills blocking acts on matrix-valued variables on the links of a four-dimensional lattice.",
+        "alt": "Three square lattices, 8 by 8, 4 by 4 and 2 by 2, connected by arrows, with a dashed square marking one 2 by 2 block in the first two."
+      }
+    },
+    {
+      "heading": "What is actually claimed, and what is not yet known",
+      "paragraphs": [
+        "From the public statements, the claim covers the existence of quantum Yang–Mills theory in four dimensions, including coupling to fermions such as quarks, hence QCD; the committee says the proof reaches infinite distances and the continuum limit. OpenAI’s post also mentions a completion of the Standard Model; neither OpenAI nor the committee has explained publicly what that means, and the physicist Peter Woit has criticized the phrasing as unclear.",
+        "Several things a reader would want to know cannot yet be checked. Public documents do not say which axioms the constructed theory satisfies, whether the construction covers every compact simple gauge group as the Clay problem requires or only SU(3) and related groups, how non-triviality is established, or exactly what statement the Lean formalization proves. For the ETH result, OpenAI published a document setting out the scope of its formalization; for Yang–Mills there is none yet. The committee says its first task is to check that the definitions and problem statement match those standard in physics and mathematics and that the formal proof matches the informal one.",
+        "These are not technicalities. Woit, citing Jaffe and Witten, pointed out that a construction on a finite torus without the infinite-volume limit would be far weaker, and the mathematical physicist John Baez, commenting on his blog, added that a result must rule out a free theory to count. The committee’s wording suggests both are addressed, but until the proof or its precise formal statement is public, that cannot be confirmed."
+      ],
+      "source_refs": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "heading": "Why the mass gap is different",
+      "paragraphs": [
+        "Existence is about whether the theory is well defined. The mass gap is about what the theory does: whether its lowest excitations cost a fixed positive energy, uniformly as the volume grows. Jaffe and Witten wrote that even a construction on a compact space would leave no present idea of how to establish a mass gap that is uniform in the volume. Lattice simulations give strong numerical evidence for a gap, and for confinement, but they are not proofs.",
+        "The committee says plainly that confinement and the mass gap remain very important open challenges. Woit calls the gap the hard part; Baez, replying on the same blog, argued that existence has been open for just as long and is a major problem in its own right. Both can be true. A construction would give mathematicians, for the first time, a well-defined four-dimensional gauge theory in which to pose the mass-gap question precisely."
+      ],
+      "source_refs": [
+        2,
+        6,
+        8
+      ]
+    },
+    {
+      "heading": "How the result is being released",
+      "paragraphs": [
+        "OpenAI says it delayed any release until the Lean formalization was complete. On 16 October it asked Gross to take custody of the proof and to decide how to release it; Gross then chose the other members. The committee says it works on behalf of the academic community and has no responsibility to OpenAI. It plans to check the definitions, release the Lean proof once validated, and later release the full proofs with its assessment.",
+        "This arrangement is contested. The Advisory Group on Mathematics and Artificial Intelligence, nine mathematicians including Timothy Gowers, Martin Hairer and Edward Witten, had stated on 25 October that AI companies should stop designating particular mathematicians to receive results before everyone else, citing delayed and unequal access and biased selection. On 26 October it called on OpenAI to make public without delay the natural-language and Lean outputs behind the announced existence proofs for Yang–Mills theory, quantum chromodynamics and a completion of the Standard Model, adding that by OpenAI’s own account formalization is complete, so there is no scientific reason for further delay.",
+        "Other researchers have questioned the timeline. Scientific American reports that Tom Buckmaster of New York University disputed that Lean verification of such a result should take more than a month. The committee, for its part, says it does not want to release a result that might be wrong."
+      ],
+      "source_refs": [
+        2,
+        3,
+        9
+      ]
+    },
+    {
+      "heading": "A parallel public effort",
+      "paragraphs": [
+        "OpenAI was not the only group working on this. Ethan Sussman of Northwestern University and Levent Alpöge, who works at Anthropic, had been using Claude, Anthropic’s AI model, to complete Balaban’s programme in public. Their GitHub repository, which they revealed on 6 October, contains manuscripts largely written by an AI model and, in their words, not yet satisfactorily vetted: claimed constructions of quantum electrodynamics and Yang–Mills theory in three dimensions, and an early outline of the four-dimensional case.",
+        "Scientific American reports that they believed they had solved the three-dimensional existence problem the evening before OpenAI’s announcement, and that Sussman thought they were a few weeks from four dimensions. Sussman said he was disappointed; Alpöge criticized OpenAI for not contacting them. The episode raises a question the field has not settled: how credit should be assigned when AI systems, working from published human ideas, finish programmes that people started decades ago."
+      ],
+      "source_refs": [
+        3,
+        10
+      ]
+    },
+    {
+      "heading": "What would change",
+      "paragraphs": [
+        "For physics predictions, nothing. The Standard Model’s predictions come from perturbative calculations and lattice simulations, and neither depends on a proof that the theory exists. As The Decoder put it in its report, the result would not change any of physics’ predictions.",
+        "For mathematics, a correct proof would be a landmark: the first rigorous example of an interacting four-dimensional quantum field theory satisfying the standard axioms, and a framework in which questions such as the mass gap, confinement and the behaviour of the theory at long distances can be stated and attacked as theorems. Michael Douglas called it a major advance and just the start, in comments to Scientific American. The techniques used to control the renormalization group could also matter for other models, as Balaban’s did."
+      ],
+      "source_refs": [
+        3,
+        4
+      ]
+    },
+    {
+      "heading": "Why this matters to quantum science",
+      "paragraphs": [
+        "Quantum field theory is quantum mechanics applied to fields, and its foundations are those of quantum theory in its most demanding setting: infinitely many degrees of freedom, interacting at every scale. A rigorous construction would show that the axioms of relativistic quantum theory can be satisfied by an interacting four-dimensional theory, a question open for about seventy years.",
+        "There is also a practical link. Simulating lattice gauge theories, especially in real time and at finite density where classical Monte Carlo methods fail, is a leading proposed application of quantum computers and analog quantum simulators. Such simulations work on a lattice and must be extrapolated to the continuum. Our interpretation is that a proof that the continuum and infinite-volume limits exist supports that extrapolation in principle, while saying nothing about how quickly it converges or how many qubits it needs. It does not make lattice gauge theory easier to simulate."
+      ],
+      "source_refs": [
+        6
+      ]
+    },
+    {
+      "heading": "What readers should watch next",
+      "paragraphs": [
+        "The most important next step is the precise statement: the definitions, axioms and gauge groups covered, and the theorem that the Lean files actually prove. After that, the committee’s assessment and the release of the 1,147 pages of proofs, and then independent reading by constructive field theorists who know Balaban’s work. Watch also for how the three-dimensional results of the public Sussman–Alpöge effort hold up, since they test the same methods in a simpler setting.",
+        "As of this article’s publication on 28 October, the reporting here is based on OpenAI’s announcement as quoted by several outlets, the committee’s published statement, the advisory group’s statements, the Clay problem description and news reports. We have not seen the proof or the formalization, and the claim has not been independently checked. A careful reading is that a major problem may have been half-solved, with the details still behind a door that the committee says it will open once it has checked them."
+      ],
+      "source_refs": [
+        1,
+        2,
+        9
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "OpenAI announcement, 26 October 2026",
+      "url": "https://openai.com/index/building-scientific-understanding-with-academic-communities/"
+    },
+    {
+      "title": "Statement by the shepherding committee (Douglas, Gross, Jaffe, Klebanov, Nekrasov), October 2026",
+      "url": "https://www.kitp.ucsb.edu/sites/default/files/YM_working_group.pdf"
+    },
+    {
+      "title": "Scientific American, OpenAI just scooped mathematicians’ work on another million-dollar problem, 27 October 2026",
+      "url": "https://www.scientificamerican.com/article/openai-just-scooped-human-researchers-on-a-million-dollar-quantum-math-problem/"
+    },
+    {
+      "title": "The Decoder, OpenAI asks outside experts, including a Nobel laureate, to check proofs its AI produced, 27 October 2026",
+      "url": "https://the-decoder.com/openai-asks-outside-experts-including-a-nobel-laureate-to-check-proofs-its-ai-produced-in-math-computer-science-and-physics/"
+    },
+    {
+      "title": "Clay Mathematics Institute: Yang–Mills and the Mass Gap",
+      "url": "https://www.claymath.org/millennium/yang-mills-the-maths-gap/"
+    },
+    {
+      "title": "Jaffe and Witten, Quantum Yang–Mills Theory (official problem description)",
+      "url": "https://www.claymath.org/wp-content/uploads/2022/06/yangmills.pdf"
+    },
+    {
+      "title": "Scientific American, Dueling proofs from OpenAI and Anthropic astound scientists, 27 October 2026",
+      "url": "https://www.scientificamerican.com/article/dueling-proofs-from-openai-and-anthropic-astound-scientists/"
+    },
+    {
+      "title": "Peter Woit, Not Even Wrong: Secret Unified Physics Slop, 26 October 2026, and comments",
+      "url": "https://www.math.columbia.edu/~woit/wordpress/?p=15948"
+    },
+    {
+      "title": "Advisory Group on Mathematics and Artificial Intelligence: statements of 25 and 26 October 2026",
+      "url": "https://agmai.org/"
+    },
+    {
+      "title": "Sussman and Alpöge, Yang–Mills LLM experiment (GitHub repository)",
+      "url": "https://github.com/ethanwsussman/Yang--Mills-LLM-experiment"
+    },
+    {
+      "title": "Tech Times, OpenAI claims Yang–Mills proof; Nobel laureate whose discovery enables it now reviews it, 27 October 2026",
+      "url": "https://www.techtimes.com/articles/329596/20261027/openai-claims-yang-mills-proof-nobel-laureate-whose-discovery-enables-it-now-reviews-it.htm"
+    }
+  ],
+  "related_articles": [
+    "openai-exponential-time-hypothesis"
+  ],
+  "related_papers": []
+}
