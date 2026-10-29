@@ -1,6 +1,96 @@
 {
- "reviewed_on": "2026-10-28",
+ "reviewed_on": "2026-10-29",
  "papers": [
+  {
+   "id": "2610.37094",
+   "url": "papers/2610.37094/index.html",
+   "title": "Certification Time for Weak-Force-Mediated Entanglement between Levitated Particles",
+   "authors": "Yao-Tong Chen; Salambô Dago; Oriol Romero-Isart; Andreu Riera-Campeny",
+   "topic": "foundations",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-29",
+   "problem": "Experiments with levitated nanoparticles aim to show that a weak force, and eventually gravity, entangles the motion of two particles. Producing the entangled state is only half the task: it has to be told apart from separable states using a finite number of noisy measurements, taken one run at a time. How many measurements, and how much laboratory time, does certification need, and which protocol reaches the weakest forces?",
+   "result": "For a two-mode Gaussian state with smallest partially transposed symplectic eigenvalue \\(\\tilde\\nu_-<1\\), certification at \\(z\\) standard deviations needs about \\(N_\\star=(z\\alpha/(1-\\tilde\\nu_-))^2\\) measurements. With isotropic readout noise \\(\\xi\\), \\(\\alpha\\ge\\tilde\\nu_-+\\xi\\), with equality for symmetric thermal two-mode squeezed states, while local squeezing leaves the entanglement unchanged and makes \\(\\alpha\\) arbitrarily large. In release–recapture, at a fixed ratio of diffusion to coupling, the entanglement stays finite as the force weakens but \\(N_\\star\\) grows as \\(1/g\\) and the total time as \\(g^{-3/2}\\). Release–recapture certifies entanglement at couplings orders of magnitude weaker than continuous monitoring, and the release time that certifies fastest is longer than the one that entangles most.",
+   "techniques": [
+    "Delta-method error bars for a covariance witness",
+    "Weak-coupling limit at a fixed noise-to-coupling ratio"
+   ]
+  },
+  {
+   "id": "2610.36936",
+   "url": "papers/2610.36936/index.html",
+   "title": "Qubit-environment entanglement in pure dephasing dynamics for mixed initial states",
+   "authors": "Małgorzata Strzałka; Nico Peters; Laura Ares; Jan Sperling; Katarzyna Roszak",
+   "topic": "foundations",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-29",
+   "problem": "When a qubit only dephases, the joint qubit–environment state for a pure initial qubit is separable exactly when the environment ends up in the same state whichever pointer state the qubit is in, \\(\\hat R_{00}(t)=\\hat R_{11}(t)\\). This test made it possible to tell decoherence by entanglement from decoherence by classical correlations, and even to detect the difference on the qubit alone. Real qubits are already partly mixed. Does the test survive, and does entanglement then evolve as it does for pure qubits?",
+   "result": "If \\(\\hat R_{00}(t)=\\hat R_{11}(t)\\), the joint state stays separable, and zero-discord, for any initial qubit coherence. Otherwise, the family of minors that gave the pure-state criterion becomes only a witness: a negative minor proves entanglement, but nonnegative minors prove nothing. A Schur complement reduces the exact partial-transpose test to a matrix \\(\\hat D\\) of the environment’s dimension, whose diagonal entries are those minors. Mixed qubits show behaviour impossible for pure ones: a separable initial period followed by sudden birth of entanglement, death and rebirth, and no entanglement at all during an entangling evolution when the qubit is strongly mixed. In a model of an NV-centre spin with up to five nuclear spins, the minors miss entanglement, sometimes for the whole evolution.",
+   "techniques": [
+    "Schur-complement reduction of a partial-transpose test",
+    "Common eigenbasis as a certificate of classical dephasing"
+   ]
+  },
+  {
+   "id": "2610.37552",
+   "url": "papers/2610.37552/index.html",
+   "title": "Meet-in-the-Middle Compilation of the [CNOT] Class with Fibonacci Anyons",
+   "authors": "Matvei Fedin; Andrey Morozov",
+   "topic": "computing",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-29",
+   "problem": "Two qubits encoded in six Fibonacci anyons live in a five-dimensional fusion space, one dimension more than two qubits need. The only exchange that entangles the qubits, \\(\\sigma_3\\), is also the only one that couples them to the fifth, noncomputational state, so every entangling braid leaks. How small can the leakage of a braid equivalent to CNOT up to single-qubit gates be at a given length, and is exhaustive search better than random sampling?",
+   "result": "A GPU meet-in-the-middle search over all \\(5^{21}\\) positive words finds at length 21 a braid with leakage \\(\\ell=3.95\\times10^{-3}\\) and distance \\(7.8\\times10^{-9}\\) to the CNOT class, less leakage than the best previously sampled braid of length 39. Restricting to \\(\\{\\sigma_1,\\sigma_2,\\sigma_3\\}\\), to words starting and ending with \\(\\sigma_3\\), to palindromes and to Garside normal forms extends exhaustive search to length 72; at length 69 it finds \\(\\ell=8.8\\times10^{-11}\\) with distance \\(4.3\\times10^{-10}\\). The paper proves that leakage lies in \\(\\mathbb Z[\\varphi]\\) and that any nonzero leakage satisfies \\(\\ell\\ge1/(1+C^{2L})\\) with \\(C\\approx2.89\\), and that for long random words the leakage distribution tends to \\(\\ell^{d-1}\\).",
+   "techniques": [
+    "Galois-conjugate lower bound on an algebraic quantity",
+    "Haar limit of one matrix element and the cost of sampling"
+   ]
+  },
+  {
+   "id": "2610.36680",
+   "url": "papers/2610.36680/index.html",
+   "title": "Quantum State Preparation for Complex-Valued Amplitudes",
+   "authors": "Fred Sun",
+   "topic": "computing",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-29",
+   "problem": "Quantum algorithms often compute numbers into binary registers with reversible arithmetic, but then need those numbers as amplitudes. For a complex \\(z=x+iy\\), the usual route encodes \\(x\\) and \\(y\\) separately and adds them with a linear combination of unitaries, which fixes the normalisation by the ranges of \\(x\\) and \\(y\\). How can \\(z/\\alpha\\) be loaded coherently, for inputs in superposition, with a normalisation set by \\(|z|\\) itself?",
+   "result": "The procedure computes the magnitude \\(r'\\) and argument \\(\\phi'\\) of \\(z\\) reversibly with CORDIC, which uses only shifts and additions. It then encodes \\(r'/\\alpha\\) with an exact binary-to-amplitude routine, applies one phase gate per bit of \\(\\phi'\\) to obtain \\(e^{i\\phi'}\\), and uncomputes the arithmetic. The cost is \\(O(n^2)\\) Toffoli and \\(T\\) gates and \\(O(n)\\) ancillas, with error \\(|r'e^{i\\phi'}-z|=O(2^{-(n-l)})\\) for \\(n\\)-bit inputs with \\(l\\) integer bits. A reversible in-place multiplication by \\(1+2^{-2j}\\), exactly invertible despite rounding, lets each CORDIC step run without storing an extra copy of a coordinate.",
+   "techniques": [
+    "CORDIC: rotation by shifts and additions",
+    "Exact inversion of a rounded in-place product"
+   ]
+  },
+  {
+   "id": "2610.37296",
+   "url": "papers/2610.37296/index.html",
+   "title": "Prepare-and-measure quantum key distribution from a bound on information leakage",
+   "authors": "Abhishek Mishra; Michele Masini; Maria Balanzó-Juandó; Armin Tavakoli; Stefano Pironio",
+   "topic": "information",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-29",
+   "problem": "Every key distribution protocol has to limit what escapes the users’ laboratories. In a prepare-and-measure protocol this cannot be strict, since the source must send out a signal that depends on Alice’s private input. The minimal assumption is therefore a bound on how much the emitted systems, intended signal and side channels together, reveal about the input. Can that single number replace a model of the source’s states, dimension and energy, with nothing assumed about Bob’s measurement device?",
+   "result": "Yes, against collective attacks. The leakage bound states that the optimal number of correctly guessed inputs, out of \\(n\\) sent once each, is at most \\(G\\), with \\(G=2\\) meaning one bit. Statistics reproducible by a classical message within the same bound certify no key. This rules out all two-state protocols such as B92, and all matched-basis protocols such as BB84 and the six-state protocol. Tilting Bob’s measurements restores security: four qubit protocols certify one secret bit per key round in the ideal case, through a self-test on a virtual entanglement-based twin. With noise, the best tolerates visibility 0.838 (8.1% bit error rate) and the loss thresholds are \\(\\eta\\ge0.764\\), about 1.2 dB. Numerically, the rates match the device-independent rates of the entanglement-based twins.",
+   "techniques": [
+    "Leakage as an operator inequality, and a virtual entanglement-based protocol",
+    "Copy-the-message attacks on classical models with bounded information"
+   ]
+  },
+  {
+   "id": "2610.37122",
+   "url": "papers/2610.37122/index.html",
+   "title": "Matrix Samplers and Quantum-Proof Extractors: Their Correspondence and Almost-Optimal Constructions",
+   "authors": "Kuan Cheng; Ruiyang Wu",
+   "topic": "information",
+   "submitted": "2026-10-27",
+   "approved_on": "2026-10-29",
+   "problem": "To estimate the average of a bounded \\(D\\times D\\) matrix-valued function in operator norm, \\(O(\\varepsilon^{-2}\\log(2D/\\delta))\\) independent samples suffice, but each costs \\(m\\) fresh random bits. Matrix samplers try to keep nearly that sample count while using only \\(m+O(\\log(D/\\delta))\\) random bits. Classically, Zuckerman showed that averaging samplers and randomness extractors are the same objects. What kind of extractor is a matrix sampler, and can the correspondence give better constructions?",
+   "result": "A matrix sampler for \\(D\\times D\\) matrices is the same thing as a seeded extractor whose output stays uniform against an adversary holding about \\(\\log(2D)\\) qubits of side information, up to factor-two losses in the error. The paper then builds an explicit strong quantum-proof extractor with seed \\((1+\\alpha)\\log a+(2+\\alpha)\\log(1/\\eta)+O_\\alpha(1)\\) and output \\(n-O_\\alpha(a+\\log(1/\\eta))\\) for sources of conditional min-entropy \\(n-a\\). Through the correspondence, this gives explicit strong matrix samplers with \\(m+O_\\alpha(\\log(D/\\delta))\\) random bits and \\(O_\\alpha(\\varepsilon^{-2-\\alpha}\\log^{1+\\alpha}(D/\\delta))\\) samples, replacing a polynomial dependence on \\(D\\) in earlier work by a logarithmic one. It also gives quantum-proof extractors with seed \\(O(\\log(n/\\eta))\\) and output \\(\\Omega(n)\\) for every constant entropy rate, where earlier constructions needed rate above one half.",
+   "techniques": [
+    "Hermitian dilation turns a matrix deviation into a quantum distinguisher",
+    "Shortening a seed with 2ℓ-wise independent candidate seeds"
+   ]
+  },
   {
    "id": "2610.37293",
    "url": "papers/2610.37293/index.html",

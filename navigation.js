@@ -39,6 +39,10 @@
       decorate(button, theme ? 'theme' : buttons[button.id], label);
       if (theme) new MutationObserver(() => button.setAttribute('aria-label', button.title)).observe(button, {attributes: true, attributeFilter: ['title']});
     });
+    // Reserve reader controls before deferred handlers run, avoiding a late header shift.
+    document.querySelectorAll('.reader #menu-toggle[hidden], .reader #font-toggle[hidden]').forEach(button => {
+      if (finished(button)) button.hidden = false;
+    });
     const menu = document.getElementById('menu-toggle');
     if (menu && !menu.classList.contains('icon-nav') && finished(menu)) decorate(menu, 'menu', 'Toggle contents');
     const type = document.getElementById('font-toggle');
@@ -50,4 +54,26 @@
     document.addEventListener('DOMContentLoaded', () => { observer.disconnect(); scan(); });
   }
   scan();
+  // Warm only explicitly indicated navigation destinations; never intercept clicks.
+  const warmed = new Set();
+  function warmDestination(event) {
+    if (event.type === 'pointerover' && event.pointerType !== 'mouse') return;
+    const connection = navigator.connection;
+    if (connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || '')) return;
+    const link = event.target.closest?.('nav.primary-nav a, .page-navigation a');
+    if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
+    const url = new URL(link.href, location.href);
+    if (!/^https?:$/.test(url.protocol) || url.origin !== location.origin || url.search ||
+        !(/\.html$/.test(url.pathname) || url.pathname.endsWith('/'))) return;
+    url.hash = '';
+    if (url.href === location.href.split('#')[0] || warmed.has(url.href) || warmed.size >= 6) return;
+    const hint = document.createElement('link');
+    if (!hint.relList?.supports('prefetch')) return;
+    hint.rel = 'prefetch';
+    hint.href = url.href;
+    warmed.add(url.href);
+    document.head.append(hint);
+  }
+  document.addEventListener('pointerover', warmDestination, {passive: true});
+  document.addEventListener('focusin', warmDestination);
 })();

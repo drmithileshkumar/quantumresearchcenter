@@ -1,0 +1,77 @@
+{
+  "slug": "intel-to-acquire-classiq",
+  "title": "Intel agrees to buy quantum software company Classiq",
+  "summary": "Intel plans to pair Classiq’s algorithm-design software with its own silicon spin-qubit hardware. What the deal includes, what is still pending, and what it does not show.",
+  "author": "Quantum Research Center",
+  "published": "2026-10-29",
+  "status": "published",
+  "topic": "companies",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What was announced",
+      "paragraphs": [
+        "On 26 October 2026 Intel announced a definitive agreement to acquire Classiq, a quantum computing software company based in Tel Aviv. The deal is expected to close in the first half of 2027, subject to regulatory approvals and other customary conditions. Until then the two remain separate, independent companies.",
+        "Intel’s announcement did not state a price. SiliconANGLE and DatacenterDynamics report $2.2 billion; the Israeli business site Calcalist reports $2.3 billion in cash and stock. Either figure would make it one of the largest acquisitions in quantum computing so far."
+      ],
+      "source_refs": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "heading": "What each side brings",
+      "paragraphs": [
+        "Classiq, founded in 2020 by Nir Minerbi, Amir Naveh and Yehuda Naveh, makes software for designing quantum programs. Instead of writing a circuit gate by gate, a user describes what an algorithm should do in a high-level modelling language, and the platform synthesises and optimises a circuit for a chosen machine. Intel says the platform is used by dozens of enterprises; SiliconANGLE names BMW, HSBC and Intesa Sanpaolo among the users, and reports that Classiq had raised just over $200 million. Calcalist puts its staff at about 140.",
+        "Intel has worked on quantum computing since 2015. Its hardware uses silicon spin qubits, in which information is stored in the spin of single electrons held in structures made with the same processes as ordinary chips, together with cryogenic control electronics. Intel argues that this lets it build qubit chips in its existing factories. The company says the acquisition would turn its Quantum Computing Group into a full-stack business, from chips to software, and would let it offer quantum processors alongside its CPUs, GPUs and other accelerators."
+      ],
+      "source_refs": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "heading": "Will the software stay open to other hardware?",
+      "paragraphs": [
+        "Classiq’s platform today runs on many kinds of machine, including superconducting, trapped-ion, photonic and spin-qubit processors. Intel says it intends to keep supporting Classiq’s existing integrations and to keep the software independent of any one hardware approach. That is a statement of intent: how it holds up once Intel’s own processors are in the same product line remains to be seen.",
+        "Calcalist reports that Classiq will sit in Intel’s CTO organisation and that Intel’s quantum effort will be driven from Israel. An analyst quoted by SiliconANGLE expects most hardware companies to keep using the software if it stays neutral, and compares Classiq’s position to IBM’s Qiskit, which is also open to many machines."
+      ],
+      "source_refs": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "heading": "How to read it",
+      "paragraphs": [
+        "This is a business agreement, not a technical milestone. It does not show that Intel’s spin qubits have reached any particular size or error rate, and the purchase has not yet closed. What it does show is a large chip maker betting that whoever controls the software layer between applications and hardware, in the way chip-design software sits between engineers and factories, will matter as much as who builds the best qubits."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Intel press release: Intel to Acquire Classiq to Create a Full-stack Quantum Computing Platform, 26 October 2026",
+      "url": "https://www.intc.com/news-events/press-releases/detail/1784/intel-to-acquire-classiq-to-create-a-full-stack-quantum"
+    },
+    {
+      "title": "SiliconANGLE, Intel buys quantum software pioneer Classiq for $2.2B, 26 October 2026",
+      "url": "https://siliconangle.com/2026/10/26/intel-buys-quantum-software-pioneer-classiq-for-2-2b/"
+    },
+    {
+      "title": "DatacenterDynamics, Intel acquires quantum software firm Classiq for $2.2bn",
+      "url": "https://www.datacenterdynamics.com/en/news/intel-acquires-quantum-software-firm-classiq-for-22bn/"
+    },
+    {
+      "title": "Calcalist (CTech), “Intel will be among the first names people think of in quantum computing,” says Classiq CEO",
+      "url": "https://www.calcalistech.com/ctechnews/article/psr5mmhcl"
+    }
+  ],
+  "related_articles": [
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": []
+}

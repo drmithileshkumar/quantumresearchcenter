@@ -19,12 +19,14 @@ document.addEventListener('keydown', event => {
   }
 });
 const size = document.querySelector('#font-toggle');
-size.hidden = false;
-size.addEventListener('click', () => {
-  const large = document.body.classList.toggle('large-text');
-  size.setAttribute('aria-pressed', String(large));
-  size.setAttribute('aria-label', large ? 'Restore text size' : 'Increase text size');
-});
+if (size) {
+  size.hidden = false;
+  size.addEventListener('click', () => {
+    const large = document.body.classList.toggle('large-text');
+    size.setAttribute('aria-pressed', String(large));
+    size.setAttribute('aria-label', large ? 'Restore text size' : 'Increase text size');
+  });
+}
 const search = document.querySelector('#topic-search');
 const topicRoots = [...document.querySelectorAll('.sidebar .contents-list > .chapter')];
 search.addEventListener('input', () => {
