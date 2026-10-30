@@ -100,6 +100,7 @@ class NewsPublishingTests(unittest.TestCase):
             root = Path(directory)
             (root / 'content').mkdir()
             (root / 'content/conferences.json').write_text(json.dumps({'checked': '2026-10-28', 'conferences': []}))
+            (root / 'content/companies.json').write_text(json.dumps({'checked': '2026-10-30', 'companies': []}))
             (root / 'content/news.json').write_text('{"featured": null}')
             (root / 'content/papers.json').write_text(json.dumps({'papers': []}))
             (root / 'content/tools.json').write_text(json.dumps({'intro': 'Tools.', 'tools': [], 'planned': []}))

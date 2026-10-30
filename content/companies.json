@@ -1,0 +1,277 @@
+{
+  "checked": "2026-10-30",
+  "companies": [
+    {
+      "id": "q-ctrl",
+      "name": "Q-CTRL",
+      "country": "Australia",
+      "city": "Sydney",
+      "focus": [
+        "Software & applications",
+        "Control & infrastructure"
+      ],
+      "description": "Quantum control and infrastructure software for quantum computing and sensing.",
+      "url": "https://q-ctrl.com/",
+      "sources": [
+        "https://q-ctrl.com/",
+        "https://q-ctrl.com/blog/q-ctrl-breaks-ground-on-new-global-headquarters-in-sydney-first-commercial-facility-in-australia-dedicated-to-quantum-tech"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "aqt",
+      "name": "Alpine Quantum Technologies",
+      "country": "Austria",
+      "city": "Innsbruck",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Trapped-ion quantum computers, cloud access, and supporting instruments.",
+      "url": "https://www.aqt.eu/",
+      "sources": [
+        "https://www.aqt.eu/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "xanadu",
+      "name": "Xanadu",
+      "country": "Canada",
+      "city": "Toronto",
+      "focus": [
+        "Computing hardware",
+        "Software & applications"
+      ],
+      "description": "Photonic quantum computing hardware and the PennyLane software library for quantum programming.",
+      "url": "https://www.xanadu.ai/",
+      "sources": [
+        "https://xanadu.ai/",
+        "https://www.xanadu.ai/press/xanadu-becomes-first-pure-play-photonic-quantum-computing-company-to-go-public"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "origin-quantum",
+      "name": "Origin Quantum",
+      "country": "China",
+      "city": "Hefei",
+      "focus": [
+        "Computing hardware",
+        "Software & applications"
+      ],
+      "description": "Quantum computers, control systems, programming tools, and a quantum cloud platform.",
+      "url": "https://originqc.com.cn/en/",
+      "sources": [
+        "https://originqc.com.cn/en/about",
+        "https://originqc.com.cn/en/product"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "iqm",
+      "name": "IQM Quantum Computers",
+      "country": "Finland",
+      "city": "Espoo",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Full-stack superconducting quantum computers for on-premises installations and cloud access.",
+      "url": "https://iqm.tech/",
+      "sources": [
+        "https://iqm.tech/",
+        "https://iqm.tech/investors/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "pasqal",
+      "name": "Pasqal",
+      "country": "France",
+      "city": "Palaiseau",
+      "focus": [
+        "Computing hardware",
+        "Software & applications"
+      ],
+      "description": "Neutral-atom quantum processors, cloud access, and software for programming quantum experiments.",
+      "url": "https://www.pasqal.com/",
+      "sources": [
+        "https://www.pasqal.com/about-us/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "eleqtron",
+      "name": "eleQtron",
+      "country": "Germany",
+      "city": "Siegen",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Develops trapped-ion quantum computers and systems integrated with high-performance computing.",
+      "url": "https://eleqtron.com/",
+      "sources": [
+        "https://eleqtron.com/unternehmen/",
+        "https://eleqtron.com/wp-content/uploads/2025/04/20240325_ERU-eleqtron_pm_Juelich_final.pdf"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "qnu-labs",
+      "name": "QNu Labs",
+      "country": "India",
+      "city": "Bengaluru",
+      "focus": [
+        "Communication & security"
+      ],
+      "description": "Quantum key distribution, quantum random-number generation, and quantum-safe security products.",
+      "url": "https://www.qnulabs.com/",
+      "sources": [
+        "https://www.qnulabs.com/quantum-key-distribution",
+        "https://www.qnulabs.com/news/hybrid-quantum-network-to-secure-ai-ecosystems-india-ai-impact-summit-2026",
+        "https://www.qnulabs.com/contact-us"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "qpiai",
+      "name": "QpiAI",
+      "country": "India",
+      "city": "Bengaluru",
+      "focus": [
+        "Computing hardware",
+        "Software & applications"
+      ],
+      "description": "Quantum computing systems and software, with cloud, education, and industry application offerings.",
+      "url": "https://www.qpiai.tech/",
+      "sources": [
+        "https://www.qpiai.tech/",
+        "https://www.qpiai.tech/pressreleases/2026-02-12-qpiai-qvidya-alliance-university-strategic-partnership"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "quantum-machines",
+      "name": "Quantum Machines",
+      "country": "Israel",
+      "city": "Tel Aviv",
+      "focus": [
+        "Control & infrastructure"
+      ],
+      "description": "Quantum control systems that coordinate classical electronics and quantum processors.",
+      "url": "https://www.quantum-machines.co/",
+      "sources": [
+        "https://www.quantum-machines.co/about/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "qunasys",
+      "name": "QunaSys",
+      "country": "Japan",
+      "city": "Tokyo",
+      "focus": [
+        "Software & applications"
+      ],
+      "description": "Algorithms, quantum software development, and consulting for industrial applications of quantum computing.",
+      "url": "https://qunasys.com/en/",
+      "sources": [
+        "https://qunasys.com/en/about/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "qblox",
+      "name": "Qblox",
+      "country": "Netherlands",
+      "city": "Delft",
+      "focus": [
+        "Control & infrastructure"
+      ],
+      "description": "Modular qubit control and readout electronics for quantum processors and research laboratories.",
+      "url": "https://qblox.com/",
+      "sources": [
+        "https://qblox.com/about",
+        "https://careers.qblox.com/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "speqtral",
+      "name": "SpeQtral",
+      "country": "Singapore",
+      "city": "Singapore",
+      "focus": [
+        "Communication & security"
+      ],
+      "description": "Terrestrial and satellite quantum communications, including quantum key distribution infrastructure.",
+      "url": "https://speqtralquantum.com/",
+      "sources": [
+        "https://speqtralquantum.com/technology",
+        "https://speqtralquantum.com/newsroom/speqtral-takes-operational-control-of-speqtre-satellite-as-quantum-experimentation-phase-begins"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "id-quantique",
+      "name": "ID Quantique",
+      "country": "Switzerland",
+      "city": "Geneva",
+      "focus": [
+        "Communication & security"
+      ],
+      "description": "Quantum key distribution, quantum random-number generation, and single-photon detection technologies.",
+      "url": "https://www.idquantique.com/",
+      "sources": [
+        "https://www.idquantique.com/about-idq/company-profile/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "oqc",
+      "name": "Oxford Quantum Circuits",
+      "country": "United Kingdom",
+      "city": "Reading",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Quantum computing systems and cloud access, with deployments in commercial data centres.",
+      "url": "https://oqc.tech/",
+      "sources": [
+        "https://oqc.tech/",
+        "https://oqc.tech/get-in-touch/"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "ionq",
+      "name": "IonQ",
+      "country": "United States",
+      "city": "College Park, Maryland",
+      "focus": [
+        "Computing hardware",
+        "Communication & security"
+      ],
+      "description": "Trapped-ion quantum computing and quantum networking technologies.",
+      "url": "https://ionq.com/",
+      "sources": [
+        "https://ionq.com/company"
+      ],
+      "checked": "2026-10-30"
+    },
+    {
+      "id": "quera",
+      "name": "QuEra Computing",
+      "country": "United States",
+      "city": "Boston, Massachusetts",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Neutral-atom quantum computers for analog simulation and digital quantum computing.",
+      "url": "https://www.quera.com/",
+      "sources": [
+        "https://www.quera.com/about"
+      ],
+      "checked": "2026-10-30"
+    }
+  ]
+}

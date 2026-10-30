@@ -55,6 +55,7 @@ def render_conferences(root, shell):
         return ''.join(f'<option value="{e(str(v))}">{e(str(v))}</option>' for v in values)
     body = f'''
 <header class="editorial-intro conference-intro"><p class="eyebrow">The quantum community / Conferences</p><h1>Where quantum<br><span>ideas meet.</span></h1><p>A curated collection of quantum computing and quantum information conferences. Find your field, choose a destination, and plan your next conversation.</p></header>
+<p class="directory-note">Explore the wider community: <a href="../companies/index.html">Quantum companies by country ↗</a></p>
 <div class="conference-stats" aria-label="Collection summary"><p><strong>{len(events):02}</strong> conferences</p><p><strong>{len(countries):02}</strong> countries</p><p><strong id="upcoming-count">{upcoming:02}</strong> upcoming / in progress</p><p class="verified">Sources checked<br><time datetime="{checked}">{date.fromisoformat(checked):%d %B %Y}</time></p></div>
 {render_map(root, events)}
 <form id="conference-filters" class="conference-filters" hidden aria-label="Filter conferences">

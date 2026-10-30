@@ -52,3 +52,7 @@ for course in education/*/build.py; do python3 "$course"; done
 python3 scripts/build.py
 python3 -m unittest discover -s tests
 ```
+
+## Adding pages and keeping maps current
+
+After adding, renaming, or removing a public page, run its content builder (if any), then `python3 scripts/build.py`. This refreshes both the interactive website graph (`website-map/index.html`) and the search-engine sitemap (`sitemap.xml`) from one shared inventory. Public HTML pages are discovered throughout the site, including new standalone sections and nested pages. Redirects, noindex pages, and build inputs are excluded. Commit the map updates with the page, and run `python3 scripts/build.py --check` before finishing.

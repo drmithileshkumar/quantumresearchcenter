@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'education'))
 from site_navigation import site_navigation
 from news_articles import render_editorial, stream_nav
+from site_graph import render_site_graph
 from site_logo import site_logo  # noqa: E402  (shared with the course builds)
 def esc(value): return html.escape(str(value), quote=True)
 def path(item): return item['_path']
@@ -205,15 +206,9 @@ def render(book):
     page(student_source,'Students and Contributions',student_body,[('contributions','Student contributions')])
     used=list(dict.fromkeys(ref for item in entries for ref in item['papers']))
     page('references/index.html','Bibliography','<p class="kicker">Reference material</p><h1>Bibliography</h1><p class="lead">Papers cited in the research handbook.</p><section id="papers"><h2>Research papers and reviews</h2>'+bibliography(used)+'</section>',[('papers','Papers and reviews')])
-    followup_pages=[]
-    for course in ('foundations','information-theory','error-correction','interpretations','algorithms','programming','information','hardware'):
-        followup_pages.append(f'education/{course}/index.html')
-        followup_pages.extend(f'education/{course}/'+chapter['stem']+'.html' for chapter in json.loads((ROOT/f'education/{course}/chapters.json').read_text()))
-    listed=[*[name for name in outputs if name.endswith('.html') and name not in UNLISTED], *followup_pages, 'education/computing/index.html', 'education/computing/glossary.html', 'education/computing/study-guide.html', 'education/computing/revisions.html', *['education/computing/'+chapter[0]+'.html' for chapter in json.loads((ROOT/'education/computing/chapters.json').read_text())]]
-    # Other course pages (glossaries, study guides, slides) are listed when they are indexable: no redirect, no noindex.
-    for extra in sorted(ROOT.glob('education/*/*.html')):
-        name=extra.relative_to(ROOT).as_posix(); text=extra.read_text(errors='ignore')
-        if name not in listed and '<title>' in text and 'noindex' not in text and 'http-equiv="refresh"' not in text: listed.append(name)
+    # One public-page inventory drives both maps, including standalone and nested pages.
+    graph = render_site_graph(ROOT, outputs, book['url'], site_logo, site_navigation)
+    listed = [node['id'] for node in graph['nodes'] if node['id'] not in UNLISTED]
     approved={paper_path(paper):paper['approved_on'] for paper in json.loads((ROOT/'content/papers.json').read_text())['papers'] if paper.get('approved_on')}
     approved.update(article_dates)
     outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc>'+(f'<lastmod>{approved[p]}</lastmod>' if p in approved else '')+'</url>' for p in dict.fromkeys(listed))+'</urlset>\n'

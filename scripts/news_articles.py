@@ -8,6 +8,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from conferences import render_conferences
+from companies import render_companies
 from paper_news import long_date, paper_path, plain
 from site_navigation import site_navigation
 from tools import render_tools
@@ -158,14 +159,16 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
         if article:
             structured.update({'@type': 'NewsArticle' if article['format'] == 'News' else 'Article', 'headline': title, 'datePublished': article['published'], 'dateModified': article.get('updated', article['published']), 'author': {'@type': 'Organization' if article['author'] == 'Quantum Research Center' else 'Person', 'name': article['author']}, 'publisher': {'@type': 'Organization', 'name': 'Quantum Research Center'}, 'citation': [s['url'] for s in article['sources']]})
         nav = site_navigation(source, 'editorial-nav')
+        website_map = '<a href="website-map/index.html">Website map</a>' if source == 'index.html' else ''
         # Article text may contain TeX (\(...\) inline, \[...\] displayed); load MathJax only where it is used.
         mathjax = (f'<script defer src="{up}education/computing/assets/source/mathjax-config.js"></script>'
                    f'<script defer src="{up}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>') if '\\(' in body or '\\[' in body else ''
         outputs[source] = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}">{social_meta(title, description, canonical, 'article' if article else 'website')}{json_ld(structured)}<link rel="icon" href="{up}icons/icon.svg"><link rel="alternate" type="application/rss+xml" title="Quantum News" href="{up}news/articles/feed.xml"><link rel="alternate" type="application/rss+xml" title="Research Papers" href="{up}news/feed.xml"><script src="{up}education/computing/assets/theme.js"></script><script src="{up}navigation.js"></script><link rel="stylesheet" href="{up}styles.css"><link rel="stylesheet" href="{up}news/editorial.css"><script defer src="{up}news/articles.js"></script>{mathjax}{assets}</head>
-<body class="editorial"><a class="skip-link" href="#main">Skip to content</a><header class="toolbar editorial-header">{site_logo('editorial-brand',up+'index.html')}{nav}</header><main id="main" tabindex="-1" class="editorial-main">{body}</main><footer class="editorial-footer"><div><strong>Quantum Research Center</strong><p>News, learning, and inquiry into quantum science.</p></div><nav aria-label="Footer"><a href="{up}conferences/index.html">Conferences</a><a href="{up}news/articles/feed.xml">Quantum News RSS</a><a href="{up}news/feed.xml">Research Papers RSS</a><a href="{up}references/index.html">Bibliography</a><a href="mailto:{book['email']}">Contact</a></nav></footer></body></html>'''
+<body class="editorial"><a class="skip-link" href="#main">Skip to content</a><header class="toolbar editorial-header">{site_logo('editorial-brand',up+'index.html')}{nav}</header><main id="main" tabindex="-1" class="editorial-main">{body}</main><footer class="editorial-footer"><div><strong>Quantum Research Center</strong><p>News, learning, and inquiry into quantum science.</p></div><nav aria-label="Footer">{website_map}<a href="{up}conferences/index.html">Conferences</a><a href="{up}companies/index.html">Companies</a><a href="{up}news/articles/feed.xml">Quantum News RSS</a><a href="{up}news/feed.xml">Research Papers RSS</a><a href="{up}references/index.html">Bibliography</a><a href="mailto:{book['email']}">Contact</a></nav></footer></body></html>'''
 
     render_conferences(root, shell)
+    render_companies(root, shell)
     render_tools(root, shell)
 
     for source in ('index.html', 'news/index.html'):
