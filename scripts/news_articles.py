@@ -159,7 +159,7 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
         if article:
             structured.update({'@type': 'NewsArticle' if article['format'] == 'News' else 'Article', 'headline': title, 'datePublished': article['published'], 'dateModified': article.get('updated', article['published']), 'author': {'@type': 'Organization' if article['author'] == 'Quantum Research Center' else 'Person', 'name': article['author']}, 'publisher': {'@type': 'Organization', 'name': 'Quantum Research Center'}, 'citation': [s['url'] for s in article['sources']]})
         nav = site_navigation(source, 'editorial-nav')
-        website_map = '<a href="website-map/index.html">Website map</a>' if source == 'index.html' else ''
+        website_map = '<a href="website-map/index.html">Website map</a><a href="frontiers/entanglement/index.html">Entanglement frontier map</a>' if source == 'index.html' else ''
         # Article text may contain TeX (\(...\) inline, \[...\] displayed); load MathJax only where it is used.
         mathjax = (f'<script defer src="{up}education/computing/assets/source/mathjax-config.js"></script>'
                    f'<script defer src="{up}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>') if '\\(' in body or '\\[' in body else ''
