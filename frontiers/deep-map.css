@@ -1,0 +1,22 @@
+/* Deep maps: a collapsible tree, drawn by deep-map.js, with its outline below. */
+.deep-workspace{grid-template-columns:230px minmax(0,1fr) 320px}
+.deep-actions{display:flex;gap:6px;margin-bottom:6px}
+.deep-workspace #frontier{font-size:14px}
+.deep-workspace .node text{paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+.deep-workspace .node .count{fill:var(--muted);font-weight:400;font-size:12px}
+.deep-workspace .node .count-frontier{fill:var(--warm);font-weight:600}
+.deep-workspace .node.n-topic text{font:600 14.5px var(--sans)}
+.deep-workspace .node.n-root text{font:600 18px var(--sans)}
+.deep-workspace .g-branch{fill:var(--paper);stroke:var(--heading);stroke-width:2.5}
+.deep-outline{max-width:860px;margin:0 auto;padding:36px 20px 20px;font:15px/1.65 var(--sans)}
+.deep-outline>h2{font:normal 28px/1.25 Georgia,serif;color:var(--heading);margin:0 0 18px}
+.deep-outline ul{list-style:none;margin:0;padding:0}
+.deep-outline ul ul{padding-left:18px;border-left:1px solid var(--line);margin-top:12px}
+.deep-outline li{margin-bottom:14px}
+.deep-outline h3{font:600 15px/1.4 var(--sans);margin:0 0 3px}
+.deep-outline small{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.deep-outline p{margin:0 0 4px}
+.outline-unknown{padding-left:10px;border-left:2px solid var(--warm)}
+.outline-sources{font-size:12px;color:var(--muted)}
+@media(max-width:1100px){.deep-workspace{grid-template-columns:230px minmax(0,1fr)}}
+@media(max-width:700px){.deep-workspace{display:flex}}

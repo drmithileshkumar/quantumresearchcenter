@@ -52,5 +52,36 @@ class FrontierMapTest(unittest.TestCase):
             self.assertIn(f'href="{node["id"]}/index.html"', html)
 
 
+class DeepMapTest(unittest.TestCase):
+    def setUp(self):
+        self.parent = frontiers.load()[0]
+        self.deep = frontiers.load_deep_maps(self.parent)[0]
+
+    def rejected(self, change):
+        deep = copy.deepcopy(self.deep)
+        change({n['id']: n for n in deep['nodes']})
+        with self.assertRaises(AssertionError):
+            frontiers.resolve_deep_map(self.parent, deep)
+
+    def test_map_is_valid(self):
+        frontiers.resolve_deep_map(self.parent, self.deep)
+
+    def test_every_node_reaches_the_root(self):
+        self.rejected(lambda nodes: nodes['cut'].update(parent='cut-tps'))
+
+    def test_frontier_links_must_resolve(self):
+        self.rejected(lambda nodes: nodes['cut'].update(map=['missing']))
+
+    def test_page_is_unlisted_and_linked_from_the_frontier_map(self):
+        pages = frontiers.render(self.parent)
+        self.assertIn('<meta name="robots" content="noindex">', pages['frontiers/entanglement/bipartite/index.html'])
+        self.assertIn('href="bipartite/index.html"', pages['frontiers/entanglement/index.html'])
+
+    def test_outline_holds_every_idea_without_javascript(self):
+        html = frontiers.render(self.parent)['frontiers/entanglement/bipartite/index.html']
+        for node in self.deep['nodes'][1:]:
+            self.assertIn(f'id="outline-{node["id"]}"', html)
+
+
 if __name__ == '__main__':
     unittest.main()

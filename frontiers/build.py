@@ -132,6 +132,10 @@ def directory(data, kids):
     return out
 
 
+def deep_links(data):
+    return ''.join(f'<p>Deep map: <a href="{d["id"]}/index.html">{escape(d["title"])}</a></p>' for d in load_deep_maps(data))
+
+
 def render_map(data):
     kids = {}
     for n in data['nodes']:
@@ -142,7 +146,7 @@ def render_map(data):
     payload = json.dumps({'id': data['id'], 'title': data['title'], 'nodes': data['nodes'], 'papers': data['papers'], 'statuses': {k: v[0] for k, v in STATUSES.items()}, 'frontier': sorted(FRONTIER), 'relations': RELATIONS}, ensure_ascii=False).replace('<', '\\u003c')
     html = (head(f'{data["title"]} frontier map', data['lede'], '../../', '<link rel="stylesheet" href="../frontier.css"><script defer src="../frontier.js"></script>')
             + f'<body><a class="skip-link" href="#main">Skip to content</a><header class="news-toolbar">{site_logo("news-brand", "../../index.html")}{site_navigation(source)}</header>'
-            + f'<main id="main" tabindex="-1"><header class="frontier-intro"><div><p class="kicker">Frontier map</p><h1>{escape(data["title"])}</h1><p>{escape(data["lede"])}</p></div><p class="frontier-count">{len(claims)} claims and questions · {frontier} on the frontier · checked {data["checked"]}</p></header>'
+            + f'<main id="main" tabindex="-1"><header class="frontier-intro"><div><p class="kicker">Frontier map</p><h1>{escape(data["title"])}</h1><p>{escape(data["lede"])}</p>{deep_links(data)}</div><p class="frontier-count">{len(claims)} claims and questions · {frontier} on the frontier · checked {data["checked"]}</p></header>'
             + '<div class="frontier-workspace"><aside class="frontier-tools" aria-label="Explore the map">'
             + '<label for="search">Find a node</label><input id="search" type="search" placeholder="Try distillable, PPT, AME…" autocomplete="off">'
             + '<label for="view">Show</label><select id="view"><option value="all">Everything</option><option value="frontier">Only the frontier</option><option value="unexplored">Only what I haven’t explored</option></select><p id="view-status" role="status"></p>'
@@ -176,6 +180,72 @@ def render_node(data, n, incoming):
     return version_assets(html, ROOT / 'frontiers' / data['id'] / n['id'])
 
 
+def load_deep_maps(data):
+    return [json.loads(p.read_text()) for p in sorted((ROOT / 'content/frontiers' / data['id']).glob('*.json'))]
+
+
+def resolve_deep_map(parent, deep):
+    """Return a deep map whose papers include those it reuses from the parent map, after checking it."""
+    used = {s for n in deep['nodes'] for s in n.get('sources', [])}
+    data = {**deep, 'papers': {**{k: v for k, v in parent['papers'].items() if k in used}, **deep['papers']}}
+    validate(data)
+    parents = {n['id']: n.get('parent') for n in deep['nodes']}
+    roots = [i for i, p in parents.items() if p is None]
+    assert roots == [deep['id']], 'a deep map needs one root, named after the map'
+    for start in parents:
+        seen, at = set(), start
+        while at:
+            assert at in parents and at not in seen, f'{start} does not reach the root'
+            seen.add(at)
+            at = parents[at]
+    targets = {n['id'] for n in parent['nodes']}
+    assert deep['id'] not in targets, 'a deep map cannot share a folder with a node'
+    for n in deep['nodes']:
+        assert set(n.get('map', [])) <= targets, f"{n['id']} links to a missing frontier node"
+    return data
+
+
+def outline(data, kids, by_id, parent):
+    out = ''
+    for n in kids.get(parent, []):
+        status = STATUSES[n['status']][0] if n.get('status') else 'Topic'
+        unknown = f'<p class="outline-unknown"><b>Still unknown:</b> {escape(n["unknown"])}</p>' if n.get('unknown') else ''
+        sources = ' · '.join(f'<a href="{escape(data["papers"][k]["url"], quote=True)}">{escape(data["papers"][k]["authors"].split(",")[0])} {data["papers"][k]["year"]}</a>' for k in n['sources'])
+        nested = outline(data, kids, by_id, n['id'])
+        out += (f'<li id="outline-{n["id"]}"><h3><a href="#{n["id"]}">{escape(n["title"])}</a> <small>{status}</small></h3><p>{escape(n["statement"])}</p>{unknown}'
+                f'<p class="outline-sources">{sources}</p>' + (f'<ul>{nested}</ul>' if nested else '') + '</li>')
+    return out
+
+
+def render_deep_map(parent, deep):
+    """A single page holding a collapsible map, which deep-map.js lays out, and the same content as an outline."""
+    data = resolve_deep_map(parent, deep)
+    kids = {}
+    for n in data['nodes']:
+        kids.setdefault(n.get('parent'), []).append(n)
+    by_id = {n['id']: n for n in data['nodes']}
+    source = f'frontiers/{parent["id"]}/{data["id"]}/index.html'
+    claims = [n for n in data['nodes'] if n.get('status')]
+    frontier = sum(n['status'] in FRONTIER for n in claims)
+    root = by_id[data['id']]
+    payload = json.dumps({'id': data['id'], 'title': data['title'], 'nodes': data['nodes'], 'papers': data['papers'], 'statuses': {k: v[0] for k, v in STATUSES.items()}, 'frontier': sorted(FRONTIER), 'relations': RELATIONS, 'glyphs': {k: glyph(k) for k in STATUSES}, 'mapTitles': {n['id']: n['title'] for n in parent['nodes']}}, ensure_ascii=False).replace('<', '\\u003c')
+    html = (head(data['title'], data['lede'], '../../../', '<link rel="stylesheet" href="../../frontier.css"><link rel="stylesheet" href="../../deep-map.css"><script defer src="../../deep-map.js"></script>')
+            + f'<body><a class="skip-link" href="#main">Skip to content</a><header class="news-toolbar">{site_logo("news-brand", "../../../index.html")}{site_navigation(source)}</header>'
+            + f'<main id="main" tabindex="-1"><header class="frontier-intro"><div><p class="kicker"><a href="../index.html">{escape(parent["title"])} frontier map</a> · Deep map</p><h1>{escape(data["title"])}</h1><p>{escape(data["lede"])}</p></div><p class="frontier-count">{len(claims)} ideas and questions · {frontier} on the frontier · checked {data["checked"]}</p></header>'
+            + '<div class="frontier-workspace deep-workspace"><aside class="frontier-tools" aria-label="Explore the map">'
+            + '<label for="search">Find an idea</label><input id="search" type="search" placeholder="Try Schmidt, Werner, steering…" autocomplete="off">'
+            + '<label for="view">Show</label><select id="view"><option value="all">Everything</option><option value="frontier">Only the frontier</option></select><p id="view-status" role="status"></p>'
+            + '<div class="deep-actions"><button id="expand-all" type="button">Expand all</button><button id="collapse-all" type="button">Collapse</button></div>'
+            + f'<h2>What the field knows</h2><ul class="frontier-legend">{legend()}</ul>'
+            + '<p class="tool-note">A ring with a number is a folded topic, and the number counts the ideas inside. Select it to open or fold it.</p></aside>'
+            + '<section class="frontier-canvas" aria-label="Map of ideas"><svg id="frontier" role="group" aria-label="Map of the ideas used to classify bipartite entanglement. The outline below the map lists them all."></svg><div class="frontier-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="fit" type="button">Fit map</button></div></section>'
+            + f'<aside id="detail" class="frontier-detail" aria-label="Selected idea" aria-live="polite"><p class="kicker">Start anywhere</p><h2>{escape(root["title"])}</h2><p>{escape(root["statement"])}</p></aside></div>'
+            + f'<section class="deep-outline" aria-labelledby="outline-title"><h2 id="outline-title">Every idea, in outline</h2><ul>{outline(data, kids, by_id, data["id"])}</ul></section>'
+            + '<p class="frontier-note">Sources were checked against arXiv or Crossref records, and most statements against the source’s abstract. Standard results were written from the wider literature, so treat the cited paper as the place to confirm them. The map is a growing selection, so a missing idea means it has not been mapped yet.</p><noscript><p class="frontier-note">The interactive map needs JavaScript. The outline above holds the same content.</p></noscript></main>'
+            + f'<script id="frontier-data" type="application/json">{payload}</script></body></html>')
+    return version_assets(html, ROOT / 'frontiers' / parent['id'] / data['id'])
+
+
 def render(data):
     """Return every page of one map as {path relative to the repository: html}."""
     validate(data)
@@ -186,6 +256,8 @@ def render(data):
     pages = {f'frontiers/{data["id"]}/index.html': render_map(data)}
     for n in data['nodes']:
         pages[f'frontiers/{data["id"]}/{n["id"]}/index.html'] = render_node(data, n, incoming.get(n['id'], []))
+    for deep in load_deep_maps(data):
+        pages[f'frontiers/{data["id"]}/{deep["id"]}/index.html'] = render_deep_map(data, deep)
     return pages
 
 
@@ -202,6 +274,8 @@ def main():
         if not check:
             for n in data['nodes']:
                 (folder / n['id']).mkdir(parents=True, exist_ok=True)
+            for deep in load_deep_maps(data):
+                (folder / deep['id']).mkdir(parents=True, exist_ok=True)
         pages = render(data)
         wanted = {str(Path(p).parent.name) for p in pages}
         for old in (folder.iterdir() if folder.exists() else []):
