@@ -648,4 +648,173 @@
   choice.onchange=()=>load(choice.value==='random'?Array.from({length:2**int(2,3)},()=>int(0,1)):tables[choice.value]);
   load(tables.and);
  });
+ document.querySelectorAll('[data-lab="teleportation"]').forEach(lab=>{
+  const svg=stage(lab,680,425,'Animated quantum teleportation circuit with three-qubit amplitudes and Alice and Bob state vectors');
+  const angleIn=lab.querySelector('[data-angle]'),outcomeSel=lab.querySelector('[data-outcome]'),nextBtn=lab.querySelector('[data-next]');
+  const stageX=[56,195,260,330,405,495,565],wireY=[56,112,196];
+  let stepIndex=0,pos=0,mn='11',cancel=()=>{},lastMath='';
+  const pickOutcome=()=>outcomeSel.value==='random'?['00','01','10','11'][Math.floor(Math.random()*4)]:outcomeSel.value;
+  const ampsAt=(s,a,b,bits)=>{
+   const s2=Math.SQRT1_2,m=Number(bits[0]),n=Number(bits[1]);
+   if(s===0)return[a,0,0,0,b,0,0,0];
+   if(s===1)return[a*s2,0,0,a*s2,b*s2,0,0,b*s2];
+   if(s===2)return[a*s2,0,0,a*s2,0,b*s2,b*s2,0];
+   if(s===3)return[.5*a,.5*b,.5*b,.5*a,.5*a,-.5*b,-.5*b,.5*a];
+   const idx=(m<<1)|n,b0=s===4?(n?b:a):a,b1=s===4?(n?a:b)*(m?-1:1):s===5?b*(m?-1:1):b;
+   return[...Array(8)].map((_,k)=>(k>>1)===idx?(k&1?b1:b0):0);
+  };
+  const bobVec=(s,a,b,bits)=>{
+   const m=Number(bits[0]),n=Number(bits[1]);
+   if(s<4)return null;
+   if(s===4)return[n?b:a,(n?a:b)*(m?-1:1)];
+   if(s===5)return[a,b*(m?-1:1)];
+   return[a,b];
+  };
+  const pathPoint=(pts,f)=>{
+   const segs=[];let total=0;
+   for(let i=0;i<pts.length-1;i++){const l=Math.hypot(pts[i+1][0]-pts[i][0],pts[i+1][1]-pts[i][1]);segs.push(l);total+=l}
+   let d=Math.max(0,Math.min(1,f))*total;
+   for(let i=0;i<segs.length;i++){if(d<=segs[i]||i===segs.length-1){const t=segs[i]?d/segs[i]:0;return[pts[i][0]+(pts[i+1][0]-pts[i][0])*t,pts[i][1]+(pts[i+1][1]-pts[i][1])*t]}d-=segs[i]}
+   return pts.at(-1);
+  };
+  function draw(){
+   const th=Number(angleIn.value)*DEG,a=Math.cos(th),b=Math.sin(th),m=Number(mn[0]),n=Number(mn[1]);
+   const s0=Math.min(6,Math.floor(pos)),s1=Math.min(6,Math.ceil(pos)),f=pos-s0;
+   const A0=ampsAt(s0,a,b,mn),A1=ampsAt(s1,a,b,mn),amps=A0.map((v,i)=>v+(A1[i]-v)*f);
+   const curX=stageX[s0]+(stageX[s1]-stageX[s0])*f;
+   svg.replaceChildren();
+   // Lab divider between Alice (top two wires) and Bob (bottom wire).
+   node(svg,'path',{d:'M18 148H662',class:'lf-thin lf-dash c-faint'});
+   label(svg,18,22,'Alice’s laboratory',{'text-anchor':'start',class:'lf-caption'});
+   label(svg,18,168,'Bob’s laboratory',{'text-anchor':'start',class:'lf-caption'});
+   // Quantum wires and active progress highlight.
+   const wireEnd=[405,405,606];
+   wireY.forEach((y,w)=>{
+    node(svg,'path',{d:`M56 ${y}H${wireEnd[w]}`,class:'lf-wire'});
+    const activeEnd=Math.min(curX,wireEnd[w]);
+    if(activeEnd>56)node(svg,'path',{d:`M56 ${y}H${activeEnd}`,class:'lf-wire one'});
+   });
+   label(svg,32,wireY[0]+5,'|ψ⟩',{class:'tint c-state'});
+   label(svg,32,wireY[1]+5,'|0⟩');
+   label(svg,32,wireY[2]+5,'|0⟩');
+   // Entanglement link indicator once Bell pair is prepared (pos >= 1, before measurement collapse pos < 4).
+   if(pos>=.6&&pos<4){
+    node(svg,'path',{d:`M194 ${wireY[1]+6}Q208 ${(wireY[1]+wireY[2])/2} 194 ${wireY[2]-6}`,class:'lf-thin lf-dash c-teal'});
+    label(svg,195,22,'shared |Φ⁺⟩',{class:'lf-caption tint c-teal'});
+   }
+   // Time cursor bar.
+   node(svg,'path',{d:`M${curX} 34V218`,class:'lf-thin lf-dash c-neg'});
+   const gateBox=(x,y,text,active,done)=>{
+    node(svg,'rect',{x:x-18,y:y-15,width:36,height:30,rx:4,class:'lf-node'+(active?' checking':done?' derived':'')});
+    label(svg,x,y+5,text);
+   };
+   const cnotGate=(x,cy,ty,active,done)=>{
+    node(svg,'path',{d:`M${x} ${Math.min(cy,ty)}V${Math.max(cy,ty)}`,class:'lf-thin '+(active?'c-neg':'c-state'),style:'stroke-width:1.8'});
+    node(svg,'circle',{cx:x,cy,r:5,class:'lf-dot'});
+    node(svg,'circle',{cx:x,cy:ty,r:10,class:'lf-node'+(active?' checking':done?' derived':'')});
+    node(svg,'path',{d:`M${x-10} ${ty}H${x+10}M${x} ${ty-10}V${ty+10}`,class:'lf-thin c-state',style:'stroke-width:1.6'});
+   };
+   // Stage 1: Bell pair preparation (H on wire 2 at x=112, CNOT 2->3 at x=165).
+   gateBox(112,wireY[1],'H',s1===1&&f>0||stepIndex===1&&f===0,pos>=1);
+   cnotGate(165,wireY[1],wireY[2],s1===1&&f>0||stepIndex===1&&f===0,pos>=1);
+   // Stage 2: Alice CNOT 1->2 at x=255.
+   cnotGate(255,wireY[0],wireY[1],s1===2&&f>0||stepIndex===2&&f===0,pos>=2);
+   // Stage 3: Alice H on wire 1 at x=330.
+   gateBox(330,wireY[0],'H',s1===3&&f>0||stepIndex===3&&f===0,pos>=3);
+   // Stage 4: Alice measurements on wires 1 and 2 at x=405.
+   [0,1].forEach(w=>{
+    const y=wireY[w],act=s1===4&&f>0||stepIndex===4&&f===0,done=pos>=4;
+    node(svg,'rect',{x:387,y:y-15,width:36,height:30,rx:4,class:'lf-node'+(act?' checking':done?' derived':'')});
+    node(svg,'path',{d:`M394 ${y+7}A11 11 0 0 1 416 ${y+7}M405 ${y+6}L412 ${y-7}`,class:'lf-thin c-state'});
+   });
+   // Classical channels from detectors to Bob's X^n (x=495) and Z^m (x=565).
+   const pathN=[[423,wireY[1]],[495,wireY[1]],[495,wireY[2]-15]];
+   const pathM=[[423,wireY[0]],[565,wireY[0]],[565,wireY[2]-15]];
+   node(svg,'path',{d:`M423 ${wireY[1]}H495V${wireY[2]-15}`,class:'lf-thin lf-dash '+(pos>=4&&n?'c-teal':'c-axis')});
+   node(svg,'path',{d:`M423 ${wireY[0]}H565V${wireY[2]-15}`,class:'lf-thin lf-dash '+(pos>=4&&m?'c-neg':'c-axis')});
+   label(svg,458,wireY[1]-8,pos>=4?`n = ${n}`:'bit n',{class:'lf-caption'+(pos>=4?' tint c-teal':'')});
+   label(svg,494,wireY[0]-8,pos>=4?`m = ${m}`:'bit m',{class:'lf-caption'+(pos>=4?' tint c-neg':'')});
+   // Animated classical bit pulses traveling along the dashed channels.
+   if(pos>=4){
+    const progN=Math.min(1,Math.max(0,pos-4)),[nx,ny]=pathPoint(pathN,progN);
+    node(svg,'circle',{cx:nx,cy:ny,r:8,class:'lf-node checking'});
+    label(svg,nx,ny+4,String(n),{style:'font-size:11px'});
+    const progM=Math.min(1,Math.max(0,(pos-4)/2)),[mx,my]=pathPoint(pathM,progM);
+    node(svg,'circle',{cx:mx,cy:my,r:8,class:'lf-node checking'});
+    label(svg,mx,my+4,String(m),{style:'font-size:11px'});
+   }
+   // Stage 5 & 6: Bob's conditional gates X^n (x=495) and Z^m (x=565).
+   gateBox(495,wireY[2],pos>=4?`X^${n}`:'Xⁿ',s1===5&&f>0||stepIndex===5&&f===0,pos>=5);
+   gateBox(565,wireY[2],pos>=4?`Z^${m}`:'Zᵐ',s1===6&&f>0||stepIndex===6&&f===0,pos>=6);
+   label(svg,614,wireY[2]+5,pos>=6?'|ψ⟩':pos>=5?(m?'Z|ψ⟩':'|ψ⟩'):pos>=4?`${n?'X':''}${m?'Z':''}|ψ⟩`:'?',{'text-anchor':'start',class:'tint '+(pos>=6?'c-state':'c-teal')});
+   // Bottom panel (y = 232..418): Left = Alice input |ψ⟩ circle, Center = 8 basis amplitudes grouped by mn, Right = Bob's state circle.
+   node(svg,'path',{d:'M18 232H662',class:'lf-thin c-faint'});
+   const drawDial=(cx,cy,vec,title,tint)=>{
+    const R=38;
+    label(svg,cx,254,title,{class:'lf-caption'});
+    node(svg,'circle',{cx,cy,r:R,class:'lf-ring'});
+    node(svg,'path',{d:`M${cx-R-5} ${cy}H${cx+R+5}M${cx} ${cy+R+5}V${cy-R-5}`,class:'lf-thin c-axis'});
+    label(svg,cx+R+8,cy+4,'|0⟩',{'text-anchor':'start',class:'lf-caption'});
+    label(svg,cx,cy-R-9,'|1⟩',{class:'lf-caption'});
+    if(vec){
+     arrow(svg,cx,cy,cx+R*vec[0],cy-R*vec[1],tint,2.8);
+    }else{
+     label(svg,cx,cy+5,'entangled',{class:'lf-caption'});
+    }
+   };
+   drawDial(66,344,[a,b],'Alice’s |ψ⟩','c-state');
+   const b0=bobVec(s0,a,b,mn),b1=bobVec(s1,a,b,mn);
+   const bVec=b0&&b1?[b0[0]+(b1[0]-b0[0])*f,b0[1]+(b1[1]-b0[1])*f]:b1||b0;
+   drawDial(604,344,bVec,pos>=6?'Bob’s |ψ⟩':'Bob’s wire 3',pos>=6?'c-state':'c-teal');
+   // Center: 8 three-qubit basis amplitudes |mn⟩|b⟩.
+   label(svg,344,254,'Three-qubit amplitudes  |mn⟩ ⊗ |Bob⟩',{class:'lf-caption'});
+   ['00','01','10','11'].forEach((pair,g)=>{
+    const gx=156+g*96,chosen=pos>=4&&pair===mn;
+    node(svg,'rect',{x:gx,y:268,width:88,height:138,rx:4,class:'lf-rule'+(chosen?' current':'')});
+    label(svg,gx+44,286,`mn = ${pair}`,{class:'lf-caption'+(chosen?' tint c-neg':'')});
+    [0,1].forEach(bit=>{
+     const idx=g*2+bit,val=amps[idx],y=302+bit*52,w=Math.min(44,Math.abs(val)*44);
+     label(svg,gx+18,y+13,`|${bit}⟩`,{class:'lf-caption'});
+     node(svg,'rect',{x:gx+34,y,width:46,height:15,rx:2,class:'lf-track'});
+     if(w>.5)node(svg,'rect',{x:gx+34,y,width:w,height:15,rx:2,class:val<0?'c-neg':'c-teal',style:'fill:currentColor'});
+     label(svg,gx+57,y+30,(val<0?'−':'')+fmt(Math.abs(val)),{class:'lf-caption',style:'font-size:12px'});
+    });
+   });
+   const states=[
+    `Stage 0 (Input): \\(\\ket{\\psi}\\otimes\\ket{00} = ${fmt(a)}\\ket{000} ${b<0?'-':'+'} ${fmt(Math.abs(b))}\\ket{100}\\), with \\(\\alpha=\\cos ${angleIn.value}^\\circ=${fmt(a)}\\) and \\(\\beta=\\sin ${angleIn.value}^\\circ=${fmt(b)}\\).`,
+    `Stage 1 (Shared Bell pair): \\(H\\) and CNOT on wires 2–3 prepare \\(\\ket{\\Phi^+}\\), giving \\(\\ket{\\psi}\\otimes\\ket{\\Phi^+} = \\tfrac{1}{\\sqrt2}(\\alpha\\ket{000}+\\alpha\\ket{011}+\\beta\\ket{100}+\\beta\\ket{111})\\).`,
+    `Stage 2 (Alice’s CNOT): Alice couples wire 1 to wire 2, flipping wire 2 when wire 1 is \\(\\ket1\\): \\(\\tfrac{1}{\\sqrt2}(\\alpha\\ket{000}+\\alpha\\ket{011}+\\beta\\ket{110}+\\beta\\ket{101})\\).`,
+    `Stage 3 (Alice’s Hadamard): \\(H\\) on wire 1 spreads \\(\\alpha,\\beta\\) across all four branches: \\(\\tfrac{1}{2}\\bigl(\\ket{00}\\ket{\\psi}+\\ket{01}X\\ket{\\psi}+\\ket{10}Z\\ket{\\psi}+\\ket{11}XZ\\ket{\\psi}\\bigr)\\).`,
+    `Stage 4 (Alice’s measurement): Alice measures \\(mn=${mn}\\) (probability \\(1/4\\)), collapsing Bob’s wire to \\(X^{${n}}Z^{${m}}\\ket{\\psi}\\) and sending bits \\((m,n)=(${m},${n})\\) over the classical channels.`,
+    `Stage 5 (Bob’s \\(X^n\\) correction): Bit \\(n=${n}\\) arrives; Bob applies \\(X^{${n}}\\), ${n?'swapping his \\(\\ket0\\) and \\(\\ket1\\) amplitudes':'leaving his wire unchanged'} so Bob holds \\(Z^{${m}}\\ket{\\psi}\\).`,
+    `Stage 6 (Bob’s \\(Z^m\\) correction): Bit \\(m=${m}\\) arrives; Bob applies \\(Z^{${m}}\\), ${m?'flipping the phase on \\(\\ket1\\)':'completing the identity correction'} and recovering \\(\\ket{\\psi} = ${fmt(a)}\\ket0 ${b<0?'-':'+'} ${fmt(Math.abs(b))}\\ket1\\) on wire 3.`
+   ];
+   if(states[stepIndex]!==lastMath){lastMath=states[stepIndex];math(lab.querySelector('[data-state]'),states[stepIndex])}
+   const notes=[
+    'Start: Alice holds the unknown state |ψ⟩ on wire 1; wires 2 and 3 start in |00⟩.',
+    'Bell pair ready: Alice and Bob now share |Φ⁺⟩ = (|00⟩ + |11⟩)/√2 across laboratories.',
+    'Alice’s CNOT entangles her input qubit with the shared Bell pair.',
+    'Alice’s Hadamard creates four equally likely branches mn ∈ {00, 01, 10, 11}, each holding a Pauli-rotated copy of |ψ⟩ on Bob’s wire.',
+    `Alice measures m = ${m}, n = ${n}. Her input state is destroyed (respecting no-cloning), and the two classical bits travel along the dashed lines to Bob.`,
+    `Bob receives n = ${n} and applies X^${n}. Next, bit m = ${m} selects Z^${m}.`,
+    'Teleportation complete! Bob’s wire now holds the exact state |ψ⟩ without any quantum state ever crossing the laboratory boundary during the protocol.'
+   ];
+   lab.querySelector('[data-status]').textContent=notes[stepIndex];
+   lab.querySelector('[data-angle-out]').value=`${angleIn.value}°`;
+   nextBtn.disabled=stepIndex===6;
+   lab.dataset.step=String(stepIndex);lab.dataset.outcome=mn;
+  }
+  function goTo(target){
+   cancel();const from=pos;stepIndex=target;
+   if(target===4&&outcomeSel.value==='random')mn=pickOutcome();
+   cancel=tween(600,t=>{pos=from+(target-from)*t;draw()},()=>{pos=target;draw()});
+  }
+  function reset(){stop();cancel();if(outcomeSel.value!=='random')mn=outcomeSel.value;stepIndex=0;pos=0;draw()}
+  const stop=runner(lab.querySelector('[data-run]'),()=>{if(stepIndex>=6){stepIndex=0;pos=0;draw();return true}goTo(stepIndex+1);return stepIndex<6},1100);
+  nextBtn.onclick=()=>{stop();if(stepIndex<6)goTo(stepIndex+1)};
+  lab.querySelector('[data-reset]').onclick=reset;
+  angleIn.oninput=()=>{cancel();pos=stepIndex;draw()};
+  outcomeSel.onchange=()=>{if(outcomeSel.value!=='random')mn=outcomeSel.value;else mn=pickOutcome();cancel();pos=stepIndex;draw()};
+  reset();
+ });
 })();

@@ -15,8 +15,9 @@ python3 -m unittest discover -s tests
 ```
 
 The Tools section is rendered by `scripts/tools.py` from `content/tools.json`; its interactive
-models live beside the pages in `tools/` (the single-qubit explorer is `single-qubit.js` plus
-`tools.css`). Course chapters under `education/<course>/` have their own `build.py`. News curation is
+models live beside the pages in `tools/` (`single-qubit.js` and `two-qubit.js`, both styled by
+`tools.css`). Each model reuses the Bloch-sphere geometry that `tools.py` computes, so the drawing
+without JavaScript matches the one the script then maintains. Course chapters under `education/<course>/` have their own `build.py`. News curation is
 described in `content/PAPERS.md`. General-audience articles and homepage selection are described in
 `content/NEWS.md`.
 

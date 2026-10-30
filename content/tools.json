@@ -1,5 +1,5 @@
 {
-  "intro": "Small, self-contained models for building intuition about quantum states. Each tool runs entirely in your browser: nothing you set is sent anywhere, and every control has a keyboard equivalent.",
+  "intro": "Small, self-contained models for building intuition about quantum states, one qubit at a time and then two. Each tool runs entirely in your browser: nothing you set is sent anywhere, and every control has a keyboard equivalent.",
   "tools": [
     {
       "id": "single-qubit",
@@ -13,12 +13,28 @@
         "Measurement and collapse",
         "Amplitudes α and β"
       ]
+    },
+    {
+      "id": "two-qubit",
+      "kind": "Visualizer",
+      "title": "Two-qubit state visualizer",
+      "href": "tools/two-qubit.html",
+      "summary": "Every vector of a two-qubit state in one complex plane: four amplitude arrows at their true angles, plus the concurrence needle that measures entanglement. Turn phases by hand, build a Bell state with CNOT, and switch to the Bell basis.",
+      "features": [
+        "Four amplitude vectors in one plot",
+        "Phases as arrow angles",
+        "Concurrence needle",
+        "Computational and Bell views",
+        "Phase dragging and arrow keys",
+        "CNOT, CZ and SWAP",
+        "Measurement of either qubit"
+      ]
     }
   ],
   "planned": [
     {
-      "title": "Two-qubit states",
-      "summary": "Entangled and product states side by side, with the concurrence and the reduced single-qubit pictures."
+      "title": "Three-qubit states and GHZ",
+      "summary": "Where the three spheres and the correlation table stop being enough: genuine three-way entanglement, and why no pairwise table can show it."
     },
     {
       "title": "Measurement statistics",

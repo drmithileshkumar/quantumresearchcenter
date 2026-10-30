@@ -156,7 +156,7 @@ def render(book):
             manuscript=ROOT/item['manuscript']
             if not manuscript.resolve().is_relative_to((ROOT/'content/research').resolve()):
                 raise ValueError('Research manuscript outside content/research')
-            body+='<p class="research-reading-note">A worked entry into an open research direction · Sources checked 20 October 2026</p>'+manuscript.read_text()
+            body+='<p class="research-reading-note">A worked entry into an open research direction · Sources checked '+item.get('reviewed','20 October 2026')+'</p>'+manuscript.read_text()
             sections=[('perspective','The question'),('mathematics','The mathematics'),('known','Known results'),('frontier','The frontier'),('investigation','Next investigation')]
         else:
             body+='<section id="overview"><h2>The field in perspective</h2>'+''.join('<p>'+esc(p)+'</p>' for p in item['paragraphs'])+'</section>'

@@ -4,6 +4,7 @@ The geometry of the sphere is computed here so the page is a complete drawing wi
 `tools/single-qubit.js` re-projects the state vector with the camera basis emitted on the <svg>.
 """
 from html import escape
+import cmath
 import json
 import math
 import os
@@ -43,10 +44,13 @@ def camera_basis():
 RIGHT, UP, FORWARD = camera_basis()
 
 
-def project(point):
+ORIGIN = (CENTER, CENTER)
+
+
+def project(point, center=ORIGIN, radius=RADIUS):
     x, y, z = point
-    return (CENTER + RADIUS * (x * RIGHT[0] + y * RIGHT[1] + z * RIGHT[2]),
-            CENTER - RADIUS * (x * UP[0] + y * UP[1] + z * UP[2]))
+    return (center[0] + radius * (x * RIGHT[0] + y * RIGHT[1] + z * RIGHT[2]),
+            center[1] - radius * (x * UP[0] + y * UP[1] + z * UP[2]))
 
 
 def facing(point):
@@ -54,12 +58,12 @@ def facing(point):
     return sum(a * b for a, b in zip(point, FORWARD)) < 0
 
 
-def arcs(point_at, steps=180):
+def arcs(point_at, steps=180, center=ORIGIN, radius=RADIUS):
     """Split a closed 3D curve into the runs that are in front of, or behind, the sphere."""
     samples = []
     for index in range(steps):
         point = point_at(2 * math.pi * index / steps)
-        samples.append((project(point), facing(point)))
+        samples.append((project(point, center, radius), facing(point)))
     start = next((index for index in range(steps) if samples[index][1] != samples[index - 1][1]), 0)
     ordered = samples[start:] + samples[:start]
     runs = []
@@ -76,59 +80,327 @@ def arcs(point_at, steps=180):
     return paths
 
 
-def axis_label(point, text):
-    x, y, z = point
-    px, py = project((x, y, z))
-    dx, dy = px - CENTER, py - CENTER
+def axis_label(point, text, center=ORIGIN, radius=RADIUS):
+    px, py = project(point, center, radius)
+    dx, dy = px - center[0], py - center[1]
     distance = math.hypot(dx, dy) or 1.0
     anchor = 'middle'
     if dx / distance > 0.35:
         anchor = 'start'
     elif dx / distance < -0.35:
         anchor = 'end'
-    return (f'<text class="bloch-axis-label" x="{CENTER + dx * 1.15:.1f}" y="{CENTER + dy * 1.15:.1f}"'
-            f' text-anchor="{anchor}" dy="4">{text}</text>')
+    return (f'<text class="bloch-axis-label" x="{center[0] + dx * 1.15:.1f}"'
+            f' y="{center[1] + dy * 1.15:.1f}" text-anchor="{anchor}" dy="4">{text}</text>')
 
 
-def state_geometry(theta_deg, phi_deg):
+def state_geometry(theta_deg, phi_deg, center=ORIGIN, radius=RADIUS, prefix='bloch'):
     """The state vector and its two dashed guides, as static SVG for the no-JavaScript drawing."""
     theta, phi = math.radians(theta_deg), math.radians(phi_deg)
     tip_3d = (math.sin(theta) * math.cos(phi), math.sin(theta) * math.sin(phi), math.cos(theta))
-    tip, foot, origin = project(tip_3d), project((tip_3d[0], tip_3d[1], 0.0)), project((0.0, 0.0, 0.0))
-    return (f'<line class="bloch-guide" id="bloch-radial" x1="{origin[0]:.1f}" y1="{origin[1]:.1f}"'
+    tip = project(tip_3d, center, radius)
+    foot = project((tip_3d[0], tip_3d[1], 0.0), center, radius)
+    origin = project((0.0, 0.0, 0.0), center, radius)
+    return (f'<line class="bloch-guide" id="{prefix}-radial" x1="{origin[0]:.1f}" y1="{origin[1]:.1f}"'
             f' x2="{foot[0]:.1f}" y2="{foot[1]:.1f}"/>'
-            f'<line class="bloch-guide" id="bloch-drop" x1="{tip[0]:.1f}" y1="{tip[1]:.1f}"'
+            f'<line class="bloch-guide" id="{prefix}-drop" x1="{tip[0]:.1f}" y1="{tip[1]:.1f}"'
             f' x2="{foot[0]:.1f}" y2="{foot[1]:.1f}"/>'
-            f'<line class="bloch-vector" id="bloch-arrow" x1="{origin[0]:.1f}" y1="{origin[1]:.1f}"'
+            f'<line class="bloch-vector" id="{prefix}-arrow" x1="{origin[0]:.1f}" y1="{origin[1]:.1f}"'
             f' x2="{tip[0]:.1f}" y2="{tip[1]:.1f}"/>'
-            f'<circle class="bloch-tip" id="bloch-tip" cx="{tip[0]:.1f}" cy="{tip[1]:.1f}" r="6"/>')
+            f'<circle class="bloch-tip" id="{prefix}-tip" cx="{tip[0]:.1f}" cy="{tip[1]:.1f}" r="6"/>')
 
 
-def bloch_svg():
+def sphere_grid(center=ORIGIN, radius=RADIUS):
     grid = []
-    for visible, path in arcs(lambda t: (math.cos(t), math.sin(t), 0.0)):
+    for visible, path in arcs(lambda t: (math.cos(t), math.sin(t), 0.0), center=center, radius=radius):
         grid.append(f'<path class="bloch-equator" d="{path}"/>' if visible
                     else f'<path class="bloch-equator is-behind" d="{path}"/>')
     for longitude in (0.0, math.pi / 2):
         for visible, path in arcs(lambda t, p=longitude: (math.sin(t) * math.cos(p),
-                                                          math.sin(t) * math.sin(p), math.cos(t))):
+                                                          math.sin(t) * math.sin(p), math.cos(t)),
+                                  center=center, radius=radius):
             grid.append(f'<path class="bloch-meridian" d="{path}"/>' if visible
                         else f'<path class="bloch-meridian is-behind" d="{path}"/>')
-    axes = ''.join(f'<line class="bloch-axis" x1="{CENTER:.1f}" y1="{CENTER:.1f}"'
-                   f' x2="{project(axis)[0]:.1f}" y2="{project(axis)[1]:.1f}"/>' for axis, _ in AXES)
-    labels = ''.join(axis_label(axis, label) for axis, label in AXES)
+    return grid
+
+
+def sphere_axes(center=ORIGIN, radius=RADIUS, labels=AXES):
+    axes = ''.join(f'<line class="bloch-axis" x1="{center[0]:.1f}" y1="{center[1]:.1f}"'
+                   f' x2="{project(axis, center, radius)[0]:.1f}"'
+                   f' y2="{project(axis, center, radius)[1]:.1f}"/>' for axis, _ in labels)
+    return axes + ''.join(axis_label(axis, label, center, radius) for axis, label in labels)
+
+
+def sphere_svg(title, desc, prefix='bloch', center=ORIGIN, radius=RADIUS,
+               view_box='0 0 400 400', cls='bloch', extra='', labels=AXES):
+    """One Bloch sphere. The camera basis is emitted on the element so the script reuses it."""
     basis = ','.join(f'{value:.6f}' for value in (*RIGHT, *UP))
-    return (f'<svg class="bloch" id="bloch" viewBox="0 0 400 400" role="img"'
-            f' aria-labelledby="bloch-title bloch-desc" data-basis="{basis}">'
-            '<title id="bloch-title">Bloch sphere for the current qubit state</title>'
-            '<desc id="bloch-desc">The Bloch sphere with the state vector pointing at the north pole,'
-            ' θ = 0°, φ = 0°. The probability of outcome 0 is 1.000 and of outcome 1 is 0.000.</desc>'
-            f'<circle class="bloch-surface" cx="{CENTER:.1f}" cy="{CENTER:.1f}" r="{RADIUS:.1f}"/>'
-            f'<g class="bloch-grid">{"".join(grid)}</g>'
-            f'<g class="bloch-axes">{axes}{labels}</g>'
-            f'{state_geometry(0, 0)}'
-            f'<circle class="bloch-origin" cx="{CENTER:.1f}" cy="{CENTER:.1f}" r="2.5"/>'
+    return (f'<svg class="{cls}" id="{prefix}" viewBox="{view_box}" role="img"'
+            f' aria-labelledby="{prefix}-title {prefix}-desc" data-basis="{basis}"{extra}>'
+            f'<title id="{prefix}-title">{title}</title>'
+            f'<desc id="{prefix}-desc">{desc}</desc>'
+            f'<circle class="bloch-surface" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="{radius:.1f}"/>'
+            f'<g class="bloch-grid">{"".join(sphere_grid(center, radius))}</g>'
+            f'<g class="bloch-axes">{sphere_axes(center, radius, labels)}</g>'
+            f'{state_geometry(0, 0, center, radius, prefix)}'
+            f'<circle class="bloch-origin" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="2.5"/>'
             '</svg>')
+
+
+def bloch_svg():
+    return sphere_svg('Bloch sphere for the current qubit state',
+                      'The Bloch sphere with the state vector pointing at the north pole, θ = 0°, φ = 0°.'
+                      ' The probability of outcome 0 is 1.000 and of outcome 1 is 0.000.')
+
+
+# Two-qubit explorer: every vector of the state in one complex plane. The four amplitudes are the
+# arrows; the concurrence needle is their paired product difference, so the phases stay visible.
+
+PHASOR_CENTER = 220.0
+PHASOR_RADIUS = 156.0
+PHASOR_LABELS = (('00', '|00⟩', 'Φ⁺'), ('01', '|01⟩', 'Φ⁻'),
+                 ('10', '|10⟩', 'Ψ⁺'), ('11', '|11⟩', 'Ψ⁻'))
+
+PAULI = {'I': ((1, 0), (0, 1)), 'X': ((0, 1), (1, 0)),
+         'Y': ((0, -1j), (1j, 0)), 'Z': ((1, 0), (0, -1))}
+
+TWO_PRESETS = (('00', '|00⟩'), ('11', '|11⟩'), ('++', '|++⟩'), ('phi+', 'Φ<sup>+</sup>'),
+               ('phi-', 'Φ<sup>−</sup>'), ('psi+', 'Ψ<sup>+</sup>'), ('psi-', 'Ψ<sup>−</sup>'),
+               ('partial', 'Partly entangled'))
+
+
+def two_qubit_observables(state):
+    """The 4x4 Pauli table <σ_μ ⊗ σ_ν> and the pure-state invariants of a two-qubit state."""
+    table = [[sum((state[2 * a + b].conjugate() * PAULI[mu][a][a2] * PAULI[nu][b][b2]
+                   * state[2 * a2 + b2]).real
+                  for a in (0, 1) for b in (0, 1) for a2 in (0, 1) for b2 in (0, 1))
+              for nu in 'IXYZ'] for mu in 'IXYZ']
+    concurrence = concurrence_of(state)
+    spread = math.sqrt(max(0.0, 1 - concurrence ** 2))
+    return table, concurrence, math.sqrt((1 + spread) / 2), math.sqrt((1 - spread) / 2)
+
+
+def concurrence_of(state):
+    return 2 * abs(state[0] * state[3] - state[1] * state[2])
+
+
+def signed(value):
+    """Three decimals with a true minus sign; a zero never carries a sign."""
+    if abs(value) < 5e-4:
+        return '0.000'
+    return ('−' if value < 0 else '+') + f'{abs(value):.3f}'
+
+
+def phasor_tip(magnitude, phase_deg):
+    rad = math.radians(phase_deg)
+    return (PHASOR_CENTER + PHASOR_RADIUS * magnitude * math.cos(rad),
+            PHASOR_CENTER - PHASOR_RADIUS * magnitude * math.sin(rad))
+
+
+def phasor_arrow(prefix, magnitude, phase_deg, label, marker, cls='ph-arrow'):
+    """One arrow from the origin; its label sits on a fixed ring outside the rim so labels never
+    land on another arrow's shaft."""
+    x, y = phasor_tip(magnitude, phase_deg)
+    lx, ly = phasor_tip((PHASOR_RADIUS + 20) / PHASOR_RADIUS, phase_deg)
+    dx = math.cos(math.radians(phase_deg))
+    anchor = ' text-anchor="end"' if dx < -0.01 else ''
+    text = (f'<text id="{prefix}-label" class="ph-label" x="{lx:.1f}" y="{ly:.1f}" dy="4"{anchor}>'
+            f'{label}</text>' if label else '')
+    return (f'<line id="{prefix}" class="{cls}" x1="{PHASOR_CENTER:.1f}" y1="{PHASOR_CENTER:.1f}"'
+            f' x2="{x:.1f}" y2="{y:.1f}" marker-end="url(#{marker})"/>' + text)
+
+
+def phasor_svg(state, basis_labels=PHASOR_LABELS):
+    """The static drawing of the complex plane holding every vector of the state."""
+    rings = ''.join(
+        f'<circle class="{"ph-ring is-inner" if factor < 1 else "ph-ring"}" cx="{PHASOR_CENTER:.1f}"'
+        f' cy="{PHASOR_CENTER:.1f}" r="{PHASOR_RADIUS * factor:.1f}"/>' for factor in (1.0, 0.5))
+    rim = PHASOR_RADIUS * 0.82
+    ticks = (f'<text class="ph-tick" x="{PHASOR_CENTER + rim:.0f}" y="{PHASOR_CENTER + 16:.0f}"'
+             ' text-anchor="middle">0°</text>'
+             f'<text class="ph-tick" x="{PHASOR_CENTER + 12:.0f}" y="{PHASOR_CENTER - rim + 4:.0f}">90°</text>'
+             f'<text class="ph-tick" x="{PHASOR_CENTER - rim:.0f}" y="{PHASOR_CENTER + 16:.0f}"'
+             ' text-anchor="middle">180°</text>'
+             f'<text class="ph-tick" x="{PHASOR_CENTER + 12:.0f}" y="{PHASOR_CENTER + rim + 4:.0f}">270°</text>')
+    vectors = ''
+    for index, (key, label, _) in enumerate(basis_labels):
+        amplitude = state[index]
+        magnitude = abs(amplitude)
+        phase = math.degrees(cmath.phase(amplitude)) % 360 if magnitude > 1e-9 else 0.0
+        hidden = ' is-empty' if magnitude <= 1e-9 else ''
+        x0, y0 = phasor_tip(magnitude, phase)
+        vectors += (f'<g class="ph-vec{hidden}" data-index="{index}" id="ph-group-{key}">'
+                    f'<line class="ph-hit" x1="{PHASOR_CENTER:.1f}" y1="{PHASOR_CENTER:.1f}"'
+                    f' x2="{x0:.1f}" y2="{y0:.1f}"/>'
+                    + phasor_arrow(f'ph-vec-{key}', magnitude, phase, label, f'ph-head-{index}')
+                    + '</g>')
+    needle = 2 * (state[0] * state[3] - state[1] * state[2])
+    needle_magnitude = abs(needle)
+    needle_phase = math.degrees(cmath.phase(needle)) % 360 if needle_magnitude > 1e-9 else 0.0
+    needle_hidden = ' is-empty' if needle_magnitude <= 1e-9 else ''
+    pairing = ''
+    products = (2 * state[0] * state[3], 2 * state[1] * state[2])
+    for key, product in zip(('p1', 'p2'), products):
+        magnitude = abs(product)
+        phase = math.degrees(cmath.phase(product)) % 360 if magnitude > 1e-9 else 0.0
+        pairing += phasor_arrow(f'ph-{key}', magnitude, phase, '', f'ph-head-{key}',
+                                cls='ph-arrow is-pairing')
+    markers = ''.join(
+        f'<marker id="ph-head-{name}" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="4.6"'
+        f' markerHeight="4.6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ph-head-{name}"/>'
+        f'</marker>' for name in ('0', '1', '2', '3', 'p1', 'p2', 'needle'))
+    return (f'<svg class="phasor" id="phasor" viewBox="0 0 440 440" role="group"'
+            f' aria-labelledby="phasor-title phasor-desc">'
+            '<title id="phasor-title">Every vector of the two-qubit state in one complex plane</title>'
+            '<desc id="phasor-desc">Four arrows, one per basis amplitude: length is the magnitude and the'
+            ' angle is the phase. Only |00⟩ is present, with magnitude 1.000 at phase 0°, so the concurrence'
+            ' needle has zero length.</desc>'
+            f'<defs>{markers}</defs>'
+            f'<g class="ph-grid">{rings}'
+            f'<line class="ph-axis" x1="48" y1="{PHASOR_CENTER:.1f}" x2="392" y2="{PHASOR_CENTER:.1f}"/>'
+            f'<line class="ph-axis" x1="{PHASOR_CENTER:.1f}" y1="48" x2="{PHASOR_CENTER:.1f}" y2="392"/>'
+            f'{ticks}</g>'
+            f'<g class="ph-pairing is-empty" id="ph-pairing">{pairing}</g>'
+            f'<g class="ph-needle" id="ph-needle-group"{needle_hidden}>'
+            f'<line class="ph-arrow is-halo" id="ph-needle-halo" x1="{PHASOR_CENTER:.1f}"'
+            f' y1="{PHASOR_CENTER:.1f}" x2="{PHASOR_CENTER:.1f}" y2="{PHASOR_CENTER:.1f}"/>'
+            + phasor_arrow('ph-needle', needle_magnitude, needle_phase, 'C', 'ph-head-needle')
+            + '</g>'
+            '<g class="ph-vectors">' + vectors + '</g>'
+            f'<circle class="ph-origin" cx="{PHASOR_CENTER:.1f}" cy="{PHASOR_CENTER:.1f}" r="3"/>'
+            '</svg>')
+
+
+def render_two_qubit(root, shell):
+    e = escape
+    table, concurrence, lam_plus, lam_minus = two_qubit_observables([1, 0, 0, 0])
+    rows = ''
+    for index, (key, label, _) in enumerate(PHASOR_LABELS):
+        rows += (f'<tr data-index="{index}"><th scope="row" id="amp-name-{key}">{label}</th>'
+                 f'<td id="amp-mag-{key}">1.000</td><td id="amp-phase-{key}">0°</td>'
+                 f'<td id="amp-prob-{key}">1.000</td></tr>')
+    gates = ''.join(f'<button type="button" data-gate-a="{name}" title="{hint} on qubit A">{name}</button>'
+                    for name, hint in GATES)
+    gates_b = ''.join(f'<button type="button" data-gate-b="{name}" title="{hint} on qubit B">{name}</button>'
+                      for name, hint in GATES)
+
+    body = (
+        '<header class="editorial-intro compact qubit-intro"><p class="eyebrow">Tools / Two-qubit state</p>'
+        '<h1>The state is<br><span>four arrows.</span></h1>'
+        '<p>A two-qubit state is four complex numbers, and a complex number is a vector. So the whole state fits'
+        ' in one ordinary plane: four arrows whose lengths are the magnitudes and whose angles are the phases.'
+        ' Gates turn and add those arrows; the fifth, heavy arrow measures how entangled the pair is.</p>'
+        '</header>'
+
+        '<div class="two-summary"><div class="two-ket-block"><p class="qubit-kicker">Current state</p>'
+        '<p class="qubit-ket" id="state-ket">|00⟩</p></div><dl class="two-invariants">'
+        f'<div><dt>Concurrence C</dt><dd id="inv-concurrence">{concurrence:.3f}</dd></div>'
+        f'<div><dt>Needle angle</dt><dd id="inv-needle">—</dd></div>'
+        f'<div><dt>Schmidt λ₊, λ₋</dt><dd id="inv-schmidt">{lam_plus:.3f}, {lam_minus:.3f}</dd></div>'
+        f'<div><dt>Type</dt><dd id="inv-type">Product</dd></div></dl>'
+        '<div class="two-scale"><p class="meter-label"><span>Product</span>'
+        f'<span class="meter-track"><span class="meter-fill" id="bar-c" style="width:{concurrence * 100:.1f}%">'
+        '</span></span><span>Maximally entangled</span></p>'
+        '<p class="slider-hint">The needle\'s length is the concurrence. Its direction is the local frame, which'
+        ' is a choice of basis — local gates turn the needle but never change its length.</p></div></div>'
+
+        '<section class="two-lab" aria-labelledby="lab-heading"><h2 class="sr-only" id="lab-heading">'
+        'Two-qubit vector explorer</h2><div class="phasor-layout">'
+        '<figure class="phasor-figure">' + phasor_svg([1, 0, 0, 0]) +
+        '<figcaption>One plane, every vector. Pick an arrow and use the arrow keys to turn it, or drag its tip.'
+        ' Turning an arrow changes one phase and nothing else.</figcaption></figure>'
+        '<div class="phasor-panel">'
+        '<fieldset class="qubit-group"><legend>Display basis</legend><div class="qubit-buttons">'
+        '<button type="button" id="basis-computational" aria-pressed="true">|00⟩ |01⟩ |10⟩ |11⟩</button>'
+        '<button type="button" id="basis-bell" aria-pressed="false">Bell</button>'
+        '</div><p class="slider-hint" id="basis-hint">Computational basis. The Bell view re-expresses the same'
+        ' state in Φ⁺, Φ⁻, Ψ⁺, Ψ⁻, where each Bell state is a single arrow.</p></fieldset>'
+        '<table class="phasor-table"><caption>Amplitude, phase and probability per basis state</caption>'
+        '<thead><tr><th scope="col">State</th><th scope="col">Magnitude</th><th scope="col">Phase</th>'
+        f'<th scope="col">P</th></tr></thead><tbody>{rows}</tbody></table>'
+        '<label class="ph-toggle"><input type="checkbox" id="show-products">'
+        '<span>Show the two products 2c<sub>00</sub>c<sub>11</sub> and 2c<sub>01</sub>c<sub>10</sub></span>'
+        '</label>'
+        '<p class="measure-result" id="needle-note">The highlighted arrow is 2·(c<sub>00</sub>c<sub>11</sub> −'
+        ' c<sub>01</sub>c<sub>10</sub>): the first product, then the second one subtracted. Its length is the'
+        ' concurrence — zero for a product state, one for a Bell state.</p>'
+        '<p class="sr-only" id="state-status" role="status" aria-live="polite"></p>'
+        '</div></div></section>'
+
+        '<section class="two-controls" aria-labelledby="controls-heading"><h2 class="sr-only"'
+        ' id="controls-heading">Controls</h2>'
+        '<fieldset class="qubit-group"><legend>Prepare a state</legend><div class="qubit-buttons">'
+        + ''.join(f'<button type="button" data-preset="{key}">{label}</button>'
+                  for key, label in TWO_PRESETS)
+        + '</div></fieldset>'
+        '<fieldset class="qubit-group"><legend>Gates on qubit A</legend><div class="qubit-buttons">'
+        + gates + '</div></fieldset>'
+        '<fieldset class="qubit-group"><legend>Gates on qubit B</legend><div class="qubit-buttons">'
+        + gates_b + '</div></fieldset>'
+        '<fieldset class="qubit-group"><legend>Two-qubit gates</legend><div class="qubit-buttons">'
+        '<button type="button" data-gate="CNOT" title="Flip B when A is 1">CNOT</button>'
+        '<button type="button" data-gate="CZ" title="Flip the sign of |11⟩">CZ</button>'
+        '<button type="button" data-gate="SWAP" title="Exchange the two qubits">SWAP</button>'
+        '</div><p class="slider-hint">X, Y, Z and S turn arrows in this plane; H replaces two arrows by their sum'
+        ' and difference. CNOT and CZ turn a superposition into entanglement: on |+0⟩ or |++⟩ they create the'
+        ' needle, on |00⟩ they cannot.</p></fieldset>'
+        '<fieldset class="qubit-group"><legend>Measurement</legend><div class="qubit-buttons">'
+        '<button type="button" id="measure-a">Measure A</button>'
+        '<button type="button" id="measure-b">Measure B</button>'
+        '<button type="button" id="measure-both">Measure both</button>'
+        '<button type="button" id="two-reset" title="Return to |00⟩ and clear the counts">Reset</button>'
+        '</div><p class="measure-result" id="measure-result">Measuring A projects onto |0⟩ or |1⟩ on that qubit.'
+        ' On a Bell state the two outcomes always agree.</p>'
+        '<p class="measure-tally" id="measure-tally">No joint measurements yet.</p></fieldset>'
+        '<noscript><p class="qubit-noscript">The page shows the state |00⟩: one arrow of length 1 along the'
+        ' real axis. Enable JavaScript to turn the arrows, apply gates, and measure.</p></noscript></section>'
+
+        '<section class="qubit-reading" id="explanation"><h2>Why one plane is enough</h2>'
+        '<p>A pure two-qubit state is four complex numbers, so it is four vectors in the plane — no projection,'
+        ' no loss. Two of the eight real numbers are not physical: the total length is fixed to one by'
+        ' normalization, and multiplying all four arrows by the same phase only rotates the whole figure, which'
+        ' no measurement can see. That leaves six, exactly the state\'s six parameters. This is the one common'
+        ' plot that holds everything, phases included.</p>'
+        '<p>Arrows that land on the same point are drawn side by side so that both stay visible; lengths and'
+        ' angles are untouched.</p>'
+        '<p>Gates act on these arrows in ways you can watch. Z and S turn the arrows whose qubit is |1⟩ and leave'
+        ' the others alone; H replaces a pair by their sum and difference (divided by √2), which is why it can'
+        ' move weight between arrows; X swaps pairs. A relative phase shows up as one arrow turning against the'
+        ' others, and that is the information a pair of ordinary Bloch spheres throws away: |Φ⁺⟩ and |Φ⁻⟩ have'
+        ' identical reduced states, but here one arrow is flipped through 180°.</p>'
+        '<h2>The needle</h2>'
+        '<p>Multiply the amplitudes that sit at opposite corners: c<sub>00</sub>c<sub>11</sub> and'
+        ' c<sub>01</sub>c<sub>10</sub>. Each product is again a vector, with the phases added and the lengths'
+        ' multiplied. A state is a product of two single-qubit states exactly when those two vectors coincide.'
+        ' So draw the second from the tip of the first, and close the triangle: the closing arrow is'
+        ' 2·(c<sub>00</sub>c<sub>11</sub> − c<sub>01</sub>c<sub>10</sub>). Its length is the concurrence, and it'
+        ' vanishes precisely when the state factorizes.</p>'
+        '<p>That gives entanglement a single number you can measure with a ruler, and a direction that records'
+        ' the relative phase. The length is basis-independent; the direction is a frame, and local gates rotate'
+        ' it without changing its length — which is the whole reason a local picture cannot see entanglement.</p>'
+        '<h2>Things to try</h2><ol class="qubit-try">'
+        '<li>Press <strong>H on A</strong> from |00⟩. Two arrows appear along the real axis, each of length'
+        ' 0.707 — |00⟩ and |10⟩ — and the needle stays at zero: still a product state.</li>'
+        '<li>Now press <strong>S on A</strong>. The |10⟩ arrow turns by 90° while |00⟩ stays put: a relative'
+        ' phase you can see, with the needle still at zero. Press T instead and it turns by 45°.</li>'
+        '<li>Load Φ<sup>+</sup> and Φ<sup>−</sup>. Both have the needle at full length 1.000; only its direction'
+        ' flips by 180°, and the |11⟩ arrow flips with it. This is the difference the Bloch spheres cannot'
+        ' show.</li>'
+        '<li>Switch to the <strong>Bell</strong> basis. Each of the four Bell presets becomes a single arrow of'
+        ' length 1, while no product state can be: |00⟩ needs two arrows and |+0⟩ needs four. That is the'
+        ' sharpest way to see that Bell states are a different kind of object.</li>'
+        '<li>Load <strong>|++⟩</strong> and drag one arrow round the circle. Its length never changes, only its'
+        ' angle, and the needle grows from zero towards 0.707: a product state becoming entangled as the two'
+        ' products stop agreeing. Drag it back to 0° and the needle vanishes again.</li>'
+        '<li>Load <strong>Partly entangled</strong>: the needle is 0.707 long, and the two starting arrows are'
+        ' 0.924 and 0.383 at the same angle.</li></ol>'
+        '<p class="qubit-note">This model follows pure states only, because unitary gates and projective'
+        ' measurements keep the state pure. A noisy two-qubit state needs a 4 × 4 density matrix and a'
+        ' mixed-state concurrence, and its arrows would need magnitudes that no longer add to one. Measurements'
+        ' use your browser\'s random number generator.</p></section>')
+    shell('tools/two-qubit.html', 'Two-qubit state visualizer',
+          'Every vector of a two-qubit state in one complex plane: four amplitude arrows plus the concurrence'
+          ' needle, so phases and entanglement are visible at the same time.',
+          body, assets='<link rel="stylesheet" href="tools.css"><script defer src="two-qubit.js"></script>')
 
 
 def validate(root, data):
@@ -294,3 +566,4 @@ def render_tools(root, shell):
     shell('tools/single-qubit.html', 'Single-qubit state visualizer',
           'Explore a single qubit on the Bloch sphere: drag the state vector, apply gates, and measure the resulting probabilities.',
           tool_body, assets='<link rel="stylesheet" href="tools.css"><script defer src="single-qubit.js"></script>')
+    render_two_qubit(root, shell)

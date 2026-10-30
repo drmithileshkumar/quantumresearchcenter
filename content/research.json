@@ -426,6 +426,186 @@
       "url": "https://arxiv.org/abs/1510.08863",
       "note": "Two-way assisted capacity benchmarks for pure-loss and other channels; specify modes and assistance.",
       "checked": "2026-10-20"
+    },
+    "quant-ph/9512022": {
+      "title": "Negative entropy and information in quantum mechanics",
+      "authors": "N. J. Cerf, C. Adami",
+      "year": 1995,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/9512022",
+      "note": "Relates negative conditional entropy to entanglement.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/0505062": {
+      "title": "Quantum information can be negative",
+      "authors": "Michał Horodecki, Jonathan Oppenheim, Andreas Winter",
+      "year": 2005,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/0505062",
+      "note": "Gives conditional entropy an operational meaning as partial quantum information.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/0103030": {
+      "title": "Virtual quantum subsystems",
+      "authors": "Paolo Zanardi",
+      "year": 2001,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/0103030",
+      "note": "Argues that accessible observables select the partition into subsystems.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/0308043": {
+      "title": "Quantum tensor product structures are observable-induced",
+      "authors": "Paolo Zanardi, Daniel Lidar, Seth Lloyd",
+      "year": 2003,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/0308043",
+      "note": "Develops an algebraic framework in which the tensor product structure is relative to observables.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/0105127": {
+      "title": "Decoherence, einselection, and the quantum origins of the classical",
+      "authors": "Wojciech H. Zurek",
+      "year": 2001,
+      "kind": "Review",
+      "url": "https://arxiv.org/abs/quant-ph/0105127",
+      "note": "Reviews how interaction with an environment selects stable pointer states.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/0107144": {
+      "title": "Everett and structure",
+      "authors": "David Wallace",
+      "year": 2001,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/0107144",
+      "note": "Treats the macroworld in the Everett interpretation as emergent structures and patterns.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/9609002": {
+      "title": "Relational quantum mechanics",
+      "authors": "Carlo Rovelli",
+      "year": 1996,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/9609002",
+      "note": "Rejects the notion of an observer-independent state.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/0405161": {
+      "title": "Probabilities from entanglement, Born's rule from envariance",
+      "authors": "W. H. Zurek",
+      "year": 2004,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/0405161",
+      "note": "Derives Born's rule for outcomes associated with Schmidt states from environment-assisted invariance.",
+      "checked": "2026-10-30"
+    },
+    "quant-ph/0312058": {
+      "title": "On Zurek's derivation of the Born rule",
+      "authors": "Maximilian Schlosshauer, Arthur Fine",
+      "year": 2003,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/quant-ph/0312058",
+      "note": "Identifies assumptions entering the envariance derivation.",
+      "checked": "2026-10-30"
+    },
+    "1604.07422": {
+      "title": "Quantum theory cannot consistently describe the use of itself",
+      "authors": "Daniela Frauchiger, Renato Renner",
+      "year": 2016,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/1604.07422",
+      "note": "Proposes a thought experiment with agents who apply quantum theory to each other.",
+      "checked": "2026-10-30"
+    },
+    "1907.05607": {
+      "title": "A strong no-go theorem on the Wigner's friend paradox",
+      "authors": "Kok-Wei Bong et al.",
+      "year": 2019,
+      "kind": "Theory and experiment",
+      "url": "https://arxiv.org/abs/1907.05607",
+      "note": "Proves that observer-scale quantum control conflicts with one of three assumptions, including absoluteness of observed events.",
+      "checked": "2026-10-30"
+    },
+    "everett1957": {
+      "title": "\"Relative state\" formulation of quantum mechanics",
+      "authors": "Hugh Everett III",
+      "year": 1957,
+      "kind": "Theory",
+      "url": "https://doi.org/10.1103/RevModPhys.29.454",
+      "note": "Introduces the state of a subsystem relative to a state of the remainder.",
+      "checked": "2026-10-30"
+    },
+    "schmidt1907": {
+      "title": "Zur Theorie der linearen und nichtlinearen Integralgleichungen",
+      "authors": "Erhard Schmidt",
+      "year": 1907,
+      "kind": "Theory",
+      "url": "https://doi.org/10.1007/BF01449770",
+      "note": "The mathematical origin of the decomposition now named after Schmidt.",
+      "checked": "2026-10-30"
+    },
+    "ekert-knight1995": {
+      "title": "Entangled quantum systems and the Schmidt decomposition",
+      "authors": "Artur Ekert, Peter L. Knight",
+      "year": 1995,
+      "kind": "Theory",
+      "url": "https://doi.org/10.1119/1.17904",
+      "note": "A pedagogical account of the Schmidt decomposition for entangled systems.",
+      "checked": "2026-10-30"
+    },
+    "schrodinger1935": {
+      "title": "Discussion of probability relations between separated systems",
+      "authors": "Erwin Schrödinger",
+      "year": 1935,
+      "kind": "Theory",
+      "url": "https://doi.org/10.1017/S0305004100013554",
+      "note": "Introduces steering of one system through measurements on another.",
+      "checked": "2026-10-30"
+    },
+    "hjw1993": {
+      "title": "A complete classification of quantum ensembles having a given density matrix",
+      "authors": "Lane P. Hughston, Richard Jozsa, William K. Wootters",
+      "year": 1993,
+      "kind": "Theory",
+      "url": "https://doi.org/10.1016/0375-9601(93)90880-9",
+      "note": "Classifies the pure-state ensembles of a density matrix.",
+      "checked": "2026-10-30"
+    },
+    "elby-bub1994": {
+      "title": "Triorthogonal uniqueness theorem and its relevance to the interpretation of quantum mechanics",
+      "authors": "Andrew Elby, Jeffrey Bub",
+      "year": 1994,
+      "kind": "Theory",
+      "url": "https://doi.org/10.1103/PhysRevA.49.4213",
+      "note": "Shows that a three-way orthogonal decomposition is unique when it exists.",
+      "checked": "2026-10-30"
+    },
+    "zurek1981": {
+      "title": "Pointer basis of quantum apparatus: into what mixture does the wave packet collapse?",
+      "authors": "Wojciech H. Zurek",
+      "year": 1981,
+      "kind": "Theory",
+      "url": "https://doi.org/10.1103/PhysRevD.24.1516",
+      "note": "Ties the apparatus's preferred basis to its interaction with the environment.",
+      "checked": "2026-10-30"
+    },
+    "lombardi-dieks-modal": {
+      "title": "Modal interpretations of quantum mechanics",
+      "authors": "Olimpia Lombardi, Dennis Dieks",
+      "year": 2012,
+      "kind": "Review",
+      "url": "https://plato.stanford.edu/entries/qm-modal/",
+      "note": "Surveys modal interpretations, including the role of the biorthogonal decomposition and its difficulties.",
+      "checked": "2026-10-30"
+    },
+    "1303.4724": {
+      "title": "Quantum steering ellipsoids",
+      "authors": "Sania Jevtic, Matthew F. Pusey, David Jennings, Terry Rudolph",
+      "year": 2013,
+      "kind": "Theory",
+      "url": "https://arxiv.org/abs/1303.4724",
+      "note": "Represents a two-qubit state by the set of Bloch vectors one party can steer the other to.",
+      "checked": "2026-10-30"
     }
   },
   "categories": [
@@ -455,6 +635,43 @@
           ],
           "children": [],
           "manuscript": "content/research/measurement-outcomes.html"
+        },
+        {
+          "id": "relative-states",
+          "title": "What does a state look like relative to an observer?",
+          "keyword": "What does a state look like relative to an observer?",
+          "summary": "Call one part of an entangled pair the observer. Each of its basis states then picks out a state of the other part. How do these relative states change with the observer’s basis, and when does that give the Schmidt form?",
+          "paragraphs": [
+            "Call one part of an entangled pair the observer. Each of its basis states then picks out a state of the other part. How do these relative states change with the observer’s basis, and when does that give the Schmidt form?"
+          ],
+          "questions": [],
+          "papers": [
+            "quant-ph/9512022",
+            "quant-ph/0505062",
+            "quant-ph/0103030",
+            "quant-ph/0308043",
+            "quant-ph/0105127",
+            "0903.5082",
+            "quant-ph/0107144",
+            "quant-ph/9609002",
+            "quant-ph/0405161",
+            "quant-ph/0312058",
+            "1604.07422",
+            "1907.05607",
+            "everett1957",
+            "schmidt1907",
+            "ekert-knight1995",
+            "schrodinger1935",
+            "hjw1993",
+            "elby-bub1994",
+            "zurek1981",
+            "lombardi-dieks-modal",
+            "quant-ph/0312059",
+            "1303.4724"
+          ],
+          "children": [],
+          "reviewed": "30 October 2026",
+          "manuscript": "content/research/relative-states.html"
         },
         {
           "id": "quantum-correlations",

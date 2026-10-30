@@ -29,7 +29,7 @@ class ResearchPages(unittest.TestCase):
         cls.output=builder.render(cls.book)
     def test_every_question_has_an_argument_and_sources(self):
         questions=[i for i in builder.records(self.book) if i.get('manuscript')]
-        self.assertEqual(len(questions),13)
+        self.assertEqual(len(questions),14)
         for item in questions:
             manuscript=(ROOT/item['manuscript']).read_text();doc=Source(manuscript)
             self.assertEqual(doc.sections,['perspective','mathematics','known','frontier','investigation'])
@@ -60,6 +60,50 @@ class WorkedMathematics(unittest.TestCase):
             rho=[[sum(v[2*i+e]*v[2*j+e] for e in range(2)) for j in range(2)] for i in range(2)]
             purity=sum(rho[i][j]*rho[j][i] for i in range(2) for j in range(2))
             self.assertAlmostEqual(purity,(1+s*s)/2)
+    def test_imperfect_records_tilt_the_schmidt_axis(self):
+        for p,overlap,tilt,weight in [(.8,.1,7.5946,.80265),(.8,.5,33.690,.86056),(.5,.01,90,.505)]:
+            q=1-p;off=math.sqrt(p*q)*overlap
+            root=math.sqrt((p-q)**2+4*off*off)
+            self.assertAlmostEqual((1+root)/2,weight,places=4)
+            self.assertAlmostEqual((1+math.sqrt(1-4*p*q*(1-overlap**2)))/2,(1+root)/2)
+            self.assertAlmostEqual(math.degrees(math.atan2(2*off,p-q)),tilt,places=2)
+    def test_relative_vectors_share_one_ellipse(self):
+        weight,gap=.6,math.radians(60)
+        v0=(math.sqrt(weight),0);v1=(math.sqrt(1-weight)*math.cos(gap),math.sqrt(1-weight)*math.sin(gap))
+        dot=lambda a,b:a[0]*b[0]+a[1]*b[1]
+        turn=lambda phi:((math.cos(phi)*v0[0]+math.sin(phi)*v1[0],math.cos(phi)*v0[1]+math.sin(phi)*v1[1]),(-math.sin(phi)*v0[0]+math.cos(phi)*v1[0],-math.sin(phi)*v0[1]+math.cos(phi)*v1[1]))
+        best=math.atan2(2*dot(v0,v1),dot(v0,v0)-dot(v1,v1))/2
+        self.assertAlmostEqual(math.degrees(best),33.9,places=1)
+        a,b=turn(best)
+        self.assertAlmostEqual(dot(a,b),0)
+        self.assertAlmostEqual(dot(a,a),.765,places=3)
+        self.assertAlmostEqual(dot(b,b),.235,places=3)
+        for phi in (0,.3,best,1.2):
+            x,y=turn(phi)
+            self.assertAlmostEqual(dot(x,x)+dot(y,y),1)
+            self.assertAlmostEqual(2*abs(x[0]*y[1]-x[1]*y[0]),.8485,places=3)
+    def test_separable_state_gives_one_observed_vector_in_every_observer_basis(self):
+        a,b=(.6,.8),(math.cos(.7),math.sin(.7))
+        for k in range(1,180):
+            phi=math.radians(k);o=(math.cos(phi),math.sin(phi))
+            overlap=o[0]*a[0]+o[1]*a[1]
+            v=(overlap*b[0],overlap*b[1])
+            if abs(overlap)<1e-9:continue
+            self.assertAlmostEqual(abs(v[0]*b[0]+v[1]*b[1])/math.hypot(*v),1)
+    def test_only_an_orthonormal_observer_basis_rebuilds_the_state(self):
+        c=((.7,.2),(.1,.6))
+        norm=sum(x*x for row in c for x in row)
+        c=tuple(tuple(x/math.sqrt(norm) for x in row) for row in c)
+        arrow=lambda o:(o[0]*c[0][0]+o[1]*c[1][0],o[0]*c[0][1]+o[1]*c[1][1])
+        def result(o0,o1):
+            v0,v1=arrow(o0),arrow(o1)
+            rebuilt=[[o0[i]*v0[j]+o1[i]*v1[j] for j in range(2)] for i in range(2)]
+            return max(abs(rebuilt[i][j]-c[i][j]) for i in range(2) for j in range(2)),sum(x*x for x in v0+v1)
+        phi=.6
+        drift,weight=result((math.cos(phi),math.sin(phi)),(-math.sin(phi),math.cos(phi)))
+        self.assertAlmostEqual(drift,0);self.assertAlmostEqual(weight,1)
+        drift,weight=result((1,0),(1/math.sqrt(2),1/math.sqrt(2)))
+        self.assertGreater(drift,.1);self.assertNotAlmostEqual(weight,1)
     def test_chsh_box_marginals(self):
         for visibility in (0,.5,1/math.sqrt(2),1):
             correlators={}

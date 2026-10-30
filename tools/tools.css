@@ -97,7 +97,70 @@
   .qubit-buttons button{flex:1 1 auto}
   .meter-label{grid-template-columns:62px minmax(0,1fr)}
 }
-@media(prefers-reduced-motion:reduce){.meter-fill{transition:none}}
-@media print{.qubit-panel,.bloch-figure{break-inside:avoid}}
-/* Displayed equations in the explanation scroll in their own box on narrow screens. */
-.qubit-reading mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:2px 0}
+/* Two-qubit explorer: one complex plane holding every vector, plus the summary strip. */
+.two-summary{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.3fr) minmax(0,1fr);gap:26px;align-items:start;border:1px solid var(--line-strong);border-top:3px solid var(--blue);border-radius:4px;padding:18px 22px 20px;margin:18px 0 26px;background:var(--paper)}
+.two-ket-block .qubit-ket{margin:0;font-size:17px}
+.two-invariants{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin:0}
+.two-invariants div{display:flex;flex-direction:column;gap:2px}
+.two-invariants dt{font:500 10px/1.5 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.two-invariants dd{font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--heading);margin:0;font-variant-numeric:tabular-nums}
+.two-scale .meter-label{grid-template-columns:auto minmax(0,1fr) auto;gap:10px;font-size:10px}
+.two-scale .slider-hint{margin:8px 0 0;font-size:11px}
+.two-lab{margin:0}
+.phasor-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,1fr);gap:24px;align-items:start}
+.phasor-figure{margin:0;padding:14px;border:1px solid var(--line-strong);border-radius:4px;background:var(--surface)}
+.phasor-figure figcaption{font:12px/1.65 var(--sans);color:var(--muted);margin:8px 4px 0;text-align:center}
+.phasor{display:block;width:100%;max-width:520px;height:auto;margin:0 auto;touch-action:none;-webkit-user-select:none;user-select:none}
+.phasor.is-dragging{cursor:grabbing}
+.ph-ring{fill:none;stroke:var(--line-strong);stroke-width:1}
+.ph-ring.is-inner{stroke-dasharray:3 5;stroke-opacity:.7}
+.ph-axis{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:2 4}
+.ph-tick{fill:var(--muted);font:10px var(--sans)}
+.ph-origin{fill:var(--ink-soft)}
+.ph-arrow{stroke-width:2.4;stroke-linecap:round;fill:none}
+.ph-head-0{fill:var(--blue)}.ph-head-1{fill:var(--violet)}.ph-head-2{fill:var(--warm)}.ph-head-3{fill:var(--ink-soft)}
+.ph-head-p1,.ph-head-p2{fill:var(--muted)}
+.ph-head-needle{fill:var(--heading)}
+#ph-vec-00{stroke:var(--blue)}
+#ph-vec-01{stroke:var(--violet);stroke-dasharray:7 4}
+#ph-vec-10{stroke:var(--warm)}
+#ph-vec-11{stroke:var(--ink-soft);stroke-dasharray:7 4}
+.ph-label{fill:var(--ink);font:11px var(--sans)}
+.ph-arrow.is-pairing{stroke:var(--muted);stroke-width:1.4;stroke-dasharray:4 4}
+.ph-needle .ph-arrow{stroke:var(--heading);stroke-width:2.6}
+.ph-needle .ph-arrow.is-halo{stroke-width:12;stroke-opacity:.16;stroke-linecap:round;marker-end:none}
+.ph-needle .ph-label{fill:var(--heading);font-weight:600}
+.ph-toggle{display:flex;align-items:center;gap:8px;font:12px/1.5 var(--sans);color:var(--ink-soft);cursor:pointer}
+.ph-toggle input{accent-color:var(--blue);width:15px;height:15px;margin:0}
+.ph-hit{stroke:transparent;stroke-width:20;fill:none;pointer-events:stroke}
+.ph-vec{cursor:grab}
+.ph-vec[tabindex="-1"]{cursor:default}
+.ph-vec:hover .ph-arrow{stroke-width:3.6}
+.ph-vec:focus-visible .ph-arrow{stroke-width:4}
+.phasor .is-empty{display:none}
+.phasor-panel{display:flex;flex-direction:column;gap:14px;min-width:0}
+.phasor-table{width:100%;border-collapse:collapse;font:12px/1.5 var(--sans);font-variant-numeric:tabular-nums}
+.phasor-table caption{text-align:left;font:11px/1.6 var(--sans);color:var(--muted);padding-bottom:6px}
+.phasor-table th,.phasor-table td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}
+.phasor-table thead th{font-weight:600;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.phasor-table tbody th{text-align:left;font:13px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--ink)}
+.phasor-table td{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--ink-soft)}
+.phasor-table tbody tr:hover{background:var(--hover)}
+.two-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:34px 0 0;padding-top:26px;border-top:1px solid var(--line)}
+.two-controls .qubit-group{min-width:0}
+.two-controls [data-preset] sup{font-size:.72em}
+@media(max-width:1180px){
+  .two-summary{grid-template-columns:1fr 1fr}
+  .two-scale{grid-column:1/-1}
+  .two-controls{grid-template-columns:1fr 1fr}
+}
+@media(max-width:980px){
+  .phasor-layout{grid-template-columns:1fr}
+  .phasor{max-width:460px}
+}
+@media(max-width:760px){
+  .two-summary{grid-template-columns:1fr;gap:16px}
+  .two-controls{grid-template-columns:1fr}
+  .phasor-table th,.phasor-table td{padding:5px 5px}
+}
+@media print{.phasor-figure{break-inside:avoid}}

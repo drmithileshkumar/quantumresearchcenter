@@ -1,0 +1,39 @@
+/* The relative-state vectors figure on the observer research page. */
+.rv-figure{margin:28px 0;font:14px/1.5 var(--sans)}
+.rv-frame{max-width:460px;margin:0 auto}
+.rv-frame svg{display:block;width:100%;height:auto}
+.rv-key{margin:6px 0 0!important;font-size:12.5px!important;line-height:1.5;color:var(--muted)}
+.rv-zero-text{color:var(--blue);font-weight:600}
+.rv-one-text{color:var(--warm);font-weight:600}
+.rv-guide{fill:none;stroke:var(--line-strong)}
+.rv-axis{stroke:var(--field-border);stroke-width:1}
+.rv-axis-label{fill:var(--muted);font-size:14px}
+.rv-ellipse{fill:color-mix(in srgb,var(--violet) 9%,transparent);stroke:var(--violet);stroke-width:1.5;stroke-dasharray:5 3}
+line.rv-zero{stroke:var(--blue);stroke-width:2.5}
+line.rv-one{stroke:var(--warm);stroke-width:2.5}
+path.rv-zero,text.rv-zero{fill:var(--blue)}
+path.rv-one,text.rv-one{fill:var(--warm)}
+.rv-ray{stroke-width:1!important;stroke-dasharray:6 4;opacity:.75}
+.rv-link{stroke-width:1!important;stroke-dasharray:1.5 3;opacity:.9}
+circle.rv-basis.rv-zero{fill:var(--blue)}
+circle.rv-basis.rv-one{fill:var(--warm)}
+.rv-basis-line{stroke-width:1!important;opacity:.55}
+.rv-right-angle{fill:none;stroke:var(--muted);stroke-width:1}
+.rv-figure text{font-family:var(--sans);font-size:14px;font-weight:600}
+.rv-figure .rv-axis-label{font-weight:400}
+.rv-status{min-height:3em;margin:12px 0!important;font-size:14px!important;color:var(--heading)}
+.rv-buttons{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.rv-buttons button{font:13px/1.4 var(--sans);color:var(--ink);background:var(--card);border:1px solid var(--field-border);border-radius:6px;padding:6px 10px;cursor:pointer}
+.rv-buttons button:hover{background:var(--hover)}
+.rv-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 24px;margin:0 0 16px}
+.rv-controls label{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--ink-soft)}
+.rv-controls output{color:var(--heading);font-variant-numeric:tabular-nums}
+.rv-controls input{width:100%;margin:4px 0 0;accent-color:var(--blue);cursor:pointer}
+.rv-readout{display:flex;flex-wrap:wrap;gap:12px 32px;align-items:flex-start;font-size:13px}
+.rv-readout table{border-collapse:collapse;font-variant-numeric:tabular-nums}
+.rv-readout caption{text-align:left;color:var(--muted);padding-bottom:4px}
+.rv-readout th,.rv-readout td{padding:2px 10px;border:0;text-align:right;font-weight:400}
+.rv-readout th{color:var(--muted)}
+.rv-readout dl{margin:0;display:grid;grid-template-columns:auto auto;gap:2px 12px}
+.rv-readout dt{color:var(--muted)}
+.rv-readout dd{margin:0;font-variant-numeric:tabular-nums;color:var(--heading)}

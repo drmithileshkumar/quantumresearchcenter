@@ -52,7 +52,13 @@ def sensing(ax):
  ax.axhline(1/(2*np.e),color='#89949e',lw=1,ls=':')
  ax.set(xlabel='Interrogation time γt',ylabel='Total information × γ / (NT)')
  ax.legend(frameon=False,fontsize=10)
+def schmidt_tilt(ax):
+ p=np.linspace(.2,.8,1201);q=1-p
+ for eps,color,style in [(.5,BLUE,'-'),(.1,ORANGE,'--'),(.01,PURPLE,':')]:
+  ax.plot(p,np.degrees(np.arctan2(2*np.sqrt(p*q)*eps,np.abs(p-q))),color=color,ls=style,label=f'Record overlap {eps:g}')
+ ax.set(xlabel='Weight p of the first record',ylabel='Schmidt axis tilt (degrees)',xlim=(.2,.8),ylim=(0,95),yticks=[0,30,60,90])
+ ax.legend(frameon=False,fontsize=10)
 if __name__=='__main__':
  OUT.mkdir(exist_ok=True)
- for name,draw in [('environment-records',decoherence),('correlation-bounds',correlations),('search-rotation',search),('erasure-capacity',capacity),('coherent-control',control),('noisy-sensing',sensing)]:save(name,draw)
- print('Built six original research plots.')
+ for name,draw in [('environment-records',decoherence),('correlation-bounds',correlations),('search-rotation',search),('erasure-capacity',capacity),('coherent-control',control),('noisy-sensing',sensing),('schmidt-tilt',schmidt_tilt)]:save(name,draw)
+ print('Built seven original research plots.')
