@@ -129,12 +129,71 @@ def axis_label(point, text, center=ORIGIN, radius=RADIUS):
 
 
 def rotation_axis_geometry(point, center=ORIGIN, radius=RADIUS, prefix='bloch'):
-    """The diameter through n̂ and a ring at its tip, so the rotation axis is visible on the sphere."""
+    """The diameter through n̂, drawn under the state vector so the arrow always stays legible."""
     tip = project(point, center, radius)
     tail = project((-point[0], -point[1], -point[2]), center, radius)
     return (f'<line class="bloch-rotation-axis" id="{prefix}-naxis" x1="{tail[0]:.1f}" y1="{tail[1]:.1f}"'
-            f' x2="{tip[0]:.1f}" y2="{tip[1]:.1f}"/>'
-            f'<circle class="bloch-rotation-pole" id="{prefix}-npole" cx="{tip[0]:.1f}" cy="{tip[1]:.1f}" r="4.5"/>')
+            f' x2="{tip[0]:.1f}" y2="{tip[1]:.1f}"/>')
+
+
+def rotation_axis_marker(point, center=ORIGIN, radius=RADIUS, prefix='bloch', angles=AXIS_ANGLES):
+    """The ring, label and grab target at the tip of n̂, drawn above the state vector."""
+    tip = project(point, center, radius)
+    return (f'<circle class="bloch-rotation-pole" id="{prefix}-npole" cx="{tip[0]:.1f}" cy="{tip[1]:.1f}" r="5"/>'
+            f'{rotation_axis_label(tip, center, prefix)}'
+            + angle_label(point, f'θₙ {angles[0]}° · φₙ {angles[1]}°', center, radius, prefix,
+                          'axis-angles', 'bloch-axis-angle', -20, 29)
+            + f'{rotation_axis_handle(point, center, radius, prefix)}')
+
+
+def rotation_axis_label(tip, center=ORIGIN, prefix='bloch'):
+    """The n̂ label, set just beyond the tip and to one side so it never lands on a basis-state label.
+
+    The projection of n̂ is foreshortened: an axis pointing at the camera projects close to the
+    centre, so the offset is measured from the tip rather than from the centre.
+    """
+    dx, dy = tip[0] - center[0], tip[1] - center[1]
+    distance = math.hypot(dx, dy)
+    ux, uy = (dx / distance, dy / distance) if distance > 1 else (0.0, -1.0)
+    x = tip[0] + ux * 12 + uy * 20
+    y = tip[1] + uy * 12 - ux * 20
+    return (f'<text class="bloch-rotation-label" id="{prefix}-nlabel" x="{x:.1f}" y="{y:.1f}"'
+            f' text-anchor="middle" dy="4">n̂</text>')
+
+
+def angle_label(point, text, center=ORIGIN, radius=RADIUS, prefix='bloch', ident='state-angles',
+                cls='bloch-angle', offset=16, half=26):
+    """A faint θ and φ label beside a vector's tip, clear of its shaft and inside the drawing.
+
+    `offset` is the sideways distance from the tip; its sign picks the side. `half` is half the
+    estimated text width, used to keep the label inside the 400 × 400 view box.
+    """
+    x, y = project(point, center, radius)
+    dx, dy = x - center[0], y - center[1]
+    distance = math.hypot(dx, dy)
+    if distance < 12:
+        # The vector points at the camera: it projects onto the centre and has no screen direction.
+        lx, ly, anchor = center[0] - 16, center[1] + 18, 'end'
+    else:
+        side = dy * offset / distance
+        lx = x + side
+        ly = y - dx * offset / distance
+        anchor = 'middle' if abs(side) < 2 else ('start' if side > 0 else 'end')
+    if anchor == 'start':
+        lx = min(lx, 396 - 2 * half)
+    elif anchor == 'end':
+        lx = max(lx, 4 + 2 * half)
+    else:
+        lx = min(max(lx, 4 + half), 396 - half)
+    return (f'<text class="{cls}" id="{prefix}-{ident}" x="{lx:.1f}" y="{ly:.1f}"'
+            f' text-anchor="{anchor}" dy="4">{text}</text>')
+
+
+def rotation_axis_handle(point, center=ORIGIN, radius=RADIUS, prefix='bloch'):
+    """A wider invisible target over the tip of n̂, drawn last so the pointer finds it first."""
+    tip = project(point, center, radius)
+    return (f'<circle class="bloch-rotation-handle" id="{prefix}-nhandle" cx="{tip[0]:.1f}"'
+            f' cy="{tip[1]:.1f}" r="18"/>')
 
 
 def state_geometry(theta_deg, phi_deg, center=ORIGIN, radius=RADIUS, prefix='bloch'):
@@ -150,7 +209,8 @@ def state_geometry(theta_deg, phi_deg, center=ORIGIN, radius=RADIUS, prefix='blo
             f' x2="{foot[0]:.1f}" y2="{foot[1]:.1f}"/>'
             f'<line class="bloch-vector" id="{prefix}-arrow" x1="{origin[0]:.1f}" y1="{origin[1]:.1f}"'
             f' x2="{tip[0]:.1f}" y2="{tip[1]:.1f}"/>'
-            f'<circle class="bloch-tip" id="{prefix}-tip" cx="{tip[0]:.1f}" cy="{tip[1]:.1f}" r="6"/>')
+            f'<circle class="bloch-tip" id="{prefix}-tip" cx="{tip[0]:.1f}" cy="{tip[1]:.1f}" r="6"/>'
+            + angle_label(tip_3d, f'θ {theta_deg:.0f}° · φ {phi_deg:.0f}°', center, radius, prefix))
 
 
 def sphere_grid(center=ORIGIN, radius=RADIUS):
@@ -191,6 +251,7 @@ def sphere_svg(title, desc, prefix='bloch', center=ORIGIN, radius=RADIUS,
             f'{rotation_axis_geometry(rotation_axis(*AXIS_ANGLES), center, radius, prefix)}'
             f'{state_geometry(0, 0, center, radius, prefix)}'
             f'<circle class="bloch-origin" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="2.5"/>'
+            f'{rotation_axis_marker(rotation_axis(*AXIS_ANGLES), center, radius, prefix)}'
             '</svg>')
 
 
@@ -198,8 +259,9 @@ def bloch_svg():
     axis = rotation_axis(*AXIS_ANGLES)
     return sphere_svg('Bloch sphere for the current qubit state',
                       'The Bloch sphere with the state vector pointing at the north pole, θ = 0°, φ = 0°.'
-                      ' The probability of outcome 0 is 1.000 and of outcome 1 is 0.000. The dashed diameter'
-                      ' marks the rotation axis n̂, now at (' + ', '.join(f'{value:.3f}' for value in axis) + ').')
+                      ' The probability of outcome 0 is 1.000 and of outcome 1 is 0.000. Faint labels beside'
+                      ' the arrows give their θ and φ. The green dashed diameter marks the rotation axis n̂, now at ('
+                      + ', '.join(f'{value:.3f}' for value in axis) + '); drag its handle to aim it.')
 
 
 # Two-qubit explorer: every vector of the state in one complex plane. The four amplitudes are the
@@ -487,30 +549,20 @@ def rotation_controls():
                       f'<dd id="u-{row}{column}">{complex_text(matrix[row][column])}</dd></div>'
                       for row in (0, 1) for column in (0, 1))
     return ('<fieldset class="qubit-group"><legend>Apply any unitary</legend>'
-            '<p class="slider-hint">Every gate is a turn of the arrow by θ about a unit axis n̂, times an'
-            r' overall phase γ: \(U=e^{i\gamma}\bigl(\cos\tfrac{\theta}{2}I-i\sin\tfrac{\theta}{2}\,n\!\cdot\!\sigma\bigr)\).'
-            ' Set the three numbers, then apply them to the current state.</p>'
+            '<p class="rotation-formula">'
+            r'\(U=e^{i\gamma}\bigl(\cos\tfrac{\theta}{2}I-i\sin\tfrac{\theta}{2}\,n\!\cdot\!\sigma\bigr)\)</p>'
             '<div class="slider-row"><label for="axis-theta">θₙ <span class="slider-note">axis polar</span></label>'
-            f'<input id="axis-theta" type="range" min="0" max="180" step="1" value="{AXIS_ANGLES[0]}"'
-            ' aria-describedby="axis-hint">'
+            f'<input id="axis-theta" type="range" min="0" max="180" step="1" value="{AXIS_ANGLES[0]}">'
             f'<output id="axis-theta-value" for="axis-theta">{AXIS_ANGLES[0]}°</output></div>'
             '<div class="slider-row"><label for="axis-phi">φₙ <span class="slider-note">axis azimuth</span></label>'
             f'<input id="axis-phi" type="range" min="0" max="360" step="1" value="{AXIS_ANGLES[1]}">'
             f'<output id="axis-phi-value" for="axis-phi">{AXIS_ANGLES[1]}°</output></div>'
-            '<p class="slider-hint" id="axis-hint">θₙ = 0° puts n̂ on the z axis and 90° on the equator,'
-            ' where φₙ = 0° is x and 90° is y. The dashed diameter on the sphere marks n̂.</p>'
             '<div class="slider-row"><label for="rot-theta">θ <span class="slider-note">rotation angle</span></label>'
-            f'<input id="rot-theta" type="range" min="0" max="360" step="1" value="{ROTATION_ANGLE}"'
-            ' aria-describedby="rot-theta-hint">'
+            f'<input id="rot-theta" type="range" min="0" max="360" step="1" value="{ROTATION_ANGLE}">'
             f'<output id="rot-theta-value" for="rot-theta">{ROTATION_ANGLE}°</output></div>'
-            '<p class="slider-hint" id="rot-theta-hint">A full turn, θ = 360°, gives −I: the arrow returns'
-            ' to the same point with both amplitudes negated.</p>'
             '<div class="slider-row"><label for="rot-gamma">γ <span class="slider-note">global phase</span></label>'
-            f'<input id="rot-gamma" type="range" min="0" max="360" step="1" value="{ROTATION_PHASE}"'
-            ' aria-describedby="rot-gamma-hint">'
+            f'<input id="rot-gamma" type="range" min="0" max="360" step="1" value="{ROTATION_PHASE}">'
             f'<output id="rot-gamma-value" for="rot-gamma">{ROTATION_PHASE}°</output></div>'
-            '<p class="slider-hint" id="rot-gamma-hint">γ multiplies both amplitudes together: α and β'
-            ' turn, while the arrow and the probabilities stay where they are.</p>'
             '<div class="qubit-buttons rotation-presets">'
             + ''.join(f'<button type="button" data-axis-theta="{polar}" data-axis-phi="{azimuth}"'
                       f' title="Point n̂ at the {label} axis">{label}</button>'
@@ -518,10 +570,7 @@ def rotation_controls():
             + '<button type="button" id="apply-rotation">Apply U</button></div>'
             '<p class="rotation-readout" id="axis-vector">n̂ = ('
             + ', '.join(complex_text(complex(value)) for value in axis) + ')</p>'
-            '<dl class="qubit-values rotation-matrix">' + entries + '</dl>'
-            '<p class="slider-hint">These four entries are the matrix the sliders build. Apply U turns the'
-            ' arrow to it over about two seconds: the light dotted circle is the full orbit about n̂, and the'
-            ' darker arc the part the rotation actually swept.</p></fieldset>')
+            '<dl class="qubit-values rotation-matrix">' + entries + '</dl></fieldset>')
 
 
 def render_tools(root, shell):
@@ -557,15 +606,11 @@ def render_tools(root, shell):
 
     sliders = ('<fieldset class="qubit-group"><legend>Angles</legend>'
                '<div class="slider-row"><label for="theta">θ <span class="slider-note">polar angle</span></label>'
-               '<input id="theta" type="range" min="0" max="180" step="1" value="0" aria-describedby="theta-hint">'
+               '<input id="theta" type="range" min="0" max="180" step="1" value="0">'
                '<output id="theta-value" for="theta">0°</output></div>'
-               '<p class="slider-hint" id="theta-hint">0° points at |0⟩, 180° at |1⟩, and 90° puts the state on'
-               ' the equator.</p>'
                '<div class="slider-row"><label for="phi">φ <span class="slider-note">azimuth</span></label>'
                '<input id="phi" type="range" min="0" max="360" step="1" value="0">'
-               '<output id="phi-value" for="phi">0° (0.00π)</output></div>'
-               '<p class="slider-hint">φ turns the state around the vertical axis; on its own it never changes'
-               ' P(0).</p></fieldset>')
+               '<output id="phi-value" for="phi">0° (0.00π)</output></div></fieldset>')
     presets = ('<fieldset class="qubit-group"><legend>Prepare a state</legend><div class="qubit-buttons">'
                + ''.join(f'<button type="button" data-preset data-theta="{theta}" data-phi="{phi}">{label}</button>'
                          for label, theta, phi in PRESETS)
@@ -573,29 +618,27 @@ def render_tools(root, shell):
     gates = ('<fieldset class="qubit-group"><legend>Apply a gate</legend><div class="qubit-buttons">'
              + ''.join(f'<button type="button" data-gate="{name}" title="{hint}">{name}</button>'
                        for name, hint in GATES)
-             + '</div><p class="slider-hint">Gates act on the current state, so the same button has a different'
-             ' effect at different points. The default order is X, Y, Z, H, S, T; H twice returns the state to'
-             ' where it started.</p></fieldset>')
+             + '</div></fieldset>')
     measurement = ('<fieldset class="qubit-group"><legend>Measurement</legend><div class="qubit-buttons">'
                    '<button type="button" id="measure">Measure qubit</button>'
                    '<button type="button" id="reset" title="Return to |0⟩ and clear the counts">Reset</button>'
-                   '</div><p class="measure-result" id="measure-result">A measurement in the computational basis'
-                   ' returns 0 or 1 with probabilities |α|² and |β|², and leaves the qubit in the state it'
-                   ' found.</p><p class="measure-tally" id="measure-tally">No measurements yet.</p>'
+                   '</div><p class="measure-result" id="measure-result">Measure in the computational basis.'
+                   '</p><p class="measure-tally" id="measure-tally">No measurements yet.</p>'
                    '<p class="sr-only" id="state-status" role="status" aria-live="polite"></p></fieldset>')
     tool_body = ('<header class="editorial-intro compact qubit-intro"><p class="eyebrow">Tools / Single-qubit state</p>'
                  '<h1>One qubit, one sphere.</h1>'
                  '<p>A pure state of a single qubit has two physical angles. Drag the arrow on the Bloch sphere, or'
-                 ' set θ and φ directly, then apply a gate — a fixed one, or any unitary you build from its axis,'
-                 ' angle and phase — measure the qubit, and watch the amplitudes follow.</p>'
+                 ' set θ and φ directly. The green n̂ handle chooses the axis any unitary turns about: drag it, or'
+                 ' set its two angles. Then apply a gate — a fixed one, or one you build from that axis, angle and'
+                 ' phase — measure the qubit, and watch the amplitudes follow.</p>'
                  '</header>'
                  '<section class="qubit-lab" aria-labelledby="lab-heading">'
                  '<h2 class="sr-only" id="lab-heading">Single-qubit state explorer</h2>'
                  f'<figure class="bloch-figure">{bloch_svg()}'
-                 '<figcaption>Drag anywhere on the sphere to point the state vector; the dashed diameter marks'
-                 ' the rotation axis n̂, and Apply U turns the arrow slowly, leaving the full orbit as a light'
-                 ' dotted circle and the part it swept as a darker arc. Keyboard users can set every angle with'
-                 ' the sliders.</figcaption></figure>'
+                 '<figcaption>Drag anywhere on the sphere to point the state vector, or drag the green n̂ handle'
+                 ' to aim the rotation axis; Apply U turns the arrow slowly about n̂, leaving the full orbit as a'
+                 ' light dotted circle and the part it swept as a darker arc. Keyboard users can set every angle'
+                 ' with the sliders.</figcaption></figure>'
                  '<div class="qubit-panel"><div class="qubit-state"><p class="qubit-kicker">Current state</p>'
                  '<p class="qubit-ket" id="state-ket">|0⟩</p><dl class="qubit-values">'
                  '<div><dt>α</dt><dd id="state-alpha">1.000</dd></div>'

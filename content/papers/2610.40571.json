@@ -1,0 +1,48 @@
+{
+  "id": "2610.40571",
+  "topic": "foundations",
+  "title": "On the Quantum Chromatic Gap II",
+  "authors": "Lorenzo Ciardo; Antoine Mottet",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Two separated players can use entanglement to win the graph colouring game with fewer colours than the graph's chromatic number. Since 1999 the largest known separation had the classical chromatic number exponential in the quantum one. Is the classical number bounded by any function of the quantum number, so that enough extra colours would always replace entanglement?",
+  "result": "No. For every \\(c\\) there is a graph with quantum chromatic number 3 and classical chromatic number above \\(c\\). The route is a proof, for every \\(d\\ge4\\), of a conjecture of Ciardo: there are \\(d\\)-to-1 games of arbitrarily small classical value with perfect finite-dimensional quantum strategies whose measurements commute on arbitrarily large neighbourhoods.",
+  "significance": "The gap between classical and quantum colouring is unbounded, so no number of additional colours lets classical players simulate entangled ones in general. The value 3 cannot be lowered, since quantum chromatic number 2 already forces a graph to be bipartite. The method also carries a nonlocal game through the reductions built for NP-hardness, with the magic square in the place of the PCP theorem.",
+  "limitations": "The graphs are not described explicitly, and both they and the entangled dimension are enormous; the authors say the dimension must grow without bound as the classical value tends to zero. Nothing here is an experiment. Small or explicit witnesses remain open, as does the conjecture for \\(d=2,3\\). The proof depends on the Fei–Minzer–Wang soundness analysis, used as a black box, and on the first author's earlier chain of reductions. We read Sections 1, 2.4, 3, 4 and the start of 8 closely. For the quantum completeness proofs of Sections 5–7 we rely on the authors' overview and did not check them.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1, 2.4, 3, 4 and the start of 8 of the linked arXiv version, read 2026-10-31; Sections 5–7 are described from the authors' overview in Section 1 and were not checked.",
+  "verified_on": "2026-10-31",
+  "methods_source_section": "Sections 1, 2.4, 3, 4 and 8 (Definition 3.1, Propositions 3.3, 3.4, 3.6 and 4.3)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "In the colouring game a verifier sends vertices to two separated players, who must answer with equal colours on equal vertices and different colours on adjacent ones. Without entanglement they can always win exactly when the graph has a proper colouring with the allowed colours, so the threshold is \\(\\chi(G)\\). With shared entanglement the threshold is \\(\\chi_q(G)\\le\\chi(G)\\). Brassard, Cleve and Tapp obtained \\(\\chi\\) exponential in \\(\\chi_q\\) on Hadamard graphs. A later theorem bounded \\(\\chi\\) exponentially in the number of colours for rank-one measurements, which suggested that the exponential gap might be the truth.",
+    "Ciardo showed in earlier work that the gap would be unbounded if a strong pseudo-telepathy statement held for Khot's \\(d\\)-to-1 label-cover games. A \\(d\\)-to-1 game requires the answer to one question to be the image of the answer to the other under a fixed \\(d\\)-to-1 map. The statement asks for games with classical value below any \\(\\epsilon\\), yet with a perfect quantum strategy that is \\(k\\)-compatible: measurements for questions at distance at most \\(k\\) in the constraint graph commute. Such a strategy looks classical on every small neighbourhood and has no good classical global version.",
+    "Large \\(k\\) is not decoration. When a quantum strategy is pushed through the reductions from games to graphs, it loses commutativity: one transformation halves the compatibility, and each round of the line-digraph construction roughly halves it again. A strategy must therefore start with large contexts in order to reach the end at all.",
+    "The proof builds these strategies in stages. It stretches the Mermin–Peres magic square, applies parallel repetition to lower the classical value, passes to a multi-layered Kneser hypergraph with chromatic number above any \\(c\\) and a perfect \\(k\\)-compatible quantum 2-colouring, and feeds that hypergraph into the Fei–Minzer–Wang reduction, which yields at most 4-to-1 games. The authors show each step preserves perfect quantum strategies and compatibility. Since soundness concerns only classical players, the known analysis applies unchanged. The authors remark that a statement with no computational content has so far been reached only through hardness-of-approximation machinery, and they leave a direct construction open."
+  ],
+  "methods": [
+    {
+      "technique": "Stretching a contextuality proof with wires of trivial equations",
+      "explanation": "In the magic square a row and a column sharing a variable are at distance 2 in the constraint graph, and their measurements do not commute, so the quantum strategy is only 1-compatible. The paper moves the noncommuting pairs far apart by inserting equations that carry a variable's value along a wire.",
+      "math": [
+        "Split each variable \\(x_{rs}\\) into \\(x^{(0)}_{rs},\\dots,x^{(\\lambda)}_{rs}\\), with \\(x^{(0)}\\) in the row equation and \\(x^{(\\lambda)}\\) in the column equation. For each step add two equations: \\[x^{(i-1)}+y^{(i)}+z^{(i)}=0,\\qquad x^{(i)}+y^{(i)}+z^{(i)}=0.\\] Together they force \\(x^{(i-1)}=x^{(i)}\\). Every variable now occurs in exactly two equations, so adding all equations cancels every variable and leaves \\(0=1\\), as in the original square. The system stays classically unsatisfiable.",
+        "The quantum strategy on a wire is almost trivial. Every \\(x^{(i)}\\) and \\(z^{(i)}\\) receives the original measurement \\(P_{rs}\\), and \\(y^{(i)}\\) is deterministically 0. Everything assigned to one wire then lies in the commutative algebra generated by \\(P_{rs}\\). The only remaining sources of noncommutativity are the six original equations.",
+        "A walk between two distinct original equations has length at least \\(4\\lambda+2\\), so a shortest path of length at most \\(4\\lambda+1\\) contains at most one of them. If it contains one, equation \\(u\\), all assigned projectors lie in the commutative algebra of \\(u\\). Hence the strategy is \\(k\\)-compatible for all \\(k\\le4\\lambda+1\\).",
+        "Editorial check: we built the system over \\(\\mathbb F_2\\) for \\(\\lambda=1,2,3\\). It has the stated \\(6+18\\lambda\\) equations and \\(9+27\\lambda\\) variables, it is unsolvable, removing any single equation makes it solvable, and the distance between original equations is exactly \\(4\\lambda+2\\). With the standard Pauli square, the row products are \\(+I\\), the column products are \\(+I,+I,-I\\), and \\(P_{12}\\) and \\(P_{21}\\) do not commute, so a row and a column sharing a wire really are noncommuting at that distance and the compatibility cannot be raised by this argument."
+      ],
+      "transfer": "If a resource is used up only at a few places in a constraint system, try separating those places with constraints the strategy satisfies trivially. The cost shows up in the classical value, which here is \\(1-1/(18+54\\lambda)\\), so the stretching must be followed by a step that restores the gap."
+    },
+    {
+      "technique": "Parallel repetition with a tensor-power strategy",
+      "explanation": "Stretching pushes the classical value towards 1. Raz's theorem lowers it again, and the paper checks that the repetition does not damage the quantum strategy or its compatibility.",
+      "math": [
+        "The \\(n\\)-fold repetition asks \\(n\\) independent questions at once. Since the stretched game has value below 1, Raz's theorem gives \\[\\mathrm{sat}(\\Phi^{\\otimes n})\\le2^{-\\gamma_\\Phi n}\\] with some \\(\\gamma_\\Phi>0\\). The order of choices matters, because \\(\\gamma_\\Phi\\) depends on the game: first choose \\(\\lambda\\) from the required \\(k\\), and only then choose \\(n\\) from the required \\(\\epsilon\\).",
+        "The quantum strategy is \\(Q^{\\otimes n}_{\\bar x,\\bar a}=\\bigotimes_sQ_{\\bar x_s,\\bar a_s}\\). If a pair of answers violates the repeated predicate, it violates some coordinate \\(s\\), and that tensor factor of the product vanishes, so the strategy stays perfect.",
+        "For compatibility, adjacent tuples are adjacent in every coordinate, so \\(\\mathrm{dist}_\\Phi(\\bar x_s,\\bar x^\\prime_s)\\le\\mathrm{dist}_{\\Phi^{\\otimes n}}(\\bar x,\\bar x^\\prime)\\). Two questions at distance at most \\(k\\) therefore have commuting measurements in each coordinate, and tensor products of commuting operators commute."
+      ],
+      "transfer": "Repetition amplifies classical soundness while leaving perfect quantum strategies intact, because perfection is a statement about vanishing products and those survive tensoring. This does not extend to imperfect strategies, whose quantum value also decays under repetition."
+    }
+  ],
+  "approved_on": "2026-10-31"
+}

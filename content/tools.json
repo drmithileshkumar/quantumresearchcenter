@@ -6,10 +6,11 @@
       "kind": "Visualizer",
       "title": "Single-qubit state visualizer",
       "href": "tools/single-qubit.html",
-      "summary": "Point a qubit state on the Bloch sphere by dragging or by setting its two angles. Apply the named gates or any unitary you build from its rotation axis, angle and phase, measure the qubit, and read the amplitudes behind the picture.",
+      "summary": "Point a qubit state on the Bloch sphere by dragging or by setting its two angles. Aim the axis of any unitary with the green n̂ handle, apply the named gates or a gate you build from that axis, angle and phase, measure the qubit, and read the amplitudes behind the picture.",
       "features": [
         "Bloch sphere",
         "Gates X, Y, Z, H, S, T",
+        "Draggable rotation axis n̂",
         "Any unitary from n, θ and γ",
         "Measurement and collapse",
         "Amplitudes α and β"

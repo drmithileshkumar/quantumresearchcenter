@@ -1,0 +1,49 @@
+{
+  "id": "2610.40623",
+  "topic": "information",
+  "title": "Optimal Diamond Distance Estimation for Unitary Channels",
+  "authors": "Jinge Bao; Qisheng Wang",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "The diamond distance between two channels sets the best single-use probability of distinguishing them, and it is the usual measure of implementation error. Given only black-box access to \\(d\\)-dimensional unitaries \\(U\\) and \\(V\\) and their inverses, how many queries are needed to estimate it to additive error \\(\\varepsilon\\)? The known bounds were \\(O(d\\log^2d/\\varepsilon)\\) and \\(\\Omega(\\sqrt d/\\varepsilon)\\).",
+  "result": "\\(O(\\sqrt d/\\varepsilon)\\) queries suffice, with success probability at least \\(2/3\\). This matches the lower bound of Jeon and Oh for certification, so the query complexity is settled up to a constant. The algorithm needs no controlled access to \\(U\\) or \\(V\\) and no assumption on where the spectrum lies.",
+  "significance": "A complete characterisation of a basic benchmarking task, obtained without tomography, which costs \\(\\Theta(d^2/\\varepsilon)\\) in this metric. It reproduces the certification upper bound by a different method, and it gives the actual distance rather than a yes/no answer. The way it replaces controlled access with a controlled swap may be useful in other spectral problems.",
+  "limitations": "The result applies to unitary channels only and requires both inverses. A dimension factor of \\(\\sqrt d\\) is exponential in qubit number, so this is no shortcut for benchmarking large devices. The bound counts queries; the algorithm also needs two extra \\(d\\)-dimensional registers beyond the reference. We read Sections 1–3, with the final probability averaging only in part; the search lemma adapted from earlier work relies on that work's analysis, which we did not rederive.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–3 of the linked arXiv version, read 2026-10-31; the search construction adapted from earlier work (Lemma 2.5) was taken as stated, not rederived from its source.",
+  "verified_on": "2026-10-31",
+  "methods_source_section": "Sections 1–3 (Proposition 2.3, Lemmas 2.5, 3.1, 3.2 and 3.3, Algorithm 1, Theorem 1.1)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "For unitary channels the diamond distance depends only on the relative unitary \\(W=U^\\dagger V\\): \\[\\lVert\\mathcal U-\\mathcal V\\rVert_\\diamond=2\\sin\\frac{\\omega(W)}2,\\] where \\(\\omega=\\min\\{\\ell,\\pi\\}\\) and \\(\\ell\\) is the length of the shortest arc containing the spectrum of \\(W\\). The task is therefore to measure a spectral width, which involves two extreme eigenvalues of an unknown operator, while a global phase of \\(W\\) carries no meaning.",
+    "An earlier spectrum estimator obtains this with \\(O(d\\log^2d/\\varepsilon)\\) queries by learning the eigenphases. A related algorithm finds the maximum eigenphase with \\(O(\\sqrt d/\\varepsilon)\\) queries, but it assumes controlled access and a spectrum confined to a known quarter of the circle. Neither assumption is available here. The controlled operator is undefined without fixing a phase, and the unknown spectrum can sit anywhere.",
+    "The algorithm keeps a reference register holding an unknown eigenvector of \\(W\\) and measures all phases relative to it, shifted so that the reference sits at \\(\\pi\\). The shifted phases then form an interval, avoiding the point where angles wrap, unless the width is near \\(\\pi\\). It estimates the largest shifted phase, and separately the largest for \\(W^{-1}\\), by interval search whose comparison step is a Grover-type search over the eigenbasis through a maximally entangled state. Their sum gives the width.",
+    "The cost is optimal up to a constant in both \\(d\\) and \\(\\varepsilon\\). The paper does not treat general non-unitary channels, to which this spectral formula does not apply."
+  ],
+  "methods": [
+    {
+      "technique": "Relative phases without controlled access",
+      "explanation": "Phase estimation needs controlled applications of an operator, and for a black box with an undefined global phase that operator does not exist. A controlled swap between two registers supplies a version that is well defined relative to a reference eigenvector.",
+      "math": [
+        "Conjugate \\(W\\) on register A by a swap controlled on qubit C, then apply \\(Z\\) on C. Since the swap moves \\(W\\) from A to B, this gives \\[|0\\rangle\\langle0|\\otimes W_A\\otimes I_B-|1\\rangle\\langle1|\\otimes I_A\\otimes W_B,\\] using two queries. On \\(|c\\rangle|u_r\\rangle|u_j\\rangle\\) it acts as \\(e^{i\\theta_r}e^{ic\\phi_{j,r}}\\) with \\(\\phi_{j,r}=(\\theta_j-\\theta_r+\\pi)\\bmod2\\pi\\). With A fixed, this is a controlled operation with eigenphase \\(\\phi_{j,r}\\) and an irrelevant overall phase.",
+        "The register A starts in a random computational basis state, which is a superposition of eigenvectors, and it is never measured. Every step leaves each eigenvector in A unchanged, so the analysis holds for each reference \\(r\\) and then averages. The reference eigenvalue need not be known.",
+        "The formula for the distance has a short editorial derivation. For a pure input, the output difference has trace norm \\(2\\sqrt{1-|\\langle\\psi|W|\\psi\\rangle|^2}\\), and \\(\\langle\\psi|W|\\psi\\rangle\\) ranges over the convex hull of the spectrum. If the spectrum fits on an arc of length \\(\\ell<\\pi\\), the closest point to the origin lies on the chord between its ends, at distance \\(\\cos(\\ell/2)\\), giving \\(2\\sin(\\ell/2)\\). Otherwise the hull contains the origin and the value is 2.",
+        "Editorial check: over 3,000 random spectra, the distance from the origin to the hull matched this formula to \\(2\\times10^{-13}\\). The routing identity held exactly for a random \\(3\\times3\\) unitary, and Lemma 3.1 (the width equals the spread of shifted phases, truncated at \\(\\pi\\)) held for every reference in 20,000 random spectra."
+      ],
+      "transfer": "If a quantity is invariant under a global phase, try referencing it to a retained eigenvector rather than fixing the phase. A controlled swap is the reusable piece. It requires a spare register of the full dimension and costs two queries instead of one."
+    },
+    {
+      "technique": "Using the flatness of the distance near its maximum",
+      "explanation": "Phases near the wrap point break the interval search, and resolving them to accuracy \\(\\varepsilon\\) would add cost. Near that point the distance is close to 2 and depends on the width only quadratically, so accuracy \\(\\sqrt\\varepsilon\\) is enough.",
+      "math": [
+        "Set \\(\\gamma=\\sqrt\\varepsilon/4\\) and \\(h=\\varepsilon/4\\). Let \\(a\\) be the distance from the shifted phases to the cut. If \\(a\\ge2\\gamma\\), the estimates of the largest phase and of the smallest (through \\(W^{-1}\\)) are accurate to \\(h/2\\) each, and truncation and \\(2\\sin(x/2)\\) are 1-Lipschitz, so the output has error at most \\(\\varepsilon/4\\).",
+        "If \\(a<2\\gamma\\), some phase is nearly antipodal to the reference, so \\(\\omega\\ge\\pi-a\\) and the true distance is at least \\(2\\cos\\gamma\\). The one-sided guarantee puts the estimate at least \\(2\\cos(\\gamma+h/2)\\). Both values lie in a short interval below 2, so \\[|\\widehat D-D|\\le2-2\\cos(\\gamma+h/2)\\le(\\gamma+h/2)^2\\le\\varepsilon.\\]",
+        "Each interval-search round reduces the width by \\(5/8\\), using precision \\(s_k=\\min\\{\\gamma,w_k/8\\}/20\\). A round costs \\(O(\\sqrt d\\,s_k^{-1}\\log(1/\\delta_k))\\) queries, so the total is \\[O\\!\\left(\\sqrt d\\left(\\frac{K\\log(1/\\delta)+K^2}{\\gamma}+\\frac{\\log(1/\\delta)}{h}\\right)\\right),\\qquad K=O(\\log(1/\\varepsilon)).\\] The \\(1/\\gamma\\) term has polylogarithmic factors, but it is only \\(\\sqrt{1/\\varepsilon}\\), so \\(\\sqrt\\varepsilon\\,\\log^2(1/\\varepsilon)\\) stays bounded and the total is \\(O(\\sqrt d/\\varepsilon)\\). The geometric rounds of the \\(1/h\\) term sum without an extra logarithm.",
+        "Editorial remark: at \\(\\varepsilon=1/4\\) the quadratic bound \\((\\gamma+h/2)^2\\approx0.024\\) leaves plenty of room against \\(\\varepsilon\\), so the chosen constants are not tight. The important point is the exponent: the \\(\\sqrt\\varepsilon\\) scale is exactly what removes the logarithms that a uniform precision would incur."
+      ],
+      "transfer": "Before asking for uniform precision, look at where the target function is flat. Coarser estimates there can pay for logarithmic overhead elsewhere. The approach needs a one-sided guarantee that stays valid in the coarse region."
+    }
+  ],
+  "approved_on": "2026-10-31"
+}

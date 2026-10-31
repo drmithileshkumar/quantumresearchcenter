@@ -1,0 +1,48 @@
+{
+  "id": "2610.40361",
+  "topic": "computing",
+  "title": "Rapid mixing for Gibbs samplers for quantum spin systems with all-to-all interactions",
+  "authors": "Nicola Bertoni; Giacomo De Palma",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "A Lindbladian can keep a Gibbs state stationary and still approach it too slowly to be useful. Earlier logarithmic mixing proofs at high temperature depended on geometry or on bounds for the growth of the interaction graph, which degrade badly on dense graphs. How much of that dependence is necessary for two-body qubit Hamiltonians?",
+  "result": "None of the graph growth is needed. If \\(\\beta\\Lambda<1/100\\), where \\(\\Lambda\\) is the largest total interaction strength at any qubit, the KMS-balanced sampler of Bakshi, Liu, Moitra and Tang reaches trace-norm error \\(\\varepsilon\\) from any initial state by time \\(\\frac13\\log(2n/\\varepsilon)\\). On the complete graph with couplings scaled by \\(1/\\sqrt{n-1}\\), the allowed \\(\\beta\\) scales as \\(n^{-1/2}/J\\), against \\(n^{-5/2}/J\\) from the earlier theorem.",
+  "significance": "Dense and sparse two-body systems fall under one criterion, which keeps individual coupling strengths and asks nothing about geometry. The condition does not require \\(\\beta\\lVert H\\rVert\\) to be small, and that quantity may grow linearly in \\(n\\). The logarithmic bound also compares with the \\(O(n+\\log(1/\\varepsilon))\\) trace-norm bound known from a gap argument for a different sampler, though that earlier work covers a broader class of interactions.",
+  "limitations": "The result covers two-body qubit Hamiltonians at high temperature, with constant-factor room between \\(1/100\\) and any true threshold. It bounds evolution time under an extensive generator, which is not a circuit cost; implementing the evolution must be accounted for separately. It does not give guarantees uniform in arbitrary on-site fields, which another recent sampler has. We read the introduction, the sampler definition, the Dobrushin framework and the final theorem closely; the long estimates of Section 5, which carry the technical weight, were not checked.",
+  "status": "approved",
+  "summary_basis": "Description based on Section 1, Definition 3.5, Lemma 3.3, the start of Section 4, Proposition 6.1 and Theorem 6.2 of the linked arXiv version, read 2026-10-31; the estimates of Section 5 were not checked.",
+  "verified_on": "2026-10-31",
+  "methods_source_section": "Sections 1, 3, 4 and 6 (Definitions 3.5 and 4.1, Lemmas 3.3 and 4.3, Proposition 6.1, Theorem 6.2)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The model has \\(n\\) qubits and \\(H=\\sum_{i<j}H_{i,j}\\), with noncommuting terms allowed and no spatial arrangement assumed. The control parameter is \\[\\Lambda=\\max_i\\sum_{j\\ne i}\\lVert H_{i,j}\\rVert.\\] This separates a qubit with many weak partners from one with many strong partners, which an unweighted degree cannot do. The dynamics is the sampler of Bakshi et al., with a jump operator \\(A^P=\\sigma^{1/4}P\\sigma^{-1/4}\\) for each single-site Pauli \\(P\\) and a coherent correction \\(G^P\\) that gives KMS detailed balance.",
+    "Classically, Dobrushin's theory measures how much changing one spin affects the update of another; if the combined influences are small, disturbances die out. The quantum replacement uses the Wasserstein distance of order 1, which resolves a difference of states into single-site contributions. A Dobrushin matrix records how an update at site \\(i\\) responds to a perturbation at site \\(j\\), and if its \\(1\\to1\\) norm is below 1, the dynamics contracts in this distance.",
+    "The main theorem verifies this condition at \\(\\beta\\Lambda<1/100\\). The dissipative part supplies a local contraction of 4 units at each site, plus errors that vanish at infinite temperature. The coherent part supplies only errors, and it is the harder one because its Fourier representation averages over real-time evolution. The column sums of all errors stay below 1, which leaves 3 units and gives the prefactor \\(\\frac13\\) in the mixing time.",
+    "On the complete graph with \\(H=(n-1)^{-1/2}\\sum_{i<j}h_{i,j}\\), \\(\\lVert h_{i,j}\\rVert\\le J\\), the theorem gives \\(\\beta<1/(100J\\sqrt{n-1})\\). The earlier condition gives \\(\\beta<\\sqrt{n-1}/(80000Jn^2(2n-4))\\) for the same Hamiltonian. The natural next questions, in our reading, are the true threshold on dense graphs, larger locality with this logarithmic guarantee, and the gate cost of the evolution."
+  ],
+  "methods": [
+    {
+      "technique": "Summing connected commutators by interaction weight",
+      "explanation": "The jump operators are imaginary-time conjugates of local Paulis, and on a dense graph they are not local at all. Their deviation from locality must be controlled by a series whose number of terms depends on the graph. Weighting each term by its coupling removes that dependence.",
+      "math": [
+        "Expand \\(e^{\\alpha H}Xe^{-\\alpha H}\\) in nested commutators with single interaction terms. The \\(k\\)-th term carries \\(\\alpha^k/k!\\), it is bounded by \\(2^k\\prod_\\ell\\lVert H_{i_\\ell,j_\\ell}\\rVert\\lVert X\\rVert\\), and it vanishes unless each term touches the support of \\(X\\) or an earlier term. This is the paper's Lemma 3.3.",
+        "Editorial derivation of the simplest consequence: a set \\(S\\) of qubits is touched by interactions of total weight at most \\(|S|\\Lambda\\). Each interaction adds at most one qubit, so starting from one site, the total weight of connected sequences of length \\(k\\) is at most \\(\\prod_{\\ell=0}^{k-1}(\\ell+1)\\Lambda=k!\\,\\Lambda^k\\). The factorial cancels the \\(1/k!\\), leaving a geometric series: \\[\\sum_{k\\ge1}\\frac{|\\alpha|^k}{k!}2^kk!\\Lambda^k=\\frac{x}{1-x},\\qquad x=2|\\alpha|\\Lambda.\\] No degree or neighbourhood growth appears.",
+        "For \\(A^P\\) we have \\(|\\alpha|=\\beta/4\\), hence \\(x=\\beta\\Lambda/2\\), and at \\(\\beta\\Lambda<1/100\\) this gives \\(\\lVert A^P-P\\rVert\\le x/(1-x)\\approx0.005\\). The paper's actual estimates are finer, since they must assign these errors to sites, but this is the reason a site-weighted parameter is enough."
+      ],
+      "transfer": "A cluster expansion in which each step's choices are weighted by coupling strength, rather than counted, can replace lattice animal counts. The two-body structure helps, because support grows by at most one per term; higher locality changes the combinatorics."
+    },
+    {
+      "technique": "From a Dobrushin contraction to a logarithmic mixing time",
+      "explanation": "Trace-norm mixing is global, but contraction in Wasserstein distance can be checked site by site. The argument works with a small Euler step of the generator, then passes to continuous time.",
+      "math": [
+        "Set \\(\\Phi_\\delta=\\mathcal I+\\frac\\delta n\\mathcal L\\), split by site. If the Dobrushin matrix satisfies \\(\\lVert D^{(\\Phi)}\\rVert_{1\\to1}\\le1-\\gamma/n\\), then each step contracts the Wasserstein distance by that factor. Proposition 6.1 gives \\(\\gamma=3\\delta\\).",
+        "After \\(m\\) steps with \\(\\delta=nt/m\\), the contraction factor is \\((1-3t/m)^m\\to e^{-3t}\\), and \\(\\Phi_\\delta^m\\to e^{t\\mathcal L}\\). The distance between states and the trace norm differ by a factor of order \\(n\\), so the requirement becomes \\(ne^{-3t}\\lesssim\\varepsilon\\). This yields \\(t\\ge\\frac13\\log(2n/\\varepsilon)\\), and the \\(\\log n\\) is exactly the conversion cost between the two metrics.",
+        "Editorial check of the local core: for a traceless single-qubit Pauli \\(Q\\), at \\(\\beta=0\\) the three jump terms give \\(\\sum_P(PQP-Q)=-4Q\\), since the two anticommuting Paulis each contribute \\(-2Q\\). This is the four-unit contraction in the theorem.",
+        "Editorial numerics: we built this Lindbladian for random two-body Hamiltonians on \\(n=2,3,4\\) qubits at \\(\\beta\\Lambda=0.009\\). The Gibbs state was stationary to \\(10^{-14}\\), the spectral gap was about \\(3.98\\), and at the stated time for \\(\\varepsilon=0.01\\) the largest trace-norm error over 30 random pure starting states was \\(3\\times10^{-4}\\). At \\(\\beta\\Lambda=0.5\\) the gap was still above 3, so systems this small do not locate a threshold. For the classical mean-field ferromagnet with \\(\\Lambda=J\\), the equation \\(m=\\tanh(\\beta Jm)\\) has a nonzero root once \\(\\beta J>1\\), where single-site Glauber dynamics is known to slow exponentially. That suggests no criterion of this form can pass a constant near 1, although we have not proved this for this sampler."
+      ],
+      "transfer": "To prove fast mixing of a many-body semigroup, look for a metric that resolves perturbations by site and a contractive core that local terms provide. The method fails where influences add up to 1 or more, and it gives no information below that temperature."
+    }
+  ],
+  "approved_on": "2026-10-31"
+}

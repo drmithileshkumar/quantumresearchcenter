@@ -1,0 +1,48 @@
+{
+  "id": "2610.40235",
+  "topic": "foundations",
+  "title": "Three-dimensional QCA that are not stably circuits",
+  "authors": "Bowen Yang",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Quantum cellular automata are locality-preserving automorphisms of an operator algebra, and the trivial ones are finite-depth circuits and translations. In three dimensions, explicit Clifford examples were known not to be Clifford circuits, but none had been shown unconditionally to be nontrivial against arbitrary circuits. Are any of them genuinely new, even with ancillas allowed?",
+  "result": "For every odd prime \\(p\\), the chiral \\(\\mathbb Z_p\\) Clifford QCA are not finite-depth circuits, even after adding arbitrary ancillas and composing with translations. The proof uses a new invariant \\(I\\) of two-dimensional invertible subalgebras, valued in positive rationals modulo squares, which takes the value \\([p]\\) on these examples. The group of three-dimensional QCA modulo stabilized circuits and translations is not finitely generated.",
+  "significance": "By the author's account this is the first unconditional proof that a three-dimensional QCA is not stably a circuit. It removes the restriction to Clifford circuits, and the invariant is defined for every invertible subalgebra with a truncatable swap, Clifford or not. It also suggests a link to anyon theory: the invariant appears to count anyons modulo squares.",
+  "limitations": "The method does not reach the three-fermion QCA, whose four anyons make a square, and the author does not expect it to. The invariant sees classes only modulo 2. The identification of \\(I\\) with the anyon count is a conjecture beyond the computed cases, and the consequence for commuting-projector Hamiltonians depends on it. This is a single-author preprint, which states that the Section 6 computations were carried out with assistance from Claude models and that the arguments were checked with a ChatGPT model, and we know of no independent verification. We read Sections 1, 4.1–4.2, 6.6, 6.8 and 7 closely, and the remainder, including most of the Toeplitz computation, was not checked.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1, 4.1–4.2, 6.6, 6.8 and 7 of the linked arXiv version, read 2026-10-31; Section 3 is described from the summary in Section 1, and the remaining proofs, including most of the Toeplitz computation of Sections 6.4–6.5, were not checked.",
+  "verified_on": "2026-10-31",
+  "methods_source_section": "Sections 1, 4 and 6 (Definitions 4.1, 4.3, 4.6; Proposition 4.5; Theorems 6.11 and 6.16; Corollary 6.17; Remarks 6.12, 7.1 and 7.3)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A QCA moves every local operator by a bounded distance. The natural question is what remains after discounting finite-depth circuits and translations. One dimension is settled by the GNVW index, which measures net flow along a chain, and in two dimensions every QCA is a circuit composed with a translation. Three dimensions is the first open case. Haah, Fidkowski and Hastings built a QCA disentangling the three-fermion Walker–Wang model, and Haah and then Sun et al. constructed Clifford QCA realising Witt classes of quadratic forms. All nontriviality proofs were against Clifford circuits only, or conditional on a belief about anyon theories.",
+    "The precise theorem concerns the pumping QCA of a translation-invariant Pauli invertible subalgebra \\(\\mathcal B_{p,k}\\) of a two-dimensional lattice. An invertible subalgebra is one for which the local algebra factors locally as \\(\\mathcal B\\otimes\\mathcal C\\), with \\(\\mathcal C\\) its commutant. Haah's boundary map and a result of Ji and the author identify three-dimensional QCA modulo stabilized circuits and shifts with a group \\(\\mathrm{Br}_2\\) of stable classes of such subalgebras. The three-dimensional question therefore becomes whether \\([\\mathcal B_{p,k}]\\ne0\\) in two dimensions.",
+    "The invariant is built from an operation available only on two copies: exchange the two copies of \\(\\mathcal B\\) and leave the two copies of \\(\\mathcal C\\) alone. This Brauer swap is an involutive QCA. Truncate it to a half-plane, and the square of the truncation acts only near the boundary line, so it has a GNVW index. That index, modulo rational squares, is \\(I(\\mathcal B)\\). It vanishes on stably trivial classes, because the swap is then on-site. For \\(\\mathcal B_{p,k}\\) an explicit truncation gives index \\(p^{-1}\\), and a prime is not a rational square.",
+    "Since distinct primes are independent modulo squares, \\(\\mathrm{Br}_2\\) contains a copy of \\(\\bigoplus_{p\\equiv1\\,(4)}\\mathbb Z/2\\). Open questions include computing \\(I\\) for other three-dimensional QCA, the three-fermion case by other means, and the conjecture that \\(I\\) equals the class of the anyon count, which would rule out strictly two-dimensional commuting-projector realisations of these theories."
+  ],
+  "methods": [
+    {
+      "technique": "An index defined up to squares by truncating an involution",
+      "explanation": "A truncation of a QCA to a half-plane is not unique, and changing it changes any index measured at the boundary. Because the swap is an involution, the ambiguity turns out to be a perfect square, so the index survives in the quotient by squares.",
+      "math": [
+        "Let \\(t\\) agree with the swap \\(\\tau\\) far above the line \\(L\\) and with the identity far below it. Since \\(\\tau^2=1\\), the square \\(t^2\\) is the identity away from \\(L\\), so it is a one-dimensional QCA with a GNVW index \\(\\mathrm{ind}(t^2)\\in\\mathbb Q_{>0}\\).",
+        "Now take two truncations and set \\(\\gamma=t_1^{-1}t_2\\), which is supported near \\(L\\). Then \\[t_2^2=t_1\\gamma t_1\\gamma=t_1^2\\cdot(t_1^{-1}\\gamma t_1)\\cdot\\gamma.\\] Conjugation by a truncation does not change the index of a line-supported QCA (the paper's Lemma 4.4, proved by gluing on a cylinder), and the index is multiplicative, so \\[\\mathrm{ind}(t_2^2)=\\mathrm{ind}(t_1^2)\\,\\mathrm{ind}(\\gamma)^2.\\] The class in \\(\\mathbb Q_{>0}/\\mathbb Q_{>0}^2\\) therefore does not depend on the truncation.",
+        "Editorial remark on why this detects anything: if \\(\\mathcal B\\) is the full algebra, the swap is on-site, and restricting it to the rows above the line gives an exact involution with \\(t^2=1\\) and index 1. A nonzero class says that no choice of truncation can be an involution up to a square, which is an obstruction to making the \\(\\mathbb Z/2\\) action on-site, even after adding ancillas."
+      ],
+      "transfer": "When a boundary quantity is ambiguous, ask what the ambiguity looks like after squaring or another group-theoretic operation. Passing to a quotient costs information, here everything modulo 2, and may be the price of a well-defined invariant."
+    },
+    {
+      "technique": "Reading the index from a determinant over Laurent polynomials",
+      "explanation": "For a translation-invariant Pauli subalgebra, a Clifford QCA is a matrix over Laurent polynomials in the direction along the line. The GNVW index of a line-supported Clifford QCA is then a power of \\(p\\) read from the degree of a determinant.",
+      "math": [
+        "The paper reduces \\(t^2\\) to a matrix \\(C_{<2}\\in GL_4(R)\\) with \\(R=\\mathbb F_p[x_1^{\\pm1}]\\), and shows \\(\\mathrm{ind}(t^2)=p^{\\deg\\det C_{<2}}\\). A shift of a chain of \\(p\\)-dimensional sites has index \\(p\\) or \\(p^{-1}\\), so a determinant of degree \\(\\pm1\\) behaves like a net shift by one qudit.",
+        "Writing \\(\\beta=1-x_1\\) and \\(C_{<2}B_{<2}=\\mathbf 1_4+uw^{\\mathsf t}\\), the identity \\(\\det(\\mathbf 1+uw^{\\mathsf t})=1+w^{\\mathsf t}u\\) reduces the determinant to one number: \\[\\beta\\det C_{<2}=1-x_1^{-1},\\qquad\\det C_{<2}=\\frac{1-x_1^{-1}}{1-x_1}=-x_1^{-1}.\\] The degree is \\(-1\\), so \\(\\mathrm{ind}(t^2)=p^{-1}\\) and \\(I(\\mathcal B_{p,k})=[p]\\).",
+        "The source of the index is the half-plane compression \\(T\\) of the swap's matrix. It is injective, with cokernel \\(R/\\beta R\\cong\\mathbb F_p\\), of dimension 1. If \\(T\\) were bijective, the truncation would be an involution and the index would be 1. The paper reads this dimension as \\(\\log_p\\) of the number of anyons.",
+        "Editorial check: we confirmed the last algebraic step above. We also evaluated the normalized Gauss sum \\(p^{-1/2}\\sum_ae^{2\\pi ia^2/p}\\), obtaining \\(1\\) for \\(p=5,13\\) and \\(i\\) for \\(p=3,7\\). The Gram matrix with rows \\((2,1)\\) and \\((1,-2)\\) has determinant \\(-5\\) and signature 0. These agree with Remark 7.3, which says the invariant detects classes with vanishing chiral central charge modulo 8. We did not independently recompute the symplectic matrices of Section 6."
+      ],
+      "transfer": "Toeplitz-type compressions turn questions about half-infinite systems into a cokernel computation over a polynomial ring. The approach needs translation invariance and Clifford structure for explicit results, even though the invariant itself is defined more generally."
+    }
+  ],
+  "approved_on": "2026-10-31"
+}

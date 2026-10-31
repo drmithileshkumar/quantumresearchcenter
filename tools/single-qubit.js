@@ -28,6 +28,8 @@
     axisVector: byId('axis-vector'), applyU: byId('apply-rotation'),
     u00: byId('u-00'), u01: byId('u-01'), u10: byId('u-10'), u11: byId('u-11'),
     naxis: byId('bloch-naxis'), npole: byId('bloch-npole'),
+    nlabel: byId('bloch-nlabel'), nhandle: byId('bloch-nhandle'),
+    stateAngles: byId('bloch-state-angles'), axisAngles: byId('bloch-axis-angles'),
     orbit: byId('bloch-orbit'), cone: byId('bloch-cone'), arc: byId('bloch-arc'),
   };
   if (Object.values(parts).some(element => !element)) return;
@@ -155,7 +157,7 @@
     const p0 = abs2(alpha), p1 = abs2(beta);
     parts.desc.textContent = `The Bloch sphere with the state vector pointing at θ = ${theta.toFixed(0)}°, φ = ${phi.toFixed(0)}°.`
       + ` The probability of outcome 0 is ${p0.toFixed(3)} and of outcome 1 is ${p1.toFixed(3)}.`
-      + ` The dashed diameter marks the rotation axis n̂, now at (${rotationAxis().map(value => fixed(value)).join(', ')}).`
+      + ` The green dashed diameter marks the rotation axis n̂, now at (${rotationAxis().map(value => fixed(value)).join(', ')}).`
       + (traced ? ' A light dotted circle marks the full orbit about the axis, and a darker arc with a'
         + ' translucent cone shows the part the last rotation swept.' : '');
   }
@@ -169,6 +171,8 @@
     moveLine(parts.radial, [0, 0, 0], [vector[0], vector[1], 0]);
     parts.tip.setAttribute('cx', tip[0].toFixed(1));
     parts.tip.setAttribute('cy', tip[1].toFixed(1));
+    parts.stateAngles.textContent = `θ ${theta.toFixed(0)}° · φ ${phi.toFixed(0)}°`;
+    placeAngleLabel(parts.stateAngles, vector, 16, 26);
 
     parts.theta.value = String(Math.round(theta));
     parts.phi.value = String(Math.round(phi));
@@ -188,6 +192,25 @@
     if (announce) parts.status.textContent = `θ = ${theta.toFixed(0)}°, φ = ${phi.toFixed(0)}°. Probability of 0 is ${p0.toFixed(3)}, of 1 is ${p1.toFixed(3)}.`;
   }
 
+  // A faint θ and φ label beside a vector's tip; it never sits on the shaft and stays in the drawing.
+  function placeAngleLabel(label, vector, offset, half) {
+    const tip = project(vector);
+    const dx = tip[0] - CENTER, dy = tip[1] - CENTER, distance = Math.hypot(dx, dy);
+    let x = CENTER - 16, y = CENTER + 18, anchor = 'end';
+    if (distance >= 12) {
+      const side = dy * offset / distance;
+      x = tip[0] + side;
+      y = tip[1] - dx * offset / distance;
+      anchor = Math.abs(side) < 2 ? 'middle' : side > 0 ? 'start' : 'end';
+    }
+    if (anchor === 'start') x = Math.min(x, 396 - 2 * half);
+    else if (anchor === 'end') x = Math.max(x, 4 + 2 * half);
+    else x = Math.min(Math.max(x, 4 + half), 396 - half);
+    label.setAttribute('x', x.toFixed(1));
+    label.setAttribute('y', y.toFixed(1));
+    label.setAttribute('text-anchor', anchor);
+  }
+
   function rotationReadout() {
     const n = rotationAxis();
     const matrix = rotationMatrix(n, Number(parts.rotTheta.value), Number(parts.rotGamma.value));
@@ -204,6 +227,18 @@
     const pole = project(n);
     parts.npole.setAttribute('cx', pole[0].toFixed(1));
     parts.npole.setAttribute('cy', pole[1].toFixed(1));
+    parts.nhandle.setAttribute('cx', pole[0].toFixed(1));
+    parts.nhandle.setAttribute('cy', pole[1].toFixed(1));
+    // The projected n̂ is foreshortened, so the label sits at a fixed reach from the centre; an axis
+    // pointing at the camera projects onto the centre and steps the label aside instead.
+    // The projected n̂ is foreshortened, so the label is offset from the tip, not from the centre.
+    const dx = pole[0] - CENTER, dy = pole[1] - CENTER, distance = Math.hypot(dx, dy);
+    const ux = distance > 1 ? dx / distance : 0, uy = distance > 1 ? dy / distance : -1;
+    parts.nlabel.setAttribute('x', (pole[0] + ux * 12 + uy * 20).toFixed(1));
+    parts.nlabel.setAttribute('y', (pole[1] + uy * 12 - ux * 20).toFixed(1));
+    parts.nlabel.setAttribute('text-anchor', 'middle');
+    parts.axisAngles.textContent = `θₙ ${parts.axisTheta.value}° · φₙ ${parts.axisPhi.value}°`;
+    placeAngleLabel(parts.axisAngles, n, -20, 29);
     describe();
   }
 
@@ -271,13 +306,16 @@
     parts.cone.setAttribute('d', '');
   }
 
-  function anglesFromPointer(event) {
+  function pointerPoint(event) {
     const matrix = svg.getScreenCTM();
     if (!matrix) return null;
     const point = svg.createSVGPoint();
     point.x = event.clientX;
     point.y = event.clientY;
-    const local = point.matrixTransform(matrix.inverse());
+    return point.matrixTransform(matrix.inverse());
+  }
+
+  function anglesAt(local) {
     let px = (local.x - CENTER) / RADIUS, py = (CENTER - local.y) / RADIUS;
     const length = Math.hypot(px, py);
     if (length > 1) { px /= length; py /= length; }
@@ -290,30 +328,58 @@
             (Math.atan2(y, x) * 180/Math.PI + 360) % 360];
   }
 
-  let dragging = false;
+  // The n̂ handle is a fixed-size target on screen, so the same radius works at every camera angle.
+  const AXIS_GRAB = 20;
+  const nearAxis = local => {
+    const pole = project(rotationAxis());
+    return Math.hypot(local.x - pole[0], local.y - pole[1]) <= AXIS_GRAB;
+  };
+
+  // Quantize the axis to the slider steps too, so the handle, the sliders and the matrix agree.
+  function setAxisAngles(thetaDeg, phiDeg) {
+    parts.axisTheta.value = String(Math.min(180, Math.max(0, Math.round(thetaDeg))));
+    parts.axisPhi.value = String(((Math.round(phiDeg) % 360) + 360) % 360);
+  }
+
+  let drag = null;   // 'state' while the arrow follows the pointer, 'axis' while n̂ does
+  function follow(local) {
+    const [theta, phi] = anglesAt(local);
+    if (drag === 'axis') {
+      setAxisAngles(theta, phi);
+      rotationReadout();
+      return;
+    }
+    setAngles(theta, phi);
+    render(false);
+  }
+
   svg.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
-    const next = anglesFromPointer(event);
-    if (!next) return;
-    dragging = true;
-    svg.classList.add('is-dragging');
+    const local = pointerPoint(event);
+    if (!local) return;
+    drag = nearAxis(local) ? 'axis' : 'state';
+    svg.classList.add(drag === 'axis' ? 'is-aiming-axis' : 'is-dragging');
     if (svg.setPointerCapture) svg.setPointerCapture(event.pointerId);
     clearRotationPath();
-    setAngles(next[0], next[1]);
-    render(false);
+    follow(local);
     event.preventDefault();
   });
   svg.addEventListener('pointermove', event => {
-    if (!dragging) return;
-    const next = anglesFromPointer(event);
-    if (!next) return;
-    setAngles(next[0], next[1]);
-    render(false);
+    if (!drag) return;
+    const local = pointerPoint(event);
+    if (local) follow(local);
   });
   const stopDrag = () => {
-    if (!dragging) return;
-    dragging = false;
-    svg.classList.remove('is-dragging');
+    if (!drag) return;
+    const aimed = drag === 'axis';
+    drag = null;
+    svg.classList.remove('is-dragging', 'is-aiming-axis');
+    if (aimed) {
+      parts.status.textContent = 'Rotation axis aimed at n̂ = ('
+        + rotationAxis().map(value => fixed(value)).join(', ') + ').';
+      rotationReadout();
+      return;
+    }
     render(true);
   };
   svg.addEventListener('pointerup', stopDrag);
@@ -422,7 +488,7 @@
     clearRotationPath();
     setAngles(0, 0);
     render(false);
-    parts.result.textContent = 'A measurement in the computational basis returns 0 or 1 with probabilities |α|² and |β|², and leaves the qubit in the state it found.';
+    parts.result.textContent = 'Measure in the computational basis.';
     parts.tally.textContent = 'No measurements yet.';
     parts.status.textContent = 'Reset to the state |0⟩ with no measurements recorded.';
   });

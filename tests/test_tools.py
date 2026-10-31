@@ -17,6 +17,7 @@ class ControlAudit(HTMLParser):
         super().__init__()
         self.labels, self.buttons, self.presets, self.inputs = set(), [], [], []
         self.axes, self.axis_line, self.svgs = [], None, []
+        self.axis_handle, self.axis_label = None, None
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
@@ -27,6 +28,8 @@ class ControlAudit(HTMLParser):
         if tag == 'button' and 'data-preset' in a: self.presets.append((a['data-theta'], a['data-phi']))
         if tag == 'button' and 'data-axis-theta' in a: self.axes.append((a['data-axis-theta'], a['data-axis-phi']))
         if tag == 'line' and a.get('id') == 'bloch-naxis': self.axis_line = a
+        if tag == 'circle' and a.get('id') == 'bloch-nhandle': self.axis_handle = a
+        if tag == 'text' and a.get('id') == 'bloch-nlabel': self.axis_label = a
         if tag == 'svg' and 'data-basis' in a: self.svgs.append(a)
 
 class TwoQubitAudit(HTMLParser):
@@ -251,10 +254,22 @@ class ToolTests(unittest.TestCase):
         self.assertEqual((line['x1'], line['y1']), (f'{tail[0]:.1f}', f'{tail[1]:.1f}'))
         self.assertEqual((line['x2'], line['y2']), (f'{tip[0]:.1f}', f'{tip[1]:.1f}'))
 
+    def test_rotation_axis_has_a_labelled_handle_outside_the_rim(self):
+        audit = ControlAudit((ROOT / 'tools/single-qubit.html').read_text())
+        tip = tools.project(tools.rotation_axis(*tools.AXIS_ANGLES))
+        self.assertEqual((audit.axis_handle['cx'], audit.axis_handle['cy']),
+                         (f'{tip[0]:.1f}', f'{tip[1]:.1f}'))
+        self.assertGreater(float(audit.axis_handle['r']), 10)
+        self.assertEqual(audit.axis_label['text-anchor'], 'middle')
+        offset = math.hypot(float(audit.axis_label['x']) - tip[0], float(audit.axis_label['y']) - tip[1])
+        self.assertGreater(offset, 15)      # clear of the handle at the tip
+        self.assertLess(offset, 40)         # and still read as its label
+
     def test_script_applies_the_matrix_the_controls_build(self):
         script = (ROOT / 'tools/single-qubit.js').read_text()
         for token in ('rotationMatrix', 'rotationAxis', 'rotationReadout', 'apply-rotation',
-                      'data-axis-theta', 'bloch-naxis', 'bloch-npole'):
+                      'data-axis-theta', 'bloch-naxis', 'bloch-npole', 'bloch-nhandle',
+                      'bloch-nlabel', 'nearAxis', 'setAxisAngles', 'is-aiming-axis'):
             self.assertIn(token, script)
 
     def test_applied_rotation_leaves_an_orbit_cone_and_arc(self):

@@ -1,0 +1,49 @@
+{
+  "id": "2610.39702",
+  "topic": "computing",
+  "title": "Quantum Query Complexity of Tournament Solutions",
+  "authors": "Pragya Arora; Udit Kumar",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Given the outcomes of pairwise comparisons among \\(N\\) alternatives, a tournament solution names the winners. Classically, nearly every standard solution needs \\(\\Theta(N^2)\\) comparisons, so they cannot be told apart by cost. How many queries do they need when comparisons can be made in superposition, and does the classical uniformity survive?",
+  "result": "It does not. The top cycle takes \\(\\tilde\\Theta(N)\\) queries, a Condorcet winner takes \\(\\tilde\\Theta(\\sqrt N)\\), and a strong king takes \\(\\Theta(N^{3/2})\\). The whole Copeland set needs \\(\\Theta(N^2)\\), so reading every comparison is optimal up to a constant, while a single Copeland winner needs only \\(\\Theta(N^{3/2})\\). The uncovered set lies between \\(\\Omega(N^{3/2})\\) and \\(O(N^2)\\).",
+  "significance": "Among the nested sets Copeland, uncovered and top cycle, the largest is the easiest and the smallest is the hardest. Computing a whole solution can also cost far more than finding one member. The dividing line is between search, where Grover's algorithm helps, and exact counting, where it does not help enough. Strong connectivity of a tournament inherits the \\(O(N\\log^2N)\\) bound, whereas general directed graphs need \\(\\Theta(N^{3/2})\\).",
+  "limitations": "These bounds count queries, not gates or time, and they apply when each comparison must be learned by a query. The uncovered set still has a gap between \\(N^{3/2}\\) and \\(N^2\\). The top cycle bound carries logarithmic factors above its lower bound. The maximum out-degree bound was already known; the paper gives a different proof. We read Sections 1–3, 4.2, 6.2 and 7 closely; the strong king and uncovered set results are reported from the paper's introduction and were not checked.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–3, 4.2, 6.2 and 7 of the linked arXiv version, read 2026-10-31; Sections 5, 6.1 and 8 are reported from the introduction and were not checked.",
+  "verified_on": "2026-10-31",
+  "methods_source_section": "Sections 2.2, 3, 4.2, 6.2 and 7 (Definition 2.11, Theorems 2.13, 3.1, 6.7, 7.4 and 7.5, Lemmas 6.5 and 7.1)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A tournament has one arc between each pair of vertices. The Condorcet winner beats everyone, if it exists. The Copeland set is the set of vertices of maximum out-degree. The uncovered set is the set of kings, which reach everyone in at most two steps. The top cycle is the smallest set that beats everything outside it. These satisfy \\(\\mathrm{CO}\\subseteq\\mathrm{UC}\\subseteq\\mathrm{TC}\\), and earlier work showed all three need \\(\\Theta(N^2)\\) classical queries.",
+    "Those classical lower bounds hide one decisive edge among \\(\\Theta(N^2)\\) unqueried ones, which Grover search finds with \\(O(N)\\) quantum queries, so they yield only \\(\\Omega(N)\\) quantumly. A stronger quantum lower bound needs a different kind of hardness. The paper's source is counting: a vertex's out-degree can differ from another's by exactly one, spread across \\(N\\) comparisons.",
+    "The central instance encodes a Boolean \\(m\\times m\\) matrix in a tournament on \\(N=10m+1\\) vertices. Each row \\(i\\) corresponds to a triple of vertices, whose out-degree is \\(8m\\) if the row has weight \\(k=(m-1)/2\\) and \\(8m+1\\) if it has weight \\(k+1\\). All other vertices have out-degree at most \\(4m\\). Finding a maximum vertex then decides whether a heavy row exists, and computing the entire Copeland set counts the heavy rows exactly, since its size is three times that number.",
+    "On the algorithmic side, the top cycle becomes a search for a first gap along a Hamiltonian path, which uses a nearly linear number of quantum queries. What remains is the exact cost of the uncovered set and, in our reading, the logarithmic factors for the top cycle."
+  ],
+  "methods": [
+    {
+      "technique": "Ambainis's adversary with single-flip relations on rows of fixed weight",
+      "explanation": "The promise that all rows have weight \\(k\\) or \\(k+1\\) makes each input have many neighbours across the answer boundary, while each position distinguishes few of them. This is what the basic adversary theorem rewards, and it spares the need for a composition theorem.",
+      "math": [
+        "Ambainis's theorem gives \\(\\Omega(\\sqrt{MM^\\prime/(LL^\\prime)})\\) queries for a relation in which each no-instance has at least \\(M\\) related yes-instances, each yes-instance has at least \\(M^\\prime\\) related no-instances, and any position separates at most \\(L\\) and \\(L^\\prime\\) related pairs from a fixed input. Relate inputs differing by one \\(0\\to1\\) flip, so \\(L=L^\\prime=1\\).",
+        "For Heavy-Row, all rows of a no-instance have weight \\(k\\). Any of its \\(m(k+1)\\) zeros can be flipped, so \\(M=m(k+1)\\). A yes-instance can only return by clearing one of the \\(k+1\\) ones in its heavy row, because any other choice leaves a row of weight \\(k-1\\). Hence \\(M^\\prime=k+1\\), and the bound is \\[\\sqrt{m}\\,(k+1)=\\sqrt m\\,\\frac{m+1}{2}=\\Omega(m^{3/2}).\\]",
+        "For the Copeland set, compare \\(k\\) heavy rows with \\(k+1\\). Now only the \\(k+1\\) non-heavy rows may gain a one, each with \\(k+1\\) zeros, so \\(M=(k+1)^2\\). Symmetrically, \\(M^\\prime=(k+1)^2\\). The bound becomes \\((k+1)^2=\\Omega(m^2)\\): balancing the two counts lifts the restriction that made \\(M^\\prime\\) small in the single-row problem.",
+        "Editorial check: enumerating all matrices at \\(m=3\\) gives \\(M=6,M^\\prime=2\\) for Heavy-Row and \\(M=M^\\prime=4\\) for the many-row problem, as predicted. The out-degree identity \\(\\frac{3m-1}2+k+6m+1=8m\\) also holds."
+      ],
+      "transfer": "To separate finding a witness from computing a full answer, ask for the size of the answer set, and choose the two sets of inputs near the middle of the count. A symmetric choice maximises both \\(M\\) and \\(M^\\prime\\). The basic adversary is limited by its certificate-complexity barrier, so this approach cannot prove everything."
+    },
+    {
+      "technique": "Turning the top cycle into interval covering along a Hamiltonian path",
+      "explanation": "A Hamiltonian path of a tournament can be found classically in \\(O(N\\log N)\\) queries, and it reduces the problem to finding the first place no backward arc crosses. Only this second step needs quantum search.",
+      "math": [
+        "Fix a path \\(v_1\\to\\cdots\\to v_N\\). A dominant set must be a prefix: if \\(v_j\\) were in it and \\(v_{j-1}\\) were not, then \\(v_j\\) would beat \\(v_{j-1}\\), contradicting the path. Prefix \\(\\{v_1,\\dots,v_p\\}\\) is dominant exactly when no back edge \\(v_j\\to v_i\\) with \\(i\\le p<j\\) crosses cut \\(p\\). So the top cycle ends at the smallest uncovered cut.",
+        "Editorial check: on 4,000 random tournaments with up to 14 vertices, including nearly transitive ones with proper top cycles, this rule agreed with the direct computation every time.",
+        "Quantum minimum finding locates the extreme back edge in a rectangle of columns and rows using \\(O(\\sqrt{\\text{area}})\\) queries times a logarithmic error factor. The recursive procedure splits the cuts in half, and each call searches an area of at most \\(wD\\), where \\(w\\) is its width and \\(D\\) its height.",
+        "The cost analysis groups calls into chains of right children, along which widths halve and heights do not grow. Since \\(w\\le D\\), a chain costs \\[\\sum_k\\sqrt{w(h_k)D(h_k)}\\le(2+\\sqrt2)D(h_0).\\] A left child has height at most twice its parent's width, and the widths at one depth sum to at most \\(N\\), so the heads of all chains sum to \\(O(N\\log N)\\). The error factor \\(\\log N\\) gives \\(O(N\\log^2N)\\) overall, against the \\(\\Omega(N)\\) lower bound from an embedded OR on \\(\\Theta(N^2)\\) bits."
+      ],
+      "transfer": "If a classical preprocessing step reveals a linear order, a global reachability question can become a one-dimensional covering problem suitable for quantum search over rectangles. The reduction uses a fact special to tournaments, the existence of a Hamiltonian path, and does not apply to general digraphs."
+    }
+  ],
+  "approved_on": "2026-10-31"
+}

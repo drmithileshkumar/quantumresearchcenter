@@ -1,0 +1,48 @@
+{
+  "id": "2610.39598",
+  "topic": "information",
+  "title": "Sharp Tilting Inequalities",
+  "authors": "Hao-Chung Cheng; Po-Chieh Liu",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Error-exponent arguments often bound a ratio like \\(x/(1+x)\\) by a power of \\(x\\), which turns a success probability into a Rényi-type quantity. For matrices, the ratio becomes a derivative of the logarithm of a noncommuting sum. What is the best constant in the resulting trace inequality, and does it match the scalar one?",
+  "result": "For positive semidefinite \\(A,B\\) and \\(\\alpha\\in[1/2,1]\\) with \\(s=(1-\\alpha)/\\alpha\\), \\[\\mathrm{Tr}\\big[A\\,D\\log[A^\\alpha+B^\\alpha](B^\\alpha)\\big]\\le s^s(1-s)^{1-s}\\,\\mathrm{Tr}[A^\\alpha B^{1-\\alpha}].\\] The coefficient is optimal and equals the scalar one, with equality in the interior exactly when \\(B^\\alpha=\\frac{1-s}sA^\\alpha\\). The same bound holds for the symmetric quotient, and both extend to trace-class \\(A\\) and unbounded \\(B\\).",
+  "significance": "The inequality improves the coefficient the same authors obtained from the operator layer cake theorem, and they state that operational bounds relying on it can be improved accordingly. Noncommutativity costs nothing in the constant. The right side contains the quantity defining the Petz Rényi divergence, so the inequality links a logarithmic-derivative expression to a standard information measure.",
+  "limitations": "This is an inequality, not a new protocol: the paper does not compute improved error exponents. The range \\(\\alpha\\ge1/2\\) is what the argument requires, since \\(s\\le1\\) is needed for the operator-monotone steps, and the paper does not treat smaller \\(\\alpha\\). We read Sections 1–4 closely, including the proofs of the main theorem; the appendix proofs of two derivative lemmas and the infinite-dimensional extension of Section 5 were not checked line by line.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–4 of the linked arXiv version, read 2026-10-31; the appendices and the infinite-dimensional extension of Section 5 were not checked line by line.",
+  "verified_on": "2026-10-31",
+  "methods_source_section": "Sections 1–4 (Equations (1)–(5), Lemma on the averaged power estimate, Theorem 1, Proposition 1)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The scalar starting point is elementary: for \\(x>0\\) and \\(0\\le s\\le1\\), \\[\\frac x{1+x}\\le s^s(1-s)^{1-s}x^s.\\] It trades a saturating ratio for a free exponent that can be optimised later, a move known as tilting. In quantum packing problems, the ratio is replaced by the Fréchet derivative of the logarithm, \\(D\\log[X](H)\\), evaluated at a sum of noncommuting operators. There is no obvious ordering between \\(A\\) and \\(B\\) to exploit, and an earlier proof based on the operator layer cake theorem gave a larger coefficient.",
+    "The precise question is whether the scalar coefficient \\(s^s(1-s)^{1-s}\\) survives. It cannot be beaten, since commuting matrices reduce to the scalar case. For example, at \\(\\alpha=2/3\\) we have \\(s=1/2\\) and the coefficient is \\(1/2\\), while at either endpoint of the range it is 1.",
+    "The theorem says the coefficient does survive, and it gives a refinement: an intermediate quantity, the averaged power integral below, sits between the two sides. The proof then bounds this integral by \\(\\mathrm{Tr}[A^\\alpha B^{1-\\alpha}]\\). A separate proposition derives the same bound for \\(\\mathrm{Tr}[A(A^\\alpha+B^\\alpha)^{-1/2}B^\\alpha(A^\\alpha+B^\\alpha)^{-1/2}]\\), by showing it lies below the same intermediate expression.",
+    "The paper does not carry out the improved exponents for packing problems, and it does not address \\(\\alpha<1/2\\), where its argument does not apply."
+  ],
+  "methods": [
+    {
+      "technique": "Lifting a scalar inequality through a one-parameter superoperator",
+      "explanation": "A scalar function cannot be applied directly to \\(A\\) and \\(B\\) together, since they do not commute. Representing the logarithmic derivative as an average over superoperators gives a single positive operator on matrices, to which spectral calculus applies.",
+      "math": [
+        "Let \\(\\mathcal L_v(X)(H)=(1-v)XH+vHX\\). In an eigenbasis of \\(X\\) it multiplies \\(H_{ij}\\) by \\((1-v)x_i+vx_j\\), and \\[\\int_0^1\\frac{dv}{(1-v)x_i+vx_j}=\\frac{\\log x_i-\\log x_j}{x_i-x_j},\\] so \\(D\\log[X](H)=\\int_0^1\\mathcal L_v(X)^{-1}(H)\\,dv\\). All these superoperators are positive for the Hilbert–Schmidt inner product.",
+        "Define \\(\\Gamma_v=\\mathcal L_v(A^\\alpha)^{-1/2}\\mathcal L_v(B^\\alpha)\\mathcal L_v(A^\\alpha)^{-1/2}\\), which plays the role of the ratio \\(x\\). Using \\(D\\log[X](X)=I\\), together with an elementary symmetrisation over the eigenbasis of \\(A\\), gives \\[\\mathrm{Tr}[A\\,D\\log[A^\\alpha+B^\\alpha](B^\\alpha)]\\le\\int_0^1\\langle\\sqrt A,\\Gamma_v(I+\\Gamma_v)^{-1}(\\sqrt A)\\rangle\\,dv.\\] The integrand is the function \\(x/(1+x)\\) of \\(\\Gamma_v\\).",
+        "The maximum of \\(x^{1-s}/(1+x)\\) is at \\(x=(1-s)/s\\), where it equals \\(s^s(1-s)^{1-s}\\). Spectral calculus applied to \\(\\Gamma_v\\) therefore carries the scalar bound over with the same constant, leaving the integral of \\(\\Gamma_v^s\\) on the right.",
+        "Editorial check: in 6,000 trials with random matrices of dimension 2 to 5 and random \\(\\alpha\\), both the logarithmic-derivative and the symmetric quotient forms obeyed the bound, with largest ratio \\(0.9976\\). At \\(B^\\alpha=\\frac{1-s}sA^\\alpha\\) with \\(\\alpha=0.6,0.75,0.9\\), the ratio equalled 1 to within \\(10^{-15}\\)."
+      ],
+      "transfer": "If a scalar inequality involves a ratio of two noncommuting operators, try writing the target with relative modular-type operators like \\(\\Gamma_v\\). This is the same structure behind Frenkel's integral formula for relative entropy. The step gives a sharp constant only when the inequality's extremiser can be realised by commuting matrices."
+    },
+    {
+      "technique": "Proving a trace bound by shifting and monotonicity",
+      "explanation": "What remains is to bound the averaged power \\(\\int_0^1\\langle\\sqrt A,\\Gamma_v^s(\\sqrt A)\\rangle dv\\) by \\(\\mathrm{Tr}[A^\\alpha B^{1-\\alpha}]\\). Rather than comparing them directly, the proof adds a shift \\(uI\\) to \\(B^\\alpha\\), takes \\(u\\to\\infty\\), where the two sides agree, and controls the derivative.",
+      "math": [
+        "Set \\[g(u)=\\int_0^1\\langle\\sqrt A,\\Gamma_{v,B^\\alpha+uI\\mid A^\\alpha}^{\\,s}(\\sqrt A)\\rangle\\,dv-\\mathrm{Tr}[A^\\alpha(B^\\alpha+uI)^s].\\] Note that \\(\\alpha s=1-\\alpha\\), so the second term at \\(u=0\\) is the target. The inequality claims \\(g(0)\\le0\\).",
+        "The derivative is computed by an averaged derivative identity, and with \\(\\alpha(1+s)=1\\) it becomes \\[g^\\prime(u)=\\mathrm{Tr}[A^{(1-\\alpha)/2}D_s[Y_u](A^{(1-\\alpha)/2})]-s\\,\\mathrm{Tr}[A^\\alpha(B^\\alpha+uI)^{s-1}],\\] where \\(Y_u=A^{-\\alpha/2}(B^\\alpha+uI)A^{-\\alpha/2}\\). An Araki-type estimate for the derivative of a fractional power gives \\(g^\\prime(u)\\ge0\\).",
+        "As \\(u\\to\\infty\\), both terms lie between \\(u^s\\mathrm{Tr}A^\\alpha\\) and \\((u+\\lVert B^\\alpha\\rVert)^s\\mathrm{Tr}A^\\alpha\\) by Löwner–Heinz, and the difference of those bounds tends to zero because \\(s<1\\). So \\(g\\) increases to the limit 0, which gives \\(g(0)\\le0\\)."
+      ],
+      "transfer": "To prove an inequality between two functionals of an operator, shift the operator until both sides have the same asymptotics, then show the difference is monotone along the path. The approach requires a closed form for the derivative, and it depends on \\(s<1\\) for the limit to vanish."
+    }
+  ],
+  "approved_on": "2026-10-31"
+}
