@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-23; equations follow the paper’s notation.",
+  "verified_on": "2026-10-23",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-22",
+  "id": "2610.31501",
+  "topic": "information",
+  "kind": "Theory",
+  "title": "One-shot entanglement generation and distillation via Petz recovery and binary hypothesis testing",
+  "authors": "Matthew Can; Mark M. Wilde",
+  "problem": "How much entanglement can two laboratories obtain from one use of a noisy channel or one copy of a shared noisy state, and can the answer be expressed as a binary hypothesis-testing cost?",
+  "result": "An \\((m,\\varepsilon)\\) entanglement generation or one-way distillation protocol exists whenever \\(e_{d,m}(1-e_{d,m}/dm)\\le\\varepsilon\\). Here \\(e_{d,m}\\) is the optimal error for testing \\(\\rho_{AB}\\) against an explicit alternative \\(B_{d,m}\\propto dI_A\\otimes\\rho_B-\\rho_{AB}\\). Consequently \\(\\log_2m\\le I_H^{\\varepsilon-\\nu}(A\\rangle B)-\\log_2(1/\\nu)\\) suffices, and repeated use gives \\(nI_c+\\sqrt{nV_c}\\,\\Phi^{-1}(\\varepsilon)-\\tfrac12\\log_2n-c\\) ebits.",
+  "significance": "Brings Cheng’s one-shot method for classical communication to quantum communication with a Petz decoder. The three central coding tasks (classical, entanglement-assisted, quantum) are now controlled by one kind of hypothesis-testing quantity, and a code-conversion lemma closes a gap in an earlier second-order argument.",
+  "limitations": "These are achievability bounds only: the \\(-\\tfrac12\\log_2n\\) term is a guarantee, not an optimal third-order coefficient. The proof shows that a good code exists but gives no efficient Petz circuit. The erasure example shows the bound is not tight for specific channels. The authors report AI assistance.",
+  "description": [
+    "Three tasks share the target of an \\(m\\)-dimensional maximally entangled state with infidelity at most \\(\\varepsilon\\). In entanglement generation, Alice prepares a state and sends one share through a channel \\(\\mathcal N\\). In entanglement transmission, she encodes one share of a prescribed maximally entangled state. In one-way distillation, the parties already share \\(\\rho_{AB}\\) and Alice sends a classical message. For classical communication, Cheng bounded the pretty-good measurement through binary tests; quantum decoding must also preserve coherence.",
+    "Write \\(d=\\dim A\\) and define the testing cost \\(\\mathsf e(X,Y)=\\min_{0\\le T\\le I}\\{\\operatorname{Tr}[(I-T)X]+\\operatorname{Tr}[TY]\\}=\\tfrac12(\\operatorname{Tr}(X+Y)-\\|X-Y\\|_1)\\). Theorem 3.1: for every integer \\(2\\le m\\le d\\), \\(e_{d,m}=\\mathsf e(\\rho_{AB},B_{d,m})\\) with \\(B_{d,m}=\\tfrac{dm-1}{d^2-1}(dI_A\\otimes\\rho_B-\\rho_{AB})\\) certifies infidelity \\(e_{d,m}(1-e_{d,m}/dm)\\). The code projects Alice’s system onto a random \\(m\\)-dimensional subspace and Bob applies the Petz recovery for the resulting state.",
+    "The key step applies Cheng’s trace inequality, \\(\\operatorname{Tr}[XS^{-1/2}YS^{-1/2}]\\le e(1-e/s)\\) with \\(S=X+Y\\), before averaging over codes. The bound then depends linearly on a code-dependent comparison operator, whose Haar average is \\(B_{d,m}\\), so only a second moment of random subspaces is needed and no inverse of a random operator has to be averaged. Choosing an optimal test at tolerance \\(\\varepsilon-\\nu\\) gives the hypothesis-testing coherent-information bound with exact integer rounding. Lemma 4.4 converts an \\((M,\\varepsilon)\\) generation code into a \\((\\lfloor M\\sqrt{1-\\varepsilon}\\rfloor,\\varepsilon)\\) transmission code by local post-processing.",
+    "Checks and consequences. For a noiseless channel the test \\(T=\\Phi^d\\) gives zero cost, certifying perfect recovery for every \\(m\\le d\\). For an erasure channel with erasure probability \\(p\\), \\(e_{d,m}=p\\), while the actual Petz decoder has infidelity \\(p(1-m^{-2})\\), leaving room for channel-specific analysis. For \\(n\\) copies, the normal approximation to hypothesis testing gives a second-order expansion with coherent information \\(I_c\\) and its variance \\(V_c\\), for generation, distillation and transmission alike."
+  ],
+  "methods": [
+    {
+      "technique": "Apply Cheng’s trace inequality before averaging over random codes",
+      "explanation": "Bounding the recovery error by a binary testing cost while the code is fixed makes the bound linear in a comparison operator, so averaging over codes needs only a second moment.",
+      "math": [
+        "For \\(X,Y\\ge0\\), \\(S=X+Y\\), \\(s=\\operatorname{Tr}S\\) and \\(e=\\mathsf e(X,Y)\\): \\[\\operatorname{Tr}[XS^{-1/2}YS^{-1/2}]\\le e\\Bigl(1-\\frac es\\Bigr)\\le\\operatorname{Tr}[(I-T)X]+\\operatorname{Tr}[TY]\\quad\\text{for every effect }T.\\] With \\(X=\\rho_{AB}\\) and \\(Y=\\Gamma-\\rho_{AB}\\) for a code-dependent \\(\\Gamma\\ge\\rho_{AB}\\), the right side is linear in \\(\\Gamma\\), and its average over Haar-random subspaces is \\(\\operatorname{Tr}[(I-T)\\rho]+\\operatorname{Tr}[TB_{d,m}]\\).",
+        "Editorial checks. Over 200 random positive pairs in dimensions 2–5, the inequality never failed. For random \\(\\rho_{AB}\\) with \\(d=3,4\\), \\(B_{d,m}\\) was positive semidefinite with trace exactly \\(dm-1\\). For an erasure channel (\\(d=4\\), \\(p=0.3\\)) the testing cost evaluated to \\(p\\), and the guarantee \\(p(1-p/dm)\\) exceeded the actual Petz infidelity \\(p(1-1/m^2)\\) for \\(m=2,4\\)."
+      ],
+      "transfer": "In random-coding analyses where the decoder contains an inverse depending on the code, such as Petz or pretty-good measurements, use a trace inequality to replace the decoder error by a binary-test cost first. The average then involves only linear functionals of the code and is usually a simple moment computation."
+    },
+    {
+      "technique": "From a binary test to an integer code dimension",
+      "explanation": "An optimal hypothesis test at a slightly reduced tolerance turns the one-shot bound into a statement about hypothesis-testing coherent information, with a single logarithmic slack and exact rounding.",
+      "math": [
+        "Let \\(T\\) attain \\(D_H^\\delta(\\rho_{AB}\\|I_A\\otimes\\rho_B)\\), so \\(\\operatorname{Tr}[(I-T)\\rho]\\le\\delta\\) and \\(\\operatorname{Tr}[T(I_A\\otimes\\rho_B)]=2^{-I_H^\\delta}\\). Then \\[e_{d,m}\\le\\delta+\\frac{d(dm-1)}{d^2-1}2^{-I_H^\\delta}-\\frac{dm-1}{d^2-1}\\operatorname{Tr}[T\\rho]\\le\\delta+m\\,2^{-I_H^\\delta},\\] since \\(m-\\tfrac{d(dm-1)}{d^2-1}=\\tfrac{d-m}{d^2-1}\\ge0\\). With \\(\\delta=\\varepsilon-\\nu\\), any integer \\(m\\le\\nu2^{I_H^{\\varepsilon-\\nu}}\\) gives error at most \\(\\varepsilon\\).",
+        "For \\(n\\) copies, choosing \\(\\nu_n=n^{-1/2}\\) and the normal approximation \\(I_H^\\delta\\ge nI_c+\\sqrt{nV_c}\\,\\Phi^{-1}(\\delta-b/\\sqrt n)\\) yields the \\(-\\tfrac12\\log_2n\\) term while keeping the Gaussian quantile at the target error \\(\\varepsilon\\)."
+      ],
+      "transfer": "Whenever a one-shot coding error is bounded by a testing cost against an alternative of trace about \\(m\\) times a fixed operator, evaluate it at an optimal Neyman–Pearson test to get a hypothesis-testing rate with one slack term. Second-order expansions then follow from known normal approximations to hypothesis testing."
+    }
+  ],
+  "methods_source_section": "Sections 1.2 and 2.3 (Lemma 2.1); Section 3 (Theorem 3.1); Section 4.1 (Corollary 4.1); Section 5; Section 6",
+  "approved_on": "2026-10-23"
+}

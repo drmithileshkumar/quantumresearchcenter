@@ -1,0 +1,46 @@
+{
+  "id": "2610.35253",
+  "topic": "foundations",
+  "title": "Bargmann-invariant witness of the graviton commutator",
+  "authors": "Hiroki Matsui",
+  "submitted": "2026-10-26",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Experiments proposed to show that gravity is quantum look for gravitationally induced entanglement or decoherence, but Newtonian entangling phases can be mimicked by assigning a classical field to each branch, and decoherence can be mimicked by classical noise. Is there an interference observable that no branchwise-definite classical gravitational field can reproduce?",
+  "result": "Yes. For matter coupled linearly to linearized gravity, each branch coherence factorizes exactly into a conservative phase, the characteristic functional of the graviton state, and a phase from the field commutator. For two interferometers, the phase \\(\\mathfrak B\\) of a four-cycle Bargmann invariant cancels everything except the commutator: it is independent of the graviton state and of all Newtonian interactions, and it vanishes for every branchwise-definite classical model. It is bounded by which-path decoherence, \\(\\mathfrak B^2\\le16\\,\\Gamma_X\\Gamma_Y\\).",
+  "significance": "It identifies precisely which interferometric quantity carries the quantum nature of the field, explains why decoherence alone cannot certify it, and ties the signal to a decoherence budget. The same algebra gives a trapped-ion analog where the witness is of order one.",
+  "limitations": "For gravity the effect is about \\(10^{-60}\\) radians for the most optimistic proposed parameters, requiring about \\(10^{119}\\) repetitions. A nonzero witness excludes branchwise-definite models but not hybrid classical–quantum dynamics, which reproduce the same phase and differ only in their noise. The analysis assumes linear coupling, linearized gravity and additive sources.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+  "verified_on": "2026-10-27",
+  "methods": [
+    {
+      "technique": "A cycle of coherences that cancels everything classical",
+      "explanation": "Products of coherences around a closed cycle of branches are invariant under local rephasings, so branch-dependent phases cancel, and noise factors pair up as moduli. Whatever phase survives must come from non-commuting contributions, here the field commutator.",
+      "math": [
+        "Around \\((00)\\to(10)\\to(11)\\to(01)\\), the terms \\(S_a-S_b\\) telescope to zero. The noise factors give \\(\\chi[-X]\\chi[-Y]\\chi[X]\\chi[Y]=|\\chi[X]\\chi[Y]|^2\\ge0\\) because \\(\\chi[-T]=\\chi[T]^*\\). The commutator phases add to \\(\\mathfrak B_{\\rm Q}=(X|G_{\\rm PJ}|Y)=2\\operatorname{Im}\\langle\\alpha_Y,\\alpha_X\\rangle\\).",
+        "In the classical class, \\(M^{\\mathscr C}_{ab}=e^{i(s_a-s_b)}\\Phi_P[T_a-T_b]\\), so the same cycle gives \\(\\arg|\\Phi_P[X]\\Phi_P[Y]|^2=0\\) for every distribution \\(P\\) and every choice of phases \\(s_a\\).",
+        "Editorial check: simulating two qubits that displace a shared oscillator mode by \\(\\alpha_X=0.5\\) and then \\(\\alpha_Y=0.5i\\), the four-cycle phase is \\(-0.500\\) for both the vacuum and a thermal state with mean occupation 0.5, matching \\(2\\operatorname{Im}(\\alpha_Y^*\\alpha_X)\\) in magnitude, while a classical Gaussian random-field model gives \\(0.000\\). The budget \\(|\\sin(\\mathfrak B/2)|V_{X+Y}\\le\\sqrt{(1-V_X^2)(1-V_Y^2)}\\) holds in both cases (0.193 against 0.221 for the vacuum)."
+      ],
+      "transfer": "To separate a genuinely quantum effect from classical phases and noise in any multi-branch interference experiment, look for a rephasing-invariant cycle of coherences. Branchwise phases cancel, noise contributes only moduli, and the surviving phase isolates commutator or geometric-phase physics."
+    },
+    {
+      "technique": "Bounding a commutator signal by decoherence",
+      "explanation": "The commutator of two displacement operators is a phase times another displacement, so the uncertainty relation for unitary operators turns the Bargmann phase into a quantity bounded by the visibilities that measure which-path information.",
+      "math": [
+        "For unitaries, \\(\\Delta U\\,\\Delta V\\ge\\tfrac12|\\langle[U,V]\\rangle|\\) with \\(\\Delta U^2=1-|\\langle U\\rangle|^2\\). With \\(U=e^{ih[J_X]}\\), \\(V=e^{\\pm ih[J_Y]}\\), \\(|\\langle[U,V]\\rangle|=2|\\sin(\\mathfrak B/2)|\\,|\\chi[X\\pm Y]|\\), which gives \\[|\\sin(\\mathfrak B/2)|\\,V_{X\\pm Y}\\le\\sqrt{(1-V_X^2)(1-V_Y^2)},\\] and in the weak-coupling regime \\(\\mathfrak B^2\\le16\\Gamma_X\\Gamma_Y\\).",
+        "Editorial check: with \\(I(\\delta)=\\sqrt{\\pi/2}(\\delta^5-10\\delta^3+15\\delta)e^{-\\delta^2/2}\\), the parallel-axis budget ratio \\(|I|/8\\) peaks at 0.906 for \\(\\delta=0.617\\), and the identical-interferometer ratio \\(|\\mathfrak B|/\\Gamma_{\\rm vac}=|I|_{\\max}/2=3.62\\), as stated."
+      ],
+      "transfer": "Wherever a coherent effect is mediated by a field that also records which-path information, an uncertainty relation of this form bounds the effect by the decoherence it causes. It is a quick feasibility test: a predicted signal larger than the budget signals an error in the model."
+    }
+  ],
+  "methods_source_section": "Branch evolution (Eqs. 1–5); branchwise-definite models and Theorem 1 (Eq. 6); Bargmann witness (Eqs. 7–10); quantumness budget (Eqs. 11–12); gravity and analog test (Eqs. 13–14); Supplemental S4–S5",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Each matter branch \\(a\\) sources a classical stress tensor \\(T_a\\). Because the coupling is linear, the evolution in branch \\(a\\) is \\(U_a=e^{iS_a}e^{ih[J_a]}\\), and tracing out the gravitons gives \\[M_{ab}=e^{i(S_a-S_b)}\\,e^{\\frac i2(T_a|G_{\\rm PJ}|T_b)}\\,\\chi[T_a-T_b].\\] The first factor contains the Newtonian potential and all conservative post-Newtonian interactions, the last is the characteristic functional of the graviton state, and the middle one comes from the commutator (Pauli–Jordan) kernel, which is state independent and fixed by on-shell gravitons.",
+    "The comparison class contains every model in which each branch acquires a deterministic phase plus the phase of one classical random field acting on all branches; it covers semiclassical gravity, quantum-controlled classical fields and Diósi–Penrose-type noise. If the graviton state has a nonnegative Wigner functional (vacuum, thermal, coherent, squeezed, inflationary relic states) and the commutator terms between branch differences vanish, all coherences are reproducible in this class. For a single interferometer they always vanish, so its decoherence can always be explained classically.",
+    "With two interferometers \\(A\\) and \\(B\\) with difference sources \\(X\\) and \\(Y\\), the phase \\(\\mathfrak B=\\arg(\\rho_{00,10}\\rho_{10,11}\\rho_{11,01}\\rho_{01,00})\\) cancels the conservative phases and turns the \\(\\chi\\) factors into a nonnegative product, leaving \\(\\mathfrak B=(X|G_{\\rm PJ}|Y)\\); every classical-class model gives zero. Operationally, \\(\\mathfrak B\\) is the difference between the fringe shift that \\(B\\) induces on \\(A\\) and vice versa: quantum fields give one-way, causal influence, which a branchwise-definite model can match only by allowing signalling. An uncertainty relation for displacement operators bounds the witness by the visibilities.",
+    "For slow sources the witness reduces to the cross term of the Burke–Thorne radiation-reaction potential at 2.5 post-Newtonian order. In a Gaussian trajectory model the ratio to its budget reaches 0.906 for parallel axes at a delay \\(\\delta\\simeq0.62\\), so gravitational radiation nearly saturates the bound, but the absolute size is about \\(3\\times10^{-60}\\). In a trapped-ion analog, qubits play the branches and a shared motional mode the field; open displacements \\(\\alpha_X,\\alpha_Y\\) in orthogonal quadratures give \\(\\mathfrak B=2\\operatorname{Im}(\\alpha_Y^*\\alpha_X)\\) for any motional state, about 0.5 for \\(|\\alpha|\\simeq0.5\\)."
+  ],
+  "approved_on": "2026-10-27"
+}

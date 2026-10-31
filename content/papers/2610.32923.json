@@ -1,0 +1,47 @@
+{
+  "id": "2610.32923",
+  "topic": "information",
+  "title": "One-sided-DIQKD using any pure bipartite entangled state secure against all attacks",
+  "authors": "Bohnishikha Ghosh; Chithra Raj; Shubhayan Sarkar",
+  "submitted": "2026-10-23",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "In one-sided device-independent QKD, Bob’s measurements are trusted and Alice’s device is a black box, so security rests on quantum steering. Existing protocols use maximally entangled states, which are costly to make. Can every pure entangled state of any dimension yield a secret key in this setting, including with lossy detectors and noisy sources?",
+  "result": "Yes. In the noiseless case, self-testing of any pure state \\(\\sum_i\\alpha_i|ii\\rangle\\) gives a key rate equal to its entanglement entropy. With depolarizing visibility \\(\\nu\\) and efficiency \\(\\eta\\) on Alice’s side, an entropic-uncertainty bound gives a closed-form rate that is affine in \\(\\eta\\), and hence a critical efficiency for every pure state and visibility. The critical efficiency is 1/2 for maximally entangled states and rises only slowly as entanglement falls.",
+  "significance": "The protocol fits the bank-and-user setting with a trusted side, and it shows that weakly entangled states, which are cheaper or more robust to produce, still give keys. Unlike in Bell tests, non-maximal entanglement does not lower the efficiency threshold under this bound.",
+  "limitations": "The rate is asymptotic (Devetak–Winter) and the realistic case is only a lower bound. Security against coherent attacks is argued through entropy accumulation under its conditions rather than with a finite-key analysis. Noise is depolarizing and loss is modelled by a no-click outcome; Bob’s losses are handled by fair sampling. As printed, the Corollary’s \\(\\nu=1\\) threshold formula has a sign that disagrees with Theorem 2 (see methods).",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+  "verified_on": "2026-10-26",
+  "methods": [
+    {
+      "technique": "Key rate from the uncertainty relation with a trusted side",
+      "explanation": "When one party’s measurements are trusted and mutually unbiased, Eve’s uncertainty about the key basis is bounded by how well the untrusted party predicts the conjugate basis. Only observed conditional entropies are needed, with no model of the black box.",
+      "math": [
+        "The entropic uncertainty relation with quantum memory gives \\(H(B_Z|E)+H(B_X|A)\\ge\\log_2d\\) for Bob’s mutually unbiased bases, so \\(H(B|E)\\ge\\log_2d-H(B|A,X,X^*)\\) and \\(r_\\infty\\ge\\log_2d-H(B|A,Z,Z^*)-H(B|A,X,X^*)\\).",
+        "No-click rounds leave Bob’s \\(X\\) outcome uniform and his \\(Z\\) outcome distributed as \\(\\delta_b=\\nu\\alpha_b^2+(1-\\nu)/d\\), so \\(H(B|A,X)=\\eta C_X+(1-\\eta)\\log_2d\\) and \\(H(B|A,Z)=\\eta C_Z+(1-\\eta)N_Z\\). Substituting gives \\[r_\\infty\\ge\\eta(N_Z+\\log_2d-C_Z-C_X)-N_Z.\\]",
+        "Editorial check: building the joint distributions of Eqs. (24)–(27) explicitly and evaluating \\(\\log_2d-H(B|A,Z)-H(B|A,X)\\) reproduces the closed form to \\(10^{-5}\\) for \\(d=2,4,8\\) at several \\((\\nu,\\eta)\\). For a maximally entangled state, \\(N_Z=\\log_2d\\) and \\(C_Z=C_X=0\\), giving \\(\\eta_{\\rm crit}=1/2\\)."
+      ],
+      "transfer": "In any one-sided device-independent task (steering-based randomness, verification with a trusted lab), compute both conditional entropies from the observed joint table, keeping no-click outcomes, and apply the uncertainty relation. It requires the trusted measurements to be rank-one and mutually unbiased, so it does not carry over to the fully device-independent case."
+    },
+    {
+      "technique": "Critical efficiency from an affine rate, and a check on the printed formula",
+      "explanation": "Because loss enters only through mixing with no-click outcomes, the rate bound is affine in \\(\\eta\\) and its zero gives the critical efficiency directly. At \\(\\nu=1\\) the terms simplify to the entanglement entropy and the Fourier spectrum of the Schmidt coefficients.",
+      "math": [
+        "At \\(\\nu=1\\), \\(C_Z=0\\), \\(N_Z=S(\\rho_B)\\) and \\(C_X=-\\sum_kt_k\\log_2t_k\\) with \\(t_k=|F_k|^2/d\\), so Theorem 2 gives \\[\\eta_{\\rm crit}=\\frac{S(\\rho_B)}{S(\\rho_B)+\\log_2d+\\frac1d\\sum_k|F_k|^2\\log_2\\frac{|F_k|^2}d}.\\]",
+        "Editorial note: the Corollary as printed has a minus sign before the sum. For \\(d=2\\), \\(s=0.85\\), Theorem 2 gives \\(\\eta_{\\rm crit}=0.599\\) while the printed form gives 0.277; for \\(d=8\\), \\(s=0.3\\), the values are 0.523 and 0.455. Only the Theorem 2 values agree with the direct entropy computation and with the paper’s remark that partial entanglement does not lower the threshold below 1/2.",
+        "Editorial remark: with nonnegative Schmidt coefficients, \\(|F_0|^2=(\\sum\\alpha_i)^2>1\\) for any entangled state, so \\(t\\) is not uniform, \\(C_X<\\log_2d\\) and the slope is positive. This is why every pure entangled state yields a positive rate at high enough efficiency."
+      ],
+      "transfer": "For any protocol whose loss model mixes in a fixed no-click outcome, write the rate as \\(\\eta\\cdot\\text{slope}-\\text{intercept}\\) and read off \\(\\eta_{\\rm crit}\\). Recompute the special cases from the general formula rather than trusting a simplified display."
+    }
+  ],
+  "methods_source_section": "1SDI-QKD protocol and Eq. (1); Theorem 1 (Eqs. 2–7); Theorem 2 and Corollary (Eqs. 8–20); Appendix A (Eqs. 21–43)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "An untrusted source sends \\(\\rho_{AB}\\). Alice measures with uncharacterized POVMs, and Bob’s conditional states form an assemblage that must not admit a local-hidden-state model. Bob extracts the key from his \\(Z^*\\) outcomes, Alice corrects her string to his with one-way reconciliation, and Alice’s no-click events are kept as an extra outcome to avoid the detection loophole. The asymptotic rate is bounded by \\(H(B|E)-H(B|A)\\), with Eve holding a purification.",
+    "With Alice measuring \\(Z_d\\) and the Fourier basis \\(X_d\\), and Bob their complex conjugates, the noiseless statistics self-test the state and Alice’s measurements. Eve’s system then factorizes from Bob’s, so \\(H(B|E)=H(B)=-\\sum\\alpha_i^2\\log_2\\alpha_i^2=S(\\rho_B)\\), and perfect \\(Z\\) correlations give \\(H(B|A)=0\\). Every pure entangled state therefore yields a key at the rate of its entanglement entropy.",
+    "With noise and loss the statistics no longer self-test. Because Bob’s bases are mutually unbiased and trusted, \\(H(B|E)\\ge\\log_2d-H(B|A,X,X^*)\\). The joint distributions are explicit: in \\(Z\\), \\(\\eta[\\nu\\alpha_a^2\\delta_{ab}+(1-\\nu)/d^2]\\) plus no-click terms, and in \\(X\\), \\(\\tfrac\\eta{d^2}[\\nu|F_{a-b}|^2+1-\\nu]\\) with \\(F_k=\\sum_i\\alpha_i\\omega^{-ki}\\). This gives \\(r_\\infty\\ge\\eta[N_Z+\\log_2d-C_Z-C_X]-N_Z\\), where \\(N_Z\\), \\(C_Z\\) and \\(C_X\\) are Shannon entropies of the source and conditional distributions. The bound is affine in \\(\\eta\\) and vanishes at \\(\\eta_{\\rm crit}=N_Z/(N_Z+\\log_2d-C_Z-C_X)\\).",
+    "For the family \\(\\sqrt s|00\\rangle+\\sqrt{(1-s)/(d-1)}\\sum_{i\\ge1}|ii\\rangle\\) with \\(d=8\\), the critical efficiency rises with the largest Schmidt probability \\(s\\), more steeply at lower visibility. The key rate grows with entanglement and falls linearly with loss, and the maximally entangled state gives the largest rate at every visibility. Extending the bound to fully device-independent QKD would need an uncertainty relation without a trusted side."
+  ],
+  "approved_on": "2026-10-27"
+}

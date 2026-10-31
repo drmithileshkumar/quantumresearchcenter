@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-24; equations follow the paper’s notation.",
+  "verified_on": "2026-10-24",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30266",
+  "topic": "foundations",
+  "kind": "Theory and numerical analysis",
+  "title": "Discrete Time Liquids",
+  "authors": "Zuo Wang; Paul M. Schindler; Marin Bukov; Marios H. Michael",
+  "problem": "Time crystals break the discrete time-translation symmetry of a perfectly periodic drive. Can temporal order also emerge from noise, when the only drive is the thermal fluctuation of a cavity mode with finite coherence time?",
+  "result": "Yes. A two-dimensional classical spin lattice coupled to a thermal cavity mode locks to half the cavity frequency within a window of bath temperatures. When the cavity coherence time is short, single trajectories switch stochastically between the two period-doubled configurations. These switches, called time-solitons, destroy long-range temporal coherence while preserving local period doubling: a discrete time liquid. A one-parameter toy model with independent sign flips reproduces the full distribution of single-trajectory correlation times.",
+  "significance": "It introduces a new kind of temporal order, the time analogue of a melted crystal, and shows that thermal noise can create rather than destroy it: order appears on heating. Because ensemble averaging over soliton times restores continuous time-translation symmetry, it suggests a route to temporal order compatible with thermal equilibrium.",
+  "limitations": "The spins are classical and the backaction of the spins on the cavity is neglected, so solitons are independent by construction. The coupling, which modulates interaction and transverse field out of phase, is engineered; the authors identify engineering it as the main experimental challenge. The phase boundaries rely on numerical thresholds, such as a correlation-to-thermalization ratio of 0.418.",
+  "description": [
+    "A conventional discrete time crystal alternates ferromagnetic Ising evolution with a global \\(\\pi\\) spin flip and responds at half the drive frequency. Here no external drive is applied. An \\(L\\times L\\) lattice of classical spins has Hamiltonian \\(H=-J_{\\rm eff}(t)\\sum_{\\langle ij\\rangle}S^z_iS^z_j-g_{\\rm eff}(t)\\sum_iS^x_i\\), with \\(J_{\\rm eff}=J[1+\\lambda y(t)]\\) and \\(g_{\\rm eff}=g_0[1-\\lambda y(t)]\\). The cavity coordinate obeys \\(\\ddot y+\\gamma\\dot y+\\omega_0^2y=\\xi(t)\\) with thermal white noise. A weakly damped mode filters the noise into a quasi-periodic signal \\(y\\simeq R\\cos(\\omega_{\\rm c}t+\\varphi)\\), whose Rayleigh-distributed amplitude has \\(\\langle R^2\\rangle=2T_{\\rm bath}/T_0\\) and whose phase is remembered only for \\(\\tau_{\\rm cav}=2/\\gamma\\).",
+    "When \\(R\\approx1\\), interaction and transverse field switch on out of phase, which approximates a kicked evolution; \\(g_0\\) is set so that each period rotates the spins by \\(\\pi+\\varepsilon_0\\). Simulations at very long \\(\\tau_{\\rm cav}\\) show a sharp subharmonic peak only in a window of bath temperature. Too cold, the drive cannot separate the two terms in time and the spins precess freely; too hot, the dynamics becomes chaotic. The response at \\(\\nu=\\pi\\) is absent from the drive spectrum. Mapping each cavity cycle to an effective kick deviation and amplitude shows why it survives: the cloud of per-cycle drive parameters overlaps the broad, interaction-stabilized band where a deterministic drive gives long-lived period doubling. As in prethermal time crystals, the lifetime grows exponentially with \\(\\omega_{\\rm c}\\).",
+    "At short \\(\\tau_{\\rm cav}\\), the period-doubled component \\((-1)^nM^z\\) is repeatedly suppressed and reappears with the opposite sign: once the cavity phase has drifted by half a period, the lattice relocks to the new phase. The authors compare three times: the ensemble correlation time \\(\\tau^{\\rm ens}_{\\rm corr}\\) (average first), the mean single-trajectory correlation time, and the thermalization time \\(\\tau_{\\rm th}\\), which ignores the sign. They obey \\(\\tau^{\\rm ens}_{\\rm corr}\\le\\langle\\tau_{\\rm corr}\\rangle\\le\\tau_{\\rm th}\\) and separate when solitons occur. A windowed measure of local period doubling stays finite far beyond \\(\\tau_{\\rm cav}\\) and falls only near \\(\\tau_{\\rm th}\\), so solitons reset the phase without destroying the order.",
+    "The toy model writes \\(s(n)=e^{-n\\tau/\\tau_{\\rm th}}\\sigma(n)\\), where the sign \\(\\sigma\\) flips independently with probability \\(p\\) per period, giving a soliton density \\(\\rho_{\\rm sol}=p/\\tau\\). Matching only \\(\\tau_{\\rm th}\\) and \\(\\tau^{\\rm ens}_{\\rm corr}\\) to the lattice data, with no free parameter, it reproduces the measured histogram of single-trajectory correlation times. In the soliton-dominated regime \\(\\tau^{\\rm ens}_{\\rm corr}\\simeq\\tau_{\\rm cav}\\), so the cavity sets \\(\\rho_{\\rm sol}\\simeq1/(2\\tau_{\\rm cav})\\). The dimensionless number \\(\\rho_{\\rm sol}\\tau_{\\rm th}\\) separates a prethermal time crystal (less than one soliton per lifetime) from a time liquid. Proposed platforms are noise-pumped cavity Bose gases and dipole arrays near surface phonon polaritons."
+  ],
+  "methods_source_section": "Sections II–IV (Eqs. 3–11); Methods (Eqs. 12–19); Supplemental Sections S2, S5 and S8 (Eqs. S.15–S.40)",
+  "methods": [
+    {
+      "technique": "Treat a narrow-band thermal mode as a random-amplitude, random-phase drive",
+      "explanation": "Over times shorter than the mode’s damping time, a filtered thermal coordinate is a sinusoid with frozen Rayleigh amplitude and uniform phase. Each realization is then a deterministic Floquet problem with random parameters, and the stochastic response can be read off a deterministic phase diagram.",
+      "math": [
+        "With quadratures \\(y=C\\cos\\omega_{\\rm c}t+S\\sin\\omega_{\\rm c}t\\), \\(C\\) and \\(S\\) are independent Gaussians of variance \\(\\sigma_R^2=k_BT_{\\rm bath}/(M\\omega_0^2L^2)\\) (equipartition), so \\(R=\\sqrt{C^2+S^2}\\) has density \\((R/\\sigma_R^2)e^{-R^2/2\\sigma_R^2}\\), and the correlation \\(\\langle y(t)y(0)\\rangle\\propto e^{-\\gamma t/2}\\cos\\omega_{\\rm c}t\\) defines \\(\\tau_{\\rm cav}=2/\\gamma\\).",
+        "Per-cycle parameters: \\(\\varepsilon_{\\rm cycle}(n)=\\varepsilon_0-g_0\\lambda\\int_{n\\tau}^{(n+1)\\tau}y\\,dt\\) and \\(R_{\\rm cycle}(n)=\\bigl(\\tfrac2\\tau\\int_{n\\tau}^{(n+1)\\tau}y^2dt\\bigr)^{1/2}\\). Period doubling persists when the cloud \\(\\{(\\varepsilon_{\\rm cycle},R_{\\rm cycle})\\}\\) lies inside the deterministic band of long correlation time."
+      ],
+      "transfer": "When a system is driven by filtered noise, first solve the deterministic problem with a pure tone over the relevant parameter plane, then map each noise realization to a cloud of per-cycle effective parameters. Overlap of the cloud with the stable region predicts the stochastic behaviour without further simulation."
+    },
+    {
+      "technique": "Separate defects from decay with three nested correlation times",
+      "explanation": "Taking the modulus at different stages (inside the sum, after the sum, after the ensemble average) gives three times whose ordering is guaranteed. Their separation measures how much coherence is lost to sign flips rather than to amplitude decay, and a telegraph model makes it quantitative.",
+      "math": [
+        "Definitions: \\(\\tau_{\\rm th}=\\tau\\,\\mathbb E\\sum_k|s(k)|\\), \\(\\langle\\tau_{\\rm corr}\\rangle=\\tau\\,\\mathbb E\\bigl|\\sum_ks(k)\\bigr|\\), \\(\\tau^{\\rm ens}_{\\rm corr}=\\tau\\bigl|\\sum_k\\mathbb E\\,s(k)\\bigr|\\). The triangle inequality gives \\(\\tau^{\\rm ens}_{\\rm corr}\\le\\langle\\tau_{\\rm corr}\\rangle\\le\\tau_{\\rm th}\\).",
+        "For independent flips, \\(\\mathbb E[\\sigma(m)\\sigma(m+k)]=(1-2p)^k\\), so \\(\\tau^{\\rm ens}_{\\rm corr}=\\tau/[1-(1-2p)e^{-\\tau/\\tau_{\\rm th}}]\\approx1/(2\\rho_{\\rm sol}+\\tau_{\\rm th}^{-1})\\). Editorial check (400 simulated trajectories, \\(p=0.01\\), \\(\\tau_{\\rm th}=2000\\tau\\)): \\(\\tau^{\\rm ens}_{\\rm corr}=44.6\\tau\\) against 48.8 from the formula, within sampling noise, and the ordering \\(44.6\\le251\\le2000\\) holds."
+      ],
+      "transfer": "To tell whether an order parameter is lost through amplitude decay or through phase slips, compare correlation times with the modulus taken before and after averaging. If they separate, fit a telegraph model; the slip density then follows from the ensemble time alone."
+    }
+  ],
+  "approved_on": "2026-10-24"
+}

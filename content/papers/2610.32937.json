@@ -1,0 +1,45 @@
+{
+  "id": "2610.32937",
+  "topic": "foundations",
+  "title": "Certain Quantum States Already Require Quantum Time Evolution",
+  "authors": "Joel D. Huber; Matthias Kleinmann",
+  "submitted": "2026-10-23",
+  "version": "v1",
+  "kind": "Theory and numerical analysis",
+  "problem": "Bell tests check quantum theory without assuming a model, but only its static structure. Could the dynamics be tested the same way? In phase-space theories where states are quasi-probability distributions and evolution is given by a generalized bracket, does the presence of certain states in the theory force the bracket to be the quantum (Moyal) one?",
+  "result": "Yes. Requiring that position and momentum marginals stay nonnegative under anharmonic evolution ties states to dynamics. If a particular superposition of the lowest three oscillator states is admissible, the bracket must be the Moyal bracket to all orders in \\(\\hbar^2\\). If only the first excited oscillator state is admissible, the leading correction must equal the quantum value \\(a_1=-1/24\\). The ground state alone allows any \\(a_1\\) between the classical value 0 and \\(-1/24\\).",
+  "significance": "It turns a structural question about modified dynamics into a tomography experiment: the tomography uses only harmonic evolution, which is identical in every theory considered, so it does not presuppose quantum mechanics. Existing tomography of a motional Fock state already rules out part of the parameter range.",
+  "limitations": "The class of theories is the generalized Moyal bracket: antisymmetric bidifferential operators with linear action of quadratic Hamiltonians. The first-excited-state result constrains only the leading order \\(a_1\\), and the all-orders result uses a state that is hard to prepare and needs arbitrary odd-power potentials. Simulations neglect the kinetic term. The existing experiment, at fidelity 0.43 with the excited state, does not exclude values between classical and quantum dynamics.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+  "verified_on": "2026-10-26",
+  "methods": [
+    {
+      "technique": "Positivity of marginals under evolution as a consistency test between states and dynamics",
+      "explanation": "A theory is consistent only if its admissible states stay admissible under its dynamics. Marginal positivity is a necessary condition that does not require specifying the full state space, so a single preparable state with fine structure can rule out families of dynamical laws.",
+      "math": [
+        "For \\(H\\approx\\gamma q^3\\), Fourier transforming in \\(p\\) (\\(\\partial_p\\to ik\\)) gives \\(\\partial_t\\hat\\rho=3i\\gamma k(q^2-2a_1\\hbar^2k^2)\\hat\\rho\\), so \\(\\hat\\rho(q,k,t)=\\hat\\rho_0(q,k)\\,e^{3i\\gamma tk(q^2-2a_1\\hbar^2k^2)}\\). The momentum marginal is the \\(q\\)-integral of the inverse transform; the \\(k^3\\) phase is an Airy-type convolution that creates fringes whose sign depends on \\(a_1\\).",
+        "Editorial check: evolving the oscillator states (\\(\\hbar=m=\\omega=1\\)) to \\(t\\gamma=1.5\\,\\sigma_q^2/\\sigma_p\\) with this solution, the ground-state marginal stays nonnegative (to \\(10^{-9}\\)) for \\(a_1=0\\), \\(-1/48\\) and \\(-1/24\\), but dips to \\(-17\\%\\) and \\(-1\\%\\) of its maximum for \\(a_1=+0.02\\) and \\(-0.06\\). For the first excited state only \\(a_1=-1/24\\) stays nonnegative; \\(a_1=0\\) and \\(-1/48\\) give minima of \\(-73\\%\\) and \\(-18\\%\\) of the maximum."
+      ],
+      "transfer": "To test a proposed modification of a dynamical law, find a state that the modified theory must also contain (for instance one with a theory-independent preparation and tomography) and evolve it under a strongly nonlinear generator. Look for the first order at which the marginals could turn negative. This works whenever the observable statistics are marginals of a linearly evolving quasi-distribution."
+    },
+    {
+      "technique": "Zeros of a marginal as a short-time probe of higher-order terms",
+      "explanation": "When a state’s marginal vanishes at a point, the first nonzero time derivative there decides whether it becomes negative. Because a zero offers no slack, this gives sharp inequalities on the coefficients of the generator that complement the long-time asymptotics.",
+      "math": [
+        "The first excited state has \\(P_p(0,0)=0\\) as a minimum. Expanding \\(P_p(0,t)\\) in \\(t\\) under the generalized bracket, the companion analysis shows that the leading nonvanishing term is negative for \\(-\\tfrac1{24}<a_1<\\tfrac18\\). The asymptotic analysis separately requires \\(-\\tfrac1{24}\\le a_1\\le0\\). The only common value is \\(a_1=-\\tfrac1{24}\\), the Moyal coefficient \\(a_1^{\\rm M}=-1/(4\\cdot3!)\\).",
+        "Editorial remark: the ground state has no zero in its marginal, which is why it admits a whole interval of \\(a_1\\). States with nodes, such as Fock states, are the natural probes."
+      ],
+      "transfer": "In any positivity-based consistency argument (generalized probabilistic theories, modified master equations, quasi-probability dynamics), look first at states whose observable distributions have exact zeros. Their short-time expansion often gives the strongest constraints at the lowest order, without solving the full dynamics."
+    }
+  ],
+  "methods_source_section": "Phase-space dynamics (Eqs. 1–3); consistency condition (Eq. 4); cubic potential (Eqs. 5–9); tomography and experimental constraints; Appendix A",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "In a phase-space theory a state is a normalized quasi-probability \\(\\rho(q,p)\\) whose marginals are the position and momentum distributions. Classical mechanics evolves states with the Poisson bracket and quantum mechanics with the Moyal bracket \\(\\tfrac2\\hbar f\\sin(\\tfrac\\hbar2D)g\\). The paper studies \\(\\{f,g\\}_{\\rm GM}=\\{f,g\\}_{\\rm P}+\\sum_na_n\\hbar^{2n}fD^{2n+1}g\\), which includes both (\\(a_n^{\\rm P}=0\\), \\(a_n^{\\rm M}=(-1)^n/[2^{2n}(2n+1)!]\\)). It is the most general antisymmetric bidifferential bracket consistent with the Poisson bracket for \\(H=T(p)+V(q)\\), and it need not satisfy the Jacobi identity. Consistency means that every admissible state keeps nonnegative marginals at all times.",
+    "For potentials up to \\(q^4\\) only \\(a_1\\) enters. In a cubic potential with the kinetic term neglected, \\(\\dot\\rho=3\\gamma(q^2\\partial_p\\rho+2a_1\\hbar^2\\partial_p^3\\rho)\\), so each slice in \\(q\\) is shifted in momentum while the third-derivative term builds interference fringes. For the oscillator ground state, marginals stay nonnegative exactly when \\(a_1^{\\rm M}\\le a_1\\le a_1^{\\rm P}\\). The first excited state has a zero of \\(P_p\\) at the origin. Short-time analysis shows that this zero turns negative unless \\(a_1\\le-1/24\\) or \\(a_1\\ge1/8\\), and combined with the same asymptotic window this leaves only \\(a_1=-1/24\\).",
+    "A state proportional to \\(\\tfrac1{\\sqrt6}|0\\rangle+\\tfrac i{\\sqrt2}|1\\rangle-\\tfrac1{\\sqrt3}|2\\rangle\\) is stronger. If it is admissible and every potential \\(q^{2n+1}\\) can be applied for short times, positivity of the momentum marginal forces \\(a_n=a_n^{\\rm M}\\) for all \\(n\\). Because this state is neither an eigenstate nor rotationally symmetric, it is hard to certify, which motivates the first-excited-state result.",
+    "Harmonic potentials rotate phase space identically in every theory of this class, so tomography by rotation and the inverse Radon transform is theory independent. Random rotation times give rotationally symmetrized states, which suffice for the first excited state. Second-quantized optical Fock states are unsuitable because only weak anharmonicity (Kerr) is available, so motional states of atoms or ions are proposed. A recent \\({}^{87}\\)Rb tweezer reconstruction constrains \\(a_1\\) only to the range already allowed by the ground state; a mixture \\(0.2\\rho_0+0.8\\rho_1\\) would exclude \\(a_1\\le-0.0444\\) and \\(a_1\\ge-0.0125\\)."
+  ],
+  "approved_on": "2026-10-27"
+}

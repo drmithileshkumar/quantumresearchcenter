@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+  "verified_on": "2026-10-22",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.29696",
+  "topic": "information",
+  "kind": "Theory",
+  "title": "Quantum f-divergences from retrodiction: a unifying classical variational principle",
+  "authors": "Francesco Buscemi",
+  "problem": "A classical \\(f\\)-divergence has several inequivalent quantum extensions. Can they all be obtained from one operational optimization?",
+  "result": "Yes. Compare a forward prepare-and-measure process with its reverse, obtained by Petz retrodiction relative to a reference prior \\(\\gamma\\), subject to prescribed averages \\(\\rho\\) and \\(\\sigma\\). The minimum classical \\(f\\)-divergence between their complete records is attained by one spectral implementation, simultaneously for every operator-convex \\(f\\). A flat prior gives the standard (Petz) divergence, Umegaki for relative entropy. A prior equal to \\(\\rho\\) or \\(\\sigma\\) gives the maximal divergence, Belavkin–Staszewski for relative entropy, and power priors \\(\\gamma\\propto\\sigma^t\\) give the geodesic family between them.",
+  "significance": "Recasts the different quantum divergences as different choices of prior for retrodiction rather than different formulas. Nussbaum–Szkoła distributions and Matsumoto’s reverse tests become optimal records of a single experiment.",
+  "limitations": "Finite dimension and faithful states throughout, and \\(f\\) must be operator convex, not merely convex. Both labels must be kept in the record; otherwise the minimum is trivially zero. The result characterizes known divergences rather than introducing new ones, and for a general prior the minimum depends on \\(\\gamma\\), even when \\(\\rho=\\sigma\\).",
+  "description": [
+    "An implementation consists of two ensembles. The states \\(\\tau_i\\) average to \\(\\gamma\\) under reference weights \\(g_i\\) and to \\(\\rho\\) under actual weights \\(a_i\\); the states \\(\\upsilon_j\\) average to \\(\\gamma\\) and \\(\\sigma\\) in the same way. With \\(A=\\gamma^{-1/2}\\rho\\gamma^{-1/2}\\) and \\(B=\\gamma^{-1/2}\\sigma\\gamma^{-1/2}\\), choosing an implementation is the same as resolving \\(A=\\sum_i\\lambda_iE_i\\) and \\(B=\\sum_j\\mu_jH_j\\) into weighted POVMs. Then \\(\\tau_i=\\sqrt\\gamma E_i\\sqrt\\gamma/g_i\\) is the Petz retrodiction of outcome \\(i\\). The forward process draws \\(i\\), prepares \\(\\tau_i\\) and measures \\(\\{H_j\\}\\); the reverse draws \\(j\\), prepares \\(\\upsilon_j\\) and measures \\(\\{E_i\\}\\). Both report \\((i,j)\\), with laws \\(F_{ij}=\\lambda_iJ_{ij}\\) and \\(R_{ij}=\\mu_jJ_{ij}\\), where \\(J_{ij}=\\operatorname{Tr}[\\sqrt\\gamma E_i\\sqrt\\gamma H_j]\\).",
+    "Theorem 3.1 states that, for operator-convex \\(f\\) with \\(f(1)=0\\), \\[\\min D_f(R\\|F)=\\sum_{k,l}\\alpha_kf\\!\\left(\\frac{\\beta_l}{\\alpha_k}\\right)\\operatorname{Tr}\\bigl[\\sqrt\\gamma P_k\\sqrt\\gamma Q_l\\bigr],\\] where \\(A=\\sum_k\\alpha_kP_k\\) and \\(B=\\sum_l\\beta_lQ_l\\) are spectral decompositions. The spectral POVMs attain the minimum for every such \\(f\\) at once. For relative entropy the minimum is \\(\\operatorname{Tr}[\\gamma B\\log B]-\\operatorname{Tr}[\\sigma\\log A]\\). It vanishes only when \\(\\rho=\\sigma\\) and \\(\\rho\\) commutes with \\(\\gamma\\): equal averages with a noncommuting prior still leave distinguishable records.",
+    "The prior selects the divergence. With \\(\\gamma=I/d\\), the minimum is the Petz divergence \\(\\sum_{i,j}r_if(s_j/r_i)\\operatorname{Tr}[P_iQ_j]\\), attained by the Nussbaum–Szkoła records \\(F_{ij}=r_i|\\braket{r_i}{s_j}|^2\\) and \\(R_{ij}=s_j|\\braket{r_i}{s_j}|^2\\). With \\(\\gamma=\\rho\\), \\(A=I\\) and the minimum is \\(\\operatorname{Tr}[\\rho f(L)]\\) with \\(L=\\rho^{-1/2}\\sigma\\rho^{-1/2}\\): the maximal divergence, attained by Matsumoto’s reverse test. The prior \\(\\gamma_t=\\sigma^t/\\operatorname{Tr}\\sigma^t\\) gives the geodesic divergences of Capel and Costa Rico, which for relative entropy read \\(D_t(\\sigma\\|\\rho)=(1-t)\\operatorname{Tr}[\\sigma\\log\\sigma]-\\operatorname{Tr}[\\sigma\\log(\\sigma^{-t/2}\\rho\\sigma^{-t/2})]\\).",
+    "Combining optimal implementations gives convexity at a fixed prior. For relative entropy it gives a stronger bound: \\(V(\\sum_kp_k\\rho_k,\\sigma)\\le-\\log\\sum_kp_ke^{-V(\\rho_k,\\sigma)}\\), obtained by letting the reverse process choose components with \\(q_k\\propto p_ke^{-v_k}\\). The same spectral optimality holds with a channel \\(\\mathcal E\\) inserted between preparation and measurement, with its Petz transpose in the reverse process. For channels with faithful Choi operator, the minimum coincides with a known measure of average entropy production."
+  ],
+  "methods": [
+    {
+      "technique": "Two operator-Jensen steps remove the implementation freedom",
+      "explanation": "Each weighted POVM resolution is collapsed to a function of the fixed operator it resolves, and equality holds for spectral resolutions.",
+      "math": [
+        "Write \\(D_f(R\\|F)=\\sum_i\\lambda_i\\operatorname{Tr}\\bigl[\\sqrt\\gamma E_i\\sqrt\\gamma\\sum_jf(\\mu_j/\\lambda_i)H_j\\bigr]\\). Operator Jensen for the POVM \\(\\{H_j\\}\\) gives \\(\\sum_jf(\\mu_j/\\lambda_i)H_j\\ge f(B/\\lambda_i)\\). Expanding \\(B\\) spectrally leaves \\(\\sum_l\\operatorname{Tr}\\bigl[\\sqrt\\gamma Q_l\\sqrt\\gamma\\sum_i\\lambda_if(\\beta_l/\\lambda_i)E_i\\bigr]\\). The map \\(u\\mapsto uf(\\beta/u)\\) is operator convex, being a transpose of \\(f\\). A second Jensen step over \\(\\{E_i\\}\\) gives \\(\\sum_i\\lambda_if(\\beta_l/\\lambda_i)E_i\\ge Af(\\beta_lA^{-1})\\), and tracing against \\(\\sqrt\\gamma Q_l\\sqrt\\gamma\\ge0\\) gives the bound. For spectral resolutions every operator commutes with its POVM, so both steps hold with equality.",
+        "Editorial check: for random faithful qutrit states \\(\\rho,\\sigma,\\gamma\\) and \\(f(u)=u\\log u\\), the spectral value \\(2.0628\\) equals the closed form of Corollary 3.2. Five hundred random admissible implementations, built by mixing a random POVM into each spectral resolution, all gave larger values, the smallest being \\(2.334\\)."
+      ],
+      "transfer": "When an operational quantity is minimized over all ways of resolving fixed operators into weighted POVMs, apply operator Jensen once per resolution; spectral resolutions attain equality. The argument survives inserting a channel, as the paper shows, and should carry over to other quasi-entropies with a fixed operator sandwiched between the arguments."
+    },
+    {
+      "technique": "The retrodiction prior selects the quantum divergence",
+      "explanation": "The same minimum, evaluated at different priors, reproduces the standard, maximal and geodesic divergences, so their differences become differences of prior.",
+      "math": [
+        "Flat prior: \\(A=d\\rho\\) and \\(B=d\\sigma\\), and for \\(f(u)=u\\log u\\) the minimum is \\(\\operatorname{Tr}[\\sigma(\\log\\sigma-\\log\\rho)]\\). Prior \\(\\rho\\): \\(A=I\\), so only one effect is nontrivial and the value is \\(\\operatorname{Tr}[\\rho L\\log L]=\\operatorname{Tr}[\\sigma\\log(\\sigma^{1/2}\\rho^{-1}\\sigma^{1/2})]\\), the Belavkin–Staszewski entropy. Prior \\(\\sigma\\) gives the same value through \\(\\operatorname{Tr}[\\sigma Kf(K^{-1})]\\) with \\(K=\\sigma^{-1/2}\\rho\\sigma^{-1/2}\\). Power prior: \\(A_t=Z_t\\sigma^{-t/2}\\rho\\sigma^{-t/2}\\) and \\(B_t=Z_t\\sigma^{1-t}\\); the factors \\(\\log Z_t\\) cancel, leaving \\(D_t(\\sigma\\|\\rho)\\).",
+        "Editorial check with random qutrit states: the flat prior gives \\(1.3611\\), equal to the Umegaki value. The priors \\(\\rho\\) and \\(\\sigma\\) both give \\(1.6767\\), equal to the Belavkin–Staszewski value in either form. At \\(t=0.4\\) the minimum equals Eq. (19), \\(1.5832\\). With \\(\\rho=\\sigma\\) and a noncommuting \\(\\gamma\\), the minimum is \\(0.338>0\\), as Remark 3.3 predicts."
+      ],
+      "transfer": "When two quantum generalizations of a classical quantity disagree, look for a reference state that the classical derivation fixes implicitly, such as a uniform prior or one of the arguments. Making it explicit can turn separate definitions into one family indexed by the prior, so that an inequality proved once for every prior holds for every member."
+    }
+  ],
+  "methods_source_section": "Section 2 (Definition 2.1, Eqs. 1–5); Section 3 (Theorem 3.1, Corollary 3.2, Remark 3.3); Section 4; Section 5 (Proposition 5.1); Section 6",
+  "approved_on": "2026-10-22"
+}

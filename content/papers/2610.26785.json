@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+  "verified_on": "2026-10-21",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "id": "2610.26785",
+  "topic": "computing",
+  "version": "v1",
+  "submitted": "2026-10-19",
+  "kind": "Numerical study and analysis",
+  "title": "Correlated decoding loses the surface code’s effective distance below threshold",
+  "authors": "César Hernando de la Fuente; Joonas Majaniemi; Evert van Nieuwenburg; Felix Frohnert",
+  "problem": "Does two-pass correlated decoding of the surface code keep its advantage far below threshold?",
+  "result": "Not with the standard reweighting rule. Under circuit-level noise some size-\\((d-1)/2\\) fault configurations cause logical failures, so the logical error rate scales like \\(p^{(d-1)/2}\\) instead of \\(p^{(d+1)/2}\\). At \\(d=3\\) and \\(p=10^{-5}\\), correlated matching fails about 4.4 times as often as plain matching. Scaling the conditional edge probabilities by an error-rate-dependent factor \\(\\alpha^*(p)\\) restores the distance scaling and a steady advantage.",
+  "significance": "Low-error and hierarchical architectures operate decoders far below threshold, where the smallest failing fault configurations dominate the logical error rate.",
+  "limitations": "The results are simulations of \\(d\\)-round memory experiments on the rotated surface code under SI1000 and uniform depolarizing noise. \\(\\alpha^*(p)\\) is an empirical three-parameter fit, and how to use correlations without losing distance in general is left open.",
+  "description": [
+    "Matching and union-find decoders split the surface-code syndrome into two graphs, one for \\(X\\)-type and one for \\(Z\\)-type checks, and decode them separately. That discards information about errors that trigger both, such as \\(Y\\) errors and cross-basis two-qubit gate errors. Correlated decoding recovers some of it in two passes. After the first pass, each selected edge \\(e_\\mu\\) is treated as having occurred, and every edge \\(e_\\nu\\) sharing an error mechanism with it is reweighted by \\[p_\\nu^{\\prime}=P(e_\\nu\\mid e_\\mu)=\\frac{p_{\\nu\\mu}}{p_\\mu},\\qquad w_\\nu^{\\prime}=\\log\\frac{1-p_\\nu^{\\prime}}{p_\\nu^{\\prime}}.\\] The second pass decodes with the updated weights. Near threshold, \\(p\\sim10^{-3}\\), this beats one-pass decoding.",
+    "The authors simulate rotated surface-code memories with \\(d\\) rounds under SI1000 noise, down to \\(p=10^{-5}\\). For correlated matching the advantage shrinks below \\(p\\simeq5\\times10^{-4}\\) at every distance. At \\(d=3\\) the correlated decoder is worse below \\(4\\times10^{-4}\\); at \\(d=5\\) it crosses over near \\(4\\times10^{-5}\\). Riverlane’s correlated Local Clustering Decoder shows the same trend, which points to the reweighting rule rather than either decoder. At \\(p=10^{-5}\\), over 80% of the \\(d=3\\) correlated failures come from syndromes that the uncorrelated decoder corrects. Fitted exponents approach \\((d-1)/2\\): one unit of effective distance is lost.",
+    "The cause is specific to circuit-level noise. One first-pass edge can be shared by several independent mechanisms, each with its own partner edge, and the rule discounts all of those partners at once. A correction that uses two discounted partners then looks cheap, although explaining both requires an extra independent fault. At \\(d=3\\) a single \\(XY\\) error on a \\(CZ\\) gate already produces such a failure.",
+    "The fix multiplies the conditional probability by a reweighting strength, \\(p_\\nu^{\\prime}(\\alpha)=\\alpha P(e_\\nu\\mid e_\\mu)\\), with the empirical model \\(\\alpha^*(p)=\\alpha_0/(1+(p_0/p)^k)\\). Regularized matching beats both alternatives down to the lowest \\(p\\) sampled. At \\(p=10^{-4}\\) the ratios to plain matching are about 0.55 at \\(d=5\\) and 0.35 at \\(d=7\\), against 0.73 and 0.45 for standard correlated matching. The new weights are computed once at initialization, so decoding speed is unchanged."
+  ],
+  "methods": [
+    {
+      "technique": "Count the independent faults behind a correction",
+      "explanation": "Matching weights are additive, so they implicitly multiply probabilities as if every edge were an independent fault. The authors compare that implied probability with the true one for corrections that reuse one first-pass edge.",
+      "math": [
+        "An edge triggered by mechanisms of total rate \\(c_\\nu p\\) has \\(p_\\nu=c_\\nu p+O(p^2)\\), so its weight is \\(w_\\nu=\\log(1/p)-\\log c_\\nu+O(p)\\): each independent fault costs about \\(\\log(1/p)\\). After conditioning on \\(e_\\mu\\), a partner has \\(q_\\nu=P(e_\\nu\\mid e_\\mu)=O(1)\\), and its weight is \\(O(1)\\).",
+        "Given \\(e_\\mu\\), only one partner can be explained by the mechanism that also produced \\(e_\\mu\\). The other needs an independent fault, with probability \\(r_\\sigma=P(e_\\sigma\\wedge\\lnot e_\\mu)=O(p)\\). To leading order \\[P(e_\\nu\\wedge e_\\sigma\\mid e_\\mu)\\simeq q_\\nu r_\\sigma+q_\\sigma r_\\nu=O(p),\\] but the second pass assigns \\(q_\\nu q_\\sigma=O(1)\\). The decoder therefore underestimates the cost by \\[\\Delta w=\\log\\frac{q_\\nu q_\\sigma}{q_\\nu r_\\sigma+q_\\sigma r_\\nu}\\simeq\\log\\frac1p,\\] the weight of one fault. When the right and wrong corrections otherwise use the same number of undiscounted edges, the \\(O(1)\\) discounted weights decide the outcome (the paper’s Eq. 11). A configuration of \\((d-1)/2\\) faults can then be matched to a logically wrong correction, and \\(P_L\\) falls only as \\(p^{(d-1)/2}\\)."
+      ],
+      "transfer": "For any decoder that updates priors conditionally (belief matching, soft-information or leakage-aware decoders), check that every combination of discounted elements still pays \\(\\log(1/p)\\) for each extra independent fault needed to explain it. Test the low-\\(p\\) scaling exponent, not only the near-threshold ratio; this failure is invisible at \\(p\\sim10^{-3}\\)."
+    },
+    {
+      "technique": "Regularize the update with one error-rate-dependent parameter",
+      "explanation": "Rather than redesign the decoder, the authors weaken the conditional update by a factor \\(\\alpha\\) chosen for the operating error rate, and fit how the best \\(\\alpha\\) varies with \\(p\\).",
+      "math": [
+        "With \\(p_\\nu^{\\prime}(\\alpha)=\\alpha q_\\nu\\), the discounted weight becomes \\(\\log\\bigl((1-\\alpha q_\\nu)/(\\alpha q_\\nu)\\bigr)\\), which for small \\(\\alpha q_\\nu\\) is about \\(w_\\nu^{\\prime}(1)+\\log(1/\\alpha)\\). Every discounted edge pays an extra \\(\\log(1/\\alpha)\\). A correction using two discounted partners pays it twice, while the correct correction, with one partner, pays it once. The penalty is therefore aimed at exactly the over-discounted corrections.",
+        "Near threshold, larger fault configurations dominate and strong reweighting (\\(\\alpha\\approx1\\)) helps. Far below threshold, gentler discounts are needed. The fit \\(\\alpha^*(p)=\\alpha_0/(1+(p_0/p)^k)\\) interpolates between the two regimes; at \\(p\\sim10^{-5}\\) it gives \\(\\alpha^*\\simeq0.03\\), which is still nonzero. Editorial reading: for \\(p\\ll p_0\\), \\(\\log(1/\\alpha^*)\\approx k\\log(p_0/p)-\\log\\alpha_0\\), so the penalty grows with \\(\\log(1/p)\\), like the missing fault weight it compensates."
+      ],
+      "transfer": "When a heuristic correction helps near threshold but hurts far below it, add one strength parameter, grid-search it across \\(p\\), and fit a smooth interpolation. Check that the fitted penalty scales like the error the heuristic neglects. Because the weights can be computed at initialization, the decoder’s latency is unchanged."
+    }
+  ],
+  "methods_source_section": "Main text (Setup; Origin of the correlated decoder failures; Regularized correlated decoding); Appendices C, E.1 and G",
+  "approved_on": "2026-10-21"
+}

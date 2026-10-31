@@ -1,0 +1,47 @@
+{
+  "id": "2610.31187",
+  "topic": "foundations",
+  "title": "Entanglement certification of attosecond light fields with photoelectron interferometry",
+  "authors": "Philipp Stammer",
+  "submitted": "2026-10-22",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "High-harmonic generation is predicted to entangle the infrared driving field with extreme-ultraviolet harmonics. Standard optical certification needs local oscillators or photon-correlation detectors that barely exist at XUV frequencies. Can photoelectron interferometry (RABBIT), already routine in attosecond science, certify that entanglement on its own?",
+  "result": "Not from one sideband: every set of single-sideband moments has a fully separable explanation. Adding the two neighbouring sidebands supplies moments \\(U\\) and \\(V\\), and \\(|Q|^2>UV\\) then certifies IR–XUV entanglement through the partial transpose. A further bound \\(|Q|>H(U,V)\\) certifies genuine three-mode entanglement and is tight when \\(U=0\\). On model states, a displaced two-mode squeezed state is certified only in a window of displacement and squeezing, and a non-Gaussian GME family only for squeezing \\(r<0.043\\).",
+  "significance": "These are the first proven separability bounds for attosecond quantum light that use only electron spectra. They turn an established pulse-characterization technique into an entanglement test across very different frequencies, without auxiliary optical measurements.",
+  "limitations": "The witnesses are sufficient, not necessary, and miss much entanglement: the Gaussian example is entangled for all parameters but certified only in a small region. The model keeps three modes at lowest perturbative order; noise, finite resolution and detector effects are not analysed, and the tight two-mode bound needs spectral masking of neighbouring harmonics. XUV–XUV entanglement would need electron coincidences beyond standard RABBIT. No experiment is reported.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
+  "verified_on": "2026-10-25",
+  "methods": [
+    {
+      "technique": "Partial-transpose moment matrices from the measured orderings",
+      "explanation": "Positivity of a partially transposed state implies positivity of any moment matrix built on it. Choosing operators whose transposed moments are exactly the measured quantities gives a witness with no tomography. Here the choice swaps \\(a_0\\) and \\(a_0^\\dagger\\), turning the orderings the experiment measures into the ones the test needs.",
+      "math": [
+        "Let \\(\\sigma=\\rho^{T_0}\\), transposed on the IR mode in the number basis. If \\(\\rho\\) has positive partial transpose, \\(\\sigma\\ge0\\) and \\(G_{ij}=\\operatorname{Tr}[\\sigma f_i^\\dagger f_j]\\succeq0\\). With \\(f_1=a_2a_0\\) and \\(f_2=a_1a_0^\\dagger\\), using \\(N_0^T=N_0\\) and \\([(a_0^\\dagger)^2]^T=a_0^2\\), \\(G=\\begin{pmatrix}U&Q\\\\Q^*&V\\end{pmatrix}\\), so \\(\\det G=UV-|Q|^2\\ge0\\).",
+        "Editorial remark: the measured central-band moments differ from \\(U,V\\) only by vacuum terms, \\(D_2-U=\\langle N_2\\rangle\\) and \\(V-D_1=\\langle N_1\\rangle\\). The same coherence is bounded by \\(D_1D_2\\) for every state but by \\(UV\\) only for PPT states, and only the second bound can be violated.",
+        "Editorial check: a 40-level Fock computation for the displaced two-mode squeezed state at \\(x=|\\alpha|^2=0.3\\), \\(z=0.25\\) reproduces \\(|Q|^2=4|\\beta|^2xn(n+1)\\), \\(U=|\\beta|^2(x+n)\\) and \\(V=n(x+2n+2)\\). Then \\(|Q|^2>UV\\) reduces to \\(x^2-(n+2)x+2n(n+1)<0\\), whose roots are the paper’s \\(x_\\pm\\). They are real only when \\(7n^2+4n-4<0\\), that is \\(n<(4\\sqrt2-2)/7\\approx0.522\\)."
+      ],
+      "transfer": "When a detection scheme yields only certain operator orderings (normally ordered intensities for absorption, extra vacuum terms for emission), look for operator pairs whose partial transpose maps the measured moments into a moment matrix. This works for any signal built from interfering transition paths. The witness is only sufficient, and its strength depends on the chosen \\(f_i\\)."
+    },
+    {
+      "technique": "Biseparable bounds by isolating one Fock sector",
+      "explanation": "To bound a coherence over all biseparable states, split the operator’s action into Fock sectors. The lowest sector, where each cut must share the coherence, is bounded cut by cut using positivity and Cauchy–Schwarz. Everything else is bounded for all states by measured cross-moments.",
+      "math": [
+        "With \\(t\\) IR photons, \\[a_2^\\dagger a_1a_0^2|t,s,r\\rangle=\\sqrt{st(t-1)(r+1)}\\,|t-2,s-1,r+1\\rangle.\\] Write \\(Q=q_L+R_A+R_B\\), where \\(q_L=\\sqrt2\\langle a_1\\otimes|0,1\\rangle\\langle2,0|_{02}\\rangle\\) collects \\(t=2,r=0\\). For every state, \\(|R_A|\\le\\sqrt{2dU}\\) and \\(|R_B|\\le\\sqrt{2U(n+1)}\\), with \\(n=\\langle N_1\\rangle\\) and \\(d=\\langle N_1N_0\\rangle\\).",
+        "For the cut \\((1|02)\\), let \\(z\\) and \\(w\\) be the populations of \\(|2,0\\rangle\\) and \\(|0,1\\rangle\\) in \\(\\rho_{02}\\). Then \\(|q_L|^2\\le2nzw\\le2nz(1-z)\\) and \\(V=n(1+\\langle N_0\\rangle)\\ge n(1+2z)\\), so \\(|q_L|^2/V\\le2z(1-z)/(1+2z)\\le2-\\sqrt3\\). The other two cuts give \\(|q_L|^2\\le U(n+1)\\), and weighted Cauchy–Schwarz combines mixtures of cuts.",
+        "Editorial check: maximizing \\(2z(1-z)/(1+2z)\\) numerically gives 0.267949 at \\(z=0.366025\\), matching \\(2-\\sqrt3\\) and \\(z_*=(\\sqrt3-1)/2\\). For the GME family of Eq. (17) at \\(p=0.75\\), bisection on \\(|Q|-H(U,V)\\) gives \\(r_c=0.042945\\), matching the paper’s 0.04294."
+      ],
+      "transfer": "When a single measured coherence must certify multipartite entanglement, find the smallest Fock sector that contributes to it, optimize over that sector exactly, and push the rest into remainders controlled by measurable moments. Expect tightness only in special limits such as \\(U=0\\)."
+    }
+  ],
+  "methods_source_section": "Section II (Eqs. 1–3); Section III and Appendix .1 (Eqs. 4–9, 19–29); Section IV and Appendix .2 (Eqs. 10–13, 30–43); Section V (Eqs. 14–17)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "In RABBIT, harmonics \\(\\omega_1\\) and \\(\\omega_2=\\omega_1+2\\omega_0\\) ionize an atom while one infrared photon is absorbed or emitted. Both paths reach the same photoelectron sideband and interfere as a function of the IR–XUV delay \\(\\tau\\). Quantum-optically the sideband transition operator is \\(T_0=g_1a_1a_0e^{i\\omega_0\\tau}+g_2a_2a_0^\\dagger e^{-i\\omega_0\\tau}\\), so the yield is \\(g_1^2D_1+g_2^2D_2+2g_1g_2\\operatorname{Re}[Qe^{2i\\omega_0\\tau}]\\), with \\(D_1=\\langle N_1N_0\\rangle\\), \\(D_2=\\langle N_2(N_0+1)\\rangle\\) and \\(Q=\\langle a_2^\\dagger a_1a_0^2\\rangle\\). The fringe therefore measures a three-mode coherence.",
+    "A fringe alone certifies nothing. Writing \\(Q=\\langle A^\\dagger B\\rangle\\) with \\(A=a_2a_0^\\dagger\\) and \\(B=a_1a_0\\), Cauchy–Schwarz gives \\(|Q|^2\\le D_1D_2\\) for every state. Moreover, every allowed triple \\((Q,D_1,D_2)\\) is reproduced by a fully separable state: squeezed IR vacuum, a coherent upper harmonic and a phase-averaged lower harmonic. No criterion built only from one sideband can work.",
+    "The neighbouring sidebands pair \\(a_2\\) with IR absorption and \\(a_1\\) with IR emission, so they measure \\(U=\\langle N_2N_0\\rangle\\) and \\(V=\\langle N_1(N_0+1)\\rangle\\), with the vacuum term moved to the other harmonic. These are exactly the entries of a moment matrix of the partially transposed state, so every state with positive partial transpose obeys \\(|Q|^2\\le UV\\), and violation certifies entanglement between the IR and the harmonics. In an unshaped spectrum further harmonics add terms to the outer sidebands. Their cycle-averaged constant parts still bound \\(U\\) and \\(V\\) from above, so a weaker test survives, and masking those harmonics recovers the tight one.",
+    "Genuine tripartite entanglement must exclude mixtures of states separable across different cuts. Splitting \\(Q\\) by Fock sector and bounding each cut gives, for all biseparable states, \\[|Q|\\le H(U,V)=\\sqrt{(2-\\sqrt3)V}+(1+\\sqrt2)\\sqrt{U(V+1)}+\\sqrt{2UV}.\\] At \\(U=0\\) the bound \\(|Q|^2\\le(2-\\sqrt3)V\\) is attained by an explicit biseparable state, so it is optimal. For a displaced two-mode squeezed IR–harmonic pair with a coherent second harmonic, certification requires pair occupation \\(n<(4\\sqrt2-2)/7\\approx0.52\\) and displacement inside a window, while the exact Gaussian test detects entanglement everywhere. Certifying XUV–XUV entanglement through \\(|\\langle a_2^\\dagger a_1\\rangle|^2>\\langle N_2N_1\\rangle\\) would need electron coincidences."
+  ],
+  "approved_on": "2026-10-27"
+}

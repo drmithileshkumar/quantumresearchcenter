@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-23; equations follow the paper’s notation.",
+  "verified_on": "2026-10-23",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-22",
+  "id": "2610.31632",
+  "topic": "foundations",
+  "kind": "Conceptual analysis",
+  "title": "What does quantum parameter estimation estimate? A no-go result for true quantity values",
+  "authors": "Jacques L. Pienaar; Eran Tal; Asya Ciftci",
+  "problem": "Quantum metrology speaks of estimating an unknown “true value”. Is that reading consistent when the estimated quantity is itself quantum and can become entangled with the probes?",
+  "result": "No, not without a cost. Embedding the parameter as an observable \\(\\hat\\theta\\) reproduces standard estimation whenever its state is diagonal. But five assumptions cannot all hold together: Uniqueness, Pre-existing Value and Independence (the realist reading of a true value), Entanglement between quantity and probes, and Completeness of the quantum state (no hidden variables). Dropping any one restores consistency.",
+  "significance": "Shows that the interpretation-neutral appearance of parameter estimation is misleading: calling the estimate a pre-existing true value commits one to a stance on hidden variables, collapse, or the meaning of the quantum state.",
+  "limitations": "The argument is conceptual and uses single-parameter estimation with uncorrelated probes. Whether entanglement between a macroscopic estimand and probes is ever relevant in practice is argued by example (superconducting current superpositions), not demonstrated. The proposed escape through permutation-invariant, extendible probe states is a definitional choice.",
+  "description": [
+    "Quantum parameter estimation usually treats the estimated quantity as a classical parameter \\(\\theta\\) that controls a unitary \\(U_\\theta\\) on probe systems; the task is to infer which value obtains. Many such quantities, such as a magnetic field produced by a current, are fundamentally quantum and could in principle be in superposition. The authors ask what happens when there is doubt whether a quantity should be modelled as a parameter or as a quantum variable, and answer by using the more general model.",
+    "The parameter is embedded in a Hilbert space: values of \\(\\theta\\) label orthonormal states \\(\\ket\\theta\\) of a system \\(A\\) (binned to the precision allowed by the quantity’s definition), and the imprinting becomes a controlled unitary \\(\\ket\\theta\\ket\\psi\\mapsto\\ket\\theta U_\\theta^{\\otimes N}\\ket\\psi\\). Proposition 1 shows that if \\(A\\) starts diagonal in this basis, the probes end in exactly the state of standard estimation, \\(\\sum_\\theta P_0(\\theta)\\rho_\\theta^{\\otimes N}\\). Proposition 2 shows that the joint output can be entangled only if \\(A\\) started non-diagonal.",
+    "Three assumptions express the realist reading of estimation. Uniqueness: exactly one distinguishable hypothesis about \\(\\theta\\) is true at the end. Pre-existing Value: it was true before the probes interacted. Independence: its truth is what a sufficiently accurate measurement of \\(\\hat\\theta\\) would have shown. Two more are quantum. Entanglement: the interaction can entangle \\(A\\) with the probes, which partial decoherence generically allows. Completeness: if a measurement of \\(\\hat\\theta\\) would certainly give \\(\\theta'\\), the state of \\(A\\) is diagonal in the \\(\\hat\\theta\\) basis. The theorem: the first three force a diagonal initial state by Completeness, which Proposition 2 makes incompatible with Entanglement.",
+    "The authors relate the result to Bell’s theorem through a form of counterfactual definiteness about an earlier, unperformed measurement of \\(\\hat\\theta\\). They show that assuming the probe state is permutation-invariant and extendible to any number of probes, as estimation tacitly does, forces separability by a de Finetti theorem, and so excludes Entanglement. They then survey the cost of rejecting each assumption in turn: hidden variables, objective collapse, many worlds, or a coherentist reading of estimates as statistical indices. The practical recommendation is to define estimation error through a posterior variance, as the latest metrology guide does, rather than through distance from a true value."
+  ],
+  "methods": [
+    {
+      "technique": "Embed a classical parameter as a controlling quantum register",
+      "explanation": "Replacing a classical control by a quantum one, with a diagonal initial state, reproduces the original model exactly; dropping diagonality then exposes what the classical model assumed.",
+      "math": [
+        "With \\(\\sigma_{\\mathrm{in}}=\\sum_\\theta P_0(\\theta)\\ketbra\\theta\\theta\\) and \\(U_{AB}=\\sum_\\theta\\ketbra\\theta\\theta\\otimes U_\\theta^{\\otimes N}\\), the joint output is \\[\\rho_{AB}=\\sum_\\theta P_0(\\theta)\\ketbra\\theta\\theta\\otimes\\rho_\\theta^{\\otimes N},\\] a separable state whose probe marginal is the familiar mixture. A pure superposition \\(\\ket\\phi=\\alpha'\\ket{\\theta'}+\\alpha''\\ket{\\theta''}\\) instead gives \\(\\alpha'\\ket{\\theta'}\\ket{\\psi_{\\theta'}}+\\alpha''\\ket{\\theta''}\\ket{\\psi_{\\theta''}}\\), entangled whenever the probe states differ.",
+        "Editorial remark. The probe marginal of the second case is \\(|\\alpha'|^2\\ketbra{\\psi_{\\theta'}}{\\psi_{\\theta'}}+|\\alpha''|^2\\ketbra{\\psi_{\\theta''}}{\\psi_{\\theta''}}\\), identical to the classical mixture. Measurements on the probes alone therefore cannot tell the two models apart. Only access to \\(A\\), or to correlations between \\(A\\) and the probes, can, which is why the paper’s escape route is a test of extendibility on joint statistics."
+      ],
+      "transfer": "When a model treats some quantity as a classical label, embed it as a quantum register that controls the rest of the system. Check that a diagonal initial state reproduces the old predictions, then ask what non-diagonal states would change. This isolates the assumption hidden in the classical treatment, as in analyses of quantum reference frames and of classical controls in quantum circuits."
+    },
+    {
+      "technique": "Locate a no-go theorem by listing jointly inconsistent assumptions",
+      "explanation": "The result is stated as five assumptions that cannot all hold, each one individually droppable, so the cost of every possible interpretation is visible.",
+      "math": [
+        "The chain is short. Uniqueness and Pre-existing Value give a unique hypothesis \\(\\theta'\\) before imprinting. Independence turns it into the counterfactual “a sufficiently accurate measurement of \\(\\hat\\theta\\) would give \\(\\theta'\\) with certainty”. Completeness turns that into a state of \\(A\\) diagonal in the \\(\\hat\\theta\\) basis. By Proposition 2 a diagonal state cannot become entangled with the probes, contradicting Entanglement.",
+        "Minimality matters: rejecting any one assumption gives a consistent model. Rejecting Completeness is a hidden-variable view; rejecting Entanglement by fiat is the paper’s Extendibility condition; rejecting Pre-existing Value fits collapse or Copenhagen-style accounts; rejecting Uniqueness fits many-worlds; rejecting Independence severs the link between truth and measurement."
+      ],
+      "transfer": "When a practice seems interpretation-neutral, write down the minimal realist assumptions it relies on and the physical assumptions of the theory, and look for a short chain to a contradiction. Showing that each assumption is individually droppable turns an impossibility result into a map of the available positions."
+    }
+  ],
+  "methods_source_section": "Section III.2 (Propositions 1 and 2); Section IV (main theorem); Section V.2 (Extendibility); Section V.3",
+  "approved_on": "2026-10-23"
+}

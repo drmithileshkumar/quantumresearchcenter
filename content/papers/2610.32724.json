@@ -1,0 +1,47 @@
+{
+  "id": "2610.32724",
+  "topic": "information",
+  "title": "Optimal probes for estimating the dephasing of a quantum spin system",
+  "authors": "Leonardo Ratini; Stefano Carretta; Francesco Albarelli",
+  "submitted": "2026-10-23",
+  "version": "v1",
+  "kind": "Theory and numerical analysis",
+  "problem": "To estimate the strength of dephasing on a spin \\(J\\) (or \\(2J\\) qubits), which superposition of levels should be prepared? A spin cat state is optimal for weak Gaussian phase diffusion, but its coherence is the first to decay. Over what range does the cat stay optimal, and what works beyond it?",
+  "result": "For general dephasing channels, the QFI is concave in the probe populations and an ancilla never helps. The channel QFI is a second-order cone program whose dual variables are the optimal populations. For Gaussian diffusion the cat is globally optimal exactly for \\(\\Delta\\le0.1424\\) at \\(J=1\\) and \\(\\Delta\\le0.065\\) at \\(J=3/2\\); for larger \\(J\\) its range shrinks at least as \\(1/J^2\\). Beyond it, uniform superpositions, or a one-parameter interpolation between cat and uniform, are near optimal.",
+  "significance": "The structural results (concavity, reflection symmetry, a cone program that returns the probe) reduce probe design for any dephasing channel to cheap convex optimization. The \\(1/J^2\\) limit shows that cat-state advantages for noise sensing vanish quickly with size, which is relevant to qudit platforms such as antimony donors and strontium nuclear spins.",
+  "limitations": "Measurement and preparation costs are idealized, and the comparisons use the QFI, which may require strength-dependent measurements. The bath simulation is one random hydrogen configuration with one pulse sequence, and the channel there is only approximately pure dephasing. Estimation is local; joint estimation with the mean phase and Bayesian priors are left open.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+  "verified_on": "2026-10-26",
+  "methods": [
+    {
+      "technique": "Concavity of the QFI in probe populations",
+      "explanation": "For channels that commute with a fixed diagonal basis, the probe is fixed by its populations, and a parameter-independent instrument can split a superposition of two population vectors into the two corresponding states with a classical record. Monotonicity of the QFI then makes the QFI concave in the populations, so symmetric averaging and local slope tests decide global optimality.",
+      "math": [
+        "With \\(D_1=\\sum_m\\sqrt{\\lambda p_m/(\\lambda p_m+(1-\\lambda)q_m)}\\,|m\\rangle\\langle m|\\) and \\(D_2\\) defined likewise, the channel \\(\\rho\\mapsto|1\\rangle\\langle1|\\otimes D_1\\rho D_1^\\dagger+|2\\rangle\\langle2|\\otimes D_2\\rho D_2^\\dagger\\) commutes with dephasing and maps \\(\\rho_\\theta(\\lambda p+(1-\\lambda)q)\\) to \\(\\lambda\\rho_\\theta(p)\\oplus(1-\\lambda)\\rho_\\theta(q)\\). Monotonicity gives \\(F_\\theta(\\lambda p+(1-\\lambda)q)\\ge\\lambda F_\\theta(p)+(1-\\lambda)F_\\theta(q)\\).",
+        "Along an affine family \\(p(\\epsilon)=p(0)+\\epsilon p_1\\), concavity gives \\(F(p(\\epsilon))\\le F(p(0))+\\epsilon F'(0)\\), so \\(F'(0)\\le0\\) is necessary and sufficient for \\(p(0)\\) to be optimal in the family. For \\(J=1\\) the symmetric family is one-dimensional, which is why the sign of \\(C(u)\\) settles global optimality.",
+        "Editorial check: the positive root of \\(C(u)\\) is \\(u_1=0.75223\\), so \\(\\Delta_1=0.14236\\). Direct QFI computation shows a small central population beating the cat at \\(\\Delta=0.16\\) but not at 0.13. For \\(J=3/2\\) the cat is beaten between \\(\\Delta=0.064\\) and 0.066, matching \\(\\delta_{3/2}\\approx0.065\\), and the kitten formula matches direct computation to six digits."
+      ],
+      "transfer": "For any channel diagonal in a known basis (dephasing, random diagonal unitaries, some thermometry channels), optimize over populations with concave methods, symmetrize under any channel symmetry, and certify a candidate by its directional derivatives. The argument fails once the channel moves population between levels."
+    },
+    {
+      "technique": "Channel QFI as a cone program whose dual is the optimal probe",
+      "explanation": "The channel QFI is four times the minimum over Kraus representations of the norm of \\(\\alpha(h)=\\sum_k\\dot K_k^\\dagger\\dot K_k\\). Diagonal Kraus operators make \\(\\alpha\\) diagonal, so the matrix constraint becomes one Euclidean norm bound per level, and the multipliers of those bounds are exactly the probe populations.",
+      "math": [
+        "With \\(K_k=\\sum_mc_{km}|m\\rangle\\langle m|\\) and \\(\\dot K_k(h)=\\partial_\\theta K_k-i\\sum_lh_{kl}K_l\\), \\([\\alpha(h)]_{mm}=\\|\\dot c_m-ihc_m\\|_2^2\\). So \\(F_Q[\\Lambda_\\theta]=4t^{\\star2}\\), where \\(t^\\star\\) minimizes \\(t\\) subject to \\(\\|\\dot c_m-ihc_m\\|_2\\le t\\) for all \\(m\\) over Hermitian \\(h\\).",
+        "The Lagrangian has multipliers \\(\\mu_m\\ge0\\) with \\(\\sum_m\\mu_m=1\\) at optimum, and stationarity in \\(h\\) is the condition \\(\\sum_mp_m\\nabla_h\\sqrt{[\\alpha(h)]_{mm}}=0\\) for an optimal probe. Hence \\(p_m=\\mu_m^\\star\\) attains the channel QFI, and populations vanish on levels whose constraint is slack.",
+        "Editorial remark: for the Gaussian channel the classical bound \\(1/(2\\Delta^2)\\) caps every probe, and the cat QFI \\(16J^4/(e^{8J^2\\Delta}-1)\\) respects it for every \\(J\\) and \\(\\Delta\\) checked, approaching it only as \\(J^2\\Delta\\to0\\)."
+      ],
+      "transfer": "For any multilevel noise-estimation problem whose channel is diagonal (dephasing from an arbitrary diagonal generator, or a bath channel computed by cluster expansion), solve this cone program once per parameter value to get both the bound and a probe achieving it. Off-the-shelf solvers return the duals directly."
+    }
+  ],
+  "methods_source_section": "Section III (Eqs. 15–26); Section IV.1 (Eqs. 27–33); Appendix A (cone program and dual); Appendix C (spin-1, spin-3/2 and kitten bounds)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A dephasing channel multiplies coherences entrywise, \\(\\Lambda_\\theta(\\rho)=E_\\theta\\circ\\rho\\), with \\(E_\\theta\\succeq0\\) and unit diagonal. Random rotations generated by \\(J_z\\) give Toeplitz matrices; Gaussian phase diffusion has \\((E_\\Delta)_{mn}=e^{-\\Delta(m-n)^2}\\), equivalent to Markovian dephasing with \\(\\Delta=\\gamma t\\). Observing the random phase itself bounds every probe by the classical Fisher information \\(1/(2\\Delta^2)\\). For rate estimation at fixed total time, the relevant figure is QFI per interrogation time.",
+    "Pure probes \\(\\sum_m\\sqrt{p_m}|m\\rangle\\) suffice, and phases are irrelevant. Any ancilla-assisted input is an isometric image of such a probe, so the channel QFI needs no ancilla. Mixing two population vectors and preparing the pure superposition does at least as well as the average of their QFIs (concavity), proved by a diagonal two-outcome instrument that splits the superposition back into its parts. With reflection symmetry, optimal populations can be taken symmetric, and a nonpositive directional derivative at the cat is necessary and sufficient for global optimality along any affine family.",
+    "Diagonal Kraus operators reduce the channel-QFI program, a minimization over Kraus gauges, to one norm constraint per level, \\(\\|\\dot c_m-ihc_m\\|_2\\le t\\): a second-order cone program. The dual variables \\(\\mu_m^\\star\\) sum to one and are the populations of an optimal probe, so one solve gives both. For \\(J=1\\) the derivative at the cat is \\(-8uC(u)/[(1-u^2)(1+u^2)^2]\\) with \\(u=e^{-2\\Delta}\\) and \\(C(u)=2u^5+u^4+4u^3-2u-1\\), whose root \\(u_1\\approx0.7522\\) sets the threshold. Embedding \\(\\{-J,0,J\\}\\) or kitten states \\((|{-m}\\rangle+|m\\rangle)/\\sqrt2\\), with QFI \\(16m^4/(e^{8m^2\\Delta}-1)\\), bounds the cat range for larger spins.",
+    "Numerically, the cat is best for weak dephasing but collapses quickly. Uniform superpositions have coherences at every separation and are nearly optimal once the cat fails, and the cat–uniform interpolation tracks the optimum across \\(J\\) and \\(\\Delta\\). At \\(\\Delta=10^{-3}\\), QFI per unit spin peaks at \\(J=10.5\\), slightly before the cat loses optimality. For a \\(J_z^2\\) generator the cat is blind to the noise and the optimum concentrates on \\(|m|\\le7\\). For a spin-3/2 probe among 50 hydrogen spins simulated with the cluster-correlation expansion, the cat wins under free evolution, but under a four-pulse sequence the uniform state gives the highest QFI rate, at \\(t\\approx2.5\\,\\mu\\)s."
+  ],
+  "approved_on": "2026-10-27"
+}

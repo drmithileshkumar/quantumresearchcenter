@@ -1,0 +1,47 @@
+{
+  "id": "2610.40585",
+  "topic": "information",
+  "title": "Classical communication over quantum channels: does entanglement help in nature?",
+  "authors": "Peixue Wu",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory with formal verification",
+  "problem": "Can entangling codewords across channel uses raise the classical communication rate? Hastings showed that it sometimes can, so \\(\\mathcal C(\\mathcal A)>\\chi_{\\max}(\\mathcal A)\\) for some channels, but the known examples have enormous dimension. Which physically natural channels genuinely have no advantage, in any dimension?",
+  "result": "A new Schur-weighted block entropy inequality implies strong Holevo additivity, \\(\\chi_{\\max}(\\mathcal A\\otimes\\mathcal M)=\\chi_{\\max}(\\mathcal A)+\\chi_{\\max}(\\mathcal M)\\) for every partner \\(\\mathcal M\\), for all phase-covariant channels in any dimension, including multi-level amplitude damping, generalized dephasing and damping-dephasing channels. It also recovers additivity for all qubit-to-qubit channels. For these channels, \\(\\mathcal C=\\chi_{\\max}\\), so the single-letter Holevo information is the classical capacity.",
+  "significance": "Amplitude damping is the standard model of energy loss, and until recently its classical capacity was known only through a regularised formula. Covering all phase-covariant channels gives an exact capacity problem that is a finite-dimensional optimisation for a wide family of physical noise models. The strong form also means that pairing such a channel with any other channel gains nothing.",
+  "limitations": "The paper leaves open channels \\(\\mathbb M_d\\to\\mathbb M_2\\) with \\(d>2\\), where more than one coherent Kraus operator appears; other covariance groups; and the threshold dimension below which all channels are additive. The statement concerns the asymptotic capacity, not finite block lengths. Evaluating \\(\\chi_{\\max}\\) is still a separate optimisation. Lemma proofs are in a Lean repository the paper cites, which we did not read, and one step in Theorem 5.2 is only outlined in the text.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-30; equations follow the paper’s notation.",
+  "verified_on": "2026-10-30",
+  "methods_source_section": "Sections 2–5 (Lemmas 2.1, 3.2, 3.3, 4.1, 5.1; Proposition 2.2; Theorems 3.1, 4.2, 5.2)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The Holevo quantity \\(\\chi_{\\max}\\) is the best rate with product codewords, and \\(\\mathcal C\\) the best with entangled ones. Strong additivity implies equality of the two by induction with \\(\\mathcal M=\\mathcal A^{\\otimes(n-1)}\\). A sufficient condition comes from Holevo and Shirokov: for each pure state \\(\\ket\\psi_{AA^\\prime}\\) we must find ensembles for the two reduced states whose average output entropies sum to at most \\(S(\\mathcal A\\otimes\\mathcal M(\\psi))\\).",
+    "The new inequality compares a block-structured positive matrix with a smaller one built from its block traces. For \\(C\\succeq0\\), \\(H=(H_{ij})\\succeq0\\) and block-diagonal \\(W\\), it states \\[S(C\\odot H+W)\\ge S(D_r^{1/2}CD_r^{1/2}+D_y)+\\sum_ic_{ii}r_iS(H_{ii}/r_i)+\\sum_iy_iS(W_i/y_i),\\] with \\(r_i=\\mathrm{Tr}\\,H_{ii}\\) and \\(y_i=\\mathrm{Tr}\\,W_i\\). All-ones \\(C\\) gives earlier amplitude-damping results.",
+    "A phase-covariant channel has normal form \\(\\mathcal A(\\rho)=C\\odot\\rho+\\sum_{i\\ne j}p_{ij}\\bra j\\rho\\ket j\\ket i\\bra i\\). Applied to one half of \\(\\ket\\psi=\\sum_i\\sqrt{r_i}\\ket i\\ket{v_i}\\), it gives \\(C\\odot H+W\\) with \\(H_{ij}=\\sqrt{r_ir_j}\\mathcal M(\\ket{v_i}\\bra{v_j})\\). The inequality then gives \\(S(\\mathcal A(\\psi_r))+\\sum_ir_iS(\\mathcal M(\\ket{v_i}\\bra{v_i}))\\), with \\(\\ket{\\psi_r}=\\sum_i\\sqrt{r_i}\\ket i\\). The first system is compared with \\(\\psi_r\\), which is not an ensemble for \\(\\rho_A\\) in general, but the weaker criterion of Proposition 2.2 only needs the optimal-output-centre trace to match, and the centre is diagonal for these channels.",
+    "For qubit outputs, one can choose the output basis so that \\(\\det\\mathcal A^*(\\ket0\\bra1)=0\\), which leaves at most \\(d-1\\) coherent Kraus operators. When \\(d=2\\) one remains, and the same inequality with all-ones \\(C\\) applies. With several coherent terms the inequality does not apply directly, and the open problem of a dimension threshold for additivity remains."
+  ],
+  "methods": [
+    {
+      "technique": "Rank-one reduction by operator monotonicity",
+      "explanation": "The inequality is easy when \\(H\\) has rank one, since then the structure lives in an \\(m\\)-dimensional subspace. The rest of the proof exists to extend it to general \\(H\\), even though the entropy deficit is not linear.",
+      "math": [
+        "For \\(H=\\ket u\\bra u\\) with \\(\\ket u=\\oplus_i\\ket{u_i}\\) and \\(\\langle u_i|u_i\\rangle=r_i\\), the isometry \\(V\\ket{e_i}=\\ket{u_i}/\\sqrt{r_i}\\) gives \\(C\\odot H=VAV^\\dagger\\) with \\(A=D_r^{1/2}CD_r^{1/2}\\). Replacing \\(W\\) by the larger \\(\\oplus_iy_iI_{n_i}\\) does not increase \\(S(J+W)-S(W)\\), because \\(\\log\\) is operator monotone. With a scalar in each block, the problem then reduces through \\(V\\) to \\(S(A+D_y)-S(D_y)\\), so \\(\\Delta(J,W)\\ge\\Delta(A,D_y)\\).",
+        "To reach general \\(H=\\sum_\\alpha p_\\alpha\\ket{u_\\alpha}\\bra{u_\\alpha}\\), the proof uses a Lagrangian trick. Fix \\(\\mu_i=\\partial f_C/\\partial y_i\\), which is negative. Minimising \\(\\Delta(J,W)-\\mathrm{Tr}\\Lambda W\\) over \\(W\\) gives a function that is concave in \\(J\\) (Lemma 3.2), while \\(f_C(r,y)=\\Delta(D_r^{1/2}CD_r^{1/2},D_y)\\) is jointly convex (Lemma 3.3). Concavity splits \\(J\\) into its rank-one pieces, the rank-one bound applies to each, and convexity recombines them. The tangent inequality at \\(y\\) then cancels the linear term.",
+        "Editorial check: on 3000 random instances with block sizes up to 3, random \\(C\\), \\(H\\) and \\(W\\) of varying rank, the two sides of Eq. (3.4) never violated the inequality beyond rounding (the smallest difference was \\(-1.1\\times10^{-13}\\)). For a qubit amplitude-damping channel with \\(\\gamma=0.3\\), the normal form (4.1) reproduced the Kraus action exactly, with \\(c_{01}=\\sqrt{1-\\gamma}\\), \\(c_{11}=1-\\gamma\\) and \\(p_{01}=\\gamma\\)."
+      ],
+      "transfer": "When an entropy inequality is nonlinear in a matrix, first prove the rank-one case, then look for a linear functional whose subtraction leaves a concave function of the matrix. Convexity in the scalar parameters then lets you average over the decomposition."
+    },
+    {
+      "technique": "A weaker additivity criterion using the optimal output centre",
+      "explanation": "The standard criterion demands a true ensemble decomposition of \\(\\rho_A\\). For phase-covariant channels the natural comparison state \\(\\psi_r\\) is not one, so the criterion must be weakened without losing additivity.",
+      "math": [
+        "The optimal output centre \\(\\sigma_{\\mathcal A}=\\sum_\\ell p_\\ell\\mathcal A(\\eta_\\ell)\\) is unique across optimal ensembles, and every output is supported in it. The usual relative-entropy argument bounds the Holevo quantity using \\(-\\mathrm{Tr}\\,\\mathcal A(\\rho)\\log\\sigma_{\\mathcal A}\\), so the ensemble is needed only through that linear functional. Proposition 2.2 therefore replaces \\(\\rho_A=\\sum_\\ell p_\\ell\\eta_\\ell\\) by \\[\\sum_\\ell p_\\ell\\mathrm{Tr}(\\mathcal A(\\eta_\\ell)\\log\\sigma_{\\mathcal A})=\\mathrm{Tr}(\\mathcal A(\\rho_A)\\log\\sigma_{\\mathcal A}).\\] (The sketch of why is editorial; the paper cites Ref. [18].)",
+        "Phase covariance makes this hold (the paper notes that the centre is diagonal; the argument for it here is editorial). Averaging an optimal ensemble over diagonal unitaries leaves it optimal, and uniqueness then forces \\(\\sigma_{\\mathcal A}\\) to commute with all of them, hence to be diagonal. Then \\(\\mathrm{Tr}(\\mathcal A(X)\\log\\sigma_{\\mathcal A})\\) depends only on the diagonal of \\(\\mathcal A(X)\\), and the normal form shows that this depends only on the diagonal of \\(X\\). The states \\(\\psi_r\\) and \\(\\rho_A\\) have the same diagonal \\(r\\), so the condition holds, and the input-diagonal weights are the only part of \\(\\rho_A\\) the bound needs.",
+        "The block identity for qubit channels fails in higher dimension in an instructive way. Lemma 5.1 can kill the determinant of \\(Q_{01}\\) for one output basis, which lowers the rank by one, not to one. Only for \\(d=2\\) does a single coherent Kraus operator remain."
+      ],
+      "transfer": "If a covariance group forces the optimal output centre into a commutative algebra, an additivity criterion may only need to match weights in that algebra. Look for this when the natural comparison state has the right populations and the wrong coherences."
+    }
+  ],
+  "approved_on": "2026-10-30"
+}

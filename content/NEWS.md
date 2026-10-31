@@ -31,7 +31,7 @@ Optional fields:
 - `related_articles`: other published article slugs.
 - Within a section, `source_refs`: optional 1-based source numbers for linked citations
   immediately after that section. The build rejects missing/out-of-range references.
-- `related_papers`: approved arXiv IDs from `content/papers.json`. These create
+- `related_papers`: approved arXiv IDs from `content/papers/`. These create
   links in both directions between the explanation and the technical page.
 - Within a section, `figure`: `{"file": "name.svg", "caption": "...", "alt": "..."}`.
   The SVG lives in `content/news-articles/figures/<slug>/` and is inlined after the

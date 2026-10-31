@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-23; equations follow the paper’s notation.",
+  "verified_on": "2026-10-23",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-22",
+  "id": "2610.31580",
+  "topic": "foundations",
+  "kind": "Theory and numerical analysis",
+  "title": "Mixed State Deep Thermalization under Generic Quantum Errors",
+  "authors": "Xie-Hang Yu; Pavel Kos",
+  "problem": "After chaotic dynamics, the states of a subsystem conditioned on measuring the rest follow a universal (Haar) distribution. What distribution emerges when local errors make those conditional states mixed?",
+  "result": "A universal one fixed by the error alone. The late-time ensemble of conditional states is the channel-induced ensemble, \\(\\tilde\\rho=XMX^\\dagger\\) with \\(X\\) a complex Gaussian (Ginibre) matrix and Born weight \\(\\operatorname{Tr}XMX^\\dagger\\). Here \\(M\\) is the normalized Choi state of the error, and only its spectrum matters. This is derived for dual-unitary circuits, global Haar dynamics and local Haar circuits at large local dimension, and checked numerically in qubit circuits and kicked Ising dynamics.",
+  "significance": "Extends deep thermalization to noisy dynamics. The limiting ensemble that benchmarking and shadow tomography on real hardware should assume is no longer Haar, and the measured ensemble can in principle reveal the error’s Choi spectrum even when its time and location are unknown.",
+  "limitations": "Analytic results assume dilute, well-separated errors and, for local circuits, large local dimension; a finite density of errors is open. Exponential convergence is derived under replica-continuation assumptions in the dual-unitary model. The numerical evidence uses two retained qubits and up to 22 measured qubits.",
+  "description": [
+    "Measure the complement \\(B\\) of a region \\(A\\) after many-body dynamics. Each outcome \\(\\alpha\\) leaves a conditional state on \\(A\\) with Born probability \\(P_\\alpha\\). Their average is the reduced state of ordinary thermalization; the full ensemble, through moments \\(\\rho^{(k)}=\\sum_\\alpha P_\\alpha\\rho(\\alpha)^{\\otimes k}\\), records more. For pure global states and chaotic dynamics the ensemble approaches the Haar distribution, a phenomenon called deep thermalization and observed in Rydberg and superconducting simulators. Real devices have errors, so the conditional states are mixed, and the earlier result covered only complete depolarization.",
+    "The proposed limit is defined from the error channel’s normalized Choi state \\(M=(\\mathrm{id}\\otimes\\mathcal N)(\\ketbra{\\phi_0}{\\phi_0})\\), with \\(\\ket{\\phi_0}\\) maximally entangled. Draw a \\(D_A\\times d^2\\) Ginibre matrix \\(X\\) with \\(\\mathbb E[X^\\dagger X]=I\\), form \\(\\tilde\\rho_M(X)=XMX^\\dagger\\) and weight it by \\(P_M(X)=\\operatorname{Tr}\\tilde\\rho_M(X)\\). Several errors give \\(M=\\bigotimes_iM_{\\mathcal N_i}\\). A unitary error gives a pure \\(M\\) and recovers the Haar ensemble; complete depolarization gives \\(M=I/d^2\\) and the generalized Hilbert–Schmidt ensemble found earlier.",
+    "Because the Ginibre measure is invariant under \\(X\\mapsto XV\\), the ensemble depends only on the eigenvalues of \\(M\\). Errors related by unitary rotations select the same ensemble, while channels with equal Choi purity but different spectra, such as suitable partial depolarization and partial reset, select different ones. In dual-unitary circuits the authors compute replica moments exactly and find convergence that is exponential in time, with moment-dependent prefactors that can depend on the Choi state’s input–output structure. Global Haar dynamics give typicality bounds, and local Haar circuits reduce to dominant domain walls in a permutation-space description.",
+    "Numerics in random dual-unitary circuits, local Haar circuits and a fixed kicked Ising chain, with a partial reset, a random-unitary channel and a generic four-Kraus channel, show moment distances to the predicted ensemble decaying as \\(D_B^{-1/2}\\). The authors propose using the measured ensemble to learn the error’s Choi spectrum, using these ensembles in place of Haar ones for randomness-based benchmarking, and extending the analysis to systems with conservation laws, where the noise-free limit is a Scrooge ensemble."
+  ],
+  "methods": [
+    {
+      "technique": "A random-matrix reference ensemble built from the Choi state",
+      "explanation": "Scrambling supplies universal Gaussian randomness, and the error channel enters only through how that randomness is mixed: \\(\\tilde\\rho=XMX^\\dagger\\).",
+      "math": [
+        "With \\(\\mathbb E[X_{a\\sigma}X^*_{b\\tau}]=\\delta_{ab}\\delta_{\\sigma\\tau}/D_A\\), the \\(k\\)-th moment of the predicted ensemble is \\[\\rho_M^{(k)}=\\int d\\mu_G(X)\\,P_M(X)^{1-k}\\bigl(XMX^\\dagger\\bigr)^{\\otimes k}.\\] Writing \\(M=V\\Lambda V^\\dagger\\) and substituting \\(X\\to XV^\\dagger\\), which leaves the Gaussian measure unchanged, shows \\(\\rho_M^{(k)}=\\rho_\\Lambda^{(k)}\\): only the Choi spectrum enters.",
+        "Editorial numerical check. One qubit kept, nine measured, a partial reset \\(\\rho\\mapsto0.8\\rho+0.2\\operatorname{Tr}(\\rho)\\ketbra00\\) between two global Haar unitaries; its Choi spectrum is about \\((0.853,0.100,0.047,0)\\). The simulated second moment lies at relative Hilbert–Schmidt distance 0.057 from the predicted ensemble and 0.134 from the Haar ensemble. The expected finite-size scale is \\(D_B^{-1/2}\\approx0.044\\). Rotating \\(M\\) by a random unitary changed the predicted moment by 0.4%, within Monte Carlo error."
+      ],
+      "transfer": "When noise acts inside a scrambling process, model its late-time effect as universal Gaussian randomness contracted with the channel’s Choi state. The same construction gives reference ensembles for any procedure that assumes emergent Haar randomness, such as randomized benchmarking, shadow tomography or random-state generation, once errors are present."
+    },
+    {
+      "technique": "Born-weighted moments of a projected ensemble",
+      "explanation": "Moments of the ensemble of conditional states can be written without normalizing each state, which makes replica calculations and numerics direct.",
+      "math": [
+        "With unnormalized conditional states \\(\\tilde\\rho(\\alpha)={}_B\\!\\bra\\alpha\\rho\\ket\\alpha_B\\) and \\(P_\\alpha=\\operatorname{Tr}\\tilde\\rho(\\alpha)\\), \\[\\rho^{(k)}=\\sum_\\alpha P_\\alpha\\rho(\\alpha)^{\\otimes k}=\\sum_\\alpha P_\\alpha^{1-k}\\,\\tilde\\rho(\\alpha)^{\\otimes k}.\\] The first moment is the reduced state; higher moments separate ensembles with the same average but different fluctuations. Distances are measured by \\(\\Delta^{(k)}_\\xi=\\|\\rho^{(k)}-\\rho^{(k)}_{\\mathrm{ref}}\\|_\\xi/\\|\\rho^{(k)}_{\\mathrm{ref}}\\|_\\xi\\).",
+        "Editorial note on the analysis. The factor \\(P_\\alpha^{1-k}\\) is what makes the problem non-linear. Replica methods compute moments of \\(P_\\alpha^{n}\\tilde\\rho^{\\otimes k}\\) for integer \\(n\\) and continue to \\(n=1-k\\); this continuation is the assumption under which the paper’s dual-unitary convergence rates hold."
+      ],
+      "transfer": "To compare measured ensembles of conditional states with a theory, compute Born-weighted moments directly from unnormalized conditional states and compare a few low moments in Schatten norms. This avoids sampling individual normalized states and applies to any measurement-induced ensemble."
+    }
+  ],
+  "methods_source_section": "Sections II.1–II.2 (Eqs. 1–18, Proposition 1); Section VI (numerics); Section VII",
+  "approved_on": "2026-10-23"
+}

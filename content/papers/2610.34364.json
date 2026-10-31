@@ -1,0 +1,47 @@
+{
+  "id": "2610.34364",
+  "topic": "foundations",
+  "title": "Exact Identification of Quantum Correlations in the Minimal Bell Scenario",
+  "authors": "Liang-Liang Sun; Jie Wang; Sixia Yu",
+  "submitted": "2026-10-25",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "In the simplest Bell experiment, two parties with two binary measurements each, the extreme points of the quantum set are known, but deciding whether a given list of eight statistics is quantum still requires searching over mixtures of many of them or climbing a semidefinite hierarchy that converges only in the limit. Is there an exact, finite test?",
+  "result": "Yes. A behaviour is quantum if and only if it is a mixture of a single behaviour produced by projective measurements on a pure two-qubit state and a local (classical) behaviour. The key step is a proof that every Bell functional with a strict quantum advantage has exactly one quantum maximizer. Membership then reduces to a system of trigonometric equations in five angles, and every quantum behaviour can be realized in dimension \\(6\\times6\\).",
+  "significance": "It turns the known description of extreme points into a usable test of what nature can produce in this scenario, settles a conjecture about unique maximizers, and gives a finite classification of the boundary faces through each nonlocal exposed point. Exact boundaries of this kind are the benchmark against which physical principles such as information causality are tested.",
+  "limitations": "The results are specific to the two-input, two-output, two-party scenario. The test is exact in principle, but the reported implementation is a local numerical search: a failed search leaves an input undecided rather than proving it nonquantum, and the timing figures are not worst-case bounds. The face classification is carried out explicitly for an example point.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+  "verified_on": "2026-10-27",
+  "methods": [
+    {
+      "technique": "A same-marginal local model that dominates every correlator",
+      "explanation": "Given any marginals, a single shared uniform random variable produces a local behaviour whose correlators are as large as no-signalling allows. Comparing a quantum behaviour with this model shows when a Bell functional cannot favour quantum theory.",
+      "math": [
+        "Let \\(U\\) be uniform on \\([0,1]\\); Alice outputs \\(+1\\) when \\(U\\le(1+A_x)/2\\) and Bob when \\(U\\le(1+B_y)/2\\). The marginals are reproduced and the outputs disagree with probability \\(|A_x-B_y|/2\\), so \\(E^{\\rm Loc}_{xy}=1-|A_x-B_y|\\). Writing \\(r=p(+-|xy)\\), \\(s=p(-+|xy)\\) for the original behaviour, \\(E_{xy}=1-2(r+s)\\) and \\(A_x-B_y=2(r-s)\\), hence \\[E^{\\rm Loc}_{xy}-E_{xy}=4\\min\\{p(+-|xy),p(-+|xy)\\}\\ge0.\\]",
+        "If the correlator signs are not frustrated, output flips make all \\(c_{xy}\\ge0\\) (a four-cycle with an even number of negative edges can be switched to all positive), and replacing \\(E\\) by \\(E^{\\rm Loc}\\) cannot lower the Bell value. So a strict quantum advantage needs \\(c_{00}c_{01}c_{10}c_{11}<0\\).",
+        "Editorial check: on 2,000 random two-qubit states and measurements the identity holds to \\(8\\times10^{-16}\\). Maximizing six random non-frustrated functionals over the five-angle family (which contains all extreme points) never exceeded the best local vertex by more than numerical noise, while a frustrated CHSH-type functional exceeded it by 0.127."
+      ],
+      "transfer": "In any Bell scenario with binary outcomes, this coupling gives a quick certificate that a candidate inequality has no quantum violation: check whether output relabelling can make all its correlator coefficients nonnegative. It is a necessary condition for advantage, not a sufficient one."
+    },
+    {
+      "technique": "Eliminating mixture weights to test membership with five equations in five angles",
+      "explanation": "To decide whether a behaviour \\(\\vec Q\\) equals \\(\\lambda_0\\vec Q_{\\vec\\theta}+\\lambda_i\\vec L_i+\\lambda_j\\vec L_j\\), the unknown weights enter linearly. Projecting onto the orthogonal complement of the span of the known vectors removes them, leaving only angle equations; the weights are then read off and checked.",
+      "math": [
+        "Divide by \\(\\lambda_0>0\\): \\(\\vec Q_{\\vec\\theta}=z_0\\vec Q-z_i\\vec L_i-z_j\\vec L_j\\). With \\(C_{ij}=[\\vec Q,-\\vec L_i,-\\vec L_j]\\) of rank three, choose \\(D_{ij}\\) with \\(D_{ij}C_{ij}=0\\) and rank 5 and a left inverse \\(K_{ij}\\). Then \\(\\vec Q_{\\vec\\theta}\\) lies in the column space exactly when \\(D_{ij}\\vec Q_{\\vec\\theta}=0\\), five equations in five angles, and \\((z_0,z_i,z_j)=K_{ij}\\vec Q_{\\vec\\theta}\\).",
+        "Physical weights require \\(z_i,z_j\\ge0\\) and \\(\\lambda_0+\\lambda_i+\\lambda_j=(1+z_i+z_j)/z_0\\le1\\), equivalently \\(z_0-z_i-z_j\\ge1\\), which already forces \\(z_0>0\\).",
+        "Editorial check: the paper’s example point \\((5\\pi/6,3\\pi/2,2\\pi/3,7\\pi/5,11\\pi/20)\\) violates a CHSH inequality with value 2.453, and its \\(8\\times5\\) tangent matrix has rank 5, as used for the normal-cone count."
+      ],
+      "transfer": "Whenever a convex set is generated by one curved family plus finitely many vertices, write membership as a linear system in the weights, project out the weights, and solve only for the curve parameters. The same move turns many mixture-detection problems (states, channels, correlations) into a small nonlinear system plus linear feasibility checks."
+    }
+  ],
+  "methods_source_section": "Sections I–III (Eqs. 1–12, Theorems 1–2, Corollary 3); Appendix A.4 (Lemma 1, Proposition 3); Appendices C and E",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The eight numbers \\(\\langle A_x\\rangle\\), \\(\\langle B_y\\rangle\\) and \\(E_{xy}=\\langle A_xB_y\\rangle\\) describe any behaviour. Behaviours from projective measurements on a pure two-qubit state form a five-angle family \\[A_x=\\cos\\theta\\cos a_x,\\quad B_y=\\cos\\theta\\cos b_y,\\quad E_{xy}=\\cos a_x\\cos b_y+\\sin\\theta\\sin a_x\\sin b_y,\\] which contains every extreme point of the quantum set. Carathéodory’s theorem allows up to nine extreme points in a decomposition, and the free parameters make that search intractable; the semidefinite hierarchy only converges in the limit.",
+    "A sign condition does much of the work. Call a Bell functional frustrated if the product of its four correlator coefficients is negative. For any behaviour there is a local model with the same marginals and correlators \\(1-|A_x-B_y|\\ge E_{xy}\\), so if all correlator coefficients can be made nonnegative by relabelling outputs, no quantum behaviour beats the local bound. A quantum advantage therefore requires frustration, and a maximizer with all joint probabilities positive forces it.",
+    "The main technical theorem shows that a frustrated functional maximized at a nonlocal exposed point has no other nonlocal extreme maximizer; local vertices may share the face, but only one quantum point. Hence every maximal face through such a point is the convex hull of that point and some deterministic local vertices. Every interior quantum behaviour lies between an interior local point and such a face, which gives the one-point-plus-local decomposition, and compactness extends it to the boundary.",
+    "The normal cone of a nonlocal point is cut by five tangent conditions and a normalization, leaving a two-parameter family of supporting functionals, so only finitely many maximal faces pass through each point. For membership, choosing two local vertices and eliminating the mixture weights by linear algebra leaves five equations in the five angles; a complete eight-vertex version covers all cases. A direct-sum construction realizes the two-qubit part and the local part together, so \\(6\\otimes6\\) dimensions always suffice."
+  ],
+  "approved_on": "2026-10-27"
+}

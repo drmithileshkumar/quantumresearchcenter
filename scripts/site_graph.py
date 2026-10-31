@@ -1,11 +1,12 @@
 """Build the website graph from public pages and their actual internal links."""
+import hashlib
 import html
 import json
 import posixpath
 from html.parser import HTMLParser
 from urllib.parse import unquote, urlsplit
 
-EXCLUDED = {'.git', 'content', 'source', 'vendor', 'templates', 'tests', 'node_modules', '.codex', '.agents'}
+EXCLUDED = {'.git', '_site', 'content', 'source', 'vendor', 'templates', 'tests', 'node_modules', '.codex', '.agents'}
 
 
 class Page(HTMLParser):
@@ -73,15 +74,36 @@ def collect(root, outputs, site_url):
                                      for (a, b), nav in sorted(edges.items())]}
 
 
+def compact(graph):
+    """Encode edges by node position; the browser derives each page's section and URL from its path."""
+    position = {node['id']: i for i, node in enumerate(graph['nodes'])}
+    return {'nodes': [[node['id'], node['title']] for node in graph['nodes']],
+            'edges': [[position[edge['source']], position[edge['target']], int(edge['navigation'])] for edge in graph['edges']]}
+
+
 def render_site_graph(root, outputs, site_url, logo, navigation):
     graph = collect(root, outputs, site_url)
-    directory = ''.join(f'<li data-page="{html.escape(n["id"])}"><a href="{html.escape(n["url"])}">{html.escape(n["title"])}</a><small>{html.escape(n["section"])}</small></li>' for n in graph['nodes'])
-    template = (root / 'website-map/template.html.in').read_text()
+    sections = {}
+    for node in graph['nodes']: sections.setdefault(node['section'], []).append(node)
+    outputs['website-map/data.js'] = 'window.SITE_GRAPH=' + json.dumps(compact(graph), ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c') + ';\n'
+    digest = hashlib.sha256(outputs['website-map/data.js'].encode()).hexdigest()[:10]
+    directory = ''.join(f'<li><a href="sections/{html.escape(section)}.html">{html.escape(section)}</a><small>{len(nodes)} pages</small></li>' for section, nodes in sorted(sections.items()))
     values = {'LOGO': logo('editorial-brand', '../index.html'),
               'NAV': navigation('website-map/index.html', 'editorial-nav'),
-              'DATA': json.dumps(graph, ensure_ascii=False).replace('<', '\\u003c'),
+              'DATA_URL': f'data.js?v={digest}',
               'DIRECTORY': directory, 'COUNT': str(len(graph['nodes'])),
               'CANONICAL': site_url + '/website-map/'}
+    template = (root / 'website-map/template.html.in').read_text()
     for key, value in values.items(): template = template.replace('{{' + key + '}}', value)
     outputs['website-map/index.html'] = template
+    # Each section lists its pages as ordinary links, so the directory works without JavaScript at any size.
+    section_template = (root / 'website-map/section.html.in').read_text()
+    for section, nodes in sections.items():
+        source = f'website-map/sections/{section}.html'
+        values = {'LOGO': logo('editorial-brand', '../../index.html'), 'NAV': navigation(source, 'editorial-nav'),
+                  'SECTION': html.escape(section), 'COUNT': str(len(nodes)),
+                  'DIRECTORY': ''.join(f'<li><a href="../../{html.escape(n["id"])}">{html.escape(n["title"])}</a></li>' for n in nodes)}
+        page = section_template
+        for key, value in values.items(): page = page.replace('{{' + key + '}}', value)
+        outputs[source] = page
     return graph

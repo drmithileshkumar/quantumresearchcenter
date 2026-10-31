@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+  "verified_on": "2026-10-22",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30052",
+  "topic": "information",
+  "kind": "Theory",
+  "title": "Tight Bounds on the Randomized Communication Complexity of Vector-in-Subspace",
+  "authors": "Chengu Wang",
+  "problem": "One quantum message of \\(\\lceil\\log_2n\\rceil\\) qubits solves Vector-in-Subspace exactly. How many bits does an interactive classical protocol need?",
+  "result": "\\(\\Theta(\\sqrt n)\\) bits. A lower bound of \\(\\Omega(\\sqrt n)\\) holds for bounded-error randomized protocols with any number of rounds, matching Raz’s \\(O(\\sqrt n)\\) protocol. It improves the \\(\\Omega(n^{1/3})\\) bound of Klartag and Regev and removes the total-rank restriction in Grupel’s \\(\\Omega(\\sqrt n)\\) result.",
+  "significance": "Settles the size of a standard exponential separation between one-way quantum and interactive classical communication. The proof introduces a cancellation technique, a vanishing complex moment that survives averaging over a protocol’s rectangles, which avoids the dimension dependence of absolute moments.",
+  "limitations": "The constants are not explicit. The quantum advantage concerns communication only: the matching classical protocol may require substantial local computation. The proof is long and technical, and the author reports using AI tools to develop and check arguments.",
+  "description": [
+    "Alice holds a unit vector \\(x\\in\\mathbb R^n\\) and Bob an \\(n/2\\)-dimensional subspace \\(H\\), with the promise that \\(x\\in H\\) or \\(x\\in H^\\perp\\). Alice can send the state \\(\\sum_ix_i\\ket i\\) on \\(\\lceil\\log_2n\\rceil\\) qubits; Bob measures the projector onto \\(H\\) and answers correctly with certainty. Classically, Raz’s protocol uses shared random Gaussian vectors: Alice sends the index of the one most correlated with \\(x\\), which takes \\(O(\\sqrt n)\\) bits. Could interaction do much better?",
+    "Earlier bounds left a gap. Gavinsky, Kempe, Kerenidis, Raz and de Wolf separated one-way quantum from one-way classical communication, but their problem is easy with interaction. Klartag and Regev proved \\(\\Omega(n^{1/3})\\) against interactive protocols by studying how a random half-dimensional subspace samples a set on the sphere. A spherical cap shows that their one-subspace estimate is sharp at the cube-root scale. Grupel studied \\(H\\) and \\(H^\\perp\\) together and obtained \\(\\Omega(\\sqrt n)\\) only for protocols whose decisions depend on few linear functionals of Alice’s vector.",
+    "A deterministic \\(d\\)-bit protocol partitions the inputs into at most \\(2^d\\) rectangles. Averaging over \\(H\\cap S^{n-1}\\) acts on degree-\\(2k\\) spherical harmonics with eigenvalue \\(\\mathfrak a_k=(1/2)_k/((n-1)/2)_k\\le(2k/(n-1))^k\\), and averaging over \\(H^\\perp\\) adds a sign \\((-1)^k\\). Only odd \\(k\\) therefore separate the two promises, and high degrees are negligible. The paper lifts the problem to Gaussians: \\(x=Y/|Y|\\) and \\(H\\) is the top-half eigenspace of a GOE matrix \\(G\\). Each level becomes a Wick-ordered polynomial \\(F_k(Y,G)\\) of \\((Y^{\\mathsf T}GY)^k\\), and the central estimate is \\(\\mathbb E\\bigl|\\mathbb E[F_k\\mid\\mathsf T]\\bigr|\\le C^kk!\\,(d+k^2)^k\\) for every partition \\(\\mathsf T\\) into at most \\(2^d\\) rectangles. Each level then contributes \\((Cd/\\sqrt n)^k\\), which is small when \\(d\\le c\\sqrt n\\).",
+    "The estimate rests on cancellation before absolute values are taken. With independent copies \\(Z,G'\\), the variable \\(Q=\\tfrac12(Y+iZ)^{\\mathsf T}(G+iG')(Y+iZ)\\) satisfies \\(F_k=2^k\\mathbb E[Q^k\\mid Y,G]\\) and \\(\\mathbb E Q^{2k}=0\\). Since the cells together reproduce the full Gaussian law, this zero survives averaging over the partition, though not within any one cell. On each cell, Alice’s conditional law is split into fixed coordinates, which define a real center \\(\\alpha\\), and a sub-Gaussian remainder controlled through signed Wick moments. A short lemma then turns the vanishing even moment into a bound on \\(\\alpha\\) and on the conditional moment."
+  ],
+  "methods": [
+    {
+      "technique": "Complex Gaussian lifts perform the Wick corrections",
+      "explanation": "Adding an independent imaginary Gaussian turns ordinary powers into Hermite (Wick) polynomials, and phase symmetry makes every holomorphic moment vanish.",
+      "math": [
+        "The Hermite tensor is \\(\\mathrm{He}_r(y)=\\mathbb E_Z(y+iZ)^{\\otimes r}\\). At the lowest level, with \\(w=y+iZ\\), \\[F_1(y,G)=\\mathbb E\\bigl[w^{\\mathsf T}(G+iG')w\\bigr]=y^{\\mathsf T}Gy-\\mathbb E[Z^{\\mathsf T}GZ]=y^{\\mathsf T}Gy-\\operatorname{tr}G:\\] the imaginary part subtracts the self-contraction, and terms linear in \\(Z\\) or \\(G'\\) average to zero. Higher levels subtract all contractions in the same way.",
+        "Why \\(\\mathbb EQ^m=0\\) (editorial). \\(Y+iZ\\) is a circularly symmetric complex Gaussian: \\(e^{i\\varphi}(Y+iZ)\\) has the same law for every \\(\\varphi\\), and \\(Q\\mapsto e^{2i\\varphi}Q\\). Hence \\(\\mathbb EQ^m=e^{2im\\varphi}\\mathbb EQ^m\\) for all \\(\\varphi\\), so \\(\\mathbb EQ^m=0\\) for \\(m\\ge1\\), even though \\(\\mathbb E|Q|^2\\) grows with \\(n\\). A Monte Carlo check at \\(n=6\\) gave \\(\\mathbb E[w^{\\mathsf T}(G+iG')w]\\approx-8.92\\) against \\(y^{\\mathsf T}Gy-\\operatorname{tr}G=-8.91\\), and \\(|\\mathbb EQ^2|\\approx0.8\\) against \\(\\mathbb E|Q|^2\\approx168\\)."
+      ],
+      "transfer": "To bound a polynomial that should average to zero, write it as the expectation of a holomorphic expression in complex Gaussians. Signed moments then cancel by phase symmetry, while absolute moments would grow with dimension. The device applies wherever Wick or Hermite polynomials appear, including Fourier-growth bounds in other communication and query lower bounds."
+    },
+    {
+      "technique": "A vanishing even moment bounds a real center",
+      "explanation": "Lemma 4.1 converts the global identity \\(\\mathbb EQ^{2k}=0\\) into control of conditional moments, needing only signed moments of \\(Q-\\alpha\\) about a real center.",
+      "math": [
+        "Let \\(\\alpha\\) be real and \\(\\mathcal F\\)-measurable, \\(\\kappa_l=\\mathbb E[(Q-\\alpha)^l\\mid\\mathcal F]\\) with \\(\\|\\kappa_l\\|_{2k/l}\\le(l\\tau)^l\\), and \\(t=\\|\\alpha\\|_{2k}\\). Expanding \\(Q^{2k}=\\sum_l\\binom{2k}l\\alpha^{2k-l}(Q-\\alpha)^l\\) and taking expectations gives \\(0=\\mathbb E\\alpha^{2k}+\\sum_{l\\ge1}\\binom{2k}l\\mathbb E[\\alpha^{2k-l}\\kappa_l]\\). Since \\(\\alpha\\) is real, \\(\\mathbb E\\alpha^{2k}=t^{2k}\\ge0\\), so Hölder gives \\[t^{2k}\\le\\sum_{l=1}^{2k}\\binom{2k}l\\,t^{2k-l}(l\\tau)^l\\le\\sum_{l=1}^{2k}(2ek\\tau)^lt^{2k-l},\\] using \\(\\binom{2k}l\\le(2ek/l)^l\\).",
+        "If \\(t>4ek\\tau\\), the ratio \\(r=2ek\\tau/t<\\tfrac12\\) makes the right side \\(t^{2k}\\sum_{l\\ge1}r^l<t^{2k}\\), a contradiction; so \\(\\|\\alpha\\|_{2k}\\le4ek\\tau\\). Expanding \\(Q^k\\) the same way gives \\(\\|\\mathbb E[Q^k\\mid\\mathcal F]\\|_2\\le(t+k\\tau)^k\\le(12k\\tau)^k\\). The bound on \\(|Q-\\alpha|\\) itself, which would carry the dimension, is never needed."
+      ],
+      "transfer": "When a quantity has a known zero moment overall but you need its conditional behaviour on many cells, expand around a real conditional center. Positivity of an even power of a real number turns the global zero into a bound on the center, so long as the signed conditional moments are small."
+    }
+  ],
+  "methods_source_section": "Sections 1.3, 2.4 (Lemma 2.2), 3.1–3.4, 4.1 (Lemma 4.1)",
+  "approved_on": "2026-10-22"
+}

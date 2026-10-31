@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-24; equations follow the paper’s notation.",
+  "verified_on": "2026-10-24",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30315",
+  "topic": "computing",
+  "kind": "Theory and numerical analysis",
+  "title": "Normal-Form Characterization of Adaptivity and Entanglement in Pauli-Based Computation",
+  "authors": "Filipa C. R. Peres; Selman Ipek; Daniel Lovsted; Joshua Nevin; Anne Broadbent",
+  "problem": "Pauli-based computation (PBC) runs a Clifford+\\(T\\) circuit as a sequence of commuting Pauli measurements on magic states, chosen adaptively from earlier outcomes. The adaptive tree of measurements is exponentially large. Is there a compact description of how branches differ, comparable to flow in one-way computing?",
+  "result": "Yes. Every branch of the PBC tree is obtained from the all-zero reference branch by conjugating each observable with phase gates \\(S\\) on the magic qubits whose earlier outcomes were 1. This normal form groups measurements into adaptive layers, gives a duality with a computation-specific one-way computation, detects unnecessary magic qubits in polynomial rather than exponential time, and allows ahead-of-time compilation. The resulting circuits use on average about 50% fewer CNOTs and 40% less quantum memory than state-of-the-art compilers on random circuits.",
+  "significance": "It replaces an exponential object, the adaptive tree, with one efficiently computable branch plus a local correction rule. That makes PBC practical to compile before run time, to distribute across processors, and to provision with magic states at a known rate, which matters because PBC is a natural model for fault tolerance with low-density parity-check codes.",
+  "limitations": "The duality with one-way computing requires all qubits of the original circuit to be measured. Compilation results are for random circuits on a \\(7\\times7\\) grid and a benchmark suite; hardware constraints such as connectivity are not modelled. The magic-state savings from removing free virtual qubits are modest (about 9%) on large random circuits and larger on structured benchmarks.",
+  "description": [
+    "In PBC each \\(T\\) gate is replaced by a gadget that consumes a magic state \\(|T\\rangle=T|+\\rangle\\) and applies a Clifford correction \\(S^m\\) depending on the outcome \\(m\\). Pushing all measurements back through the Clifford circuit and removing the stabilizer inputs leaves at most \\(t\\) commuting Pauli measurements \\(Q_{j_1},Q_{j_2},\\dots\\) on \\(t\\) magic qubits. Because corrections depend on outcomes, each measured observable depends on earlier results, which produces a binary tree of possible measurement sequences.",
+    "Theorem 1, the normal form, states \\(Q_{j_r}(\\mathbf b)=\\tilde S(\\mathbf b)\\,Q_{j_r}(\\mathbf 0)\\,\\tilde S^\\dagger(\\mathbf b)\\) with \\(\\tilde S=\\prod_u S_{j_u}^{m_{j_u}}\\) over earlier gadget outcomes. The proof teleports each correction acausally onto its magic state: for a fixed outcome \\(m\\), using \\((S^\\dagger)^m|T\\rangle\\) and no correction gives the same output. The reduction to \\(t\\) qubits commutes with this conjugation and keeps the same measurement indices in every branch. Since \\(SX|T\\rangle=e^{i\\pi/4}|T\\rangle\\) and \\(S\\), \\(SX\\) act alike on Paulis up to sign, the distinct sequences form an orbit of \\(\\mathbb F_2^\\ell\\).",
+    "Consequences follow from the reference branch alone. Consecutive observables belong to one adaptive layer when corrections from inside the block leave the rest unchanged, so PBC depth equals adaptive depth on hardware that measures overlapping Paulis together. On random circuits with hundreds of \\(T\\) gates, that depth is much smaller than \\(t\\), and magic states are consumed at a roughly constant rate per layer. Local corrections preserve entanglement, so the reference projector \\(\\prod_r(I+Q_{j_r}(\\mathbf 0))/2\\) defines the resource state of a dual one-way computation with adaptive \\(T/ST\\)-basis measurements. An efficient, probability-preserving bijection maps PBC records to one-way records.",
+    "A magic qubit measured only with \\(I\\) or \\(Z\\) in the reference branch is a free virtual qubit: \\(S\\) leaves \\(I\\) and \\(Z\\) unchanged, so this holds in every branch, and since \\(T\\) commutes with \\(Z\\) the qubit can be replaced by \\(|+\\rangle\\) and removed. Previously this required enumerating the whole tree. For compilation, each layer is rotated to computational-basis measurements by a Clifford \\(W_i\\), interleaved with the \\(S^\\dagger\\) corrections; the enhanced compiler pushes \\(W_i^\\dagger\\) to the end and drops it. Against the earlier just-in-time PBC compiler and ZX-based compilers, CNOT counts fall by 40–75% and memory by 20–60% on random circuits, and by 20–70% and 10–60% on benchmarks."
+  ],
+  "methods_source_section": "Theorem 1 and Fig. 2; Propositions 2–4; Appendices A–D",
+  "methods": [
+    {
+      "technique": "Move outcome-dependent corrections onto the input state",
+      "explanation": "For a fixed measurement outcome, a correction applied after a gadget is equivalent to preparing a modified resource state and applying nothing. Doing this for every gadget makes the circuit outcome-independent, so all adaptivity becomes a local conjugation of a single reference measurement sequence.",
+      "math": [
+        "Gadget: \\(|\\psi\\rangle|T\\rangle\\xrightarrow{\\rm CNOT}\\), measure the ancilla with outcome \\(m\\), apply \\(S^m\\): output \\(\\propto T|\\psi\\rangle\\). Acausal form: start the ancilla in \\((S^\\dagger)^m|T\\rangle\\) and post-select \\(m\\) with no correction; the output is again \\(\\propto T|\\psi\\rangle\\). Editorial numerical check: both forms reproduce \\(T|\\psi\\rangle\\) for 20 random \\(|\\psi\\rangle\\) and both outcomes.",
+        "With \\(\\tilde\\Sigma(\\mathbf g)=\\bigotimes_iS_i^{m_i}\\), back-propagated observables satisfy \\(\\tilde P_i(\\mathbf g)=\\tilde\\Sigma P_i(\\mathbf 0)\\tilde\\Sigma^\\dagger\\). Causality follows because \\(P_i(\\mathbf 0)=R_i\\otimes Z\\otimes I^{\\otimes(t-i)}\\otimes\\hat R_i\\), and \\(S\\) commutes with \\(I\\) and \\(Z\\) on later qubits."
+      ],
+      "transfer": "In any measurement-driven protocol whose corrections are diagonal Cliffords, try teleporting them onto the resource state for a fixed outcome record. If they commute with the measurement structure, one reference branch plus a conjugation rule replaces the exponential branching."
+    },
+    {
+      "technique": "Detect removable resources by checking one branch against a symmetry",
+      "explanation": "A property preserved by the correction group can be checked on the reference branch alone. Here a magic qubit touched only by \\(I\\) and \\(Z\\) stays so in every branch, and because the magic gate commutes with \\(Z\\) the qubit is effectively a stabilizer input.",
+      "math": [
+        "Free virtual qubit \\(k\\): every reference observable acts on \\(k\\) by \\(I\\) or \\(Z\\). Since \\(SZS^\\dagger=Z\\), this holds for all branches. Since \\(|T\\rangle=T|+\\rangle\\) and \\([T,Z]=0\\), the \\(T\\) can be commuted through every measurement, leaving \\(|+\\rangle\\), which the standard reduction removes. Cost: polynomial in \\(t\\), instead of enumerating \\(2^\\ell\\) branches.",
+        "Observed reductions in magic-state count: 9% on average for 49-qubit random circuits (\\(t=10\\) to 200), 15–30% for 25-qubit random circuits, and 40–80% for the benchmark circuits."
+      ],
+      "transfer": "When a computation branches on outcomes but the branches are related by a group action, any property invariant under that group can be certified on one branch. Look for resources (qubits, ancillas, magic states) whose use is invariant, since they can often be removed classically."
+    }
+  ],
+  "approved_on": "2026-10-24"
+}

@@ -1,0 +1,46 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+  "verified_on": "2026-10-21",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "id": "2610.26465",
+  "topic": "foundations",
+  "version": "v1",
+  "submitted": "2026-10-19",
+  "kind": "Theory with formal verification",
+  "title": "The Four-Qubit Hyperbolic Quadric Has Contextuality Degree 315",
+  "authors": "Zhengyu Li; Amandeep Gupta; Vijay Ganesh",
+  "problem": "How many of the 1575 three-observable constraints on a four-qubit hyperbolic quadric must every noncontextual value assignment break?",
+  "result": "Exactly 315, proving a conjecture based on heuristic searches. In every optimal assignment each of the 40,320 doilies has exactly three violated lines, and the 240 possible violated sets are all copies of the dual polar space DW(5,2).",
+  "significance": "Gives an exact classical bound (945 against the quantum value 1575) for a large state-independent contextuality inequality, with a proof short enough to check by hand and machine-checked certificates.",
+  "limitations": "The classical-to-quantum ratio 3/5 equals that of the much smaller doily, so the inequality is not stronger than known ones. For the elliptic four-qubit quadric and for five or more qubits only the lower bound ⌈L/5⌉ is given.",
+  "description": [
+    "A noncontextual hidden-variable model gives every observable a fixed outcome \\(\\pm1\\), whatever else is measured with it. For Pauli observables, write \\(P(v)\\) for the operator labelled by \\(v\\in\\mathbb F_2^{2N}\\) and \\(x(v)\\in\\mathbb F_2\\) for its assigned outcome \\((-1)^{x(v)}\\). A context is a triple \\(C=\\{u,v,u+v\\}\\) of commuting observables with \\(P(u)P(v)P(u+v)=(-1)^{s(C)}I\\). Quantum mechanics requires the three outcomes to multiply to \\((-1)^{s(C)}\\), so an assignment violates \\(C\\) when \\[x(u)+x(v)+x(u+v)\\ne s(C)\\pmod 2.\\] The contextuality degree is the least number of contexts that any assignment violates. In the Peres–Mermin square no assignment satisfies all six contexts, so its degree is 1.",
+    "The paper studies the real four-qubit observables: those with an even number of \\(Y\\) factors. In the finite-geometry dictionary they are the 135 points of a hyperbolic quadric \\(\\mathcal Q^+(7,2)\\), whose 1575 lines are its contexts. Computing the degree is a MAX-XOR-SAT problem with 135 variables and 1575 parity constraints. Earlier solver attempts gave only an upper bound of 500; a heuristic search then found assignments violating 315 lines and conjectured that this is optimal.",
+    "Theorem 11 proves that the degree is exactly 315 for every hyperbolic quadric of four qubits. Proposition 14 shows that an optimal assignment violates exactly three lines in each of the quadric’s 40,320 doilies (copies of the generalized quadrangle \\(GQ(2,2)\\)), and that these three lines form one ruling of a \\(3\\times3\\) grid. Turning this local condition into a SAT encoding enumerates all optima in about 30 seconds. There are 240 violated sets, forming one orbit of \\(\\mathrm O^+(8,2)\\) and each isomorphic to \\(DW(5,2)\\); each is produced by \\(2^8=256\\) assignments. The same averaging gives a degree of at least \\(\\lceil L/5\\rceil\\) for every quadric with \\(L\\) lines on \\(N\\ge3\\) qubits.",
+    "Physically, the sum of signed correlators \\(\\chi=\\sum_C(-1)^{s(C)}\\langle P(u)P(v)P(u+v)\\rangle\\) equals 1575 in every quantum state. A noncontextual model reaches at most \\(1575-2\\cdot315=945\\), so a context chosen at random is satisfied with probability at most \\(4/5\\). The degree theorem is kernel-checked in Lean 4, and the completeness of the enumeration is certified by a DRAT proof checked with the verified checker cake_lpr. Whether \\(\\lceil L/5\\rceil\\) is tight for five-qubit quadrics is open."
+  ],
+  "methods": [
+    {
+      "technique": "Read a lower bound from parity alone",
+      "explanation": "Before any search, a family of contexts can force at least one violation through a parity count. The authors use this for every grid of nine observables inside a doily.",
+      "math": [
+        "Suppose every point of a family \\(\\mathcal F\\) of contexts lies on an even number of its contexts. Modulo 2, the number of violated contexts is \\[\\sum_{C\\in\\mathcal F}\\Bigl(\\sum_{p\\in C}x(p)+s(C)\\Bigr)=\\sum_{C}\\sum_{p\\in C}x(p)+\\sum_C s(C)=\\sum_C s(C),\\] because each \\(x(p)\\) is counted an even number of times. If the signs have odd sum, every assignment violates an odd number of contexts, and so at least one (Lemma 5).",
+        "For a grid of nine observables \\(P_{ij}\\), each point lies on one row and one column. The signs are found by multiplying all nine operators in two orders. Row by row the product is \\((-1)^{r_1+r_2+r_3}I\\); column by column it is \\((-1)^{c_1+c_2+c_3}I\\). Passing from one order to the other swaps \\(P_{ij}\\) past \\(P_{kl}\\) exactly when \\(i<k\\) and \\(j>l\\): there are nine such pairs, and each anticommutes. Hence \\(\\sum r_i+\\sum c_j\\equiv9\\equiv1\\pmod 2\\), and every grid has an odd number of violated lines (Lemma 6)."
+      ],
+      "transfer": "In any MAX-XOR-SAT problem (stabilizer sign constraints, Mermin-type games, parity checks), look for subfamilies in which every variable appears an even number of times. The signs alone then fix the parity of the violation count, and give a lower bound with no search. These subfamilies are certificates and can be enumerated mechanically."
+    },
+    {
+      "technique": "Average over a symmetric cover, rounding locally",
+      "explanation": "The global bound comes from averaging over doilies rather than over grids. The gain comes from integer rounding inside each doily.",
+      "math": [
+        "A doily contains ten grids, and each of its 15 lines lies in exactly four of them (Lemma 8, from Sylvester’s model of \\(GQ(2,2)\\)). Let \\(V_D\\) be the violated lines of a doily \\(D\\). Each grid contains an odd number of them, so \\[4|V_D|=\\sum_{G}|V_D\\cap G|\\ \\ge\\ 10,\\qquad |V_D|\\ge\\lceil 10/4\\rceil=3.\\]",
+        "The orthogonal group of the quadric maps doilies to doilies and is transitive on lines (Witt’s theorem), so each line lies in the same number \\(r\\) of doilies, and \\(15|\\mathcal D|=1575\\,r\\). For the violated set \\(\\mathcal V\\) of any assignment, \\[r|\\mathcal V|=\\sum_{D\\in\\mathcal D}|\\mathcal V\\cap D|\\ \\ge\\ 3|\\mathcal D|\\quad\\Longrightarrow\\quad|\\mathcal V|\\ \\ge\\ \\frac{3\\cdot1575}{15}=315.\\] Averaging over grids instead gives only \\(1575/6\\), so degree at least 263, because a single grid can have just one violated line out of six. An assignment found by local search attains 315.",
+        "Equality forces every doily to contribute exactly 3. Conversely, if each doily of a family covering all lines equally has three violated lines, the assignment is optimal. This replaces one global optimization over \\(2^{135}\\) assignments by local constraints on fifteen lines at a time. Direct MaxSAT formulations did not finish in 30 minutes; the local encoding finds all optima in about 30 seconds."
+      ],
+      "transfer": "To lower-bound a minimum over a structure with a transitive symmetry group, pick a substructure in which integrality pushes the local bound above the naive fraction, then average. Which substructure you choose matters: here grids give 263 and doilies give 315. If the bound is tight, its equality case is a local characterization of all optima and a much better solver encoding."
+    }
+  ],
+  "methods_source_section": "Sections 3–6: Lemmas 5–8, Proposition 10, Theorem 11 and Proposition 14; Section 8",
+  "approved_on": "2026-10-21"
+}

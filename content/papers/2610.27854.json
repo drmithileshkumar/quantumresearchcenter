@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-21; equations follow the paper’s notation.",
+  "verified_on": "2026-10-21",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "id": "2610.27854",
+  "topic": "information",
+  "version": "v1",
+  "submitted": "2026-10-20",
+  "kind": "Experiment",
+  "title": "Trapped-ion-based quantum repeater node across a 17 km metropolitan fiber",
+  "authors": "K. Fabitha; T. Runggaldier; A. Winkler; F. Bernecker; J. Bate; M. Canteri; J. Helgert; T. E. Northup; V. Krutyanskiy; B. P. Lanyon",
+  "problem": "Can a trapped-ion repeater node distribute entanglement over deployed city fiber rather than a laboratory spool?",
+  "result": "A two-ion node in Innsbruck entangled a photon sent through 17 km of rented municipal fiber with a photon detected locally. The Bell-state fidelity was \\(81.6^{+1.9}_{-1.4}\\%\\) (with feed-forward simulated), at 0.69 successes per second. Storing the first ion qubit raised the success probability 13.6-fold over sending both photons without memory.",
+  "significance": "The deployed fiber did not significantly limit fidelity: polarization drifts were corrected periodically, and background light was removed with a GHz-wide filter.",
+  "limitations": "Only one fiber segment is deployed; the other is a few metres long. The reported photon–photon fidelity uses simulated, not implemented, feed-forward. Stored entanglement between separate nodes is not shown, and part of the infidelity is unexplained.",
+  "description": [
+    "A quantum repeater node holds at least two matter qubits between two fibers. It entangles one qubit with a photon sent one way, stores it, entangles the second qubit with a photon sent the other way, and then performs a Bell-state measurement on the two qubits. That measurement swaps the entanglement onto the two photons. Here the node is a cavity-integrated Paul trap with two \\({}^{40}\\mathrm{Ca}^+\\) ions. A Raman pulse ideally produces \\((\\ket{DV}+e^{-i\\phi}\\ket{D^{\\prime}H})/\\sqrt2\\) between the ion and the polarization of an 854 nm photon. For the long link the photon is converted to 1550 nm and sent through 16.74 km of dark municipal fiber to an office 5.2 km away; detector clicks return over a second fiber, taking 82 µs each way.",
+    "The fiber was characterized first. Its transmission was 0.192, against 0.463 expected from typical attenuation; the difference is attributed to splices and connectors. Polarization drifted with outdoor temperature on a daily cycle, but the process fidelity between measurements 21 minutes apart stayed above 0.99 throughout four days. Background light gave 10.8 counts per second with a 12 nm filter and 1.2 with a 1.7 GHz fiber Bragg grating, which matches detector dark counts. Distributing ion–photon entanglement over the link succeeded with probability \\(1.13\\times10^{-3}\\) per attempt, with fidelity 0.88(2) and concurrence 0.77(3).",
+    "For the repeater protocol, photons were sent to the remote station first (up to 20 attempts) and, after a success, to the local station (up to 22 attempts) while ion 1 was stored in a dynamically decoupled ground-state qubit. A Mølmer–Sørensen gate and ion readout then performed the deterministic Bell-state measurement. Over 4.5 hours there were 3369 successes, with success probability \\(7.52\\times10^{-4}\\) per attempt. The four heralded photon–photon states had fidelities between 78% and 84%. Applying the outcome-dependent rotations numerically gives \\(81.6^{+1.9}_{-1.4}\\%\\).",
+    "For the remote ion–photon state, the infidelity budget attributes 0.07 to background counts, 0.060 to memory decoherence (possibly 50 Hz magnetic noise), 0.032 to the initial ion–photon state and 0.014 to fiber drift. These sum to 0.176(16), against a measured 0.13(3). The local state’s infidelity of 0.09(3) is not yet explained. The authors estimate that combining known component improvements would raise remote delivery to \\(10^{-2}\\) per attempt. A 68 km chain of improved nodes would then herald ion–ion entanglement in about 5.4 s, which requires about 3.6 s of memory coherence."
+  ],
+  "methods": [
+    {
+      "technique": "Store the qubit for the fast link, not the slow one",
+      "explanation": "The two links have very different success probabilities. The protocol attempts the slow, remote link first, so that the stored qubit waits only for the fast local link.",
+      "math": [
+        "Without memory, both photons must arrive in the same attempt: \\[P_{\\mathrm s}^{\\mathrm{single}}=P_{\\mathrm B,1}P_{\\mathrm A,2}=1.38\\times10^{-3}\\times4.02\\times10^{-2}=5.55\\times10^{-5}.\\] With memory, once the remote photon has arrived the local link gets \\(k\\) tries, succeeding with probability \\(1-(1-P_{\\mathrm A,2})^k\\). As \\(k\\to\\infty\\) the gain approaches \\(1/P_{\\mathrm A,2}=24.9\\).",
+        "With \\(k=22\\), the ideal success probability would be \\(1-(1-0.0402)^{22}\\approx0.59\\) (editorial calculation). The measured value was 0.556, lower because photon generation in the second loop runs without optical pumping. The memory factor is therefore about \\(0.556\\times24.9\\approx13.8\\), consistent with the measured 13.6(4). Reversing the order would leave the qubit stored for about \\(1/P_{\\mathrm B,1}\\approx700\\) attempts (the paper estimates of order \\(10^3\\)) instead of about 25."
+      ],
+      "transfer": "In any heralded two-link protocol with asymmetric success probabilities, attempt the slow link first and store its qubit. Memory time then scales with the inverse of the fast link’s probability. The rate gain is bounded by that inverse, which tells you when adding more attempts stops paying (here, less than a factor of two)."
+    },
+    {
+      "technique": "Correct a drifting fiber by tomography and inversion",
+      "explanation": "Fiber birefringence rotates photon polarization and drifts with temperature. Between runs, the authors measure the fiber’s process and apply its inverse with waveplates.",
+      "math": [
+        "Six input polarizations and a polarimeter give the fiber’s Choi matrix \\(E\\) by maximum likelihood. Each measured process was close to unitary (fidelity 0.994 to 0.998). The nearest unitary \\(U(t)\\) is found, and waveplates before the fiber implement \\(U^{-1}(t)\\), so that ideally \\(U^{-1}U=\\mathbb 1\\). Stability is measured by the process fidelity \\(F(E_1,E_2)=\\bigl(\\operatorname{tr}\\sqrt{\\sqrt{E_1}E_2\\sqrt{E_1}}\\bigr)^2\\).",
+        "Editorial link to the Bell fidelity: for unitary processes, \\(F=|\\operatorname{tr}(U_1^\\dagger U_2)|^2/4\\). A residual rotation \\(V=U_1^\\dagger U_2\\) applied to one half of a Bell pair \\(\\ket\\Phi\\) gives \\(|\\bra\\Phi(\\mathbb 1\\otimes V)\\ket\\Phi|^2=|\\operatorname{tr}V|^2/4\\), the same number. If \\(V\\) rotates by angle \\(\\theta\\), both equal \\(\\cos^2(\\theta/2)\\). A process fidelity of 0.99 is therefore a residual rotation of about 11.5° and costs about 1% of Bell fidelity, in line with the 0.014 the budget attributes to fiber drift."
+      ],
+      "transfer": "For a slowly drifting unitary channel, the measured stability time sets the recalibration interval. For unitary errors, the process fidelity between successive calibrations directly gives the Bell-fidelity loss, so drift can be budgeted before any entanglement is distributed."
+    }
+  ],
+  "methods_source_section": "Sections I–IV (Fig. 1, Tables 1–2); Appendices A4, B2 and C",
+  "approved_on": "2026-10-21"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "2610.34446",
+  "topic": "computing",
+  "title": "Ancilla-free optimal quantum adder",
+  "authors": "Junhong Nie; Jialiang Tang; Xiaoming Sun; Wei Zi",
+  "submitted": "2026-10-25",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Quantum addition sits inside factoring, discrete logarithms and many oracles. Ripple-carry adders need no extra qubits but have linear depth; carry-lookahead adders reach logarithmic depth only with extra workspace. Can an exact \\(n\\)-bit adder have \\(O(n)\\) gates and \\(O(\\log n)\\) depth with no ancillary qubits at all?",
+  "result": "Yes. Using only X, CNOT and Toffoli gates with all-to-all connectivity, the paper builds an exact ancilla-free adder with \\(O(n)\\) gates and \\(O(\\log n)\\) depth, which is optimal for both. A simpler recursive version achieves \\(O(n\\log\\log n)\\) gates at the same depth. The construction borrows existing control and data wires as dirty workspace and always restores them.",
+  "significance": "It closes the gap between size, depth and space for one of the most used arithmetic primitives, and the circuit is classically reversible, so it can be tested on bit strings. Its tools, workspace borrowed from dirty wires and restored by echoes, and a Pascal-matrix factorization of ladders, apply to other reversible circuits.",
+  "limitations": "The bounds are asymptotic, and the paper does not give concrete gate counts or compare constants with existing adders at practical sizes. All-to-all connectivity is assumed; nearest-neighbour hardware would add routing costs. Toffoli gates are counted as unit cost, whereas fault-tolerant compilation makes them expensive.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+  "verified_on": "2026-10-27",
+  "methods": [
+    {
+      "technique": "Echoes: apply a map using dirty borrowed bits and restore them",
+      "explanation": "If a linear map can be written as \\(I+A\\) with \\(A^2=0\\), and a shift \\(D\\) satisfies \\(ADA=A\\), then four additions between the target and a borrowed register implement \\(I+A\\) on the target and leave the borrowed register exactly as it was, whatever it held.",
+      "math": [
+        "Starting from \\((\\zeta,Z)\\): add \\(AZ\\) to \\(\\zeta\\); add \\(DA\\zeta\\) to \\(Z\\); add \\(AZ\\) to \\(\\zeta\\) again; add \\(DA\\zeta\\) to \\(Z\\) again. Using \\(A^2=0\\), the two copies of \\(AZ\\) cancel and \\(ADA=A\\) leaves \\(A\\zeta\\) in the target; the last step restores \\(Z\\) because \\(DA^2=0\\). Result: \\(((I+A)\\zeta,Z)\\).",
+        "Pascal matrices make this possible: \\(L=P_1P_0\\) modulo 2 with \\(P_0^2=P_1^2=I\\), where \\((P_0)_{ij}=\\binom ij\\bmod2\\). Weighting entries by control products preserves both identities because the weights from \\(j\\) to \\(k\\) and \\(k\\) to \\(i\\) multiply to the weight from \\(j\\) to \\(i\\).",
+        "Editorial check: \\(L=P_1P_0\\) and both involutions hold modulo 2 for every size up to 32; for 300 random control patterns and register contents, the four-addition echo applies \\(I+A\\) and restores the borrowed register exactly."
+      ],
+      "transfer": "When a reversible circuit needs scratch space but none is free, look for a factorization of the target map into involutions and use echoes on borrowed dirty wires. It works for any \\(\\mathbb F_2\\)-linear step whose nilpotent part admits a shift with \\(ADA=A\\)."
+    },
+    {
+      "technique": "Reducing addition to two controlled ladders",
+      "explanation": "The carry recurrence of binary addition becomes a controlled ladder after a change of variables, so a fast ladder gives a fast adder with only CNOT layers around it. The same two ladders also uncompute the carries, so no workspace remains.",
+      "math": [
+        "With \\(\\rho_i=a_i+b_i\\) and carries \\(c_{i+1}=a_ib_i+\\rho_ic_i\\), the bits \\(u_i=a_i+c_i\\) satisfy \\(u_0=a_0\\), \\(u_i=a_i+a_{i-1}+\\rho_{i-1}u_{i-1}\\): a ladder on the differenced register with controls \\(\\rho\\). After XORing \\(u\\) into the second register, the identity \\((1+\\rho_i+u_i)u_i=\\rho_iu_i\\) lets an inverse ladder with complemented controls restore the first register; a final XOR leaves the sum bits \\(\\rho+c\\).",
+        "Editorial check: implementing the seven stages literally on 6-bit registers reproduces \\((a,a+b\\bmod2^6)\\) on all 4,096 inputs."
+      ],
+      "transfer": "For any reversible arithmetic built from carry-like recurrences (comparison, increment, subtraction), look for a change of variables that turns the recurrence into a controlled ladder. Ladder acceleration then transfers directly, at the cost of linear-size, logarithmic-depth CNOT layers."
+    }
+  ],
+  "methods_source_section": "Sections 1.2, 2.2–2.3 (Lemmas 3–4); Section 3 (Lemma 5); Section 4.1 (Eqs. 15–19); Section 5",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A standard reduction turns addition into two controlled ladders plus linear-size, log-depth CNOT layers. The ladder maps \\(x\\) to \\(y\\) with \\(y_0=x_0\\) and \\(y_i=x_i+p_iy_{i-1}\\) over \\(\\mathbb F_2\\), where \\(p\\) is a control register. Run directly it has depth \\(n-1\\). The first ladder computes \\(u_i=a_i+c_i\\) from the carry recurrence, and a second ladder with complemented controls erases it.",
+    "The data are split into blocks. Local ladders run in parallel inside each block; then only the block endpoints need updating, and they obey a shorter ladder with controls \\(\\pi_j\\), the product of all controls in block \\(j\\). Finally each interior is corrected from the incoming endpoint. Everything hinges on the endpoint update, which must be done with no free qubits.",
+    "The inverse endpoint map factors as \\(J=Q_1Q_0\\), where \\(Q_0,Q_1\\) are Pascal matrices modulo 2 weighted by control products, and each squares to the identity. Writing \\(Q_0=I+A\\), four additions between the endpoints and a borrowed register apply \\(I+A\\) and return the register to its original, arbitrary value. The required control products are computed from one control wire per block used as a dirty flag, together with zero tests on complemented controls that serve as conditional workspace.",
+    "With blocks of size about \\(\\sqrt n\\), each endpoint walks along up to \\(r\\) earlier endpoints, which forces recursion and costs \\(O(n\\log\\log n)\\) gates. The linear construction decomposes the endpoint map into two forests of height \\(O(\\log r)\\), so each walk has \\(O(\\log r)\\) stops; dyadic intervals of controls are each encoded by one bit plus a constant number of original controls. Blocks of size \\(\\Theta(\\log n)\\) then suffice, the recursion disappears, and the total is \\(O(n)\\) gates in \\(O(\\log n)\\) depth."
+  ],
+  "approved_on": "2026-10-27"
+}

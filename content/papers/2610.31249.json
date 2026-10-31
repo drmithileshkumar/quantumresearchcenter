@@ -1,0 +1,47 @@
+{
+  "id": "2610.31249",
+  "topic": "information",
+  "title": "Reset-Enhanced Dissipative Quantum Metrology",
+  "authors": "Silan Li; Qingjun Tong; Ruicheng Bao",
+  "submitted": "2026-10-22",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Dissipation in open quantum sensors usually washes out parameter information. Can the simplest dissipative control, a channel that resets the probe to a fixed state at rate \\(r\\), increase the quantum Fisher information in steady-state and transient sensing without changing the Hamiltonian or adding a coherent drive?",
+  "result": "Sometimes, and the paper says exactly when. An exact identity for \\(\\partial_rF\\) gives a first-order test for local enhancement. For a thermal qubit reset to its ground state, steady-state thermometry improves if and only if \\(0<\\beta\\omega<\\ln(2+\\sqrt5)\\) and \\(r\\) is below a threshold, with optimum \\(r_{\\rm opt}=\\gamma(2+\\sqrt5-e^{\\beta\\omega})/(e^{\\beta\\omega}-1)\\). For diagonal dynamics, reset cannot change the leading short-time Fisher information of a static parameter, but it raises elapsed-time information immediately, roughly as \\(r^2\\). For frequency estimation with reset to \\(|+\\rangle\\), the gain at \\(t=1/\\gamma\\) is about 7 times, 91% of it from the coherence (eigenvector) part.",
+  "significance": "Reset is easy to implement by optical pumping or measurement and feedback. The paper gives exact windows rather than a blanket claim, and a diagnostic computable from the unreset Liouvillian modes.",
+  "limitations": "Only qubit examples are worked out. The identity is local in \\(r\\), so finite-\\(r\\) advantage needs the integrated response. Reaching the frequency bound needs phase-sensitive measurements. The time, energy and imperfection costs of reset are not included. Large gain ratios occur where the baseline Fisher information is small, so absolute values matter.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-25; equations follow the paper’s notation.",
+  "verified_on": "2026-10-25",
+  "methods": [
+    {
+      "technique": "Response of the QFI to a control parameter through the SLD",
+      "explanation": "Differentiating the Fisher information with respect to any control and using the self-adjointness of the Jordan product removes the derivative of the SLD. Only derivatives of the state and the SLD at the operating point are needed.",
+      "math": [
+        "With \\(\\mathcal J_\\rho(X)=\\tfrac12\\{\\rho,X\\}\\) and \\(\\partial_\\theta\\varrho=\\mathcal J_\\varrho(\\mathbb L)\\), \\(F=\\operatorname{Tr}[(\\partial_\\theta\\varrho)\\mathbb L]\\) gives \\(\\partial_rF=\\operatorname{Tr}[(\\partial_r\\partial_\\theta\\varrho)\\mathbb L]+\\operatorname{Tr}[\\mathbb L\\,\\mathcal J_\\varrho(\\partial_r\\mathbb L)]\\). Differentiating the SLD equation gives \\(\\mathcal J_\\varrho(\\partial_r\\mathbb L)=\\partial_r\\partial_\\theta\\varrho-\\tfrac12\\{\\partial_r\\varrho,\\mathbb L\\}\\), and trace cyclicity yields \\(\\partial_rF=2\\operatorname{Tr}[(\\partial_\\theta\\partial_r\\varrho)\\mathbb L]-\\operatorname{Tr}[(\\partial_r\\varrho)\\mathbb L^2]\\).",
+        "At \\(r=0\\) in the steady state, \\(\\partial_r\\rho^{\\rm ss}=\\rho_1=-\\sum_{j\\ge2}d_jR_j/\\lambda_j\\), so the first-order test uses only the unreset modes and the target overlaps.",
+        "Editorial check: for the thermal qubit, the closed form \\(F^{\\rm ss}(\\beta;s)\\) matches a finite-difference Fisher information of \\(p^{\\rm ss}\\) to \\(10^{-10}\\). Scanning \\(s=r/\\gamma\\) gives optima 3.988, 0.883, 0.059 and 0 at \\(\\beta\\omega=0.5\\), 1.0, 1.4 and 1.5, matching \\(r_{\\rm opt}\\), with no gain beyond \\(\\ln(2+\\sqrt5)=1.4436\\). The gain at \\(\\beta\\omega=0.5\\) is 2.48."
+      ],
+      "transfer": "For any control knob in a sensing protocol (a dissipation rate, detuning or measurement strength), this identity gives the gradient of the QFI without solving for \\(\\partial_r\\mathbb L\\), which suits gradient-based protocol design. It holds on fixed-rank families; at rank changes use one-sided limits or the minimal SLD."
+    },
+    {
+      "technique": "Short-time expansion separating static parameters from time",
+      "explanation": "Expanding to first order in \\(t\\) shows which Fisher information can feel a modified generator at once. Information about a static parameter must accumulate through \\(\\partial_\\theta W\\), while a clock’s information is the squared drift itself, which reset changes at \\(t=0\\).",
+      "math": [
+        "With \\(\\mathbf p_0\\) and \\(\\mathbf p_\\delta\\) independent of \\(\\theta\\), \\(\\partial_\\theta\\mathbf p(t)=t(\\partial_\\theta W)\\mathbf p_0+O(t^2)\\), which has no \\(r\\) at leading order, so \\(F_\\theta=t^2\\sum_i[(\\partial_\\theta W)\\mathbf p_0]_i^2/(\\mathbf p_0)_i+O(t^3)\\). By contrast \\(\\partial_t\\mathbf p(0)=W\\mathbf p_0+r(\\mathbf p_\\delta-\\mathbf p_0)\\), so \\(F_t(0)=\\sum_i[W\\mathbf p_0+r(\\mathbf p_\\delta-\\mathbf p_0)]_i^2/(\\mathbf p_0)_i\\), quadratic in \\(r\\) once the reset drift dominates.",
+        "Coherent counterpart: when populations are blind to \\(\\omega\\), the information is \\(F_\\omega=4|\\partial_\\omega c|^2+[\\partial_\\omega|c|^2]^2/(p(1-p)-|c|^2)\\). Without reset \\(c=c_0e^{(i\\omega-\\gamma/2)t}\\), so \\(\\partial_\\omega c=itc\\) and \\(F^{(0)}_\\omega=4|c_0|^2t^2e^{-\\gamma t}\\).",
+        "Editorial check: evaluating the paper’s formula for its \\(\\rho_0\\) gives \\(F^{(0)}_\\omega=0.00828\\) at \\(t=1\\). Scanning \\(r\\in[0,5]\\) finds the optimum at \\(r=1.732\\) with gain 6.96, matching Fig. 2(d)."
+      ],
+      "transfer": "Before designing a control to boost a sensor, expand to first order in time. If the parameter enters only through the generator, nothing that changes the initial drift helps at leading order. For clock-type tasks, engineering the drift helps immediately. The argument assumes diagonal dynamics in a fixed basis and full-support initial populations."
+    }
+  ],
+  "methods_source_section": "Setup and reset sections (Eqs. 1–12); thermal-qubit examples (Eqs. 13–18); frequency metrology (Eqs. 19–20); End Matter (Eqs. 21–29)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The probe evolves under a Lindbladian \\(\\mathcal L_\\theta\\) with biorthogonal modes \\(\\mathcal L_\\theta R_j=\\lambda_jR_j\\) and a unique steady state. Reset adds \\(r(\\rho_\\delta\\operatorname{Tr}\\rho-\\rho)\\). The new steady state is exactly \\(\\rho^{\\rm ss}_{\\theta,r}=\\rho^{\\rm ss}_\\theta-\\sum_{j\\ge2}\\tfrac{rd_j}{\\lambda_j-r}R_j\\) with \\(d_j=\\operatorname{Tr}(L_j^\\dagger\\rho_\\delta)\\). Reset therefore mixes non-stationary modes into the steady probe, weighting slow modes most. For any smooth full-rank family, \\(\\partial_rF=2\\operatorname{Tr}[(\\partial_\\theta\\partial_r\\varrho)\\mathbb L]-\\operatorname{Tr}[(\\partial_r\\varrho)\\mathbb L^2]\\), with \\(\\mathbb L\\) the symmetric logarithmic derivative, for steady and transient states alike.",
+    "When the dynamics stays diagonal in a fixed basis, populations obey \\(\\mathbf p(t)=\\mathbf p_0+t[W_\\theta\\mathbf p_0+r(\\mathbf p_\\delta-\\mathbf p_0)]+O(t^2)\\). For a static parameter, the leading Fisher information \\(t^2\\sum_i[(\\partial_\\theta W)\\mathbf p_0]_i^2/(\\mathbf p_0)_i\\) contains no \\(r\\), so any gain needs time to build up. For elapsed-time estimation, the instantaneous Fisher information is \\(\\sum_i[W\\mathbf p_0+r(\\mathbf p_\\delta-\\mathbf p_0)]_i^2/(\\mathbf p_0)_i\\), which depends on \\(r\\) at \\(t=0\\).",
+    "For a thermal qubit with bosonic rates and ground-state reset, \\(p^{\\rm ss}=\\gamma/[\\gamma(e^{\\beta\\omega}+1)+r(e^{\\beta\\omega}-1)]\\), which gives a closed-form steady Fisher information and the exact advantage window. Outside the high-temperature window, reset only pins the probe near a temperature-blind state. With a temporary reset pulse, transient thermometry reaches a high-information window earlier, and for suitable \\(r\\) can exceed the equilibrium Fisher information for a while. Strong reset suppresses temperature susceptibility. Time-estimation Fisher information jumps by more than two orders of magnitude just after reset switches on, then decays as the state nears its new fixed point.",
+    "For frequency estimation, an amplitude-damped qubit is reset to \\(|+\\rangle\\). The populations do not depend on \\(\\omega\\), so all information sits in the coherence \\(c_{\\omega,r}(t)\\), and \\(F_\\omega=4|\\partial_\\omega c|^2+[\\partial_\\omega|c|^2]^2/(p(1-p)-|c|^2)\\). Without reset \\(F^{(0)}_\\omega=4|c_0|^2t^2e^{-\\gamma t}\\) decays as coherence is lost. Reset replenishes the coherent modes that carry the phase. At \\(t=1\\) the optimum \\(r\\approx1.73\\gamma\\) gives a gain of 6.96, dominated by the eigenvector term \\(s^2|\\partial_\\omega\\hat{\\mathbf s}|^2\\), so energy-basis readout cannot access it."
+  ],
+  "approved_on": "2026-10-27"
+}

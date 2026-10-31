@@ -21,7 +21,7 @@ class NewsPublishingTests(unittest.TestCase):
         self.book = json.loads((ROOT / 'content/research.json').read_text())
         self.articles = news_articles.load_articles(ROOT)
         self.config = json.loads((ROOT / 'content/news.json').read_text())
-        self.papers = json.loads((ROOT / 'content/papers.json').read_text())['papers']
+        self.papers = paper_news.load_papers(ROOT)['papers']
 
     def render(self):
         return build.render(self.book)
@@ -102,7 +102,7 @@ class NewsPublishingTests(unittest.TestCase):
             (root / 'content/conferences.json').write_text(json.dumps({'checked': '2026-10-28', 'conferences': []}))
             (root / 'content/companies.json').write_text(json.dumps({'checked': '2026-10-30', 'companies': []}))
             (root / 'content/news.json').write_text('{"featured": null}')
-            (root / 'content/papers.json').write_text(json.dumps({'papers': []}))
+            paper_news.save_papers(root, {'papers': []})
             (root / 'content/tools.json').write_text(json.dumps({'intro': 'Tools.', 'tools': [], 'planned': []}))
             output = {}
             news_articles.render_editorial(root, output, self.book, build.site_logo, build.social_meta, build.json_ld)
@@ -126,12 +126,24 @@ class NewsPublishingTests(unittest.TestCase):
             self.assertEqual(stale, {'news/articles/withdrawn/index.html', 'news/2610.12345/index.html',
                                     'news/papers/2610.54321/index.html'})
 
+    def test_paper_store_round_trips_and_drops_removed_papers(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            data = {'reviewed_on': '2026-10-30', 'papers': copy.deepcopy(self.papers[:2])}
+            paper_news.save_papers(root, data)
+            self.assertEqual(paper_news.load_papers(root)['reviewed_on'], '2026-10-30')
+            self.assertEqual({p['id'] for p in paper_news.load_papers(root)['papers']}, {p['id'] for p in data['papers']})
+            data['papers'].pop()
+            paper_news.save_papers(root, data)
+            self.assertEqual(len(paper_news.load_papers(root)['papers']), 1)
+            self.assertEqual(len(list((root / 'content/papers').glob('*.json'))), 2)
+
     def test_local_paper_approval_refreshes_home_and_both_streams(self):
         # Exercise the write selection on an isolated copy; never approve real candidates.
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / 'content').mkdir()
-            (root / 'content/papers.json').write_text(json.dumps({'papers': self.papers}))
+            paper_news.save_papers(root, {'papers': self.papers})
             (root / 'content/research.json').write_text(json.dumps(self.book))
             paper = next(p for p in self.papers if p['status'] == 'approved')
             output = {'index.html': 'fresh home', 'news/index.html': 'fresh hub',

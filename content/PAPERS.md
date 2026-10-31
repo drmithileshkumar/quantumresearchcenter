@@ -8,14 +8,14 @@ The six initial candidates were sourced from arXiv abstract pages on 19 October 
 They are recommendations for review, not an objective ranking or a complete latest-paper feed.
 Summaries are abstract-based; read the linked version before approving a news article.
 
-- `content/papers.json` holds curated summaries and explicit editorial status.
+- `content/papers/` holds curated summaries and explicit editorial status: one `<arXiv id>.json` per paper (with `/` written as `-`), plus `_collection.json` for the shared `reviewed_on` date.
 - `news/papers.html` lets readers filter candidates and select papers. It is published but unlisted: the public news page does not link to it (the **Review & approve** link appears only when the page is served by the local editor), it is left out of `sitemap.xml`, and it carries `noindex`. Anyone with the URL can still open it, so do not put anything confidential in candidate entries. In the local editor, **Approve selected papers** saves approval to the repository and rebuilds the news pages and homepage. On a static host, approval is disabled and the page explains how to start the local editor. This page is public if deployed; the approval service only binds to loopback and checks a session token and request origin.
-- `news/papers/index.html` lists approved papers compactly (question, result, technique names), grouped by the month they were selected. The sidebar filters by research area (`?topic=computing` links work) and jumps by month.
+- `news/papers/index.html` lists the 40 latest approved papers compactly (question, result, technique names), grouped by the month they were selected. Every approved paper also appears on a permanent page for its month, `news/papers/archive/<YYYY-MM>/index.html`. The sidebar filters by research area (`?topic=computing` links work) and links to each month.
 - Each approved paper gets its own page, `news/papers/<arXiv id>/index.html`, holding the full description, the methods with derivations, and context. MathJax loads only on pages that contain TeX, so the listing stays light as papers accumulate.
-- `news/index.json` is a small search index (title, authors, topic, dates, question, result, technique names) used by the listing's search box. It is the basis for later archive pages, which can search papers that are no longer on the main list.
+- `news/index.json` is a small search index (title, authors, topic, dates, question, result, technique names) used by the listing's search box. Pages load it when a reader first searches or filters, so search covers papers that are not on the current page.
 - `news/papers.html` shows only papers still awaiting approval.
 - `news/feed.xml` is an RSS feed of the 30 most recent selections; news pages advertise it, and paper pages carry link-preview (Open Graph) metadata.
-- Withdrawing a paper (back to `candidate`) removes its page on the next build; `build.py --check` fails if a withdrawn paper's page is still present.
+- Withdrawing a paper (back to `candidate`) removes its page on the next build.
 - `scripts/paper_news.py` renders both pages through the existing build system. Do not edit generated HTML.
 
 Fetch recent metadata with Python's standard library:
@@ -26,7 +26,7 @@ python3 scripts/arxiv_papers.py fetch --days 30 --limit 100 --as-of 2026-10-19
 
 This makes one request to the [arXiv API](https://info.arxiv.org/help/api/user-manual.html) and writes `content/arxiv-inbox.json`. Network access is required. Leave at least three seconds between requests. Results are capped and ordered by initial submission date; this is discovery, not automatic quality scoring. The quant-ph feed covers all three areas but needs editorial classification. The inbox is not rendered by the website. Fetching never overwrites curated summaries or approvals.
 
-Review the inbox, check the full paper, and add promising candidates to `papers.json` using the existing schema. Record `problem`, `result`, `significance`, `limitations`, source `version`, `submitted`, `verified_on`, `summary_basis`, and `topic` (`foundations`, `computing`, or `information`). Update the collection's `reviewed_on` after a review. Use `status: "candidate"` until the editor has chosen it. Revised versions require a fresh summary review; the fetcher does not silently replace a cited version.
+Review the inbox, check the full paper, and add promising candidates to `content/papers/` using the existing schema. Record `problem`, `result`, `significance`, `limitations`, source `version`, `submitted`, `verified_on`, `summary_basis`, and `topic` (`foundations`, `computing`, or `information`). Update the collection's `reviewed_on` after a review. Use `status: "candidate"` until the editor has chosen it. Revised versions require a fresh summary review; the fetcher does not silently replace a cited version.
 
 To approve directly on the page:
 
@@ -40,8 +40,8 @@ Alternatively, once the editor explicitly chooses paper IDs, approve only those 
 
 ```sh
 python3 scripts/arxiv_papers.py approve 2609.10508 --date 2026-10-19
-python3 scripts/build.py
-python3 scripts/build.py --check
+python3 scripts/build_all.py
+python3 scripts/check_site.py
 ```
 
 Approval generates static news summaries on the next build. Deployment continues through the site's usual process. To withdraw an article, set its status back to `candidate`, remove `approved_on`, and rebuild. No paper has been approved in the initial dataset.

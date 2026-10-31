@@ -9,7 +9,7 @@ from urllib.parse import urlsplit
 
 from conferences import render_conferences
 from companies import render_companies
-from paper_news import long_date, paper_path, plain
+from paper_news import load_papers, long_date, paper_path, plain
 from site_navigation import site_navigation
 from tools import render_tools
 
@@ -145,7 +145,7 @@ def paper_preview(papers, source):
 def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
     articles = load_articles(root)
     config = json.loads((root / 'content/news.json').read_text())
-    papers = json.loads((root / 'content/papers.json').read_text())['papers']
+    papers = load_papers(root)['papers']
     validate(articles, config, papers)
     published = sorted((a for a in articles if a['status'] == 'published'), key=lambda a: (a['published'], a['slug']), reverse=True)
     approved = sorted((p for p in papers if p['status'] == 'approved'), key=lambda p: (p['approved_on'], p['submitted']), reverse=True)

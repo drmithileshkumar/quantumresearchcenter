@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-23; equations follow the paper’s notation.",
+  "verified_on": "2026-10-23",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-22",
+  "id": "2610.31115",
+  "topic": "computing",
+  "kind": "Theory and computer-assisted proof",
+  "title": "The limits of magic-state distillation",
+  "authors": "Llorenç Balada Gaggioli; Jakub Mareček",
+  "problem": "How few noisy T states can any stabilizer protocol, however adaptive, postselected or multistage, consume to output a magic state with error \\(O(p^d)\\)?",
+  "result": "Exact minima for small factories. Fault tolerance of any protocol reduces to projection onto a single stabilizer code, and for rational targets a fault pattern is harmful exactly when its complement is. Exhaustive search then shows: quadratic distillation of one T state needs exactly 9 inputs (a new 9-input factory is found), controlled-S needs 8, and the 8-input CCZ factory is optimal. At every order \\(d\\), one T state needs at least \\(2d\\) inputs.",
+  "significance": "First lower bounds that survive arbitrary postselection and adaptivity while depending strongly on \\(d\\). They settle the practically relevant quadratic regime, since cultivated input states already have small error.",
+  "limitations": "Inputs are counted per run with ideal Clifford operations, not space-time cost; per accepted output the 9-input factory consumes more inputs than the earlier 10-input protocol, since it succeeds with probability 1/128. Cubic and quartic cases keep gaps (one T state: 10–15 and 11–48). The searches are computer-assisted, and the authors report using a language model for assistance.",
+  "description": [
+    "Fault-tolerant computers make Clifford operations cheap, but universality needs magic states, usually distilled from many noisy ones. Each input is \\(\\rho_T(p)=(1-p)\\ketbra TT+pZ\\ketbra TTZ\\) with \\(\\ket T=(\\ket0+e^{i\\pi/4}\\ket1)/\\sqrt2\\). A fault pattern \\(e\\in\\mathbb F_2^n\\) marks the faulty inputs, giving orthonormal pure inputs \\(\\ket{\\phi_e}=Z^e\\ket T^{\\otimes n}\\). A protocol has suppression order \\(d\\) when it accepts the fault-free input and every pattern with fewer than \\(d\\) faults is harmless, meaning it yields exactly the target whenever accepted. Earlier general bounds gave little beyond \\(n\\gtrsim d\\).",
+    "Theorem 1: some stabilizer protocol tolerates a set \\(H\\) of patterns if and only if some stabilizer code \\(C\\) on the inputs, with Clifford encoding \\(U\\), satisfies \\(\\Pi_C\\ket{\\phi_0}\\ne0\\) and \\(\\Pi_C\\ket{\\phi_e}\\in\\mathbb C\\,U\\ket\\tau\\) for all \\(e\\in H\\). Every tolerated input collapses onto the encoded target or is rejected. Theorem 2: flipping the sign of \\(\\sqrt2\\) commutes with stabilizer operations, fixes targets with rational Pauli expectations such as CCZ, and sends \\(\\rho_T(p)\\) to \\(\\rho_T(1-p)\\). A pattern is therefore harmless exactly when its complement is, so patterns with \\(|e|>n-d\\) must be harmless too.",
+    "These reductions turn an unbounded space of protocols into a search over signed stabilizer codes, up to \\(9\\times10^{11}\\) of them, tested in exact arithmetic. Results (Table 1): \\(n_{\\min}(T,2)=9\\), \\(n_{\\min}(\\mathrm{CS},2)=8\\), \\(n_{\\min}(\\mathrm{CCZ},2)=8\\), and exact values for several first-order targets, for example six T states for CCCZ. Analytic witnesses give \\(n\\ge2d+1\\) for rational non-stabilizer targets and \\(n\\ge2d\\) for one T state at every order. A two-level design gives a quartic CCZ factory with 48 inputs and leading error \\(864p^4\\), under a third of the previous best.",
+    "The new T factory measures eight explicit 9-qubit stabilizers, postselects on all outcomes \\(+1\\) (probability \\(1/128\\) at \\(p=0\\)) and decodes by a Clifford, with output error \\(\\tfrac{27}2p^2+O(p^3)\\). It lies outside the generalized triorthogonal families. The authors identify three routes to closing the remaining gaps: proving that collapsing codes contain \\(Z^{\\otimes n}\\), stronger convex relaxations, and richer multi-level designs."
+  ],
+  "methods": [
+    {
+      "technique": "Reduce all protocols to one code projection",
+      "explanation": "Because damage is nonnegative, every accepted branch of a good protocol must itself be good, and each branch is a code projection followed by a Clifford; tolerating faults becomes a geometric collapse condition.",
+      "math": [
+        "Collapse for a code \\(C\\): with Gram matrix \\(G_{ef}=\\bra{\\phi_e}\\Pi_C\\ket{\\phi_f}\\), pattern \\(e\\) is tolerated when \\(G_{00}G_{ee}=|G_{0e}|^2\\), so \\(\\Pi_C\\ket{\\phi_e}\\) is parallel to \\(\\Pi_C\\ket{\\phi_0}\\), or when \\(G_{ee}=G_{0e}=0\\), so it is rejected. Worked example: measuring \\(Z_1Z_2Z_3\\) on \\(\\ket T^{\\otimes3}\\) succeeds with probability \\(\\tfrac12\\). The all-faulty pattern collapses onto the fault-free vector because \\(Z^{\\otimes3}\\) is a stabilizer, while a single fault acts as a logical Pauli and is harmful, so the order is one.",
+        "Editorial verification of Proposition 7. The eight listed stabilizers commute; projecting \\(\\ket T^{\\otimes9}\\) onto the code gives acceptance probability exactly \\(1/128\\). For each of the nine single faults, \\(\\Pi_CZ_i\\ket T^{\\otimes9}\\) is either zero or parallel to \\(\\Pi_C\\ket T^{\\otimes9}\\). The identity of Proposition 3, \\(\\mathrm{CS}_{12}\\mathrm{CS}_{13}\\ket{{+}{+}{+}}=\\mathrm{CX}_{23}H_2\\mathrm{CX}_{12}S_2H_2\\ket{\\mathrm{CCZ}}\\), also holds, with overlap 1."
+      ],
+      "transfer": "When optimizing over adaptive, postselected protocols with a nonnegative failure measure, check whether each accepted branch must already succeed. If so, the optimum is attained by one branch, which often has a rigid normal form such as a code projection, Kraus operator or measurement, and the search becomes finite."
+    },
+    {
+      "technique": "Galois conjugation pairs complementary faults",
+      "explanation": "The field automorphism \\(\\sqrt2\\mapsto-\\sqrt2\\) maps noisy T states with error \\(p\\) to error \\(1-p\\) while fixing every stabilizer operation and every rational target, which doubles the set of patterns a protocol must tolerate.",
+      "math": [
+        "\\(\\rho_T(p)=\\tfrac12\\bigl[I+\\tfrac{1-2p}{\\sqrt2}(X+Y)\\bigr]\\), so \\(\\sigma:\\sqrt2\\mapsto-\\sqrt2\\) sends \\(\\rho_T(p)\\) to \\(\\rho_T(1-p)\\), and hence \\(\\rho_e\\) to \\(\\rho_{e+\\mathbf1}\\). Stabilizer branches act on Pauli coefficients by rational matrices, so they commute with \\(\\sigma\\). For a target with rational Pauli expectations, the damages of \\(e\\) and \\(e+\\mathbf1\\) are \\(\\sigma\\)-conjugates in \\(\\mathbb Q(\\sqrt2)\\), and one vanishes exactly when the other does.",
+        "Consequence (editorial phrasing). With order \\(d\\), all patterns with \\(|e|<d\\) and all with \\(|e|>n-d\\) must be harmless. For small \\(n\\) this forces a witness state, built only from harmless patterns, to be converted into the target by stabilizer operations, which is impossible. This gives \\(n\\ge2d+1\\) for rational targets that are not stabilizer states."
+      ],
+      "transfer": "When inputs and allowed operations have entries in a number field, look for field automorphisms that commute with the operations. They map one physical situation to another, here \\(p\\leftrightarrow1-p\\), and any property preserved by the automorphism must hold in both, often halving a search or yielding a lower bound."
+    }
+  ],
+  "methods_source_section": "Section II (Theorems 1 and 2, worked example, Proposition 3); Section III (Theorem 4, Propositions 5 and 6); Section IV (Proposition 7, two-level factories)",
+  "approved_on": "2026-10-23"
+}

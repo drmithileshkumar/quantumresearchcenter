@@ -1,0 +1,47 @@
+{
+  "id": "2610.40158",
+  "topic": "foundations",
+  "title": "Inevitability of the Petz transpose map",
+  "authors": "Jacopo Surace; Chenxu Li; Francesco Buscemi",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Given a prior and a stochastic model, Bayes’ rule fixes the reverse conditional probabilities. A quantum state and a channel do not define a joint state as unambiguously, so several candidates for a quantum Bayes’ rule exist. Do consistency requirements on reversing a channel, with no appeal to a joint state or a figure of merit, single out one rule?",
+  "result": "For channels between finite-dimensional full matrix algebras, exactly one retrodiction assignment is involutive, respects sequential and parallel composition, and inverts unitaries: the Petz map \\(\\mathcal R_{\\pi\\to\\sigma}[\\Phi](X)=\\sqrt\\pi\\,\\Phi^\\dagger(\\sigma^{-1/2}X\\sigma^{-1/2})\\sqrt\\pi\\). Dropping involutivity leaves a family of doubly rotated Petz maps, and adding continuity in the prior reduces it to the one-parameter rotated Petz maps.",
+  "significance": "A square-root formula that appears in error correction, fluctuation relations, observational entropy and holographic reconstruction no longer has to be justified separately in each place. If retrodiction is to be consistent for all priors and channels, it has to be this map. For measurement outcomes, the rule gives the update \\(\\sqrt\\pi E_x\\sqrt\\pi/p_x\\).",
+  "limitations": "The theorem assumes the assignment is defined for every prior and channel on all finite-dimensional systems, and the proof uses ancillas freely. It says nothing about how well the Petz map recovers states other than the prior. Extension to general infinite-dimensional \\(C^*\\)-algebras and von Neumann algebras remains open. The complete proof is in the Supplemental Material, which we did not read; this entry relies on the main text’s account of it.",
+  "status": "approved",
+  "summary_basis": "Description based on the main text of the linked arXiv version, read 2026-10-30; the Supplemental Material containing the complete proof was not read.",
+  "verified_on": "2026-10-30",
+  "methods_source_section": "Equations 1–11 and the sections “Retrodiction of probabilistic mixtures”, “From maximally mixed references to arbitrary priors” and “The case of measurements”",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A retrodiction assignment takes each channel \\(\\Phi\\) with \\(\\Phi(\\pi)=\\sigma\\) to a channel \\(\\mathcal R_{\\pi\\to\\sigma}[\\Phi]\\) with the reverse transition \\(\\sigma\\mapsto\\pi\\). Only this reference transition has to be undone; the reverse channel need not undo \\(\\Phi\\) on any other input, just as a classical Bayesian inverse does not undo noise. The reverse channel may depend on the prior even when the forward channel is fixed.",
+    "Four requirements are imposed across all reference pairs and systems: reversing twice returns the original channel, \\(\\mathcal R[\\Psi\\circ\\Phi]=\\mathcal R[\\Phi]\\circ\\mathcal R[\\Psi]\\), \\(\\mathcal R[\\Phi\\otimes\\Psi]=\\mathcal R[\\Phi]\\otimes\\mathcal R[\\Psi]\\), and \\(\\mathcal R[\\mathrm{Ad}_U]=\\mathrm{Ad}_{U^\\dagger}\\). Theorem 1 says the Petz assignment is the only solution. Affinity in the channel and the square-root dependence on the references are consequences, not assumptions.",
+    "The proof first gets affinity. Preparation and discarding are the only channels in their transition sets, so \\(\\mathcal R\\) must exchange them. A random choice between channels sharing a transition can be built from controlled swaps, preparations and discards, and reversing this circuit step by step reverses the mixture with the same probabilities. The authors then compare any assignment with Petz through \\(F=\\mathcal P\\circ\\mathcal R\\). Maximally mixed references come first, because all unitaries preserve them and unital channels lie in the affine hull of unitaries. Compression channels reach arbitrary \\(\\rho\\) and leave a discrepancy \\(F[\\Phi]=M_\\sigma\\circ\\Phi\\circ M_\\pi^{-1}\\) with \\(M_\\rho=\\mathrm{Ad}_{V_\\rho}\\) and \\([V_\\rho,\\rho]=0\\).",
+    "What remains is relative phases between eigenspaces of each reference state. Ancillas with compensating weights create joint sectors of equal weight, which unitaries can mix, and parallel composition forces the rotation to factorise over the systems. With two identical ancillas, involutivity makes the ancilla phases cancel, so all phases agree and \\(M_\\rho=\\mathrm{id}\\). Without involutivity this last step fails, which leaves Proposition 1’s family \\(M_\\pi\\circ\\mathcal P[\\Phi]\\circ M_\\sigma^{-1}\\), subject to unitary covariance and \\(M_{\\rho\\otimes\\omega}=M_\\rho\\otimes M_\\omega\\). If the map is also continuous in the prior, \\(M_\\rho=\\mathrm{Ad}_{\\rho^{it}}\\) with one global \\(t\\). The open question is how far the characterisation extends beyond full matrix algebras."
+  ],
+  "methods": [
+    {
+      "technique": "Building a mixture from circuits to force affinity",
+      "explanation": "Linearity in the channel would normally be an axiom. Here it follows, because a probabilistic mixture of two channels with the same transition can be implemented by operations whose reversal the axioms already fix.",
+      "math": [
+        "Take \\(\\Phi_0,\\Phi_1\\in\\mathrm{Ch}(\\pi,\\sigma)\\). A random bit selects which channel the input goes through, and an auxiliary system prepared in \\(\\pi\\) goes through the other; afterwards the selected output is kept and the rest discarded. Since the two channels share a transition, the routing swaps preserve the product reference state, so sequential and parallel composition and unitary inversion each apply to one layer. Because \\(\\mathcal R[\\mathcal S_\\rho]=\\mathrm{Tr}\\) and \\(\\mathcal R[\\mathrm{Tr}]=\\mathcal S_\\rho\\), the bit is prepared afresh with its original probabilities in the reverse circuit, which gives",
+        "\\[\\mathcal R_{\\pi\\to\\sigma}[(1-t)\\Phi_0+t\\Phi_1]=(1-t)\\mathcal R_{\\pi\\to\\sigma}[\\Phi_0]+t\\mathcal R_{\\pi\\to\\sigma}[\\Phi_1].\\] The probabilities survive unchanged because, at the prior, both branches predict the same output, so seeing the output carries no information about which channel ran. With unequal predicted outputs the classical Bayes weights would shift, and the construction would not apply.",
+        "Editorial check: for random Kraus channels \\(3\\to2\\to3\\) and a random full-rank prior, Eq. (3) reversed the reference, was trace preserving, was involutive and reversed composition with numerical error below \\(10^{-14}\\). The rotated map with \\(t=0.7\\) also reversed the reference, but applying it twice differed from the original channel by \\(0.22\\) in Frobenius norm on a test output, which shows why involutivity is the axiom that does the selecting."
+      ],
+      "transfer": "To derive linearity from composition axioms elsewhere, look for a circuit that implements the convex combination and whose layers each have a fixed transform. The method needs a shared reference condition, so expect it to fail or to need weights when branches are distinguishable."
+    },
+    {
+      "technique": "Quantum Bayes update for measurement outcomes",
+      "explanation": "Treating the outcome register as a quantum system puts a POVM inside the theorem, so the same axioms determine the state to assign to the input once an outcome is seen.",
+      "math": [
+        "For \\(\\mathcal M(X)=\\sum_x\\mathrm{Tr}[E_xX]\\ket x\\bra x\\) with prior \\(\\pi\\), the output reference is \\(\\sigma=\\sum_xp_x\\ket x\\bra x\\), with \\(p_x=\\mathrm{Tr}[\\pi E_x]\\). Then \\(\\mathcal M^\\dagger(\\ket x\\bra x)=E_x\\) and \\(\\sigma^{-1/2}\\ket x\\bra x\\sigma^{-1/2}=\\ket x\\bra x/p_x\\). Applying Eq. (3) gives",
+        "\\[\\pi_x=\\frac{\\sqrt\\pi E_x\\sqrt\\pi}{p_x},\\qquad\\sum_xp_x\\pi_x=\\sqrt\\pi\\Bigl(\\sum_xE_x\\Bigr)\\sqrt\\pi=\\pi.\\] If \\(\\pi\\) and all \\(E_x\\) commute, this is \\(\\pi(x')p(x|x')/p_x\\), ordinary conditioning. The state \\(\\pi_x\\) is an inference about the input, not the post-measurement state: different instruments can realise the same POVM with different post-measurement states, but \\(\\pi_x\\) depends only on \\(E_x\\) and \\(\\pi\\).",
+        "Editorial check: for a random three-level \\(\\pi\\) and a random two-outcome POVM, the average of the updated states matched \\(\\pi\\) to \\(10^{-15}\\)."
+      ],
+      "transfer": "Use \\(\\sqrt\\pi E_x\\sqrt\\pi/p_x\\) when a problem asks what a measurement outcome implies about a prepared state, as in observational entropy or retrodictive tests. Keep it apart from state-update rules such as Lüders’, which answer a different question and depend on the instrument."
+    }
+  ],
+  "approved_on": "2026-10-30"
+}

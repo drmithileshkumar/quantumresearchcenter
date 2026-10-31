@@ -10,7 +10,7 @@ import urllib.error
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
-from paper_news import validate
+from paper_news import load_papers, save_papers, validate
 
 ROOT = Path(__file__).resolve().parents[1]
 ATOM = '{http://www.w3.org/2005/Atom}'
@@ -44,19 +44,18 @@ def main():
     approve.add_argument('--date',type=date.fromisoformat,required=True,help='Editorial approval date, YYYY-MM-DD')
     args=parser.parse_args()
     if args.command=='approve':
-        path=ROOT/'content/papers.json'
-        data=json.loads(path.read_text()); validate(data)
+        data=load_papers(ROOT); validate(data)
         missing=set(args.ids)-{p['id'] for p in data['papers']}
         if missing: parser.error('Unknown IDs: '+', '.join(sorted(missing)))
         for p in data['papers']:
             if p['id'] in args.ids and p['status']!='approved':
                 p.update(status='approved',approved_on=args.date.isoformat())
         validate(data)
-        path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
-        print('Approval saved. Run python3 scripts/build.py to generate news articles.')
+        save_papers(ROOT,data)
+        print('Approval saved. Run python3 scripts/build_all.py to generate news articles.')
         return
     if not 1<=args.days<=366 or not 1<=args.limit<=200: parser.error('Use 1–366 days and 1–200 results')
-    if args.output.resolve()==(ROOT/'content/papers.json').resolve(): parser.error('The inbox must not overwrite curated papers')
+    if args.output.resolve().parent==(ROOT/'content/papers').resolve(): parser.error('The inbox must not overwrite curated papers')
     start=(args.as_of-timedelta(days=args.days-1)).strftime('%Y%m%d')+'0000'
     end=args.as_of.strftime('%Y%m%d')+'2359'
     params={'search_query':f'cat:quant-ph AND submittedDate:[{start} TO {end}]', 'start':0,

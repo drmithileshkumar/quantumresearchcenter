@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-23; equations follow the paper’s notation.",
+  "verified_on": "2026-10-23",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-22",
+  "id": "2610.31571",
+  "topic": "computing",
+  "kind": "Theory",
+  "title": "Size-independent Logarithmic Sobolev Inequalities for Quantum Gibbs Samplers",
+  "authors": "Hongrui Chen; Zhiyan Ding; Jianfeng Lu",
+  "problem": "Does relative entropy decay at a rate independent of system size under quasi-local quantum Gibbs samplers for non-commuting Hamiltonians?",
+  "result": "Yes, in two regimes. For the Gaussian KMS Gibbs sampler, both the \\(L^2\\) logarithmic Sobolev inequality and the modified one (MLSI) hold with system-size-independent constants: in one dimension at every finite temperature, and in any fixed dimension at sufficiently high temperature. This gives \\(O(\\log n+\\log(1/\\epsilon))\\) mixing time.",
+  "significance": "Removes the logarithmic losses of earlier one-dimensional MLSI bounds, gives the first MLSI for non-commuting spin systems at high temperature in arbitrary dimension, and shows that a gradient-flow structure is not needed for size-independent entropy decay.",
+  "limitations": "Covers one specific sampler, the Gaussian KMS one, under local mixing and local energy conditions that are verified only in the two stated regimes. Constants depend on temperature, range and local dimension and are not optimized. Concurrent work proves the one-dimensional result by a different method.",
+  "description": [
+    "Gibbs samplers are Lindblad dynamics \\(e^{t\\mathcal L_*}\\) whose fixed point is a thermal state \\(\\sigma_\\beta\\propto e^{-\\beta H}\\). They are algorithms for preparing thermal states on quantum computers and models of thermalization. The MLSI with constant \\(\\alpha_1\\) is equivalent to \\(D(e^{t\\mathcal L_*}\\rho\\|\\sigma)\\le e^{-2\\alpha_1t}D(\\rho\\|\\sigma)\\). A constant independent of the number \\(n\\) of sites gives mixing in time logarithmic in \\(n\\). For commuting Hamiltonians such results use spatial factorization of entropy, which fails for non-commuting ones. For KMS-symmetric samplers of non-commuting systems, earlier bounds lost factors of \\(1/\\log n\\) or worse.",
+    "The route goes through the \\(L^2\\) logarithmic Sobolev inequality, \\(\\alpha_2\\,\\mathrm{Ent}_{2,\\sigma}(X)\\le\\mathcal E_{2,\\sigma}(X)\\), which controls the sandwiched Rényi-2 divergence. Rewritten on the doubled Hilbert space it reads \\(D(Y^2\\|\\sigma_\\beta)\\le C_\\beta\\bra Y(-\\mathsf L_{\\sigma_\\beta})\\ket Y\\) for unit-norm Hermitian \\(Y\\), comparing an entropy with an energy of the sampler’s parent Hamiltonian. At infinite temperature the sampler is single-site depolarizing and the inequality holds with an explicit constant \\(C_0\\).",
+    "The inequality is transported from \\(s=0\\) to \\(s=\\beta\\) along a unitary path \\(\\mathsf U_s\\) carrying the infinite-temperature Gibbs vector to the one at \\(s\\), a quantum analogue of Moser’s transport. If the entropy and energy change along the path by at most \\(C_S\\) and \\(C_E\\) times the energy, Grönwall’s inequality gives \\(C_\\beta=(C_0+\\beta C_S)e^{\\beta C_E}\\). The generator of the path solves Poisson and Sylvester equations. Its quasi-locality, under local rapid-mixing and local energy conditions, makes \\(C_S\\) and \\(C_E\\) independent of system size, and the conditions are verified in one dimension and at high temperature.",
+    "Rényi-2 decay is converted into relative-entropy decay without loss by a tensor-power argument (Theorem 3.3). If a channel contracts the Rényi-2 divergence by the same factor \\(a\\) on every number \\(m\\) of copies, including correlated inputs, it contracts relative entropy by \\(a\\). The proof combines \\(D\\le\\tilde D_2\\le D_{\\max}\\) with the quantum asymptotic equipartition property. Because the sampler on \\(m\\) copies is the sampler of a Hamiltonian in the same class, the rate is uniform in \\(m\\)."
+  ],
+  "methods": [
+    {
+      "technique": "Transport a functional inequality along a unitary path",
+      "explanation": "Prove the inequality where it is easy (infinite temperature, product state) and carry it to the target by a path along which entropy and energy change only in proportion to the energy.",
+      "math": [
+        "Let \\(E_s=\\bra{Y_s}(-\\mathsf L_{\\sigma_s})\\ket{Y_s}\\) with \\(\\ket{Y_s}=\\mathsf U_s\\ket{Y_0}\\). Assume \\(|\\tfrac{d}{ds}D(Y_s^2\\|\\sigma_s)|\\le C_SE_s\\) and \\(|\\tfrac{d}{ds}E_s|\\le C_EE_s\\). The second gives \\(E_s\\le e^{(\\beta-s)C_E}E_\\beta\\), since \\(e^{C_Es}E_s\\) is nondecreasing. Integrating the first and using \\(D(Y_0^2\\|\\sigma_0)\\le C_0E_0\\), \\[D(Y_\\beta^2\\|\\sigma_\\beta)\\le C_0E_0+C_S\\int_0^\\beta E_s\\,ds\\le(C_0+\\beta C_S)e^{\\beta C_E}E_\\beta.\\]",
+        "Because \\(\\mathsf U_\\beta\\) is unitary and preserves Hermiticity, every unit-norm Hermitian \\(Y\\) is some \\(Y_\\beta\\), so \\(\\alpha_2(\\mathcal L_\\beta)\\ge2e^{-\\beta C_E}/(C_0+\\beta C_S)\\). Editorial remark: all of the system-size dependence is pushed into \\(C_S\\) and \\(C_E\\), which is why quasi-locality of the path generator is the crux of the paper."
+      ],
+      "transfer": "To prove a uniform inequality for a family of models indexed by a parameter such as temperature, coupling or time, find a norm-preserving transport between them and bound the logarithmic derivatives of both sides of the inequality along it. Grönwall then delivers the inequality at the endpoint with explicit constants."
+    },
+    {
+      "technique": "Upgrade Rényi-2 contraction to relative-entropy contraction with tensor powers",
+      "explanation": "A contraction of the Rényi-2 divergence that holds uniformly on all tensor powers implies the same contraction of relative entropy, with no loss in rate.",
+      "math": [
+        "Ordering: \\(D(\\rho\\|\\sigma)\\le\\tilde D_2(\\rho\\|\\sigma)\\le D_{\\max}(\\rho\\|\\sigma)\\). By the quantum asymptotic equipartition property, \\(\\rho^{\\otimes m}\\) is close to a state \\(\\nu_m\\) with \\(\\tfrac1mD_{\\max}(\\nu_m\\|\\sigma^{\\otimes m})\\to D(\\rho\\|\\sigma)\\). Then, informally, \\[D(\\Phi(\\rho)\\|\\sigma)\\lesssim\\tfrac1m\\tilde D_2(\\Phi^{\\otimes m}\\nu_m\\|\\sigma^{\\otimes m})\\le\\tfrac am\\tilde D_2(\\nu_m\\|\\sigma^{\\otimes m})\\le\\tfrac amD_{\\max}(\\nu_m\\|\\sigma^{\\otimes m})\\lesssim aD(\\rho\\|\\sigma).\\]",
+        "The hypothesis must hold for inputs correlated across copies, because \\(\\nu_m\\) need not be a product. Editorial check: the ordering \\(D\\le\\tilde D_2\\le D_{\\max}\\) held for 200 random pairs of states of dimension 2–4."
+      ],
+      "transfer": "If a contraction or decay estimate is easy for a Rényi divergence but needed for relative entropy, prove it uniformly over tensor powers and apply asymptotic equipartition. The same argument converts other Rényi-type data-processing bounds into entropy bounds without paying a dimension factor."
+    }
+  ],
+  "methods_source_section": "Section 3 (Theorems 3.2 and 3.3); Section 4 (Proposition 4.1 and outline); Section 7.1",
+  "approved_on": "2026-10-23"
+}

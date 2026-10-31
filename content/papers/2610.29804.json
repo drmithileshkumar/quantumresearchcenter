@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+  "verified_on": "2026-10-22",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.29804",
+  "topic": "foundations",
+  "kind": "Conceptual analysis",
+  "title": "Conservation in Every Quantum Measurement Outcome?",
+  "authors": "E. Okon; D. Sudarsky; M. Wiedemann",
+  "problem": "Does including the system that prepared a superposition restore a conservation law in every individual measurement outcome, as Collins and Popescu have proposed?",
+  "result": "The authors argue that it does not, in the sense claimed. The need for a physical preparer is postulated rather than derived from the relativity of angle. The preparer never holds a definite value, so what the mechanism restores is a shifted probability distribution. A preparation that conserves one observable can disturb a noncommuting one. For energy, the preparation interaction breaks the additivity the bookkeeping relies on.",
+  "significance": "Separates two claims that are easy to run together. A conservation-respecting preparation can leave compensating correlations with the preparer, which is true. Conservation outcome by outcome would also need every superposition to carry such correlations, which has not been shown.",
+  "limitations": "This is a critique, not a theorem. The spin-\\(\\tfrac12\\) counterexample uses a one-spin preparer, for which the prepared spin is maximally mixed, so it tests the bookkeeping rather than the near-pure regime of the original proposal. The energy objection is stated qualitatively; the size of the interaction term is not estimated.",
+  "description": [
+    "Collins and Popescu (Quantum, 2025) model preparation explicitly. A preparer \\(P\\) starts in \\(\\ket{\\Phi}_P\\) and the system in a reference eigenstate \\(\\ket0_S\\) of a conserved quantity. A conserving unitary produces \\(\\sum_n\\alpha(n)\\ket{\\Phi-n}_P\\ket n_S\\), in which every amount \\(n\\) gained by the system is matched by a shift \\(-n\\) of the preparer. A measurement with outcome \\(k\\) leaves \\(\\ket{\\Phi-k}_P\\ket k_S\\), so each branch has the initial total. For the system to look almost pure, the shifted preparer states must overlap almost perfectly, which requires a preparer broad in the conserved quantity. A grand-preparer that made \\(P\\) keeps its marginal distribution unchanged, so the accounting closes on \\(S\\) and \\(P\\).",
+    "Is a preparer necessary? The proposal argues that the relative phases of a superposition of angular-momentum states encode an angle, and an absolute angle is meaningless, so a physical frame must exist and must be the preparer. The authors accept the premise but not the inference. Angle being defined only relative to a frame is a fact about how the theory represents states; it does not require a further material body. A single Galilean particle has no absolute position, yet nobody concludes that a one-particle universe is ill-defined. Applied consistently, the inference also regresses: the system and preparer together need a frame, and so on without end.",
+    "Granting the frame, a second gap remains between viability and necessity. Collins and Popescu show that one interaction can prepare the state while leaving the compensating correlations. Their account needs every admissible preparation history to contain such an interaction somewhere, and this is postulated. Even then, the preparer is never in an eigenstate of the conserved quantity, before or after the measurement. What shifts by \\(-k\\) is its distribution, so the result is statistical conservation conditioned on the outcome. Requiring each preparer to look pure to the next forces widths \\(\\sigma_S\\ll\\sigma_P\\ll\\sigma_{GP}\\ll\\cdots\\) up the chain.",
+    "Two further objections concern scope. A two-spin example shows that a preparation conserving total \\(S_z\\) changes the distribution of total \\(S_x\\), so the bookkeeping must pick one of several noncommuting conserved quantities. Appealing to the measuring device for the others undercuts the proposal’s own motivation. For energy, the preparation needs \\(H_{\\mathrm{tot}}=H_S+H_P+H_{\\mathrm{int}}\\), so opposite shifts of the subsystem energies do not by themselves establish conservation. Whether a localized form of statistical conservation is the right goal is left open."
+  ],
+  "methods": [
+    {
+      "technique": "Test a conservation mechanism against the whole symmetry group",
+      "explanation": "The authors check whether a preparation built to conserve \\(S_z\\) also conserves \\(S_x\\). It does not, which shows that the mechanism is tied to one observable.",
+      "math": [
+        "Take a preparer spin and a system spin starting in \\(\\ket{+z}_P\\ket{-z}_S\\). A total-\\(S_z\\)-conserving preparation can produce \\[\\ket{\\Psi'}=\\tfrac1{\\sqrt2}\\bigl(\\ket{-z}_P\\ket{+z}_S+\\ket{+z}_P\\ket{-z}_S\\bigr)=\\tfrac1{\\sqrt2}\\bigl(\\ket{+x}_P\\ket{+x}_S-\\ket{-x}_P\\ket{-x}_S\\bigr).\\] In units of \\(\\hbar/2\\), the total \\(S_x\\) of the initial state takes the values \\(+2,0,-2\\) with probabilities \\(\\tfrac14,\\tfrac12,\\tfrac14\\), while the final state gives \\(+2\\) and \\(-2\\) with probability \\(\\tfrac12\\) each and never \\(0\\).",
+        "Why no fix is possible here (editorial). The initial state splits evenly between the singlet and the triplet \\(m=0\\) state: \\(\\ket{+z}\\ket{-z}=\\bigl(\\ket{T_0}+\\ket{S_0}\\bigr)/\\sqrt2\\). The final state is \\(\\ket{T_0}\\), with no singlet weight. A unitary that conserves all three components of total spin commutes with total \\(\\mathbf S^2\\) and so preserves the weight in each total-spin sector. A change of singlet weight from \\(\\tfrac12\\) to \\(0\\) therefore certifies that some component of total spin was not conserved. Both distributions above were checked numerically."
+      ],
+      "transfer": "When a mechanism is designed to conserve one generator of a symmetry, decompose the initial and final states into the group’s irreducible sectors. A process that conserves every generator preserves each sector’s weight, so any change in sector weights is an immediate certificate that some conserved quantity has been violated."
+    },
+    {
+      "technique": "Overlap factors set how broad a hidden partner must be",
+      "explanation": "The authors make the near-purity requirement quantitative with a Gaussian preparer and apply it recursively up the chain of preparers.",
+      "math": [
+        "Tracing out the preparer from \\(\\sum_n\\alpha(n)\\ket{\\Phi-n}_P\\ket n_S\\) gives (editorial) \\[\\rho_S=\\sum_{n,m}\\alpha(n)\\alpha(m)^*\\braket{\\Phi-m}{\\Phi-n}\\,\\ket n\\bra m,\\] so each coherence is multiplied by an overlap of shifted preparer states. If the preparer amplitudes are \\(\\Phi(n)\\propto e^{-n^2/(4\\sigma_P^2)}\\), so that its distribution has width \\(\\sigma_P\\), then completing the square in \\((n-a)^2+(n-b)^2=2\\bigl(n-\\tfrac{a+b}2\\bigr)^2+\\tfrac{(a-b)^2}2\\) gives \\[\\braket{\\Phi-a}{\\Phi-b}\\approx\\exp\\!\\Bigl[-\\frac{(a-b)^2}{8\\sigma_P^2}\\Bigr],\\] the paper’s Eq. (12).",
+        "Near-purity needs this factor close to \\(1\\) for every populated pair, so \\(\\sigma_P\\gg\\sigma_S:=\\max|n-m|\\). The preparer is itself a superposition of width \\(\\sigma_P\\), and the same argument applied to it requires \\(\\sigma_{GP}\\gg\\sigma_P\\). Recursion gives \\(\\sigma_S\\ll\\sigma_P\\ll\\sigma_{GP}\\ll\\cdots\\) and conjugate widths \\(\\Delta_P\\gg\\Delta_{GP}\\gg\\cdots\\): ever more idealized reference systems."
+      ],
+      "transfer": "Any account that hides bookkeeping in a partner system, such as a reference frame, a which-path memory or an environment, faces the same trade-off. The partner must be correlated enough to carry the record yet nearly uninformative so that the system still looks pure. Write the reduced state, read off the overlap factor, and ask whether the partner can satisfy the same requirement it imposes."
+    }
+  ],
+  "methods_source_section": "Sections 2.1–2.3 (Eqs. 1–8); Sections 3.3–3.5 (Eqs. 10–24)",
+  "approved_on": "2026-10-22"
+}

@@ -23,7 +23,7 @@ class CompanyTests(unittest.TestCase):
         self.assertIn('companies/', (ROOT / 'sitemap.xml').read_text())
         self.assertIn('companies/index.html', (ROOT / 'index.html').read_text())
         self.assertIn('../companies/index.html', (ROOT / 'conferences/index.html').read_text())
-        self.assertIn('companies/index.html', (ROOT / 'website-map/index.html').read_text())
+        self.assertIn('companies/index.html', (ROOT / 'website-map/data.js').read_text())
 
     def test_invalid_entries_are_rejected(self):
         duplicate = copy.deepcopy(self.data)

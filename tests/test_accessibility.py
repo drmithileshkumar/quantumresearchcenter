@@ -5,7 +5,7 @@ import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_PARTS = {'.git', 'content', 'source', 'vendor', 'templates', 'tests'}
+SKIP_PARTS = {'_site', '.git', 'content', 'source', 'vendor', 'templates', 'tests'}
 
 class Audit(HTMLParser):
     VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'}

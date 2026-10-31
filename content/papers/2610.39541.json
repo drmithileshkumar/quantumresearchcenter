@@ -1,0 +1,47 @@
+{
+  "id": "2610.39541",
+  "topic": "computing",
+  "title": "Optimal Linear Combination of Hamiltonian Simulation for Dissipative Dynamics",
+  "authors": "Hongkang Ni; Lexing Ying",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory with formal verification",
+  "problem": "Linear combination of Hamiltonian simulation (LCHS) writes \\(\\mathrm e^{-tA}\\) with \\(A=X+\\mathrm iY\\) and \\(X\\succeq0\\) as an integral of unitary evolutions, weighted by a kernel. The cost is governed by the kernel’s window \\(R\\) and total variation \\(\\lambda\\). Ni and Ying’s kernel achieves \\(\\lambda R\\sim\\frac{2\\mathrm e}{\\pi}\\ln\\frac1\\epsilon\\), but only upper bounds were known. Can any kernel do better in the worst case?",
+  "result": "No. For every budget, \\(\\min_\\mu\\mathcal E(\\mu)=1-\\lambda\\) if \\(\\lambda\\le p\\), and \\(q(p/\\lambda)^{p/q}\\) if \\(\\lambda\\ge p\\), where \\(p=\\frac2\\pi\\arctan R\\) and \\(q=1-p\\). The minimum cost is \\(J(\\epsilon)=\\frac{2\\mathrm e}{\\pi}(\\ln\\frac1\\epsilon-\\ln\\ln\\frac1\\epsilon)+o(1)\\). The Ni–Ying family is therefore optimal, and the value holds for time-dependent generators as well.",
+  "significance": "Resource estimates for simulating dissipative differential equations with LCHS now have a sharp target: the constant \\(2\\mathrm e/\\pi\\) cannot be improved by a better kernel in the uniform worst case. Theorem 1.1 is checked in Lean 4 with Mathlib, including an independent derivation of the upper bound. The method also shows that matrix elements of dissipative evolutions can approximate any suitable bounded analytic function.",
+  "limitations": "The bound is worst case over all matrices of unbounded dimension and norm, and the extremal instances require dimension and norm that grow as the approximation improves, so special classes (controlled \\([X,Y]\\), or small dimension) may do better. The figure of merit is \\(\\lambda R\\), and it does not count the full cost of Hamiltonian simulation. Corollary 1.2 and the time-dependent extension are not part of the formalisation. We did not read the Lean code.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-30; equations follow the paper’s notation.",
+  "verified_on": "2026-10-30",
+  "methods_source_section": "Sections 1.1, 1.2, 2.1–2.4, 3 (overview), 4 (Lemma 4.2, Remark 4.4) and 5",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Each \\(\\mathrm e^{-\\mathrm it(kX+Y)}\\) is a unitary evolution, and \\(\\mathrm e^{-tA}=\\int\\mathrm e^{-\\mathrm it(kX+Y)}\\mathrm d\\mu(k)\\) can be implemented by a linear combination of unitaries. The largest Hamiltonian grows like the window \\(R\\), and the overhead grows like \\(\\lambda=\\lVert\\mu\\rVert_{\\rm TV}\\), so \\(\\Lambda=\\lambda R\\) is the standard cost. The worst-case error \\(\\mathcal E(\\mu)\\) is an operator-norm supremum over all \\(d\\), all \\(X\\succeq0\\) and all Hermitian \\(Y\\).",
+    "Weak duality turns this into a bound from any test function. For unit vectors, \\(\\varphi(z)=\\langle v,\\mathrm e^{-\\mathrm i(zX+Y)}u\\rangle\\) has \\(\\varphi(-\\mathrm i)=\\langle v,\\mathrm e^{-(X+\\mathrm iY)}u\\rangle\\), and \\(\\mathcal E(\\mu)\\ge|\\varphi(-\\mathrm i)|-\\lambda\\max_{[-R,R]}|\\varphi|\\). These \\(\\varphi\\) are analytic and bounded by 1 on the lower half-plane. The problem becomes how large a bounded analytic function can be at \\(-\\mathrm i\\) when it is small on \\([-R,R]\\).",
+    "The harmonic measure of \\([-R,R]\\) seen from \\(-\\mathrm i\\) is \\(p\\), so the two-constants theorem gives \\(|\\Phi(-\\mathrm i)|\\le a^p\\) when \\(|\\Phi|\\le a\\) on the interval. Maximising \\(a^p-\\lambda a\\) gives \\(V_R(\\lambda)\\). The extremal function is \\(\\Phi_{R,a}(z)=\\mathrm e^{-\\pi c}\\exp[-\\mathrm ic\\,\\mathrm{Log}\\frac{R-z}{R+z}]\\), with modulus \\(a\\) on the interval and 1 outside. The Ni–Ying kernel attains the value: its phase exactly cancels that of \\(\\Phi_{R,a}\\), so this is a primal–dual optimal pair.",
+    "The bound would be useless if \\(\\Phi\\) were not close to a matrix element. The realization lemma closes this gap by approximating \\(\\Phi\\) by a polynomial in \\(\\mathrm e^{-\\mathrm ihz}\\), writing the polynomial with generalized quantum signal processing as a time-ordered evolution, removing the time dependence with a clock register, and discretising the clock to finite matrices. Open questions remain for restricted problem classes and for other cost models, where the paper’s theorem can be reused by re-optimising over \\((R,\\lambda)\\)."
+  ],
+  "methods": [
+    {
+      "technique": "A lower bound from harmonic measure and a dual function",
+      "explanation": "A cost lower bound over all kernels looks hard, because kernels are infinite-dimensional. Duality exchanges them for one well-chosen analytic test function, and the two-constants theorem says how far it can go.",
+      "math": [
+        "Since \\(\\log|\\Phi|\\) is subharmonic and at most \\(\\log a\\) on \\([-R,R]\\) and at most 0 elsewhere on \\(\\mathbb R\\), \\(\\log|\\Phi(-\\mathrm i)|\\le\\omega\\log a\\). Here \\(\\omega\\) is the Cauchy density integrated over the interval: \\[\\omega=\\int_{-R}^R\\frac{\\mathrm dk}{\\pi(1+k^2)}=\\frac2\\pi\\arctan R=p.\\] Thus \\(|\\Phi(-\\mathrm i)|-\\lambda\\max_{[-R,R]}|\\Phi|\\le a^p-\\lambda a\\).",
+        "For \\(\\lambda\\ge p\\), the stationary point of \\(a^p-\\lambda a\\) is \\(a_*=(p/\\lambda)^{1/q}\\le1\\), where \\(a_*^{p-1}=\\lambda/p\\), so the value is \\(a_*(\\lambda/p-\\lambda)=q(p/\\lambda)^{p/q}\\). For \\(\\lambda\\le p\\), the best choice is \\(a=1\\), which gives \\(1-\\lambda\\). At \\(\\Phi_{R,a}\\), \\(M_R(-\\mathrm i)=\\mathrm e^{\\mathrm i\\pi q}\\), so \\(\\Phi_{R,a}(-\\mathrm i)=\\mathrm e^{-\\pi c}\\mathrm e^{\\pi cq}=a^p\\), saturating the bound.",
+        "Editorial check: at \\(R=3\\), \\(\\lambda=2\\), numerical maximisation gives \\(5.7065\\times10^{-3}\\), matching the closed form, and \\(a_*\\) matches to nine digits. \\(\\Phi_{R,0.3}(-\\mathrm i)=0.38391=0.3^p\\) with \\(|\\Phi|=0.3\\) inside the interval. The kernel with \\(C=\\log(\\lambda/p)/(\\pi q)\\) has total variation 2.0000. Its scalar error \\(\\max_{x\\ge0}|\\mathrm e^{-x}-f_\\mu(x)|\\) on a grid is \\(3.3\\times10^{-3}\\), below the bound on the Wiener norm, as it must be, since the supremum norm does not exceed that norm."
+      ],
+      "transfer": "When a cost involves a norm of a linear functional over analytic evolutions, try a dual test function and use the harmonic measure of the constraint set. It gives clean constants, and the optimal kernel can often be read off from the phase that cancels the dual function."
+    },
+    {
+      "technique": "Reducing the two-parameter budget to a one-variable optimum",
+      "explanation": "Knowing the exact error for every \\((R,\\lambda)\\) turns the asymptotic constant into a calculus problem, with a single optimality equation that makes \\(2\\mathrm e/\\pi\\) and the \\(\\ln\\ln\\) term visible.",
+      "math": [
+        "With \\(\\beta=\\ln(1/\\epsilon)\\), parametrise \\(R=\\cot(\\pi q/2)\\) and solve \\(V_R(\\lambda)=\\epsilon\\) for \\(\\lambda=p(q/\\epsilon)^{q/p}\\). This gives \\[F(q)=\\cot\\frac{\\pi q}{2}\\,(1-q)\\exp\\Bigl[\\frac q{1-q}(\\beta+\\ln q)\\Bigr],\\quad J(\\epsilon)=\\inf_{\\epsilon\\le q<1}F(q).\\] Differentiating gives \\(\\frac{\\mathrm d}{\\mathrm dq}\\ln F=(\\beta+\\ln q-h(q))/(1-q)^2\\), with \\(h(q)=\\pi(1-q)^2/\\sin\\pi q\\). So the minimiser satisfies \\(\\beta+\\ln q_*=h(q_*)\\).",
+        "For small \\(q\\), \\(h(q)=1/q-2+O(q)\\), and the prefactor expands to \\(\\frac{2\\mathrm e}\\pi(1/q-2+O(q))\\): \\(\\cot(\\pi q/2)\\approx2/(\\pi q)\\) gives the \\(2/\\pi\\), and the exponential tends to \\(\\mathrm e\\), since \\(\\pi q(1-q)/\\sin\\pi q\\to1\\). Then \\(1/q_*=\\beta-\\ln\\beta+2+o(1)\\), and the two \\(-2\\) and \\(+2\\) cancel, so \\(J=\\frac{2\\mathrm e}\\pi(\\beta-\\ln\\beta)+o(1)\\).",
+        "Editorial check: solving the optimality equation and minimising \\(F\\) by brute force agree. Comparing with \\(\\frac{2\\mathrm e}\\pi(\\beta-\\ln\\beta)\\): \\(J(10^{-6})=19.414\\) against 19.364, \\(J(10^{-24})=88.742\\) against 88.689, and \\(J(10^{-100})=389.076\\) against 389.052. The gap shrinks slowly, consistent with \\(o(1)\\), and for practical \\(\\epsilon\\) the approximation is good to within about 0.1."
+      ],
+      "transfer": "Use the exact budget curve with other cost models, as the paper suggests with \\(\\lambda\\cdot\\mathrm{HS}(R,\\delta)\\), rather than the \\(\\lambda R\\) asymptotics. A sharp constant in one figure of merit says nothing directly about another, so re-solve the optimisation for your own simulation algorithm."
+    }
+  ],
+  "approved_on": "2026-10-30"
+}

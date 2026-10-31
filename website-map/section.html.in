@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{SECTION}} pages | Quantum Research Center</title><meta name="robots" content="noindex"><link rel="icon" href="../../icons/icon.svg"><script src="../../education/computing/assets/theme.js"></script><script src="../../navigation.js"></script><link rel="stylesheet" href="../../styles.css"><link rel="stylesheet" href="../../news/editorial.css"><link rel="stylesheet" href="../graph.css"></head>
+<body class="editorial graph-page"><a class="skip-link" href="#main">Skip to content</a><header class="toolbar editorial-header">{{LOGO}}{{NAV}}</header>
+<main id="main" tabindex="-1"><div class="graph-heading"><div><p class="eyebrow">Page directory</p><h1>{{SECTION}}</h1><p>{{COUNT}} pages in this section.</p></div><a href="../index.html">Back to the website map</a></div>
+<details class="graph-directory" open><summary>All pages in this section</summary><ul>{{DIRECTORY}}</ul></details></main>
+<footer class="graph-footer"><a href="../../index.html">← Back to home</a></footer></body></html>

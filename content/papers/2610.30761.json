@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-23; equations follow the paper’s notation.",
+  "verified_on": "2026-10-23",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-22",
+  "id": "2610.30761",
+  "topic": "information",
+  "kind": "Theory",
+  "title": "A simple proof of unitary parallelization via port-based teleportation",
+  "authors": "Anurag Anshu; Quynh T. Nguyen",
+  "problem": "Can port-based teleportation be implemented by an elementary low-depth circuit, and does that give a simple proof that every unitary can be parallelized?",
+  "result": "Yes. A single reflection on Alice’s registers implements port-based teleportation with \\(N\\) ports and dimension \\(d\\) to diamond error \\(2(d^2-1)/N+\\delta\\), in depth \\(\\operatorname{polylog}(Nd/\\delta)\\). Feeding Choi states of \\(U\\) into the ports implements any \\(n\\)-qubit unitary in depth \\(\\operatorname{poly}(n,\\log1/\\varepsilon)\\) and width \\(2^{O(n)}\\operatorname{poly}(1/\\varepsilon)\\).",
+  "significance": "Replaces the representation-theory machinery (mixed Schur transforms, polynomial depth) of earlier port-based teleportation circuits with a short argument, and gives a few-page proof of a recent unitary-parallelization theorem.",
+  "limitations": "The width is exponential in \\(n\\), as it must be for generic unitaries, and the error decays only as \\(1/N\\). The circuit uses arbitrary-angle gates and unrestricted connectivity. The authors state that the single-reflection protocol was found by a language model at their prompting.",
+  "description": [
+    "In ordinary teleportation Bob applies a Pauli correction depending on Alice’s Bell outcome. In port-based teleportation, Alice and Bob share \\(N\\) maximally entangled pairs, Alice measures the input together with her halves and announces a port \\(i\\), and Bob simply keeps port \\(B_i\\) with no correction. Since no correction is needed, a unitary \\(U\\) applied in advance to every port commutes with the protocol. Replacing each pair by the Choi state \\((I\\otimes U)\\ket{\\mathrm{EPR}_d}\\) then implements \\(U\\) on the input. Preparing \\(N\\) Choi states in parallel is easy, so a shallow port-based teleportation circuit gives a shallow implementation of any unitary.",
+    "With \\(\\ket\\Psi=\\ket\\psi_C\\bigotimes_i\\ket{\\mathrm{EPR}_d}_{A_iB_i}\\) and \\(S=\\sum_i\\ketbra{\\mathrm{EPR}_d}{\\mathrm{EPR}_d}_{CA_i}\\), Claim 2.1 shows that \\(\\ket\\Psi\\) is nearly an eigenvector: \\(\\|(\\tfrac{d^2}NS-I)\\ket\\Psi\\|=\\sqrt{(d^2-1)/N}\\). Enlarging the registers by a flag \\(\\ket f\\), the ideal output \\(\\ket\\Omega=N^{-1/2}\\sum_i\\ket f_{CA_i}\\ket\\psi_{B_i}\\bigotimes_{j\\ne i}\\ket{\\mathrm{EPR}_d}\\) marks the correct port. With \\(\\ket\\beta=\\ket{\\mathrm{EPR}_d}+\\sqrt\\mu\\ket f\\), \\(\\mu=N/d^2\\), and \\(S_f=\\sum_i\\ketbra\\beta\\beta_{CA_i}\\), the reflection \\(R_f=2\\Pi_{\\operatorname{supp}S_f}-I\\) maps \\(\\ket\\Psi\\) to within \\(\\sqrt{(d^2-1)/N}\\) of \\(\\ket\\Omega\\). Alice reads the flag and Bob keeps that port.",
+    "Choosing the flag maximally entangled on \\(N/d\\) extra levels makes \\(\\ket\\beta\\) proportional to an EPR state in dimension \\(D=d+N/d\\). An isometry onto the antisymmetric subspace of \\(D-1\\) registers then turns \\(S_f\\) into a combination of sums of swaps, \\(E^\\dagger[(N-\\binom{D-1}2)I+K_N-K_M]E=dS_f\\), where \\(K_r\\) sums all pairwise swaps among \\(r\\) registers. The reflection depends only on the integer eigenvalues of \\(K_N\\) and \\(K_M\\), which commute.",
+    "Those eigenvalues are read out by random SWAP tests. A SWAP test on a random pair returns \\(\\pm1\\) with mean \\(k/\\binom r2\\) on a \\(k\\)-eigenstate, so \\(L=O(B^2\\log(1/\\eta))\\) tests with \\(B=\\binom r2\\) determine \\(k\\) by Hoeffding’s bound. All tests are applied as one controlled permutation computed by parallel arithmetic, giving polylogarithmic depth. The eigenvalues are uncomputed after the phase is applied. Combined with the Choi-state trick, this recovers the unitary-parallelization result."
+  ],
+  "methods_source_section": "Sections 2 (Claims 2.1–2.3, Lemma 3), 3 (Claims 3.1–3.3, Lemma 4) and 4 (Theorem 1, Corollary 2)",
+  "methods": [
+    {
+      "technique": "Teleport with a single reflection",
+      "explanation": "If an input state is nearly an eigenvector of a sum of projectors, a reflection that fixes the sum and negates the difference of two orthogonal states maps one onto the other.",
+      "math": [
+        "Fact: if a reflection \\(R\\) fixes \\(\\ket\\Psi+\\ket\\Omega\\) and negates \\(\\ket\\Psi-\\ket\\Omega\\), then \\(R\\ket\\Psi=\\ket\\Omega\\). With \\(\\mu=N/d^2\\), \\(S_f(\\ket\\Psi-\\ket\\Omega)=0\\), and \\((\\tfrac{S_f}{2\\mu}-I)(\\ket\\Psi+\\ket\\Omega)=(\\tfrac{S}{\\mu}-I)\\ket\\Psi\\), whose norm is \\(\\sqrt{(d^2-1)/N}\\) by Claim 2.1. Hence \\(\\|R_f\\ket\\Psi-\\ket\\Omega\\|^2\\le(d^2-1)/N\\), and covariance gives diamond error \\(2(d^2-1)/N\\).",
+        "Claim 2.1 follows from \\(\\bra\\Psi S\\ket\\Psi=N/d^2\\) and \\(\\bra\\Psi S^2\\ket\\Psi=N/d^2+N(N-1)/d^4\\): then \\(\\|(\\tfrac{d^2}NS-I)\\Psi\\|^2=\\tfrac{d^4}{N^2}\\bigl(\\tfrac N{d^2}+\\tfrac{N(N-1)}{d^4}\\bigr)-2+1=\\tfrac{d^2-1}N\\) (editorial algebra). Editorial numerical check for \\(d=2\\): \\(\\|R_f\\ket\\Psi-\\ket\\Omega\\|^2=0.75\\) at \\(N=2\\) and \\(0.39\\) at \\(N=4\\), within the bounds 1.5 and 0.75."
+      ],
+      "transfer": "When a protocol is defined through a measurement such as a pretty-good measurement, look for an approximate-eigenvector property of the measured operator. A single reflection about its support may then replace the full Naimark dilation, which can be far simpler to implement coherently."
+    },
+    {
+      "technique": "Read out sums of swaps with parallel random SWAP tests",
+      "explanation": "Operators built from permutations, such as sums of transpositions, have integer spectra that random SWAP tests estimate. Grouping the tests into one controlled permutation makes the estimate shallow.",
+      "math": [
+        "On a \\(k\\)-eigenstate of \\(K_r=\\sum_{a<b}\\mathrm{SWAP}_{ab}\\), a SWAP test on a uniformly random pair gives outcome \\(x=\\pm1\\) with \\(\\Pr[x]=\\tfrac12(1+xk/B)\\), \\(B=\\binom r2\\), and the eigenspace is preserved, so repeated outcomes are independent. Hoeffding gives \\(\\Pr[\\hat k\\ne k]\\le2\\exp(-L/8B^2)\\) for \\(\\hat k=\\lfloor\\tfrac BL\\sum_jx_j\\rceil\\).",
+        "Depth: instead of \\(L\\) sequential controlled swaps, compute the single permutation \\(\\pi(z,\\tau)=\\tau_L^{z_L}\\cdots\\tau_1^{z_1}\\) from the test bits and pair labels with parallel arithmetic and apply it once. Editorial note: because every step preserves the \\(K_r\\)-eigenspaces, the errors from different eigenspaces are orthogonal, which is what lets the coherent version be uncomputed cleanly."
+      ],
+      "transfer": "To apply a function of a permutation-invariant operator coherently, estimate its integer eigenvalue with randomized symmetric tests, compute the function into a register, and uncompute. Collapsing many controlled permutations into one computed permutation turns depth linear in the number of samples into polylogarithmic depth."
+    }
+  ],
+  "approved_on": "2026-10-23"
+}

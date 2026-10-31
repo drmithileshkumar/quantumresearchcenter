@@ -1,0 +1,45 @@
+{
+  "id": "2610.35722",
+  "topic": "information",
+  "title": "Distillable entanglement is continuous",
+  "authors": "Lukas Schmitt; David Sutter",
+  "submitted": "2026-10-26",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Distillable entanglement, the best rate at which copies of a state can be turned into Bell pairs by local operations and classical communication, is defined operationally and has no single-letter formula. It was known to be lower semicontinuous and continuous on the interior of distillable states, but not continuous in general. Is it continuous everywhere, with an explicit bound?",
+  "result": "Yes. For states within trace distance \\(\\varepsilon<1/16\\), \\[|E_D(\\rho)-E_D(\\sigma)|\\le4\\sqrt\\varepsilon\\log d+4h(\\sqrt\\varepsilon),\\] with \\(d\\) the smaller local dimension. The same bound holds for entanglement cost. The proof builds an explicit LOCC protocol that converts copies of \\(\\sigma\\) into copies of \\(\\rho\\) using a number of ebits per copy that vanishes as the states approach each other.",
+  "significance": "Continuity is basic for any physically meaningful resource measure: small preparation errors should change rates only slightly. The bound has the same logarithmic dimension dependence as those for conditional entropy and relative entropy of entanglement, and the conversion protocol is a reusable tool.",
+  "limitations": "The bound scales as \\(\\sqrt\\varepsilon\\), weaker than the linear-in-\\(\\varepsilon\\) bounds known for some other quantities, and it holds only for \\(\\varepsilon<1/16\\). It is an asymptotic statement about rates and gives no finite-copy guarantees. It does not settle whether distillable entanglement can be computed.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+  "verified_on": "2026-10-27",
+  "methods": [
+    {
+      "technique": "Continuity by a cheap conversion protocol",
+      "explanation": "For operationally defined rates without formulas, prove continuity by constructing a protocol that turns one state into the other using a vanishing amount of the resource. Any protocol for the second state then works for the first, at a cost that the conversion bounds.",
+      "math": [
+        "The mixture \\(\\omega=(\\rho+\\delta\\gamma_-)/(1+\\delta)=(\\sigma+\\delta\\gamma_+)/(1+\\delta)\\) uses \\(\\mathrm{tr}\\,\\gamma_\\pm=1\\), since \\((\\rho-\\sigma)_\\pm\\) have orthogonal supports and equal traces \\(\\delta\\). The ebit budget is \\(\\kappa_\\delta=\\delta\\log d+(1+\\delta)c(\\delta/(1+\\delta))\\), and the conversion gives \\(E_D(\\rho)\\le E_D(\\sigma)+\\kappa_\\delta\\).",
+        "Editorial check: for random \\(4\\times4\\) density matrices the two expressions for \\(\\omega\\) agree to \\(2\\times10^{-16}\\) and both \\(\\gamma_\\pm\\) have unit trace. Scanning \\(\\delta\\in(0,1/16)\\) and \\(d\\) from 2 to \\(2^{20}\\), \\(\\min\\{\\log d,\\kappa_\\delta\\}\\) never exceeds \\(4\\sqrt\\delta\\log d+4h(\\sqrt\\delta)\\); the closest approach is 0.002 below."
+      ],
+      "transfer": "For any resource defined by an optimal asymptotic rate (secret key, coherence distillation, channel capacities with assistance), continuity follows from a sublinear-cost conversion between nearby states plus a bound on how much borrowed resource can increase the rate. The decomposition through a common mixture \\(\\omega\\) is the general first step."
+    },
+    {
+      "technique": "Locating rare outcomes with Grover search instead of measuring every copy",
+      "explanation": "Measuring a two-outcome projector on every copy of a shared bipartite state costs order \\(n\\) ebits. When one outcome is rare, the parties can instead search coherently for the positions where it occurs, using the projector as a phase oracle, so the ebit cost scales with the number of rare outcomes.",
+      "math": [
+        "On the branch \\(|\\Omega_z\\rangle=\\Pi_z|\\Omega\\rangle\\) with outcome string \\(z\\), \\((I-2P_i^\\perp)|\\Omega_z\\rangle=(-1)^{z_i}|\\Omega_z\\rangle\\), a phase oracle for bit \\(z_i\\). Grover searches over random short lists find the ones; with at most about \\(pn+n^{2/3}\\) ones, which holds except with probability \\(e^{-2n^{1/3}}\\), the cost is \\(nc(p)+o(n)\\) ebits.",
+        "The error of the coherent procedure is converted into trace distance by a gentle-measurement style bound: average failure \\(\\delta_n\\) gives distance at most \\(\\sqrt{2\\delta_n+2e^{-2n^{1/3}}}\\)."
+      ],
+      "transfer": "In distributed or communication-limited settings, when you must learn a sparse binary string held in superposition, implement each bit as a phase oracle and search rather than read out every position. The saving is large whenever the expected number of ones is a small fraction of \\(n\\)."
+    }
+  ],
+  "methods_source_section": "Section 1 (Theorem 1.2, Eqs. 6–10); Section 2 (Lemmas 2.1–2.2, Corollary 2.3); Section 3 (Lemmas 3.1–3.4); Appendix A",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Write \\(\\delta\\) for the trace distance and \\(\\gamma_\\pm\\) for the normalized positive and negative parts of \\(\\rho-\\sigma\\). The state \\(\\omega=(\\rho+\\delta\\gamma_-)/(1+\\delta)=(\\sigma+\\delta\\gamma_+)/(1+\\delta)\\) is a mixture of \\(\\sigma\\) with a little \\(\\gamma_+\\), and also a mixture of \\(\\rho\\) with a little \\(\\gamma_-\\). The protocol goes from \\(\\sigma\\) to \\(\\omega\\) and then from \\(\\omega\\) to \\(\\rho\\).",
+    "Step one: sample which copies of \\(\\omega\\) should be \\(\\gamma_+\\); about \\(\\delta n\\) of them. Prepare those by teleporting the smaller subsystem, which costs \\(\\delta n\\log d\\) ebits, and use \\(n+O(n^{2/3})\\) copies of \\(\\sigma\\) for the rest. Hoeffding’s inequality makes the sampling error vanish.",
+    "Step two: \\(\\rho\\) is a large part of \\(\\omega\\), so a projector \\(P\\) on \\(\\omega\\) plus an ancilla flags the \\(\\rho\\) component, failing on at most a fraction \\(\\delta/(1+\\delta)\\) of copies. Measuring \\(P\\) on each copy by teleportation would cost order \\(n\\) ebits, but failures are rare, so the parties instead run a Grover-type search for the few failed positions, using \\(I-2P^\\perp\\) as a phase oracle implemented with few ebits. This costs \\(n(1+\\delta)c(\\delta/(1+\\delta))\\) ebits, where \\(c(x)\\to0\\) as \\(x\\to0\\).",
+    "Composing with any distillation protocol for \\(\\rho\\) gives Bell pairs at rate \\(E_D(\\rho)\\) from copies of \\(\\sigma\\) plus \\(n\\kappa_\\delta\\) ebits. An ebit-assisted bound shows that borrowed ebits cannot raise the distillation rate by more than their number, so \\(E_D(\\rho)\\le E_D(\\sigma)+\\kappa_\\delta\\); swapping the roles and simplifying \\(\\min\\{\\log d,\\kappa_\\delta\\}\\) gives the stated bound. The same conversion, run after diluting ebits into \\(\\sigma\\), proves the bound for entanglement cost."
+  ],
+  "approved_on": "2026-10-27"
+}

@@ -9,14 +9,16 @@ nothing (or only the parts that pass) and say so in the final report.
 ## 0. Start clean
 
 ```sh
-python3 scripts/build.py --check
+python3 -m pip install -r requirements.txt
+python3 scripts/build_all.py
+python3 scripts/check_site.py
 python3 -m unittest discover -s tests
 ```
 
-If either fails before you change anything, stop and report: the repository
+If any of these fails before you change anything, stop and report: the repository
 is already inconsistent and someone must look at it.
 
-Let `TODAY` be today's date (UTC). If `content/papers.json` already has
+Let `TODAY` be today's date (UTC). If `content/papers/` already has
 papers with `approved_on` equal to `TODAY`, the update has already run; stop.
 
 ## 1. Papers: fetch
@@ -27,7 +29,7 @@ python3 scripts/arxiv_papers.py fetch --days 4 --limit 80 --as-of TODAY
 ```
 
 - arXiv indexing lags about two days, so `--days 2` often returns nothing;
-  use `--days 4` and pick papers not already in `content/papers.json`.
+  use `--days 4` and pick papers not already in `content/papers/`.
 - The API can be slow (about 30 s a request) and rate-limits with HTTP 429.
   `--limit 200` exceeds the script's timeout; 80 works. Wait at least
   3 seconds between requests, and longer after a 429; retry at most three times.
@@ -39,7 +41,7 @@ python3 scripts/arxiv_papers.py fetch --days 4 --limit 80 --as-of TODAY
 Shortlist two papers for each of `foundations`, `computing` and
 `information` (six in total). Prefer substantive theorems or experiments
 with a clear question and result over incremental or purely numerical work.
-Skip any ID already in `papers.json`. If an area has no paper worth covering,
+Skip any ID already in `content/papers/`. If an area has no paper worth covering,
 cover fewer rather than padding.
 
 ## 3. Papers: write the entries
@@ -72,7 +74,7 @@ entry; do not copy the error.
   `\n`, `\b` turn `\times`, `\frac`, `\nu`, `\beta` into control characters
   without any error. A prime (`M'`) ends a `r'...'` string, so use
   triple-quoted raw strings or `^\prime`.
-- After writing, scan `papers.json` for `[\x00-\x1f]` inside strings. There
+- After writing, scan each new file in `content/papers/` for `[\x00-\x1f]` inside strings. There
   must be none.
 - `\boldsymbol` is not loaded; use `\mathbf`. The site's `\braket` takes two
   arguments; write expectation values as `\langle X\rangle`.
@@ -82,11 +84,12 @@ entry; do not copy the error.
 
 ## 4. Papers: approve and build
 
-Add the entries as `candidate`, update the collection's `reviewed_on`, then:
+Add each entry as `content/papers/<id>.json` with status `candidate`, update
+`reviewed_on` in `content/papers/_collection.json`, then:
 
 ```sh
 python3 scripts/arxiv_papers.py approve <id> <id> ... --date TODAY
-python3 scripts/build.py
+python3 scripts/build_all.py
 ```
 
 If headless Chrome or Chromium is available, render each new paper page
@@ -113,15 +116,16 @@ demonstrations and products, and `source_refs` on the sections. Link
 ## 6. Gate and publish
 
 ```sh
-python3 scripts/build.py --check
+python3 scripts/build_all.py
+python3 scripts/check_site.py
 python3 -m unittest discover -s tests
 git status
 ```
 
-Both must pass. `git status` must show changes only under `content/`,
-`news/`, the homepage, `sitemap.xml` and other build outputs; an
-unexpected file means something went wrong. Then commit with the message
-`news: daily update TODAY` and push to `main`.
+All must pass. `git status` must show changes only under `content/`, because
+the pages are build output and git ignores them; an unexpected file means
+something went wrong. Then commit with the message `news: daily update TODAY`
+and push to `main`. The push publishes the site once its checks pass.
 
 ## 7. Report
 

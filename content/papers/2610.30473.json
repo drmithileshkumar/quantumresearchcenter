@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-24; equations follow the paper’s notation.",
+  "verified_on": "2026-10-24",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30473",
+  "topic": "foundations",
+  "kind": "Review",
+  "title": "Photon localization: Local measurements, localized states, and causality",
+  "authors": "Jan Gulla; Johannes Skaar",
+  "problem": "What does it mean for a photon to be localized in quantum field theory, where there is no position operator, the vacuum is entangled across regions, and no-go theorems (Hegerfeldt, Malament, Reeh–Schlieder) seem to forbid localized particles altogether?",
+  "result": "The review argues that localization should be defined through local measurement: a state is strictly localized to a spacetime region \\(\\mathcal O\\) if no observable outside \\(\\mathcal O\\) can tell it from the vacuum. With this definition, single photons (and any state with a bounded photon number) cannot be strictly localized, while coherent states, squeezed states and states arbitrarily close to single photons can. On-demand sources must produce strictly localized states.",
+  "significance": "It turns a literature full of apparently conflicting theorems into one consistent picture, with explicit constructions. For quantum optics it gives an exact statement of what an on-demand single-photon source can and cannot emit, which matters for few-cycle and terahertz single-photon pulses where the narrow-band approximation fails.",
+  "limitations": "It is a long review built partly on the first author’s thesis; most results are collected rather than new. The explicit examples are mostly one-dimensional, single-polarization models. Whether every element of the local algebra is a physically realizable measurement remains open, so the definition may be stricter than needed.",
+  "description": [
+    "The review opens with a one-line calculation. For a single photon in a pulse mode \\(\\xi(\\omega)\\), the normally ordered intensity is \\(\\langle 1_\\xi|{:}E^2(t){:}|1_\\xi\\rangle=2\\bigl|\\int_0^\\infty d\\omega\\,\\mathcal E(\\omega)\\xi(\\omega)e^{-i\\omega t}\\bigr|^2\\). This is a Fourier integral over positive frequencies only, so it cannot vanish on any time interval: a single-photon signal has no sharp start. For a coherent state the same quantity is the square of an integral over all frequencies, which can have compact support. The rest of the review explains why this difference is fundamental and what it implies.",
+    "Sections II–IV survey the history (Newton–Wigner position operators, the Fermi problem, Hegerfeldt’s theorem) and argue that the useful notion of localization is operational: what can be detected by a measurement in a region. Local observables are built from smeared fields and organized into local algebras \\(\\mathcal A(\\mathcal O)\\). The Reeh–Schlieder theorem then implies that every outcome of every local measurement has nonzero probability even in vacuum. So “a click means a photon was there” cannot be the criterion; one must compare likelihoods of candidate states instead.",
+    "Section V defines a pure state as strictly localized to \\(\\mathcal O\\) if \\(\\langle\\psi|L|\\psi\\rangle=\\langle 0|L|0\\rangle\\) for every \\(L\\in\\mathcal A(\\mathcal O^{\\mathrm C})\\), so that it looks exactly like vacuum outside \\(\\mathcal O\\). Licht’s theorem says these states are exactly \\(W|0\\rangle\\) for isometries \\(W\\) that commute with all observables outside \\(\\mathcal O\\). Knight’s theorem, re-proved from Reeh–Schlieder, says that any nonvacuum strictly localized state has components with arbitrarily many particles. Section VI connects this to causality: a source switched on by a classical control acting on vacuum produces a strictly localized state that stays inside the light cone.",
+    "Section VII gives constructions. A displacement \\(W=\\exp(iE_f)\\) built from a field smeared over \\(\\mathcal O\\) gives a strictly localized coherent state; quadratic smearings give squeezed states. A nonunitary isometry, the polar part of a complex smeared field, gives a state \\(|\\eta_{1,2}\\rangle\\) close to a single photon. Its distance from a photon is set by the fraction \\(\\eta\\) of the smearing spectrum at negative frequencies, which can be made small when the localization region spans many optical cycles. The review closes with a question-and-answer section that addresses common claims, for example that zero mass or the \\(1/\\sqrt{2\\omega_{\\mathbf k}}\\) factor is responsible for nonlocalizability; it attributes nonlocalizability to positive-frequency dynamics instead."
+  ],
+  "methods_source_section": "Section I.1 (Eqs. 1–5); Section V.1 (Definitions 25–27); Section V.2 (Licht’s theorem); Section V.4 (Knight’s theorem); Sections VII.2 and VII.4 (Eqs. 174–209)",
+  "methods": [
+    {
+      "technique": "Prove non-localizability from a nonvanishing vacuum matrix element",
+      "explanation": "Reeh–Schlieder guarantees a smeared field outside any region with a nonzero matrix element between vacuum and a given particle state. Strict localization would force a normally ordered moment of that field to vanish, and that moment is the squared modulus of the matrix element.",
+      "math": [
+        "Single particle: choose \\(f\\) supported in an open region \\(\\mathcal D\\subset\\mathcal O^{\\mathrm C}\\) with \\(\\langle\\chi|\\phi_f|0\\rangle\\ne0\\), and normalize so that \\(\\phi_f=a+a^\\dagger\\). Strict localization gives \\(0=\\langle 0|{:}\\phi_f^2{:}|0\\rangle=\\langle\\chi|{:}\\phi_f^2{:}|\\chi\\rangle=2\\langle\\chi|a^\\dagger a|\\chi\\rangle=2|\\langle\\chi|\\phi_f|0\\rangle|^2\\), a contradiction.",
+        "Up to \\(N\\) particles: if \\(|\\chi\\rangle=|\\chi_0\\rangle+\\dots+|\\chi_N\\rangle\\), only the \\(a^{\\dagger N}a^N\\) term of \\({:}\\phi_f^{2N}{:}\\) survives, so \\(0=\\binom{2N}{N}|\\langle\\chi_N|{:}\\phi_f^N{:}|0\\rangle|^2\\), which contradicts the \\(N\\)-particle form of Reeh–Schlieder. Hence there is no finite photon-number cutoff."
+      ],
+      "transfer": "To show that a class of states cannot satisfy a family of linear constraints, find a positive (normally ordered) observable whose expectation value in the class equals the squared modulus of an amplitude that some theorem forces to be nonzero. The same pattern proves no-go results for finite-rank or finite-excitation states in other settings."
+    },
+    {
+      "technique": "Build localized states from the polar part of a smeared field",
+      "explanation": "A complex smeared field mixes a positive-frequency creation part with a small negative-frequency annihilation part. Its polar decomposition is an isometry that commutes with everything outside the region, so acting with it on vacuum gives a strictly localized state close to one photon.",
+      "math": [
+        "Write \\(E_f=a_1^\\dagger+p\\,a_1+q\\,a_2\\) with \\(p,q\\ge0\\) fixed by the negative-frequency tail of \\(f(\\omega)\\). For \\(p^2+q^2<1\\), \\(E_f\\propto U a_1^\\dagger U^\\dagger\\) with \\(U=TS\\) a one-mode squeeze (\\(\\tanh\\rho=p\\)) times a two-mode squeeze (\\(\\tanh\\gamma=q/\\sqrt{1-p^2}\\)), and the Licht operator is \\(W=U\\tilde a_1^\\dagger U^\\dagger\\) with \\(\\tilde a_1^\\dagger|n\\rangle=|n+1\\rangle\\).",
+        "At \\(p=0\\): \\(|\\eta_{1,2}\\rangle=S\\tilde a_1^\\dagger S^\\dagger|0\\rangle=c_1|1_1 0_2\\rangle+c_2|2_1 1_2\\rangle+\\dots\\), with \\(\\eta=q^2/(1+q^2)\\) the negative-frequency weight and \\(|c_1|=1-\\tfrac{3-2\\sqrt2}{2}\\eta+O(\\eta^2)\\approx1-0.09\\eta\\). Editorial check in a truncated Fock space: \\(q=0.05\\) gives \\(|c_1|=0.999785\\) against 0.999786 from the formula."
+      ],
+      "transfer": "When an exact target state is forbidden but a nearby state is allowed, look for an operator that obeys the constraint (here, locality) and is approximately the forbidden creation operator, then take its polar part to obtain an isometry. The deviation from the target is set by how much of the forbidden component the operator carries."
+    }
+  ],
+  "approved_on": "2026-10-24"
+}

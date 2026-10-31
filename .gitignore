@@ -2,3 +2,37 @@ __pycache__/
 *.py[cod]
 .preview-*
 scripts/.generated-manifest.json
+
+# Build output: python3 scripts/build_all.py regenerates everything below, and deployment publishes a fresh build.
+/index.html
+/sitemap.xml
+/robots.txt
+/companies/index.html
+/conferences/index.html
+/references/index.html
+/tools/*.html
+/map/index.html
+/map/topics.json
+/website-map/index.html
+/website-map/data.js
+/website-map/sections/
+/frontiers/*/index.html
+/frontiers/*/*/index.html
+/research/**/index.html
+/news/index.html
+/news/papers.html
+/news/index.json
+/news/feed.xml
+/news/papers/index.html
+/news/papers/*/index.html
+/news/papers/archive/
+/news/articles/index.html
+/news/articles/feed.xml
+/news/articles/*/index.html
+/education/index.html
+/education/*/*.html
+/education/*/assets/search-index.js
+/education/computing/downloads/
+
+# Build scratch
+/_site/

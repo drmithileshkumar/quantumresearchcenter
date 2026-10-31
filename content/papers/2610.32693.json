@@ -1,0 +1,47 @@
+{
+  "id": "2610.32693",
+  "topic": "computing",
+  "title": "Elementary proofs of quantum lower bounds for element distinctness and k-sum",
+  "authors": "Andris Ambainis; Martins Kokainis",
+  "submitted": "2026-10-23",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Element distinctness needs \\(\\Theta(n^{2/3})\\) quantum queries, but the known lower-bound proofs use the polynomial method, negative-weight adversaries or compressed oracles. The \\(k\\)-sum bound \\(\\Omega(n^{k/(k+1)})\\) needs the negative-weight adversary. Can these bounds be proved with basic linear algebra?",
+  "result": "Yes, in under two pages each. Refining the hybrid argument of Bennett, Bernstein, Brassard and Vazirani, the proof tracks second-order differences of algorithm states under changes to two input positions. This gives \\(E\\|\\psi_T(y)-\\psi_T(x)\\|^2=O(T/n+T^3/n^2)\\) between a distinct input and one with a planted collision, hence \\(T=\\Omega(n^{2/3})\\). With \\(k\\)th-order differences the same scheme gives \\(\\Omega(n^{k/(k+1)})\\) for \\(k\\)-sum over groups with \\(|G|\\ge n^k\\).",
+  "significance": "These are two sharp bounds beyond unstructured search that need no machinery. The proof isolates what makes collision-type problems hard: the information an algorithm gains about one position is small, and the joint effect of two positions is smaller still. The authors report finding the proof while working with an AI model.",
+  "limitations": "The element-distinctness proof assumes an alphabet of at least \\(n+1\\) symbols, and \\(k\\)-sum is proved for fixed \\(k\\) and large groups; constants are not optimized. The method looks best suited to problems with small certificates; \\(k\\)-distinctness and triangle finding remain open targets.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-26; equations follow the paper’s notation.",
+  "verified_on": "2026-10-26",
+  "methods": [
+    {
+      "technique": "Hybrid argument with a sensitivity budget",
+      "explanation": "Track how far the algorithm’s state moves when one input position is replaced by a value from the same distribution. Each query can add only a bounded total of this movement, summed over positions, because the query amplitude is spread across indices.",
+      "math": [
+        "\\(O_x\\) and \\(O_{x^{(i)}}\\) agree outside index \\(i\\), so \\[\\begin{aligned}\\|\\delta_{i,t+1}\\|^2&=\\|(I-P_i)\\delta_{i,t}\\|^2+\\|O_{x^{(i)}}P_i\\psi_t(x^{(i)})-O_xP_i\\psi_t(x)\\|^2\\\\&\\le\\|\\delta_{i,t}\\|^2+2\\|P_i\\psi_t(x^{(i)})\\|^2+2\\|P_i\\psi_t(x)\\|^2.\\end{aligned}\\]",
+        "Summing over \\(i\\) and using that \\(x^{(i)}\\) and \\(x\\) have the same distribution, the last two terms contribute \\(4\\sum_iE\\|P_i\\psi_t(x)\\|^2=4\\), so \\(S_t\\le4t\\).",
+        "Editorial check: for a random 6-query algorithm on \\(n=3\\) positions, 4 symbols and a 2-dimensional workspace, averaging exactly over all distinct-symbol inputs gives \\(S_t=2.05,3.51,4.43,5.19,5.46,5.68\\) for \\(t=1,\\ldots,6\\), well under \\(4t\\). The second-order difference \\(E\\|\\Delta_t\\|^2\\) stays below the unrolled bound \\(\\tfrac{4t}{\\binom n2}\\sum_{s<t}S_s\\) at every step."
+      ],
+      "transfer": "For any query problem, ask which single-position changes preserve the input distribution, then bound the summed sensitivity per query. This alone gives \\(\\Omega(\\sqrt n)\\) bounds; it becomes powerful when combined with higher-order differences that exploit how certificates combine positions."
+    },
+    {
+      "technique": "Higher-order differences driven only by lower-order ones",
+      "explanation": "The \\(k\\)th-order inclusion–exclusion difference of states vanishes initially and is fed at each query only by \\((k-1)\\)th-order differences restricted to the remaining position. Orthogonality of query indices and averaging over the planted set make this feed small.",
+      "math": [
+        "With \\(O_y=O_x+D_u+D_v\\) and \\(D_i=P_iD_iP_i\\), expanding the four evolutions gives \\(\\Delta_{t+1}=U_{t+1}(O_y\\Delta_t+D_v\\delta_{u,t}+D_u\\delta_{v,t})\\); the cross terms \\(D_uD_v\\) vanish because \\(P_uP_v=0\\).",
+        "The source terms live on indices \\(v\\) and \\(u\\) respectively, so they are orthogonal, and \\(\\|D_v\\delta_{u,t}\\|^2\\le4\\|P_v\\delta_{u,t}\\|^2\\). Averaging over pairs, \\(\\sum_{i\\ne j}E\\|P_j\\delta_{i,t}\\|^2\\le S_t\\), so the source is at most \\(4S_t/\\binom n2\\). Unrolling with Cauchy–Schwarz over \\(T\\) terms gives \\(E\\|\\Delta_T\\|^2\\le\\tfrac{4T}{\\binom n2}\\sum_{t<T}S_t\\le\\tfrac{8T^3}{\\binom n2}\\).",
+        "For \\(k\\) positions the same steps give \\[S_{j,t}\\le4^j\\tbinom tj,\\qquad E\\|\\Delta_T\\|^2\\le\\frac{4^kT\\binom Tk}{\\binom nk}=O_k\\!\\left(\\frac{T^{k+1}}{n^k}\\right).\\]"
+      ],
+      "transfer": "For a problem whose positive certificates have size \\(k\\), plant a certificate so that all its proper subsets look like independent random changes. Then bound the \\(k\\)th-order difference through the \\((k-1)\\)th-order sensitivities. The planted distribution must make proper sub-certificates indistinguishable from noise, which is the main design step."
+    }
+  ],
+  "methods_source_section": "Section 2 (Lemma 1, Eqs. 1–9); Section 3 (Lemma 2, Eqs. 10–16)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A \\(T\\)-query algorithm alternates input-independent unitaries with the oracle \\(O_z|i,b,w\\rangle=|i,(b+z_i)\\bmod m,w\\rangle\\). Choose \\(n+1\\) distinct random symbols \\(a,x_1,\\ldots,x_n\\), let \\(x\\) be the distinct input, and let \\(x^{(i)}\\) replace \\(x_i\\) by \\(a\\). Swapping \\(a\\) and \\(x_i\\) shows that \\(x^{(i)}\\) has the same distribution as \\(x\\). With \\(\\delta_{i,t}=\\psi_t(x^{(i)})-\\psi_t(x)\\), the total sensitivity \\(S_t=\\sum_iE\\|\\delta_{i,t}\\|^2\\) grows by at most 4 per query, because the two oracles differ only on index \\(i\\) and the query weights on the indices sum to 1.",
+    "Planting a collision at a random pair \\(\\{u,v\\}\\) gives \\(y\\). Define the second-order difference \\(\\Delta_t=\\psi_t(y)-\\psi_t(x^{(u)})-\\psi_t(x^{(v)})+\\psi_t(x)\\), so \\(\\psi_t(y)-\\psi_t(x)=\\delta_{u,t}+\\delta_{v,t}+\\Delta_t\\). The first two terms contribute \\(2S_T/n\\le8T/n\\) on average. With \\(D_i=O_{x^{(i)}}-O_x\\) supported on index \\(i\\), \\(\\Delta\\) evolves as \\(\\Delta_{t+1}=U_{t+1}(O_y\\Delta_t+D_v\\delta_{u,t}+D_u\\delta_{v,t})\\).",
+    "The two source terms act on different query indices, so they are orthogonal, and only the weight that \\(\\delta_{u,t}\\) places on index \\(v\\) matters. Averaging over pairs bounds their squared norm by \\(4S_t/\\binom n2\\). Unrolling over \\(T\\) steps with Cauchy–Schwarz gives \\(E\\|\\Delta_T\\|^2\\le\\tfrac{4T}{\\binom n2}\\sum_tS_t=O(T^3/n^2)\\). A bounded-error algorithm needs \\(\\|\\psi_T(y)-\\psi_T(x)\\|\\ge1/6\\), so \\(T/n+T^3/n^2=\\Omega(1)\\) and \\(T=\\Omega(n^{2/3})\\).",
+    "For \\(k\\)-sum, take independent uniform \\(x,b\\in G^n\\) and inclusion–exclusion differences \\(\\delta_U\\) over subsets \\(U\\). The sensitivities obey \\(S_{j,t+1}\\le S_{j,t}+4S_{j-1,t}\\), so \\(S_{j,t}\\le4^j\\binom tj\\). Planting a solution on a random \\(k\\)-set \\(S\\), with values uniform subject to summing to \\(c\\), keeps every proper subset distributed like independent replacements. Then \\(E\\|\\Delta_T\\|^2=O(T^{k+1}/n^k)\\), lower orders give \\(O((T/n)^j)\\), and a union bound handles accidental solutions in \\(x\\)."
+  ],
+  "approved_on": "2026-10-27"
+}

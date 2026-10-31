@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-24; equations follow the paper’s notation.",
+  "verified_on": "2026-10-24",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30295",
+  "topic": "information",
+  "kind": "Theory",
+  "title": "Pure states are optimal for total energy-constrained quantum channel discrimination",
+  "authors": "Christos N. Gagatsos",
+  "problem": "When discriminating two bosonic channels with a probe of fixed mean photon number and no ancilla, is a pure probe always optimal? Convexity suggests yes, but the pure components of a mixed probe generally have different photon numbers, so the best component may break the energy budget.",
+  "result": "Yes. Every state of mean photon number \\(\\bar n\\) is a mixture of pure states each with mean photon number exactly \\(\\bar n\\), including for infinite rank. Combined with Lieb concavity, this shows that for any two channels some equal-energy pure probe does at least as well as any mixed probe. This holds for the quantum Chernoff exponent, for every Chernoff quantity \\(Q_s\\), and for the single-shot error probability.",
+  "significance": "It justifies the widespread restriction to pure probes in quantum illumination, quantum reading, loss and phase sensing, with no loss of energy budget. When the energy constraint counts ancilla photons too, purification is not free, and this result covers that case as well.",
+  "limitations": "The result is existential: it does not say which pure probe is optimal. It does not imply optimality of pure states within restricted classes; for Gaussian probes the decomposition yields non-Gaussian pure states. Extension to the quantum Fisher information is suggested but not proved for infinite rank.",
+  "description": [
+    "A probe \\(\\rho\\) on \\(m\\) bosonic modes with \\(\\operatorname{Tr}[\\hat n\\rho]=\\bar n\\) is sent through \\(\\mathcal N_1\\) or \\(\\mathcal N_2\\). The figures of merit are \\(Q_s=\\operatorname{Tr}[\\sigma_1^s\\sigma_2^{1-s}]\\), \\(Q=\\inf_sQ_s\\) and the Chernoff exponent \\(\\xi_Q=-\\ln Q\\), which is additive over channel uses. With an ancilla whose photons are not counted, purification shows that pure probes suffice. Without one, convexity says a mixture cannot beat its best pure component, but that component may have the wrong energy, so it may not be an admissible probe.",
+    "Lemma 1 closes this gap. Write \\(\\rho=\\sum_j|v_j\\rangle\\langle v_j|\\) with unnormalized eigenvectors and excess \\(a_j=\\langle v_j|(\\hat n-\\bar n)|v_j\\rangle\\), which sum to zero. Pair a vector with positive excess and one with negative excess and rotate the pair. With a phase chosen to kill the cross term and \\(\\tan^2\\theta=a/|b|\\), one rotated vector has excess exactly zero and the other carries the remainder \\(a+b\\). Each step uses up one original vector. For finite rank this ends after at most \\(r-1\\) steps and recovers the Huang–Zhang rank-one decomposition. For infinite rank, the set-aside part converges, and positivity of \\(\\hat n\\) shows that any leftover vector in the limit also has mean photon number \\(\\bar n\\).",
+    "Theorem 1 follows. Channels are linear, and for \\(0<s<1\\), \\(Q_s\\) is concave in the probe by Lieb’s theorem, so \\(Q_s(\\rho)\\ge\\sum_jw_jQ_s(\\psi_j)\\). Continuity handles infinite sums, and the endpoints \\(s=0,1\\) are checked through support projectors. Some \\(\\psi_j\\) therefore has \\(Q_s(\\psi_j)\\le Q_s(\\rho)\\). Choosing \\(s^*\\) at the infimum for \\(\\rho\\) gives \\(Q(\\psi_j)\\le Q(\\rho)\\), so the pure probe has at least as large an exponent. The trace-norm triangle inequality gives the same conclusion for the single-shot Helstrom error with any priors.",
+    "Only linearity of the channels is used, so the result applies to Gaussian and non-Gaussian channels, different output spaces, and any Hamiltonian bounded below in place of \\(\\hat n\\). Three remarks limit its scope. If ancilla photons count toward the budget, apply the theorem to \\(\\mathcal N_i\\otimes\\mathrm{id}\\) with the total photon number. Within restricted classes the theorem says nothing: number-diagonal probes have no pure member at non-integer \\(\\bar n\\), and Gaussian optimality would need a separate proof. The quantum Fisher information is a natural next target."
+  ],
+  "methods_source_section": "Lemma 1 (Eqs. 3–8); Theorem 1 (Eqs. 9–11); remarks after Theorem 1 and in the Conclusion",
+  "methods": [
+    {
+      "technique": "Equalize a constraint across a decomposition by pairwise rotations",
+      "explanation": "Any mixed state satisfying a linear constraint on average can be rewritten as a mixture of pure states that each satisfy it exactly. Repeatedly rotate a component above the target together with one below it until one of the pair hits the target exactly.",
+      "math": [
+        "For \\(|u\\rangle,|v\\rangle\\) with excesses \\(a>0>b\\) and \\(c=\\langle u|(\\hat n-\\bar n)|v\\rangle\\), choose \\(\\varphi\\) with \\(\\mathrm{Re}(e^{i\\varphi}c)=0\\) and \\(\\tan^2\\theta=a/|b|\\). Then \\(|w\\rangle=\\cos\\theta|u\\rangle+e^{i\\varphi}\\sin\\theta|v\\rangle\\) has excess \\(a\\cos^2\\theta+b\\sin^2\\theta=0\\), \\(|w'\\rangle=-\\sin\\theta|u\\rangle+e^{i\\varphi}\\cos\\theta|v\\rangle\\) has excess \\(a+b\\), and \\(|w\\rangle\\langle w|+|w'\\rangle\\langle w'|=|u\\rangle\\langle u|+|v\\rangle\\langle v|\\).",
+        "Editorial check: implementing the iteration on random rank-2, 4 and 8 states in an 8-level truncation reconstructs \\(\\rho\\) to \\(10^{-16}\\), and every piece has mean photon number \\(\\bar n\\) to \\(3\\times10^{-15}\\)."
+      ],
+      "transfer": "Whenever a convexity argument fails only because mixture components violate a linear (energy, cost, charge) constraint, try this pairwise rotation. It works for any Hermitian constraint operator, and positivity of the operator controls the infinite-rank limit."
+    },
+    {
+      "technique": "From concavity at one \\(s\\) to optimality of the minimized exponent",
+      "explanation": "Concavity gives an inequality for each fixed \\(s\\), not for the infimum over \\(s\\). Fixing \\(s^*\\) at the mixed probe’s optimum and then minimizing again for the pure probe passes the inequality to the Chernoff exponent.",
+      "math": [
+        "\\(Q(\\psi_j)\\le Q_{s^*}(\\psi_j)\\le Q_{s^*}(\\rho)=Q(\\rho)\\), where \\(j\\) is chosen for \\(s=s^*\\) using \\(Q_{s^*}(\\rho)\\ge\\sum_jw_jQ_{s^*}(\\psi_j)\\). If the infimum is not attained, use \\(s\\) with \\(Q_s(\\rho)\\le Q(\\rho)+\\epsilon\\).",
+        "Editorial check with random channels on an 8-level input: for 30 random channel pairs and rank-3 probes, the best equal-energy pure piece always had \\(Q\\) no larger than the mixed probe."
+      ],
+      "transfer": "To show that an optimum over states of a min–max quantity is reached on extreme points, apply concavity at the optimizer of the inner problem for the mixed state, pick the good component there, and then re-optimize the inner problem. This avoids needing concavity of the minimized quantity itself."
+    }
+  ],
+  "approved_on": "2026-10-24"
+}

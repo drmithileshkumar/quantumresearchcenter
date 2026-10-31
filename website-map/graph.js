@@ -1,6 +1,10 @@
-/* A dependency-free force graph. The HTML directory remains usable without canvas. */
+/* A dependency-free force graph. The section directories remain usable without canvas. */
 (() => {
-  const data = JSON.parse(document.getElementById('graph-data').textContent);
+  const paths = window.SITE_GRAPH.nodes;
+  const data = {
+    nodes: paths.map(([id,title]) => ({id,title,section:id.includes('/')?id.split('/')[0]:'home',url:'../'+id})),
+    edges: window.SITE_GRAPH.edges.map(([a,b,navigation]) => ({source:paths[a][0],target:paths[b][0],navigation:!!navigation}))
+  };
   const canvas = document.getElementById('graph-canvas'), ctx = canvas.getContext('2d');
   if (!ctx) return;
   const $ = id => document.getElementById(id);
@@ -95,10 +99,15 @@
   }
   function simulate() {
     const cooling=Math.max(.08,1-steps/180);
-    // Pairwise repulsion keeps pages distinct; springs use substantive links only.
-    for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
-      const a=nodes[i],b=nodes[j],dx=a.x-b.x,dy=a.y-b.y,d2=Math.max(100,dx*dx+dy*dy);
-      const f=100*cooling/d2;a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;
+    // Repulsion between nearby pages keeps them distinct; a grid keeps each step linear
+    // in the page count. Springs use substantive links only.
+    const cell=120,grid=new Map();
+    for(const n of nodes){const key=Math.floor(n.x/cell)+','+Math.floor(n.y/cell);if(!grid.has(key))grid.set(key,[]);grid.get(key).push(n);}
+    for(const a of nodes){const cx=Math.floor(a.x/cell),cy=Math.floor(a.y/cell);
+      for(let x=cx-1;x<=cx+1;x++)for(let y=cy-1;y<=cy+1;y++)for(const b of grid.get(x+','+y)||[]){
+        if(b.index<=a.index)continue;
+        const dx=a.x-b.x,dy=a.y-b.y,d2=Math.max(100,dx*dx+dy*dy),f=100*cooling/d2;a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;
+      }
     }
     for(const e of edges){if(e.navigation)continue;const dx=e.b.x-e.a.x,dy=e.b.y-e.a.y,d=Math.hypot(dx,dy)||1,f=(d-65)*.0025*cooling;
       e.a.vx+=dx/d*f;e.a.vy+=dy/d*f;e.b.vx-=dx/d*f;e.b.vy-=dy/d*f;}

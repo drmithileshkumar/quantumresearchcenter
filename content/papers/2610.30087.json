@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+  "verified_on": "2026-10-22",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30087",
+  "topic": "computing",
+  "kind": "Theory and numerical analysis",
+  "title": "Injection is all you need: parallel universal logic in high-rate concatenated self-dual codes",
+  "authors": "Joseph Sullivan; David Amaro; Michael A. Perlin",
+  "problem": "High-rate codes store many logical qubits per block but make it hard to act on a chosen subset. How can they run parallel, addressable, universal logic?",
+  "result": "In concatenated self-dual codes with transversal global \\(H\\) and \\(S\\), any logical Clifford is injected by consuming at most 9 CSS resource states. \\(T\\) gates on any subset need one \\(\\ket H^{\\otimes K}\\) magic state and one CSS state, so a circuit of \\(T\\)-depth \\(D_T\\) needs at most \\(12D_T\\) resource states. A Hadamard parity check repeated at each concatenation level gives magic states whose undetected error is \\(O(p^{2^L})\\). In simulations at \\(p=5\\times10^{-4}\\), this concatenated cultivation needed about ten times less spacetime than surface-code cultivation for the two distance-4 codes.",
+  "significance": "Replaces addressability built into the code with teleportation of prepared resource states, which also performs error correction and removes leakage as it runs.",
+  "limitations": "Magic-state performance is simulated with a Clifford proxy (\\(\\ket+\\) in place of \\(\\ket H\\), CX in place of CH). Discard rates are high: 41–87% for magic states and up to 96% for the largest CNOT resource state. The decoder is a lookup table that will not scale. For [[96,14,6]] the table supports only a factor of about two over surface-code cultivation, because the surface-code cost there is a lower bound. Costs are per resource state, not per algorithm.",
+  "description": [
+    "High-rate codes suffer from an addressability problem: acting on a chosen subset of the logical qubits in a block is hard, so logically independent gates are serialized. The paper avoids building addressable gates into the code. Almost every gate is instead injected by teleportation, consuming a resource state prepared in advance. The codes are concatenations of self-dual CSS codes with equivalent logicals (SWEL), for which \\(H^{\\otimes n}\\) implements logical \\(\\bar H^{\\otimes k}\\) and \\(S^{\\otimes n}\\) implements \\(\\bar S^{\\otimes k}\\) up to \\(Z\\) gates. Every self-dual CSS code of odd length is SWEL. Injection doubles as error correction: Knill-type gadgets measure the full syndrome, Steane-type gadgets part of it.",
+    "For Cliffords, the Bruhat decomposition writes any \\(k\\)-qubit Clifford as nine layers of types (CX, S, CX, S, H, S, CX, S, CX). An earlier scheme injected each layer from a generally non-CSS resource state made by distillation, which for a single copy needs a factory of \\(n(d+1)^2\\) qubits. Theorem 1 shows that the global \\(\\bar H^{\\otimes k}\\) and \\(\\bar S^{\\otimes k}\\) gates reduce every layer to CSS resource states. These are prepared without distillation by the flag-at-origin method. For [[36,4,4]], the depth-optimized CNOT resource state uses 264 qubits, against a 3600-qubit distillation factory.",
+    "For the non-Clifford part, \\(T\\) gates on a chosen subset \\(\\mathbf t\\) come from \\(T^{\\otimes\\mathbf t}\\ket+^{\\otimes k}=(SHSH)^{\\otimes k}\\ket{H,\\mathbf t}\\). Here \\(\\ket{H,\\mathbf t}\\) holds \\(\\ket H\\) where \\(t_j=1\\) and \\(\\ket0\\) elsewhere, and it is made from \\(\\ket H^{\\otimes k}\\) by consuming one \\(H^{\\otimes\\mathbf t}\\ket0^{\\otimes k}\\) state. Because \\(H^{\\otimes k}\\) is transversal and stabilizes \\(\\ket H^{\\otimes k}\\), it can be measured fault-tolerantly to flag faulty preparations (zero-level distillation). A single parity check sees only the parity of the faulty factors, which caps it at \\(O(p^2)\\). Concatenated cultivation repeats the check at every level, where the level-2 parity runs across different level-1 blocks. This drives undetected errors to \\(O(p^4)\\) at two levels and \\(O(p^{2^L})\\) in general.",
+    "A code of distance \\(D\\) can only use that suppression up to its correction capability: the effective rate is \\(O(p^{\\min\\{2^L,\\,t+2\\}})\\) with \\(t=\\lfloor(D-1)/2\\rfloor\\), when decoder rejections are used for even \\(D\\). Simulations at \\(p=5\\times10^{-4}\\) give logical errors \\(8.3\\times10^{-9}\\) for [[36,4,4]] (112 qubits, 41% discarded), \\(2.2\\times10^{-8}\\) for [[48,8,4]], and \\(1.1\\times10^{-10}\\) for [[96,14,6]] (256 qubits, 87% discarded). The spacetime costs are \\(1.4\\times10^4\\), \\(2.2\\times10^4\\) and \\(3.2\\times10^5\\), against \\(1.6\\times10^5\\), \\(3.2\\times10^5\\) and more than \\(6.0\\times10^5\\) for surface-code cultivation at matched batch error. End-to-end algorithm costs remain to be estimated."
+  ],
+  "methods": [
+    {
+      "technique": "Reduce every Clifford layer to CSS resource states",
+      "explanation": "Global transversal \\(H\\) and \\(S\\) conjugate the resource states for addressable phase and Hadamard layers into CSS states, which can be prepared without distillation.",
+      "math": [
+        "Gate teleportation consumes \\(\\ket{\\Phi,U}\\), the result of applying \\(U\\) to one half of \\(k\\) Bell pairs; measuring in the Bell basis applies \\(UX^{\\mathbf z}Z^{\\mathbf x}\\) to the data. For Clifford \\(U\\) the byproduct \\(UPU^\\dagger\\) is a Pauli, corrected for free. For an S layer the needed state is \\(S^{\\otimes\\mathbf s}\\ket+^{\\otimes k}\\simeq(HS^\\dagger)^{\\otimes k}H^{\\otimes\\mathbf s}\\ket0^{\\otimes k}\\). Check per qubit (editorial): \\(HS^\\dagger\\ket0=\\ket+\\), and \\(HS^\\dagger\\ket+=\\tfrac{1-i}2(\\ket0+i\\ket1)\\simeq S\\ket+\\). So a CSS state followed by a global gate supplies every addressable S layer.",
+        "For an H layer, write \\(H=XS_Y\\) with \\(S_Y=e^{-i\\pi Y/4}\\simeq(SH)S(HS^\\dagger)\\). Then \\[H^{\\otimes\\mathbf h}\\simeq X^{\\otimes\\mathbf h}(SH)^{\\otimes k}S^{\\otimes\\mathbf h}(HS^\\dagger)^{\\otimes k},\\] so an addressable Hadamard layer costs one addressable S layer plus global gates and Paulis. Both identities were checked numerically up to global phase."
+      ],
+      "transfer": "If a code offers fault-tolerant global gates and cheap preparation of one class of states, look for decompositions in which global gates conjugate every needed resource state into that class. This moves addressing out of the gates and into state preparation, where flags or verification are easier to apply."
+    },
+    {
+      "technique": "Hadamard-parity flags, and why one parity stalls at second order",
+      "explanation": "Measuring the transversal stabilizer \\(H^{\\otimes k}\\) of a magic-state batch catches single faults but misses pairs; concatenation supplies independent groupings that catch pairs too.",
+      "math": [
+        "\\(\\ket H\\) is the \\(+1\\) eigenstate of \\(H=(X+Z)/\\sqrt2\\). Since \\(Y\\) anticommutes with \\(X\\) and \\(Z\\), \\(YHY=-H\\) and \\(Y\\ket H=\\ket{-H}\\), so one \\(Y\\) flips the measured parity. A single \\(X\\) or \\(Z\\) gives \\(|\\bra H X\\ket H|^2=\\tfrac12\\) (editorial): with probability \\(\\tfrac12\\) it is flagged, and otherwise the projection returns that qubit to \\(\\ket H\\). Two errors can both flip, for example \\(Y_1Y_2\\ket H\\ket H=\\ket{-H}\\ket{-H}\\), which has parity \\(+1\\) and passes unseen. This is why the paper requires every single fault to act as one logical \\(X\\), one \\(Z\\), or an odd number of \\(Y\\)s, and why one parity check caps the error at \\(O(p^2)\\).",
+        "In \\(C_1\\circ C_2\\) each level-1 qubit of a \\(C_1\\) block sits in a different \\(C_2\\) block, so the level-2 parities \\(H^{\\otimes n_2}\\) group qubits differently from the level-1 parities. A pair that cancels inside one level-1 parity is split between different level-2 parities and caught there, giving \\(O(p^4)\\); induction gives \\(O(p^{2^L})\\) for errors with no syndrome. Editorial check: \\(Y_1Y_2\\ket{HH}\\) passes the parity, and a single \\(X\\) passes with probability \\(\\tfrac12\\)."
+      ],
+      "transfer": "A transversal operator that stabilizes a batch of magic states is a free fault-tolerant check, but a single global parity sees only how many factors flipped. To get past second order, measure parities over several independent groupings of the same qubits; the levels of a concatenated code provide them naturally."
+    }
+  ],
+  "methods_source_section": "Section II (Theorem 1, Eqs. 1–4); Section III.1 (Theorem 2, Eqs. 5–6); Sections III.2.1–III.2.3; Section IV.2, Table 1",
+  "approved_on": "2026-10-22"
+}

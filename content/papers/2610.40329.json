@@ -1,0 +1,47 @@
+{
+  "id": "2610.40329",
+  "topic": "computing",
+  "title": "High-Fidelity Universal Quantum Gates in a Cryogenic Atom Array",
+  "authors": "Junlan Jin; Donghyuk Seo; Yue Shi; Yukai Lu; Jeff D. Thompson; Waseem S. Bakr",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Experiment",
+  "problem": "Rydberg gates in neutral-atom arrays are approaching the limit set by Rydberg decay, most of which at room temperature comes from blackbody-driven transitions that also create contaminant states and correlated errors. A cryostat suppresses these transitions, but restricted optical access and field control have kept universal high-fidelity gates out of cryogenic arrays. Can such gates be done there at state-of-the-art fidelity?",
+  "result": "In a \\(^{133}\\)Cs array inside 4 K shields, the authors measure a single-qubit Clifford fidelity of 99.970(2)% and a raw CZ fidelity of 99.76(8)% by echo randomised benchmarking, with 99.78(10)% by symmetric stabilizer benchmarking. The gate lasts 316 ns at \\(\\Omega=2\\pi\\times4.3\\) MHz, using direct single-photon excitation at 319 nm to a \\(55P_{3/2}\\) Rydberg state. A simulated error budget predicts 99.80%, with Rydberg decay contributing only \\(2.7\\times10^{-4}\\) and Doppler shifts \\(1.26\\times10^{-3}\\).",
+  "significance": "The largest remaining error is now technical and has a known remedy. The model projects 99.93% with Raman sideband cooling alone and 99.97% with tripled UV power and cavity filtering as well. The authors describe this as the first high-fidelity entangling gate using single-photon Rydberg excitation in alkali atoms, and the first mediated by Rydberg \\(P\\)-state interactions.",
+  "limitations": "The projections are simulations, not measurements. The measurements use seven pairs with low loading: both tweezers in a pair are occupied about 30% of the time. The authors did not measure correlated errors or the contaminant-state suppression directly, nor run parallel or repeated circuits at scale. State preparation fidelity is about 99.2%. The fidelity matches, and does not exceed, the best room-temperature values, the highest cited being 99.85%.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-30; equations follow the paper’s notation.",
+  "verified_on": "2026-10-30",
+  "methods_source_section": "Sections III and IV, Appendices C.1–C.3 and Table 1",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The qubit is stored in the clock states \\(\\ket{F=3,m_F=0}\\) and \\(\\ket{F=4,m_F=0}\\). Optical pumping usually relies on a forbidden transition that needs clean linear polarisation, which is hard to keep through a cryostat’s windows. The authors instead alternate pumping with Raman \\(\\pi\\) pulses that shelve the prepared population in the other hyperfine manifold, where the 9.2 GHz splitting keeps it dark. Twenty-five cycles reach about 99.2% preparation fidelity.",
+    "Single-qubit gates use Raman transitions at \\(2\\pi\\times350\\) kHz with BB1 composite pulses and virtual \\(Z\\) rotations. Randomised benchmarking gives 99.970(2)%, and scattering accounts for about \\(8\\times10^{-5}\\) of the remaining error. The rest may come from imperfect compensation of the Raman light shift and from IQ modulation errors. XY16 decoupling extends the array-averaged coherence from \\(T_2^*\\approx1.92\\) ms to 413(24) ms.",
+    "The CZ pulse is a numerically optimised time-optimal phase profile with a fixed amplitude envelope. Single-photon excitation avoids scattering from an intermediate state, and the measured light shift at the gate power is 0.46 MHz, about 40 times below two-photon excitation at similar Rabi frequency according to the paper. \\(P\\)-state interactions are anisotropic, with \\(V/h\\approx-45.9\\) MHz at \\(\\theta=90^\\circ\\) and \\(-4.4\\) MHz at \\(\\theta=0^\\circ\\) for 3.2 \\(\\mu\\)m separation. The pairs are therefore oriented perpendicular to the quantisation axis, and pairs 12 \\(\\mu\\)m apart along it interact at only about \\(-1.6\\) kHz.",
+    "The \\(P\\) state is about 22 times more polarisable than the comparable \\(S\\) state, so stray fields are compensated with electrodes to below 7 mV/cm. The cryogenic environment gives a Rydberg lifetime of about 406 \\(\\mu\\)s, so atomic motion at 6 \\(\\mu\\)K becomes the dominant error. The remaining questions are experimental: whether sideband cooling delivers its projected gain without new heating, how much correlated error is really removed, and how the scheme holds up in larger arrays. The authors estimate that the cooling power allows over ten thousand tweezers, while the present lenses limit the field to a few hundred."
+  ],
+  "methods": [
+    {
+      "technique": "An error budget that names the next improvement",
+      "explanation": "A measured fidelity by itself does not say what to fix. Simulating each mechanism separately, and checking that the sum matches the measured error, shows that decay is no longer the limit, so raising laser power is no longer the first thing to try.",
+      "math": [
+        "Table 1 lists contributions in units of \\(10^{-4}\\): Doppler 12.6, finite interaction 2.3, decay 2.7, frequency noise 1.9, intensity noise 0.1, for a total of 19.6, compared with the measured \\(24\\pm8\\). Dephasing from a Doppler shift scales with velocity spread, \\(\\delta\\omega_D=k\\,v_{\\rm rms}\\), so its gate error falls with temperature; the table’s projection under cooling to \\(\\bar n_r=0.1\\), \\(\\bar n_a=1\\) drops it to 2.26. The other entries barely move, and the total becomes 7.1.",
+        "Tripling intensity shortens the gate, since \\(\\Omega\\propto\\sqrt I\\) gives \\(2\\pi\\times7.45\\) MHz, about \\(\\sqrt3\\) times larger, so time-dependent errors shrink. Decay falls from 2.68 to 1.59 and Doppler to 0.76; with cavity filtering, frequency noise falls to 0.45. The projected total is 3.06. At that point decay is again the largest item, so the cryostat’s gain matters most at the end of the improvements.",
+        "Editorial check: the three columns of Table 1 sum to the stated 19.6, 7.10 and 3.06. The fitted shift \\(\\alpha(\\Omega/2\\pi)^2\\) with \\(\\alpha=0.025\\) MHz\\(^{-1}\\) at 4.3 MHz gives 0.46 MHz, as stated. As an order-of-magnitude check, a full 316 ns in \\(\\ket r\\) at a 406 \\(\\mu\\)s lifetime would give \\(7.8\\times10^{-4}\\); the budget’s \\(2.7\\times10^{-4}\\) implies an average Rydberg population of about a third, which is plausible for this kind of pulse but was not computed by us."
+      ],
+      "transfer": "When a platform is near its limit, compute the budget for each mechanism and compare the total with measurement before choosing what to improve. Check how each term scales with the knob you plan to turn, because the ranking can change along the way, as decay does here."
+    },
+    {
+      "technique": "Choosing geometry to exploit an anisotropic interaction",
+      "explanation": "Anisotropy looks like a problem for gates, because the interaction depends on orientation. Used deliberately, it gives strong coupling within a pair and very weak coupling between pairs.",
+      "math": [
+        "The blockade shift of a pair state depends on the angle \\(\\theta\\) between the interatomic axis and the quantisation axis. In the leading dipolar form, \\(V\\propto(1-3\\cos^2\\theta)/R^3\\) for a direct dipole exchange, so the sign and size change with \\(\\theta\\). (Editorial note: the paper obtains its values by diagonalising the pair Hamiltonian with the ARC package; the formula is only the simplest illustration of why angle matters.) At \\(R=3.2\\ \\mu\\)m, the calculated near-resonant shift is about ten times larger at \\(90^\\circ\\) than at \\(0^\\circ\\).",
+        "The array uses this by placing intrapair axes at \\(90^\\circ\\) and spacing pairs along the quantisation axis. Interpair separation of 12 \\(\\mu\\)m gives a calculated \\(-1.6\\) kHz, against tens of MHz within a pair. Over the 316 ns gate, the phase from that crosstalk is \\(2\\pi\\times1.6\\times10^3\\times316\\times10^{-9}\\approx3\\times10^{-3}\\) rad, if a neighbour were fully excited throughout, and its effect on fidelity is second order in that small angle (editorial estimate).",
+        "Motion along \\(z\\) tilts the pair and changes \\(\\theta\\), but radial confinement keeps the added infidelity below \\(10^{-6}\\). The tilt enters only at second order because \\(\\theta=90^\\circ\\) is an extremum of the angular dependence, assuming that simple form (editorial comment)."
+      ],
+      "transfer": "When an interaction depends on direction, ask whether an array geometry can put the wanted couplings at the strong angle and the unwanted ones at the weak angle. Check that the working point is an extremum, so that fluctuations cost little to first order."
+    }
+  ],
+  "approved_on": "2026-10-30"
+}

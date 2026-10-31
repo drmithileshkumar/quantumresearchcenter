@@ -1,0 +1,45 @@
+{
+  "id": "2610.35099",
+  "topic": "computing",
+  "title": "Self-Correcting 3D Surface Code with Growing Local Dimension",
+  "authors": "Jinkang Guo",
+  "submitted": "2026-10-26",
+  "version": "v1",
+  "kind": "Theory and numerical analysis",
+  "problem": "A self-correcting quantum memory keeps information for a time growing exponentially in a power of its size under local thermal dynamics, with no active correction. The 4D toric code achieves this, but in three dimensions a no-go theorem for fixed local dimension and the string-like logical operator of the 3D surface code stand in the way. Does allowing the local dimension \\(q\\) to grow with system size help?",
+  "result": "Yes. Changing only the Pauli powers of the 3D surface code along one axis, so that its string-like logical operator carries powers \\(1,2,4,\\dots\\) modulo \\(q\\), gives a translation-invariant code in which, with odd \\(q\\ge cL^3\\) and below a critical temperature, both error sectors have memory time at least \\(e^{\\Omega(N^{1/3})}\\) under single-qudit Metropolis dynamics. Numerics suggest \\(\\log t_{\\rm mem}\\sim\\min\\{q,N^{1/3}\\}\\), so much smaller \\(q\\) may suffice.",
+  "significance": "It identifies local Hilbert-space dimension as a resource for passive protection while keeping the simple geometry, stabilizer supports and local dynamics of the 3D surface code. Counted in qubits, \\(q=\\Theta(N)\\) costs only a logarithmic overhead.",
+  "limitations": "The noise model allows only shifts by \\(\\pm1\\) (Lee-metric errors); errors that jump across many levels would defeat the construction. The proven requirement \\(q\\ge cL^3\\) comes from a loose bound. Physical qudits of dimension of order \\(N\\) with these stabilizer interactions are not yet available, and the argument does not extend to two dimensions for this error model.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+  "verified_on": "2026-10-27",
+  "methods": [
+    {
+      "technique": "Weighted chain complexes: change powers, keep supports",
+      "explanation": "Replacing a boundary map’s entries by other integers, here \\(-2\\) instead of \\(-1\\), changes the homology generator into a geometric sequence while leaving the stabilizer supports and locality untouched. In the Lee metric, a logical operator with exponentially growing powers needs exponentially many unit shifts.",
+      "math": [
+        "With \\((K_L)_{jk}=-2\\delta_{jk}+\\delta_{j+1,k}\\), the kernel is spanned by \\(u_L=(1,2,\\dots,2^{L-1})\\), since \\(-2\\cdot2^{k-1}+2^k=0\\). The Künneth formula gives \\(H_1\\cong\\mathbb Z\\) with no torsion, and the universal coefficient theorem gives exactly one logical qudit after reducing modulo \\(q\\).",
+        "Editorial check: building the tensor-product complex with Koszul signs for \\(L=3\\), \\(q=7\\) (51 qudits) and \\(L=4\\), \\(q=11\\) (136 qudits), \\(H_XH_Z^{\\mathsf T}=0\\bmod q\\), the code has exactly one logical qudit, \\(\\ell_Z=\\sum_k2^{k-1}e_k\\) satisfies \\(H_X\\ell_Z=0\\), \\(\\ell_X\\) satisfies \\(H_Z\\ell_X=0\\), and \\(\\langle\\ell_X,\\ell_Z\\rangle=1\\)."
+      ],
+      "transfer": "When a code’s weak logical operator is string-like, try reweighting the boundary map along the string so that the logical carries growing powers modulo \\(q\\). It helps only against noise that moves in small steps, so the physical error model must favour small shifts."
+    },
+    {
+      "technique": "Energy against entropy, with a Lee-weight Boltzmann sum",
+      "explanation": "Self-correction proofs count bad configurations and weigh them by their Boltzmann factor. For qudits with Lee-weight energy, the sum over all nonzero values at one site is bounded independently of \\(q\\), so the critical temperature does not degrade as \\(q\\) grows.",
+      "math": [
+        "For one syndrome coordinate, \\(\\sum_{a\\ne0}e^{-\\beta|a|_L}\\le2\\sum_{k\\ge1}e^{-\\beta k}=2/(e^\\beta-1)\\). A connected support of size \\(\\alpha L\\) therefore has total weight at most \\((2/(e^\\beta-1))^{\\alpha L}\\), while the number of such supports grows as \\(e^{cL}\\); below \\(\\beta_c\\) independent of \\(q\\), large clusters have weight \\(e^{-\\Omega(L)}\\).",
+        "Editorial check: at \\(\\beta=1.3\\) the single-site sum is 0.734 for \\(q=7\\) and 0.749 for \\(q=31\\) and \\(q=1001\\), never above \\(2/(e^\\beta-1)=0.749\\)."
+      ],
+      "transfer": "For any qudit memory or lattice model with Lee-type or other distance-weighted energies, bound the per-site partition sum uniformly in the local dimension before running a Peierls-type argument; that is what keeps thresholds and critical temperatures independent of \\(q\\)."
+    }
+  ],
+  "methods_source_section": "Section II (Eqs. 1–9); Section III (Eqs. 10–14, proof sketch); Section IV (Eqs. 15–18); Appendices A–B",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The code comes from a chain complex: open repetition codes along \\(x\\) and \\(y\\) tensored with a helical repetition code along \\(z\\), whose boundary map \\(K_L\\) has entries \\(-2\\) and \\(1\\) instead of \\(-1\\) and \\(1\\). Its integer homology is generated by \\(u_L=(1,2,4,\\dots,2^{L-1})\\). Reducing modulo odd \\(q\\) gives a CSS code with one logical qudit. Stabilizers keep the supports of the ordinary 3D surface code; only the powers on vertical edges change, to \\(-2\\) and \\(+2\\) in some places.",
+    "Errors are single-qudit \\(X^{\\pm1}\\) or \\(Z^{\\pm1}\\) shifts, measured by the Lee weight \\(|a|_L=\\min\\{a,q-a\\}\\). The energy is the Lee weight of the syndrome, and Metropolis moves change it by at most a constant. In the \\(X\\) sector the argument is the usual one for the membrane-like logical: a logical change requires a connected syndrome cluster of size of order \\(L\\), and the Boltzmann weight of such clusters beats their number below a temperature independent of \\(q\\).",
+    "The \\(Z\\) sector is where the weights matter. The string-like logical operator has exponents \\(1,2,\\dots,2^{L-1}\\) along a column, so over the integers its Lee distance is exponential in \\(L\\). Reduction modulo \\(q\\) opens a second escape route: a syndrome coordinate reaching Lee weight near \\(q/2\\). The proof lifts the dynamics to the integers and surrounds each codeword by a cylinder; reaching a cap takes at least \\(2^{L-2}\\) moves, and reaching the side costs energy of order \\(q\\), which is exponentially unlikely when \\(q\\ge cL^3\\).",
+    "Monte Carlo simulations at \\(\\beta=2\\) with \\(q\\simeq L^3\\) give memory times growing as \\(e^{0.36L}\\) and \\(e^{1.51L}\\) in the two sectors. At \\(\\beta=1\\) with \\(q\\) scaling as different powers of \\(L\\), the \\(Z\\)-sector times collapse onto \\(e^{0.477q}\\), suggesting the time is set by \\(q\\) once \\(q\\gg\\log N\\). A transference bound shows that in two dimensions one sector always has Lee distance \\(O(N)\\), so this mechanism does not carry over directly."
+  ],
+  "approved_on": "2026-10-27"
+}

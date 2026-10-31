@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
-from paper_news import paper_path, render_news
+from paper_news import load_papers, paper_path, render_news
 # Editorial pages and legacy redirects stay out of the public sitemap.
 RESEARCH_REDIRECTS = json.loads((Path(__file__).resolve().parents[1]/'content/research-redirects.json').read_text())
 UNLISTED = {'news/papers.html', *RESEARCH_REDIRECTS}
@@ -21,6 +21,8 @@ from site_navigation import site_navigation
 from news_articles import render_editorial, stream_nav
 from site_graph import render_site_graph
 from site_logo import site_logo  # noqa: E402  (shared with the course builds)
+from page_template import fill
+TEMPLATES=ROOT/'scripts/templates'
 def esc(value): return html.escape(str(value), quote=True)
 def path(item): return item['_path']
 def relative(target, source): return os.path.relpath(target, Path(source).parent).replace(os.sep, '/')
@@ -44,6 +46,8 @@ def records(book):
     return result
 
 def render(book):
+    ASSET_DIGESTS.clear()
+    papers_by_path={paper_path(paper):paper for paper in load_papers(ROOT)['papers']}
     courses=json.loads((ROOT/'content/courses.json').read_text())
     course_levels=(('basics','Basics'),('advanced','Advanced'))
     entries = records(book)
@@ -92,9 +96,15 @@ def render(book):
             up='../'*source.count('/')
             navigation=''.join(f'<p class="kicker">{esc(label)}</p>' if href is None else f'<a href="{esc(href)}">{esc(label)}</a>' for href,label in sections)
             mathjax=f'<script defer src="{up}education/computing/assets/source/mathjax-config.js"></script><script defer src="{up}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>' if '\\(' in body or '\\[' in body else ''
-            outputs[source]=f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description or 'Selected quantum research papers: problems, results, and transferable methods.')}"><link rel="canonical" href="{book['url']}/{source.removesuffix('index.html')}">{social_meta(title,description or 'Selected quantum research papers: problems, results, and transferable methods.',book['url']+'/'+source.removesuffix('index.html'),'article' if re.fullmatch(r'news/papers/(?:[0-9]{4}\.[0-9]+|quant-ph-[0-9]+)/index\.html',source) else 'website')}{article_data(book['url'],source,title,description) if re.fullmatch(r'news/papers/[^/]+/index\.html',source) else ''}<link rel="alternate" type="application/rss+xml" title="Selected papers | Quantum Research Center" href="{up}news/feed.xml">{'<meta name="robots" content="noindex">' if source in UNLISTED else ''}<link rel="icon" href="{up}icons/icon.svg"><script src="{up}education/computing/assets/theme.js"></script><script src="{up}navigation.js"></script><link rel="stylesheet" href="{up}styles.css"><link rel="stylesheet" href="{up}news/editorial.css">{mathjax}</head>
-<body class="news-reader"><a class="skip-link" href="#main">Skip to content</a><header class="news-toolbar">{site_logo('news-brand',up+'index.html')}{site_navigation(source, extra='<a href="papers.html" aria-current="page">Review &amp; approve</a>' if source=='news/papers.html' else '')}</header><div class="news-layout"><aside class="news-index"><details open><summary>Browse</summary><nav aria-label="Section navigation">{navigation}</nav></details><script>if(matchMedia("(max-width:900px)").matches)document.currentScript.previousElementSibling.open=false</script></aside><main id="main" tabindex="-1">{stream_nav(source, "papers" if source=="news/papers/index.html" else "")}{body}<footer>Quantum Research Center · <a href="mailto:{book['email']}">Contact</a></footer></main></div></body></html>'''
+            description=description or 'Selected quantum research papers: problems, results, and transferable methods.'
+            canonical=book['url']+'/'+source.removesuffix('index.html')
+            kind='article' if re.fullmatch(r'news/papers/(?:[0-9]{4}\.[0-9]+|quant-ph-[0-9]+)/index\.html',source) else 'website'
+            review='<a href="papers.html" aria-current="page">Review &amp; approve</a>' if source=='news/papers.html' else ''
+            stream='papers' if source=='news/papers/index.html' or source.startswith('news/papers/archive/') else ''
+            outputs[source]=fill(TEMPLATES/'news-reader.html.in',dict(TITLE=esc(title),DESCRIPTION=esc(description),CANONICAL=canonical,
+                SOCIAL=social_meta(title,description,canonical,kind),ARTICLE_DATA=article_data(book['url'],papers_by_path.get(source),source,title,description),
+                ROBOTS='<meta name="robots" content="noindex">' if source in UNLISTED else '',UP=up,MATHJAX=mathjax,LOGO=site_logo('news-brand',up+'index.html'),
+                NAVIGATION=site_navigation(source,extra=review),SECTIONS=navigation,STREAM_NAV=stream_nav(source,stream),BODY=body,EMAIL=book['email']))
             return
         prefix=relative('index.html',source).removesuffix('index.html')
         pager='<nav class="page-navigation" aria-label="Reading navigation">'
@@ -122,11 +132,14 @@ def render(book):
         font_toggle = '' if source in {'education/index.html', 'research/index.html'} else '<button id="font-toggle" type="button" aria-label="Increase text size" aria-pressed="false" hidden>Aa</button>'
         section_home = source in {'education/index.html', 'research/index.html'}
         mathjax=(f'<script defer src="{prefix}education/computing/assets/source/mathjax-config.js"></script><script defer src="{prefix}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>' if '\\(' in body or '\\[' in body else '')
-        outputs[source]=f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{'Quantum Research Center: quantum science courses, research questions and papers' if source=='index.html' else esc(title)+' | Quantum Research Center'}</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}">{social_meta(title,description,canonical,'website')}{site_data(book['url']) if source=='index.html' else ''}<link rel="icon" href="{prefix}icons/icon.svg"><script src="{prefix}education/computing/assets/theme.js"></script><script src="{prefix}navigation.js"></script><link rel="stylesheet" href="{prefix}styles.css"><script defer src="{prefix}script.js"></script>{mathjax}</head>
-<body class="{'landing' if source=='index.html' else 'reader'}{' section-home' if section_home else ''}{' research-question' if current and current.get('manuscript') else ''}"><a class="skip-link" href="#main">Skip to content</a>
-<aside class="sidebar" id="contents">{site_logo('book-brand',prefix+'index.html')}<label class="search-label" for="topic-search">Search topics</label><input id="topic-search" type="search" placeholder="Search topics…" autocomplete="off"><p id="search-status" role="status" class="search-status"></p><nav aria-label="Table of contents"><a class="intro-link" {'aria-current="page"' if source==intro_target else ''} href="{prefix}{intro_target}">{intro_label}</a>{sidebar_contents}<a class="intro-link" href="{prefix}references/index.html">Bibliography</a></nav><a class="sidebar-contact" href="mailto:{book['email']}">Contact the editors ↗</a></aside>
-{'' if section_home else '<div class="book-body">'}<header class="toolbar"><button id="menu-toggle" type="button" aria-controls="contents" aria-expanded="false" hidden>☰ <span>Contents</span></button>{toolbar_link}{landing_nav}{font_toggle}</header>{'<div class="book-body">' if section_home else ''}<div class="reading-layout"><main id="main" tabindex="-1"><article>{body}</article>{pager}<footer>Quantum Research Center · <a href="mailto:{book['email']}">Contact</a></footer></main>{local}</div></div></body></html>'''
+        outputs[source]=fill(TEMPLATES/'reader.html.in',dict(
+            TITLE='Quantum Research Center: quantum science courses, research questions and papers' if source=='index.html' else esc(title)+' | Quantum Research Center',
+            DESCRIPTION=esc(description),CANONICAL=canonical,SOCIAL=social_meta(title,description,canonical,'website'),SITE_DATA=site_data(book['url']) if source=='index.html' else '',
+            PREFIX=prefix,MATHJAX=mathjax,LOGO=site_logo('book-brand',prefix+'index.html'),EMAIL=book['email'],
+            BODY_CLASS=('landing' if source=='index.html' else 'reader')+(' section-home' if section_home else '')+(' research-question' if current and current.get('manuscript') else ''),
+            INTRO_CURRENT='aria-current="page"' if source==intro_target else '',INTRO_TARGET=intro_target,INTRO_LABEL=intro_label,SIDEBAR=sidebar_contents,
+            OUTER_BODY='' if section_home else '<div class="book-body">',INNER_BODY='<div class="book-body">' if section_home else '',
+            TOOLBAR_LINK=toolbar_link,NAVIGATION=landing_nav,FONT_TOGGLE=font_toggle,BODY=body,PAGER=pager,LOCAL=local))
     intro='<header class="title-page research-opening"><p class="kicker">Research</p><h1>Questions at the edge of quantum science</h1><p class="subtitle">Explore the foundations, possibilities, and limits of quantum theory through questions we can make precise.</p></header><section id="introduction"><h2>From understanding to investigation</h2><p>Each question begins with a physical or computational problem, develops a mathematical model, and separates established results from unresolved issues. Follow a worked starting investigation before attempting the proposed extension.</p><p>Start by reproducing a small calculation. Then change an assumption, compare with the literature, and identify what a new result would establish. The proposed extensions describe starting directions for investigation.</p></section><section id="contents-overview"><h2>Explore the four fields</h2><div class="research-categories">'
     for number,category in enumerate(children[None],1):
         intro+='<section class="research-category"><p class="kicker">'+f'{number:02} · {len(children.get(path(category),[]))} questions'+'</p><h3>'+link(category,'research/index.html')+'</h3><p>'+esc(category['summary'])+'</p>'+keywords(children.get(path(category),[]),'research/index.html')+'</section>'
@@ -209,7 +222,7 @@ def render(book):
     # One public-page inventory drives both maps, including standalone and nested pages.
     graph = render_site_graph(ROOT, outputs, book['url'], site_logo, site_navigation)
     listed = [node['id'] for node in graph['nodes'] if node['id'] not in UNLISTED]
-    approved={paper_path(paper):paper['approved_on'] for paper in json.loads((ROOT/'content/papers.json').read_text())['papers'] if paper.get('approved_on')}
+    approved={name:paper['approved_on'] for name,paper in papers_by_path.items() if paper.get('approved_on')}
     approved.update(article_dates)
     outputs['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+book['url']+'/'+p.removesuffix('index.html')+'</loc>'+(f'<lastmod>{approved[p]}</lastmod>' if p in approved else '')+'</url>' for p in dict.fromkeys(listed))+'</urlset>\n'
     # Chapter fragments under content/ are build inputs, not pages.
@@ -266,9 +279,8 @@ def site_data(url):
         'description':'Courses, research questions and selected papers in quantum science and quantum computing.',
         'publisher':{'@type':'Organization','name':'Quantum Research Center','url':url+'/','logo':url+'/icons/icon.svg'}})
 
-def article_data(url,source,title,description):
+def article_data(url,paper,source,title,description):
     # A news page summarizes one arXiv paper; the paper itself is cited, not claimed.
-    paper=next((p for p in json.loads((ROOT/'content/papers.json').read_text())['papers'] if paper_path(p)==source),None)
     if not paper: return ''
     data={'@context':'https://schema.org','@type':'Article','headline':title[:110],'description':re.sub(r'\\[()\[\]]','',description or ''),
         'url':url+'/'+source.removesuffix('index.html'),'datePublished':paper.get('approved_on'),'inLanguage':'en',
@@ -289,6 +301,11 @@ def mark_generated(source):
     head,sep,rest=source.partition('>')
     return head+sep+GENERATED_NOTE+rest if head.lower().startswith('<!doctype') else GENERATED_NOTE+source
 
+ASSET_DIGESTS={}
+def asset_digest(target):
+    if target not in ASSET_DIGESTS:ASSET_DIGESTS[target]=hashlib.sha256(target.read_bytes()).hexdigest()[:10]
+    return ASSET_DIGESTS[target]
+
 def version_assets(name,source):
     # Stylesheets and scripts are cached for hours by the CDN and browsers; a content
     # hash in the URL makes each deploy fetch exactly the files its HTML expects.
@@ -296,7 +313,7 @@ def version_assets(name,source):
         attribute,url=match.group(1),match.group(2)
         target=ROOT/os.path.normpath(str(Path(name).parent/url))
         if not target.is_file():return match.group(0)
-        return f'{attribute}="{url}?v={hashlib.sha256(target.read_bytes()).hexdigest()[:10]}"'
+        return f'{attribute}="{url}?v={asset_digest(target)}"'
     return re.sub(r'(href|src)="((?![a-z]+:)[^"?#]+\.(?:css|js))"',stamp,source)
 
 class Page(HTMLParser):
@@ -377,6 +394,7 @@ def orphaned_news_pages(output):
     candidates = [p for pattern in ('*/index.html', 'papers/*/index.html') for p in (ROOT/'news').glob(pattern)
                   if re.fullmatch(r'(?:[0-9]{4}\.[0-9]{4,5}|quant-ph-[0-9]{7})', p.parent.name)]
     candidates.extend((ROOT/'news/articles').glob('*/index.html'))
+    candidates.extend((ROOT/'news/papers/archive').glob('*/index.html'))
     return [p for p in candidates if str(p.relative_to(ROOT)) not in output
             and GENERATED_NOTE in p.read_text()]
 

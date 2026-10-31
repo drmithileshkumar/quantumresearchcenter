@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-22; equations follow the paper’s notation.",
+  "verified_on": "2026-10-22",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30040",
+  "topic": "foundations",
+  "kind": "Theory and numerical analysis",
+  "title": "An entanglement band structure for general multiqubit states",
+  "authors": "Chon-Fai Kam",
+  "problem": "Majorana pictured a symmetric multiqubit state as points on the sphere. Can a comparable geometric picture be given for general states, whose entanglement classes form continuous families?",
+  "result": "Projecting one qubit onto a direction \\(\\mathbf n\\) leaves a conditional state of the others. Its entanglement invariants are the eigenvalues, called bands, of a non-Hermitian matrix \\(L(u)\\). For five qubits there are four bands, which meet at 24 exceptional points where the conditional state changes entanglement family. Together they form one Riemann surface of genus nine, which fixes the five-qubit entanglement class up to finitely many choices.",
+  "significance": "Gives general multiqubit entanglement a geometry with measurable features. The exceptional points arise from conditioning a pure state, with no gain or loss, and circling one exchanges two bands, which tomography of the remaining qubits can detect.",
+  "limitations": "The curve classifies states only at five qubits. From seven qubits on, operations that entangle qubits within a block leave it unchanged. The construction degenerates for states symmetric under exchanging a pair, where one band vanishes identically. The count of realized eigenvector-sign patterns is numerical, and the shot-noise estimates for observing an exchange are simulations.",
+  "description": [
+    "Three qubits can be genuinely entangled in two inequivalent ways, GHZ and W. Two states count as equivalent when stochastic local operations and classical communication (SLOCC) convert one into the other with nonzero probability. From four qubits on, the classes form continuous families: generic five-qubit classes depend on \\(2^5-1-3\\cdot5=16\\) complex parameters. For symmetric states Majorana’s construction gives a complete picture. The state is fixed by \\(n\\) points on the Bloch sphere, local operations applied equally to every qubit move the points by Möbius maps, and symmetries are symmetries of the points. Points on the sphere modulo Möbius maps carry only \\(n-3\\) parameters, however, so they cannot describe general states.",
+    "The paper projects a single qubit instead of all of them. With stereographic coordinate \\(t=\\tan(\\theta/2)e^{-i\\varphi}\\) and \\(u=(1,t)\\), projecting the fifth qubit leaves amplitudes \\(R(u)_{ab}=\\sum_s\\psi_{abs}u_s\\), where \\(a\\) labels qubits 1 and 2 and \\(b\\) labels qubits 3 and 4. For almost every direction the conditional state lies in the generic four-qubit family \\(G_{abcd}\\), and \\(a^2,b^2,c^2,d^2\\) are the eigenvalues of \\[L(u)=R(u)\\,G\\,R(u)^{\\mathsf T}G,\\qquad G=\\sigma_y\\otimes\\sigma_y.\\] These four functions of the direction are the bands, by analogy with energy bands over a Brillouin zone. Choosing which qubit to project and how to split the rest into pairs gives fifteen band sets for a five-qubit state.",
+    "Two bands meet where two coefficients coincide up to sign. There \\(L\\) acquires a \\(2\\times2\\) Jordan block and the conditional state drops into the family \\(L_{abc_2}\\). These exceptional points are the zeros of the discriminant of \\(L\\), a polynomial of degree 24 in \\(t\\). Circling one exchanges the two bands, and the 24 exchanges generate all permutations, so the four bands are sheets of one curve \\(C\\) of genus nine. Since \\(\\det L=(\\det R)^2\\), the curve touches \\(w=0\\) without crossing it. Counting parameters, 24 coefficients minus 4 fixed by this identity, 3 Möbius maps and 1 scale, leaves exactly 16, matching the classes. The curve does not fix the eigenvectors: their signs are \\(\\mathbb Z_2\\) Berry phases on the curve’s 18 independent loops. About a quarter of the \\(2^{18}\\) patterns occur numerically, and a linear test decides whether two states with equal band coefficients are equivalent.",
+    "Symmetric states split the curve into pieces. The GHZ state has bands \\(0\\) and \\(u_0u_1/2\\), each twice. The W state has all bands zero, since every conditional state lies in the nullcone. The ring cluster state has bands \\(\\pm8it^2\\) and \\(\\pm8i\\). The number of qubits fixes a non-Hermitian symmetry class: \\(n\\equiv1\\pmod4\\) gives class AI\\(^\\dagger\\), \\(n\\equiv3\\pmod4\\) forces Kramers-doubled bands, and even \\(n\\) pairs \\(w\\) with \\(-w\\). A simulated experiment with 80 shots per Pauli setting, about \\(4\\times10^5\\) shots in all, recovers the exchange around one exceptional point in 96% of runs. Whether the curves of all projected qubits and splits together classify states beyond five qubits is open."
+  ],
+  "methods": [
+    {
+      "technique": "Read SLOCC invariants from a holomorphic matrix pencil",
+      "explanation": "Contracting the conditional amplitudes with the invariant form of SL(2) gives a matrix whose spectrum is unchanged by local operations on the four remaining qubits.",
+      "math": [
+        "For a two-qubit state \\(\\phi\\), \\(\\phi^{\\mathsf T}G\\phi=-2(\\phi_{00}\\phi_{11}-\\phi_{01}\\phi_{10})\\), minus twice the determinant of its coefficient matrix. A local operation \\(X=M_1\\otimes M_2\\) with \\(\\det M_i=1\\) satisfies \\(X^{\\mathsf T}GX=G\\), because \\(M^{\\mathsf T}\\sigma_yM=\\det(M)\\,\\sigma_y\\). Hence \\(X^{-1}=GX^{\\mathsf T}G\\), and \\(R\\mapsto XR\\) sends \\(L\\mapsto XRGR^{\\mathsf T}X^{\\mathsf T}G=XLX^{-1}\\). On the other pair, \\(R\\mapsto RY^{\\mathsf T}\\) leaves \\(L\\) unchanged, since \\(Y^{\\mathsf T}GY=G\\).",
+        "An operation \\(Z\\) on the projected qubit replaces \\(u\\) by \\(Z^{\\mathsf T}u\\), a Möbius map of the sphere; \\(L\\) is quadratic in \\(u\\), so all bands rescale together. Since \\(\\det G=1\\), \\(\\det L=(\\det R)^2\\). Editorial check: for a random five-qubit state, the bands were unchanged under random \\(\\mathrm{SL}(2)^{\\otimes4}\\) operations, the identity \\(\\det L=(\\det R)^2\\) and the relation \\(L^{\\mathsf T}G=GL\\) held, and the three splits gave equal \\(\\operatorname{tr}L\\)."
+      ],
+      "transfer": "When a group acts on a tensor leg by leg, contract with the group’s invariant bilinear form to get a matrix with an invariant spectrum. Letting one leg depend linearly on a parameter turns these invariants into holomorphic functions, so their degeneracies become isolated points that can be counted rather than tuned."
+    },
+    {
+      "technique": "Count exceptional points and the genus from the discriminant",
+      "explanation": "The degree of the discriminant fixes how many exceptional points there are, and the Riemann–Hurwitz formula turns that count into the topology of the band surface.",
+      "math": [
+        "The coefficients \\(\\chi_j\\) of \\(\\det(w\\mathbb I-L(u))=\\sum_j(-1)^j\\chi_jw^{m-j}\\) are homogeneous of degree \\(2j\\) in \\(u\\). Each factor \\((w_i-w_j)^2\\) of the discriminant has degree four, so the discriminant has degree \\(b=4\\binom m2=2m(m-1)\\), which is 24 for \\(m=4\\). Near a simple zero \\(t_0\\) two bands behave as \\(w\\approx w_0\\pm c\\sqrt{t-t_0}\\); one loop sends \\(\\sqrt{\\cdot}\\to-\\sqrt{\\cdot}\\) and swaps them. For an \\(m\\)-sheeted cover of the sphere with \\(b\\) simple branch points, Riemann–Hurwitz gives \\(2g-2=-2m+b\\). Hence (editorial algebra) \\(g=m^2-2m+1=(m-1)^2\\), which is \\(9\\) at five qubits.",
+        "Why the meetings are isolated (editorial): Hermitian bands need three real conditions to meet (von Neumann–Wigner), but a holomorphic family needs only one complex equation, the vanishing of the discriminant, so generic degeneracies sit at points. Editorial check: for a random five-qubit state the discriminant had degree 24 with 24 roots, and tracking the bands once around one root permuted exactly two of them."
+      ],
+      "transfer": "For any matrix family that depends holomorphically on a parameter, the discriminant’s degree counts the exceptional points and Riemann–Hurwitz gives the topology of the eigenvalue surface, without diagonalizing anywhere. Encircling a predicted point and watching two eigenvalues exchange is a robust experimental test, because it depends only on whether the loop encloses the point."
+    }
+  ],
+  "methods_source_section": "Main text (Conditional states, Exceptional points, One surface, Symmetries split the bands); End Matter A–C",
+  "approved_on": "2026-10-22"
+}

@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 import build
-from paper_news import validate
+from paper_news import load_papers, save_papers, validate
 
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN = secrets.token_urlsafe(32)
@@ -22,9 +22,8 @@ LOCK = threading.Lock()
 def approve(ids):
     if not isinstance(ids, list) or not ids or any(not isinstance(i, str) for i in ids):
         raise ValueError('Select at least one paper.')
-    path = ROOT / 'content/papers.json'
-    original = path.read_text()
-    data = json.loads(original)
+    original = load_papers(ROOT)
+    data = load_papers(ROOT)
     validate(data)
     if set(ids) - {p['id'] for p in data['papers']}:
         raise ValueError('The selection includes unknown papers. Reload the page.')
@@ -34,7 +33,7 @@ def approve(ids):
             paper.update(status='approved', approved_on=today)
     validate(data)
     try:
-        path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+        save_papers(ROOT, data)
         output = build.render(json.loads((ROOT / 'content/research.json').read_text()))
         build.check_output(output)
         # Approval also refreshes the homepage’s latest research papers.
@@ -48,7 +47,7 @@ def approve(ids):
             build.remove_page(target)
         build.record_generated(output, [n for n in output if n.startswith('news/') or n in ('index.html', 'sitemap.xml')])
     except Exception:
-        path.write_text(original)
+        save_papers(ROOT, original)
         raise
     return [p['id'] for p in data['papers'] if p['status'] == 'approved']
 
@@ -72,7 +71,7 @@ class Handler(SimpleHTTPRequestHandler):
         if not self.trusted_host():
             self.json_response(403, {'error': 'Use the localhost editor address.'}); return
         if urlsplit(self.path).path == '/api/news-editor':
-            data = json.loads((ROOT / 'content/papers.json').read_text())
+            data = load_papers(ROOT)
             self.json_response(200, {'token': TOKEN, 'approved': [p['id'] for p in data['papers'] if p['status'] == 'approved']})
             return
         if urlsplit(self.path).path.startswith('/api/'):

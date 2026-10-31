@@ -10,6 +10,13 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from site_graph import collect
 
 
+def published_graph():
+    compact = json.loads((ROOT / 'website-map/data.js').read_text().removeprefix('window.SITE_GRAPH=').removesuffix(';\n'))
+    ids = [node[0] for node in compact['nodes']]
+    return {'nodes': [{'id': i} for i in ids],
+            'edges': [{'source': ids[a], 'target': ids[b]} for a, b, _ in compact['edges']]}
+
+
 class SiteGraphTests(unittest.TestCase):
     def test_public_pages_and_internal_links(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -30,8 +37,7 @@ class SiteGraphTests(unittest.TestCase):
             self.assertTrue(all(not edge['navigation'] for edge in graph['edges']))
 
     def test_generated_graph_has_valid_unique_nodes_and_edges(self):
-        text = (ROOT / 'website-map/index.html').read_text()
-        graph = json.loads(text.split('<script id="graph-data" type="application/json">')[1].split('</script>')[0])
+        graph = published_graph()
         ids = {n['id'] for n in graph['nodes']}
         self.assertEqual(len(ids), len(graph['nodes']))
         self.assertGreater(len(ids), 200)
@@ -45,6 +51,13 @@ class SiteGraphTests(unittest.TestCase):
             pairs.add((edge['source'], edge['target']))
         self.assertEqual(len(pairs), len(graph['edges']))
         self.assertIn('href="website-map/index.html">Website map</a>', (ROOT / 'index.html').read_text())
+
+    def test_directory_lists_every_page_under_its_section(self):
+        graph = published_graph()
+        self.assertLess((ROOT / 'website-map/index.html').stat().st_size, 20000)
+        for node in graph['nodes']:
+            section = node['id'].split('/')[0] if '/' in node['id'] else 'home'
+            self.assertIn(f'href="../../{node["id"]}"', (ROOT / f'website-map/sections/{section}.html').read_text())
 
     def test_new_nested_pages_are_discovered_and_removed_managed_pages_excluded(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -64,8 +77,7 @@ class SiteGraphTests(unittest.TestCase):
     def test_xml_sitemap_matches_graph_page_inventory(self):
         from xml.etree import ElementTree as ET
         import build
-        text = (ROOT / 'website-map/index.html').read_text()
-        graph = json.loads(text.split('<script id="graph-data" type="application/json">')[1].split('</script>')[0])
+        graph = published_graph()
         site = json.loads((ROOT / 'content/research.json').read_text())['url']
         expected = {site + '/' + node['id'].removesuffix('index.html') for node in graph['nodes'] if node['id'] not in build.UNLISTED}
         actual = {node.text for node in ET.parse(ROOT / 'sitemap.xml').findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}loc')}

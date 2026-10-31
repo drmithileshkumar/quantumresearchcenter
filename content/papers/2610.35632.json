@@ -1,0 +1,45 @@
+{
+  "id": "2610.35632",
+  "topic": "information",
+  "title": "Quantum-enhanced metrology with classical shadows",
+  "authors": "Luca Ion; Manuel Gessner",
+  "submitted": "2026-10-26",
+  "version": "v1",
+  "kind": "Theory and numerical analysis",
+  "problem": "Reaching the best precision in quantum metrology usually requires measuring a specific, often complicated observable tailored to the probe and encoding. Can one instead measure every qubit in random Pauli bases, as in classical shadows, and still estimate a parameter well, and how much entanglement advantage survives?",
+  "result": "Yes, with a quantified cost. Combining all Pauli moments up to weight \\(K\\) from one randomized data set by generalized least squares gives variance \\(1/(n\\mathcal I)\\), where the shadow information \\(\\mathcal I\\) has a closed form. Separable probes reach at most \\(\\mathcal I=N/3\\), so exceeding it witnesses entanglement, and no probe exceeds \\(2N^2/(N+2)<2N\\). Entanglement therefore gives a constant-factor gain, at most 6, not Heisenberg scaling: about 15% for twisted probes of 12 qubits.",
+  "significance": "It gives an observable-agnostic way to do metrology on circuit platforms: one fixed measurement strategy works for any probe and encoding, with explicit variance and sample-complexity guarantees and a clean separable benchmark. Under realistic noise, where the quantum Fisher information scales only linearly anyway, the precision cost of random readout is modest.",
+  "limitations": "Randomized local readout caps the variance at order \\(1/N\\) even for highly entangled probes, so Heisenberg scaling is lost. The analysis assumes known calibration (responses and covariances) at a working point and excludes the cost of obtaining it. Numerical results cover one-axis-twisted probes up to modest \\(N\\); the code is not yet released.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-27; equations follow the paper’s notation.",
+  "verified_on": "2026-10-27",
+  "methods": [
+    {
+      "technique": "Generalized least squares over correlated shadow moments",
+      "explanation": "Many noisy estimates of different moments, all drawn from the same randomized data, can be combined optimally if their joint covariance is known. Weighting by the inverse covariance extracts the best locally unbiased estimate without choosing an observable in advance.",
+      "math": [
+        "With response vector \\(\\mathbf s\\) and single-shot covariance \\(\\Gamma\\), the estimator \\(\\hat\\theta=\\theta_0+\\mathbf a^{\\mathsf T}(\\hat{\\mathbf\\mu}-\\mathbf\\mu_0)\\), \\(\\mathbf a=\\Gamma^{-1}\\mathbf s/(\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s)\\), minimizes \\(\\mathbf a^{\\mathsf T}\\Gamma\\mathbf a/(\\mathbf a^{\\mathsf T}\\mathbf s)^2\\), giving variance \\(1/(n\\,\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s)\\). The combined observable \\(A=\\sum_Pa_PP\\) is the effective measurement.",
+        "Editorial check: computing the shadow covariance for a random two-qubit state by summing over all 9 bases and 4 outcomes reproduces the closed form for all 15 Pauli strings to \\(2\\times10^{-15}\\). For a single qubit polarized perpendicular to the rotation axis, \\(\\Gamma=3I-\\mathbf\\mu\\mathbf\\mu^{\\mathsf T}\\) and \\(\\mathbf s\\perp\\mathbf\\mu\\) with \\(|\\mathbf s|=1\\), so \\(\\mathcal I=1/3\\) per qubit, the separable benchmark."
+      ],
+      "transfer": "Whenever a randomized-measurement data set already exists (shadows, randomized benchmarking records), estimate a parameter by GLS over every moment it supports rather than designing a new measurement. The method needs a calibrated response and covariance at the working point, which can come from a model or a pilot experiment."
+    },
+    {
+      "technique": "Separable benchmark for witnessing useful entanglement",
+      "explanation": "A precision bound valid for all separable probes turns precision itself into an entanglement test: beating it certifies entanglement that is useful for this specific protocol, not just entanglement in general.",
+      "math": [
+        "For product probes only weight-one moments carry information and \\(\\mathcal I\\le N/3\\); convexity, \\(\\mathcal I[\\sum_\\lambda p_\\lambda\\rho_\\lambda]\\le\\sum_\\lambda p_\\lambda\\mathcal I[\\rho_\\lambda]\\), extends this to all separable states. With \\(F_Q\\le N^2\\), every probe obeys \\(\\mathcal I\\le2N^2/(N+2)<6\\cdot N/3\\).",
+        "Editorial check: recomputing the \\(K=1\\) shadow information of one-axis-twisted probes at \\(N=12\\), \\(\\theta_0=-0.5\\), in the 13-dimensional symmetric subspace, the variance ratio to the coherent state reaches 0.865 at \\(\\tau\\approx0.08\\), a 13.5% improvement from linear moments alone, consistent with the paper’s figure of about 15% with most of it already at \\(K=1\\)."
+      ],
+      "transfer": "For any restricted measurement strategy (local, randomized, few-body), compute its separable-state precision limit; beating that limit is an operational entanglement witness tailored to the strategy. It also tells you the most entanglement can buy, here a factor below 6."
+    }
+  ],
+  "methods_source_section": "Main text Eqs. 1–20; Supplemental Material (shadow covariance, convexity, Appendix H product-state bound, Appendix I numerics)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Each shot measures every qubit in a uniformly random Pauli basis. For a Pauli string \\(P\\), the single-shot estimate is \\(3^{\\mathrm{wt}(P)}\\) times the product of outcomes on its support if the sampled basis matches \\(P\\) there, and zero otherwise. All strings up to weight \\(K\\) are estimated from the same shots, so their estimates are correlated; the covariance has the closed form \\[\\Gamma_{PQ}=3^{|\\mathrm{supp}P\\cap\\mathrm{supp}Q|}\\langle PQ\\rangle-\\mu_P\\mu_Q\\] when \\(P\\) and \\(Q\\) agree on their common support, and \\(-\\mu_P\\mu_Q\\) otherwise.",
+    "Near a working point the moments respond as \\(\\mathbf\\mu(\\theta)\\approx\\mathbf\\mu(\\theta_0)+\\mathbf s(\\theta-\\theta_0)\\). Generalized least squares combines them into a locally unbiased estimator with variance \\(1/(n\\,\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s)\\), defining the shadow information \\(\\mathcal I=\\mathbf s^{\\mathsf T}\\Gamma^{-1}\\mathbf s\\). Bernstein bounds give sample complexity of order \\(\\log(1/\\delta)/(\\eta^2\\mathcal I)\\), and adding higher-weight strings can never lower \\(\\mathcal I\\).",
+    "For collective rotations, \\(\\mathcal I\\) is bounded by the generalized squeezing parameter of the optimal combined observable, and the full classical Fisher information of the shadow record obeys \\(F_{\\rm cs}\\le2NF_Q/(2N+F_Q)\\le2N\\). Hence the variance is at least \\(\\tfrac1n(1/F_Q+1/(2N))\\): the probe’s quantum Fisher information plus a readout penalty. Product states give exactly \\(N/3\\), and convexity of \\(\\mathcal I\\) extends this to all separable states.",
+    "For one-axis-twisted probes \\(e^{-i\\tau J_y^2}|0\\rangle^{\\otimes N}\\) with rotation about the largest-variance axis at \\(\\theta_0=-0.5\\), the variance ratio to the coherent state drops below one already with linear moments, by about 15% at \\(N=12\\) after optimizing \\(\\tau\\). Higher-weight strings matter more as the state becomes non-Gaussian at longer twisting. The bounds limit the ratio to at least \\(2/3\\) for \\(K=1\\) and above \\((N+2)/(6N)\\) for any \\(K\\)."
+  ],
+  "approved_on": "2026-10-27"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "2609.04157",
+  "topic": "foundations",
+  "title": "Spurious quantum correlations",
+  "authors": "Shashaank Khanna; Matthew F. Pusey; Roger Colbeck",
+  "submitted": "2026-09-03",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Can correlations that appear nonclassical acquire a classical explanation when the assumed causal structure changes?",
+  "result": "The authors identify correlations with classical explanations in alternative causal structures without fine tuning, and other correlations that resist such explanations.",
+  "significance": "Clarifies which causal assumptions underpin claims of quantum nonclassicality.",
+  "limitations": "A preliminary theoretical draft; this does not invalidate Bell’s theorem under its usual assumptions.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-19; equations follow the paper’s notation.",
+  "verified_on": "2026-10-19",
+  "approved_on": "2026-10-19",
+  "methods": [
+    {
+      "technique": "Search over causal explanations",
+      "explanation": "Starting from the observed conditional independences, the authors use the IC* causal-discovery algorithm to list classical graphs with the same independence constraints. A short set-inclusion argument then decides whether every non-classical correlation of \\(H\\) is spurious.",
+      "math": [
+        "The key argument is the paper’s Theorem 1. Suppose a second graph \\(G\\) satisfies \\[\\mathcal I_G=\\mathcal I_H,\\qquad\\mathcal C_H\\subsetneq\\mathcal I_H,\\qquad\\mathcal C_G=\\mathcal I_G.\\] Take any \\(P\\) that is NCNFT in \\(H\\). Then \\(P\\in\\mathcal I_H=\\mathcal I_G=\\mathcal C_G\\), so \\(G\\) explains \\(P\\) classically. Because \\(H\\) and \\(G\\) imply the same independences, an independence of \\(P\\) is implied by d-separation in \\(G\\) exactly when it is implied in \\(H\\), so faithfulness carries over. Every NCNFT correlation of \\(H\\) is therefore spurious.",
+        "The work lies in finding \\(G\\). Independence data determine a graph only up to an equivalence class, and IC* returns its members: graphs whose d-separation relations among the observed nodes match exactly the independences of \\(P\\). The condition \\(\\mathcal C_G=\\mathcal I_G\\) says that the independences alone characterize the classical set of \\(G\\), so no Bell-type inequality constrains \\(G\\). The paper proves this for its graph \\(G_1\\) (Lemma 1)."
+      ],
+      "transfer": "Treat a nonclassicality witness as a statement about a pair \\((P,H)\\), not about \\(P\\) alone. Before claiming a quantum advantage from \\(P\\notin\\mathcal C_H\\), list graphs \\(G\\) with the same d-separation relations and check whether \\(\\mathcal C_G=\\mathcal I_G\\). If such a \\(G\\) exists, the violation refutes the causal hypothesis but not classicality. Structures with no such \\(G\\) (the paper’s \\(H_4\\) and bilocality) are those where nonclassicality is robust."
+    },
+    {
+      "technique": "Separate statistical fit from physical admissibility",
+      "explanation": "A candidate explanation must do more than reproduce the data. It must not rely on finely tuned parameters, and, when locations are known, its arrows must respect spacetime order.",
+      "math": [
+        "Faithfulness. \\(P\\) is fine-tuned with respect to a graph if it satisfies an independence \\(P(X|Y,Z)=P(X|Z)\\) that d-separation does not imply. In a classical model, such an independence holds only if the conditionals \\(Q(x_i|\\mathrm{pa}(x_i))\\) satisfy extra polynomial equations, which pick out a measure-zero subset of parameter space. This is the standard reason causal discovery excludes fine tuning. Requiring \\(G\\) to explain \\(P\\) faithfully prevents \\(G\\) from reproducing an independence by cancellation.",
+        "Spacetime. If each variable has a location, a graph is admissible only when every edge points forward in a partial order \\(\\prec_{\\mathrm{st}}\\) compatible with light cones: \\(X\\to Y\\in G\\Rightarrow X\\prec_{\\mathrm{st}}Y\\). The strongest results in the paper require \\(G\\) to have the same causal partial order as \\(H\\), so the classical explanation needs no influence that \\(H\\) itself forbids."
+      ],
+      "transfer": "Use independence tests and experimental timing together to assess alternative explanations. Matching independences alone does not prove that a graph reproduces the full distribution. The paper’s analysis also assumes exact distributions, unlike finite experimental samples."
+    }
+  ],
+  "methods_source_section": "Introduction and Sections II–III: causal structures and spurious correlations",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A causal structure is a directed acyclic graph \\(H\\) whose nodes are observed variables and latent common causes. A distribution \\(P\\) over the observed nodes is classically compatible with \\(H\\) if it is the marginal of a joint distribution that factorizes along the graph, \\[Q(x_1,\\dots,x_m)=\\prod_iQ\\bigl(x_i\\,\\big|\\,\\mathrm{pa}(x_i)\\bigr),\\] where \\(\\mathrm{pa}(x_i)\\) are the parents of \\(x_i\\). It is quantum compatible if latent nodes are quantum states shared among their children and observed nodes are measurements. Every compatible \\(P\\) obeys the conditional independences that d-separation reads off the graph: if \\(Z\\) d-separates \\(X\\) from \\(Y\\), then \\(P(X|Y,Z)=P(X|Z)\\). Writing \\(\\mathcal C_H\\), \\(\\mathcal Q_H\\) and \\(\\mathcal I_H\\) for the classical, quantum and independence-respecting sets, \\[\\mathcal C_H\\subseteq\\mathcal Q_H\\subseteq\\mathcal I_H,\\] and \\(H\\) is called non-classical when \\(\\mathcal C_H\\subsetneq\\mathcal I_H\\).",
+    "A violated causal inequality shows \\(P\\notin\\mathcal C_H\\). But is \\(H\\) the right graph? The authors call \\(P\\) non-classical and not fine-tuned (NCNFT) in \\(H\\) if it lies in \\(\\mathcal I_H\\setminus\\mathcal C_H\\) and every independence it satisfies is implied by d-separation in \\(H\\). Such a \\(P\\) is spurious if some other graph \\(G\\) explains it classically, again without fine tuning. A spurious quantum correlation is evidence against the classical model on \\(H\\), but not against classical physics.",
+    "Results. Consider a structure \\(H_1\\) with latents \\(A,B\\) and observed \\(C,D,E,F\\), factorizing as \\(Q(a)Q(b)Q(d)Q(c|ab)Q(e|bd)Q(f|ace)\\). Every NCNFT correlation in \\(H_1\\) is spurious, with an alternative graph that respects the same causal order. A quantum example with angles \\(7\\pi/32\\), \\(6\\pi/32\\) and \\(\\pi/32\\) reaches about \\(2.128\\) on the instrumental-type bound \\[P(E{=}F|D{=}0)+P(F{=}0|D{=}1)+P(E{=}0,F{=}1|D{=}2)\\le2,\\] so it is genuinely NCNFT in \\(H_1\\). The authors report spurious quantum correlations for further structures, including the triangle and instrumental scenarios. In contrast, NCNFT correlations are not spurious for a structure \\(H_4\\) or for bilocality. For the Bell structure, the paper relies on Wood and Spekkens, who showed that it admits no spurious quantum correlations.",
+    "The analysis assumes the exact distribution is known (i.i.d. sampling with no statistical error). It restricts candidate explanations in the same way as the IC* algorithm: latent common causes have at most two children and no parents."
+  ]
+}

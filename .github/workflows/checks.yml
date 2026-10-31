@@ -1,23 +1,55 @@
-# Every push and pull request must leave the published site consistent:
-# generated pages match their content sources, and the test suite passes.
-name: Site checks
+# Every push and pull request builds the whole site from its sources and checks the result.
+# A push to main that passes is published; the built pages are never committed.
+name: Site checks and deployment
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  checks:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Generated pages are up to date
-        run: python3 scripts/build.py --check
+      - name: Install build dependencies
+        run: python3 -m pip install -r requirements.txt
+      - name: Build the site
+        run: python3 scripts/build_all.py --publish _site
+      - name: Build output stays out of the repository
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+      - name: Every page's links resolve and every page is reachable
+        run: python3 scripts/check_site.py
+      - name: The published copy is complete
+        run: python3 scripts/check_site.py _site
       - name: Tests
         run: python3 -m unittest discover -s tests -v
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

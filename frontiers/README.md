@@ -6,7 +6,7 @@ A frontier map shows what is known and unknown in one field. Edit `content/front
 python3 frontiers/build.py
 ```
 
-The builder writes `frontiers/<field>/index.html` and one page per node. `--check` reports stale pages.
+The builder writes `frontiers/<field>/index.html` and one page per node. These pages are build output and are not committed; `python3 scripts/build_all.py` runs this builder with the others.
 
 Each node carries two separate labels. The field's status lives in the JSON: `established`, `partial`, `conjectured`, `open`, `claimed` (a recent result without independent confirmation), or `refuted` (the statement shown is false). The reader's own coverage, notes, and trail stay in `localStorage` and can be exported as a backup or a Markdown research log.
 

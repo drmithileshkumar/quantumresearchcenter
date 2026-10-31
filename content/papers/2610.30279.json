@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version, read 2026-10-24; equations follow the paper’s notation.",
+  "verified_on": "2026-10-24",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "version": "v1",
+  "submitted": "2026-10-21",
+  "id": "2610.30279",
+  "topic": "computing",
+  "kind": "Theory and numerical analysis",
+  "title": "Transversal syndrome extraction: A unifying construction for measuring the error syndromes of any stabilizer code",
+  "authors": "Miles D. Gorman",
+  "problem": "Fault-tolerant syndrome extraction for a general stabilizer code is either deep (Shor’s method measures one stabilizer at a time with cat states) or wide (Steane’s method measures everything at once with a \\(2n\\)-qubit encoded ancilla). Configurable middle grounds were known only for CSS codes. Is there one for every stabilizer code?",
+  "result": "Yes. Partitioning the stabilizer generators into sets measured together, and building a matching ancilla stabilizer state from the generalized Steane ancilla, gives a family of transversal gadgets for any stabilizer code. Shor and Steane extraction appear as the two limits, so depth can be traded for width. For example, the full syndrome of an \\([[8,2,3]]\\) code can be measured with four layers of data–ancilla gates using at most 12 ancilla qubits. Simulated logical error rates fall between those of Shor and Steane extraction.",
+  "significance": "It gives near-term devices that cannot afford either extreme a tunable, provably valid way to measure syndromes of non-CSS codes, including high-rate codes. It also places the Shor, Steane and Knill gadgets in a single framework where new ones can be searched for.",
+  "limitations": "Ancilla preparation cost is excluded from all resource counts, and fault tolerance is argued by Shor-style repetition, with a crude worst case of \\((t+1)^2\\) rounds. The construction does not always recover Shor extraction. Partitions were optimized exhaustively only for small codes, and by random search for two larger ones.",
+  "description": [
+    "The paper works in the binary symplectic picture: each stabilizer or logical operator is a row \\((s\\,|\\,x\\,|\\,z)\\), and propagating Paulis through controlled-Pauli gates is row arithmetic. Shor extraction measures a weight-\\(w\\) stabilizer by coupling a \\(w\\)-qubit cat state, with stabilizers \\(X_1\\cdots X_w\\) and \\(Z_iZ_{i+1}\\), to its support. The \\(X\\)-string picks up the stabilizer and its \\(\\pm\\) sign, so the parity of the \\(X\\) outcomes is the syndrome bit. The generalized Steane method (equivalent to Knill’s up to circuit identities) uses a \\(2n\\)-qubit ancilla whose \\(X\\) parts copy all stabilizers at once and whose \\(Z\\) parts cancel the \\(Z\\) back-action, so measuring the ancilla reveals only the syndrome.",
+    "The new procedure splits the generators into the set \\(\\mathcal S^{(M)}\\) to measure now and the rest. It chooses a new generating set for the rest so that zero columns of \\(\\mathcal S^{(M)}\\) stay zero in one part, and every row of the other part has a private column; Appendix A gives an algorithm that always achieves this. It then deletes the corresponding rows from the Steane ancilla, sets to zero the ancilla columns that \\(\\mathcal S^{(M)}\\) does not touch and adds single-qubit \\(Z\\) stabilizers there, and finally deletes those ancilla qubits and their gates. The appendices prove that the result is a valid stabilizer state and that the syndrome bits of the measured set are read out by parities of the \\(X\\) outcomes. Controlled-\\(Y\\) gates can merge two ancilla qubits when the measured stabilizers act only by \\(Y\\) on a data qubit.",
+    "Taking \\(\\mathcal S^{(M)}\\) to be everything gives Steane extraction. Taking a single stabilizer, when no extra generators are forced in, gives exactly Shor’s cat state and gates. Applied to the Steane \\([[7,1,3]]\\) code it reproduces a known configurable CSS scheme. Because all data–ancilla gates are transversal, one fault damages at most one data qubit. Fault tolerance therefore follows the Shor argument: repeat until \\(t+1\\) consecutive complete syndromes agree.",
+    "With \\(M\\) measurement sets and maximum combined weight \\(W\\) (\\(w\\le W\\le2n\\)), peak ancilla width is \\(W\\) and interaction depth is \\(2MR'(t)\\), against \\(w\\) and \\(mR(t)\\) for Shor and \\(2n\\) and 2 for Steane. On six codes the achievable (depth, width) points fill the space between the two limits, and Monte Carlo simulations with circuit-level depolarizing noise place the logical failure rates between them. The author argues that measuring sets of stabilizers together may also reduce the number of repetitions needed, toward Steane’s single round."
+  ],
+  "methods_source_section": "Sections 1.3–1.6 (Eqs. 3–18); Section 2.1 (procedure, Eq. 19); Sections 2.3–2.5; Appendices A–E",
+  "methods": [
+    {
+      "technique": "Design ancillas so that propagated stabilizers carry the syndrome and nothing else",
+      "explanation": "An ancilla stabilizer whose \\(X\\) part is copied onto the data through transversal controlled-Paulis picks up the data stabilizer together with its unknown sign. Choosing its \\(Z\\) part to cancel any \\(Z\\) terms flowing back leaves an operator that \\(X\\)-basis measurements can read, and that reveals only the sign.",
+      "math": [
+        "Gates: \\(C[X]\\) from ancilla block 1 to data, then \\(C[Z]\\) from ancilla block 2 to data. The ancilla row \\(X=(0\\,|\\,S_X\\,|\\,S_Z)\\), \\(Z=(0\\,|\\,0\\,|\\,S_X)\\) propagates to \\(X=(S_X|S_X|S_Z)\\), \\(Z=(S_Z|0|0)\\). Multiplying by the data stabilizer \\((-1)^s(S_X|S_Z)\\) gives \\((-1)^sX^{S_X}\\otimes X^{S_Z}\\) on the ancilla, so \\(s=\\mathcal S\\mathbf m\\bmod 2\\) for outcomes \\(\\mathbf m\\).",
+        "Editorial check on the five-qubit \\([[5,1,3]]\\) code: the ten ancilla generators of Eq. (16) commute and have GF(2) rank 10, so they fix a unique state. A 15-qubit state-vector simulation of the circuit returns the correct deterministic syndrome for all 15 single-qubit Pauli errors."
+      ],
+      "transfer": "To measure a set of commuting Paulis nondestructively with transversal gates, write the target as rows of a stabilizer tableau and solve for ancilla rows whose propagated images are (measured part) \\(\\times\\) (target) with all cross terms cancelled. The same bookkeeping designs flag and cat-state gadgets."
+    },
+    {
+      "technique": "Interpolate between two known gadgets by deleting rows and qubits",
+      "explanation": "Start from the widest valid construction and remove the parts that serve stabilizers not measured in this round. If the generators are first put in a form where each removed row owns a private column, the deletions keep a valid ancilla state.",
+      "math": [
+        "Combined weight of a set \\(\\mathcal S_j\\): per qubit, 0 if every member acts trivially, 1 if they use one Pauli type, 2 otherwise; \\(W=\\max_j\\) of the sum over qubits. Costs: width \\(W\\), depth \\(2MR'(t)\\) with \\(R'(t)\\le(t+1)^2\\).",
+        "Limits: \\(M=1\\) (all generators together) gives width \\(2n\\) and depth 2 (Steane). \\(|\\mathcal S^{(M)}|=1\\) with no forced extra generators gives width \\(w\\) and the cat state \\(\\langle X_1\\cdots X_w,Z_iZ_{i+1}\\rangle\\) (Shor). Example from the paper: \\([[8,2,3]]\\) at depth 4 with at most 12 ancilla qubits."
+      ],
+      "transfer": "When two protocols sit at opposite ends of a resource trade-off, express both in one algebraic language, such as tableaux, and look for a partition parameter that recovers each as a limit. The family in between often gives better operating points for constrained hardware."
+    }
+  ],
+  "approved_on": "2026-10-24"
+}
