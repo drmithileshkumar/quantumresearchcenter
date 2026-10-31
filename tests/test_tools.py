@@ -16,7 +16,7 @@ class ControlAudit(HTMLParser):
     def __init__(self, text):
         super().__init__()
         self.labels, self.buttons, self.presets, self.inputs = set(), [], [], []
-        self.svgs = []
+        self.axes, self.axis_line, self.svgs = [], None, []
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
@@ -25,6 +25,8 @@ class ControlAudit(HTMLParser):
         if tag == 'input': self.inputs.append(a)
         if tag == 'button' and 'data-gate' in a: self.buttons.append(a['data-gate'])
         if tag == 'button' and 'data-preset' in a: self.presets.append((a['data-theta'], a['data-phi']))
+        if tag == 'button' and 'data-axis-theta' in a: self.axes.append((a['data-axis-theta'], a['data-axis-phi']))
+        if tag == 'line' and a.get('id') == 'bloch-naxis': self.axis_line = a
         if tag == 'svg' and 'data-basis' in a: self.svgs.append(a)
 
 class TwoQubitAudit(HTMLParser):
@@ -187,5 +189,84 @@ class ToolTests(unittest.TestCase):
             self.assertIn(name + ': [[', script)
         self.assertIn('dataset.basis', script)
         self.assertIn('pointermove', script)
+
+    def test_rotation_controls_build_the_general_gate(self):
+        page = (ROOT / 'tools/single-qubit.html').read_text()
+        audit = ControlAudit(page)
+        self.assertEqual(audit.axes, [(str(polar), str(azimuth)) for _, polar, azimuth in tools.AXIS_PRESETS])
+        self.assertEqual(sorted(field['id'] for field in audit.inputs if field['id'].startswith(('axis-', 'rot-'))),
+                         ['axis-phi', 'axis-theta', 'rot-gamma', 'rot-theta'])
+        for element in ('apply-rotation', 'axis-vector', 'u-00', 'u-01', 'u-10', 'u-11'):
+            self.assertIn(f'id="{element}"', page)
+        axis = tools.rotation_axis(*tools.AXIS_ANGLES)
+        matrix = tools.rotation_matrix(axis, tools.ROTATION_ANGLE, tools.ROTATION_PHASE)
+        self.assertIn('id="axis-vector">n̂ = (', page)
+        for row in (0, 1):
+            for column in (0, 1):
+                self.assertIn(f'id="u-{row}{column}">{tools.complex_text(matrix[row][column])}<', page)
+
+    def test_rotation_axis_presets_are_the_axes_they_name(self):
+        root2 = 1 / 2 ** 0.5
+        self.assertEqual([round(value, 9) for value in tools.rotation_axis(90, 0)], [1, 0, 0])
+        self.assertEqual([round(value, 9) for value in tools.rotation_axis(90, 90)], [0, 1, 0])
+        self.assertEqual([round(value, 9) for value in tools.rotation_axis(0, 0)], [0, 0, 1])
+        for got, want in zip(tools.rotation_axis(45, 0), (root2, 0, root2)):
+            self.assertAlmostEqual(got, want)
+
+    def test_rotation_matrix_reproduces_the_named_gates(self):
+        root2 = 1 / 2 ** 0.5
+        cases = {'X': ((1, 0, 0), 180, 90, ((0, 1), (1, 0))),
+                 'Y': ((0, 1, 0), 180, 90, ((0, -1j), (1j, 0))),
+                 'Z': ((0, 0, 1), 180, 90, ((1, 0), (0, -1))),
+                 'H': ((root2, 0, root2), 180, 90, ((root2, root2), (root2, -root2))),
+                 'S': ((0, 0, 1), 90, 45, ((1, 0), (0, 1j)))}
+        for name, (axis, theta, gamma, want) in cases.items():
+            got = tools.rotation_matrix(axis, theta, gamma)
+            for row in (0, 1):
+                for column in (0, 1):
+                    self.assertAlmostEqual(got[row][column], want[row][column], places=9, msg=name)
+
+    def test_rotation_matrix_is_unitary_and_the_phase_is_global(self):
+        for polar, azimuth in ((0, 0), (37, 123), (90, 250), (180, 45)):
+            axis = tools.rotation_axis(polar, azimuth)
+            for theta, gamma in ((0, 0), (73, 210), (180, 90), (360, 0)):
+                unit = tools.rotation_matrix(axis, theta, gamma)
+                square = [[sum(unit[row][k] * unit[column][k].conjugate() for k in (0, 1))
+                           for column in (0, 1)] for row in (0, 1)]
+                for row in (0, 1):
+                    for column in (0, 1):
+                        self.assertAlmostEqual(square[row][column], 1 if row == column else 0, places=9)
+        bare = tools.rotation_matrix((0.6, 0.8, 0), 140, 0)
+        phased = tools.rotation_matrix((0.6, 0.8, 0), 140, 17)
+        for row in (0, 1):
+            for column in (0, 1):
+                self.assertAlmostEqual(phased[row][column] * cmath.exp(-1j * math.radians(17)),
+                                       bare[row][column], places=9)
+
+    def test_rotation_axis_is_drawn_where_the_state_plane_projects_it(self):
+        audit = ControlAudit((ROOT / 'tools/single-qubit.html').read_text())
+        axis = tools.rotation_axis(*tools.AXIS_ANGLES)
+        tip, tail = tools.project(axis), tools.project(tuple(-value for value in axis))
+        line = audit.axis_line
+        self.assertEqual((line['x1'], line['y1']), (f'{tail[0]:.1f}', f'{tail[1]:.1f}'))
+        self.assertEqual((line['x2'], line['y2']), (f'{tip[0]:.1f}', f'{tip[1]:.1f}'))
+
+    def test_script_applies_the_matrix_the_controls_build(self):
+        script = (ROOT / 'tools/single-qubit.js').read_text()
+        for token in ('rotationMatrix', 'rotationAxis', 'rotationReadout', 'apply-rotation',
+                      'data-axis-theta', 'bloch-naxis', 'bloch-npole'):
+            self.assertIn(token, script)
+
+    def test_applied_rotation_leaves_an_orbit_cone_and_arc(self):
+        page = (ROOT / 'tools/single-qubit.html').read_text()
+        for element in ('bloch-orbit', 'bloch-cone', 'bloch-arc'):
+            self.assertIn(f'id="{element}"', page)
+        style = (ROOT / 'tools/tools.css').read_text()
+        for rule in ('.bloch-rotation-orbit', '.bloch-rotation-cone', '.bloch-rotation-arc'):
+            self.assertIn(rule, style)
+        script = (ROOT / 'tools/single-qubit.js').read_text()
+        for token in ('rotateVector', 'showRotationOrbit', 'showRotationPath', 'clearRotationPath',
+                      'bloch-orbit', 'bloch-cone', 'bloch-arc', 'prefers-reduced-motion'):
+            self.assertIn(token, script)
 
 if __name__ == '__main__': unittest.main()

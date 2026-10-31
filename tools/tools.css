@@ -40,6 +40,11 @@
 .bloch-guide{stroke:var(--blue);stroke-width:1;stroke-dasharray:4 4;opacity:.65}
 .bloch-tip{fill:var(--warm);stroke:var(--surface);stroke-width:1.5}
 .bloch-origin{fill:var(--ink-soft)}
+.bloch-rotation-axis{stroke:var(--ink-soft);stroke-width:1.3;stroke-dasharray:1 5;stroke-linecap:round;opacity:.75}
+.bloch-rotation-pole{fill:none;stroke:var(--ink-soft);stroke-width:1.3}
+.bloch-rotation-cone{fill:var(--blue);fill-opacity:.12;stroke:none}
+.bloch-rotation-orbit{fill:none;stroke:var(--field-border);stroke-width:1.1;stroke-dasharray:2 5;stroke-linecap:round}
+.bloch-rotation-arc{fill:none;stroke:var(--blue-strong);stroke-width:2;stroke-linecap:round}
 .bloch-figure figcaption{font:12px/1.65 var(--sans);color:var(--muted);margin:8px 0 0;text-align:center}
 .qubit-panel{display:flex;flex-direction:column;gap:16px;min-width:0}
 .qubit-state{border:1px solid var(--line-strong);border-top:3px solid var(--blue);border-radius:4px;padding:18px 20px 20px;background:var(--paper)}
@@ -66,7 +71,10 @@
 .qubit-buttons button{min-height:40px;padding:8px 14px;border:1px solid var(--line-strong);border-radius:4px;background:var(--card);color:var(--ink);font:500 13px/1.4 var(--sans);cursor:pointer}
 .qubit-buttons button:hover{background:var(--hover);border-color:var(--field-border);color:var(--blue-strong)}
 .qubit-buttons button:active{background:var(--blue-soft)}
-.qubit-buttons [data-preset],.qubit-buttons [data-gate]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+.qubit-buttons [data-preset],.qubit-buttons [data-gate],.qubit-buttons [data-axis-theta]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+.rotation-readout{font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--ink);margin:10px 0 0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.rotation-matrix{margin:6px 0 0}
+.rotation-matrix dd{font-size:12px}
 .measure-result,.measure-tally{font:12px/1.65 var(--sans);margin:12px 0 0;color:var(--ink-soft);max-width:60ch}
 .measure-tally{color:var(--muted);font-variant-numeric:tabular-nums}
 .qubit-noscript{font:12px/1.65 var(--sans);color:var(--muted);margin:0;padding:12px 14px;border:1px dashed var(--line-strong);border-radius:4px}

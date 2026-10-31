@@ -21,6 +21,14 @@
     p0: byId('prob-0'), p1: byId('prob-1'), bar0: byId('bar-0'), bar1: byId('bar-1'),
     status: byId('state-status'), measure: byId('measure'), reset: byId('reset'),
     result: byId('measure-result'), tally: byId('measure-tally'),
+    axisTheta: byId('axis-theta'), axisPhi: byId('axis-phi'),
+    axisThetaValue: byId('axis-theta-value'), axisPhiValue: byId('axis-phi-value'),
+    rotTheta: byId('rot-theta'), rotGamma: byId('rot-gamma'),
+    rotThetaValue: byId('rot-theta-value'), rotGammaValue: byId('rot-gamma-value'),
+    axisVector: byId('axis-vector'), applyU: byId('apply-rotation'),
+    u00: byId('u-00'), u01: byId('u-01'), u10: byId('u-10'), u11: byId('u-11'),
+    naxis: byId('bloch-naxis'), npole: byId('bloch-npole'),
+    orbit: byId('bloch-orbit'), cone: byId('bloch-cone'), arc: byId('bloch-arc'),
   };
   if (Object.values(parts).some(element => !element)) return;
 
@@ -36,11 +44,43 @@
 
   let alpha = [1, 0], beta = [0, 0];
   let counts = [0, 0];
+  let traced = false;   // an orbit and its swept arc are on screen
+  let spin = 0;         // requestAnimationFrame handle while a rotation is in flight
+  let settle = null;    // final frame of that rotation, used when it is interrupted
 
   const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
   const mul = (a, b) => [a[0]*b[0] - a[1]*b[1], a[0]*b[1] + a[1]*b[0]];
   const size = c => Math.hypot(c[0], c[1]);
   const abs2 = c => c[0]*c[0] + c[1]*c[1];
+  const neg = c => c.map(value => -value);
+  const turn = c => [c[1], -c[0]];   // multiplication by −i
+
+  function rotationAxis() {
+    const polar = Number(parts.axisTheta.value) * Math.PI/180;
+    const azimuth = Number(parts.axisPhi.value) * Math.PI/180;
+    return [Math.sin(polar)*Math.cos(azimuth), Math.sin(polar)*Math.sin(azimuth), Math.cos(polar)];
+  }
+
+  // Rodrigues: turn the state vector about n̂, which is what the unitary does to the arrow.
+  function rotateVector(vector, axis, angle) {
+    const cos = Math.cos(angle), sin = Math.sin(angle);
+    const cross = [axis[1]*vector[2] - axis[2]*vector[1],
+                   axis[2]*vector[0] - axis[0]*vector[2],
+                   axis[0]*vector[1] - axis[1]*vector[0]];
+    const dot = axis[0]*vector[0] + axis[1]*vector[1] + axis[2]*vector[2];
+    return [0, 1, 2].map(index => vector[index]*cos + cross[index]*sin + axis[index]*dot*(1 - cos));
+  }
+
+  // U = e^{iγ}(cos(θ/2) I − i sin(θ/2)(n_x X + n_y Y + n_z Z)), the matrix the page prints beside the sliders.
+  function rotationMatrix(n, theta, gamma) {
+    const half = theta * Math.PI/360;
+    const phase = [Math.cos(gamma * Math.PI/180), Math.sin(gamma * Math.PI/180)];
+    const scale = value => mul(phase, [value * Math.sin(half), 0]);
+    const cos = mul(phase, [Math.cos(half), 0]);
+    const along = scale(n[0]), side = scale(n[1]), vertical = scale(n[2]);
+    return [[add(cos, turn(vertical)), add(neg(side), turn(along))],
+            [add(side, turn(along)), add(cos, neg(turn(vertical)))]];
+  }
 
   function blochVector() {
     const p0 = abs2(alpha), p1 = abs2(beta);
@@ -52,7 +92,8 @@
   function angles() {
     const [x, y, z] = blochVector();
     const theta = Math.acos(Math.max(-1, Math.min(1, z))) * 180/Math.PI;
-    const phi = (Math.atan2(y, x) * 180/Math.PI + 360) % 360;
+    // At the poles the equatorial projection vanishes and the azimuth has no meaning.
+    const phi = Math.hypot(x, y) < 1e-9 ? 0 : (Math.atan2(y, x) * 180/Math.PI + 360) % 360;
     return [theta, phi];
   }
 
@@ -95,7 +136,7 @@
       const negative = (Math.abs(c[1]) < ZERO && c[0] < 0) || (Math.abs(c[0]) < ZERO && c[1] < 0);
       let coefficient = complexText(negative ? [-c[0], -c[1]] : c);
       if (coefficient.includes(' ')) coefficient = '(' + coefficient + ')';
-      const exact = Math.abs(c[0] - 1) < 1e-9 && Math.abs(c[1]) < 1e-9;
+      const exact = Math.abs(Math.abs(c[0]) - 1) < 1e-9 && Math.abs(c[1]) < 1e-9;
       terms.push({ negative, coefficient, label, exact });
     };
     term(a, '|0⟩');
@@ -107,6 +148,16 @@
       const coefficient = terms.length === 1 && item.exact ? '' : item.coefficient;
       return sign + coefficient + item.label;
     }).join('');
+  }
+
+  function describe() {
+    const [theta, phi] = angles();
+    const p0 = abs2(alpha), p1 = abs2(beta);
+    parts.desc.textContent = `The Bloch sphere with the state vector pointing at θ = ${theta.toFixed(0)}°, φ = ${phi.toFixed(0)}°.`
+      + ` The probability of outcome 0 is ${p0.toFixed(3)} and of outcome 1 is ${p1.toFixed(3)}.`
+      + ` The dashed diameter marks the rotation axis n̂, now at (${rotationAxis().map(value => fixed(value)).join(', ')}).`
+      + (traced ? ' A light dotted circle marks the full orbit about the axis, and a darker arc with a'
+        + ' translucent cone shows the part the last rotation swept.' : '');
   }
 
   function render(announce) {
@@ -133,8 +184,91 @@
     parts.bar0.style.width = (p0*100).toFixed(1) + '%';
     parts.bar1.style.width = (p1*100).toFixed(1) + '%';
 
-    parts.desc.textContent = `The Bloch sphere with the state vector pointing at θ = ${theta.toFixed(0)}°, φ = ${phi.toFixed(0)}°. The probability of outcome 0 is ${p0.toFixed(3)} and of outcome 1 is ${p1.toFixed(3)}.`;
+    describe();
     if (announce) parts.status.textContent = `θ = ${theta.toFixed(0)}°, φ = ${phi.toFixed(0)}°. Probability of 0 is ${p0.toFixed(3)}, of 1 is ${p1.toFixed(3)}.`;
+  }
+
+  function rotationReadout() {
+    const n = rotationAxis();
+    const matrix = rotationMatrix(n, Number(parts.rotTheta.value), Number(parts.rotGamma.value));
+    parts.axisThetaValue.textContent = parts.axisTheta.value + '°';
+    parts.axisPhiValue.textContent = parts.axisPhi.value + '°';
+    parts.rotThetaValue.textContent = parts.rotTheta.value + '°';
+    parts.rotGammaValue.textContent = parts.rotGamma.value + '°';
+    parts.axisVector.textContent = 'n̂ = (' + n.map(value => fixed(value)).join(', ') + ')';
+    parts.u00.textContent = complexText(matrix[0][0]);
+    parts.u01.textContent = complexText(matrix[0][1]);
+    parts.u10.textContent = complexText(matrix[1][0]);
+    parts.u11.textContent = complexText(matrix[1][1]);
+    moveLine(parts.naxis, neg(n), n);
+    const pole = project(n);
+    parts.npole.setAttribute('cx', pole[0].toFixed(1));
+    parts.npole.setAttribute('cy', pole[1].toFixed(1));
+    describe();
+  }
+
+  function sweepPoints(from, axis, angle) {
+    const steps = Math.max(16, Math.round(Math.abs(angle) * 180/Math.PI / 3));
+    const points = [];
+    for (let index = 0; index <= steps; index++) {
+      const point = project(rotateVector(from, axis, angle * index/steps));
+      points.push(point[0].toFixed(1) + ' ' + point[1].toFixed(1));
+    }
+    return points;
+  }
+
+  // The full orbit about n̂ is the light dotted circle; the darker arc and its cone show how far a
+  // particular rotation actually turned.
+  function showRotationOrbit(from, axis) {
+    parts.orbit.setAttribute('d', 'M' + sweepPoints(from, axis, 2*Math.PI).join('L'));
+  }
+
+  function showRotationPath(from, axis, theta) {
+    const angle = theta * Math.PI/180;
+    const origin = project([0, 0, 0]);
+    const points = sweepPoints(from, axis, angle);
+    parts.arc.setAttribute('d', 'M' + points.join('L'));
+    parts.cone.setAttribute('d', 'M' + origin[0].toFixed(1) + ' ' + origin[1].toFixed(1)
+      + 'L' + points.join('L') + 'Z');
+  }
+
+  const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function stopRotation(finish) {
+    if (spin) cancelAnimationFrame(spin);
+    spin = 0;
+    const last = settle;
+    settle = null;
+    if (finish && last) last();
+  }
+
+  function animate(duration, update, finish) {
+    if (reduced()) {
+      update(1);
+      finish();
+      return;
+    }
+    const began = performance.now();
+    const step = now => {
+      const t = Math.min(1, (now - began) / duration);
+      update(t * t * (3 - 2 * t));
+      if (t < 1) {
+        spin = requestAnimationFrame(step);
+        return;
+      }
+      spin = 0;
+      settle = null;
+      finish();
+    };
+    spin = requestAnimationFrame(step);
+  }
+
+  function clearRotationPath() {
+    stopRotation(true);
+    traced = false;
+    parts.orbit.setAttribute('d', '');
+    parts.arc.setAttribute('d', '');
+    parts.cone.setAttribute('d', '');
   }
 
   function anglesFromPointer(event) {
@@ -164,6 +298,7 @@
     dragging = true;
     svg.classList.add('is-dragging');
     if (svg.setPointerCapture) svg.setPointerCapture(event.pointerId);
+    clearRotationPath();
     setAngles(next[0], next[1]);
     render(false);
     event.preventDefault();
@@ -185,6 +320,7 @@
   svg.addEventListener('pointercancel', stopDrag);
 
   const fromSliders = () => {
+    clearRotationPath();
     setAngles(Number(parts.theta.value), Number(parts.phi.value));
     render(false);
   };
@@ -195,6 +331,7 @@
 
   document.querySelectorAll('[data-preset]').forEach(button => {
     button.addEventListener('click', () => {
+      clearRotationPath();
       setAngles(Number(button.dataset.theta), Number(button.dataset.phi));
       render(true);
     });
@@ -204,6 +341,7 @@
     button.addEventListener('click', () => {
       const matrix = gates[button.dataset.gate];
       if (!matrix) return;
+      clearRotationPath();
       const nextAlpha = add(mul(matrix[0][0], alpha), mul(matrix[0][1], beta));
       const nextBeta = add(mul(matrix[1][0], alpha), mul(matrix[1][1], beta));
       alpha = nextAlpha;
@@ -212,7 +350,63 @@
     });
   });
 
+  [parts.axisTheta, parts.axisPhi, parts.rotTheta, parts.rotGamma].forEach(input => {
+    input.addEventListener('input', rotationReadout);
+    input.addEventListener('change', () => {
+      rotationReadout();
+      parts.status.textContent = `Rotation set to a ${parts.rotTheta.value}° turn about n̂ = (`
+        + rotationAxis().map(value => fixed(value)).join(', ') + `) with global phase γ = ${parts.rotGamma.value}°.`;
+    });
+  });
+
+  document.querySelectorAll('[data-axis-theta]').forEach(button => {
+    button.addEventListener('click', () => {
+      parts.axisTheta.value = button.dataset.axisTheta;
+      parts.axisPhi.value = button.dataset.axisPhi;
+      rotationReadout();
+      parts.status.textContent = 'Rotation axis set to n̂ = ('
+        + rotationAxis().map(value => fixed(value)).join(', ') + ').';
+    });
+  });
+
+  parts.applyU.addEventListener('click', () => {
+    stopRotation(true);
+    const axis = rotationAxis();
+    const theta = Number(parts.rotTheta.value), gamma = Number(parts.rotGamma.value);
+    const start = [alpha, beta];
+    const from = blochVector();
+    const turns = theta > 0.5;
+    const draw = t => {
+      const matrix = rotationMatrix(axis, theta * t, gamma * t);
+      const nextAlpha = add(mul(matrix[0][0], start[0]), mul(matrix[0][1], start[1]));
+      const nextBeta = add(mul(matrix[1][0], start[0]), mul(matrix[1][1], start[1]));
+      // The matrix is unitary already; dividing by the norm keeps round-off from growing over a session.
+      const norm = Math.sqrt(abs2(nextAlpha) + abs2(nextBeta)) || 1;
+      alpha = [nextAlpha[0]/norm, nextAlpha[1]/norm];
+      beta = [nextBeta[0]/norm, nextBeta[1]/norm];
+      if (turns) showRotationPath(from, axis, theta * t);
+      render(false);
+    };
+    const announce = () => {
+      const [stateTheta, statePhi] = angles();
+      parts.status.textContent = `Applied U: a ${theta}° turn about n̂ = (${axis.map(value => fixed(value)).join(', ')})`
+        + ` with global phase γ = ${gamma}°. Now θ = ${stateTheta.toFixed(0)}°, φ = ${statePhi.toFixed(0)}°,`
+        + ` with P(0) = ${abs2(alpha).toFixed(3)} and P(1) = ${abs2(beta).toFixed(3)}.`;
+    };
+    if (!turns) {
+      clearRotationPath();
+      draw(1);
+      announce();
+      return;
+    }
+    showRotationOrbit(from, axis);
+    traced = true;
+    settle = () => draw(1);
+    animate(1800, draw, announce);
+  });
+
   parts.measure.addEventListener('click', () => {
+    clearRotationPath();
     const p1 = abs2(beta), p0 = abs2(alpha);
     const outcome = Math.random() < p1 ? 1 : 0;
     counts[outcome] += 1;
@@ -225,6 +419,7 @@
 
   parts.reset.addEventListener('click', () => {
     counts = [0, 0];
+    clearRotationPath();
     setAngles(0, 0);
     render(false);
     parts.result.textContent = 'A measurement in the computational basis returns 0 or 1 with probabilities |α|² and |β|², and leaves the qubit in the state it found.';
@@ -232,5 +427,6 @@
     parts.status.textContent = 'Reset to the state |0⟩ with no measurements recorded.';
   });
 
+  rotationReadout();
   render(false);
 })();

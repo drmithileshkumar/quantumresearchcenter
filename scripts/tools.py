@@ -26,6 +26,41 @@ PRESETS = (('|0⟩', 0, 0), ('|1⟩', 180, 0), ('|+⟩', 90, 0), ('|−⟩', 90,
 GATES = (('X', 'Bit flip'), ('Y', 'Bit and phase flip'), ('Z', 'Phase flip'),
          ('H', 'Hadamard'), ('S', 'Phase by π/2'), ('T', 'Phase by π/4'))
 
+# The arbitrary gate U = e^{iγ}(cos(θ/2) I − i sin(θ/2) n·σ). The axis is given by its polar and
+# azimuth angles so it is always a unit vector, and γ is the global phase the sphere cannot see.
+AXIS_PRESETS = (('x', 90, 0), ('y', 90, 90), ('z', 0, 0), ('x+z', 45, 0))
+AXIS_ANGLES = (90, 0)
+ROTATION_ANGLE, ROTATION_PHASE = 90, 0
+ZERO = 5e-4
+
+
+def rotation_axis(polar_deg, azimuth_deg):
+    """The unit vector n̂ at a polar angle and azimuth, both in degrees."""
+    polar, azimuth = math.radians(polar_deg), math.radians(azimuth_deg)
+    return (math.sin(polar) * math.cos(azimuth), math.sin(polar) * math.sin(azimuth), math.cos(polar))
+
+
+def rotation_matrix(axis, theta_deg, gamma_deg):
+    """U = e^{iγ}(cos(θ/2) I − i sin(θ/2)(n_x X + n_y Y + n_z Z)) for the unit axis n̂ = axis."""
+    half, phase = math.radians(theta_deg) / 2, cmath.exp(1j * math.radians(gamma_deg))
+    cos, sin = math.cos(half) * phase, math.sin(half) * phase
+    nx, ny, nz = axis
+    return ((cos - 1j * nz * sin, -ny * sin - 1j * nx * sin),
+            (ny * sin - 1j * nx * sin, cos + 1j * nz * sin))
+
+
+def complex_text(value, digits=3):
+    """A complex number the way single-qubit.js writes it, so static and live readouts agree."""
+    def fixed(part):
+        part = 0.0 if abs(part) < ZERO else part
+        return ('−' if part < 0 else '') + f'{abs(part):.{digits}f}'
+    real, imag = value.real, value.imag
+    if abs(imag) < ZERO:
+        return fixed(real)
+    if abs(real) < ZERO:
+        return fixed(imag) + 'i'
+    return fixed(real) + (' − ' if imag < 0 else ' + ') + fixed(abs(imag)) + 'i'
+
 
 def camera_basis():
     """Right, up and forward unit vectors for an orthographic camera looking down at the sphere."""
@@ -93,6 +128,15 @@ def axis_label(point, text, center=ORIGIN, radius=RADIUS):
             f' y="{center[1] + dy * 1.15:.1f}" text-anchor="{anchor}" dy="4">{text}</text>')
 
 
+def rotation_axis_geometry(point, center=ORIGIN, radius=RADIUS, prefix='bloch'):
+    """The diameter through n̂ and a ring at its tip, so the rotation axis is visible on the sphere."""
+    tip = project(point, center, radius)
+    tail = project((-point[0], -point[1], -point[2]), center, radius)
+    return (f'<line class="bloch-rotation-axis" id="{prefix}-naxis" x1="{tail[0]:.1f}" y1="{tail[1]:.1f}"'
+            f' x2="{tip[0]:.1f}" y2="{tip[1]:.1f}"/>'
+            f'<circle class="bloch-rotation-pole" id="{prefix}-npole" cx="{tip[0]:.1f}" cy="{tip[1]:.1f}" r="4.5"/>')
+
+
 def state_geometry(theta_deg, phi_deg, center=ORIGIN, radius=RADIUS, prefix='bloch'):
     """The state vector and its two dashed guides, as static SVG for the no-JavaScript drawing."""
     theta, phi = math.radians(theta_deg), math.radians(phi_deg)
@@ -140,16 +184,22 @@ def sphere_svg(title, desc, prefix='bloch', center=ORIGIN, radius=RADIUS,
             f'<desc id="{prefix}-desc">{desc}</desc>'
             f'<circle class="bloch-surface" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="{radius:.1f}"/>'
             f'<g class="bloch-grid">{"".join(sphere_grid(center, radius))}</g>'
+            f'<path class="bloch-rotation-orbit" id="{prefix}-orbit" d=""/>'
+            f'<path class="bloch-rotation-cone" id="{prefix}-cone" d=""/>'
+            f'<path class="bloch-rotation-arc" id="{prefix}-arc" d=""/>'
             f'<g class="bloch-axes">{sphere_axes(center, radius, labels)}</g>'
+            f'{rotation_axis_geometry(rotation_axis(*AXIS_ANGLES), center, radius, prefix)}'
             f'{state_geometry(0, 0, center, radius, prefix)}'
             f'<circle class="bloch-origin" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="2.5"/>'
             '</svg>')
 
 
 def bloch_svg():
+    axis = rotation_axis(*AXIS_ANGLES)
     return sphere_svg('Bloch sphere for the current qubit state',
                       'The Bloch sphere with the state vector pointing at the north pole, θ = 0°, φ = 0°.'
-                      ' The probability of outcome 0 is 1.000 and of outcome 1 is 0.000.')
+                      ' The probability of outcome 0 is 1.000 and of outcome 1 is 0.000. The dashed diameter'
+                      ' marks the rotation axis n̂, now at (' + ', '.join(f'{value:.3f}' for value in axis) + ').')
 
 
 # Two-qubit explorer: every vector of the state in one complex plane. The four amplitudes are the
@@ -429,6 +479,51 @@ def tool_card(index, tool, source):
             f'<ul class="tool-features">{features}</ul></div></li>')
 
 
+def rotation_controls():
+    """The arbitrary-gate controls: axis angles, rotation angle, global phase and the matrix they build."""
+    axis = rotation_axis(*AXIS_ANGLES)
+    matrix = rotation_matrix(axis, ROTATION_ANGLE, ROTATION_PHASE)
+    entries = ''.join(f'<div><dt>U{"₀₁"[row]}{"₀₁"[column]}</dt>'
+                      f'<dd id="u-{row}{column}">{complex_text(matrix[row][column])}</dd></div>'
+                      for row in (0, 1) for column in (0, 1))
+    return ('<fieldset class="qubit-group"><legend>Apply any unitary</legend>'
+            '<p class="slider-hint">Every gate is a turn of the arrow by θ about a unit axis n̂, times an'
+            r' overall phase γ: \(U=e^{i\gamma}\bigl(\cos\tfrac{\theta}{2}I-i\sin\tfrac{\theta}{2}\,n\!\cdot\!\sigma\bigr)\).'
+            ' Set the three numbers, then apply them to the current state.</p>'
+            '<div class="slider-row"><label for="axis-theta">θₙ <span class="slider-note">axis polar</span></label>'
+            f'<input id="axis-theta" type="range" min="0" max="180" step="1" value="{AXIS_ANGLES[0]}"'
+            ' aria-describedby="axis-hint">'
+            f'<output id="axis-theta-value" for="axis-theta">{AXIS_ANGLES[0]}°</output></div>'
+            '<div class="slider-row"><label for="axis-phi">φₙ <span class="slider-note">axis azimuth</span></label>'
+            f'<input id="axis-phi" type="range" min="0" max="360" step="1" value="{AXIS_ANGLES[1]}">'
+            f'<output id="axis-phi-value" for="axis-phi">{AXIS_ANGLES[1]}°</output></div>'
+            '<p class="slider-hint" id="axis-hint">θₙ = 0° puts n̂ on the z axis and 90° on the equator,'
+            ' where φₙ = 0° is x and 90° is y. The dashed diameter on the sphere marks n̂.</p>'
+            '<div class="slider-row"><label for="rot-theta">θ <span class="slider-note">rotation angle</span></label>'
+            f'<input id="rot-theta" type="range" min="0" max="360" step="1" value="{ROTATION_ANGLE}"'
+            ' aria-describedby="rot-theta-hint">'
+            f'<output id="rot-theta-value" for="rot-theta">{ROTATION_ANGLE}°</output></div>'
+            '<p class="slider-hint" id="rot-theta-hint">A full turn, θ = 360°, gives −I: the arrow returns'
+            ' to the same point with both amplitudes negated.</p>'
+            '<div class="slider-row"><label for="rot-gamma">γ <span class="slider-note">global phase</span></label>'
+            f'<input id="rot-gamma" type="range" min="0" max="360" step="1" value="{ROTATION_PHASE}"'
+            ' aria-describedby="rot-gamma-hint">'
+            f'<output id="rot-gamma-value" for="rot-gamma">{ROTATION_PHASE}°</output></div>'
+            '<p class="slider-hint" id="rot-gamma-hint">γ multiplies both amplitudes together: α and β'
+            ' turn, while the arrow and the probabilities stay where they are.</p>'
+            '<div class="qubit-buttons rotation-presets">'
+            + ''.join(f'<button type="button" data-axis-theta="{polar}" data-axis-phi="{azimuth}"'
+                      f' title="Point n̂ at the {label} axis">{label}</button>'
+                      for label, polar, azimuth in AXIS_PRESETS)
+            + '<button type="button" id="apply-rotation">Apply U</button></div>'
+            '<p class="rotation-readout" id="axis-vector">n̂ = ('
+            + ', '.join(complex_text(complex(value)) for value in axis) + ')</p>'
+            '<dl class="qubit-values rotation-matrix">' + entries + '</dl>'
+            '<p class="slider-hint">These four entries are the matrix the sliders build. Apply U turns the'
+            ' arrow to it over about two seconds: the light dotted circle is the full orbit about n̂, and the'
+            ' darker arc the part the rotation actually swept.</p></fieldset>')
+
+
 def render_tools(root, shell):
     data = json.loads((root / 'content/tools.json').read_text())
     validate(root, data)
@@ -491,13 +586,16 @@ def render_tools(root, shell):
     tool_body = ('<header class="editorial-intro compact qubit-intro"><p class="eyebrow">Tools / Single-qubit state</p>'
                  '<h1>One qubit, one sphere.</h1>'
                  '<p>A pure state of a single qubit has two physical angles. Drag the arrow on the Bloch sphere, or'
-                 ' set θ and φ directly, then apply a gate or measure the qubit and watch the amplitudes follow.</p>'
+                 ' set θ and φ directly, then apply a gate — a fixed one, or any unitary you build from its axis,'
+                 ' angle and phase — measure the qubit, and watch the amplitudes follow.</p>'
                  '</header>'
                  '<section class="qubit-lab" aria-labelledby="lab-heading">'
                  '<h2 class="sr-only" id="lab-heading">Single-qubit state explorer</h2>'
                  f'<figure class="bloch-figure">{bloch_svg()}'
-                 '<figcaption>Drag anywhere on the sphere to point the state vector. Keyboard users can set both'
-                 ' angles with the sliders.</figcaption></figure>'
+                 '<figcaption>Drag anywhere on the sphere to point the state vector; the dashed diameter marks'
+                 ' the rotation axis n̂, and Apply U turns the arrow slowly, leaving the full orbit as a light'
+                 ' dotted circle and the part it swept as a darker arc. Keyboard users can set every angle with'
+                 ' the sliders.</figcaption></figure>'
                  '<div class="qubit-panel"><div class="qubit-state"><p class="qubit-kicker">Current state</p>'
                  '<p class="qubit-ket" id="state-ket">|0⟩</p><dl class="qubit-values">'
                  '<div><dt>α</dt><dd id="state-alpha">1.000</dd></div>'
@@ -510,7 +608,7 @@ def render_tools(root, shell):
                  '<p class="meter-label"><span>Outcome 1</span><span class="meter-track">'
                  '<span class="meter-fill" id="bar-1" style="width:0%"></span></span></p>'
                  '</div></div>'
-                 + sliders + presets + gates + measurement +
+                 + sliders + presets + gates + rotation_controls() + measurement +
                  '<noscript><p class="qubit-noscript">The drawing shows the state |0⟩. Enable JavaScript to drag'
                  ' the arrow, apply gates, and measure the qubit.</p></noscript>'
                  '</div></section>'
@@ -531,25 +629,36 @@ def render_tools(root, shell):
                  '<h2 id="general-gate">The most general single-qubit gate</h2>'
                  r'<p>A gate must keep the total probability equal to one, so it is a 2 × 2 unitary matrix,'
                  r' \(U^\dagger U=I\). Every such matrix can be written with four real numbers, an overall phase'
-                 r' \(\chi\) and three angles \(a\), \(b\), \(c\):</p>'
-                 r'<p>\[U=e^{i\chi}\begin{pmatrix}e^{-i(a+c)/2}\cos\frac{b}{2} & -e^{-i(a-c)/2}\sin\frac{b}{2}\\'
-                 r' e^{i(a-c)/2}\sin\frac{b}{2} & e^{i(a+c)/2}\cos\frac{b}{2}\end{pmatrix}=e^{i\chi}R_z(a)\,R_y(b)\,R_z(c),\]</p>'
+                 r' \(\gamma\) and three angles \(a\), \(b\), \(c\):</p>'
+                 r'<p>\[U=e^{i\gamma}\begin{pmatrix}e^{-i(a+c)/2}\cos\frac{b}{2} & -e^{-i(a-c)/2}\sin\frac{b}{2}\\'
+                 r' e^{i(a-c)/2}\sin\frac{b}{2} & e^{i(a+c)/2}\cos\frac{b}{2}\end{pmatrix}=e^{i\gamma}R_z(a)\,R_y(b)\,R_z(c),\]</p>'
                  r'<p>where \(R_z(a)=e^{-iaZ/2}\) and \(R_y(b)=e^{-ibY/2}\) are rotations of the arrow about the'
                  r' \(z\) and \(y\) axes. So every gate is a turn about \(z\), a turn about \(y\) and another turn'
-                 r' about \(z\). Equivalently, every gate is one rotation by an angle \(\omega\) about a single unit'
+                 r' about \(z\). Equivalently, every gate is one rotation by an angle \(\theta\) about a single unit'
                  r' axis \(\hat n=(n_x,n_y,n_z)\):</p>'
-                 r'<p>\[U=e^{i\chi}\Bigl(\cos\tfrac{\omega}{2}\,I-i\sin\tfrac{\omega}{2}\,(n_xX+n_yY+n_zZ)\Bigr),\]</p>'
-                 r'<p>and its effect on the sphere is exactly that: the arrow turns by \(\omega\) about'
-                 r' \(\hat n\). The phase \(e^{i\chi}\) multiplies \(\alpha\) and \(\beta\) together and never'
+                 r'<p>\[U=e^{i\gamma}\Bigl(\cos\tfrac{\theta}{2}\,I-i\sin\tfrac{\theta}{2}\,(n_xX+n_yY+n_zZ)\Bigr),\]</p>'
+                 r'<p>and its effect on the sphere is exactly that: the arrow turns by \(\theta\) about'
+                 r' \(\hat n\). The phase \(e^{i\gamma}\) multiplies \(\alpha\) and \(\beta\) together and never'
                  r' moves the arrow, which is why the sphere needs only three of the four numbers. The half angles'
-                 r' are the same ones as in the amplitudes: a full turn, \(\omega=2\pi\), gives \(-I\).</p>'
-                 r'<p>The six buttons above are special cases. X, Y and Z are half-turns, \(\omega=\pi\), about the'
-                 r' \(x\), \(y\) and \(z\) axes, each times a phase \(i\). H is \(i\) times a half-turn about the'
+                 r' are the same ones as in the amplitudes: a full turn, \(\theta=2\pi\), gives \(-I\).</p>'
+                 r'<p>The <em>Apply any unitary</em> controls build this matrix directly. Set the axis with two'
+                 r' angles — \(\theta_n\) from the \(z\) axis and \(\phi_n\) around it — then the rotation angle'
+                 r' \(\theta\) and the global phase \(\gamma\). The four entries of \(U\) appear beside the'
+                 r' sliders, and the dashed diameter on the sphere is \(\hat n\). Apply U turns the arrow by'
+                 r' \(\theta\) about that diameter, while \(\alpha\) and \(\beta\) also pick up \(e^{i\gamma}\):'
+                 r' set \(\gamma=180^\circ\) and both amplitudes change sign with the arrow untouched. The light'
+                 r' dotted circle is the full orbit about \(\hat n\); the darker arc and the translucent cone'
+                 r' under it show how far the rotation actually went, and they stay visible until the state'
+                 r' moves again. The turn itself is animated so it can be followed; with reduced motion it lands'
+                 r' at once.</p>'
+                 r'<p>The six gate buttons above are special cases. X, Y and Z are half-turns, \(\theta=\pi\), about the'
+                 r' \(x\), \(y\) and \(z\) axes, each times a phase \(-i\), so \(\gamma=90^\circ\) in the controls above'
+                 r' rebuilds them. H is \(-i\) times a half-turn about the'
                  r' axis \((1,0,1)/\sqrt2\), halfway between \(x\) and \(z\), which is why it swaps |0⟩ and |+⟩. S'
                  r' and T are quarter- and eighth-turns about \(z\): \(S=e^{i\pi/4}R_z(\pi/2)\) and'
                  r' \(T=e^{i\pi/8}R_z(\pi/4)\).</p>'
                  '<h2>Things to try</h2><ol class="qubit-try">'
-                 '<li>Set θ = 30° and compare α with cos 15° = 0.966 and β with sin 15° = 0.259.</li>'
+                 '<li>Set the state angle θ = 30° and compare α with cos 15° = 0.966 and β with sin 15° = 0.259.</li>'
                  '<li>From |0⟩ press H: the arrow lands on |+⟩ with probabilities 0.500 and 0.500. Press S: the'
                  ' arrow moves to |+i⟩ and P(0) does not move.</li>'
                  '<li>From |0⟩ press X to reach |1⟩, then H to reach |−⟩. Both |+⟩ and |−⟩ measure 0 half the'
@@ -557,6 +666,10 @@ def render_tools(root, shell):
                  '<li>Prepare |+⟩ and press Measure: the arrow jumps to |0⟩ or |1⟩ — the collapse — and the'
                  ' probabilities become certain. Press |+⟩ and Measure again a few times to watch the counts'
                  ' approach 50 / 50.</li>'
+                 '<li>Set n̂ to x, θ = 180° and γ = 90°, then Apply U: the matrix equals X and the arrow moves'
+                 ' exactly as it does with the X button.</li>'
+                 '<li>Leave the axis on z, set θ = 90° and γ = 45°: the matrix is S. Set γ = 0° instead and the'
+                 ' same turn leaves every probability alone, because a phase about z is invisible on |0⟩.</li>'
                  '<li>Drag slowly near the north pole and quickly near the equator: the half angle compresses the'
                  ' whole sphere into the amplitudes.</li></ol>'
                  '<p class="qubit-note">This model shows pure states only. A noisy qubit sits inside the sphere,'
