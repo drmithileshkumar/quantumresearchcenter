@@ -1,0 +1,48 @@
+{
+  "id": "2610.40592",
+  "topic": "computing",
+  "title": "Toric codes all the way down: decoupling translation-invariant topological CSS codes in higher dimensions",
+  "authors": "Mingxin He; Yifei Wang; Hao Song; Yingfei Gu",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Higher-dimensional topological codes offer single-shot decoding and transversal non-Clifford gates, but which of their features are really new, and which are inherited from toric codes? The question is when such a code is locally equivalent to a stack of toric codes, and known obstructions show that coarse-graining alone may not settle it.",
+  "result": "A translation-invariant topological \\(p\\)-ary CSS code can be decoupled on a superlattice exactly when its coarse-grained excitation profile matches that of a toric-code stack. Once translations act trivially on all \\(m\\) nonzero layers, further coarse-graining by \\(p^{m-1}\\) in each direction removes all gluing between layers, and explicit SUM and SWAP circuits then do the decoupling. A torus attains the maximal logical count exactly when the code decouples on its period lattice.",
+  "significance": "Up to constant factors, any code with finitely many excitation types per layer behaves as a stack of toric codes, so its advantages must lie in constants and finite geometry. The dictionary transfers decoders and constant-depth gates between a code and its stack, and it explains the logical-qubit deficit of frustrated tori such as that of the gross code.",
+  "limitations": "Fracton models such as Haah's code and the X-cube model are excluded, as they have infinitely many excitation types. The statements cover translation-invariant CSS codes over prime \\(p\\) and allow coarse-graining, which can change constants a lot. The suggested consequences for single-shot decoding and gates are stated as expectations, and independently decoding the stack may cost performance because the circuit correlates errors.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1, 2.1–2.4 (in part), 3.2, 4, 5 and 6 of the linked arXiv version, read 2026-11-01. Section 3.1 and the appendices, including the circuit construction and the proof of Corollary 1, were not checked; those statements are the authors'.",
+  "verified_on": "2026-11-01",
+  "methods_source_section": "Sections 2.3–2.4, 3.2, 4.1, 4.2, 4.4 and 5 (Equations (13)–(15), Lemma 2, Theorem 1, Corollary 1)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Using translation invariance, a CSS code becomes linear algebra over the Laurent polynomial ring \\(R=\\mathbb F_p[x_1^{\\pm1},\\dots,x_D^{\\pm1}]\\), with check matrices \\(H_X\\) and \\(H_Z\\). A decoupling is a local CSS-preserving Clifford circuit that commutes with the retained translations and maps the code, possibly with ancillas, to a stack of \\(j\\)-form toric codes. In two dimensions the only obstruction is that translations can permute anyons, and passing to a superlattice cures it.",
+    "Higher dimensions add something. Excitations can be points, loops or larger objects, sorted into layers \\(E_X^j\\cong\\operatorname{Ext}^j_R(\\overline{M_X},R)\\) of \\((j-1)\\)-dimensional excitations. Together they form a derived object, the superselection profile, which circuits and ancillas cannot change. Song's glued code shows the layers do not tell the whole story: translations act trivially on each layer, but a loop in one layer carries a point charge in another, with value equal to its projected area. A translation-invariant circuit cannot detach that charge, because strings preserve total charge and relabelling only moves it.",
+    "The main theorem is that the profile is the only obstruction: the code decouples on \\(\\Lambda\\) exactly when, restricted to \\(\\Lambda\\), the profile is \\(\\bigoplus_j\\mathbb F_p[-j]^{\\oplus t_j}\\). This needs two things, trivial translation action and vanishing gluing. The second is always achievable: each further coarse-graining by \\(p\\) in all directions detaches one more layer, so \\(p^{m-1}\\) is enough. Two algorithms compute the superlattice and the circuit, and the authors supply an open-source implementation.",
+    "For a finite torus with period lattice \\(L\\) and \\(t_j=\\dim E_X^j\\), the number of logical qudits is at most \\(\\sum_j\\binom Djt_j\\), with equality exactly when the code decouples on \\(L\\). Open directions are the discussion's expected criteria for single-shot decoding, namely \\(E_X^1=0\\) for \\(Z\\) errors, and pulled-back non-Clifford gates for codes that have none known. Fracton codes remain outside the framework."
+  ],
+  "methods": [
+    {
+      "technique": "Killing a gluing class by coarse-graining",
+      "explanation": "The gluing between layers is a cohomology class valued in \\(\\mathbb F_p\\). It behaves additively under enlarging the unit cell, so it can be made to vanish in characteristic \\(p\\) by grouping enough cells.",
+      "math": [
+        "The obstruction lives in \\(\\operatorname{Ext}_R^n(A,B)\\), \\(n>0\\), for layers \\(A,B\\) on which translations act trivially. On such modules it is represented by values \\(f_I\\in\\mathbb F_p\\) on unit \\(n\\)-cells of each orientation \\(I\\).",
+        "Coarse-grain by \\(p\\) along every direction. One new unit \\(n\\)-cell contains \\(p^n\\) old cells of the same orientation, so its value is \\(p^nf_I=0\\) in \\(\\mathbb F_p\\). This is Lemma 2: each class of positive degree restricts to zero over \\(\\mathbb F_p[p\\Lambda_{\\mathrm{triv}}]\\).",
+        "Layers are treated in increasing degree. Once the lower layers split, each gluing class of the next layer has positive degree, so one factor of \\(p\\) removes it without undoing the earlier splitting. With \\(m\\) layers there are \\(m-1\\) steps, which gives \\(\\Lambda_{\\mathrm{suff}}=p^{\\max(m-1,0)}\\Lambda_{\\mathrm{triv}}\\).",
+        "The glued code makes this concrete. Its checks add one coupling entry to each of the toric-code blocks: \\[H_X=\\begin{pmatrix}\\partial_1&c_X\\\\0&\\partial_2\\end{pmatrix},\\qquad H_Z^\\dagger=\\begin{pmatrix}\\partial_2&c_Z\\\\0&\\partial_3\\end{pmatrix}.\\] Here \\(c_X\\) gives the plaquette \\(e_{12}\\) the charge \\(-1\\). Grouping \\(p\\) cells along \\(x_2\\) makes the unit plaquette's charge \\(-p=0\\), so index \\(p\\) already suffices. This is less than the general bound \\(p\\mathbb Z^3\\) of index \\(p^3\\)."
+      ],
+      "transfer": "If an obstruction is a homology class with values in a finite field or group, and it scales with volume under blocking, check whether blocking by the characteristic kills it. This is special to characteristic \\(p\\): the analogous real-valued class would not vanish. Any cost in code parameters must be counted separately."
+    },
+    {
+      "technique": "Using the logical count on a torus as a test of decoupling",
+      "explanation": "Corollary 1 turns an abstract derived-category statement into something computable by rank: count logical qudits on a torus and compare with \\(\\sum_j\\binom Djt_j\\).",
+      "math": [
+        "A toric-code stack on a \\(D\\)-torus encodes \\(\\binom Dj\\) logical qudits per \\(j\\)-form code. If a decoupling circuit fits the periods of the torus, it carries the code to that stack, so the count is attained. The harder converse, that a nontrivial translation action or gluing strictly lowers the count, is proved in the paper's Appendix D.",
+        "For a CSS code, the number of logical qudits is \\[k=n-\\operatorname{rank}H_X-\\operatorname{rank}H_Z.\\] So the prediction can be tested directly by Gaussian elimination over \\(\\mathbb F_p\\), with no homological algebra. The paper predicts that the glued code on an \\(L_1\\times L_2\\times L_3\\) torus loses qudits unless \\(p\\mid L_1L_2\\), where the stack value is \\(\\binom31+\\binom32=6\\).",
+        "Editorial check: we built Equation (13) on tori, confirmed \\(H_XH_Z^\\dagger=0\\) over \\(\\mathbb F_p\\), and computed the ranks. For \\(p=2\\), \\(L=(3,3,3)\\) and \\((3,3,2)\\) gave \\(k=4\\), while \\((2,3,3)\\), \\((3,2,3)\\) and \\((2,2,3)\\) gave \\(k=6\\). For \\(p=3\\), \\((2,2,2)\\) and \\((2,2,3)\\) gave \\(k=4\\), while \\((3,2,2)\\) and \\((2,3,2)\\) gave \\(k=6\\). Without the coupling every case gave 6. All nine cases match the stated condition exactly, including that \\(L_3\\) does not matter."
+      ],
+      "transfer": "A rank computation on a few tori is a cheap test for a claimed equivalence of a translation-invariant code to a stack: a shortfall rules out decoupling on those periods. By Corollary 1 equality also proves decoupling, but only under the corollary's hypothesis of finite-dimensional layers, and you need to know \\(t_j\\)."
+    }
+  ],
+  "approved_on": "2026-11-01"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "2610.40628",
+  "topic": "computing",
+  "title": "Locality in Dissipative Ground-State Preparation",
+  "authors": "Qicheng Tang; Ruhanshi Barad; Xueda Wen",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Engineered dissipation can cool a system into its ground state, but the jump operators are specified spectrally, as operators that only lower the energy, while hardware wants them local in space. Does a local Hamiltonian always admit local jump operators that prepare its ground state, or does its spectrum sometimes forbid this?",
+  "result": "For translation-invariant free fermions and linear jumps, exponentially local jumps exist exactly when the characteristic polynomial of the Bloch Hamiltonian factors analytically in \\(q\\) into positive and non-positive parts. Sign-changing Fermi-level crossings therefore forbid them. In one dimension that is the only obstruction, higher dimensions have others, and short-range correlations suffice even without translation invariance.",
+  "significance": "Locality of preparation is not decided by criticality. Two quadratic-band-touching models with algebraic correlations give opposite answers, one having finite-range jumps and the other none. The criterion thus identifies an obstruction that is a property of the spectrum's analytic structure, not of the correlation length.",
+  "limitations": "The results concern quadratic Lindbladians with jumps linear in fermion operators, and exponential locality. They do not rule out nonlinear jumps, power-law tails, or the interacting case, which the authors leave open. They also require the ground-state subspace to be exactly dark. The paper states that AI was used for language editing and for refining mathematical arguments.",
+  "status": "approved",
+  "summary_basis": "Description based on the full main text of the linked arXiv version, read 2026-11-01. The End Matter on spectral filtering and mixing speed, mentioned in the discussion, was not in the text we extracted and is not described.",
+  "verified_on": "2026-11-01",
+  "methods_source_section": "Main text (Equations (5)–(25))",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The setup is a Lindbladian with Hamiltonian \\(\\mathbf H\\) and jumps \\(K_\\mu\\) that satisfy the dark-state condition \\(K_\\mu P_{\\mathrm{GS}}=0\\), and that attract every initial state to the ground-state subspace. For free fermions, write \\(\\mathbf H=\\tfrac12\\Psi^\\dagger h\\Psi\\) in Nambu form. A linear jump \\(K_\\mu=G_\\mu\\Psi\\) is dark exactly when its coefficient row annihilates every eigenvector of \\(h\\) with non-positive energy, and attraction requires each positive-energy mode to couple to some channel.",
+    "In momentum space this becomes a pointwise condition on the Fourier transform \\(G_\\mu(q)\\), and locality becomes analyticity: exponentially decaying coefficients correspond to \\(G_\\mu(q)\\) analytic on a complex neighbourhood of the Brillouin zone. So the question is whether an analytic row can select the positive part of the spectrum.",
+    "The answer is a theorem about factorisation: \\(\\det[z-h(q)]=\\chi_+(z,q)\\chi_-(z,q)\\) with \\(\\chi_\\pm\\) analytic in \\(q\\). A sign-changing crossing rules this out. In one dimension, an analytic band that touches zero without changing sign stays on one side, so \\(|h(q)|\\) is analytic and \\(G\\propto\\tfrac12[h+|h|]\\) works. In two dimensions, the model \\(A(q)=(\\sin^2q_x-\\sin^2q_y)\\sigma_z+2\\sin q_x\\sin q_y\\,\\sigma_x\\) has the analytic energy \\(E=\\sin^2q_x+\\sin^2q_y\\) and finite-range jumps. The model \\(A^\\prime(q)=(1-\\cos q_x)\\sigma_z+(1-\\cos q_y)\\sigma_x\\) has a non-analytic energy at the origin and has none.",
+    "Without translation invariance, \\(G\\propto hP_+=h(\\mathrm{Id}-C)\\), with \\(C\\) the Nambu correlation matrix, is a product of exponentially local matrices whenever correlations decay exponentially. So gapped-like correlations are sufficient, but the first band-touching model shows they are not necessary. Whether similar obstructions occur in interacting critical systems, such as spin chains, is open."
+  ],
+  "methods": [
+    {
+      "technique": "Turning locality into an analytic factorisation",
+      "explanation": "The paper converts a spatial requirement into a statement about analytic functions of momentum, and then observes that a row selecting positive energies carries enough information to reconstruct those energies analytically.",
+      "math": [
+        "Start with one band and particle-hole symmetry, where \\(h(q)\\) has eigenvalues \\(\\pm E(q)\\). A dark row satisfies \\(G_\\mu(q)h(q)=E(q)G_\\mu(q)\\), and attraction makes some component nonzero, so \\[E(q)=\\frac{[G_\\mu(q)h(q)]_a}{[G_\\mu(q)]_a}.\\] If \\(G_\\mu\\) is analytic, \\(E\\) is a ratio of analytic functions, and it is bounded, so it must be analytic.",
+        "With several bands, build a matrix \\(M(q)\\) from rows \\(G_\\mu h^k\\) so that \\(M(q)h(q)=B(q)M(q)\\), with \\(B\\) carrying exactly the positive energies. Its entries are again ratios of analytic functions, so the characteristic polynomial \\(\\chi_+(z,q)=\\det[z-B(q)]\\) is meromorphic. Boundedness removes the singularities, and this gives the factorisation.",
+        "The converse is an explicit construction: \\[G(q)=\\sqrt\\kappa\\,h(q)\\,\\chi_-(h(q),q).\\] It is analytic. Acting on a Bloch eigenvector it gives \\(\\sqrt\\kappa\\,\\varepsilon_n\\chi_-(\\varepsilon_n,q)u_n\\), which vanishes on non-positive energies and not on positive ones. The factor \\(h\\) handles zero modes.",
+        "The no-go is then one line. Along an analytic path with an analytic band crossing zero, \\(\\chi_-(\\varepsilon_n(\\lambda),q(\\lambda))\\) vanishes for \\(\\lambda<0\\). Being analytic in \\(\\lambda\\), it vanishes identically, so a positive energy would be a root of \\(\\chi_-\\), a contradiction.",
+        "Editorial check: for \\(\\varepsilon=\\cos q\\), the Fourier coefficients of the natural choice \\(\\tfrac12(\\varepsilon+|\\varepsilon|)\\) fall by a factor of 4 per doubling, as \\(r^{-2}\\). For \\(1-\\cos q\\) only \\(r=\\pm1\\) survive. For the second two-dimensional model the corresponding entry falls by about \\(16\\) per doubling, as \\(r^{-4}\\), and the value at each \\(r\\) is stable from \\(L=256\\) to \\(1024\\). For the first model it vanishes beyond range 2, while the entry of \\(P_+\\) itself decays only as \\(r^{-2}\\). The first model thus has algebraic correlations and finite-range jumps at the same time. These tests are of the natural kernels only, while the theorem excludes all choices."
+      ],
+      "transfer": "Whenever a local object must select a spectral subset, look for an algebraic identity that lets you recover spectral data from it. A failure of analyticity in that data is then an obstruction for all candidate constructions. This assumes translation invariance and exponential locality; algebraic tails escape the argument."
+    },
+    {
+      "technique": "Avoiding the projector: multiplying by the Hamiltonian",
+      "explanation": "The natural jump coefficient is the positive-energy projector, which is nonlocal for critical systems. The paper's constructions multiply it by \\(h\\), and this one extra factor can restore locality.",
+      "math": [
+        "Any row combination that kills non-positive modes and keeps all positive ones is allowed, so \\(P_+\\) is one choice among many. Dark jumps need not form a projection, since each channel may have its own decay rate.",
+        "For a two-band model with \\(h=\\pm E\\) on the two bands, \\[hP_+=\\tfrac12(h+|h|)=\\tfrac12(h+E\\,\\mathrm{Id}).\\] This is analytic as soon as \\(E\\) is, even if the normalised eigenvector, and hence \\(P_+=\\tfrac12(\\mathrm{Id}+h/E)\\), is not. Dividing by \\(E\\) is what creates the singularity at a band touching.",
+        "In the first model, the sum of squares of the two Pauli coefficients is a perfect square, \\[(\\sin^2q_x-\\sin^2q_y)^2+4\\sin^2q_x\\sin^2q_y=(\\sin^2q_x+\\sin^2q_y)^2,\\] so \\(E\\) is a trigonometric polynomial. In the second, \\((1-\\cos q_x)^2+(1-\\cos q_y)^2\\) is not a square of an analytic function near the origin, where it behaves like the fourth-order form \\(\\tfrac14(q_x^4+q_y^4)\\). This is the entire difference between the two models.",
+        "Without translation invariance, the same multiplication gives \\(G\\propto hP_+=h(\\mathrm{Id}-C)\\). Both factors decay exponentially when correlations do, and exponentially local matrices are closed under products with a uniform bound."
+      ],
+      "transfer": "Editorial suggestion: when a spectral projector has a long tail, try weighting it by a function that vanishes at the singular point, as \\(h\\) does here. The filter's job is usually only to separate two sets of eigenvalues, not to do so with equal weights. The trade-off is slower rates near the touching point, which this algebra does not address."
+    }
+  ],
+  "approved_on": "2026-11-01"
+}

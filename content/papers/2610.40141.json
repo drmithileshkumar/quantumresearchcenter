@@ -1,0 +1,49 @@
+{
+  "id": "2610.40141",
+  "topic": "information",
+  "title": "Distributed Inner-Product Estimation for Continuous-Variable Quantum States",
+  "authors": "Jun Tang; Congcong Zheng; Xutao Yu; Zaichen Zhang",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Two separate platforms may each prepare a complex multimode bosonic state with no tractable classical description, yet they cannot measure jointly. How can they compare the states, by estimating \\(\\operatorname{Tr}(\\rho\\sigma)\\), with only local measurements and classical communication? Discrete-variable protocols do not carry over, because the state space is infinite-dimensional.",
+  "result": "A protocol using only homodyne detection at shared random phases gives an unbiased estimate of a truncated inner product, with explicit guarantees. Under a mean-energy bound, the number of copies scales as \\(\\epsilon^{-(2M+2)}\\log(2/\\delta)\\) for \\(M\\) modes. For Gaussian states, this improves to \\(\\epsilon^{-2}[\\log(2M/\\epsilon)]^{2M}\\log(2/\\delta)\\).",
+  "significance": "Homodyne detection is the standard measurement of continuous-variable optics, so the protocol needs no new hardware and no state reconstruction. The bounds also identify what costs what: the factor \\(\\epsilon^{-2M}\\) comes from truncating phase space, not from statistics, and it is the only part that Gaussian structure improves.",
+  "limitations": "Copy counts are exponential in the mode number and are sufficient conditions, which the authors call conservative; the sections we read prove no matching lower bound. For instance, a single mode with \\(E=1\\), \\(\\epsilon=0.1\\) and \\(\\delta=0.05\\) gives about \\(10^7\\) phase settings by Equation (28). The platforms must share a calibrated phase reference and a quadrature normalisation, and the guarantee assumes a known energy bound. A separate paper on the same topic, 2610.39912, appeared the same day.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–4.1 and Appendix C.1 of the linked arXiv version, read 2026-11-01; Section 4.2 (the Bernstein bound), Section 5 (numerics), and the proofs in Appendices B and C.2 were not read.",
+  "verified_on": "2026-11-01",
+  "methods_source_section": "Sections 2–4 and Appendix C.1 (Equations (1)–(5), (9)–(13), (18)–(19), (24)–(30), (65)–(77))",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Two platforms hold \\(M\\)-mode states \\(\\rho,\\sigma\\). With Weyl operators \\(W(\\mathbf u)=e^{i\\mathbf u^{\\mathsf T}\\hat{\\mathbf R}}\\) and characteristic functions \\(\\chi_\\tau(\\mathbf u)=\\operatorname{Tr}[\\tau W(\\mathbf u)]\\), the Plancherel identity gives \\[\\operatorname{Tr}(\\rho\\sigma)=\\frac1{(2\\pi)^M}\\int_{\\mathbb R^{2M}}\\chi_\\rho(\\mathbf u)\\chi_\\sigma(-\\mathbf u)\\,d\\mathbf u.\\] This writes the inner product as a phase-space integral of a product of local quantities, which is the opening needed for an LOCC protocol. The question is how to sample this integral with accessible measurements and how much it costs.",
+    "A homodyne measurement at a list of phases \\(\theta_1,\\dots,\theta_M\\) gives direct access to a slice: the Fourier transform of its outcomes is \\(\\chi_\\tau\\) on the line through the origin at those phases. So if both platforms measure at the same random phases, the expectation of \\(e^{i\\mathbf s^{\\mathsf T}(\\mathbf x-\\mathbf y)}\\) is the integrand at the point \\(\\mathbf u\\) with components \\(s_\\ell(\\cos\theta_\\ell,\\sin\theta_\\ell)\\). The integral over all of phase space would have unbounded weights, so the authors truncate to a product of disks of radius \\(R\\), obtaining \\(f_R\\) and a bounded estimator.",
+    "The error splits into statistical error and truncation bias. Hoeffding's inequality handles the first, since the single-setting statistic is bounded by \\(c_R=(R^2/2)^M\\), so \\(N_\\theta\\ge8c_R^2\\log(2/\\delta)/\\epsilon^2\\) suffices when the bias is at most \\(\\epsilon/2\\). The bias is controlled by assumptions on the states: \\((4ME+2M)/R^2\\) under a mean-energy bound \\(E\\) per mode, and \\(M\\exp[-R^2/2(4ME+2M)]\\) for Gaussian states.",
+    "Choosing \\(R\\) to make the bias \\(\\epsilon/2\\) gives the two sufficient setting counts, and the total number of copies is \\(2nN_\\theta\\). A complementary Bernstein bound brings in the dependence on \\(n\\), the shots per setting. The sections we read do not settle whether the exponential scaling in \\(M\\) is necessary."
+  ],
+  "methods": [
+    {
+      "technique": "Sampling a phase-space integral through homodyne slices",
+      "explanation": "The estimator turns a \\(2M\\)-dimensional integral into random phases measured physically and radial variables integrated analytically, so that no sampling is wasted on the part that can be done by hand.",
+      "math": [
+        "Write each mode's phase-space point in signed polar form, \\((u_{q,\\ell},u_{p,\\ell})=s_\\ell(\\cos\\theta_\\ell,\\sin\\theta_\\ell)\\). The Jacobian is \\(\\prod_\\ell|s_\\ell|\\). So drawing \\(\\theta_\\ell\\) uniformly on \\([0,\\pi)\\) and \\(s_\\ell\\) with density \\(q_R(s)=|s|/R^2\\) on \\([-R,R]\\) makes \\(\\mathbf u\\) uniform on the product of disks.",
+        "By the Fourier-slice relation, conditional on the phases the outcomes satisfy \\(\\mathbb E[e^{i\\mathbf s^{\\mathsf T}(\\mathbf x-\\mathbf y)}]=\\chi_\\rho(\\mathbf u)\\chi_\\sigma(-\\mathbf u)\\). Averaging over \\(\\mathbf u\\), multiplying by the volume factor \\(c_R=(R^2/2)^M\\) and keeping the real part gives \\(f_R\\). So the statistic is unbiased.",
+        "The radial average can be done exactly, which can only reduce variance, by the law of total variance. For one mode, \\[\\psi_R(t)=\\frac2{R^2}\\int_0^Rs\\cos(st)\\,ds=\\frac{2[Rt\\sin(Rt)+\\cos(Rt)-1]}{(Rt)^2}.\\] So each setting contributes \\[W_i=\\frac{c_R}{n^2}\\sum_{a,b}\\prod_\\ell\\psi_R\\big(x^{(a)}_{i,\\ell}-y^{(b)}_{i,\\ell}\\big).\\]",
+        "Editorial check: for two coherent states of one mode with exact overlap \\(0.67032\\) and \\(R=6\\), direct quadrature of \\(f_R\\) gave \\(0.67032\\), confirming the normalisation of the Plancherel identity and Jacobian. Simulating the estimator with \\(n=1\\) and \\(2\\times10^5\\) settings gave \\(0.687\\pm0.018\\), consistent with the target, and every sample respected \\(|W|\\le c_R=18\\). The formula for \\(\\psi_R\\) agreed with numerical integration to seven digits. The estimator's large standard error, with this many settings, shows why these counts are high."
+      ],
+      "transfer": "If a quantity is a phase-space integral of a product of two local functions, shared randomness plus independent slices estimates it without joint measurement. Do by hand any part of the average that needs no data. The method needs a shared phase reference; without one, the slices do not line up."
+    },
+    {
+      "technique": "Bounding truncation bias by energy",
+      "explanation": "Truncation needs a tail bound on \\(\\chi_\\tau\\), and the only assumption is finite energy. The argument converts mean energy into a quadratic moment of the characteristic function.",
+      "math": [
+        "Define \\(I_\\tau=(2\\pi)^{-M}\\int\\|\\mathbf u\\|^2|\\chi_\\tau(\\mathbf u)|^2d\\mathbf u\\). Since commuting \\(\\hat R_j\\) with \\(W(\\mathbf u)\\) brings down a component of \\(\\Omega\\mathbf u\\), Plancherel gives \\(I_\\tau=\\sum_j\\|[\\hat R_j,\\tau]\\|_2^2\\).",
+        "Each term expands to \\(2\\operatorname{Tr}(\\hat R_j^2\\tau^2)-2\\operatorname{Tr}(\\hat R_j\\tau\\hat R_j\\tau)\\), and the second trace is nonnegative. With \\(\\sum_j\\hat R_j^2=2\\hat N+M\\) and \\(\\tau^2\\preceq\\tau\\), this gives \\[I_\\tau\\le4\\operatorname{Tr}(\\tau\\hat N)+2M\\le4ME+2M.\\]",
+        "Outside the truncation domain some mode has radius above \\(R\\), so \\(\\|\\mathbf u\\|^2/R^2\\ge1\\). Inserting this factor and applying Cauchy–Schwarz gives \\[|f-f_R|\\le\\frac{\\sqrt{I_\\rho I_\\sigma}}{R^2}\\le\\frac{4ME+2M}{R^2}.\\] This inverse-square decay is the source of the extra cost: \\(R^2\\sim1/\\epsilon\\) makes \\(c_R^2\\sim\\epsilon^{-2M}\\). For Gaussian states, with exponential tails, \\(R^2\\sim\\log(1/\\epsilon)\\).",
+        "Editorial check: for two vacuum states the exact bias is \\(e^{-R^2/2}\\), and it lies below both stated bounds at \\(R=1,2,3,5\\): for example \\(0.0111\\) against \\(0.222\\) and \\(0.105\\) at \\(R=3\\). We also recomputed the two copy-count formulas at \\(M=1\\), \\(E=1\\), \\(\\epsilon=0.1\\), \\(\\delta=0.05\\): about \\(1.06\\times10^7\\) and \\(9.5\\times10^5\\) settings. The Gaussian advantage is thus modest at this accuracy and grows only as \\(\\epsilon\\) falls."
+      ],
+      "transfer": "For bosonic estimation tasks, a physical energy bound can stand in for compactness: turn it into a moment bound through commutators, then use Markov-style tail control. Expect only algebraic decay from one moment. Stronger tails need stronger assumptions, such as Gaussianity or bounds on higher moments of \\(\\hat N\\)."
+    }
+  ],
+  "approved_on": "2026-11-01"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "2610.39784",
+  "topic": "information",
+  "title": "Non-Asymptotic Bounds via the Nussbaum-Szkoła Mapping for Quantum Hypothesis Testing",
+  "authors": "Jorge Lizarribar-Carrillo; Gonzalo Vazquez-Vilar; Tobias Koch",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "The optimal trade-off between the two errors in quantum hypothesis testing is a semidefinite program too large to solve beyond small systems, and non-commutativity blocks classical methods. Existing bounds use either heavy information-spectrum machinery or fixed constants. Can one simple comparison with a classical problem cover all asymptotic regimes and stay accurate at small size?",
+  "result": "For all \\(0\\le s<1\\), \\(\\beta_\\alpha(\\rho,\\sigma)\\ge s\\,\\beta_{\\alpha/(1-s)}(P,Q)\\), with \\(P,Q\\) the Nussbaum–Szkoła distributions. With a known matching upper bound, varying \\(s\\) with \\(n\\) recovers small-, moderate- and large-deviation results. For a pure state against a mixed one, a sharper upper bound holds over a region of two parameters, with optimal constant \\(4/3\\) at equal weights.",
+  "significance": "The bound lets classical hypothesis-testing results apply directly to quantum states, using only a Cauchy–Schwarz step. It settles a question left open by Cheng et al., who found the factor \\(4/3\\) in one example and asked whether it is universal; for pure-versus-mixed tests it is.",
+  "limitations": "The classical distributions have \\(d^2\\) outcomes and are not the statistics of any common measurement, and they need both spectral decompositions, so the bound is not a recipe for a test. The \\(4/3\\) result covers one pure state, not two mixed states. The \\(O(\\log n)\\) correction in the small-deviation regime is not sharpened. We noticed harmless typographic slips in the version read: Lemma 2 and Equation (29) use \\(a\\) for \\(w_1\\), and one citation to Cheng et al. has the wrong number.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–5 and 6.1–6.2 of the linked arXiv version, read 2026-11-01; the large-deviation analysis, Section 7's numerical comparisons, and Appendix A (the proof of Lemma 3) were not read, though Lemma 3's consequence was tested numerically.",
+  "verified_on": "2026-11-01",
+  "methods_source_section": "Sections 2–6 (Lemma 1, Theorem 1, Lemma 3, Theorem 3, Corollaries 1 and 2)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "For states \\(\\rho,\\sigma\\), a test \\(\\Pi\\) has errors \\(\\alpha=\\operatorname{Tr}[\\Pi\\rho]\\) and \\(\\beta=1-\\operatorname{Tr}[\\Pi\\sigma]\\), and \\(\\beta_\\alpha(\\rho,\\sigma)\\) is the smallest \\(\\beta\\) given \\(\\alpha\\). With spectral decompositions \\(\\rho=\\sum_i\\lambda_i\\ket{x_i}\\bra{x_i}\\) and \\(\\sigma=\\sum_j\\mu_j\\ket{y_j}\\bra{y_j}\\), the Nussbaum–Szkoła mapping defines two classical distributions: \\[P_{ij}=\\lambda_i|\\braket{x_i}{y_j}|^2,\\qquad Q_{ij}=\\mu_j|\\braket{x_i}{y_j}|^2.\\] These reproduce \\(\\operatorname{Tr}[\\rho^p\\sigma^{1-p}]\\), hence the relative entropy, its variance and third moment, and they tensorise. So they are the natural classical shadow of the quantum problem, and the question is how tightly they control it.",
+    "Theorem 1 gives the converse bound for each \\(s\\). Cheng et al. gave a matching upper bound, \\(\\beta_\\alpha(\\rho,\\sigma)\\le s^{-1}\\beta_{(1-s)\\alpha}(P,Q)\\). The two are simple but look weak, because they carry prefactors. The point is that \\(s\\) may depend on \\(n\\). In logarithmic terms, a prefactor costs only \\(\\log s\\), and the shift in \\(\\alpha\\) can be absorbed by classical limit theorems.",
+    "So with \\(s_n=1/\\sqrt n\\) in both bounds, the classical second-order expansion yields \\[D_h^\\varepsilon(\\rho^{\\otimes n}\\|\\sigma^{\\otimes n})=nD(\\rho\\|\\sigma)+\\sqrt{nV(\\rho\\|\\sigma)}\\,\\Phi^{-1}(\\varepsilon)+O(\\log n).\\] For \\(\\varepsilon_n=e^{-na_n^2}\\) with \\(a_n\\to0\\) and \\(na_n^2\\to\\infty\\), the same pair gives the moderate-deviation result \\(nD-\\sqrt{2V}\\,na_n+o(na_n)\\). The paper also treats large deviations and compares with fidelity and spectrum bounds numerically.",
+    "The lower bound is asymptotically tight for pure, nearly orthogonal states, so its constants cannot be improved in general. For a pure state against any \\(\\sigma\\), Theorem 3 replaces the upper bound by \\(s_1^{-1}\\beta_{s_2\\alpha}(P,Q)\\) on a region containing the old line \\(s_1=s,s_2=1-s\\) and more. What is left open is whether something like this region exists for two mixed states."
+  ],
+  "methods": [
+    {
+      "technique": "A two-term Cauchy–Schwarz that keeps a free parameter",
+      "explanation": "The non-commutativity sits in the operator \\(\\Pi_t\\) between eigenbases of \\(\\rho\\) and \\(\\sigma\\). The proof removes it by comparing \\(\\Pi_t+\\bar\\Pi_t=I\\) with its two pieces, at a price measured by \\(s\\).",
+      "math": [
+        "The starting point is the variational form \\[\\beta_\\alpha(\\rho,\\sigma)=\\sup_{t\\ge0}\\big\\{\\operatorname{Tr}[\\sigma\\Pi_t]+t(\\operatorname{Tr}[\\rho\\bar\\Pi_t]-\\alpha)\\big\\},\\qquad\\Pi_t=\\{t\\rho-\\sigma\\succeq0\\}.\\]",
+        "Inserting both eigenbases and using \\(\\Pi_t^2=\\Pi_t\\) gives \\[\\operatorname{Tr}[\\sigma\\Pi_t]=\\sum_{ij}\\mu_j|\\bra{x_i}\\Pi_t\\ket{y_j}|^2,\\qquad\\operatorname{Tr}[\\rho\\bar\\Pi_t]=\\sum_{ij}\\lambda_i|\\bra{x_i}\\bar\\Pi_t\\ket{y_j}|^2.\\] Write \\(t=\\delta t^\\prime\\) and lower-bound both \\(\\mu_j\\) and \\(t^\\prime\\lambda_i\\) by \\(\\min(t^\\prime\\lambda_i,\\mu_j)\\).",
+        "Now apply Cauchy–Schwarz with vectors \\((\\sqrt s,\\sqrt{1-s})\\) and \\((\\bra{x_i}\\Pi_t\\ket{y_j},\\sqrt\\delta\\bra{x_i}\\bar\\Pi_t\\ket{y_j})\\). Choosing \\(\\delta=s/(1-s)\\) makes the left side combine into \\(\\Pi_t+\\bar\\Pi_t=I\\): \\[s|\\braket{x_i}{y_j}|^2\\le|\\bra{x_i}\\Pi_t\\ket{y_j}|^2+\\frac s{1-s}|\\bra{x_i}\\bar\\Pi_t\\ket{y_j}|^2.\\]",
+        "Substituting gives \\(s\\big(\\sum_{ij}\\min(t^\\prime P_{ij},Q_{ij})-\\tfrac{t^\\prime\\alpha}{1-s}\\big)\\), which is the classical variational expression at the rescaled \\(\\alpha\\). The operator has disappeared, and the \\(\\min\\) now involves only classical quantities.",
+        "Editorial check: on 300 random mixed pairs in dimension 2 to 4, with \\(\\beta_\\alpha\\) computed by a dense scan of the variational formula, Theorem 1, the upper bound of Theorem 2, and Theorem 3 on the boundary of its region all held. For \\(\\ket0^{\\otimes n}\\) against \\(\\ket+^{\\otimes n}\\) at \\(\\alpha=w_1/4\\), the ratio of the optimised bound to the exact value was \\(0.738,\\ 0.984,\\ 0.9995\\) for \\(n=1,5,10\\), which shows the tightness as \\(w_1\\to0\\). The exact value used is the paper's formula, which we checked against the scan."
+      ],
+      "transfer": "If an operator sum equals the identity, try Cauchy–Schwarz on its matrix elements with a free weight. Leaving the parameter free, and choosing it later as a function of \\(n\\), often turns a crude-looking bound into a sharp one. The bound stays useful only if the prefactor's logarithm is smaller than the term you need."
+    },
+    {
+      "technique": "Choosing a blocklength-dependent parameter to absorb prefactors",
+      "explanation": "A single inequality yields three asymptotic regimes because \\(s\\) can be tuned to each. The technique is to balance the cost of \\(s\\) in the prefactor against its cost in the shifted error level.",
+      "math": [
+        "Taking logarithms in Theorem 1 gives \\[D_h^\\varepsilon(\\rho^{\\otimes n}\\|\\sigma^{\\otimes n})\\le D_h^{\\varepsilon/(1-s_n)}(P^n\\|Q^n)-\\log s_n.\\] Classical theory gives the right side: \\(nD+\\sqrt{nV}\\,\\Phi^{-1}(\\varepsilon^\\prime)+\\tfrac12\\log n+O(1)\\), with \\(\\varepsilon^\\prime=\\varepsilon/(1-s_n)\\).",
+        "If \\(s_n\\) is constant, the error level moves by a constant, which changes the \\(\\sqrt n\\) term and is too expensive. If \\(s_n=1/\\sqrt n\\), then \\(\\Phi^{-1}(\\varepsilon^\\prime)=\\Phi^{-1}(\\varepsilon)+O(1/\\sqrt n)\\), which, multiplied by \\(\\sqrt n\\), contributes only \\(O(1)\\). The cost is \\(-\\log s_n=\\tfrac12\\log n\\). Together they give the \\(O(\\log n)\\) remainder.",
+        "The upper bound \\(s_n^{-1}\\beta_{(1-s_n)\\varepsilon}(P^n,Q^n)\\) with the same \\(s_n\\) works differently: its prefactor removes \\(\\tfrac12\\log n\\), which cancels the classical \\(+\\tfrac12\\log n\\), and the shift again costs \\(O(1)\\). So that side is correct to \\(O(1)\\), and the two sides differ by \\(O(\\log n)\\), which is the remainder in the stated expansion.",
+        "In the moderate regime a fixed \\(s\\) already works, because all constants are \\(o(na_n)\\): \\(\\log s=O(1)\\), and the term \\(na_n^2=o(na_n)\\) since \\(a_n\\to0\\). The work moves to a lower bound on a moderate-deviation tail, for which the authors use Rozovsky's inequality on one side and Bernstein's on the other.",
+        "For the pure-state refinement, \\(s_1\\le f(s_2)\\) with \\(f=1\\) up to \\(s_2=\\tfrac12\\) and \\(f=4s_2(1-s_2)\\) beyond. Setting \\(s_1=s_2\\) gives \\(s=4s(1-s)\\), so \\(s=\\tfrac34\\), which is the factor \\(4/3\\). Editorial check: in the paper's example with \\(A=(\\gamma-\\tfrac12)\\ket+\\bra++\\tfrac12\\ket-\\bra-\\) and \\(B=\\ket0\\bra0\\), the ratio was \\(1.32997,\\ 1.33330,\\ 1.333333\\) at \\(\\gamma=10^2,10^4,10^6\\), approaching \\(4/3\\)."
+      ],
+      "transfer": "When reducing a hard problem to an easier one costs a multiplicative factor and a shift in a parameter, leave the trade-off free and tune it per regime. The method applies wherever a limit theorem exists for the easier problem. It cannot give sharper terms than the sum of the two costs."
+    }
+  ],
+  "approved_on": "2026-11-01"
+}

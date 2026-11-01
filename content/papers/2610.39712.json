@@ -1,0 +1,49 @@
+{
+  "id": "2610.39712",
+  "topic": "foundations",
+  "title": "Maximum-Entropy Ensemble of Quantum Subsystems with a Fixed Average State",
+  "authors": "Charlie Shakeshaft; Christopher David White; Harry J. D. Miller",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "The Marchenko–Pastur law and Page's entropy describe subsystems of globally random states, which means infinite temperature. If only the average state of the subsystem is fixed, for example to a thermal state, what is the least biased ensemble of mixed states, and what do its spectra look like?",
+  "result": "The maximum-entropy ensemble has density proportional to \\(e^{-\\operatorname{Tr}M\\rho}P_K(\\rho)\\). The authors argue, with a rigorous stronger statement in their supplement, that at large dimension its spectrum matches the correlated Wishart ensemble with covariance \\(\\rho_0\\). The level density is a free multiplicative convolution of \\(\\rho_0\\)'s spectrum with Marchenko–Pastur, and a random POVM on the purification of \\(\\rho_0\\) produces the same statistics.",
+  "significance": "This gives finite-temperature analogues of two standard infinite-temperature results and a concrete way to compute them. It also offers a physical origin for correlated Wishart statistics: an unsharp measurement of a thermofield double state, which connects the ensemble to deep thermalisation.",
+  "limitations": "Equivalence with the maximum-entropy ensemble comes with arguments described by the authors as partly non-rigorous, notably \\(M\\approx K\\rho_0^{-1}\\). The Ising calculation uses a Gaussian density of states, valid at large size, and a leading high-temperature expansion. The authors state that AI models suggested many proof strategies in the Supplemental Material and helped check the manuscript. We did not read that supplement.",
+  "status": "approved",
+  "summary_basis": "Description based on the main text of the linked arXiv version, read 2026-11-01. The Supplemental Material and End Matter, which hold the detailed proofs, were not read; the claims about them are the authors'.",
+  "verified_on": "2026-11-01",
+  "methods_source_section": "Main text (Equations (1)–(13) and (15)–(23))",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Take a Haar-random pure state on a system of dimension \\(d\\) and an environment of dimension \\(K\\ge d\\), then trace out the environment. The reduced state has density \\(P_K(\\rho)\\propto(\\det\\rho)^{K-d}\\) on density matrices. With \\(d/K\\to c\\), the rescaled eigenvalues \\(x=dr\\) follow the Marchenko–Pastur law, with edges \\((1\\pm\\sqrt c)^2\\). But conservation laws mean real subsystems are not at infinite temperature. So the question is how to add the knowledge \\(\\langle\\rho\\rangle=\\rho_0\\) while otherwise staying as close as possible to this prior.",
+    "Jaynes' principle answers this. Maximising the entropy relative to \\(P_K\\) under the constraint gives \\[P_{\\mathrm{ME}}(\\rho)=\\frac{e^{-\\operatorname{Tr}M\\rho}P_K(\\rho)}{Z_K(M)},\\] with a Hermitian matrix \\(M\\) of multipliers. The authors evaluate \\(Z_K(M)\\) analytically in their supplement and fix \\(M\\) by \\(-\\partial\\ln Z_K/\\partial M=\\rho_0\\). With a suitable gauge, they argue that \\(M/K\\to\\rho_0^{-1}\\).",
+    "The main claim concerns spectra. Correlated Wishart matrices are \\(W=K^{-1}\\Sigma^{1/2}XX^\\dagger\\Sigma^{1/2}\\) with Gaussian \\(X\\). Writing both ensembles through matrices on a sphere, the maximum-entropy density and the fixed-trace Wishart density with \\(\\Sigma=\\rho_0\\) both concentrate on the same “microcanonical” set. Then the trace of \\(W\\) concentrates, so normalising does not change the limiting spectrum, and the density is \\(\\mu_{\\rho_0}\\boxtimes\\mu_c\\). For the transverse-field Ising model at inverse temperature \\(\\beta\\) this gives a log-normal \\(\\mu_{\\rho_0}\\) and, to leading order in \\(\\beta\\sigma_0\\), a corrected Marchenko–Pastur law.",
+    "The same statistics arise physically. Measure one half of the purification of \\(\\rho_0\\) with Kraus operators \\(X^{\\mathsf T}/\\sqrt K\\). The other half is left in \\(W_X/\\operatorname{Tr}W_X\\), weighted by the Born probability. That density differs from fixed-trace Wishart by one factor of \\((\\operatorname{Tr}\\rho_0^{-1}\\rho)^{-1}\\), which the authors show is irrelevant at large size, and for \\(K=1\\) it becomes the Scrooge ensemble. Page curves computed this way are lower than at infinite temperature and lose their symmetry about the midpoint, because only the system side is constrained. Whether the two-sided constraint yields the doubly correlated ensemble remains open, as does the analogue for Bures and other measures."
+  ],
+  "methods": [
+    {
+      "technique": "Showing two ensembles share a limit by concentration on a sphere",
+      "explanation": "The maximum-entropy and fixed-trace Wishart densities look different: one is exponential in a quadratic form and the other a negative power of it. The argument shows that both depend only on that one number and that it concentrates.",
+      "math": [
+        "Write \\(\\rho=\\omega\\omega^\\dagger\\), where \\(\\omega\\) is a \\(d\\times K\\) matrix on the unit sphere of \\(\\mathbb C^{dK}\\), and let \\(M=K\\Sigma^{-1}\\). Define \\[q(\\omega)=\\frac1{dK}\\operatorname{Tr}M\\omega\\omega^\\dagger.\\]",
+        "The two densities are then \\(p_{\\mathrm{ME}}\\propto e^{-dKq}\\) and \\(p_{\\mathrm{FT}}\\propto q^{-dK}\\). Both are functions of \\(q\\) alone with a huge exponent, so the authors argue that each concentrates sharply around a typical value of \\(q\\).",
+        "So in the limit both approach the same \\(\\delta(1-q)\\), a microcanonical ensemble in \\(q\\). To see why the exponential and the power agree (editorial): near \\(q=1\\), \\(q^{-dK}=e^{-dK\\ln q}\\approx e^{-dK(q-1)}\\), which is \\(e^{-dKq}\\) up to a constant. The difference appears only at second order in the small fluctuations of \\(q\\).",
+        "Then the trace is removed. For Gaussian \\(X\\), \\(\\operatorname{Tr}W\\) has mean \\(\\operatorname{Tr}\\Sigma=1\\), and a Bernstein bound controls its deviations: fluctuations scale as \\(\\sqrt{\\operatorname{Tr}\\rho_0^2/K}\\) in the Gaussian core. This means normalising \\(W\\) changes the empirical spectrum negligibly."
+      ],
+      "transfer": "Editorial suggestion: if two distributions on a high-dimensional set depend on the configuration through one statistic, comparing their logarithms near its typical value may be enough. Check that the exponent and the typical fluctuations combine to something small, since the first-order agreement alone does not prove convergence."
+    },
+    {
+      "technique": "Free multiplicative convolution via the S-transform",
+      "explanation": "Because \\(W\\) is a product of the deterministic \\(\\rho_0\\) and a free Wishart factor, its limiting spectrum follows from those of the factors, without any eigenvector information.",
+      "math": [
+        "For asymptotically free factors, \\(S\\)-transforms multiply: \\(S_{\\mu\\boxtimes\\nu}(z)=S_\\mu(z)S_\\nu(z)\\). For Marchenko–Pastur, \\(S_c(z)=1/(1+cz)\\). So all the physics of the thermal bias is in \\(S_{\\rho_0}\\), given implicitly by an integral over the density of states.",
+        "Moments give a simple test (editorial). With the spectrum of \\(x\\) normalised to mean 1, free multiplication with Marchenko–Pastur gives \\(m_2=m_2(\\rho_0)+c\\). For a log-normal \\(x\\) with parameter \\(\\beta\\sigma_0\\), \\(m_2(\\rho_0)=e^{\\beta^2\\sigma_0^2}\\approx1+\\beta^2\\sigma_0^2\\).",
+        "The paper's leading-order formula is \\[\\pi_{\\mathrm{cont}}(x)\\approx\\frac{\\sqrt{4(c+\\beta^2\\sigma_0^2x)-(1+c-x)^2}}{2\\pi x(c+\\beta^2\\sigma_0^2x)}.\\] Editorial check: integrating this numerically for \\((c,\\beta\\sigma_0)=(1,0.1),(1,0.3),(0.5,0.2),(2,0.2)\\) gave mean 1 and \\(m_2=1+c+\\beta^2\\sigma_0^2\\) to about eight digits, which agrees exactly with the first-order moment above. For \\(c=2\\) the continuous mass came out as \\(1/2\\), matching the atom \\(1-1/c\\) at zero.",
+        "Editorial check on the ensemble: a sampled \\(W\\) with \\(d=K=400\\) had \\(\\operatorname{Tr}W\\approx1.00\\) and \\(\\operatorname{Tr}W^2\\) close to the Wishart value \\(\\operatorname{Tr}\\rho_0^2+1/K\\), at both \\(\\beta=0\\) and \\(\\beta=0.5\\) for a Gaussian spectrum, within sampling error."
+      ],
+      "transfer": "Whenever a random matrix has the form \\(A^{1/2}XX^\\dagger A^{1/2}\\) with \\(X\\) unitarily invariant and \\(A\\) deterministic, its limiting spectrum is obtained from the spectrum of \\(A\\) alone by this route. Asymptotic freeness is the assumption to check; it fails when \\(X\\) has structure that is correlated with \\(A\\)."
+    }
+  ],
+  "approved_on": "2026-11-01"
+}

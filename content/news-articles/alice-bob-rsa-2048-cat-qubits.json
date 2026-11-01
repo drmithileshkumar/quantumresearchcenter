@@ -1,0 +1,65 @@
+{
+  "slug": "alice-bob-rsa-2048-cat-qubits",
+  "title": "Alice & Bob estimates 22,593 cat qubits could break RSA-2048",
+  "summary": "A new preprint lowers the estimated qubit count for factoring a 2048-bit RSA key about 40 times. The figure depends on qubits far better than any measured so far, and no such machine exists.",
+  "author": "Quantum Research Center",
+  "published": "2026-11-01",
+  "status": "published",
+  "topic": "discoveries",
+  "format": "News",
+  "related_articles": [
+    "quantum-safe-security",
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": [],
+  "sections": [
+    {
+      "heading": "What the paper claims",
+      "paragraphs": [
+        "Researchers at the French company Alice & Bob, with co-authors at Université Paris-Saclay, Inria and the University of Edinburgh, posted a preprint to arXiv on 27 October 2026. It estimates that Shor’s algorithm could factor a 2048-bit RSA number on a machine of 22,593 superconducting cat qubits in 3.14 days. That time covers about 9.6 runs of 7.84 hours each, since a single run does not always succeed.",
+        "The authors compare this with Craig Gidney’s 2025 estimate, which is the usual reference point: under 900,000 qubits and about five days, for conventional superconducting qubits with surface codes. They report a 40-fold reduction in physical qubits with a shorter run time, while noting that the two estimates rest on different hardware assumptions.",
+        "The same paper gives trade-offs. More qubits buy speed, with 610,530 qubits needing about 1.25 hours. Fewer cost time, with 21,188 qubits needing about 8 days. Only the RSA-2048 configuration is compiled in full down to physical qubits; the authors say their other figures are derived from it. These include about 29,588 qubits and one hour for the elliptic-curve problem behind Bitcoin signatures, which they present as an upper bound."
+      ],
+      "source_refs": [1, 2]
+    },
+    {
+      "heading": "Where the saving comes from",
+      "paragraphs": [
+        "Most quantum error correction has to fight two kinds of error, bit flips and phase flips. A cat qubit stores information in two states of a microwave oscillator, in a way that makes bit flips exponentially rarer as the number of photons grows, while phase flips grow only linearly. If bit flips can be nearly ignored, a code needs to correct only one kind of error, which takes far fewer physical qubits per logical qubit.",
+        "The paper combines this with low-density parity-check codes built for cat qubits. It also adapts Gidney’s adder circuit and designs new gates. Without the parity-check codes, its simpler repetition-code design needs 49,649 qubits and 2.67 days."
+      ],
+      "source_refs": [1]
+    },
+    {
+      "heading": "What it assumes",
+      "paragraphs": [
+        "This is a calculation, not a demonstration. It assumes a 1-microsecond error-correction cycle, a 10-microsecond decoder reaction time, a phase-flip probability of 5×10⁻⁴ per operation, and essentially no bit flips during the computation. The authors say that last condition requires a bit-flip time of at least about 100 years per qubit, at which bit flips still lengthen the run by about 11 percent.",
+        "How far is that from today’s hardware? The paper itself says even the two-month bit-flip time needed for its smaller benchmark is far beyond anything measured. The security publication PostQuantum, in a detailed review, reports that the longest published bit-flip times under quantum control are 15 and 22 seconds, on single qubits. That is about eight orders of magnitude short of 100 years. It also reports that the paper does not design a decoder, and that the largest cat-qubit chip with error-correction results has 12 qubits. Alice & Bob’s own target for 2030, according to the same review, is a 2,000-qubit chip.",
+        "The bit-flip requirement can be relaxed. With an extra layer of bit-flip protection, the authors estimate that a bit-flip time of about one hour would be enough, at about 45,000 qubits and at least 3.14 days. PostQuantum notes that a logical gate set for that extra layer has not yet been designed."
+      ],
+      "source_refs": [1, 2]
+    },
+    {
+      "heading": "What it does and does not change",
+      "paragraphs": [
+        "The paper is a preprint from a company that builds the hardware it analyses, and it has not completed peer review. Its acknowledgments thank outside cryptographers for reviewing preliminary versions, according to PostQuantum. Comparing qubit counts across technologies also has limits, since other estimates assume different hardware: PostQuantum lists neutral-atom designs with fewer qubits than this one, but with far longer run times.",
+        "The authors argue that the trend calls for immediate migration to post-quantum cryptography, using hybrid schemes during the transition. Quantum Computing Report, covering the paper on 30 October, summarises their view as moving critical infrastructure to post-quantum standards by 2035. PostQuantum’s author agrees with the call to migrate but argues that the estimate does not change any formal deadline. Nobody has yet shown a machine that could carry out this attack, but the direction of these estimates, from millions of qubits to tens of thousands on paper, is why cryptographers do not wait for one."
+      ],
+      "source_refs": [1, 2, 3]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Pappalardo et al., Shor’s algorithm compiled on cat qubits: 22 593 qubits for RSA-2048 in 3.14 days, arXiv:2610.37839, 27 October 2026",
+      "url": "https://arxiv.org/abs/2610.37839"
+    },
+    {
+      "title": "PostQuantum: Alice & Bob: 22,593 Qubits Could Break RSA-2048, 29 October 2026",
+      "url": "https://postquantum.com/security-pqc/alice-bob-rsa-2048-cat-qubits/"
+    },
+    {
+      "title": "Quantum Computing Report: Alice & Bob demonstrates end-to-end Shor’s algorithm compilation requiring 23,000 cat qubits to break RSA-2048, 30 October 2026",
+      "url": "https://quantumcomputingreport.com/alice-bob-demonstrates-end-to-end-shors-algorithm-compilation-requiring-23000-cat-qubits-to-break-rsa-2048/"
+    }
+  ]
+}
