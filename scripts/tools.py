@@ -271,6 +271,8 @@ def bloch_svg():
 
 PHASOR_CENTER = 220.0
 PHASOR_RADIUS = 156.0
+# The amplitude strip's dials are drawn in a 64-unit square with this ring radius.
+AMP_RADIUS = 22.0
 PHASOR_LABELS = (('00', '|00⟩', 'Φ⁺'), ('01', '|01⟩', 'Φ⁻'),
                  ('10', '|10⟩', 'Ψ⁺'), ('11', '|11⟩', 'Ψ⁻'))
 
@@ -280,6 +282,10 @@ PAULI = {'I': ((1, 0), (0, 1)), 'X': ((0, 1), (1, 0)),
 TWO_PRESETS = (('00', '|00⟩'), ('11', '|11⟩'), ('++', '|++⟩'), ('phi+', 'Φ<sup>+</sup>'),
                ('phi-', 'Φ<sup>−</sup>'), ('psi+', 'Ψ<sup>+</sup>'), ('psi-', 'Ψ<sup>−</sup>'),
                ('partial', 'Partly entangled'))
+SUPERSCRIPT = {'+': '⁺', '-': '⁻', '−': '⁻'}
+# <option> holds text only, so menu labels carry real superscript characters.
+TWO_PRESET_MENU = tuple((key, re.sub(r'<sup>(.)</sup>', lambda m: SUPERSCRIPT[m.group(1)], label))
+                        for key, label in TWO_PRESETS)
 
 
 def two_qubit_observables(state):
@@ -325,9 +331,17 @@ def phasor_arrow(prefix, magnitude, phase_deg, label, marker, cls='ph-arrow'):
 
 def phasor_svg(state, basis_labels=PHASOR_LABELS):
     """The static drawing of the complex plane holding every vector of the state."""
-    rings = ''.join(
-        f'<circle class="{"ph-ring is-inner" if factor < 1 else "ph-ring"}" cx="{PHASOR_CENTER:.1f}"'
-        f' cy="{PHASOR_CENTER:.1f}" r="{PHASOR_RADIUS * factor:.1f}"/>' for factor in (1.0, 0.5))
+    # The disc is painted with the concurrence: 0 at the centre, 1 at the rim, which is the scale the
+    # needle already uses, so a warm ring is where a long needle would end.
+    heat = (f'<radialGradient id="ph-heat" gradientUnits="userSpaceOnUse" cx="{PHASOR_CENTER:.1f}"'
+            f' cy="{PHASOR_CENTER:.1f}" r="{PHASOR_RADIUS:.1f}">'
+            + ''.join(f'<stop offset="{offset}" style="stop-color:var(--heat-{index})"/>'
+                      for index, offset in enumerate(('0', '.25', '.5', '.75', '1')))
+            + '</radialGradient>')
+    rings = (f'<circle class="ph-ring" cx="{PHASOR_CENTER:.1f}" cy="{PHASOR_CENTER:.1f}"'
+             f' r="{PHASOR_RADIUS:.1f}"/>'
+             + ''.join(f'<circle class="ph-contour" cx="{PHASOR_CENTER:.1f}" cy="{PHASOR_CENTER:.1f}"'
+                       f' r="{PHASOR_RADIUS * factor:.1f}"/>' for factor in (0.25, 0.5, 0.75)))
     rim = PHASOR_RADIUS * 0.82
     ticks = (f'<text class="ph-tick" x="{PHASOR_CENTER + rim:.0f}" y="{PHASOR_CENTER + 16:.0f}"'
              ' text-anchor="middle">0°</text>'
@@ -366,9 +380,12 @@ def phasor_svg(state, basis_labels=PHASOR_LABELS):
             f' aria-labelledby="phasor-title phasor-desc">'
             '<title id="phasor-title">Every vector of the two-qubit state in one complex plane</title>'
             '<desc id="phasor-desc">Four arrows, one per basis amplitude: length is the magnitude and the'
-            ' angle is the phase. Only |00⟩ is present, with magnitude 1.000 at phase 0°, so the concurrence'
-            ' needle has zero length.</desc>'
-            f'<defs>{markers}</defs>'
+            ' angle is the phase. The background is the concurrence, cold at the centre and warm at the rim,'
+            ' where 0 means a product state and 1 maximal entanglement. Only |00⟩ is present, with magnitude'
+            ' 1.000 at phase 0°, so the concurrence needle has zero length at the cold centre.</desc>'
+            f'<defs>{markers}{heat}</defs>'
+            f'<circle class="ph-heat" id="ph-heat-disc" cx="{PHASOR_CENTER:.1f}" cy="{PHASOR_CENTER:.1f}"'
+            f' r="{PHASOR_RADIUS:.1f}" opacity="0"/>'
             f'<g class="ph-grid">{rings}'
             f'<line class="ph-axis" x1="48" y1="{PHASOR_CENTER:.1f}" x2="392" y2="{PHASOR_CENTER:.1f}"/>'
             f'<line class="ph-axis" x1="{PHASOR_CENTER:.1f}" y1="48" x2="{PHASOR_CENTER:.1f}" y2="392"/>'
@@ -452,17 +469,24 @@ def schmidt_svg(state, prefix='schmidt', center=ORIGIN, radius=RADIUS):
 
 def render_two_qubit(root, shell):
     e = escape
-    table, concurrence, lam_plus, lam_minus = two_qubit_observables([1, 0, 0, 0])
-    rows = ''
+    # A dial per basis state: arrow length is the magnitude, arrow angle the phase.
+    dials = ''
     for index, (key, label, _) in enumerate(PHASOR_LABELS):
-        rows += (f'<tr data-index="{index}"><th scope="row" id="amp-name-{key}">{label}</th>'
-                 f'<td id="amp-mag-{key}">1.000</td><td id="amp-phase-{key}">0°</td>'
-                 f'<td id="amp-prob-{key}">1.000</td></tr>')
-    gates = ''.join(f'<button type="button" data-gate-a="{name}" title="{hint} on qubit A">{name}</button>'
-                    for name, hint in GATES)
-    gates_b = ''.join(f'<button type="button" data-gate-b="{name}" title="{hint} on qubit B">{name}</button>'
-                      for name, hint in GATES)
-
+        empty = index != 0
+        x = 32 + (0 if empty else AMP_RADIUS)
+        tip = ' is-empty' if empty else ''
+        dials += (f'<div class="amp-cell" data-index="{index}">'
+                  '<svg class="amp-dial" viewBox="0 0 64 64" aria-hidden="true">'
+                  f'<circle class="amp-ring" cx="32" cy="32" r="{AMP_RADIUS}"/>'
+                  '<line class="amp-axis" x1="8" y1="32" x2="56" y2="32"/>'
+                  '<line class="amp-axis" x1="32" y1="8" x2="32" y2="56"/>'
+                  f'<line class="amp-needle" id="amp-needle-{key}" x1="32" y1="32" x2="{x}" y2="32"/>'
+                  f'<circle class="amp-tip{tip}" id="amp-tip-{key}" cx="{x}" cy="32" r="2.6"/>'
+                  '</svg>'
+                  f'<p class="amp-name" id="amp-name-{key}">{label}</p>'
+                  f'<p class="amp-numbers"><span id="amp-mag-{key}">{"0.000" if empty else "1.000"}</span>'
+                  f'<span id="amp-phase-{key}">{"—" if empty else "0°"}</span></p>'
+                  '</div>')
     body = (
         '<header class="editorial-intro compact qubit-intro"><p class="eyebrow">Tools / Two-qubit state</p>'
         '<h1>The state is<br><span>four arrows.</span></h1>'
@@ -473,17 +497,40 @@ def render_two_qubit(root, shell):
         ' length, the second qubit\'s vectors scaled by the two branch amplitudes.</p>'
         '</header>'
 
-        '<div class="two-summary"><div class="two-ket-block"><p class="qubit-kicker">Current state</p>'
-        '<p class="qubit-ket" id="state-ket">|00⟩</p></div><dl class="two-invariants">'
-        f'<div><dt>Concurrence C</dt><dd id="inv-concurrence">{concurrence:.3f}</dd></div>'
-        f'<div><dt>Needle angle</dt><dd id="inv-needle">—</dd></div>'
-        f'<div><dt>Schmidt amplitudes</dt><dd id="inv-schmidt">{lam_plus:.3f}, {lam_minus:.3f}</dd></div>'
-        f'<div><dt>Type</dt><dd id="inv-type">Product</dd></div></dl>'
-        '<div class="two-scale"><p class="meter-label"><span>Product</span>'
-        f'<span class="meter-track"><span class="meter-fill" id="bar-c" style="width:{concurrence * 100:.1f}%">'
-        '</span></span><span>Maximally entangled</span></p>'
-        '<p class="slider-hint">The needle\'s length is the concurrence. Its direction is the local frame, which'
-        ' is a choice of basis — local gates turn the needle but never change its length.</p></div></div>'
+        '<section class="two-controls" aria-labelledby="controls-heading"><h2 class="sr-only"'
+        ' id="controls-heading">Controls</h2>'
+        '<div class="menu-row">'
+        '<div class="menu"><label for="menu-state">State</label><select id="menu-state">'
+        '<option value="">Custom…</option>'
+        + ''.join(f'<option value="{key}">{label}</option>' for key, label in TWO_PRESET_MENU)
+        + '</select></div>'
+        '<div class="menu"><label for="menu-gate-a">Gate on A</label><select id="menu-gate-a">'
+        '<option value="" selected>Choose…</option>'
+        + ''.join(f'<option value="{name}" title="{hint} on qubit A">{name}</option>' for name, hint in GATES)
+        + '</select></div>'
+        '<div class="menu"><label for="menu-gate-b">Gate on B</label><select id="menu-gate-b">'
+        '<option value="" selected>Choose…</option>'
+        + ''.join(f'<option value="{name}" title="{hint} on qubit B">{name}</option>' for name, hint in GATES)
+        + '</select></div>'
+        '<div class="menu"><label for="menu-gate-two">Two-qubit gate</label><select id="menu-gate-two">'
+        '<option value="" selected>Choose…</option>'
+        '<option value="CNOT" title="Flip B when A is 1">CNOT</option>'
+        '<option value="CZ" title="Flip the sign of |11⟩">CZ</option>'
+        '<option value="SWAP" title="Exchange the two qubits">SWAP</option>'
+        '</select></div>'
+        '<div class="menu"><label for="menu-measure">Measurement</label><select id="menu-measure">'
+        '<option value="" selected>Choose…</option>'
+        '<option value="measure-a">Measure A</option>'
+        '<option value="measure-b">Measure B</option>'
+        '<option value="measure-both">Measure both</option>'
+        '<option value="two-reset">Reset</option>'
+        '</select></div>'
+        '</div>'
+        '<div class="control-readouts"><p class="control-line">'
+        '<span class="measure-result" id="measure-result">Measure A, B or both: the outcome appears here.</span>'
+        '<span class="measure-tally" id="measure-tally">No joint measurements yet.</span></p></div>'
+        '<noscript><p class="qubit-noscript">The page shows the state |00⟩: one arrow of length 1 along the'
+        ' real axis. Enable JavaScript to turn the arrows, apply gates, and measure.</p></noscript></section>'
 
         '<section class="two-views" aria-labelledby="views-heading">'
         '<h2 class="sr-only" id="views-heading">The same state in two pictures</h2>'
@@ -492,17 +539,19 @@ def render_two_qubit(root, shell):
         '<p class="eyebrow">Amplitudes</p>'
         '<h3 class="view-heading" id="phasor-heading">Four arrows in one plane</h3>'
         '<figure class="phasor-figure">' + phasor_svg([1, 0, 0, 0]) +
-        '<figcaption>Pick an arrow and use the arrow keys to turn it, or drag its tip. Turning a coefficient'
-        ' changes one phase, and the Schmidt sphere updates with it.</figcaption></figure>'
+        '<figcaption>Pick an arrow and use the arrow keys to turn it, or drag its tip. The background is the'
+        ' concurrence: it deepens from 0 at the centre to 1 at the rim, and its colour rises and fades with the'
+        ' current value. Turning a coefficient changes one phase, and the Schmidt sphere updates with it.'
+        '</figcaption></figure>'
         '<div class="phasor-panel">'
         '<fieldset class="qubit-group"><legend>Display basis</legend><div class="qubit-buttons">'
         '<button type="button" id="basis-computational" aria-pressed="true">|00⟩ |01⟩ |10⟩ |11⟩</button>'
         '<button type="button" id="basis-bell" aria-pressed="false">Bell</button>'
         '</div><p class="slider-hint" id="basis-hint">Computational basis. The Bell view re-expresses the same'
         ' state in Φ⁺, Φ⁻, Ψ⁺, Ψ⁻, where each Bell state is a single arrow.</p></fieldset>'
-        '<table class="phasor-table"><caption>Amplitude, phase and probability per basis state</caption>'
-        '<thead><tr><th scope="col">State</th><th scope="col">Magnitude</th><th scope="col">Phase</th>'
-        f'<th scope="col">P</th></tr></thead><tbody>{rows}</tbody></table>'
+        '<div class="amplitude-strip" role="group" aria-label="Magnitude and phase per basis state">'
+        + dials + '</div>'
+        '<p class="amp-caption">Arrow length is the magnitude, its angle the phase.</p>'
         '<label class="ph-toggle"><input type="checkbox" id="show-products">'
         '<span>Show the two products 2c<sub>00</sub>c<sub>11</sub> and 2c<sub>01</sub>c<sub>10</sub></span>'
         '</label>'
@@ -532,34 +581,6 @@ def render_two_qubit(root, shell):
         ' it.</p>'
         '</div></section>'
         '</div></section>'
-
-        '<section class="two-controls" aria-labelledby="controls-heading"><h2 class="sr-only"'
-        ' id="controls-heading">Controls</h2>'
-        '<fieldset class="qubit-group"><legend>Prepare a state</legend><div class="qubit-buttons">'
-        + ''.join(f'<button type="button" data-preset="{key}">{label}</button>'
-                  for key, label in TWO_PRESETS)
-        + '</div></fieldset>'
-        '<fieldset class="qubit-group"><legend>Gates on qubit A</legend><div class="qubit-buttons">'
-        + gates + '</div></fieldset>'
-        '<fieldset class="qubit-group"><legend>Gates on qubit B</legend><div class="qubit-buttons">'
-        + gates_b + '</div></fieldset>'
-        '<fieldset class="qubit-group"><legend>Two-qubit gates</legend><div class="qubit-buttons">'
-        '<button type="button" data-gate="CNOT" title="Flip B when A is 1">CNOT</button>'
-        '<button type="button" data-gate="CZ" title="Flip the sign of |11⟩">CZ</button>'
-        '<button type="button" data-gate="SWAP" title="Exchange the two qubits">SWAP</button>'
-        '</div><p class="slider-hint">X, Y, Z and S turn arrows in this plane; H replaces two arrows by their sum'
-        ' and difference. CNOT and CZ turn a superposition into entanglement: on |+0⟩ or |++⟩ they create the'
-        ' needle, on |00⟩ they cannot.</p></fieldset>'
-        '<fieldset class="qubit-group"><legend>Measurement</legend><div class="qubit-buttons">'
-        '<button type="button" id="measure-a">Measure A</button>'
-        '<button type="button" id="measure-b">Measure B</button>'
-        '<button type="button" id="measure-both">Measure both</button>'
-        '<button type="button" id="two-reset" title="Return to |00⟩ and clear the counts">Reset</button>'
-        '</div><p class="measure-result" id="measure-result">Measuring A projects onto |0⟩ or |1⟩ on that qubit.'
-        ' On a Bell state the two outcomes always agree.</p>'
-        '<p class="measure-tally" id="measure-tally">No joint measurements yet.</p></fieldset>'
-        '<noscript><p class="qubit-noscript">The page shows the state |00⟩: one arrow of length 1 along the'
-        ' real axis. Enable JavaScript to turn the arrows, apply gates, and measure.</p></noscript></section>'
 
         '<section class="qubit-reading" id="explanation"><h2>Why one plane is enough</h2>'
         '<p>A pure two-qubit state is four complex numbers, so it is four vectors in the plane — no projection,'

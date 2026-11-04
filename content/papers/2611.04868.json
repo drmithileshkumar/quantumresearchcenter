@@ -1,0 +1,47 @@
+{
+  "id": "2611.04868",
+  "topic": "computing",
+  "title": "Autonomous cooling of Kerr-cat qubits to minutes-long bit-flip times",
+  "authors": "Sergey Hazanov; Mikhail Svintsov; Uri Goldblatt; Barkay Guttel; Fabien Lafont; Serge Rosenblum",
+  "submitted": "2026-11-03",
+  "version": "v1",
+  "kind": "Experiment",
+  "problem": "Cat qubits store a bit in two opposite coherent states of an oscillator. Bit flips are then suppressed exponentially in the photon number, which makes noise strongly biased and error correction cheaper. Kerr cats, which are confined by a driven double-well potential, allow fast gates, but excitations inside the wells cause hopping between them, and their bit-flip times had stayed at milliseconds. Can the excitations be removed without new drives or circuit elements?",
+  "result": "Yes. The three-wave interaction that produces the squeezing drive also couples excitations inside a well to the lossy readout resonator and Purcell filter. When the frequencies match, it drains the excitations. The bit-flip time grows by a factor of \\(1.82\\pm0.06\\) per photon, from 52 µs at \\(\\bar n=7.4\\) to \\(448\\pm57\\) s at \\(\\bar n=33.8\\). Fast \\(Z\\) gates leave the bit-flip time unchanged, and each readout flips the qubit with probability \\((5\\pm1)\\times10^{-7}\\).",
+  "significance": "This is more than five orders of magnitude beyond earlier Kerr cats (3.6 ms), and the first observation of the predicted exponential scaling of Kerr-cat bit-flip time with photon number. It puts Kerr cats in the same range as dissipative cats while keeping their 8 ns \\(Z\\) rotations.",
+  "limitations": "Phase flips are the problem now. The oscillator's single-photon lifetime is only about 8 µs, so \\(T_Z\\) falls to about 113 ns at \\(\\bar n=24\\), and at the largest photon numbers \\(T_Z\\) could not be measured at all. The 448 s value comes from 62 observed flips over 15 h, so it has a statistical uncertainty of about 13%. There are no two-qubit gates or bias-preserving CNOT yet. The authors state that LLMs were used to draft the manuscript and to write experiment and analysis code, and that they verified all of it.",
+  "status": "approved",
+  "summary_basis": "Description based on the full main text and Methods of the linked arXiv version, read 2026-11-04. The Supplementary Information was not checked beyond the sections the main text cites for specific numbers.",
+  "verified_on": "2026-11-04",
+  "methods_source_section": "Main text and Methods (Eqs. (1)–(5), Figs. 2–5)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A Kerr oscillator \\(-K\\hat a^{\\dagger2}\\hat a^2\\) under a two-photon drive \\(\\varepsilon_2(\\hat a^{\\dagger2}+\\hat a^2)\\) has two degenerate wells centred at \\(\\pm\\alpha\\), which encode the logical \\(Z\\). Above them lie excited doublets, separated by intra-well frequencies \\(\\omega_{n-1,n}\\). Heating fills these doublets, and tunnelling between the wells is much faster from them than from the ground pair. Hamiltonian confinement has no mechanism that removes such excitations, which is why earlier Kerr cats flipped within milliseconds.",
+    "The device is a flux-tunable SNAIL oscillator at 3.7 GHz, coupled to a 7.297 GHz readout resonator (\\(\\kappa_b/2\\pi=0.645\\) MHz) and a Purcell filter. Driving the readout resonator at \\(\\omega_{\\mathrm{sq}}\\) creates the squeezing drive through the exchange \\(g_{21}(\\hat a^2\\hat b^\\dagger+\\mathrm{h.c.})\\), with \\(g_{21}/2\\pi=0.74\\) MHz. When an intra-well transition matches \\(\\delta_b=\\omega_{\\mathrm{sq}}-\\omega_b\\), the same exchange passes the excitation to the resonator, which loses it. Spectroscopy shows the avoided crossings, and on resonance the excited manifold relaxes at the strong-coupling limit \\((\\kappa_b/2)^{-1}\\).",
+    "On the readout resonance (\\(\\bar n=22.4\\)) the bit-flip time is 0.52 s. Between the two resonances (\\(\\bar n=27.3\\)) it is 15.4 s. On the Purcell-filter resonance (\\(\\bar n=33.8\\)) no decay is seen in 100 s, and counting flips in a 15 h record of repeated readouts gives 448 s. Across flux biases, each chosen at the lowest photon number at which a resonance can be reached, \\(\\ln T_X\\) rises linearly in \\(\\bar n\\) with slope \\(0.60\\pm0.03\\), over nearly seven decades. Meanwhile \\(T_Z\\) follows the photon-loss limit \\(T_1/2\\bar n\\), which gives a bias \\(T_X/T_Z\\approx3\\times10^7\\) at \\(\\bar n=24.2\\).",
+    "A \\(Z\\) drive gives Rabi oscillations at 62.6 MHz, which is a \\(Z(\\pi)\\) gate in 8 ns. Applying it continuously leaves \\(T_X\\) at 0.65 s, against 0.64 s idle. A 4 µs cat-quadrature readout reaches an assignment infidelity of \\(5.1\\times10^{-7}\\). The authors point to better oscillator lifetimes (55.7 µs has been shown elsewhere) and colder circuitry as the route to useful phase coherence."
+  ],
+  "methods": [
+    {
+      "technique": "Why the confining interaction also cools",
+      "explanation": "The exchange term that creates the squeezing drive looks like a two-photon process, but expanded around a well it contains a beam-splitter between the intra-well excitation and the resonator. That beam-splitter acts as the identity on the logical qubit.",
+      "math": [
+        "In the shifted Fock basis, \\(\\hat a\\approx\\hat Z\\otimes(\\alpha+\\hat d)\\), where \\(\\hat d\\) lowers the excitation inside a well. Since \\(\\hat Z^2=\\hat I\\), \\[\\hat a^2\\hat b^\\dagger\\approx\\hat I\\otimes(\\alpha^2+2\\alpha\\hat d+\\hat d^2)\\hat b^\\dagger,\\] and adding the Hermitian conjugate gives the three terms of Eq. (4). The first is a drive, the second a beam-splitter \\(2g_{21}\\sqrt{\\bar n}(\\hat d\\hat b^\\dagger+\\hat d^\\dagger\\hat b)\\), and the third converts two excitations into one photon. No term contains \\(\\hat Z\\), so none of them dephases the logical qubit.",
+        "A term in the rotating frame is resonant when the energies it exchanges match: one intra-well quantum \\(\\omega_{01}\\) for one readout photon at detuning \\(\\delta_b\\). The coupling grows as \\(\\sqrt{\\bar n}\\). Editorial estimate: with \\(g_{21}/2\\pi=0.74\\) MHz and \\(\\bar n=22.4\\), it is \\(2\\pi\\times7.0\\) MHz, which exceeds \\(\\kappa_b/2\\pi=0.645\\) MHz. The system is therefore in strong coupling, and the relaxation is set by the resonator, at \\((\\kappa_b/2)^{-1}\\), as the paper measures.",
+        "The phase-flip cost is unchanged because loss and gain of a single photon still flip the cat's parity. Eq. (5) gives \\(T_Z=T_1/2[(1+2n_{\\mathrm{th}})\\bar n+n_{\\mathrm{th}}]\\). Editorial check: at \\(\\bar n=24.2\\) with \\(T_1=8.2\\) µs, this is 169 ns for \\(n_{\\mathrm{th}}=0\\) and 123 ns for \\(n_{\\mathrm{th}}=0.185\\). The measured \\(113\\pm24\\) ns agrees with the second. The bias \\(3.55\\ \\mathrm s/113\\ \\mathrm{ns}=3.1\\times10^7\\) matches the stated \\(3\\times10^7\\)."
+      ],
+      "transfer": "Before adding a cooling drive, expand the existing nonlinear couplings around the operating point. A term that is a nuisance at the bare frequencies can become a beam-splitter to a lossy mode, and a well-chosen detuning turns it on."
+    },
+    {
+      "technique": "Reading a long lifetime from counted jumps",
+      "explanation": "No decay is visible within a 100 s window, so the 448 s figure comes from counting individual flips in long readout records. The readout's own flip probability must then be separated out.",
+      "math": [
+        "For a two-state telegraph process with flip rate \\(\\gamma\\) in each direction, \\(\\langle Z(t)\\rangle=e^{-2\\gamma t}\\), so \\(T_X=1/2\\gamma\\). If \\(N\\) flips are counted over an exposure time \\(\\mathcal T\\), then \\(\\gamma\\approx N/\\mathcal T\\) and \\(T_X\\approx\\mathcal T/2N\\). This is the Methods estimator. Editorial check: 62 flips in 15 h gives \\(54000/124=435\\) s, consistent with the fitted \\(448\\) s, and Poisson counting gives a relative error of \\(1/\\sqrt{62}=12.7\\%\\), or \\(\\pm57\\) s, as quoted.",
+        "Readouts repeated at interval \\(D\\) add flips at \\(p_{\\mathrm{flip}}\\) per readout: \\[\\frac1{T_X(D)}=\\frac1{T_X^0}+\\frac{2p_{\\mathrm{flip}}}D.\\] Editorial estimate: with \\(p_{\\mathrm{flip}}=5.2\\times10^{-7}\\) and \\(T_X^0=448\\) s, the two terms are equal at \\(D=2p_{\\mathrm{flip}}T_X^0\\approx0.47\\) ms. This explains why the measured \\(T_X\\) returns to its idle value for intervals above 10 ms.",
+        "The scaling claim is a straight-line fit of \\(\\ln T_X\\) against \\(\\bar n\\), with slope \\(0.60\\), so \\(e^{0.60}=1.82\\) per photon. Editorial check: extrapolating from 52 µs at \\(\\bar n=7.4\\) gives \\(52\\ \\mu\\mathrm s\\times1.82^{26.4}\\approx380\\) s at \\(\\bar n=33.8\\), within about 1.2 standard errors of the measured 448 s. The points come from different flux biases, with different \\(K\\) and \\(T_1\\), which the authors acknowledge."
+      ],
+      "transfer": "For any rare-event lifetime longer than the measurement window, count events in continuous records. Then fit the dependence on the probe rate to separate intrinsic events from those caused by the measurement."
+    }
+  ],
+  "approved_on": "2026-11-04"
+}

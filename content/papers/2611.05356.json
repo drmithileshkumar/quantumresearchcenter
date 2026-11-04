@@ -1,0 +1,47 @@
+{
+  "id": "2611.05356",
+  "topic": "computing",
+  "title": "Breaking the quantum barriers for Graph Collision",
+  "authors": "Arjan Cornelissen; Amin Shiraz Gilani; Shiva Kintali; François Le Gall; Subhasree Patro; Xingyu Zhou",
+  "submitted": "2026-11-03",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "In graph collision, a graph on \\(n\\) vertices is known in advance, some vertices are marked, and the task is to decide with as few queries as possible whether some edge has both endpoints marked. It is a subroutine for triangle finding. The best quantum algorithm for arbitrary graphs had used \\(O(n^{2/3})\\) queries since 2005, the lower bound was \\(\\Omega(\\sqrt n)\\), and some had conjectured that \\(n^{2/3}\\) was optimal.",
+  "result": "The conjecture is false. A first algorithm uses \\(\\tilde O(n^{92/139})\\approx n^{0.662}\\) queries and a refined one uses \\(\\tilde O(n^{11/17})\\approx n^{0.647}\\). The same bound applies to any Boolean function whose positive inputs have certificates of size two, provided the alphabet is small. In the other direction, an adversary matrix gives \\(\\Omega(\\sqrt{n\\log n})\\) for a points-and-lines graph, beating the \\(\\sqrt n\\) barrier for positive-weight adversaries.",
+  "significance": "This is the first improvement on the general upper bound in two decades, and the lower bound rules out an \\(O(\\sqrt n)\\) algorithm. The algorithms do not use a new quantum walk. They use classical sampling, a least-squares estimate of neighbourhood counts and graph surgery, combined with standard search and walk subroutines.",
+  "limitations": "The gap between \\(n^{11/17}\\) and \\(\\sqrt{n\\log n}\\) remains, and the authors leave open whether \\(\\tilde O(\\sqrt n)\\) is possible. The bounds hide polylogarithmic factors. The \\(o(n^{2/3})\\) result for certificate-two functions needs alphabet size \\(q=O(n^{1/33-\\varepsilon})\\). The authors state that OpenAI's GPT-6 Astra proposed the core proof ideas: it produced a first algorithm with exponent \\(13/20\\), helped develop the 92/139 and 11/17 algorithms, and gave substantial help with the lower bound.",
+  "status": "approved",
+  "summary_basis": "Description based on the abstract, Section 1 (including the technical overview), the statement of Theorem 6.1 and the generative-AI statement of the linked arXiv version, read 2026-11-04. The proofs in Sections 3–6 were not checked line by line.",
+  "verified_on": "2026-11-04",
+  "methods_source_section": "Section 1.1 (technical overview of Sections 3–6)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "For a known graph \\(G\\) and a marked set \\(M\\), let \\(\\ell_u(M)\\) be the number of marked neighbours of \\(u\\). If these counts were known, Grover search over the vertices with \\(\\ell_u>0\\) would decide the problem in \\(O(\\sqrt n)\\) queries. The algorithm instead finds a set \\(S\\) whose counts approximate them, with squared error \\(r=\\sum_u(\\ell_u(S)-\\ell_u(M))^2\\). A threshold \\(\\tau\\) on the estimated counts then splits the edges into two parts, and each part is tested by variable-time search in \\(\\tilde O(\\sqrt n+\\sqrt b)\\) queries, where \\(b\\) bounds its marked volume.",
+    "Inside \\(P=\\{u:\\ell_u(S)\\le\\tau\\}\\), the marked volume is at most \\(n\\tau+\\sqrt{nr}\\). Outside \\(P\\), on a negative input every marked vertex contributes more than \\(\\tau^2\\) to \\(r\\), so at most \\(r/\\tau^2\\) of them lie there. With degrees at most \\(d\\), their volume is at most \\(dr/\\tau^2\\). Before the estimate, preprocessing samples vertices to remove those with many marked neighbours, tests the high-degree vertices, and extracts dense pieces between neighbourhoods. This keeps the error small, and each deleted edge set is checked for a collision.",
+    "The refined algorithm reduces the maximum degree to \\(d=\\Theta(n^{7/17})\\) at cost \\(\\tilde O(n^{3/4}/d^{1/4})\\), then halves the marked volume repeatedly. Each round estimates counts in nearly regular bipartite pieces obtained from a partition of Chlamtáč, Dinitz and Robinson, under a cardinality constraint. A reduction places a vertex \\((i,a)\\) for each position \\(i\\) and symbol \\(a\\), and an edge for each positive certificate. This transfers the bound to any function with positive certificates of size two, as \\(\\tilde O((nq)^{11/17})\\).",
+    "The lower bound uses the incidence graph of points and nonvertical lines in \\(\\mathbb F_q^2\\), which has \\(q^2\\) vertices on each side, degree \\(q\\), and no two points sharing two lines. Negative inputs mark each line with probability \\(r\\sim\\ln q/q\\), then mark each point on no marked line with probability \\(p\\), where \\(p(1-r)^{q-1}=r\\). Positive inputs plant one marked edge. A general adversary matrix with negative weights gives \\(\\Omega(q\\sqrt{\\log q})\\), which is \\(\\Omega(\\sqrt{n\\log n})\\)."
+  ],
+  "methods": [
+    {
+      "technique": "A least-squares estimate checked against the unknown truth",
+      "explanation": "Sampled counts \\(y_u\\) are unbiased but noisy, vertex by vertex. Requiring all the estimates to come from a single set \\(S\\) couples them, and because the true marked set is one of the candidates, the error of the best fit can be bounded without knowing \\(M\\).",
+      "math": [
+        "Sample \\(q\\) vertices \\(w_i\\) and set \\(y_u=\\frac nq\\sum_ix_{w_i}\\mathbf 1[w_i\\sim u]\\). Let \\(c_{vw}\\) be the number of common neighbours of \\(v\\) and \\(w\\), and set \\(z_v=\\sum_{u\\sim v}y_u\\), so that \\(\\mathbb E z_v=\\zeta_v=\\sum_{w\\in M}c_{vw}\\). Minimising \\(\\sum_u(\\ell_u(S)-y_u)^2\\) over sets is the same as minimising \\(\\psi_z(S)=\\sum_u\\ell_u(S)^2-2\\sum_{v\\in S}z_v\\), because \\(\\sum_u\\ell_u(S)y_u=\\sum_{v\\in S}z_v\\).",
+        "Editorial derivation of \\(r\\le2\\sum_v|z_v-\\zeta_v|\\): since \\(\\sum_u\\ell_u(S)\\ell_u(M)=\\sum_{v\\in S}\\zeta_v\\), we have \\(\\psi_\\zeta(S)=\\sum_u(\\ell_u(S)-\\ell_u(M))^2-\\sum_u\\ell_u(M)^2\\), so \\(r=\\psi_\\zeta(S)-\\psi_\\zeta(M)\\). Writing \\(\\psi_\\zeta=\\psi_z+2\\sum_{v\\in S}(z_v-\\zeta_v)\\) and using \\(\\psi_z(S)\\le\\psi_z(M)\\), \\[r\\le2\\sum_{v\\in S}(z_v-\\zeta_v)-2\\sum_{v\\in M}(z_v-\\zeta_v)\\le2\\sum_{v\\in S\\triangle M}|z_v-\\zeta_v|.\\] Only vertices in \\(S\\) or \\(M\\) contribute, which is what the refined algorithm exploits with a cardinality constraint.",
+        "Editorial check: on 300 random graphs with 7 vertices and collision-free marked sets, we minimised \\(\\psi_z\\) by brute force over all \\(2^7\\) sets and three samples. The inequality held in every case, with the largest value of \\(r-2\\sum_v|z_v-\\zeta_v|\\) equal to \\(0\\), and the identity \\(\\sum_u\\ell_u(S)y_u=\\sum_{v\\in S}z_v\\) held exactly."
+      ],
+      "transfer": "When many noisy estimates share one hidden combinatorial cause, fit the cause rather than each estimate. Because the true cause is a feasible point, comparing objective values bounds the error by the noise in a linear statistic, whose variance is much easier to control."
+    },
+    {
+      "technique": "Balancing the exponents",
+      "explanation": "The exponents come from balancing a few costs: sampling to reduce volume, testing the high-degree vertices, and the final volume-bounded searches. Two of these balances can be checked directly from the overview.",
+      "math": [
+        "Degree reduction costs \\(\\tilde O(n^{3/4}/d^{1/4})\\), and repeated volume reduction needs a graph of maximum degree \\(d\\). With \\(d=n^{7/17}\\), the first cost is \\(n^{3/4-7/68}=n^{44/68}=n^{11/17}\\), so the stated choice of \\(d\\) makes it equal to the final bound, as an optimal choice should.",
+        "For certificate-two functions on alphabet size \\(q=n^a\\), the bound \\((nq)^{11/17}\\) is below \\(n^{2/3}\\) exactly when \\((1+a)\\cdot\\tfrac{11}{17}<\\tfrac23\\), that is \\(a<\\tfrac{34}{33}-1=\\tfrac1{33}\\). This matches the stated condition \\(q=O(n^{1/33-\\varepsilon})\\). Element distinctness has large alphabets and needs \\(\\Omega(n^{2/3})\\), which is why the alphabet size matters.",
+        "Editorial checks on the lower-bound graph: for \\(q=5\\), the points-and-lines graph has degree 5 on both sides and 125 edges, and two points share at most one line, as do two lines. The balancing condition \\(p(1-r)^{q-1}=r\\) makes a point marked with probability \\(r(1-r)\\), which we confirmed for \\(r=0.3\\), \\(q=50\\). The exponents are ordered \\[\\tfrac{11}{17}=0.6471<\\tfrac{13}{20}=0.65<\\tfrac{92}{139}=0.6619<\\tfrac23.\\] The first, AI-generated exponent \\(13/20\\) was in fact better than the simpler \\(92/139\\) algorithm the paper presents."
+      ],
+      "transfer": "When a lower-bound conjecture rests on a quantum-walk barrier, check whether classical sampling and preprocessing can change the instance first. Bounding a volume or a degree often lets known quantum subroutines run below the barrier."
+    }
+  ],
+  "approved_on": "2026-11-04"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "2611.04009",
+  "topic": "foundations",
+  "title": "Tight Quasiprobabilistic Entropic Uncertainty Relations for Discrete Quantum Systems",
+  "authors": "Jonathan J. Thio; Stephan De Bièvre; Crispin H. W. Barnes; David R. M. Arvidsson-Shukur",
+  "submitted": "2026-11-02",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "The Wehrl–Lieb theorem says coherent states minimise the entropy of the Husimi function. The analogous claim for the Wigner function, that pure Gaussian states minimise the Wigner entropy among states with a positive Wigner function, has been disproved. Does the claim hold for the discrete quasiprobabilities used in quantum information, where some positive states are mixed and extremal?",
+  "result": "Yes, for Kirkwood–Dirac distributions built on mutually unbiased bases and for Gross–Wigner distributions of odd-dimensional qudits. For every state whose distribution has a nonnegative real part, \\(H(A)+H(B)\\ge H^{\\mathrm{MH}}\\ge-\\ln\\mathrm{Tr}\\rho^2+\\ln d\\ge\\ln d\\), and the last bound is reached only on pure positive states. For Kirkwood–Dirac distributions, states with large nonpositivity (mana) must also have large Rényi-½ uncertainty.",
+  "significance": "In these discrete phase spaces, being \"classical\" in the quasiprobability sense and having minimal uncertainty coincide, as they fail to do for continuous Wigner functions. The proof goes around the hard problem of listing the mixed extremal positive states, which have no known general description.",
+  "limitations": "The theorem is limited to mutually unbiased Kirkwood–Dirac bases and odd-dimensional Gross–Wigner representations. In the appendix's non-MUB examples the analogue can fail, which the authors show with a four-dimensional counterexample. The bound uses Jensen's inequality and is tight only at purities \\(d/D\\) with special support sizes. The analytical results were produced without AI, but some appendix numerics were constructed with it. One appendix figure is inconsistent: it states 0.9348 as a minimum, while its Eq. (64) and our own optimisation give 0.9334.",
+  "status": "approved",
+  "summary_basis": "Description based on the full main text and Appendices A–C of the linked arXiv version, read 2026-11-04. The cited structural results on pure positive states (Refs. [8, 16, 57]) were used as stated, not checked.",
+  "verified_on": "2026-11-04",
+  "methods_source_section": "Proposition 1, Theorem 1, Eqs. (30)–(33), Appendices A–B",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A quasiprobability representation assigns to each state a function \\(Q_\\lambda(\\rho)=\\mathrm{Tr}(\\rho S_\\lambda^\\dagger)\\) on a phase space of \\(d^2\\) points, with a dual frame \\(T_\\lambda\\) that reconstructs expectation values. It is self-dual when \\(T_\\lambda=\\kappa_\\lambda^{-1}S_\\lambda\\). Kirkwood–Dirac uses \\(S_{a,b}=|a\\rangle\\langle a|b\\rangle\\langle b|\\) with \\(\\kappa_{a,b}=|\\langle a|b\\rangle|^2\\), which equals \\(1/d\\) for mutually unbiased bases. Gross–Wigner uses displaced parity operators on \\(\\mathbb Z_d^2\\) for odd \\(d\\), and its pure positive states are the stabiliser states. Both have the Born probabilities of the two bases as marginals.",
+    "The question is Ineq. (5): is the Shannon entropy of \\(Q\\) on positive states at least its minimum over pure positive states? Concavity puts the minimum at an extremal point, and in both representations some extremal positive states are mixed, so it is not obvious. Theorem 1 answers yes, and also identifies the minimum: \\(\\ln d\\), reached exactly on the pure positive states, which for mutually unbiased Kirkwood–Dirac distributions also saturate the Maassen–Uffink bound \\(H(A)+H(B)\\ge\\ln d\\).",
+    "The proof has two parts. Jensen's inequality and self-duality show that the entropy is at least \\(-\\ln\\mathrm{Tr}\\rho^2+\\ln d\\), so mixed states lose. Known results on the structure of pure positive states, which have a distribution equal to \\(1/d\\) on a support of size \\(d\\), show that they reach \\(\\ln d\\) exactly. For Gross–Wigner, some positive pure states have \\(H(A)+H(B)=2\\ln d\\), so there the Maassen–Uffink minimum is reached only on some of them.",
+    "In the other direction, Cauchy–Schwarz bounds the Kirkwood–Dirac nonpositivity through the Born marginals, which gives \\(\\mathcal M\\le-\\ln\\sqrt d+\\tfrac12[H_{1/2}(A)+H_{1/2}(B)]\\). Pure states saturate this, so for them mana and uncertainty are affinely related. Appendix B shows that for non-MUB bases the two notions of minimal uncertainty part ways, and that a rank-two positive state can beat every pure positive state."
+  ],
+  "methods": [
+    {
+      "technique": "Entropy from purity through Jensen's inequality",
+      "explanation": "Finding the minimum over all positive states would require knowing the mixed extremal states. Instead, the paper bounds the entropy by something every state has, its purity, which self-duality ties to the quasiprobability.",
+      "math": [
+        "For any probability vector, \\(-\\sum_\\lambda q_\\lambda\\ln q_\\lambda\\ge-\\ln\\sum_\\lambda q_\\lambda^2\\), since the Shannon entropy is at least the collision (Rényi-2) entropy. Self-duality gives \\(|Q_\\lambda|^2=\\kappa_\\lambda Q_\\lambda\\overline{\\tilde Q_\\lambda}\\). Summing and using the reconstruction formula, \\[\\sum_\\lambda(Q^{\\mathrm{MH}}_\\lambda)^2\\le\\sum_\\lambda|Q_\\lambda|^2\\le\\|\\kappa\\|_\\infty\\,\\mathrm{Tr}\\rho^2,\\] so \\(H^{\\mathrm{MH}}\\ge-\\ln\\mathrm{Tr}\\rho^2-\\ln\\|\\kappa\\|_\\infty\\), which equals \\(-\\ln\\mathrm{Tr}\\rho^2+\\ln d\\) when \\(\\kappa=1/d\\).",
+        "Equality requires all three inequalities to be tight. Collision entropy equals Shannon entropy only for a uniform distribution, the first sum equals the second only for a real distribution, and \\(\\mathrm{Tr}\\rho^2=1\\) only for a pure state. So a state at \\(\\ln d\\) must be pure, positive and flat on its support, and the known structure results say every pure positive state is of this kind.",
+        "Editorial check: for the discrete Fourier Kirkwood–Dirac distribution with \\(d=2,\\dots,5\\), we sampled several thousand states with nonnegative real part. The chain \\(H(A)+H(B)\\ge H^{\\mathrm{MH}}\\ge-\\ln\\mathrm{Tr}\\rho^2+\\ln d\\) held in every case, with the smallest slack at rounding level. The basis state and the uniform superposition each gave \\(H^{\\mathrm{KD}}=\\ln d\\) to ten digits."
+      ],
+      "transfer": "To bound an entropy-like quantity over a convex set whose extreme points are unknown, look for a quadratic functional that dominates the distribution's collision probability and has a meaning for every state. When that functional is the purity, the minimisers must be pure."
+    },
+    {
+      "technique": "Nonpositivity bounded by Born-marginal uncertainty",
+      "explanation": "The second result runs the other way: a state can be very nonclassical only if both of its basis distributions are spread out.",
+      "math": [
+        "Each Kirkwood–Dirac entry is \\(\\langle b|a\\rangle\\langle a|\\rho|b\\rangle\\), and Cauchy–Schwarz on \\(\\rho^{1/2}\\) gives \\(|\\langle a|\\rho|b\\rangle|\\le\\sqrt{p_aq_b}\\). With \\(|\\langle a|b\\rangle|=d^{-1/2}\\), \\[\\mathcal N+1=\\sum_{a,b}|Q_{a,b}|\\le\\frac1{\\sqrt d}\\Big(\\sum_a\\sqrt{p_a}\\Big)\\Big(\\sum_b\\sqrt{q_b}\\Big).\\] Since \\(H_{1/2}(p)=2\\ln\\sum_a\\sqrt{p_a}\\), taking logarithms gives Eq. (33).",
+        "For a pure state, \\(\\langle a|\\rho|b\\rangle=\\langle a|\\psi\\rangle\\langle\\psi|b\\rangle\\) has modulus exactly \\(\\sqrt{p_aq_b}\\), so the bound is an equality. Editorial check: on 2000 random pure qutrit states, the difference between the two sides of Eq. (33) was below \\(10^{-15}\\) in every case.",
+        "Editorial check on Appendix B: for the non-MUB matrix \\(U=\\frac13\\begin{pmatrix}-1&2&2\\\\2&-1&2\\\\2&2&-1\\end{pmatrix}\\), a fine grid search over real states found \\(\\min(H(A)+H(B))=0.9334\\) at \\(\\psi\\approx(0.685,0.685,-0.249)\\). That agrees with the paper's Eq. (64), \\(\\approx0.933\\), but not with the 0.9348 stated earlier in the same appendix. The basis-state value \\(\\tfrac19(\\ln9+8\\ln\\tfrac94)=0.9650\\) matches."
+      ],
+      "transfer": "Any quasiprobability built from matrix elements between two bases has nonpositivity bounded by a product of \\(\\ell_{1/2}\\) norms of the marginals. For pure states the bound is exact, so nonpositivity can be read off from two ordinary measurement distributions."
+    }
+  ],
+  "approved_on": "2026-11-04"
+}

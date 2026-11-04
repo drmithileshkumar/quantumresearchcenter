@@ -1,0 +1,47 @@
+{
+  "id": "2611.05317",
+  "topic": "information",
+  "title": "Simple proof of conditions requiring maximal entanglement for local state verification and discrimination",
+  "authors": "Somshubhro Bandyopadhyay",
+  "submitted": "2026-11-03",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Two parties sharing an unknown state want to verify, with certainty and using only local operations and classical communication, whether it is a given entangled \\(|\\varphi\\rangle\\). This needs an entangled resource \\(|\\tau\\rangle\\). It was known that the resource needs Schmidt rank at least that of \\(|\\varphi\\rangle\\), and that at equal rank it must be maximally entangled, but the second fact had only an algebraic-geometry proof. Is there a direct argument, and what does it imply for distinguishing bases?",
+  "result": "A self-contained linear-algebra proof of both statements, valid even for separable measurements. As a consequence, among resources of local dimension at most \\(d\\), perfectly distinguishing a basis of \\(\\mathbb C^d\\otimes\\mathbb C^d\\) that contains one full-Schmidt-rank state requires, and is achieved by, a maximally entangled state of \\(\\mathbb C^d\\otimes\\mathbb C^d\\). This holds for almost every basis, however weakly entangled its states are.",
+  "significance": "The entanglement needed depends on Schmidt rank, not on how entangled the basis states are. A Haar-random basis of weakly entangled states costs a full \\(\\log_2d\\) ebits, which is more than the average-entanglement (entropy) bound would suggest. The proof is short enough to teach and shows which part of the measurement forces each conclusion.",
+  "limitations": "The resource dimension must be at most \\(d\\). With larger resources the result fails: Section 5.1 gives two-qutrit resources with about 0.89 and 0.92 ebits that distinguish entangled two-qubit bases. The minimum entanglement without a dimension restriction is left open, as are bases with no full-rank element and incomplete sets of maximally entangled states.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version (Sections 1–5, including both proofs), read 2026-11-04.",
+  "verified_on": "2026-11-04",
+  "methods_source_section": "Section 3 (proof of Theorem 1) and Section 4 (Theorem 2)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The unknown state sits on \\(\\mathcal X_1\\otimes\\mathcal Y_1\\), and the resource \\(|\\tau\\rangle=\\sum_\\mu\\lambda_\\mu|\\mu\\mu\\rangle\\) on \\(\\mathcal X_2\\otimes\\mathcal Y_2\\). A measurement \\(\\{E,\\mathbb 1-E\\}\\) on the combined systems is separable if each element is a sum of products of positive operators. LOCC measurements are separable, so a lower bound for separable measurements also holds for LOCC. Composing with the resource induces an element \\(M_E=(\\mathbb 1\\otimes\\langle\\tau|)W^\\dagger EW(\\mathbb 1\\otimes|\\tau\\rangle)\\) on the unknown system, and verification means \\(M_E=|\\varphi\\rangle\\langle\\varphi|\\).",
+    "Theorem 1: if a separable measurement verifies \\(|\\varphi\\rangle\\) using \\(|\\tau\\rangle\\), then \\(\\mathrm{Sch}(\\tau)\\ge\\mathrm{Sch}(\\varphi)\\), and at equality \\(|\\tau\\rangle\\) is maximally entangled. The first part uses only the accepting outcome \\(E\\). The second uses completeness, \\(E+(\\mathbb 1-E)=\\mathbb 1\\), which forces the input to lie entirely in the span of the accepting product vectors.",
+    "Theorem 2 follows directly. Grouping the outcomes of a perfect discrimination gives a verification of the full-rank element, so \\(d\\le\\mathrm{Sch}(\\tau)\\le d'\\le d\\), and equality forces maximal entanglement. Teleportation supplies the converse. A Haar-random basis consists of full-rank states with probability one, so the conclusion is generic. For \\(d=2\\), every entangled two-qubit state has full rank, so a two-qubit basis needs either no resource or a full ebit.",
+    "The restriction \\(d'\\le d\\) matters. Basis (15), \\(U_\\phi^\\dagger|xy\\rangle\\) with \\(U_\\phi=\\mathrm{diag}(1,1,1,e^{i\\phi})\\), consists of entangled states. It can be distinguished by applying \\(U_\\phi\\), which Stahlke and Griffiths showed can be implemented with two-qutrit resources of less than one ebit. A two-qubit resource would have to be maximally entangled. The open questions are the minimum entanglement without dimension limits, and the cost of bases whose largest Schmidt rank \\(s\\) is below \\(d\\)."
+  ],
+  "methods": [
+    {
+      "technique": "Counting product vectors for the Schmidt-rank bound",
+      "explanation": "Writing the accepting measurement as rank-one product terms turns the verification condition into an equation that expresses \\(|\\varphi\\rangle\\) as a short sum of product vectors.",
+      "math": [
+        "Write \\(E=\\sum_k|p_k\\rangle\\langle p_k|\\) with product vectors \\(|p_k\\rangle=|\\alpha_k\\rangle|\\beta_k\\rangle\\), and expand \\(|\\alpha_k\\rangle=\\sum_\\mu|a_{k\\mu}\\rangle|\\mu\\rangle\\) and \\(|\\beta_k\\rangle=\\sum_\\nu|b_{k\\nu}\\rangle|\\nu\\rangle\\). Contracting with \\(|\\tau\\rangle\\) keeps only the terms with \\(\\mu=\\nu\\): \\(M_E=\\sum_k|v_k\\rangle\\langle v_k|\\) with \\(|v_k\\rangle=\\sum_\\mu\\lambda_\\mu|a_{k\\mu}b_{k\\mu}\\rangle\\).",
+        "\\(M_E=|\\varphi\\rangle\\langle\\varphi|\\) means that \\(\\sum_k|\\langle\\chi|v_k\\rangle|^2=0\\) for every \\(\\chi\\perp\\varphi\\), so every \\(|v_k\\rangle=c_k|\\varphi\\rangle\\) with \\(\\sum_k|c_k|^2=1\\). For any \\(c_k\\neq0\\), this writes \\(|\\varphi\\rangle\\) as a sum of at most \\(\\mathrm{Sch}(\\tau)\\) product vectors. Schmidt rank is the least number of products needed, so \\(\\mathrm{Sch}(\\varphi)\\le\\mathrm{Sch}(\\tau)\\).",
+        "Editorial check: in \\(\\mathbb C^4\\otimes\\mathbb C^4\\), random sums of two and of three product vectors had Schmidt rank exactly two and three. So the counting bound is tight for generic sums, and only the number of terms constrains the rank."
+      ],
+      "transfer": "When an operation implemented with a resource must reproduce a rank-one target, expand the implementation into rank-one product terms. The target then appears as a sum of products, with one product per Schmidt component of the resource."
+    },
+    {
+      "technique": "A trace identity that forces equal Schmidt coefficients",
+      "explanation": "At equal Schmidt rank, the same product vectors appear in two decompositions: summed over \\(\\mu\\) for fixed \\(k\\), and over \\(k\\) for fixed \\(\\mu\\). Solving one decomposition and substituting it into the other gives an operator identity whose trace fixes every \\(\\lambda_\\mu\\).",
+      "math": [
+        "Completeness and \\(\\langle\\Psi|E|\\Psi\\rangle=1\\) give \\(|\\Psi\\rangle=\\sum_kc_k^*|p_k\\rangle\\), where \\(|\\Psi\\rangle=W(|\\varphi\\rangle|\\tau\\rangle)\\). Contracting with \\(|\\mu\\mu\\rangle\\) gives Eq. (9), \\(\\lambda_\\mu|\\varphi\\rangle=\\sum_kc_k^*|a_{k\\mu}b_{k\\mu}\\rangle\\). When the ranks are equal to \\(r\\), the \\(|a_{k\\mu}\\rangle\\) form a basis for each \\(k\\) with \\(c_k\\ne0\\), with a dual basis \\(\\langle\\tilde a_{k\\mu}|a_{k\\nu}\\rangle=\\delta_{\\mu\\nu}\\). Applying \\(|a_{k\\mu}\\rangle\\langle\\tilde a_{k\\mu}|\\otimes\\mathbb 1\\) to Eq. (7) isolates one term: \\(\\lambda_\\mu|a_{k\\mu}b_{k\\mu}\\rangle=c_k(|a_{k\\mu}\\rangle\\langle\\tilde a_{k\\mu}|\\otimes\\mathbb 1)|\\varphi\\rangle\\).",
+        "Substituting gives \\((G_\\mu\\otimes\\mathbb 1)|\\varphi\\rangle=\\lambda_\\mu^2|\\varphi\\rangle\\), with \\(G_\\mu=\\sum_k|c_k|^2|a_{k\\mu}\\rangle\\langle\\tilde a_{k\\mu}|\\). A full-rank \\(|\\varphi\\rangle\\) is cyclic, so \\(G_\\mu=\\lambda_\\mu^2\\mathbb 1\\). Taking the trace, \\[r\\lambda_\\mu^2=\\sum_k|c_k|^2\\langle\\tilde a_{k\\mu}|a_{k\\mu}\\rangle=\\sum_k|c_k|^2=1,\\] so \\(\\lambda_\\mu^2=1/r\\) for every \\(\\mu\\).",
+        "Editorial checks: for a random basis of \\(\\mathbb C^3\\), each operator \\(|a_\\mu\\rangle\\langle\\tilde a_\\mu|\\) had trace \\(1.000000000000\\), the fact the last step uses. The Section 5.1 numbers also check out: \\(\\phi=2\\arccos(35/36)\\) gives concurrence \\(0.2341\\), the resources have entropies \\(0.891\\) and \\(0.922\\) ebits, \\(\\sin(0.04\\pi)=0.125\\), and the basis (15) is orthonormal for both angles."
+      ],
+      "transfer": "If two decompositions share the same vectors indexed by two labels, use a dual basis to project out single terms and substitute one decomposition into the other. A cyclic vector then turns an eigenvalue equation into an operator identity, and taking its trace gives a scalar constraint."
+    }
+  ],
+  "approved_on": "2026-11-04"
+}

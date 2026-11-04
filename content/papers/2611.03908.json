@@ -1,0 +1,47 @@
+{
+  "id": "2611.03908",
+  "topic": "foundations",
+  "title": "Analog quantum simulation of paraparticle statistics",
+  "authors": "Gyunghun Kim; Cora N. Barrett; Sarah E. Muschinske; Junyoung An; Helin Zhang; Ilan T. Rosen; Rabindra Das; Michael A. Gingras; David K. Kim; Bethany M. Niedzielski; Meghan Schuldt; Jonilyn L. Yoder; Mollie E. Schwartz; Kyle Serniak; Jeffrey A. Grover; Max Hays; William D. Oliver",
+  "submitted": "2026-11-02",
+  "version": "v1",
+  "kind": "Experiment",
+  "problem": "Every particle we know is a boson or a fermion, and older proposals for other statistics in three dimensions turned out to be bosons or fermions with a hidden local label. Wang and Hazzard recently proposed R-paraparticles, whose internal \"colour\" is a nonlocal property of the many-body state and changes under exchange by a matrix rather than a sign. Can such statistics be produced and seen in a laboratory system?",
+  "result": "On a 16-transmon lattice, the authors emulate a two-colour (\\(m=2\\)) paraparticle chain of up to four sites. Exchanging two paraparticles gives a phase of \\((1.00\\pm0.01)\\pi\\). Two paraparticles meeting at a 50:50 beamsplitter antibunch whatever their colours. And a single site thermalised against a 14-qubit bath reaches the occupation \\(2x/(1+2x)\\), which is neither Bose–Einstein nor Fermi–Dirac.",
+  "significance": "This is the first laboratory test of the exchange, interference and thermal signatures that define this kind of parastatistics. It shows that the generalised Jordan–Wigner mapping turns a strongly interacting qubit ladder into free paraparticles, and so gives a working platform for studying interacting paraparticles next.",
+  "limitations": "This is an emulation: the paraparticles are a change of description for transmon excitations kept apart by a strong \\(ZZ\\) interaction, not new elementary particles. In the qubit picture each observed effect also has an ordinary account (reflection off the blockaded middle site, a geometric phase). The chains are one-dimensional and at most four sites long, the particles do not interact, and the thermal data are post-selected on excitation number and taken at effectively infinite temperature. The authors state that Codex and Claude were used for analysis code, plot formatting and proofreading.",
+  "status": "approved",
+  "summary_basis": "Description based on the full main text (Sections I–VI) of the linked arXiv version, read 2026-11-04. The supplementary material, which contains the derivations of the exchange and beamsplitter dynamics, was skimmed but not checked.",
+  "verified_on": "2026-11-04",
+  "methods_source_section": "Sections II–V (Eqs. (1)–(4), Figs. 2–5)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The algebra is Eq. (1): \\(\\psi^\\dagger_{i\\alpha}\\psi^\\dagger_{j\\beta}=-\\psi^\\dagger_{j\\alpha}\\psi^\\dagger_{i\\beta}\\), with the colours \\(\\alpha,\\beta\\) staying in place while the sites swap. Setting \\(i=j\\) gives \\(\\psi^\\dagger_{i\\alpha}\\psi^\\dagger_{i\\beta}=0\\) for every pair of colours, so no two paraparticles share a site, even with different colours. For spin-½ fermions the exclusion applies only when the spins are the same. The ordered pair of colours is a global label of the state, not something attached to either particle.",
+    "A generalised Jordan–Wigner transformation maps a chain of such particles to a chain of three-level systems \\(\\{|0\\rangle,|r\\rangle,|b\\rangle\\}\\), with creation operators ordered by site. Each three-level site is built from two transmons, a red one and a blue one, coupled with \\(g\\). Tuning \\(|11\\rangle\\) into resonance with \\(|20\\rangle\\) gives a \\(ZZ\\) shift \\(\\zeta=\\sqrt2g\\approx2\\pi\\times20\\) MHz, which forbids double occupation. Parametric couplers supply colour-independent hopping \\(J\\lesssim2\\pi\\times3\\) MHz between neighbouring rungs of the ladder.",
+    "Three experiments follow. In a three-site chain, red at site 1 and blue at site 3 pass through each other in \\(t_E=\\pi/(\\sqrt2J)\\approx202\\) ns. A Ramsey sequence compares this state with a blockaded three-particle state and measures the phase it picks up, \\(\\theta_E=(1.00\\pm0.01)\\pi\\). In a four-site beamsplitter with \\(J_c/J\\approx0.637\\) and \\(t_{BS}\\approx159\\) ns, \\((r,r)\\), \\((b,b)\\) and \\((r,b)\\) pairs all antibunch. Spinful fermions with different spins would instead split independently.",
+    "For thermalisation, the two paraparticle qubits are coupled to 14 bath qubits, starting from \\(n_0\\) bath excitations. The initial product states have zero energy under the hopping Hamiltonian, so the eigenstate thermalisation hypothesis predicts an infinite-temperature ensemble within the fixed-\\(n_0\\) sector. That gives a Boltzmann factor \\(x=n_0/(N-n_0+1)\\) and occupation \\(2x/(1+2x)\\). The measured occupations follow this curve, and a fermionic control without the \\(ZZ\\) interaction follows the Fermi–Dirac one. The authors propose interacting paraparticles, such as a Luttinger liquid in a fixed colour sector, as the next step."
+  ],
+  "methods": [
+    {
+      "technique": "Reading an exchange phase from free evolution",
+      "explanation": "A sign under exchange is invisible in populations, since the particles come back to where they started. The paper therefore uses dynamics in which the particles return exactly, and turns the sign into a relative phase with an interferometer.",
+      "math": [
+        "On three sites with uniform hopping, the single-particle Hamiltonian is \\(J\\) times the adjacency matrix of a path, with eigenvalues \\(0\\) and \\(\\pm\\sqrt2J\\). At \\(t_E=\\pi/(\\sqrt2J)\\) the phases on the eigenvalues \\(\\pm\\sqrt2J\\) are both \\(-1\\), while the zero mode keeps phase \\(+1\\). The resulting propagator sends \\(\\psi^\\dagger_{1\\alpha}\\to-\\psi^\\dagger_{3\\alpha}\\), \\(\\psi^\\dagger_{2\\alpha}\\to-\\psi^\\dagger_{2\\alpha}\\) and \\(\\psi^\\dagger_{3\\alpha}\\to-\\psi^\\dagger_{1\\alpha}\\), which is Eq. (3).",
+        "Because the particles do not interact, two-particle states evolve operator by operator: \\[\\psi^\\dagger_{1r}\\psi^\\dagger_{3b}|\\mathcal V\\rangle\\to\\psi^\\dagger_{3r}\\psi^\\dagger_{1b}|\\mathcal V\\rangle=-\\psi^\\dagger_{1r}\\psi^\\dagger_{3b}|\\mathcal V\\rangle,\\] where the last step is Eq. (1), with the colours keeping their order. A Ramsey pulse on qubit \\((2,r)\\) puts this state in superposition with the three-particle state, which is frozen because every site is full, so the \\(\\pi\\) becomes a measurable relative phase.",
+        "Editorial check: we simulated the qubit ladder directly, with three-level sites, colour-preserving hopping and hard-core exclusion. Starting from \\((r,0,b)\\), the amplitude to return at \\(t_E\\) is \\(-1.000000\\), and the amplitude to reach \\((b,0,r)\\) is zero. In the qubit picture the excitations reflect off the blockaded middle site and keep their order, and the \\(-1\\) is the geometric phase the paper mentions. The stated times also follow: \\(J/2\\pi=1.75\\) MHz gives \\(t_E=202.0\\) ns, and \\(J/2\\pi=1.5\\) MHz with \\(J_c/J=0.637\\) gives \\(t_{BS}=\\pi/\\sqrt{J_c^2+4J^2}=158.8\\) ns."
+      ],
+      "transfer": "To measure a global sign that no population can show, find a closed evolution that returns the state to itself, and interfere it with a reference branch that the evolution cannot touch. Here a fully blockaded state is the reference, at no extra cost."
+    },
+    {
+      "technique": "Thermal occupation by counting microstates",
+      "explanation": "Exclusion changes statistics by changing how many states there are. Counting the states of a site together with a finite bath gives both the paraparticle occupation and the effective Boltzmann factor used in the experiment.",
+      "math": [
+        "An \\(m\\)-colour site that holds at most one particle has the states vacuum and \\(m\\) colours, so \\(Z=1+mx\\) and \\(\\langle n\\rangle=mx/(1+mx)\\). For comparison, Fermi–Dirac gives \\(x/(1+x)\\) per spin state, and two spin states give \\(2x/(1+x)\\) in total, because double occupation is then allowed.",
+        "At infinite temperature within a fixed total number \\(n_0\\) of excitations, every configuration is equally likely. A bath of \\(N\\) qubits with \\(k\\) excitations on the site has \\(\\binom N{n_0-k}\\) states, so the effective Boltzmann factor is \\[x=\\frac{\\binom N{n_0-1}}{\\binom N{n_0}}=\\frac{n_0}{N-n_0+1}.\\]",
+        "Editorial check: with \\(N=14\\), the direct count \\(2\\binom N{n_0-1}\\big/\\big[\\binom N{n_0}+2\\binom N{n_0-1}\\big]\\) equals \\(2x/(1+2x)\\) for every \\(n_0\\). For example, both give \\(0.4211\\) at \\(n_0=4\\) and \\(0.8889\\) at \\(n_0=12\\). The paraparticle curve saturates at one particle per site, while the fermionic total approaches two, which is the distinction Fig. 5 shows."
+      ],
+      "transfer": "For any constrained occupation rule, write the site's partition function by listing its allowed states, then read the effective temperature of a finite bath from a ratio of binomial coefficients. This is a quick check of whether a quench experiment can tell two statistics apart."
+    }
+  ],
+  "approved_on": "2026-11-04"
+}

@@ -12,11 +12,12 @@
 
   const byId = id => document.getElementById(id);
   const parts = {
-    ket: byId('state-ket'), concurrence: byId('inv-concurrence'), needle: byId('inv-needle'),
-    schmidt: byId('inv-schmidt'), type: byId('inv-type'), barC: byId('bar-c'),
+    heat: byId('ph-heat-disc'),
     status: byId('state-status'), result: byId('measure-result'), tally: byId('measure-tally'),
     desc: byId('phasor-desc'), basisHint: byId('basis-hint'),
     computational: byId('basis-computational'), bell: byId('basis-bell'),
+    menuState: byId('menu-state'), menuGateA: byId('menu-gate-a'), menuGateB: byId('menu-gate-b'),
+    menuGateTwo: byId('menu-gate-two'), menuMeasure: byId('menu-measure'),
     sDesc: byId('schmidt-desc'), sFormula: byId('schmidt-formula'), sTheta: byId('schmidt-theta'),
     sLambda0: byId('schmidt-lambda-0'), sLambda1: byId('schmidt-lambda-1'), sChi: byId('schmidt-chi'),
     sALine: byId('schmidt-a-line'), sAPlus: byId('schmidt-a-plus'), sAMinus: byId('schmidt-a-minus'),
@@ -342,15 +343,27 @@
     label.setAttribute('y', (y + 14 * nx + 4).toFixed(1));
   }
 
-  function drawTable() {
+  function drawDials() {
+    // One dial per basis state: the arrow's length is the magnitude and its angle the phase.
     const amplitudes = displayState();
     const labels = basis === 'computational' ? LABELS : BELL_LABELS;
     amplitudes.forEach((amplitude, index) => {
       const key = KEYS[index];
+      const magnitude = size(amplitude);
+      const degrees = phaseOf(amplitude);
+      const x = 32 + 22 * magnitude * Math.cos(degrees * D2R);
+      const y = 32 - 22 * magnitude * Math.sin(degrees * D2R);
+      const needle = byId(`amp-needle-${key}`);
+      needle.setAttribute('x2', x.toFixed(1));
+      needle.setAttribute('y2', y.toFixed(1));
+      needle.classList.toggle('is-empty', magnitude < ZERO);
+      const dot = byId(`amp-tip-${key}`);
+      dot.setAttribute('cx', x.toFixed(1));
+      dot.setAttribute('cy', y.toFixed(1));
+      dot.classList.toggle('is-empty', magnitude < ZERO);
       byId(`amp-name-${key}`).textContent = labels[index];
-      byId(`amp-mag-${key}`).textContent = size(amplitude).toFixed(3);
-      byId(`amp-phase-${key}`).textContent = size(amplitude) < ZERO ? '—' : phaseOf(amplitude).toFixed(0) + '°';
-      byId(`amp-prob-${key}`).textContent = abs2(amplitude).toFixed(3);
+      byId(`amp-mag-${key}`).textContent = magnitude.toFixed(3);
+      byId(`amp-phase-${key}`).textContent = magnitude < ZERO ? '—' : degrees.toFixed(0) + '°';
     });
   }
 
@@ -380,15 +393,6 @@
     if (Math.abs(total - 1) > 1e-9) state = state.map(c => scale(c, 1 / Math.sqrt(total)));
 
     const c = concurrence();
-    const spread = Math.sqrt(Math.max(0, 1 - c * c));
-    parts.ket.textContent = ketText();
-    parts.concurrence.textContent = c.toFixed(3);
-    const needlePhase = phaseOf(sub(scale(mul(state[0], state[3]), 2), scale(mul(state[1], state[2]), 2)));
-    parts.needle.textContent = c < ZERO ? '—' : needlePhase.toFixed(0) + '°';
-    parts.schmidt.textContent = `${Math.sqrt((1 + spread) / 2).toFixed(3)}, `
-      + `${Math.sqrt((1 - spread) / 2).toFixed(3)}`;
-    parts.type.textContent = describeType(c);
-    parts.barC.style.width = (c * 100).toFixed(1) + '%';
 
     // Arrows and the needle share one fan group, so a needle lying on an arrow steps aside too.
     const shown = displayState();
@@ -397,12 +401,17 @@
     const offsets = fanOffsets(vectors, 5);
     drawArrows(offsets, fanOffsets(vectors, 16));
     drawNeedle(offsets[4]);
-    drawTable();
+    drawDials();
     drawSchmidt();
+    syncStateMenu();
+    // The heat map is a legend for the needle's scale; its strength is the concurrence itself, so the disc
+    // cools to plain paper as the state factorises and deepens towards the rim as it entangles.
+    parts.heat.style.opacity = c.toFixed(3);
 
     parts.desc.textContent = `${ketText()}. The arrows show the state in the `
       + `${basis === 'computational' ? 'computational' : 'Bell'} basis; the concurrence needle has length `
-      + `${c.toFixed(3)}.`;
+      + `${c.toFixed(3)}, over a background that warms from concurrence 0 at the centre to 1 at the rim and`
+      + ` is shown at ${Math.round(c * 100)}% of its strength.`;
     if (announce) {
       parts.status.textContent = `${ketText()}. Concurrence ${c.toFixed(3)}, ${describeType(c).toLowerCase()}.`;
     }
@@ -515,18 +524,16 @@
     return { outcome, probability: chance };
   }
 
-  for (const [id, wire, name] of [['measure-a', 0, 'A'], ['measure-b', 1, 'B']]) {
-    byId(id).addEventListener('click', () => {
-      const { outcome, probability } = measure(wire);
-      render(false);
-      parts.result.textContent = `Measured qubit ${name}: outcome ${outcome}`
-        + ` (probability ${probability.toFixed(3)}). The pair is now ${ketText()}.`;
-      parts.tally.textContent = tallyText();
-      parts.status.textContent = `Measured qubit ${name} as ${outcome}; the state is now ${ketText()}.`;
-    });
+  function measureQubit(wire, name) {
+    const { outcome, probability } = measure(wire);
+    render(false);
+    parts.result.textContent = `Measured qubit ${name}: outcome ${outcome}`
+      + ` (probability ${probability.toFixed(3)}). The pair is now ${ketText()}.`;
+    parts.tally.textContent = tallyText();
+    parts.status.textContent = `Measured qubit ${name} as ${outcome}; the state is now ${ketText()}.`;
   }
 
-  byId('measure-both').addEventListener('click', () => {
+  function measurePair() {
     const { outcome, probability } = measureBoth();
     counts[outcome] += 1;
     render(false);
@@ -534,9 +541,9 @@
       + ` (probability ${probability.toFixed(3)}).`;
     parts.tally.textContent = tallyText();
     parts.status.textContent = `Measured both qubits; outcome ${KEYS[outcome]}.`;
-  });
+  }
 
-  byId('two-reset').addEventListener('click', () => {
+  function resetAll() {
     state = PRESETS['00'].map(c => [...c]);
     counts = [0, 0, 0, 0];
     setBasis('computational', false);
@@ -544,40 +551,55 @@
       + ' outcomes always agree.';
     parts.tally.textContent = tallyText();
     parts.status.textContent = 'Reset to the state |00⟩ with no measurements recorded.';
+  }
+
+  // ---- the five menus ------------------------------------------------------------------
+  // Action menus apply at once and fall back to "Choose…", so a gate can be used twice. The state
+  // menu instead names the preset the current state equals, or "Custom…" once a gate has moved it.
+  function syncStateMenu() {
+    const match = Object.keys(PRESETS).find(key => PRESETS[key].every((c, index) =>
+      Math.abs(c[0] - state[index][0]) < 1e-9 && Math.abs(c[1] - state[index][1]) < 1e-9));
+    parts.menuState.value = match || '';
+  }
+
+  parts.menuState.addEventListener('change', () => {
+    const preset = PRESETS[parts.menuState.value];
+    if (!preset) return;
+    state = preset.map(c => [...c]);
+    render(true);
   });
 
-  document.querySelectorAll('[data-preset]').forEach(button => {
-    button.addEventListener('click', () => {
-      const preset = PRESETS[button.dataset.preset];
-      if (!preset) return;
-      state = preset.map(c => [...c]);
-      render(true);
-    });
+  const applyLocal = (wire, name) => {
+    const matrix = GATES[name];
+    if (!matrix) return;
+    gateOn(matrix, wire);
+    render(true);
+  };
+  parts.menuGateA.addEventListener('change', () => {
+    const name = parts.menuGateA.value;
+    parts.menuGateA.value = '';
+    applyLocal(0, name);
+  });
+  parts.menuGateB.addEventListener('change', () => {
+    const name = parts.menuGateB.value;
+    parts.menuGateB.value = '';
+    applyLocal(1, name);
+  });
+  parts.menuGateTwo.addEventListener('change', () => {
+    const name = parts.menuGateTwo.value;
+    parts.menuGateTwo.value = '';
+    if (!name) return;
+    applyTwoQubit(name);
+    render(true);
   });
 
-  document.querySelectorAll('[data-gate-a]').forEach(button => {
-    button.addEventListener('click', () => {
-      const matrix = GATES[button.dataset.gateA];
-      if (!matrix) return;
-      gateOn(matrix, 0);
-      render(true);
-    });
-  });
-
-  document.querySelectorAll('[data-gate-b]').forEach(button => {
-    button.addEventListener('click', () => {
-      const matrix = GATES[button.dataset.gateB];
-      if (!matrix) return;
-      gateOn(matrix, 1);
-      render(true);
-    });
-  });
-
-  document.querySelectorAll('[data-gate]').forEach(button => {
-    button.addEventListener('click', () => {
-      applyTwoQubit(button.dataset.gate);
-      render(true);
-    });
+  parts.menuMeasure.addEventListener('change', () => {
+    const choice = parts.menuMeasure.value;
+    parts.menuMeasure.value = '';
+    if (choice === 'measure-a') measureQubit(0, 'A');
+    else if (choice === 'measure-b') measureQubit(1, 'B');
+    else if (choice === 'measure-both') measurePair();
+    else if (choice === 'two-reset') resetAll();
   });
 
   byId('show-products').addEventListener('change', () => render(false));

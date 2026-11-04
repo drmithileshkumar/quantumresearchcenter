@@ -35,10 +35,12 @@ class ControlAudit(HTMLParser):
         if tag == 'svg' and 'data-basis' in a: self.svgs.append(a)
 
 class TwoQubitAudit(HTMLParser):
-    """Collects the vector groups, controls and table cells of the two-qubit page."""
+    """Collects the vector groups, the five menus and the readout cells of the two-qubit page."""
     def __init__(self, text):
         super().__init__()
-        self.svgs, self.groups, self.gate_a, self.gate_b, self.two_qubit_gates, self.presets = [], [], [], [], [], []
+        self.svgs, self.groups = [], []
+        self.menus = {}
+        self.menu = None
         self.lines, self.texts = {}, {}
         self.element = None
         self.feed(text)
@@ -47,12 +49,13 @@ class TwoQubitAudit(HTMLParser):
         a = dict(attrs)
         if tag == 'svg' and a.get('class') == 'phasor': self.svgs.append(a)
         if tag == 'g' and 'ph-vec' in a.get('class', '').split(): self.groups.append(a)
-        if tag == 'button' and 'data-gate-a' in a: self.gate_a.append(a['data-gate-a'])
-        if tag == 'button' and 'data-gate-b' in a: self.gate_b.append(a['data-gate-b'])
-        if tag == 'button' and 'data-gate' in a: self.two_qubit_gates.append(a['data-gate'])
-        if tag == 'button' and 'data-preset' in a: self.presets.append(a['data-preset'])
+        if tag == 'select' and a.get('id'): self.menu = a['id']; self.menus[self.menu] = []
+        if tag == 'option' and self.menu: self.menus[self.menu].append(a.get('value', ''))
         if tag in ('line', 'text') and a.get('id'): self.lines[a['id']] = (tag, a)
         self.element = a.get('id') if tag == 'text' else None
+
+    def handle_endtag(self, tag):
+        if tag == 'select': self.menu = None
 
     def handle_data(self, text):
         if self.element and text.strip(): self.texts[self.element] = text
@@ -154,26 +157,54 @@ class ToolTests(unittest.TestCase):
         audit = TwoQubitAudit(page)
         self.assertEqual(len(audit.svgs), 1)
         self.assertEqual([group['data-index'] for group in audit.groups], ['0', '1', '2', '3'])
-        self.assertEqual(sorted(audit.gate_a), sorted(name for name, _ in tools.GATES))
-        self.assertEqual(sorted(audit.gate_b), sorted(name for name, _ in tools.GATES))
-        self.assertEqual(sorted(audit.two_qubit_gates), ['CNOT', 'CZ', 'SWAP'])
-        self.assertEqual(audit.presets, [key for key, _ in tools.TWO_PRESETS])
+        names = [name for name, _ in tools.GATES]
+        self.assertEqual(audit.menus['menu-state'], [''] + [key for key, _ in tools.TWO_PRESETS])
+        self.assertEqual(audit.menus['menu-gate-a'], [''] + names)
+        self.assertEqual(audit.menus['menu-gate-b'], [''] + names)
+        self.assertEqual(audit.menus['menu-gate-two'], ['', 'CNOT', 'CZ', 'SWAP'])
+        self.assertEqual(audit.menus['menu-measure'],
+                         ['', 'measure-a', 'measure-b', 'measure-both', 'two-reset'])
         self.assertEqual(audit.texts.get('ph-vec-00-label'), '|00⟩')
         line = audit.lines['ph-vec-00'][1]
         self.assertEqual(round(float(line['x2']), 1), 376.0)   # full amplitude on the real axis
         self.assertEqual(round(float(line['y2']), 1), 220.0)
         for index in (1, 2, 3):                                 # the other three are empty
             self.assertIn('is-empty', audit.groups[index]['class'])
+        # <option> holds text only, so the preset labels must not smuggle markup into the menu
+        self.assertNotIn('<sup>', page.split('id="menu-state"')[1].split('</select>')[0])
+        self.assertIn('Φ⁺', page.split('id="menu-state"')[1].split('</select>')[0])
 
     def test_two_qubit_static_readouts_agree_with_the_reference(self):
         page = (ROOT / 'tools/two-qubit.html').read_text()
         _, concurrence, plus, minus = tools.two_qubit_observables([1, 0, 0, 0])
-        for needle in (f'id="inv-concurrence">{concurrence:.3f}<', f'{plus:.3f}, {minus:.3f}'):
-            self.assertIn(needle, page)
+        # The page keeps no summary strip: the needle, the dials and the Schmidt panel carry the readouts.
+        for retired in ('state-ket', 'inv-concurrence', 'inv-needle', 'inv-schmidt', 'inv-type', 'bar-c'):
+            self.assertNotIn(f'id="{retired}"', page)
+        self.assertIn(f'id="schmidt-lambda-0">{(1 + math.sqrt(1 - concurrence ** 2)) / 2:.3f}<', page)
+        self.assertIn(f'id="schmidt-lambda-1">{(1 - math.sqrt(1 - concurrence ** 2)) / 2:.3f}<', page)
         for key in ('00', '01', '10', '11'):
             self.assertIn(f'id="amp-mag-{key}"', page)
         self.assertIn('id="ph-needle"', page)
         self.assertIn('id="ph-p1"', page)
+
+    def test_phasor_disc_carries_the_concurrence_heat_map(self):
+        page = (ROOT / 'tools/two-qubit.html').read_text()
+        self.assertIn('<radialGradient id="ph-heat"', page)
+        self.assertIn('class="ph-heat" id="ph-heat-disc" cx="220.0" cy="220.0" r="156.0" opacity="0"', page)
+        offsets = re.findall(r'<stop offset="([^"]+)" style="stop-color:var\(--heat-(\d)\)"', page)
+        self.assertEqual([offset for offset, _ in offsets], ['0', '.25', '.5', '.75', '1'])
+        self.assertEqual([index for _, index in offsets], ['0', '1', '2', '3', '4'])
+        # the contours mark the concurrence at a quarter, a half and three quarters of the needle's reach
+        self.assertEqual(page.count('class="ph-contour"'), 3)
+        self.assertEqual(re.findall(r'class="ph-contour"[^>]*r="([\d.]+)"', page), ['39.0', '78.0', '117.0'])
+        css = (ROOT / 'tools/tools.css').read_text()
+        self.assertIn('.ph-heat{fill:url(#ph-heat);transition:opacity .35s ease}', css)
+        self.assertIn('--heat-4:rgba(147,77,54,.32)', css)
+        self.assertIn('html[data-theme=dark] .phasor{', css)
+        # the strength follows the current concurrence, so the disc cools to plain paper at C = 0
+        script = (ROOT / 'tools/two-qubit.js').read_text()
+        self.assertIn('heat: byId(\'ph-heat-disc\')', script)
+        self.assertIn('parts.heat.style.opacity = c.toFixed(3);', script)
 
     def test_two_qubit_page_draws_the_schmidt_bases_statically(self):
         page = (ROOT / 'tools/two-qubit.html').read_text()
@@ -227,8 +258,10 @@ class ToolTests(unittest.TestCase):
         self.assertIn('displayState', script)
         self.assertIn('ph-needle', script)
         for token in ('schmidtForm', 'drawSchmidt', 'schmidt-b-minus-label', 'schmidt-lambda-0',
-                      'schmidt-formula'):
+                      'schmidt-formula', 'menu-state', 'menu-gate-a', 'menu-gate-two', 'menu-measure',
+                      'drawDials'):
             self.assertIn(token, script)
+        self.assertNotIn('data-gate-a', script)
 
     def test_script_defines_every_gate_and_the_shared_camera(self):
         script = (ROOT / 'tools/single-qubit.js').read_text()
