@@ -1,0 +1,47 @@
+{
+  "id": "2611.02444",
+  "topic": "computing",
+  "title": "Logarithmic Bias of Zero-Noise Extrapolation under 1/f Noise",
+  "authors": "Chenhui Wang; Weilong Wang; Haoran He; Ping Lv; Zheng Shan",
+  "submitted": "2026-11-02",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Zero-noise extrapolation amplifies noise, for example by folding a circuit into \\(U(U^\\dagger U)^n\\), and fits the measured values to extrapolate to zero noise. The fit assumes a functional form, usually a polynomial or an exponential. Low-frequency noise with a \\(1/f\\) spectrum is common in solid-state qubits, and folding samples it at longer and longer delays. What response does that produce, and what does it do to the fit?",
+  "result": "At second order in the coloured noise, the folded response contains a term \\(\\theta r^2\\ln r\\), with \\(\\theta\\) set by the noise amplitude and the circuit's forward and inverse response. Any minimal polynomial Richardson rule leaves a bias \\(\\theta M\\) with \\(M>0\\), equal to \\(2.73\\theta\\) for the nodes 1, 3, 5. Adding \\(r^2\\ln r\\) to the fitting basis removes this bias at that order, without knowing \\(\\theta\\).",
+  "significance": "It identifies a specific missing extrapolation coordinate and derives it from the physics, rather than from goodness of fit, and it gives a forward prediction that can be tested by varying the noise. In the paper's simulations the corrected estimator cuts single-qubit bias from 5.55% (exponential) and 1.71% (Richardson) to −0.26%.",
+  "limitations": "All results are model predictions; the authors say hardware experiments are under way. The response is second order in the coloured noise and assumes Gaussian, stationary noise with a logarithmic covariance over the sampled delays, so strong noise, non-Gaussian fluctuators or short memory windows can break it. Fitting an extra coordinate amplifies statistical error: on nodes 1, 3, 5, 7 the weights have \\(\\|w\\|_1=8.57\\), against 3.5 for Richardson on 1, 3, 5. Native offsets that are not amplified are not removed.",
+  "status": "approved",
+  "summary_basis": "Description based on the main text (Sections I–VI) of the linked arXiv version, read 2026-11-03. The supplemental material, which holds the proofs, error bounds and simulation details, was not read.",
+  "verified_on": "2026-11-03",
+  "methods_source_section": "Sections II–IV (Eqs. (1)–(6))",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The circuit is folded into \\(r=2n+1\\) blocks \\(F,I,F,\\dots,F\\), each of duration \\(T\\), and the coloured noise continues across block boundaries. The noise enters as \\(\\lambda\\sum_\\alpha\\xi_\\alpha(t)B_\\alpha(t)\\) with stationary covariance \\(\\mathsf A_{\\alpha\\beta}C(t-s)\\). At second order, the change in the observable is an ordered double integral of a circuit kernel against \\(C\\). Markovian noise contributes a term affine in \\(r\\), because there are \\((r+1)/2\\) forward and \\((r-1)/2\\) inverse blocks.",
+    "Counting block pairs exactly, the second difference \\(E(r+2)-2E(r)+E(r-2)\\) removes the affine Markovian part. What remains is the covariance integrated over delays near \\(rT\\), weighted by a fixed kernel. So curvature in \\(r\\) measures memory: white noise gives none, frozen noise a constant, exponential memory a decaying contribution, and logarithmic memory a logarithmic one.",
+    "For a two-sided spectrum \\(A/|\\omega|\\) between \\(\\omega_{\\mathrm{IR}}\\) and \\(\\omega_{\\mathrm{UV}}\\), the covariance is \\(C(\\tau)=[\\mathrm{Ci}(\\omega_{\\mathrm{UV}}|\\tau|)-\\mathrm{Ci}(\\omega_{\\mathrm{IR}}|\\tau|)]/\\pi\\), logarithmic at intermediate delays. Inserting it gives \\[E(r)=E^*+\\delta+a_1r+a_2r^2+\\theta r^2\\ln r+R(r),\\] where \\(\\theta\\) is \\(\\lambda^2/2\\pi\\) times the observable's double-commutator response to the average of the integrated forward and inverse couplings. Here \\(\\delta\\) is a native offset and \\(R\\) has explicitly bounded parts from control shape, band edges and higher orders.",
+    "The response-matched estimator uses intercept weights on the design \\((1,r,r^2,r^2\\ln r)\\), on at least four odd nodes. The log-domain version, which the paper calls PE_log, applies them to \\(\\ln y_k\\). The linear version carries an exact certificate: its bias is \\(\\delta+\\sum_kw_kR(r_k)\\). In a ten-qubit Clifford kicked-Ising model, the exponential bias across 106 stabiliser predictions was almost proportional to the total \\(\\theta\\) (\\(R^2=0.997\\)), and PE_log suppressed the trend. The paper presents these as numerical illustrations, not as a guarantee for every circuit."
+  ],
+  "methods": [
+    {
+      "technique": "Second differences isolate memory",
+      "explanation": "Time-local noise adds a little error per block, which is affine in the number of blocks. Taking the second difference removes it, leaving only correlations between blocks at a distance, which is exactly what memory provides.",
+      "math": [
+        "If each block contributes independently, \\(E(r)\\) is affine in \\(r\\) and \\(\\Delta_2^2E=0\\). Cross-block terms involve \\(C(dT+u-v)\\) for blocks separated by \\(d\\). The second difference keeps only the pairs gained or lost at the largest separations, which gives Eq. (2): an integral of a fixed kernel against \\(C(rT+u-v)\\) for \\(u,v\\in[0,2T]\\).",
+        "With \\(C(\\tau)\\approx[\\ell_T-\\ln(\\tau/T)]/\\pi\\), write \\(\\ln(rT+u-v)=\\ln(rT)+\\ln(1+(u-v)/rT)\\). For \\(r\\ge3\\) the ratio is at most \\(2/3\\), so the expansion converges, and the second difference takes the form \\(d_0+d_L\\ln r+\\sum_pd_p/r^p\\). Summing it twice gives \\(r^2\\ln r\\) as the leading new term, since \\[\\Delta_2^2(r^2\\ln r)=8\\ln r+12+O(r^{-2}),\\] so its coefficient is \\(d_L/8\\).",
+        "Editorial check: the second difference of \\(r^2\\ln r\\) is \\(24.77\\) at \\(r=5\\) and \\(54.4264\\) at \\(r=201\\), against \\(24.88\\) and \\(54.4264\\) from \\(8\\ln r+12\\), so the error falls as \\(r^{-2}\\). Numerical integration of the band-limited \\(1/|\\omega|\\) spectrum, with \\(\\omega_{\\mathrm{IR}}=10^{-3}\\) and \\(\\omega_{\\mathrm{UV}}=10^3\\), matched \\((-\\gamma_E-\\ln\\omega_{\\mathrm{IR}}\\tau)/\\pi\\) to \\(2\\times10^{-6}\\) at \\(\\tau=10\\) and to \\(6\\times10^{-4}\\) at \\(\\tau=0.1\\), where the ultraviolet edge begins to matter."
+      ],
+      "transfer": "For any amplification protocol that repeats blocks, the second difference in the repetition count is a model-free probe of noise memory. Measured curvature that does not fit white or frozen noise indicates which extra coordinate a fit needs. The probe needs repeatable block implementations and enough precision to resolve a curvature signal."
+    },
+    {
+      "technique": "Moment conditions for unbiased extrapolation",
+      "explanation": "A linear extrapolation rule removes every response term whose node moments vanish. Richardson cancels powers of \\(r\\) but not \\(r^2\\ln r\\), and the leftover moment can be computed exactly.",
+      "math": [
+        "Degree-\\(p\\) Richardson weights \\(g_k\\) satisfy \\(\\sum_kg_k=1\\) and \\(\\sum_kg_kr_k^m=0\\) for \\(1\\le m\\le p\\). Inserting Eq. (3) leaves the bias \\(\\delta+\\theta M_{2\\log}+\\sum_kg_kR(r_k)\\), with \\[M_{2\\log}=\\sum_kg_kr_k^2\\ln r_k=\\int_0^\\infty\\frac{t\\prod_jr_j}{\\prod_j(t+r_j)}\\,dt>0.\\] The integral form shows that the sign is fixed for every minimal rule with \\(p\\ge2\\), so more shots at the same nodes cannot remove this term.",
+        "On nodes 1, 3, 5 the weights are \\((15/8,-5/4,3/8)\\), and \\(M=\\tfrac{75}8\\ln5-\\tfrac{45}4\\ln3\\approx2.729\\). The response-matched rule instead takes \\(w^{\\mathsf T}=e_1^{\\mathsf T}X^+\\) for rows \\((1,r_k,r_k^2,r_k^2\\ln r_k)\\), so all four moments are cancelled by construction and \\(\\theta\\) does not need to be known.",
+        "Editorial check: we confirmed the weights and \\(M=2.72909\\), and the integral form gave \\(2.72908\\). On a toy response \\(1+0.01r-0.002r^2+0.004r^2\\ln r\\), Richardson at 1, 3, 5 is off by \\(0.010916=\\theta M\\) exactly, while the four-node rule at 1, 3, 5, 7 recovers the intercept to \\(10^{-15}\\). Its weights are \\((2.509,-3.152,2.277,-0.634)\\), with \\(\\|w\\|_1=8.57\\), about 2.4 times the Richardson value. That ratio is roughly the price in statistical amplification. For the quadratic least-squares rule on 1, 3, 5, 7 used in the paper's bias-improvement condition, \\(\\beta=4.18\\) and \\(\\|q\\|_1=2.75\\)."
+      ],
+      "transfer": "Before choosing an extrapolation form, derive the response's coordinates from the noise model and check which moments a candidate rule cancels. The leftover moment times the coefficient is the bias. Adding coordinates costs variance, so compare \\(\\|w\\|\\) against the bias removed for the expected noise level."
+    }
+  ],
+  "approved_on": "2026-11-03"
+}

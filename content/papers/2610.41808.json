@@ -1,0 +1,49 @@
+{
+  "id": "2610.41808",
+  "topic": "information",
+  "title": "Bounding Fidelity of Non-Stabilizer States from Local Pauli Measurements",
+  "authors": "Yi Li; Otfried Gühne; Qiongyi He",
+  "submitted": "2026-10-30",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Estimating fidelity to a target state is the standard check on a large prepared state, but direct estimation with local Pauli measurements becomes costly for states with much magic. Hypergraph states are a key example. Often only a rigorous bound is needed. Can it be obtained from cheap measurements, without an exponentially large optimisation?",
+  "result": "Yes. Measure only low-order stabilizer moments, which have low overhead, and solve a linear program with just \\(n+1\\) variables for the smallest and largest fidelity compatible with the data. Expected sample cost is \\(O(2^K\\ln(K/\\delta)/\\epsilon^2)\\) at order \\(K\\), independent of \\(n\\), and simulations reach \\(n=500\\) qubits for hypergraph states.",
+  "significance": "Exact fidelity estimation for such states can need exponentially many samples, while many tasks need only a certified bound. Grouping operators by a symmetry of the chosen measurements, with no assumption about the state itself, reduces a large semidefinite program to a tiny LP. The same data can also bound purity and fidelities to other targets.",
+  "limitations": "The bounds become trivial when noise is strong for small \\(K\\), and the needed \\(K\\) grows with noise, with cost exponential in \\(K\\). The \\(n=500\\) results are numerical simulations of noise models, not experiments. Overhead is low only for states whose stabilizing operators have convenient Pauli expansions, and the method bounds fidelity rather than estimating it.",
+  "status": "approved",
+  "summary_basis": "Description based on the main text of the linked arXiv PDF through the numerical examples, read 2026-11-02. The appendices, including the sampling proof and the structure-specific measurement constructions, were not read.",
+  "verified_on": "2026-11-02",
+  "methods_source_section": "Main text (Equations (1)–(10))",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Any pure target \\(\\ket\\psi=U\\ket0^{\\otimes n}\\) is the unique common \\(+1\\) eigenstate of the commuting generators \\(g_i=UZ_iU^\\dagger\\). Averaging products of \\(k\\) generators gives the stabilizer moments \\(S^{(k)}\\), and the target projector expands as \\[\\ket\\psi\\bra\\psi=\\frac1{2^n}\\Big(I+\\sum_{k=1}^n\\binom nkS^{(k)}\\Big).\\] Direct fidelity estimation samples the terms at random. But different terms have very different costs, and products of few generators tend to be cheap.",
+    "So the paper measures only cheap operators and asks for the smallest fidelity consistent with those values. In general this is a semidefinite program over all states. The \\(S^{(k)}\\) are diagonal in the eigenbasis \\(\\ket\\lambda\\) of the generators, and their eigenvalues depend only on the number \\(n_-\\) of \\(-1\\) labels. So the set of achievable moment vectors is a polytope with only \\(n+1\\) vertices.",
+    "The LP then has the variables \\(p_{n_-}\\ge0\\), summing to one, and asks for the extreme values of \\(p_0\\), subject to agreement with the data to within \\(\\epsilon\\). Since \\(p_0\\) is the fidelity, this gives a certified interval. Replacing the objective with \\(\\sum p_{n_-}^2/\\binom n{n_-}\\) gives a convex quadratic program bounding purity from below.",
+    "For hypergraph states, each operator in \\(S^{(k)}\\) can be estimated using at most \\(2^{k-1}\\) parallel local settings. In simulations under global and local depolarizing noise, up to \\(n=500\\), the cost is well below standard estimation. What remains open is tightness under realistic noise, and how much structure other families of states can offer."
+  ],
+  "methods": [
+    {
+      "technique": "Symmetry from the choice of measurements",
+      "explanation": "Symmetry reduction usually assumes that a state is symmetric. Here the measured quantities and the objective are symmetric, so the optimiser can be symmetrised whatever the true state is.",
+      "math": [
+        "Since \\(g_i\\ket\\lambda=(-1)^{\\lambda_i}\\ket\\lambda\\), for any state \\(\\rho\\) we have \\(\\operatorname{Tr}(\\rho S^{(k)})=\\sum_\\lambda\\bra\\lambda\\rho\\ket\\lambda\\bra\\lambda S^{(k)}\\ket\\lambda\\). Only the diagonal \\(p_\\lambda=\\bra\\lambda\\rho\\ket\\lambda\\) matters, and this already reduces the problem from an SDP to an LP over \\(2^n\\) variables.",
+        "The eigenvalue depends only on \\(n_-\\). Choosing \\(j\\) labels from the \\(n_-\\) negative ones and \\(k-j\\) from the others gives \\[V_{n_-}(k)=\\binom nk^{-1}\\sum_{j=0}^k(-1)^j\\binom{n_-}j\\binom{n-n_-}{k-j},\\] a normalised Krawtchouk polynomial. In particular, \\(V_{n_-}(1)=1-2n_-/n\\).",
+        "Permuting the labels, \\(U_\\pi\\ket\\lambda=\\ket{\\pi\\lambda}\\), preserves both the constraints and the fidelity objective. So any feasible \\(\\rho\\) can be averaged over all permutations without changing them, and only \\(n+1\\) variables remain. Note that \\(\\pi\\) permutes generator labels, not physical qubits.",
+        "With only \\(S^{(1)}\\) measured with value \\(\\mu\\), and no sampling error, editorial working gives a closed form: the smallest \\(p_0\\) places the remainder on \\(n_-=1\\), so \\(F_{\\min}=\\max(0,1-n(1-\\mu)/2)\\). Editorial check: on a five-qubit hypergraph state, we confirmed the projector expansion exactly and found the spectrum of \\(S^{(1)}\\) to be \\(\\{\\pm1,\\pm0.6,\\pm0.2\\}\\), as the formula predicts. With global depolarizing noise at \\(\\eta=0.1\\), \\(\\mu=0.9\\) and the true fidelity \\(0.903\\) lies above the bound \\(0.75\\). At \\(\\eta=0.2\\) the values are \\(0.806\\) and \\(0.5\\). The bound held at all eleven noise levels tested."
+      ],
+      "transfer": "To bound a quantity from partial data, look for a group that leaves both the constraints and the objective invariant, even if the physical state is not. The optimisation then shrinks to orbit variables. Note that this needs the measured set to be chosen for the symmetry, so it restricts what data is useful."
+    },
+    {
+      "technique": "Reading many hypergraph operators from one Pauli setting",
+      "explanation": "Hypergraph generators look exponentially expensive, as their Pauli expansions may have exponentially many terms. But those terms can be jointly measurable, which is what makes low-order moments cheap.",
+      "math": [
+        "With \\(C_e=I-2\\ket{1\\cdots1}\\bra{1\\cdots1}_e\\), the generator is \\(g_i=X_i\\otimes\\prod_{e\\ni i}C_{e\\setminus\\{i\\}}\\). Each \\(C\\) is a sum of \\(Z\\) strings, so \\(g_i\\) is \\(X_i\\) times a polynomial in \\(Z\\) operators. All of its terms can be read from one setting, \\(X_i\\) on qubit \\(i\\) and \\(Z\\) elsewhere, by post-processing.",
+        "For a product of two, \\(g_1g_2\\) contains terms with \\(XX\\) or \\(YY\\) on the first two qubits, and \\(Z\\) or \\(I\\) on the rest. Terms with an odd number of \\(Y\\)s vanish by Hermiticity. So two settings suffice, \\(X_1X_2Z_3\\cdots Z_n\\) and \\(Y_1Y_2Z_3\\cdots Z_n\\). In general an order-\\(k\\) product needs at most \\(2^{k-1}\\) settings.",
+        "For the statistics, sampling \\(l=\\lceil8\\ln(4K/\\delta)/\\epsilon^2\\rceil\\) operators from each moment and using enough copies per setting gives all \\(K\\) moments to within \\(\\epsilon\\), with probability at least \\(1-\\delta\\), by Hoeffding's inequality. The expected total is \\(O(2^K\\ln(K/\\delta)/\\epsilon^2)\\), since the cost is set by the order, not by \\(n\\).",
+        "Editorial check: on a five-qubit hypergraph with six hyperedges of mixed size, the Pauli expansion of \\(g_1g_2\\) had 16 terms. All had \\(XX\\) or \\(YY\\) on qubits 1 and 2, and only \\(I\\) or \\(Z\\) elsewhere, as Equation (8) claims."
+      ],
+      "transfer": "Before costing a measurement by the number of Pauli terms, group terms that commute qubit by qubit. Exponentially many terms may need few settings. This relies on the structure of the operator and gives no saving for generic non-stabilizer states, where groupings may be large."
+    }
+  ],
+  "approved_on": "2026-11-02"
+}

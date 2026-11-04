@@ -90,6 +90,27 @@ html[data-theme=dark] .bloch-figure{--axis-green:#7fd6a8;--axis-green-wash:#1628
 .measure-result,.measure-tally{font:12px/1.65 var(--sans);margin:12px 0 0;color:var(--ink-soft);max-width:60ch}
 .measure-tally{color:var(--muted);font-variant-numeric:tabular-nums}
 .qubit-noscript{font:12px/1.65 var(--sans);color:var(--muted);margin:0;padding:12px 14px;border:1px dashed var(--line-strong);border-radius:4px}
+/* The two pictures of one two-qubit state, side by side: amplitudes in a plane on the left, the
+   Schmidt sphere on the right. Turning a coefficient in the plane redraws the sphere. */
+.two-views{margin:26px 0 0}
+.view-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px;align-items:start}
+.view-column{display:flex;flex-direction:column;gap:14px;min-width:0}
+.editorial .view-heading{font:500 21px/1.3 var(--sans);letter-spacing:-.02em;color:var(--heading);margin:0}
+.schmidt-figure{margin:0;padding:14px;border:1px solid var(--line-strong);border-radius:4px;background:var(--surface)}
+.schmidt{display:block;width:100%;max-width:520px;height:auto;margin:0 auto}
+.schmidt-figure figcaption{font:12px/1.65 var(--sans);color:var(--muted);margin:8px 4px 0;text-align:center}
+.schmidt-panel{display:flex;flex-direction:column;gap:14px;min-width:0}
+.schmidt-formula{font:15px/1.9 var(--sans);color:var(--ink);margin:0;overflow-wrap:anywhere}
+.schmidt-values{grid-template-columns:1fr 1fr;gap:10px 24px;margin:0}
+.schmidt-a-line{stroke:var(--blue);stroke-width:1.6;stroke-dasharray:6 4;opacity:.9}
+.schmidt-a-tip{fill:none;stroke:var(--blue);stroke-width:1.8}
+.schmidt-a-label{fill:var(--blue-strong);font:10px var(--sans)}
+.schmidt-b-axis{stroke:var(--warm);stroke-width:1;stroke-dasharray:2 5;opacity:.35}
+.schmidt-b-line{stroke:var(--warm);stroke-width:2.6;stroke-linecap:round}
+.schmidt-b-tip{fill:var(--warm);stroke:var(--surface);stroke-width:1}
+.schmidt-b-label{fill:var(--warm);font:10px var(--sans)}
+.schmidt .is-empty{display:none}
+@media(max-width:980px){.schmidt{max-width:460px}}
 /* The explanation below the model. */
 .qubit-reading{margin-top:44px;border-top:1px solid var(--line);padding-top:30px}
 .editorial .qubit-reading h2{font:500 25px/1.3 var(--sans);letter-spacing:-.03em;margin:0 0 14px}
@@ -128,8 +149,6 @@ html[data-theme=dark] .bloch-figure{--axis-green:#7fd6a8;--axis-green-wash:#1628
 .two-invariants dd{font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--heading);margin:0;font-variant-numeric:tabular-nums}
 .two-scale .meter-label{grid-template-columns:auto minmax(0,1fr) auto;gap:10px;font-size:10px}
 .two-scale .slider-hint{margin:8px 0 0;font-size:11px}
-.two-lab{margin:0}
-.phasor-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,1fr);gap:24px;align-items:start}
 .phasor-figure{margin:0;padding:14px;border:1px solid var(--line-strong);border-radius:4px;background:var(--surface)}
 .phasor-figure figcaption{font:12px/1.65 var(--sans);color:var(--muted);margin:8px 4px 0;text-align:center}
 .phasor{display:block;width:100%;max-width:520px;height:auto;margin:0 auto;touch-action:none;-webkit-user-select:none;user-select:none}
@@ -177,7 +196,7 @@ html[data-theme=dark] .bloch-figure{--axis-green:#7fd6a8;--axis-green-wash:#1628
   .two-controls{grid-template-columns:1fr 1fr}
 }
 @media(max-width:980px){
-  .phasor-layout{grid-template-columns:1fr}
+  .view-grid{grid-template-columns:1fr;gap:30px}
   .phasor{max-width:460px}
 }
 @media(max-width:760px){

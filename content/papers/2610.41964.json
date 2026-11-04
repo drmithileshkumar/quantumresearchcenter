@@ -1,0 +1,47 @@
+{
+  "id": "2610.41964",
+  "topic": "foundations",
+  "title": "No generalised contextuality from the vacuum",
+  "authors": "Ruben Campos Delgado; Selman Ipek",
+  "submitted": "2026-10-30",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Earlier work showed that a detector can harvest Kochen–Specker-type contextuality from a quantum field's vacuum. Contextuality has several inequivalent definitions, however. Can the operational notion due to Spekkens be created the same way, by letting noncontextual detector states interact with the field?",
+  "result": "In two regimes it cannot. The effective channel on an Unruh–DeWitt detector, with the field traced out, is invertible at finite order in perturbation theory and exactly in the zero-gap limit, including for \\(N\\) qudits. An invertible channel keeps a noncontextual set of states noncontextual.",
+  "significance": "The result sits opposite to the harvesting results for Kochen–Specker contextuality, so whether a field can supply contextuality depends on which definition is used. It supports the view that these notions are independent. It also gives a simple test: look at the kernel of the effective channel.",
+  "limitations": "The no-go holds only in the stated regimes: finite perturbative order at weak coupling, and zero or small gap. Vacuum and centred quasi-free field states are considered, and curvature is neglected. Invertibility is sufficient for the conclusion but not known to be necessary, and channels outside these regimes are not excluded. The perturbative claim is close to immediate, since any channel close enough to the identity is invertible.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–3 and the start of Section 4 of the linked arXiv version, read 2026-11-02. The later part of Section 4 and Appendix A were not read; the proof of Proposition 1 given below is our own.",
+  "verified_on": "2026-11-02",
+  "methods_source_section": "Sections 2–4 (Theorem 1, Proposition 1, Equations (9)–(15), (25)–(31))",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Spekkens noncontextuality asks whether preparation and measurement statistics have an ontological model that depends only on operational equivalence classes. In quantum theory a set of states \\(\\{\\rho_s\\}\\) is noncontextual if every probability can be written \\[\\operatorname{Tr}(\\rho_sM_k)=\\sum_\\tau\\operatorname{Tr}(\\rho_sG_\\tau)\\operatorname{Tr}(\\sigma_\\tau M_k),\\] with nonnegative factors. Linearly independent states are always noncontextual, so contextuality needs linear dependence, although linear dependence alone does not ensure it.",
+    "That gives the strategy. Couple a detector to a scalar field through \\(H_I=\\lambda\\xi(x)\\mathcal O(t)\\otimes\\phi(x)\\), start the field in its vacuum, and trace it out. What is left is a channel \\(\\Lambda\\) on the detector. To create contextuality from independent states, \\(\\Lambda\\) would need to map them to dependent ones, which requires a nontrivial kernel. So the question becomes whether \\(\\Lambda\\) is invertible.",
+    "In the Dyson expansion, the one-point function vanishes and \\(\\Lambda=I+\\lambda^2\\Lambda_2+O(\\lambda^4)\\). At fixed order and small enough coupling, an inverse can be solved for order by order. In the gapless limit \\(\\mathcal O(t)\\) is constant, and the Magnus series stops at second order, so the evolution is exact. For one qubit the Pauli operators then transform as \\(I\\to I\\), \\(X\\to X\\), \\(Y\\to aY\\), \\(Z\\to aZ\\), with \\(a=\\langle\\Omega|e^{2i\\phi_\\xi/\\hbar}|\\Omega\\rangle>0\\). In the eigenbasis of \\(\\mathcal O\\), a general qudit channel is also diagonal, with nonzero entries.",
+    "The authors also treat \\(N\\) qudits in the gapless limit, and they note that invertibility persists for small gaps if the channel depends continuously on the gap. What is left open is the general gapped, nonperturbative case, and whether other field states or interactions change the answer."
+  ],
+  "methods": [
+    {
+      "technique": "Invertible channels preserve noncontextuality",
+      "explanation": "The no-go reduces a question about ontological models to a statement of linear algebra about the channel.",
+      "math": [
+        "Suppose the states \\(\\{\\rho_s\\}\\) satisfy the decomposition with \\(G_\\tau,\\sigma_\\tau\\), and \\(\\Lambda\\) is an invertible channel with adjoint \\(\\Lambda^\\dagger\\). Editorial proof sketch (the paper's is in its Appendix A, which we did not read). For any POVM element \\(M\\), \\(\\operatorname{Tr}(\\Lambda(\\rho_s)M)=\\operatorname{Tr}(\\rho_s\\Lambda^\\dagger(M))\\). Since \\(\\Lambda^\\dagger(M)\\) is a POVM element, the decomposition applies to it.",
+        "That gives \\[\\operatorname{Tr}(\\Lambda(\\rho_s)M)=\\sum_\\tau\\operatorname{Tr}(\\rho_sG_\\tau)\\operatorname{Tr}(\\Lambda(\\sigma_\\tau)M).\\] The new states \\(\\Lambda(\\sigma_\\tau)\\) are valid, since a channel maps states to states. For the weights, define \\(G^\\prime_\\tau=(\\Lambda^{-1})^\\dagger(G_\\tau)\\), so that \\(\\operatorname{Tr}(\\Lambda(\\rho_s)G^\\prime_\\tau)=\\operatorname{Tr}(\\rho_sG_\\tau)\\ge0\\).",
+        "So the weights remain nonnegative on the set, even though \\(G^\\prime_\\tau\\) need not be positive as an operator, because only their values on these states are required. Invertibility is used just once, to define \\(G^\\prime_\\tau\\). This is why a kernel is the only route to new contextuality within this argument."
+      ],
+      "transfer": "If a resource is defined by a decomposition with nonnegative weights, check whether invertible maps preserve it. If they do, the question of generating it reduces to the kernel of the map. Note that the conclusion concerns states alone: measurements are arbitrary here, but noise in them is not treated."
+    },
+    {
+      "technique": "Exact gapless evolution by a terminating Magnus series",
+      "explanation": "When the detector has no gap, field commutators are c-numbers, so the time-ordered exponential collapses. This gives a nonperturbative check that the no-go is not an artefact of expansion.",
+      "math": [
+        "With \\(\\mathcal O(t)=\\mathcal O\\), the first Magnus term is \\(-\\tfrac i\\hbar\\mathcal O\\otimes\\phi_\\xi\\), where \\(\\phi_\\xi\\) is the smeared field. The second contains the commutator \\([\\phi(x),\\phi(x^\\prime)]=i\\Delta(x,x^\\prime)\\), a number. All higher nested commutators vanish, so \\[U=\\sum_je^{-\\frac{i\\tilde C_\\xi}{2\\hbar^2}o_j^2}\\ket j\\bra j\\otimes e^{-\\frac i\\hbar o_j\\phi_\\xi}.\\]",
+        "Tracing out the field on \\(\\ket k\\bra l\\otimes\\ket\\Omega\\bra\\Omega\\) gives \\(\\Lambda(\\ket k\\bra l)=\\Lambda_{kl}\\ket k\\bra l\\), with \\[\\Lambda_{kl}=e^{-\\frac{i\\tilde C_\\xi}{2\\hbar^2}(o_k^2-o_l^2)}\\langle\\Omega|e^{\\frac i\\hbar(o_l-o_k)\\phi_\\xi}|\\Omega\\rangle.\\] So the channel is pure dephasing in the eigenbasis of \\(\\mathcal O\\). For a Gaussian vacuum the expectation is \\(\\exp[-(o_l-o_k)^2\\langle\\phi_\\xi^2\\rangle/2\\hbar^2]\\), which is strictly positive when the smeared variance is finite. So no entry vanishes and the kernel is trivial.",
+        "Editorial check: we modelled \\(\\phi_\\xi\\) as a truncated oscillator quadrature with variance \\(0.09\\), in units \\(\\hbar=1\\), and evolved a qubit under \\(e^{-iX\\otimes\\phi_\\xi}\\). The result was \\(I\\to I\\), \\(X\\to X\\), \\(Y\\to aY\\), \\(Z\\to aZ\\) with \\(a=0.83527\\). This equals \\(e^{-2\\langle\\phi_\\xi^2\\rangle}\\), and off-diagonal terms were zero to \\(10^{-16}\\). Decoherence shrinks \\(a\\) as the variance grows, but only an infinite variance would close the channel, so a sharply localised, unsmeared coupling would be a different case."
+      ],
+      "transfer": "Couplings of a fixed system operator to a Gaussian bath give exactly solvable dephasing. Use this as a nonperturbative test of perturbative statements. It is special to commuting system operators at different times, so a nonzero gap, or several non-commuting detector operators, breaks the exact solution."
+    }
+  ],
+  "approved_on": "2026-11-02"
+}

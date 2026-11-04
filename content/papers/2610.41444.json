@@ -1,0 +1,50 @@
+{
+  "id": "2610.41444",
+  "topic": "foundations",
+  "title": "Almost-Quantum Correlations Violate Information Causality",
+  "authors": "Anandamay Das Bhowmik; Manik Banik",
+  "submitted": "2026-10-30",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Information causality says that \\(m\\) bits of communication cannot give a receiver more than \\(m\\) bits about a sender's independent data. It was hoped that this principle might help single out quantum correlations. Almost-quantum correlations were the hard test, because they pass most other proposed principles and numerics suggested they pass this one too. Do they?",
+  "result": "No. One almost-quantum box and one classical bit violate information causality, and without bound as the number of settings grows. The score exceeds 1 first at \\(N=757\\,693\\) settings per party. The mechanism is a rare but never wrong certificate that vouches for many of the sender's bits at once.",
+  "significance": "Either information causality excludes the almost-quantum set, or no theory that realises these correlations has a mutual information obeying consistency, data processing and the chain rule. The huge threshold also explains why earlier numerical searches, which suggested the principle held, could not see the violation.",
+  "limitations": "The violation needs an enormous number of settings and exact zeros in the box. Noise tolerance and more economical constructions are left open. It does not show that almost-quantum correlations are unphysical, since information causality is itself a proposed principle, and the argument does not by itself identify which property of mutual information fails. The authors state that Claude was used to help edit the prose, check numerical thresholds and prepare the figure.",
+  "status": "approved",
+  "summary_basis": "Description based on the full main text and Appendices A and B of the linked arXiv PDF, read 2026-11-02. The companion paper that first analyses the box was not read, and the quantum bound on the certification rate is taken from the citation to it.",
+  "verified_on": "2026-11-02",
+  "methods_source_section": "Main text and Appendices A–B (Equations (1)–(7), Proposition 1, Theorem 1, Corollary 1, Lemmas 1–2)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Why is quantum nonlocality weaker than relativity alone allows? One programme looks for an information-theoretic principle that singles out quantum correlations. In the random-access version of information causality, Alice holds independent bits \\(Z_1,\\dots,Z_D\\), Bob is asked for one index \\(r\\), and after an \\(m\\)-bit message the principle requires \\[I\\equiv\\sum_{r=1}^DI(Z_r:G_r)\\le m.\\] The sum runs over alternative questions, not over bits Bob learns together. Pawłowski et al. derived this for any theory with a mutual information obeying consistency, data processing and the chain rule. Quantum theory has such a quantity, so it satisfies the bound.",
+    "Almost-quantum correlations form the 1+AB level of the Navascués–Pironio–Acín hierarchy. They ask that the two parties' projectors commute only on the prepared state, not as operators. They pass nontrivial communication complexity, no advantage for nonlocal computation, macroscopic locality and local orthogonality. Whether they obey information causality was open.",
+    "The new tool is a certificate box: binary outcomes with \\(p(0,0|x,y)=s\\,\\delta_{xy}\\), so the outcome pair \\((0,0)\\) proves that the two settings were equal. Quantum correlations allow only \\(s\\le1/N\\) for \\(N\\) settings. The almost-quantum box of the paper has \\(s=1/17\\) for every \\(N\\). In the protocol, Alice splits her bits into \\(N\\) blocks of \\(k\\) bits and inputs the index of the first all-ones block. Her one-bit message is her outcome. Bob, asked about block \\(i\\), inputs \\(i\\), and if both outcomes are 0 he knows that block is all ones. So \\[I\\ge k\\,s\\,\\big[1-(1-2^{-k})^N\\big].\\]",
+    "With \\(s=1/17\\) this exceeds 1 first at \\(k=18\\) and \\(N=757\\,693\\), and with \\(N=k2^k\\) it grows without bound. The discussion points to a dichotomy, and it argues that the chain rule is the natural property to give up, since within the Wakakuwa–Murao generalised mutual information it is the one that must fail. Open questions are smaller violations, noise thresholds, and whether state-dependent commutation has any physical interpretation."
+  ],
+  "methods": [
+    {
+      "technique": "Zero-error certificates: information linear in probability",
+      "explanation": "Information causality limits how much a biased guess can carry, but only at second order in the bias. The paper instead uses guesses that are rare and never wrong, which carry information at first order.",
+      "math": [
+        "A guess of a fair bit that is right with probability \\((1+E)/2\\) carries \\(1-h((1+E)/2)=E^2/(2\\ln2)+O(E^4)\\) bits. So small biases contribute quadratically, and the known condition \\(E_1^2+E_2^2\\le1\\) has that form.",
+        "Now suppose \\(\\Pr(G=1,Z=0)=0\\) and \\(\\Pr(G=1)=t\\le\\tfrac12\\). The remaining joint probabilities are \\(\\Pr(Z=1,G=0)=\\tfrac12-t\\) and \\(\\Pr(Z=0,G=0)=\\tfrac12\\), and the mutual information is \\[I(Z:G)=h(t)-\\tfrac12h(2t)=t+\\frac{t^2}{2\\ln2}+O(t^3)\\ge t.\\]",
+        "A certificate for block \\(i\\) answers all \\(k\\) questions about that block, so \\(\\sum_{i,j}I(Z_{i,j}:G_{i,j})\\ge k\\sum_it_i=kW\\), where \\(W\\) is the total certification probability. The block structure therefore multiplies the first-order gain by \\(k\\). If information causality holds, then \\(W\\le1/k\\).",
+        "In the protocol, \\(\\Pr(C_i=1)=s\\,2^{-k}(1-2^{-k})^{i-1}\\), which is the probability that block \\(i\\) is the first all-ones block, times \\(s\\). Summing the geometric series gives \\(W=s[1-(1-2^{-k})^N]\\), and so the bound above.",
+        "A quantum box cannot do this. With \\(s\\le1/N\\) and the union bound, the right side is at most \\(k2^{-k}\\le\\tfrac12\\). Editorial check: we evaluated the bound exactly. At \\(k=18\\) it is \\(1.00000019\\) for \\(N=757\\,693\\) and \\(0.99999996\\) for \\(N=757\\,692\\), and \\(k=17\\) can reach only \\(17s=1\\) in the limit, which confirms that this is the threshold. For the level-1 boxes with \\(s=N/[8(N-2)]\\) and \\(k=9\\), the crossing is between \\(N=1116\\) and \\(1117\\), as stated. The formula \\(h(t)-\\tfrac12h(2t)\\) agreed with its expansion, giving \\(0.0010007\\) at \\(t=10^{-3}\\)."
+      ],
+      "transfer": "When a bound constrains an entropy, compare how candidate strategies scale with their signal: conclusive answers contribute at first order, biased ones at second. Tests based on average guessing can miss this, so try designing tasks around rare certified outcomes. The advantage needs exact zeros, and with noise it must be recalculated."
+    },
+    {
+      "technique": "Building a box from vectors that commute only on the state",
+      "explanation": "The almost-quantum set is defined by commutation on one vector, which makes it possible to write down explicit vectors for any \\(N\\) with a fixed certification rate, even though operator commutation forbids this.",
+      "math": [
+        "An almost-quantum box needs a unit vector \\(\\psi\\) and projective measurements with \\(A_{a|x}B_{b|y}\\psi=B_{b|y}A_{a|x}\\psi\\) for all outcomes. So the requirement concerns only what the projectors do to \\(\\psi\\), and the box is defined by the vectors \\(u_x=A_{0|x}\\psi\\), \\(v_y=B_{0|y}\\psi\\) and \\(w_x=A_{0|x}B_{0|x}\\psi\\).",
+        "What is needed are inner products: \\(\\langle\\psi,u_x\\rangle=\\|u_x\\|^2=3/17\\), likewise for \\(v_x\\), together with \\[\\langle\\psi,w_x\\rangle=\\|w_x\\|^2=\\langle u_x,w_x\\rangle=\\langle v_x,w_x\\rangle=\\langle u_x,v_x\\rangle=\\tfrac1{17},\\] and, for \\(x\\ne y\\), \\[\\langle u_x,v_y\\rangle=\\langle u_x,w_y\\rangle=\\langle v_x,w_y\\rangle=0.\\]",
+        "In an orthonormal basis \\(\\{\\psi,e_1,e_2,f_x,g_x\\}\\) of \\(\\mathbb R^{2N+3}\\), set \\(u_x=c_x+d_x\\) and \\(v_x=c_x-d_x\\), where \\[c_x=\\tfrac3{17}\\psi+\\tfrac{\\sqrt{15}}{34}e_2+\\tfrac{\\sqrt5}{2\\sqrt{17}}g_x,\\qquad d_x=\\tfrac{\\sqrt{51}}{34}e_1+\\tfrac1{2\\sqrt{17}}f_x,\\] and \\[w_x=\\tfrac1{17}\\psi-\\tfrac{2\\sqrt{15}}{85}e_2+\\tfrac2{\\sqrt{85}}g_x.\\] Then \\(A_{0|x}\\) projects onto the span of \\(u_x,w_x\\), and \\(B_{0|y}\\) onto the span of \\(v_y,w_y\\). The shared components are what let the overlaps across different \\(x,y\\) cancel for every \\(N\\).",
+        "Editorial check: the PDF extraction garbled some of these coefficients, so we rederived them from the required inner products, and they match what is legible in the paper. We then built the projectors at \\(N=3\\). Commutation on \\(\\psi\\) held to \\(10^{-16}\\), while the operator commutator stayed near \\(0.14\\), so this is not a commuting-operator box. The probabilities reproduced the paper's Table I exactly: \\(1,2,2,12\\) over 17 for \\(x=y\\), and \\(0,3,3,11\\) over 17 for \\(x\\ne y\\)."
+      ],
+      "transfer": "To test a relaxation of quantum theory, try to construct an explicit Gram matrix instead of searching numerically. Scenarios with very many settings lie beyond numerical reach, as the threshold here shows, but a symmetric family can be analysed for all \\(N\\) by hand."
+    }
+  ],
+  "approved_on": "2026-11-02"
+}

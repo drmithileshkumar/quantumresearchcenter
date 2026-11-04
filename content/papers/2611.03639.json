@@ -1,0 +1,48 @@
+{
+  "id": "2611.03639",
+  "topic": "information",
+  "title": "Quantum channel tomography: optimal bounds in the near-boundary regime",
+  "authors": "Kean Chen; Aadil Oufkir",
+  "submitted": "2026-11-02",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "How many queries does it take to learn an unknown channel with input dimension \\(d_1\\), output dimension \\(d_2\\) and Kraus rank at most \\(r\\)? With dilation rate \\(\\tau=rd_2/d_1\\ge1\\), the answer was known to scale as \\(1/\\varepsilon\\) (Heisenberg) at \\(\\tau=1\\) and as \\(1/\\varepsilon^2\\) (classical) for \\(\\tau\\ge1+\\Omega(1)\\). In between, the bounds did not match. How does the transition happen?",
+  "result": "The answer depends on the error measure. In diamond norm the complexity is \\(\\Theta(rd_1d_2/\\varepsilon^2)\\) as soon as \\(\\tau>1\\), so Heisenberg scaling is lost abruptly. In normalised Choi trace norm it is \\[\\Theta\\!\\Big(\\frac{d_1^2}\\varepsilon+\\frac{\\min\\{(\\tau-1)d_1^2,(\\tau-1)^2d_1^2d_2^2\\}}{\\varepsilon^2}\\Big),\\] so the classical part grows gradually with distance from the boundary.",
+  "significance": "Together with earlier work, this settles the query complexity of channel tomography in both norms for all parameters. The upper bounds use parallel queries and the lower bounds hold for adaptive, coherent strategies, so adaptivity gives no asymptotic advantage. Worst-case and average-case learning genuinely differ near the boundary.",
+  "limitations": "These are query counts, not efficient algorithms; computational efficiency and memory trade-offs are open. The near-boundary lower bounds assume \\(\\tau<4/3\\), and the Choi-norm lower bound carries the constant \\(1/(2\\times10^{28})\\) and assumes \\(\\varepsilon\\le10^{-12}\\), so it is purely asymptotic. The authors report that GPT-6, directed by them, produced the main lower bounds and the matching upper bound, and that they verified and revised all of its arguments.",
+  "status": "approved",
+  "summary_basis": "Description based on Section 1, the statements of Theorems 3.3 and 6.1, and the AI disclosure in the linked arXiv version, read 2026-11-03. Sections 3–6 and the appendix, holding the proofs, were not checked.",
+  "verified_on": "2026-11-03",
+  "methods_source_section": "Section 1.2 (overview of the upper and lower bounds), Theorems 3.3 and 6.1",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A channel of Kraus rank \\(r\\) has a Stinespring isometry \\(V:\\mathbb C^{d_1}\\to\\mathbb C^{rd_2}\\). Its image fills all but \\(\\alpha=rd_2-d_1\\) dimensions of the output, so \\(\\tau-1=\\alpha/d_1\\), and the near-boundary regime is \\(0<\\alpha\\ll d_1\\). At \\(\\alpha=0\\) the isometry is effectively a unitary, and unitaries can be learned at Heisenberg scaling. The question is how much of that survives when there is a small amount of room outside the image.",
+    "The upper bound (Theorem 3.3) learns \\(V\\) with parallel queries and splits the error into a part inside the image, with \\(\\mathbb E\\|\\Delta_{\\mathrm{in}}\\|_F^2=O(d_1^5/n^2)\\), and a part outside it, with \\(\\mathbb E\\|\\Delta_{\\mathrm{out}}\\|_F^2=O(\\alpha d_1^2/n)\\). The first is Heisenberg-like and the second classical, but suppressed by \\(\\alpha\\). Tracing out the ancilla, the outside part has rank at most \\(\\min\\{r,\\alpha d_2\\}\\), and this gives the \\(\\min\\) in the Choi-norm formula.",
+    "The lower bounds use a new hard family \\(V_{P,U}=(F\\ \\ W_PU)\\). Here \\(F\\) is a fixed reference isometry on about half the input, and the other half is mapped by an isometry onto an unknown \\(d'\\)-dimensional subspace \\(P\\) of a \\((d'+\\alpha)\\)-dimensional space, with a Haar-random unitary \\(U\\) hiding the basis within it. The unknown is the subspace. Even when \\(\\alpha=1\\), there are about \\(d_1^2\\) parameters, which is why the diamond-norm complexity is already \\(\\Theta(d_1^2/\\varepsilon^2)\\) when \\(rd_2=d_1+1\\).",
+    "In diamond norm, an input that superposes the reference and signal parts detects a displaced subspace at distance \\(\\Omega(\\eta)\\). The maximally entangled input behind the Choi norm averages over all inputs and sees only \\(\\Omega(\\sqrt\\chi\\,\\eta/d_1)\\), where \\(\\chi=\\min\\{\\alpha d_1,\\alpha^2d_2^2\\}\\). The same hard family therefore gives an abrupt transition in one norm and a gradual one in the other."
+  ],
+  "methods": [
+    {
+      "technique": "Bounding discrimination by a representation-dimension ratio",
+      "explanation": "To show that many queries are needed, bound the success probability of identifying one channel from a large packing. Averaging over the hidden basis and then the hidden subspace reduces this to comparing two dimensions in each Schur–Weyl block.",
+      "math": [
+        "Let \\(\\Gamma_P=\\mathbb E_UC_{\\mathcal V_{P,U}}^{\\otimes n}\\) and \\(\\Gamma=\\mathbb E_P\\Gamma_P\\). If \\(\\Gamma_P\\preceq L_n\\Gamma\\) for every \\(P\\), then any tester succeeds with probability at most \\(L_n/|\\mathcal N|\\), because the tester's effects summed over \\(P\\) and contracted with \\(\\Gamma\\) give 1.",
+        "Averaging over \\(U\\) makes \\(P\\) appear in each block \\(\\lambda\\) as a projector of rank \\(a_\\lambda=\\dim\\mathcal Q_\\lambda^{d'}\\) on a space of dimension \\(b_\\lambda=\\dim\\mathcal Q_\\lambda^{d'+\\alpha}\\). Averaging over \\(P\\) gives \\((a_\\lambda/b_\\lambda)I\\), so \\(L_n\\) is the largest ratio \\(b_\\lambda/a_\\lambda\\), which the Weyl dimension formula evaluates as \\[\\frac{b_\\lambda}{a_\\lambda}=\\prod_{i=1}^{d'}\\prod_{j=1}^{\\alpha}\\frac{\\lambda_i+d'+j-i}{d'+j-i}\\le\\Big(e+\\frac{2en}{d'(d'+\\alpha)}\\Big)^{\\alpha d'}.\\]",
+        "The packing has \\(|\\mathcal N|\\ge\\tfrac12\\eta^{-2\\alpha d'}\\) subspaces, by a small-ball estimate for Haar-random projectors. Requiring success \\(\\ge2/3\\) gives \\(\\big[\\eta^2(e+2en/d'(d'+\\alpha))\\big]^{\\alpha d'}\\gtrsim1\\). The exponent \\(\\alpha d'\\) cancels, leaving \\(n=\\Omega(d'(d'+\\alpha)/\\eta^2)\\), independent of how small \\(\\alpha\\) is.",
+        "Editorial check: for \\(d'\\le4\\), \\(\\alpha\\le2\\) and \\(n\\le10\\), we compared the ratio of Weyl dimensions with the product formula for every partition with at most \\(d'\\) rows and \\(|\\lambda|\\le n\\). They agreed exactly, and the largest ratio was at most \\(0.15\\) of the stated bound."
+      ],
+      "transfer": "When the unknown is a subspace rather than a basis, mask the basis with a Haar unitary. The discrimination bound then becomes a ratio of irreducible-representation dimensions, which can be computed exactly. Here the exponent of the packing size cancels the exponent of the bound, which is why the result does not depend on \\(\\alpha\\)."
+    },
+    {
+      "technique": "Splitting estimation error into the image and its complement",
+      "explanation": "Errors that rotate within the isometry's image behave like unitary errors and can be learned at Heisenberg scaling. Errors outside it cannot, but they live in a space of only \\(\\alpha\\) dimensions, and their low rank limits how much they disturb the channel.",
+      "math": [
+        "Write the estimate as \\(\\widehat V=zV+\\Delta\\) with \\(z=\\mathrm{tr}(V^\\dagger\\widehat V)/d_1\\), and decompose \\(\\Delta=V\\Delta_{\\mathrm{in}}+\\Delta_{\\mathrm{out}}\\) with \\(\\mathrm{tr}\\,\\Delta_{\\mathrm{in}}=0\\) and \\(V^\\dagger\\Delta_{\\mathrm{out}}=0\\). Both maps are isometries, so \\(\\|\\widehat V\\|_F^2=d_1=|z|^2d_1+\\|\\Delta\\|_F^2\\), which gives \\(1-|z|^2=\\|\\Delta\\|_F^2/d_1\\).",
+        "After reshaping the Kraus operators, \\(\\Delta_{\\mathrm{out}}\\) has rank at most \\(\\beta=\\min\\{r,\\alpha d_2\\}\\). For matrices \\(X\\) and \\(Y\\) with \\(\\mathrm{rank}\\,Y\\le\\beta\\), \\(\\|XY^\\dagger\\|_1\\le\\sqrt\\beta\\,\\|XY^\\dagger\\|_F\\le\\sqrt\\beta\\,\\|X\\|_{\\mathrm{op}}\\|Y\\|_F\\). With \\(\\|A_V\\|_{\\mathrm{op}}\\le\\sqrt{d_2}\\), the cross term is at most \\(\\sqrt{d_2\\beta}\\,\\|\\Delta_{\\mathrm{out}}\\|_F\\). Combining this with the two error rates gives a Choi error of \\(O\\big(d_1^2/n+\\sqrt{\\min\\{\\alpha d_1,\\alpha^2d_2^2\\}/n}\\big)\\).",
+        "Editorial example: for \\(d_1=1000\\), \\(d_2=2\\) and \\(r=501\\), so that \\(\\alpha=2\\) and \\(\\tau=1.002\\), the classical term in Choi norm is \\(\\alpha^2d_2^2=16\\) over \\(\\varepsilon^2\\), against \\(d_1^2/\\varepsilon=10^6/\\varepsilon\\) for the Heisenberg term. So the classical term matters only for \\(\\varepsilon<1.6\\times10^{-5}\\). In diamond norm the same channel needs about \\(rd_1d_2/\\varepsilon^2\\approx10^6/\\varepsilon^2\\) queries. Editorial check: we also tested the trace-norm cross-term inequality on 200 random low-rank instances, with no violations."
+      ],
+      "transfer": "When a learning target lies close to a set that can be learned at Heisenberg scaling, decompose the error into a tangent part and a normal part, and bound each with its own rate. The rank of the normal directions, not just their dimension, decides how much the classical part costs under a given metric."
+    }
+  ],
+  "approved_on": "2026-11-03"
+}

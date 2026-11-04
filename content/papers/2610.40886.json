@@ -1,0 +1,48 @@
+{
+  "id": "2610.40886",
+  "topic": "computing",
+  "title": "Clifford synthesis is NP-complete",
+  "authors": "Søren Fuglede Jørgensen",
+  "submitted": "2026-10-29",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Compilers try to replace Clifford subcircuits with cheaper equivalents, and two-qubit gates are the expensive part. Li and Guan showed that CNOT-only synthesis of a linear map is NP-complete. But real synthesis has free single-qubit Cliffords, which could provide shortcuts. Is finding the fewest CNOTs still hard?",
+  "result": "Yes. With free single-qubit Cliffords, deciding whether a Clifford operator has a circuit of at most \\(k\\) CNOTs is NP-complete, even for linear reversible targets with \\(A\\) lower unitriangular and \\((A-I)^3=0\\). This also holds when any two-qubit Clifford gate counts, when SWAPs are free, and when single-qubit gates carry a cost.",
+  "significance": "This justifies the use of heuristics and small-scale exact methods in Clifford optimisation: under the standard assumption that P differs from NP, no polynomial-time method finds minimal counts in general. The hardness is unaffected by giving the compiler the single-qubit freedom that hardware provides.",
+  "limitations": "The result is about exact optimality in the worst case, with full connectivity and no ancillas. It does not cover approximation, restricted connectivity or ancilla-assisted synthesis, and the reduction uses a number of qubits quadratic in the size of the graph. Depth is treated in separate work by Keller and Kueng. The paper states that large language models were used to draft some of the proofs and that, given Li and Guan's construction, they identified the characterisation of CNOT actions and the counting arguments.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–3 (through the start of Lemma 3.5), Section 5.1 including Lemma 5.1, and the start of Section 6 of the linked arXiv version, read 2026-11-02. Section 4, Proposition 5.2 and the rest of Section 6 were not checked; the claim that single-qubit gates give no shortcut is the author's.",
+  "verified_on": "2026-11-02",
+  "methods_source_section": "Sections 1–3 and 5–6 (Definition 3.1, Lemmas 3.2, 3.3, 5.1 and 6.1, Theorem 1.1)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A Clifford operator on \\(N\\) qubits is represented, up to Pauli signs, by a symplectic matrix \\(F\\in\\mathrm{Sp}_{2N}(\\mathbb F_2)\\). Signs can be fixed by free single-qubit gates. A linear reversible map \\(A\\in\\mathrm{GL}_N(\\mathbb F_2)\\) corresponds to \\(\\rho(A)=\\operatorname{diag}(A,(A^{-1})^{\\mathsf T})\\). The cost of \\(F\\) is the fewest CNOTs in any circuit made of CNOTs and single-qubit Cliffords that implements it, and the decision question is whether that cost is at most \\(k\\). Membership in NP holds because a circuit is a short certificate.",
+    "The reduction starts from Hamiltonian path in grid graphs with fixed endpoints, which is NP-complete, and follows Li and Guan. Grid vertices embed as bit strings \\(V\\subset\\mathbb F_2^d\\), so adjacent vertices differ in one position, and \\(d\\le m-1\\) for \\(m\\) vertices. A path qubit carries the parity \\(f_v=x_0+\\sum_jv_jx_j\\). Moving along a hypercube edge costs one CNOT. For each vertex, \\(r\\) recorder qubits must each end up holding \\(f_v\\) added to their initial value, costing \\(r\\) further CNOTs if the path qubit visits \\(v\\). So a Hamiltonian path gives \\(R+m-1\\) CNOTs, with \\(R=mr\\).",
+    "The difficulty is the converse: why should a circuit below this budget have that form when single-qubit gates allow quite different routes? The answer comes from raising the recorder count from \\(m\\) to \\(r=6(m-1)+1\\) and showing that any circuit within budget can be converted into a CNOT-only one without increasing the count. To prove this, CNOT gates are classified by how they change the intersection of each qubit's symplectic plane with a fixed Lagrangian subspace. CNOT-only circuits use just one of six types.",
+    "Section 6 extends the result. Every two-qubit Clifford is, up to single-qubit gates, at most one CNOT and one SWAP, so a circuit of arbitrary two-qubit gates is a CNOT circuit followed by a permutation, and the reduction is adapted to allow it. Remaining cases include limited connectivity, ancillas, and how hard approximate optimisation is."
+  ],
+  "methods": [
+    {
+      "technique": "Tracking symplectic planes against a Lagrangian subspace",
+      "explanation": "Single-qubit Cliffords scramble the rows of the tableau, so individual rows are poor invariants. The planes they span are untouched, and that gives a quantity CNOTs change in only a few ways.",
+      "math": [
+        "For each qubit let \\(P_i=\\operatorname{span}\\{a_i,b_i\\}\\), the span of its two tableau rows. A single-qubit Clifford changes the basis of \\(P_i\\) but not \\(P_i\\) itself. Fix a Lagrangian subspace \\(W\\). Since \\(W\\) is isotropic and \\(P_i\\) nondegenerate, \\(\\dim(W\\cap P_i)\\le1\\). So each qubit “represents” at most one nonzero vector of \\(W\\).",
+        "A CNOT on planes spanned by \\(\\{a,b\\}\\) and \\(\\{c,d\\}\\) gives \\[P_i^\\prime=\\operatorname{span}\\{a,b+d\\},\\qquad P_j^\\prime=\\operatorname{span}\\{c+a,d\\}.\\] Let \\(v_-\\), \\(v_+\\) be how many of the two qubits represent a vector before and after, and \\(k\\) the number of newly appearing vectors. Lemma 3.2 shows that only six behaviours occur, with the useful type \\(T\\) being \\((2,2,1)\\): the represented vectors go from \\((u,v)\\) to \\((u,u+v)\\) or \\((u+v,v)\\). This is what a CNOT does to parities in a CNOT-only circuit.",
+        "Counting then gives Lemma 3.3. With \\(L\\) CNOTs and \\(B\\) appearances in total, \\(B=T+2U+P\\) and \\(L=T+D+U+P+M+Z\\). Conservation of the number of represented qubits gives \\(2U+P=2D+M\\). Hence \\[L-B=Z+\\frac{P+M}2\\ge0.\\] So few spare gates means few gates of the awkward types. A later lemma bounds the appearances those gates can produce, by \\(6(L-B)\\). This is where the factor 6 in the recorder count comes from.",
+        "Editorial check: we enumerated all 31 isotropic subspaces of \\(\\mathbb F_2^4\\) under the CNOT above. The triples that occurred were exactly \\[(0,0,0),(0,1,1),(0,2,2),(1,0,0),(1,1,0),(2,0,0),(2,2,0),(2,2,1),\\] which are the six stated types, and \\((1,1,1)\\) and \\((2,2,2)\\) never appeared."
+      ],
+      "transfer": "When free operations act locally, choose invariants of the free group, here planes rather than rows, and classify how a costly gate changes them. A potential-function count then gives lower bounds that hold in the presence of the free gates. The method relies on the local action preserving each qubit's plane."
+    },
+    {
+      "technique": "Forcing a path with tightly budgeted recorders",
+      "explanation": "The target operator makes every vertex parity expensive to skip. The budget then leaves exactly enough gates for a Hamiltonian path.",
+      "math": [
+        "With \\(r\\) recorders per vertex, the target acts by \\(x_0\\mapsto f_t\\), \\(x_j\\mapsto x_j\\) and \\(y_{v,a}\\mapsto y_{v,a}+f_v\\). As a matrix, \\[A=\\begin{pmatrix}I_d&0&0\\\\t&1&0\\\\X&\\mathbf 1&I_R\\end{pmatrix},\\] where \\(X\\) has \\(r\\) copies of each vertex row. The threshold is \\(k=R+m-1\\).",
+        "Every recorder differs from its input, so it must be targeted at least once. If parity \\(f_v\\) never appears on any qubit, each of \\(v\\)'s \\(s\\) recorders must be targeted at least twice, giving \\(L\\ge(R-s)+2s=R+s\\). With \\(s\\ge m\\) this exceeds the budget. So every vertex parity must be represented at some time, using the \\(m-1\\) spare gates. The rest of the argument, from Li and Guan, then forces a walk through all vertices with no repeats.",
+        "Editorial check: for the paper's four-vertex example, with \\(r=19\\), \\(N=80\\) qubits, we built \\(A\\) and the circuit from the path \\(000\\to100\\to101\\to111\\). The circuit used exactly 79 CNOTs, which is \\(4r+3\\), and reproduced \\(A\\) exactly over \\(\\mathbb F_2\\). We also confirmed \\((A-I)^3=0\\) while \\((A-I)^2\\ne0\\), so the structural claim in Theorem 1.1 is sharp for this instance. This tests the forward direction only. The converse is the hard part and was not tested."
+      ],
+      "transfer": "For hardness of gate-count minimisation, add many copies of each intermediate value you want to force: each copy adds an extra cost if the value is skipped, while the budget grows only linearly. The cost is a larger instance, here quadratic in the number of qubits. Ensure the padding does not create unintended shortcuts, which is where the real proof work goes."
+    }
+  ],
+  "approved_on": "2026-11-02"
+}

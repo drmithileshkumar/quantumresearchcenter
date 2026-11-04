@@ -1,0 +1,49 @@
+{
+  "id": "2611.03148",
+  "topic": "information",
+  "title": "Correlated Catalysis Removes the Strong Converse for Entanglement Distillation",
+  "authors": "Piotr Masajada; Aby Philip; Alexander Streltsov",
+  "submitted": "2026-11-02",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Distilling Bell pairs from noisy entangled states above the distillable entanglement \\(E_D\\) cannot succeed reliably. For pure states and some others, a strong converse holds: the fidelity goes to zero. A correlated catalyst is an entangled auxiliary state that is returned exactly in its marginal, though it may become correlated with the output. Does the strong converse survive when such a catalyst is allowed?",
+  "result": "No. For every distillable state and every rate \\(R\\), the best asymptotic fidelity with correlated catalysis is \\(\\min\\{1,E_D/R\\}\\), even when the output–catalyst correlation must vanish. Keeping a fixed fidelity above \\(E_D\\) needs a catalyst of \\(\\Theta(n\\log(1/\\delta_n))\\) qubits per side, where \\(\\delta_n\\) bounds the residual mutual information.",
+  "significance": "Catalysis does not raise the reliable rate, which stays \\(E_D\\), but above it the fidelity falls only as \\(E_D/R\\) instead of vanishing. The construction makes the cost explicit: the catalyst must grow linearly with the block length, which places the effect in the asymptotic, resource-hungry regime.",
+  "limitations": "The fidelity \\(E_D/R\\) comes from a mixture: with probability about \\(E_D/R\\) the output is nearly perfect, and otherwise it is separable. So this is not a protocol that delivers Bell pairs of fidelity \\(E_D/R\\) each. The catalyst's memory grows linearly in \\(n\\), and the lower bound on its size needs an exponential strong converse for the uncatalysed problem, which is known for pure and maximally correlated states. The authors state that ChatGPT 6 Astra was used in preparing the manuscript and that they checked all results.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections I–VI and the statements and proofs of Lemmas 8–11 and Proposition 12 in Section VII of the linked arXiv version, read 2026-11-03. The proofs of Lemmas 13–14 and the remainder of Section VII were not checked.",
+  "verified_on": "2026-11-03",
+  "methods_source_section": "Sections III–VI and VII (Theorems 2, 4 and 6, Lemmas 9–11, Proposition 12)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A correlated catalytic protocol is a deterministic LOCC map with \\(\\Omega_{SC}=\\mathcal D(\\rho^{\\otimes n}\\otimes\\omega_C)\\) and \\(\\Omega_C=\\omega_C\\) exactly, scored by the fidelity \\(\\mathrm{Tr}(\\Phi_{2^m}\\Omega_S)\\). Correlations between output and catalyst are allowed but bounded by \\(I(S:C)\\le\\delta\\), and Pinsker's inequality turns that into closeness to a product state. Without a catalyst, the Rains relative entropy gives an exponential strong converse above its value, and for pure and maximally correlated states that value equals \\(E_D\\).",
+    "Theorem 2: for every distillable \\(\\rho\\), every \\(R>0\\) and every positive sequence \\(\\delta_n\\to0\\), \\[\\lim_{n\\to\\infty}F^{\\mathrm{cc}}\\big(n,\\lfloor Rn\\rfloor;\\delta_n\\big)=\\min\\Big\\{1,\\frac{E_D(\\rho)}{R}\\Big\\}.\\] So the threshold for nonvanishing fidelity is infinite. For \\(\\rho=\\Phi_2\\) the limit is \\(\\min\\{1,1/R\\}\\): distilling at rate 2 from perfect Bell pairs gives fidelity \\(\\tfrac12\\).",
+    "The upper bound uses an earlier result of Ganardi, Kondra and Streltsov: correlated catalysis does not change the distillable entanglement. So the output satisfies \\(E_D(\\Omega_S)\\le nE_D(\\rho)\\). A state on \\(m\\) pairs with Bell fidelity \\(f\\) has \\(E_D\\ge f(m-\\lceil2\\log m\\rceil)-2\\), and together these give \\(f\\le E_D/R\\) asymptotically. The lower bound builds a catalyst that turns \\(\\rho^{\\otimes n}\\) into \\(\\frac n{\\tilde m}\\rho^{\\otimes\\tilde m}+(1-\\frac n{\\tilde m})\\tau^{\\otimes\\tilde m}\\) with separable \\(\\tau\\), and then distils at a rate just below \\(E_D\\).",
+    "Theorems 4 and 6 settle the catalyst size: when the uncatalysed fidelity decays as \\(2^{-\\gamma n}\\), the catalyst needs \\(E_{\\max}(\\omega_C)\\ge\\gamma n-\\log(1/f_0)\\), rising to \\(\\Omega(n\\log(1/\\delta_n))\\) when the correlation is bounded by \\(\\delta_n\\), and a truncated-binomial construction achieves \\(O(n\\log(1/\\delta_n))\\) qubits. Open questions include the optimal size when the fidelity is required to approach \\(E_D/R\\) itself, and whether the strong converse holds without catalysts for all states."
+  ],
+  "methods": [
+    {
+      "technique": "A cyclic bank catalyst that lends copies",
+      "explanation": "The catalyst stores copies borrowed from earlier rounds and returns them over a cycle, so its marginal is unchanged. This lets one round's output be a single block of an \\(N\\)-block state that only many inputs together could produce.",
+      "math": [
+        "Suppose LOCC maps \\(a^{\\otimes N}\\) exactly to a permutation-invariant \\(\\Gamma_N\\) with one-block marginal \\(\\Gamma_1\\). Lemma 11 takes \\[\\omega_C=\\frac1N\\sum_{j=0}^{N-1}|j\\rangle\\langle j|\\otimes a^{\\otimes j}\\otimes\\Gamma_{N-1-j}.\\] At clock \\(j<N-1\\), the protocol releases one stored \\(\\Gamma\\) block, banks the fresh \\(a\\) and advances the clock. At \\(j=N-1\\), it converts the \\(N\\) copies of \\(a\\) to \\(\\Gamma_N\\), releases one block and resets the clock. The uniform clock maps to itself, so the catalyst marginal is returned exactly.",
+        "The entropies telescope to \\[I(S:C)=S(\\Gamma_1)-\\frac1NS(\\Gamma_N)=\\frac1ND(\\Gamma_N\\|\\Gamma_1^{\\otimes N}).\\] If \\(\\Gamma_N\\) mixes \\(\\theta_1=\\rho^{\\otimes\\tilde m}\\) and \\(\\theta_0=\\tau^{\\otimes\\tilde m}\\) according to a uniform string of weight \\(K=nN/\\tilde m\\), every string uses exactly the available \\(nN\\) copies of \\(\\rho\\). Then \\(\\Gamma_1=\\frac n{\\tilde m}\\theta_1+(1-\\frac n{\\tilde m})\\theta_0\\), and the correlation is at most \\(h(K/N)-\\frac1N\\log\\binom NK\\le\\log(N+1)/N\\).",
+        "Editorial check: for fixed-weight strings with \\((N,K)=(4,2),(6,2),(8,3)\\), we computed \\(S(\\Gamma_1)-S(\\Gamma_N)/N\\) and \\(D(\\Gamma_N\\|\\Gamma_1^{\\otimes N})/N\\) separately and found them equal (\\(0.3538\\), \\(0.2671\\) and \\(0.2285\\)). The bound \\(h(K/N)-\\frac1N\\log\\binom NK\\le\\log(N+1)/N\\) held for \\(N\\) up to \\(10^4\\), for example \\(0.00068\\le0.00133\\) at \\(N=10^4\\), \\(K=3000\\).",
+        "Editorial remark: the output is a classical mixture of a block that distils well and a separable block, so the fidelity \\(E_D/R\\) is in effect a success probability spread over rounds. A party that kept the sampled string would know which rounds succeeded."
+      ],
+      "transfer": "Whenever a resource task is limited by how many copies arrive per round, a cyclic bank catalyst can average the output over rounds at the cost of correlations of order \\(\\log N/N\\). Check whether the figure of merit is linear in the output state, since only then does a mixture achieve the average."
+    },
+    {
+      "technique": "Turning Bell fidelity into distillable entanglement",
+      "explanation": "The upper bound needs to show that high fidelity with \\(m\\) Bell pairs implies distillable entanglement close to \\(fm\\). Twirling, followed by a local filter and hashing, gives this.",
+      "math": [
+        "Twirling with \\(U\\otimes\\bar U\\) is LOCC and preserves \\(f\\), turning \\(\\sigma\\) into the isotropic state \\(\\sigma_f=f\\Phi_D+u(I-\\Phi_D)\\) with \\(u=(1-f)/(D^2-1)\\) and \\(D=2^m\\). Split \\(D=d_1d_2\\) with \\(d_1=2^t\\) and \\(t=\\lceil2\\log m\\rceil\\). Both parties measure the \\(d_1\\) part and keep the rest when their outcomes agree.",
+        "The retained unnormalised state is \\(X=f\\Phi_{d_2}+u(d_1I-\\Phi_{d_2})\\), with success probability \\(s=f+u(d_1d_2^2-1)\\) and Bell weight \\(h=f+u(d_1-1)\\). The normalised state is isotropic with fidelity \\(\\alpha=h/s\\), and hashing achieves the coherent information \\(\\ell-h_2(\\alpha)-(1-\\alpha)\\log(d_2^2-1)\\ge(2\\alpha-1)\\ell-1\\), where \\(\\ell=m-t\\). Since \\(u(d_1d_2^2-1)\\le2^{-t}\\le m^{-2}\\), the result is \\(E_D\\ge f\\ell-2\\).",
+        "Combined with \\(E_D(\\Omega_S)\\le nE_D(\\rho)\\), this gives \\[f\\le\\frac{nE_D(\\rho)+2}{m_n-\\lceil2\\log m_n\\rceil}\\longrightarrow\\frac{E_D(\\rho)}R.\\] The bound does not depend on the catalyst's size, entanglement or correlations.",
+        "Editorial check: for \\(d_1=d_2=2\\) and \\(f=0.6\\), we built \\(\\sigma_f\\) on two qubit pairs, applied the filter, and obtained \\(s=0.78667\\) and \\(h=0.62667\\), matching the formulas. Product states on two four-dimensional systems never exceeded overlap \\(0.229\\) with \\(\\Phi_4\\), below the separable bound \\(1/D=0.25\\) of Lemma 8."
+      ],
+      "transfer": "To bound fidelity by an asymptotic rate, find a cheap LOCC map from high fidelity to a state with known distillable entanglement. Twirling followed by a filter costs only \\(O(\\log m)\\) pairs. This works for any monotone that is subadditive under the operations allowed."
+    }
+  ],
+  "approved_on": "2026-11-03"
+}

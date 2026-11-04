@@ -36,3 +36,7 @@ scripts/.generated-manifest.json
 
 # Build scratch
 /_site/
+
+# Private editorial working files and credentials (also excluded from publication).
+/content/.production/
+/scripts/editorial/.env

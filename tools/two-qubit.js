@@ -17,8 +17,18 @@
     status: byId('state-status'), result: byId('measure-result'), tally: byId('measure-tally'),
     desc: byId('phasor-desc'), basisHint: byId('basis-hint'),
     computational: byId('basis-computational'), bell: byId('basis-bell'),
+    sDesc: byId('schmidt-desc'), sFormula: byId('schmidt-formula'), sTheta: byId('schmidt-theta'),
+    sLambda0: byId('schmidt-lambda-0'), sLambda1: byId('schmidt-lambda-1'), sChi: byId('schmidt-chi'),
+    sALine: byId('schmidt-a-line'), sAPlus: byId('schmidt-a-plus'), sAMinus: byId('schmidt-a-minus'),
+    sAPlusLabel: byId('schmidt-a-plus-label'), sAMinusLabel: byId('schmidt-a-minus-label'),
+    sBAxis: byId('schmidt-b-axis'), sBPlusLine: byId('schmidt-b-plus-line'),
+    sBMinusLine: byId('schmidt-b-minus-line'), sBPlus: byId('schmidt-b-plus'),
+    sBMinus: byId('schmidt-b-minus'), sBPlusLabel: byId('schmidt-b-plus-label'),
+    sBMinusLabel: byId('schmidt-b-minus-label'),
   };
   if (Object.values(parts).some(element => !element)) return;
+  const sphere = byId('schmidt');
+  if (!sphere) return;
 
   // ---- complex arithmetic on [re, im] pairs ------------------------------------------------
   const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
@@ -99,6 +109,134 @@
   };
 
   const concurrence = () => 2 * size(sub(mul(state[0], state[3]), mul(state[1], state[2])));
+
+  // ---- Schmidt form: one unit basis and one scaled one --------------------------------------
+  // Mirrors scripts/schmidt.py: c = cos θ |+a⟩⟨+b| + e^{iχ} sin θ |−a⟩⟨−b|.
+  const conj = a => [a[0], -a[1]];
+  const divide = (a, b) => {
+    const d = abs2(b) || 1;
+    return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d];
+  };
+  const normalisePair = pair => {
+    const length = Math.hypot(size(pair[0]), size(pair[1])) || 1;
+    return [scale(pair[0], 1 / length), scale(pair[1], 1 / length)];
+  };
+  const unit3 = v => {
+    const length = Math.hypot(v[0], v[1], v[2]) || 1;
+    return [v[0] / length, v[1] / length, v[2] / length];
+  };
+  const stretch3 = (v, factor) => [v[0] * factor, v[1] * factor, v[2] * factor];
+  const blochOf = pair => {
+    const product = mul(conj(pair[0]), pair[1]);
+    return [2 * product[0], 2 * product[1], abs2(pair[0]) - abs2(pair[1])];
+  };
+  const eigenstatesOf = axis => {
+    const [x, y, z] = unit3(axis);
+    const polar = Math.acos(Math.max(-1, Math.min(1, z)));
+    const azimuth = Math.hypot(x, y) > ZERO ? Math.atan2(y, x) : 0;
+    const turn = [Math.cos(azimuth), Math.sin(azimuth)];
+    const half = polar / 2;
+    return [[[Math.cos(half), 0], scale(turn, Math.sin(half))],
+            [[Math.sin(half), 0], scale(turn, -Math.cos(half))]];
+  };
+  const overlapPair = (first, second) => state.reduce((sum, amplitude, index) => {
+    const bra = mul(conj(first[(index >> 1) & 1]), conj(second[index & 1]));
+    return add(sum, mul(bra, amplitude));
+  }, [0, 0]);
+
+  function schmidtForm() {
+    const [c00, c01, c10, c11] = state;
+    const row0 = abs2(c00) + abs2(c01), row1 = abs2(c10) + abs2(c11);
+    const mixing = add(mul(c00, conj(c10)), mul(c01, conj(c11)));
+    const mean = (row0 + row1) / 2;
+    const spread = Math.hypot((row0 - row1) / 2, size(mixing));
+    const first = Math.sqrt(Math.max(0, mean + spread));
+    const determinant = Math.max(0, row0 * row1 - abs2(mixing));
+    const second = first > ZERO ? Math.sqrt(determinant) / first : 0;
+    let lead;
+    if (size(mixing) > ZERO) {
+      const candidates = [
+        [[mixing[0], mixing[1]], [first * first - row0, 0]],
+        [[first * first - row1, 0], [mixing[0], -mixing[1]]],
+      ];
+      const weight = pair => size(pair[0]) ** 2 + size(pair[1]) ** 2;
+      lead = normalisePair(weight(candidates[0]) >= weight(candidates[1]) ? candidates[0] : candidates[1]);
+    } else {
+      lead = row0 >= row1 ? [[1, 0], [0, 0]] : [[0, 0], [1, 0]];
+    }
+    const right = [add(mul(conj(c00), lead[0]), mul(conj(c10), lead[1])),
+                   add(mul(conj(c01), lead[0]), mul(conj(c11), lead[1]))];
+    const partner = normalisePair([conj(right[0]), conj(right[1])]);
+    const axisA = blochOf(lead), axisB = blochOf(partner);
+    const theta = Math.atan2(second, first) * R2D;
+    let chi = 0;
+    if (second > ZERO) {
+      const plusA = eigenstatesOf(axisA)[0], minusA = eigenstatesOf(axisA)[1];
+      const plusB = eigenstatesOf(axisB)[0], minusB = eigenstatesOf(axisB)[1];
+      const weightPlus = overlapPair(plusA, plusB), weightMinus = overlapPair(minusA, minusB);
+      if (size(weightPlus) > ZERO && size(weightMinus) > ZERO) chi = phaseOf(divide(weightMinus, weightPlus));
+    }
+    return { theta, axisA, axisB, chi, first, second };
+  }
+
+  const S_CENTER = 200, S_RADIUS = 148;
+  const sBasis = (sphere.dataset.basis || '').split(',').map(Number);
+  const sRight = sBasis.slice(0, 3), sUp = sBasis.slice(3);
+  const sProject = v => [S_CENTER + S_RADIUS * (v[0] * sRight[0] + v[1] * sRight[1] + v[2] * sRight[2]),
+                         S_CENTER - S_RADIUS * (v[0] * sUp[0] + v[1] * sUp[1] + v[2] * sUp[2])];
+  const setSegment = (line, start, end) => {
+    line.setAttribute('x1', start[0].toFixed(1));
+    line.setAttribute('y1', start[1].toFixed(1));
+    line.setAttribute('x2', end[0].toFixed(1));
+    line.setAttribute('y2', end[1].toFixed(1));
+  };
+  const placeTip = (dot, point) => {
+    dot.setAttribute('cx', point[0].toFixed(1));
+    dot.setAttribute('cy', point[1].toFixed(1));
+  };
+  // Labels sit just inside a tip and sideways, clear of the shaft and of the rim's basis labels.
+  const placeTipLabel = (label, point, side) => {
+    const dx = point[0] - S_CENTER, dy = point[1] - S_CENTER, distance = Math.hypot(dx, dy);
+    if (distance < 1) { label.classList.add('is-empty'); return; }
+    const ux = dx / distance, uy = dy / distance;
+    label.setAttribute('x', (point[0] - ux * 18 - uy * side).toFixed(1));
+    label.setAttribute('y', (point[1] - uy * 18 + ux * side).toFixed(1));
+    label.setAttribute('text-anchor', 'middle');
+  };
+
+  function drawSchmidt() {
+    const { theta, axisA, axisB, chi, first, second } = schmidtForm();
+    const cos = Math.cos(theta * D2R), sin = Math.sin(theta * D2R);
+    const origin = sProject([0, 0, 0]);
+    const aPlus = sProject(axisA), aMinus = sProject(stretch3(axisA, -1));
+    const bPlus = sProject(stretch3(axisB, cos)), bMinus = sProject(stretch3(axisB, -sin));
+    setSegment(parts.sBAxis, sProject(stretch3(axisB, -1)), sProject(axisB));
+    setSegment(parts.sALine, aMinus, aPlus);
+    setSegment(parts.sBPlusLine, origin, bPlus);
+    setSegment(parts.sBMinusLine, origin, bMinus);
+    placeTip(parts.sAPlus, aPlus); placeTip(parts.sAMinus, aMinus);
+    placeTip(parts.sBPlus, bPlus); placeTip(parts.sBMinus, bMinus);
+    const gone = sin < 1e-3;
+    [parts.sBMinusLine, parts.sBMinus, parts.sBMinusLabel]
+      .forEach(element => element.classList.toggle('is-empty', gone));
+    parts.sAPlusLabel.textContent = '|+a⟩';
+    parts.sAMinusLabel.textContent = '|−a⟩';
+    parts.sBPlusLabel.textContent = '|+b⟩';
+    parts.sBMinusLabel.textContent = '|−b⟩';
+    placeTipLabel(parts.sAPlusLabel, aPlus, -20);
+    placeTipLabel(parts.sAMinusLabel, aMinus, -20);
+    placeTipLabel(parts.sBPlusLabel, bPlus, 20);
+    placeTipLabel(parts.sBMinusLabel, bMinus, 20);
+    parts.sTheta.textContent = theta.toFixed(0) + '°';
+    parts.sLambda0.textContent = (first * first).toFixed(3);
+    parts.sLambda1.textContent = (second * second).toFixed(3);
+    parts.sChi.textContent = gone ? '—' : chi.toFixed(0) + '°';
+    parts.sFormula.textContent = gone
+      ? `|ψ⟩ = ${first.toFixed(3)} |+a⟩|+b⟩`
+      : `|ψ⟩ = ${first.toFixed(3)} |+a⟩|+b⟩ + e^{i${chi.toFixed(0)}°} ${second.toFixed(3)} |−a⟩|−b⟩`;
+    parts.sDesc.textContent = `Schmidt form at θ = ${theta.toFixed(0)} degrees: qubit A's basis has unit`
+      + ` length and qubit B's vectors have lengths ${cos.toFixed(3)} and ${sin.toFixed(3)}.`;
+  }
 
   // ---- drawing ------------------------------------------------------------------------------
   const tip = (magnitude, degrees) => [
@@ -260,6 +398,7 @@
     drawArrows(offsets, fanOffsets(vectors, 16));
     drawNeedle(offsets[4]);
     drawTable();
+    drawSchmidt();
 
     parts.desc.textContent = `${ketText()}. The arrows show the state in the `
       + `${basis === 'computational' ? 'computational' : 'Bell'} basis; the concurrence needle has length `

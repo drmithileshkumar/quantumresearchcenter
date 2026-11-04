@@ -11,6 +11,8 @@ import os
 import re
 from pathlib import Path
 
+import schmidt
+
 CENTER = 200.0
 RADIUS = 148.0
 # Camera azimuth and elevation in degrees; the same basis drives the static drawing and the drag
@@ -382,6 +384,72 @@ def phasor_svg(state, basis_labels=PHASOR_LABELS):
             '</svg>')
 
 
+def schmidt_label(tip, text, ident, cls, side, empty=False, center=ORIGIN, radius=RADIUS):
+    """A small label just beyond a tip, pushed sideways so the two bases never fall on each other."""
+    x, y = tip
+    if empty:
+        # The text is kept so the script can reveal it when the arm grows; the class hides it now.
+        return (f'<text class="{cls} is-empty" id="{ident}" x="{x:.1f}" y="{y:.1f}"'
+                f' text-anchor="middle">{text}</text>')
+    dx, dy = x - center[0], y - center[1]
+    distance = math.hypot(dx, dy) or 1.0
+    ux, uy = dx / distance, dy / distance
+    # Step just inside the tip and sideways, which keeps the label off both the shaft and the
+    # basis-state labels that sit outside the rim.
+    x, y = x - ux * 18 - uy * side, y - uy * 18 + ux * side
+    return (f'<text class="{cls}" id="{ident}" x="{x:.1f}" y="{y:.1f}" text-anchor="middle"'
+            f' dy="4">{text}</text>')
+
+
+def schmidt_svg(state, prefix='schmidt', center=ORIGIN, radius=RADIUS):
+    """One Bloch sphere carrying both Schmidt bases.
+
+    The drawing is a faithful picture of |ψ⟩ = cos θ|+a⟩|+b⟩ + e^{iχ} sin θ|−a⟩|−b⟩: qubit A's two
+    basis vectors are always unit length, while qubit B's carry the branch amplitudes cos θ and sin θ
+    as their lengths. The two lengths therefore always satisfy cos²θ + sin²θ = 1.
+    """
+    form = schmidt.schmidt_form(state)
+    angle = math.radians(form.theta_deg)
+    cos, sin = math.cos(angle), math.sin(angle)
+    axis_a, axis_b = form.axis_a, form.axis_b
+    flip = lambda v: (-v[0], -v[1], -v[2])
+    stretch = lambda v, factor: (v[0] * factor, v[1] * factor, v[2] * factor)
+    origin = project((0.0, 0.0, 0.0), center, radius)
+    a_plus, a_minus = project(axis_a, center, radius), project(flip(axis_a), center, radius)
+    b_plus = project(stretch(axis_b, cos), center, radius)
+    b_minus = project(stretch(axis_b, -sin), center, radius)
+    faded = ' is-empty' if sin < ZERO else ''
+    line = lambda cls, ident, start, end: (f'<line class="{cls}" id="{ident}" x1="{start[0]:.1f}"'
+                                           f' y1="{start[1]:.1f}" x2="{end[0]:.1f}" y2="{end[1]:.1f}"/>')
+    dot = lambda cls, ident, point, r=4: (f'<circle class="{cls}" id="{ident}" cx="{point[0]:.1f}"'
+                                          f' cy="{point[1]:.1f}" r="{r}"/>')
+    basis = ','.join(f'{value:.6f}' for value in (*RIGHT, *UP))
+    return (f'<svg class="schmidt" id="{prefix}" viewBox="0 0 400 400" role="img"'
+            f' aria-labelledby="{prefix}-title {prefix}-desc" data-basis="{basis}">'
+            f'<title id="{prefix}-title">Schmidt bases of the current two-qubit state</title>'
+            f'<desc id="{prefix}-desc">Schmidt form at θ = {form.theta_deg:.0f}°: qubit A\'s basis has unit'
+            f' length and qubit B\'s vectors have lengths {cos:.3f} and {sin:.3f}.</desc>'
+            f'<circle class="bloch-surface" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="{radius:.1f}"/>'
+            f'<g class="bloch-grid">{"".join(sphere_grid(center, radius))}</g>'
+            f'<g class="bloch-axes">{sphere_axes(center, radius)}</g>'
+            + line('schmidt-b-axis', f'{prefix}-b-axis', project(flip(axis_b), center, radius),
+                   project(axis_b, center, radius))
+            + line('schmidt-a-line', f'{prefix}-a-line', a_minus, a_plus)
+            + line('schmidt-b-line', f'{prefix}-b-plus-line', origin, b_plus)
+            + line('schmidt-b-line' + faded, f'{prefix}-b-minus-line', origin, b_minus)
+            + dot('schmidt-a-tip', f'{prefix}-a-plus', a_plus)
+            + dot('schmidt-a-tip', f'{prefix}-a-minus', a_minus)
+            + dot('schmidt-b-tip', f'{prefix}-b-plus', b_plus)
+            + dot('schmidt-b-tip' + faded, f'{prefix}-b-minus', b_minus)
+            + schmidt_label(a_plus, '|+a⟩', f'{prefix}-a-plus-label', 'schmidt-a-label', -20)
+            + schmidt_label(a_minus, '|−a⟩', f'{prefix}-a-minus-label', 'schmidt-a-label', -20)
+            + schmidt_label(b_plus, '|+b⟩', f'{prefix}-b-plus-label', 'schmidt-b-label', 20)
+            + schmidt_label(b_minus, '|−b⟩', f'{prefix}-b-minus-label', 'schmidt-b-label', 20,
+                            empty=sin < ZERO)
+            + f'<circle class="bloch-origin" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="2.5"/>'
+            '</svg>')
+
+
 def render_two_qubit(root, shell):
     e = escape
     table, concurrence, lam_plus, lam_minus = two_qubit_observables([1, 0, 0, 0])
@@ -400,14 +468,16 @@ def render_two_qubit(root, shell):
         '<h1>The state is<br><span>four arrows.</span></h1>'
         '<p>A two-qubit state is four complex numbers, and a complex number is a vector. So the whole state fits'
         ' in one ordinary plane: four arrows whose lengths are the magnitudes and whose angles are the phases.'
-        ' Gates turn and add those arrows; the fifth, heavy arrow measures how entangled the pair is.</p>'
+        ' Gates turn and add those arrows; the fifth, heavy arrow measures how entangled the pair is. Below the'
+        ' plane, the same state is redrawn in Schmidt form: one sphere, the first qubit\'s basis at unit'
+        ' length, the second qubit\'s vectors scaled by the two branch amplitudes.</p>'
         '</header>'
 
         '<div class="two-summary"><div class="two-ket-block"><p class="qubit-kicker">Current state</p>'
         '<p class="qubit-ket" id="state-ket">|00⟩</p></div><dl class="two-invariants">'
         f'<div><dt>Concurrence C</dt><dd id="inv-concurrence">{concurrence:.3f}</dd></div>'
         f'<div><dt>Needle angle</dt><dd id="inv-needle">—</dd></div>'
-        f'<div><dt>Schmidt λ₊, λ₋</dt><dd id="inv-schmidt">{lam_plus:.3f}, {lam_minus:.3f}</dd></div>'
+        f'<div><dt>Schmidt amplitudes</dt><dd id="inv-schmidt">{lam_plus:.3f}, {lam_minus:.3f}</dd></div>'
         f'<div><dt>Type</dt><dd id="inv-type">Product</dd></div></dl>'
         '<div class="two-scale"><p class="meter-label"><span>Product</span>'
         f'<span class="meter-track"><span class="meter-fill" id="bar-c" style="width:{concurrence * 100:.1f}%">'
@@ -415,11 +485,15 @@ def render_two_qubit(root, shell):
         '<p class="slider-hint">The needle\'s length is the concurrence. Its direction is the local frame, which'
         ' is a choice of basis — local gates turn the needle but never change its length.</p></div></div>'
 
-        '<section class="two-lab" aria-labelledby="lab-heading"><h2 class="sr-only" id="lab-heading">'
-        'Two-qubit vector explorer</h2><div class="phasor-layout">'
+        '<section class="two-views" aria-labelledby="views-heading">'
+        '<h2 class="sr-only" id="views-heading">The same state in two pictures</h2>'
+        '<div class="view-grid">'
+        '<section class="view-column" aria-labelledby="phasor-heading">'
+        '<p class="eyebrow">Amplitudes</p>'
+        '<h3 class="view-heading" id="phasor-heading">Four arrows in one plane</h3>'
         '<figure class="phasor-figure">' + phasor_svg([1, 0, 0, 0]) +
-        '<figcaption>One plane, every vector. Pick an arrow and use the arrow keys to turn it, or drag its tip.'
-        ' Turning an arrow changes one phase and nothing else.</figcaption></figure>'
+        '<figcaption>Pick an arrow and use the arrow keys to turn it, or drag its tip. Turning a coefficient'
+        ' changes one phase, and the Schmidt sphere updates with it.</figcaption></figure>'
         '<div class="phasor-panel">'
         '<fieldset class="qubit-group"><legend>Display basis</legend><div class="qubit-buttons">'
         '<button type="button" id="basis-computational" aria-pressed="true">|00⟩ |01⟩ |10⟩ |11⟩</button>'
@@ -436,7 +510,28 @@ def render_two_qubit(root, shell):
         ' c<sub>01</sub>c<sub>10</sub>): the first product, then the second one subtracted. Its length is the'
         ' concurrence — zero for a product state, one for a Bell state.</p>'
         '<p class="sr-only" id="state-status" role="status" aria-live="polite"></p>'
-        '</div></div></section>'
+        '</div></section>'
+
+        '<section class="view-column" aria-labelledby="schmidt-heading">'
+        '<p class="eyebrow">Schmidt form</p>'
+        '<h3 class="view-heading" id="schmidt-heading">One basis unit, one scaled</h3>'
+        '<figure class="schmidt-figure">' + schmidt_svg([1, 0, 0, 0]) +
+        '<figcaption>Qubit A\'s Schmidt basis stays at unit length; qubit B\'s two vectors carry the branch'
+        ' amplitudes cos θ and sin θ as their lengths, so the pair always obeys cos²θ + sin²θ = 1. The dashed'
+        ' diameter marks B\'s axis even when an arm has shrunk to nothing.</figcaption></figure>'
+        '<div class="schmidt-panel">'
+        '<p class="schmidt-formula" id="schmidt-formula">|ψ⟩ = 1.000 |+a⟩|+b⟩</p>'
+        '<dl class="two-invariants schmidt-values">'
+        '<div><dt>Schmidt angle θ</dt><dd id="schmidt-theta">0°</dd></div>'
+        '<div><dt>λ₀ = cos²θ</dt><dd id="schmidt-lambda-0">1.000</dd></div>'
+        '<div><dt>λ₁ = sin²θ</dt><dd id="schmidt-lambda-1">0.000</dd></div>'
+        '<div><dt>Relative phase χ</dt><dd id="schmidt-chi">—</dd></div>'
+        '</dl>'
+        '<p class="slider-hint">θ = 0 is a product state and θ = 45° is maximal entanglement. Gates move the'
+        ' bases and the weights together; χ is the phase between the two branches, and no Bloch sphere shows'
+        ' it.</p>'
+        '</div></section>'
+        '</div></section>'
 
         '<section class="two-controls" aria-labelledby="controls-heading"><h2 class="sr-only"'
         ' id="controls-heading">Controls</h2>'

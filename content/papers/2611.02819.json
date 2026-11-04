@@ -1,0 +1,49 @@
+{
+  "id": "2611.02819",
+  "topic": "computing",
+  "title": "unitaryQIP = unitaryPSPACE",
+  "authors": "Entong He; Fengning Ou; Mingnan Zhao",
+  "submitted": "2026-11-02",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Complexity theory for quantum tasks asks how hard it is to prepare states and apply unitaries, not just to decide languages. For states, interactive proofs with a polynomial-time verifier match polynomial space: stateQIP = statePSPACE. For unitaries, which must act correctly on an unknown input that cannot be copied, the analogous question was open in the worst case.",
+  "result": "The classes coincide: unitaryQIP = unitaryPSPACE. One direction shows that soundness forces a good prover's acceptance probability to be nearly the same on every input. The other synthesises any polynomial-space unitary in polynomial time with a PSPACE oracle, using a recently announced solution to the unitary synthesis problem, and then supplies the oracle through phase states that a prover helps prepare.",
+  "significance": "Interactive proofs now characterise polynomial space for decisions, states and unitaries alike. The PSPACE-oracle synthesis answers a question of Kretschmer and Tang. The paper also gives three-round protocols when the verifier receives polynomially many copies of the input, and shows that a proof that EFI pairs exist would also prove BQP ≠ PSPACE.",
+  "limitations": "The reverse inclusion depends on OpenAI's announced solution of the Aaronson–Kuperberg unitary synthesis problem, an October 2026 preprint posted on GitHub. The paper gives its own exposition in an appendix, but that result has not yet been independently refereed. Synthesis errors are inverse-polynomial, and gap amplification for single-copy inputs is open. The authors state that GPT-6 was used extensively, including for formulation and proof checking, and that it helped sketch the PSPACE-oracle argument; the authors verified the manuscript.",
+  "status": "approved",
+  "summary_basis": "Description based on Section 1 (results, proof overview and open problems), the AI disclosure, and the statements of Lemmas 3.2, 4.1 and 4.12 and Theorem 4.6 in the linked arXiv version, read 2026-11-03. The full proofs in Sections 3–5 and Appendices B–C were not checked.",
+  "verified_on": "2026-11-03",
+  "methods_source_section": "Section 1.2, Lemma 3.2, Theorem 4.6 and Lemma 4.12",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A family \\(\\{U_n\\}\\) is in unitaryPSPACE if a space-uniform polynomial-space algorithm maps every input \\(|\\psi\\rangle\\) to a state close to \\(U_n|\\psi\\rangle\\). It is in unitaryQIP if a polynomial-time verifier, interacting with an untrusted prover on input \\(|\\psi\\rangle\\), satisfies two conditions. An honest prover is accepted with high probability. And for any prover and any input, if acceptance exceeds a threshold \\(s\\), the accepted output is close to \\(U_n|\\psi\\rangle\\). The difficulty is that the verifier holds one copy of an unknown input, which it cannot clone in order to test the prover.",
+    "Theorem 1.1 says that if \\(\\varepsilon\\le(1-c-s)/4\\) and \\(\\delta\\le(1-c-s)^2/8\\), then unitaryQIP\\(_{c,s,\\delta}\\subseteq\\)unitaryPSPACE\\(_{c+\\varepsilon+7\\delta}\\). Theorem 1.2 gives \\[\\mathsf{unitaryPSPACE}_{\\delta^2/2^{14}}\\subseteq\\mathsf{unitaryQIP}_{0,s,\\delta}\\] for inverse-polynomial \\(s\\) and \\(\\delta\\), with perfect completeness. Together, these give equality for the classes with arbitrarily small inverse-polynomial error.",
+    "For the first inclusion, Metger and Yuen gave a polynomial-space prover that is nearly optimal when the verifier's input is fixed to \\(|0^n\\rangle\\). Soundness then shows that this prover implements \\(U\\) on that input. A rigidity lemma extends it to every input, and a polynomial-space machine can then simulate the verifier with that prover. For the converse, a polynomial-space channel close to \\(U\\) is first rounded to a nearby unitary with PSPACE-computable entries. A PSPACE-effective version of the unitary synthesis algorithm then gives a polynomial-size oracle circuit with a fixed PSPACE language as oracle. Each oracle query is implemented by injecting phase states, which form a statePSPACE family, and so they can be prepared interactively by the Rosenthal–Yuen protocol.",
+    "Three questions are left open: whether unitaryQIP admits gap amplification when only one copy of the input is available, whether it collapses to a constant number of rounds without extra copies, and whether either class has a complete problem."
+  ],
+  "methods": [
+    {
+      "technique": "Acceptance rigidity: soundness forbids input-dependent acceptance",
+      "explanation": "A prover that is accepted on some inputs much more than others would distort superpositions after postselection. Soundness requires the accepted output to be \\(U\\) applied to the input, undistorted, so acceptance must be nearly flat.",
+      "math": [
+        "Write the accepted branch of the interaction as a completely positive, trace-nonincreasing map \\(\\Phi\\), so the acceptance probability on \\(\\psi\\) is \\(\\mathrm{tr}[\\Phi(\\psi)]=\\langle\\psi|\\Phi^*(I)|\\psi\\rangle\\). Lemma 3.2 says that if every input accepted with probability above \\(s\\) gives an output within trace distance \\(\\delta\\) of \\(U\\psi U^\\dagger\\), then for any \\(t\\in(0,1)\\) with \\(t\\lambda_{\\max}>s\\), \\[\\lambda_{\\max}-\\lambda_{\\min}\\le\\frac{\\delta(1+t)}{t(1-t)}\\lambda_{\\max},\\] where the \\(\\lambda\\) are the extreme eigenvalues of \\(\\Phi^*(I)\\).",
+        "Editorial illustration: take \\(\\Phi(\\rho)=U\\sqrt E\\rho\\sqrt EU^\\dagger\\) with \\(E\\) having eigenvectors \\(\\psi_1,\\psi_2\\) and eigenvalues \\(\\lambda_{\\max},\\lambda_{\\min}\\). The input \\(\\sqrt t\\,\\psi_1+\\sqrt{1-t}\\,\\psi_2\\) is accepted with probability \\(t\\lambda_{\\max}+(1-t)\\lambda_{\\min}\\), and the accepted state has weight \\[\\frac{t\\lambda_{\\max}}{t\\lambda_{\\max}+(1-t)\\lambda_{\\min}}>t\\] on \\(U\\psi_1\\), while the target has weight exactly \\(t\\). The gap between these is what the trace distance \\(\\delta\\) bounds.",
+        "Applied to the Metger–Yuen prover, which is accepted with high probability on \\(|0^n\\rangle\\), this gives \\(\\lambda_{\\max}\\) close to 1, so \\(\\lambda_{\\min}\\) is too. The prover is then accepted on every input, and soundness makes its output correct on every input.",
+        "Editorial check: for qubit filters with eigenvalues \\((1,0.9)\\), \\((0.9,0.5)\\) and \\((1,0.99)\\), we computed the exact worst-case \\(\\delta\\) over all pure inputs and minimised the bound over \\(t\\). The actual gaps \\(0.1\\), \\(0.4\\) and \\(0.01\\) were below the bounds \\(0.153\\), \\(0.765\\) and \\(0.0146\\) respectively."
+      ],
+      "transfer": "In verification with one copy of an unknown input, superposition makes postselection detectable. Any guarantee that the accepted output is correct implies that acceptance hardly depends on the input. This can replace the repetition or cloning that classical arguments would use."
+    },
+    {
+      "technique": "Oracle queries from injected phase states",
+      "explanation": "A verifier cannot run a PSPACE oracle, but it can consume states that a prover helps prepare. Phase states of Boolean functions can be teleported into the circuit, with corrections that are again phase states.",
+      "math": [
+        "For \\(f:\\{0,1\\}^m\\to\\{0,1\\}\\), let \\(D_f|x\\rangle=(-1)^{f(x)}|x\\rangle\\), which is what an oracle query becomes after phase kickback, and let \\(|\\varphi_f\\rangle=2^{-m/2}\\sum_y(-1)^{f(y)}|y\\rangle\\). Applying \\(m\\) CNOTs from the data register to a fresh \\(|\\varphi_f\\rangle\\), then measuring the resource and getting \\(a\\), maps \\(|x\\rangle\\) to \\((-1)^{f(x\\oplus a)}|x\\rangle\\).",
+        "Since \\(f(x\\oplus a)=f(x)\\oplus\\Delta_af(x)\\), with \\(\\Delta_af=f\\oplus f(\\cdot\\oplus a)\\), the result is \\(D_f\\) followed by an error \\(D_{\\Delta_af}\\). The next step injects the phase state of \\(g_1=\\Delta_{a_1}f\\), which cancels this error because \\(D_g^2=I\\), at the cost of a new error \\(D_{\\Delta_{a_2}g_1}\\), and so on. Each derivative lowers the degree of the function as a polynomial over \\(\\mathbb F_2\\), so after at most \\(m\\) steps the error is a constant and only a global sign remains.",
+        "Every correction function is computable from the oracle language, and in the paper's construction that language is in PSPACE. So all the phase states needed form a statePSPACE family, and statePSPACE ⊆ stateQIP lets the verifier obtain them through interaction. Replacement errors add over the polynomially many uses.",
+        "Editorial check: we simulated the procedure for \\(m=3\\) with a random Boolean function and random inputs. In every trial the output equalled \\(D_g|\\psi\\rangle\\) up to sign, and the last correction function was constant."
+      ],
+      "transfer": "If a computation needs only diagonal phase oracles, it can be made to consume resource states rather than queries, and the adaptivity is limited to choosing derivatives. This moves verification from the oracle to state preparation, which is often easier to delegate or check."
+    }
+  ],
+  "approved_on": "2026-11-03"
+}

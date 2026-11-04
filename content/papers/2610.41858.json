@@ -1,0 +1,50 @@
+{
+  "id": "2610.41858",
+  "topic": "information",
+  "title": "Channel dichotomies",
+  "authors": "Aadil Oufkir; Mario Berta",
+  "submitted": "2026-10-30",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "How many uses of a channel \\(W\\) can \\(n\\) uses of a channel \\(T\\) simulate at a given error? To first order the answer is the capacity ratio. Coding then simulating is known not to be optimal at finite length, since a noisy channel simulates itself exactly. So what is the true second-order correction, in general?",
+  "result": "With non-signalling assistance and a single dispersion per channel, the best target length is \\(rn+(d_\\epsilon/C_W)\\sqrt n+O(\\log n)\\), where \\(r=C_T/C_W\\). The coefficient \\(d_\\epsilon\\) is an optimisation of a difference of Gaussian quantiles, from the sesquinormal law of state dichotomies. At a special error it vanishes, and for matched channels that error is zero.",
+  "significance": "This extends state-dichotomy theory to channels, where approximation must hold for every input and all no-information channels must be preserved. The formula cannot be obtained by concatenating coding and simulation. Shared randomness can do strictly worse at second order, so the type of assistance affects this term even though it does not affect the first.",
+  "limitations": "Non-signalling assistance is stronger than shared randomness or entanglement, so the result is a converse for those. Their second-order coefficient is still open in general. Channels with zero minimum dispersion are covered only in the additive case. The authors state prominently that the general characterisation was developed with ChatGPT and propose it as a solution; the paper is new and its proofs have not been independently reviewed.",
+  "status": "approved",
+  "summary_basis": "Description based on Section 1 of the linked arXiv version, read 2026-11-02. Sections 2–4 and the appendices, holding the proofs of the theorem, the shared-randomness separation and the exact formulas, were not checked; our numerical checks test the stated formulas and examples, not their proofs.",
+  "verified_on": "2026-11-02",
+  "methods_source_section": "Section 1 (Theorem 1.1, Equations (1)–(8), and the examples in Section 1.4)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A non-signalling superchannel connects a resource \\(T\\) to a box \\(N(x,z|s,y)\\), whose sender marginal does not depend on \\(y\\) and whose receiver marginal does not depend on \\(s\\). The result is a simulated channel from \\(s\\) to \\(z\\), and the error is the worst total variation distance over target input words. Non-signalling boxes include shared randomness and entanglement, and none of them carries a message. Among classical superchannels they are exactly the transformations that map channels carrying no information to channels carrying no information.",
+    "The main theorem says that, with \\(C_K\\) and \\(V_K\\) the capacity and dispersion of channel \\(K\\), \\[d_\\epsilon=\\inf_{\\epsilon<\\eta<1}\\Big\\{\\sqrt{V_T}\\,\\Phi^{-1}(\\eta)-\\sqrt{rV_W}\\,\\Phi^{-1}(\\eta-\\epsilon)\\Big\\}.\\] This is a difference of Gaussian quantiles, not a sum of separate coding and simulation penalties. Equivalently, at length \\(rn+(d/C_W)\\sqrt n\\), the limiting error is the sesquinormal profile \\[\\mathcal E(d)=\\sup_\\xi\\Big\\{\\Phi\\big(\\xi/\\sqrt{V_T}\\big)-\\Phi\\big((\\xi-d)/\\sqrt{rV_W}\\big)\\Big\\}.\\]",
+    "A striking consequence is resonance. Let \\(\\nu=rV_W/V_T\\). At the error \\(\\epsilon_\\ast=\\mathcal E(0)\\), the \\(\\sqrt n\\) term vanishes, leaving only \\(O(\\log n)\\). If \\(V_T/C_T=V_W/C_W\\), then \\(\\nu=1\\) and \\(\\epsilon_\\ast=0\\): the error at the capacity ratio tends to zero, even for different channels. An example is a binary erasure channel converted to a binary symmetric one with \\(q=0.01\\), at erasure probability \\(\\delta_\\ast\\approx0.473\\).",
+    "Shared randomness differs. For a two-bit packet-erasure channel converted to \\(\\mathrm{BEC}(\\tfrac12)\\), it matches non-signalling, with resonance at \\(\\delta=\\tfrac14\\). For the matched erasure-to-symmetric pair it is strictly worse at small error. Whether shared randomness has a general formula is open, as are entanglement assistance, general channels with zero minimum dispersion, and third-order terms."
+  ],
+  "methods": [
+    {
+      "technique": "Gaussian comparison of testing curves",
+      "explanation": "Whether one experiment can be converted to another is decided by comparing their hypothesis-testing curves. At second order those curves are Gaussian, and the conversion error becomes the largest gap between two Gaussian distribution functions.",
+      "math": [
+        "The starting point is Renes' relative submajorisation theorem, which expresses optimal conversion error between binary experiments as a gap between testing curves. For \\(n\\) uses of \\(T\\), the information spectrum is roughly Gaussian with mean \\(nC_T\\) and variance \\(nV_T\\). For \\(m=rn+(d/C_W)\\sqrt n\\) uses of \\(W\\), the mean is \\(mC_W=nC_T+d\\sqrt n\\) and the variance about \\(rnV_W\\).",
+        "After rescaling by \\(\\sqrt n\\), the gap at threshold \\(\\xi\\) is \\(\\Phi(\\xi/\\sqrt{V_T})-\\Phi((\\xi-d)/\\sqrt{rV_W})\\), and the error is its supremum. Writing \\(\\eta\\) for the first term and solving for \\(\\epsilon\\) gives the infimum formula for \\(d_\\epsilon\\).",
+        "At \\(d=0\\), the two curves cross where \\(\\xi^2/V_T=\\xi^2/(rV_W)+\\ln\\nu\\), up to the choice of root, which gives the threshold \\[\\epsilon_\\ast=\\big|\\Phi(x_\\nu)-\\Phi(x_\\nu/\\sqrt\\nu)\\big|,\\qquad x_\\nu=\\sqrt{\\frac{\\nu\\ln\\nu}{\\nu-1}}.\\]",
+        "If \\(\\nu=1\\), the curves are shifts of one another, so the gap is largest at the midpoint, and this gives the closed form \\(d_\\epsilon=2\\sqrt{V_T}\\,\\Phi^{-1}((1+\\epsilon)/2)\\).",
+        "Editorial check: we computed these directly. For \\(\\mathrm{BSC}(0.1)\\to\\mathrm{BSC}(0.05)\\), \\(r=0.7441\\) and \\(\\epsilon_\\ast=0.0421\\), as stated, and \\(d_{\\epsilon_\\ast}\\) came out as zero to \\(10^{-9}\\). For \\(\\mathrm{BSC}(0.4)\\to\\mathrm{BSC}(0.45)\\), \\(r=4.020\\) and \\(\\epsilon_\\ast=0.0019\\). For the erasure example, \\(\\delta_\\ast=0.4733\\) and \\(r=0.5730\\), with thresholds near 1% at \\(\\delta=0.436\\) and \\(0.514\\). Also \\(\\mathcal E(d_\\epsilon)=\\epsilon\\) held at each test value, and the closed form agreed with the infimum."
+      ],
+      "transfer": "If a finite-length conversion problem has a testing-curve characterisation, expect its second-order law to be a one-parameter Gaussian optimisation. Check it against exact finite examples, since it gives no bound at fixed length. Channels add a further requirement: the transformation must respect the input, which is the real difficulty of this paper."
+    },
+    {
+      "technique": "Keeping the noise instead of removing it",
+      "explanation": "Coding then simulating first removes the resource's noise and then reintroduces noise, paying for both. A direct conversion uses the resource's existing noise. The example below shows how large the difference is, and how exact binomials certify it.",
+      "math": [
+        "Concatenation requires splitting the error between the two stages, which leads to a coefficient of the form \\[\\max_{\\epsilon_1+\\epsilon_2=\\epsilon}\\big\\{\\sqrt{V_T}\\,\\Phi^{-1}(\\epsilon_1)+\\sqrt{rV_W}\\,\\Phi^{-1}(\\epsilon_2)\\big\\}.\\] Editorial comparison: for \\(\\mathrm{BSC}(0.1)\\to\\mathrm{BSC}(0.05)\\) at \\(\\epsilon=0.05\\), this form gives about \\(-3.43\\), while \\(d_\\epsilon\\approx+0.027\\). So the direct protocol can be strictly better, in this case even above the capacity ratio. This estimate is ours, using the standard second-order forms of coding and simulation.",
+        "In the packet example, one use of the resource transmits two bits intact with probability \\(1-\\delta\\), and otherwise erases both. The target is \\(\\mathrm{BEC}(\\tfrac12)\\), so \\(C_T=2(1-\\delta)\\), \\(V_T=4\\delta(1-\\delta)\\), and \\(\\nu=1/(4\\delta)\\). Shared randomness places the transmitted bits at random target positions. The receiver sees how many bits survived, then keeps a random subset to match the target's erasure count.",
+        "The error is thus the coupling failure between \\(2K\\) available bits, with \\(K\\sim\\mathrm{Bin}(n,1-\\delta)\\), and \\(J\\sim\\mathrm{Bin}(m,\\tfrac12)\\) required bits. Since only surplus bits can be thrown away, it equals \\(\\max_t[\\Pr(J\\ge t)-\\Pr(2K\\ge t)]\\). At \\(\\delta=\\tfrac14\\) and \\(m=3n\\), both counts have mean \\(3n/2\\) and variance \\(3n/4\\), so their distributions nearly coincide.",
+        "Editorial check: exact binomial arithmetic gives error \\(0.0097183\\) for \\(n=250,m=750\\), below the stated \\(9.719\\times10^{-3}\\), and \\(0.0099704\\) for \\(n=16,m=47\\), below the stated \\(9.971\\times10^{-3}\\). At the capacity-ratio length \\(m=48\\) we get \\(0.0383\\), so one target use costs a factor of nearly four in this example."
+      ],
+      "transfer": "If a target only needs fewer capabilities than a resource supplies, try thinning the resource directly, without an error-free intermediate step. Matching means and variances of the relevant counts indicates where this is best. It requires compatible noise structures, as erasures have here; it is not a general recipe, and the separation result shows it can fail."
+    }
+  ],
+  "approved_on": "2026-11-02"
+}

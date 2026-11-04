@@ -1,0 +1,49 @@
+{
+  "id": "2610.42069",
+  "topic": "computing",
+  "title": "The Quartic Gap Between Quantum and Dequantized Algorithms for Linear Algebra Is Tight",
+  "authors": "Shouvanik Chakrabarti; Dylan Herman; Junhyung Lyle Kim; Guneykan Ozgul",
+  "submitted": "2026-10-30",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "At fixed condition number and accuracy, quantum linear-system algorithms with QRAM use \\(\\widetilde O(\\rho)\\) queries, with \\(\\rho=\\|A\\|_F/\\|A\\|\\), and the best dequantized classical algorithms use \\(\\widetilde O(\\rho^4)\\). Existing lower bounds reach only \\(\\rho^2\\). So is the true speedup quartic, or could dequantized algorithms be improved until it is only quadratic?",
+  "result": "The quartic gap is tight up to a logarithm. Explicit dense, well-conditioned systems require \\(\\Omega(\\rho^4/\\log\\rho)\\) classical queries to sample from the solution to a small constant error, while \\(\\Theta(\\rho)\\) quantum queries suffice. The same separation holds for least squares, ridge regression, matrix functions, Hamiltonian evolution and top principal component sampling.",
+  "significance": "This settles the worst-case comparison in this input model and shows known dequantized algorithms cannot be improved in their dependence on \\(\\rho\\). The size of the speedup matters because analyses of error-correction overheads suggest that quadratic speedups will not pay off on early fault-tolerant machines, while quartic ones are considerably more promising.",
+  "limitations": "This is a worst-case query bound on constructed inputs, not evidence for a speedup on practical data. It concerns sampling only; the authors note that some scalar quantities are easy on these families. Costs of building QRAM and classical data structures are not counted, and errors must be below small constants. The authors report that the primary result was discovered by GPT-6.1 Sol, that they used it and Claude Opus 5.5 to extend the results and draft and audit text, and that they rewrote the proofs and verified them independently.",
+  "status": "approved",
+  "summary_basis": "Description based on Section 1 of the linked arXiv version (motivation, results and the proof overview through the quantum bounds), read 2026-11-02. Sections 2–6 and the appendices, holding the formal proofs, were not checked.",
+  "verified_on": "2026-11-02",
+  "methods_source_section": "Section 1 (Theorems 1.2–1.4, Table 1, and the proof overview in Section 1.3)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Dense quantum linear algebra reads a matrix through QRAM and returns a quantum state. Dequantized classical algorithms, given sampling and query access, read entries and sample rows and entries by squared magnitude, and they return the same kind of access to an answer. To compare them, the paper uses a task both can do: output one sample from \\(p_x(j)=|x_j|^2/\\|x\\|^2\\), within small total variation distance. Costs depend on \\(\\rho\\), not on the dimension. The gap \\(\\rho\\) versus \\(\\rho^4\\) was known only as an upper bound.",
+    "Two constraints shape any hard family. An \\(N\\times N\\) matrix with condition number \\(\\kappa\\) has \\(N\\le\\kappa^2\\rho^2\\), so reading all \\(N^2\\) entries always takes \\(O(\\rho^4)\\) queries. A \\(\\rho^4/\\log\\rho\\) bound therefore needs a dense matrix in which nearly all entries are unknown. Also, a norm or sampling query could reveal many entries at once, so the magnitudes of all entries must be fixed in advance, with only their signs unknown.",
+    "The hard matrices are \\[A_W=\\begin{pmatrix}I&0&0\\\\-\\lambda R&I&0\\\\0&-\\lambda H&I\\end{pmatrix},\\qquad R=\\frac W{\\sqrt n},\\] with \\(W\\) an \\(n\\times n\\) sign matrix and \\(H\\) a normalised Walsh–Hadamard matrix. For the right-hand side \\((u,u,u)\\), with \\(u\\) uniform, the third block of the solution is \\(u+\\lambda e_0+\\lambda^2Hv\\), where \\(v=Ru\\). Each coordinate depends on all \\(n^2\\) signs through a Fourier coefficient \\(Z_j=n^{-1}\\sum_{ab}h_{ja}W_{ab}\\). Since \\(\\rho^2=\\Theta(n)\\), this is \\(\\rho^4\\) unknown entries, a constant fraction of the matrix.",
+    "A general framework then treats tasks whose output depends on \\(K\\) of \\(M\\) Fourier coefficients of an unknown Boolean function: classical cost about \\(M/\\log K\\), quantum cost \\(O(\\sqrt{M/K})\\). Here \\(M=n^2\\) and \\(K=n\\). The factor \\(1/\\log\\rho\\) comes from a union bound over output coordinates, and removing it is one remaining question. Lower bounds for scalar estimation are not proved."
+  ],
+  "methods": [
+    {
+      "technique": "The sine test against a martingale",
+      "explanation": "An exact sampler prefers coordinates with large positive \\(Z_j\\), while an algorithm that has seen few signs cannot know which those are. The test function turns this difference into a total variation bound.",
+      "math": [
+        "A bounded test function \\(F(W,j)\\in[-1,1]\\) changes in expectation by at most \\(2\\varepsilon\\) under a sampler with error \\(\\varepsilon\\). So a gap in expectations between exact sampling and every low-query algorithm is a lower bound on error.",
+        "Take \\(F=\\sin Z_j\\) on the third block and 0 elsewhere. Coordinate \\(j\\ne0\\) is sampled with probability \\((1+\\lambda^2Z_j)^2/(n\\|x\\|^2)\\). In \\((1+2\\lambda^2Z_j+\\lambda^4Z_j^2)\\sin Z_j\\), only the middle term has nonzero mean, since the others are odd in \\(Z_j\\), which is symmetric. For nearly Gaussian \\(Z_j\\), \\(\\mathbb E[G\\sin G]=e^{-1/2}\\), so the exact sampler scores about \\(2\\lambda^2e^{-1/2}/d\\), where \\(d\\) is the typical value of \\(\\|x\\|^2\\).",
+        "An algorithm's knowledge is captured by \\(\\mu_j\\), the part of \\(Z_j\\) from queried signs. Unqueried signs are symmetric, so \\[\\mathbb E[\\sin Z_j\\mid\\text{queries}]=\\sin\\mu_j\\,\\mathbb E[\\cos(Z_j-\\mu_j)\\mid\\text{queries}],\\] and this has absolute value at most \\(|\\mu_j|\\). Each query changes \\(\\mu_j\\) by \\(\\pm1/n\\) with mean zero, even for adaptive queries, so \\(\\mu_j\\) is a martingale. Azuma–Hoeffding and a union bound give \\(|\\mu_j|=O(\\sqrt{q\\log n}/n)\\) for all \\(j\\) at once, which is \\(o(1)\\) unless \\(q=\\Omega(n^2/\\log n)\\).",
+        "Editorial check: at \\(n=256\\) and \\(\\lambda=\\tfrac14\\), solving the linear system numerically reproduced the stated blocks to \\(10^{-17}\\). The condition number was \\(1.74\\) and \\(\\rho^2/n\\approx1.84\\). Averaged over 1500 random \\(W\\), the exact sampler's score was \\(0.0245\\pm0.0006\\), against the predicted \\(0.0240\\). We also confirmed \\(\\mathbb E[G\\sin G]=e^{-1/2}\\) by integration."
+      ],
+      "transfer": "To prove a sampling lower bound, find a bounded function of the hidden input and the output that correlates with the right answer, then show that partial knowledge gives no correlation. Sine works here because it is bounded and odd. Adaptive queries are handled by the martingale, provided that each query reveals only a little."
+    },
+    {
+      "technique": "Designing inputs so queries reveal one sign at a time",
+      "explanation": "The input model is powerful, since one norm or sample can depend on many entries. The construction removes that power and uses the Walsh–Hadamard block to spread each sign across all outputs.",
+      "math": [
+        "All entries of \\(-\\lambda W/\\sqrt n\\) have the same magnitude \\(\\lambda/\\sqrt n\\). So every norm and sampling distribution is identical across the family, and those queries reveal nothing. Only an entry query reveals something, and then only one sign.",
+        "Forward substitution gives the solution. From \\(x_1=u\\), we get \\(x_2=u+\\lambda Rx_1=u+\\lambda v\\), and \\(x_3=u+\\lambda Hx_2=u+\\lambda Hu+\\lambda^2Hv\\), with \\(Hu=e_0\\) because \\(H\\) maps the uniform vector to a basis vector. The middle block would not be enough: each coordinate depends on only one row of signs, so it could be evaluated with \\(n=\\Theta(\\rho^2)\\) queries. This is why the extra Hadamard step is needed.",
+        "With \\(M\\) points and \\(K\\) characters, the generic bound is cost about \\(M/\\log K\\) classically and \\(\\sqrt{M/K}\\) quantumly. If \\(K=M^\\theta\\), the classical cost is the \\(2/(1-\\theta)\\) power of the quantum one, up to a logarithm. With \\(\\theta=\\tfrac12\\) this gives the fourth power. The hard task for this framework outputs \\(\\bot\\) with probability \\(1/D_f\\), where \\(D_f=1+(M/K)\\sum_{s\\in S}\\widehat f(s)^2\\).",
+        "Editorial check: for random \\(f\\) on \\(M=4096\\) points with \\(K=128\\) characters, 300 samples gave mean \\(D_f=1.99\\) and variance \\(0.0143\\), below the stated \\(2/K=0.0156\\). With \\(K=M\\) the value was exactly 2, as Parseval's identity requires."
+      ],
+      "transfer": "Equalise magnitudes so that an input model's strong queries say nothing, and leave only signs hidden. Then choose a transform that makes each output depend on all hidden bits. The method applies to any sampling access model, but it says nothing about scalar estimation, which may remain easy."
+    }
+  ],
+  "approved_on": "2026-11-02"
+}

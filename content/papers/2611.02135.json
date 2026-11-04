@@ -1,0 +1,48 @@
+{
+  "id": "2611.02135",
+  "topic": "foundations",
+  "title": "Detection times are not local observables in quantum field theory",
+  "authors": "Charis Anastopoulos; Ntina Savvidou",
+  "submitted": "2026-11-01",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Detectors record when they click, and the record sits in a bounded region of spacetime. In algebraic quantum field theory, a measurement is usually taken to be localised in a region when its effects belong to that region's local algebra. Can a detection-time observable be localised in that sense?",
+  "result": "No. A family of detection-time POVMs that is consistent when the recording is extended, covariant under time translation, and normalised must give zero on any invariant vector. In QFT the vacuum is invariant and, by Reeh–Schlieder, separating for every bounded-region algebra. So every nonzero detection-time effect lies outside every bounded-region local algebra.",
+  "significance": "Every record can be timestamped, so the obstruction reaches beyond experiments that study time. It also undercuts a standard argument: microcausality implies non-signalling only for measurements whose Kraus operators lie in local algebras. Non-signalling for real detectors therefore has to be shown from joint detection probabilities.",
+  "limitations": "The result assumes that detection times admit a POVM that is covariant, at least approximately on average, and it says nothing about descriptions that drop these assumptions. Approximately local observables, which the authors note are often used to represent detectors, are not analysed quantitatively. The paper shows that a gap exists, not how a measurement theory should fill it.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version (main text and Appendix A), read 2026-11-03.",
+  "verified_on": "2026-11-03",
+  "methods_source_section": "Theorem 1, Corollary 2, the discussion of existing constructions, and Appendix A",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A detection-time observable for a recording of length \\(T\\) assigns an effect \\(\\hat\\Pi_T(\\Delta)\\) to each set \\(\\Delta\\subset(0,T]\\), with \\(\\hat\\Pi_T((0,T])\\le\\hat I\\) so that 'no click' is also an outcome. Two conditions look harmless. Consistency: recording for longer cannot change the statistics of earlier records, so \\(\\hat\\Pi_{T'}(\\Delta)=\\hat\\Pi_T(\\Delta)\\). Covariance: translating the system in time by \\(s\\ge0\\) translates the recorded times, so \\[\\hat\\Pi_{T+s}(\\Delta+s)=\\hat U(s)\\hat\\Pi_T(\\Delta)\\hat U(s)^\\dagger.\\]",
+    "Theorem 1, adapted from Giannitrapani, says that if \\(\\Omega\\) is invariant then \\(\\hat\\Pi_T(\\Delta)\\Omega=0\\) for every \\(\\Delta\\). In QFT on Minkowski spacetime the vacuum is invariant and, for any bounded region \\(O\\), separating for \\(\\mathcal A(O)\\): no nonzero element of \\(\\mathcal A(O)\\) annihilates it. Hence no nonzero detection-time effect belongs to any \\(\\mathcal A(O)\\), even though the detector and its record occupy \\(\\Delta\\times Q\\).",
+    "The appendix shows that the conclusion is robust. Normalisation can be replaced by a bound growing sublinearly in \\(T\\). Time can be discretised into bins, provided the number of bins is unbounded. Covariance may hold only after an initial transient, or only approximately, if its error averaged over translations vanishes at long times. Existing constructions fit the picture. Glauber's photodetection operator uses positive- and negative-frequency fields, which are nonlocal functionals. The Brunetti–Fredenhagen construction normalises over all time. The authors' own quantum temporal probabilities use local couplings, but the kernel is not confined to the record region, and the vacuum false-alarm contribution has to be removed.",
+    "The authors conclude that the spacetime labels of local fields and the spacetime labels of recorded events are distinct concepts, and neither implies the other. They leave open how a complete measurement theory of QFT should represent timestamped records, and how non-signalling should be proved for joint detection probabilities."
+  ],
+  "methods": [
+    {
+      "technique": "A counting argument against invariant vectors",
+      "explanation": "Covariance makes every time bin look the same to an invariant state, and normalisation caps the total. With unboundedly many bins, each must contribute nothing.",
+      "math": [
+        "Consistency lets us drop the subscript \\(T\\). Fix \\(\\tau>0\\) and let \\(c_\\tau=\\langle\\Omega|\\hat\\Pi((0,\\tau])|\\Omega\\rangle\\). Covariance and \\(\\hat U(s)\\Omega=\\Omega\\) give \\(\\langle\\Omega|\\hat\\Pi((k\\tau,(k+1)\\tau])|\\Omega\\rangle=c_\\tau\\) for every \\(k\\). Additivity and normalisation then give \\[Nc_\\tau=\\langle\\Omega|\\hat\\Pi((0,N\\tau])|\\Omega\\rangle\\le1\\] for all \\(N\\), so \\(c_\\tau=0\\).",
+        "For \\(\\Delta\\subset(0,T]\\), positivity gives \\(0\\le\\langle\\Omega|\\hat\\Pi(\\Delta)|\\Omega\\rangle\\le c_T=0\\). This is \\(\\|\\hat\\Pi(\\Delta)^{1/2}\\Omega\\|^2=0\\), so \\(\\hat\\Pi(\\Delta)^{1/2}\\Omega=0\\) and \\(\\hat\\Pi(\\Delta)\\Omega=0\\).",
+        "The only property of time used is that it allows unboundedly many disjoint, equivalent bins. That is why the appendix extends the argument to normalisation bounds \\(C(T)\\) with \\(C(T)/T\\to0\\): the inequality \\(Nc_\\tau\\le C(N\\tau)\\) still forces \\(c_\\tau=0\\).",
+        "Editorial example: a detector with click probability \\(q=10^{-6}\\) per 1 ns bin in the vacuum accumulates an expected \\(10^{-6}N\\) clicks over \\(N\\) bins. This passes 1 after one millisecond, so no normalised, covariant POVM can describe it. This is the linear growth of the false-alarm term that, according to the paper, leads the quantum temporal probability construction to subtract the vacuum contribution."
+      ],
+      "transfer": "When a symmetry acts on outcomes and fixes a state, a bounded total probability forces zero probability on any outcome set that can be translated indefinitely. The same argument shows why stationary states cannot have normalised, covariant arrival-time distributions in other settings."
+    },
+    {
+      "technique": "Why vacuum annihilation excludes locality, and what it breaks",
+      "explanation": "Reeh–Schlieder makes the vacuum an exceptionally informative vector: local operators acting on it reach a dense set. This turns the theorem's conclusion into nonlocality, and it removes the standard proof of non-signalling.",
+      "math": [
+        "Editorial derivation of the separating property, which the paper cites: let \\(A\\in\\mathcal A(O)\\) with \\(A\\Omega=0\\), and let \\(O'\\) be an open region spacelike to \\(O\\). Every \\(B\\in\\mathcal A(O')\\) commutes with \\(A\\), so \\(AB\\Omega=BA\\Omega=0\\). By Reeh–Schlieder, vectors \\(B\\Omega\\) are dense in the Hilbert space, so \\(A=0\\). This applies to bounded \\(O\\), which always has such an \\(O'\\).",
+        "Combined with Theorem 1, a nonzero detection-time effect in \\(\\mathcal A(O)\\) would satisfy \\(\\hat\\Pi\\Omega=0\\) and so vanish. The effects must lie outside every bounded-region algebra.",
+        "The non-signalling argument the paper examines runs as follows. For a nonselective operation with Kraus operators \\(\\hat K_\\alpha\\in\\mathcal A(O_1)\\) and an effect \\(\\hat B\\in\\mathcal A(O_2)\\), with \\(O_2\\) spacelike to \\(O_1\\), microcausality gives \\[\\sum_\\alpha\\hat K_\\alpha^\\dagger\\hat B\\hat K_\\alpha=\\hat B\\sum_\\alpha\\hat K_\\alpha^\\dagger\\hat K_\\alpha=\\hat B.\\] The step uses \\(\\hat K_\\alpha\\in\\mathcal A(O_1)\\) and \\(\\hat B\\in\\mathcal A(O_2)\\). If the timestamped effects are in neither algebra, the commutation is not available, so non-signalling has to be checked in the joint detection probabilities themselves."
+      ],
+      "transfer": "Before using microcausality to rule out signalling in a detector model, check that the model's effects are actually in local algebras. Models built from frequency-split fields, or normalised over all time, usually are not. The consequences of that should then be computed directly."
+    }
+  ],
+  "approved_on": "2026-11-03"
+}

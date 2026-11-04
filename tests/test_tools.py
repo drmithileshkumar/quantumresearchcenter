@@ -3,6 +3,7 @@ import copy
 import cmath
 import json
 import math
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 import sys
@@ -11,6 +12,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import tools
+import schmidt
 
 class ControlAudit(HTMLParser):
     def __init__(self, text):
@@ -173,6 +175,45 @@ class ToolTests(unittest.TestCase):
         self.assertIn('id="ph-needle"', page)
         self.assertIn('id="ph-p1"', page)
 
+    def test_two_qubit_page_draws_the_schmidt_bases_statically(self):
+        page = (ROOT / 'tools/two-qubit.html').read_text()
+        form = schmidt.schmidt_form([1, 0, 0, 0])
+        self.assertEqual(form.theta_deg, 0)
+        plus, minus = tools.project(form.axis_a), tools.project(tuple(-v for v in form.axis_a))
+        line = re.search(r'<line class="schmidt-a-line" id="schmidt-a-line" x1="([-\d.]+)" y1="([-\d.]+)"'
+                         r' x2="([-\d.]+)" y2="([-\d.]+)"', page)
+        self.assertIsNotNone(line)
+        self.assertEqual(line.groups(), (f'{minus[0]:.1f}', f'{minus[1]:.1f}',
+                                         f'{plus[0]:.1f}', f'{plus[1]:.1f}'))
+        # Qubit B's leading arm is cos θ = 1 here, so it reaches the surface; the trailing arm is gone.
+        origin = tools.project((0.0, 0.0, 0.0))
+        b_line = re.search(r'<line class="schmidt-b-line" id="schmidt-b-plus-line" x1="([-\d.]+)"'
+                           r' y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"', page)
+        self.assertIsNotNone(b_line)
+        self.assertEqual(b_line.groups(), (f'{origin[0]:.1f}', f'{origin[1]:.1f}',
+                                           f'{plus[0]:.1f}', f'{plus[1]:.1f}'))
+        self.assertIn('class="schmidt-b-line is-empty" id="schmidt-b-minus-line"', page)
+        for readout in ('id="schmidt-theta">0°<', 'id="schmidt-lambda-0">1.000<',
+                        'id="schmidt-lambda-1">0.000<', 'id="schmidt-chi">—<',
+                        'id="schmidt-formula">|ψ⟩ = 1.000 |+a⟩|+b⟩<'):
+            self.assertIn(readout, page)
+
+    def test_schmidt_sphere_follows_the_model_for_any_state(self):
+        state = tools.schmidt.schmidt_state(30, (0, 0, 1), (1, 0, 0), 40)
+        page = tools.schmidt_svg(state)
+        form = schmidt.schmidt_form(state)
+        cos, sin = math.cos(math.radians(form.theta_deg)), math.sin(math.radians(form.theta_deg))
+        centre = tools.project((0.0, 0.0, 0.0))
+        b_plus = tools.project(tuple(cos * v for v in form.axis_b))
+        b_minus = tools.project(tuple(-sin * v for v in form.axis_b))
+        for line in (f'id="schmidt-b-plus-line" x1="{centre[0]:.1f}" y1="{centre[1]:.1f}"'
+                     f' x2="{b_plus[0]:.1f}" y2="{b_plus[1]:.1f}"',
+                     f'id="schmidt-b-minus-line" x1="{centre[0]:.1f}" y1="{centre[1]:.1f}"'
+                     f' x2="{b_minus[0]:.1f}" y2="{b_minus[1]:.1f}"'):
+            self.assertIn(line, page)
+        self.assertIn('|+a⟩', page)
+        self.assertIn('|−b⟩', page)
+
     def test_two_qubit_script_defines_the_same_controls(self):
         script = (ROOT / 'tools/two-qubit.js').read_text()
         for name, _ in tools.GATES:
@@ -185,6 +226,9 @@ class ToolTests(unittest.TestCase):
         self.assertIn('fanOffsets', script)
         self.assertIn('displayState', script)
         self.assertIn('ph-needle', script)
+        for token in ('schmidtForm', 'drawSchmidt', 'schmidt-b-minus-label', 'schmidt-lambda-0',
+                      'schmidt-formula'):
+            self.assertIn(token, script)
 
     def test_script_defines_every_gate_and_the_shared_camera(self):
         script = (ROOT / 'tools/single-qubit.js').read_text()

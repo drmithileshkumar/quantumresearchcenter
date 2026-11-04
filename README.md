@@ -2,6 +2,14 @@
 
 Educational and Research resource for Quantum computing and Quantum information
 
+## Editorial automation
+
+The optional [daily editorial pipeline](scripts/editorial/README.md) prepares
+a sourced article, narrated slide video and X draft, with version-specific
+editor approval and resumable publication. It is separate from the daily paper
+curation routine. Credentials and a production scheduler must be configured
+before live automation can run.
+
 ## Editing and building
 
 The repository holds sources only. Every public page is generated from them, is ignored by git, and has to be
