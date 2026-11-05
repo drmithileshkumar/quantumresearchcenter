@@ -115,7 +115,7 @@ def render(book):
         pager+='</nav>'
         if not current and not next_item: pager=''
         local='<nav class="on-page" aria-label="On this page"><p>On this page</p>'+''.join(f'<a href="#{anchor}">{esc(label)}</a>' for anchor,label in sections)+'</nav>'
-        description = 'Courses in quantum science and computing, with interactive lessons and structured reading.' if source=='education/index.html' else (current['summary'] if current else book['subtitle'])
+        description = description or ('Courses in quantum science and computing, with interactive lessons and structured reading.' if source=='education/index.html' else (current['summary'] if current else book['subtitle']))
         if source=='index.html': description='Explore quantum science through courses, interactive lessons, research overviews, and selected literature.'
         canonical=book['url']+'/'+source.removesuffix('index.html')
         site_nav=site_navigation(source)
@@ -123,6 +123,7 @@ def render(book):
         if source=='index.html':
             sidebar_contents='<ul class="contents-list"><li class="part-label">Explore the site</li><li class="chapter"><a href="education/index.html">Education</a></li><li class="chapter"><a href="research/index.html">Research</a></li></ul>'
         if source.startswith('research/') or source=='references/index.html':
+            sidebar_contents+=f'<a class="intro-link" '+('aria-current="page" ' if source==THEOREM_HOME else '')+f'href="{relative(THEOREM_HOME,source)}">Theorem of the Day</a>'
             sidebar_contents+=f'<a class="intro-link" '+('aria-current="page" ' if source=='research/students/index.html' else '')+f'href="{relative("research/students/index.html",source)}">Students and Contributions</a>'
         intro_target='index.html'  if source=='index.html' else ('education/index.html' if source=='education/index.html' else 'research/index.html')
         intro_label='Home' if source=='index.html' else ('Course catalog' if source=='education/index.html' else 'Research introduction')
@@ -136,15 +137,22 @@ def render(book):
             TITLE='Quantum Research Center: quantum science courses, research questions and papers' if source=='index.html' else esc(title)+' | Quantum Research Center',
             DESCRIPTION=esc(description),CANONICAL=canonical,SOCIAL=social_meta(title,description,canonical,'website'),SITE_DATA=site_data(book['url']) if source=='index.html' else '',
             PREFIX=prefix,MATHJAX=mathjax,LOGO=site_logo('book-brand',prefix+'index.html'),EMAIL=book['email'],
-            BODY_CLASS=('landing' if source=='index.html' else 'reader')+(' section-home' if section_home else '')+(' research-question' if current and current.get('manuscript') else ''),
+            BODY_CLASS=('landing' if source=='index.html' else 'reader')+(' section-home' if section_home else '')+(' research-question' if current and current.get('manuscript') or source.startswith('research/theorem-of-the-day/') and source!=THEOREM_HOME else ''),
             INTRO_CURRENT='aria-current="page"' if source==intro_target else '',INTRO_TARGET=intro_target,INTRO_LABEL=intro_label,SIDEBAR=sidebar_contents,
             OUTER_BODY='' if section_home else '<div class="book-body">',INNER_BODY='<div class="book-body">' if section_home else '',
             TOOLBAR_LINK=toolbar_link,NAVIGATION=landing_nav,FONT_TOGGLE=font_toggle,BODY=body,PAGER=pager,LOCAL=local))
+    theorem_book=json.loads((ROOT/'content/theorems.json').read_text())
+    theorem_list=theorem_entries(theorem_book)
+    latest=theorem_list[0]
+    theorem_teaser=('<section id="theorem-of-the-day"><h2>Theorem of the Day</h2><p>'+esc(theorem_book['summary'])+'</p>'
+        '<p class="theorem-teaser"><span class="kicker">'+esc(theorem_date(latest['date']))+' · '+esc(latest['field'])+'</span>'
+        f'<a href="{relative(latest["_path"],"research/index.html")}">{esc(latest["title"])}</a> New: {esc(latest["new_result"])}.</p>'
+        f'<a href="{relative(THEOREM_HOME,"research/index.html")}">All theorems →</a></section>')
     intro='<header class="title-page research-opening"><p class="kicker">Research</p><h1>Questions at the edge of quantum science</h1><p class="subtitle">Explore the foundations, possibilities, and limits of quantum theory through questions we can make precise.</p></header><section id="introduction"><h2>From understanding to investigation</h2><p>Each question begins with a physical or computational problem, develops a mathematical model, and separates established results from unresolved issues. Follow a worked starting investigation before attempting the proposed extension.</p><p>Start by reproducing a small calculation. Then change an assumption, compare with the literature, and identify what a new result would establish. The proposed extensions describe starting directions for investigation.</p></section><section id="contents-overview"><h2>Explore the four fields</h2><div class="research-categories">'
     for number,category in enumerate(children[None],1):
         intro+='<section class="research-category"><p class="kicker">'+f'{number:02} · {len(children.get(path(category),[]))} questions'+'</p><h3>'+link(category,'research/index.html')+'</h3><p>'+esc(category['summary'])+'</p>'+keywords(children.get(path(category),[]),'research/index.html')+'</section>'
-    intro+='</div></section><section id="literature"><h2>Read the argument, then the source</h2><p>Known results link to papers near the claims they support. Each question also has an annotated reading list. Model assumptions and theorem scope matter as much as the equation itself.</p><a href="../references/index.html">Browse the bibliography →</a></section><section id="students"><h2>People and contributions</h2><p>Explore the projects and documented contributions of students working with the Center.</p><a href="students/index.html">Students and contributions →</a></section>'
-    page('research/index.html','Quantum Research',intro,[('introduction','How to explore'),('contents-overview','Research questions'),('literature','Sources'),('students','People')])
+    intro+='</div></section><section id="literature"><h2>Read the argument, then the source</h2><p>Known results link to papers near the claims they support. Each question also has an annotated reading list. Model assumptions and theorem scope matter as much as the equation itself.</p><a href="../references/index.html">Browse the bibliography →</a></section>'+theorem_teaser+'<section id="students"><h2>People and contributions</h2><p>Explore the projects and documented contributions of students working with the Center.</p><a href="students/index.html">Students and contributions →</a></section>'
+    page('research/index.html','Quantum Research',intro,[('introduction','How to explore'),('contents-overview','Research questions'),('literature','Sources'),('theorem-of-the-day','Theorem of the Day'),('students','People')])
     render_news(ROOT, page, outputs, book['url'])
     article_dates = render_editorial(ROOT, outputs, book, site_logo, social_meta, json_ld)
     course_icons=['<circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="11" ry="4"/><path d="M16 16L23 7M16 3V29"/>', '<path d="M2 17C7 1 9 1 16 17S25 33 30 17M2 17H30"/>', '<path d="M2 9H30M2 23H30M16 9V23"/><circle cx="16" cy="9" r="2"/><rect x="12" y="19" width="8" height="8"/>', '<path d="M7 7L25 16L7 25Z"/><circle cx="7" cy="7" r="3"/><circle cx="25" cy="16" r="3"/><circle cx="7" cy="25" r="3"/>', '<rect x="8" y="8" width="16" height="16" rx="3"/><path d="M12 2V8M20 2V8M12 24V30M20 24V30M2 12H8M2 20H8M24 12H30M24 20H30"/>']
@@ -217,6 +225,7 @@ def render(book):
         student_body+='</ul></section>'
     student_body+='</section><p class="research-parent"><a href="../index.html">← Back to Research</a></p>'
     page(student_source,'Students and Contributions',student_body,[('contributions','Student contributions')])
+    render_theorems(theorem_book,theorem_list,page)
     used=list(dict.fromkeys(ref for item in entries for ref in item['papers']))
     page('references/index.html','Bibliography','<p class="kicker">Reference material</p><h1>Bibliography</h1><p class="lead">Papers cited in the research handbook.</p><section id="papers"><h2>Research papers and reviews</h2>'+bibliography(used)+'</section>',[('papers','Papers and reviews')])
     # One public-page inventory drives both maps, including standalone and nested pages.
@@ -234,6 +243,54 @@ def render(book):
         canonical=esc(book['url']+'/'+target.removesuffix('index.html'))
         outputs[old]=f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research page moved | Quantum Research Center</title><meta name="robots" content="noindex"><link rel="canonical" href="{canonical}"><meta http-equiv="refresh" content="0;url={href}"></head><body><main><h1>Research has been reorganized</h1><p>This overview now leads to a related research question. <a href="{href}">Continue to the research page →</a></p></main></body></html>'
     return {name:(mark_generated(version_assets(name,source)) if name.endswith('.html') else source) for name,source in outputs.items()}
+
+THEOREM_HOME='research/theorem-of-the-day/index.html'
+THEOREM_SECTIONS=[('statement','The theorem'),('proof','The proof'),('discovery','New result'),('check','Worked check')]
+def theorem_date(value):
+    import datetime
+    day=datetime.date.fromisoformat(value)
+    return f'{day.day} {day:%B %Y}'
+def theorem_entries(theorem_book):
+    """Theorems newest first, each with its page path; ids and dates must be unique."""
+    entries=[]
+    for item in theorem_book['theorems']:
+        if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*',item['id']):raise ValueError('Invalid theorem slug: '+item['id'])
+        theorem_date(item['date'])
+        entries.append(dict(item,_path=f'research/theorem-of-the-day/{item["id"]}/index.html'))
+    for key in ('id','date'):
+        if len({item[key] for item in entries})!=len(entries):raise ValueError('Duplicate theorem '+key)
+    if not entries:raise ValueError('Theorem of the Day needs at least one theorem')
+    return sorted(entries,key=lambda item:item['date'],reverse=True)
+def render_theorems(theorem_book,entries,page):
+    def card(item,source):
+        return ('<li><a href="'+relative(item['_path'],source)+'">'+esc(item['title'])+'<span aria-hidden="true"> ↗</span></a>'
+            '<p class="theorem-meta">'+esc(theorem_date(item['date']))+' · '+esc(item['field'])+'</p><p>'+esc(item['summary'])+'</p>'
+            '<p class="theorem-meta">New result: '+esc(item['new_result'])+'</p></li>')
+    crumbs=lambda source,current:('<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="'+relative('research/index.html',source)+'">Research</a></li>'
+        +(f'<li><a href="{relative(THEOREM_HOME,source)}">Theorem of the Day</a></li><li><span aria-current="page">{esc(current)}</span></li>' if current else '<li><span aria-current="page">Theorem of the Day</span></li>')+'</ol></nav>')
+    latest,earlier=entries[0],entries[1:]
+    body=(crumbs(THEOREM_HOME,None)+'<header class="title-page"><p class="kicker">Research</p><h1>Theorem of the Day</h1><p class="subtitle">'+esc(theorem_book['summary'])+'</p></header>'
+        '<section id="today"><h2>Today’s theorem</h2><ol class="research-question-list">'+card(latest,THEOREM_HOME)+'</ol></section>'
+        '<section id="format"><h2>How each entry works</h2><p>Each entry states a theorem from quantum mechanics, quantum computing, or quantum information theory precisely, with its assumptions, and gives a complete proof. It then derives a new result from the same idea and proves it in full. A worked numerical check follows.</p>'
+        '<p>A new result is our own contribution and has not been peer reviewed. Each entry says which parts are already known, cites the closest prior work, and invites corrections.</p></section>')
+    sections=[('today','Today’s theorem'),('format','How entries work')]
+    if earlier:
+        body+='<section id="archive"><h2>Earlier theorems</h2><ol class="research-question-list">'+''.join(card(item,THEOREM_HOME) for item in earlier)+'</ol></section>'
+        sections.append(('archive','Earlier theorems'))
+    body+='<p class="research-parent"><a href="../index.html">← Back to Research</a></p>'
+    page(THEOREM_HOME,'Theorem of the Day',body,sections,description=theorem_book['summary'])
+    for index,item in enumerate(entries):
+        source=item['_path'];manuscript=ROOT/item['manuscript']
+        if not manuscript.resolve().is_relative_to((ROOT/'content/theorems').resolve()):raise ValueError('Theorem manuscript outside content/theorems')
+        body=(crumbs(source,item['title'])+'<header class="research-heading"><p class="kicker">Theorem of the Day · '+esc(theorem_date(item['date']))+'</p><h1>'+esc(item['title'])+'</h1><p class="lead">'+esc(item['summary'])+'</p></header>'
+            '<p class="research-reading-note">'+esc(item['field'])+' · Statement, complete proof, and a new result: '+esc(item['new_result'])+'</p>'+manuscript.read_text())
+        refs=''.join('<li>'+(f'<a href="{esc(r["url"])}">{esc(r["title"])}</a>' if r.get('url') else '<cite>'+esc(r['title'])+'</cite>')+f'<p>{esc(r["authors"])}. {r["year"]}.</p><p class="annotation">{esc(r["note"])}</p></li>' for r in item['references'])
+        body+='<section id="references"><h2>References</h2><ol class="references">'+refs+'</ol></section>'
+        pager='<nav class="page-navigation" aria-label="Theorem navigation">'
+        pager+=(f'<a rel="prev" href="{relative(entries[index+1]["_path"],source)}"><small>← Earlier</small>{esc(entries[index+1]["title"])}</a>' if index+1<len(entries) else '<span></span>')
+        pager+=(f'<a rel="next" href="{relative(entries[index-1]["_path"],source)}"><small>Later →</small>{esc(entries[index-1]["title"])}</a>' if index else '')
+        body+=pager+'</nav><p class="research-parent"><a href="'+relative(THEOREM_HOME,source)+'">← All theorems</a></p>'
+        page(source,item['title'],body,THEOREM_SECTIONS+[('references','References')],description=item['summary'])
 
 def interference_hero(phi=0.4):
     # The landing figure: two-path interference drawn as a transition diagram, as in the book.

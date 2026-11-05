@@ -103,6 +103,7 @@ html[data-theme=dark] .bloch-figure{--axis-green:#7fd6a8;--axis-green-wash:#1628
 .schmidt-formula{font:15px/1.9 var(--sans);color:var(--ink);margin:0;overflow-wrap:anywhere}
 .schmidt-values{grid-template-columns:1fr 1fr;gap:10px 24px;margin:0}
 .schmidt-a-line{stroke:var(--blue);stroke-width:1.6;stroke-dasharray:6 4;opacity:.9}
+.schmidt-parallelogram{fill:var(--heading);fill-opacity:.06;stroke:var(--heading);stroke-opacity:.24;stroke-width:1}
 .schmidt-a-tip{fill:none;stroke:var(--blue);stroke-width:1.8}
 .schmidt-a-label{fill:var(--blue-strong);font:10px var(--sans)}
 .schmidt-b-axis{stroke:var(--warm);stroke-width:1;stroke-dasharray:2 5;opacity:.35}
@@ -159,18 +160,26 @@ html[data-theme=dark] .phasor{--heat-0:rgba(240,165,138,0);--heat-1:rgba(240,165
 .ph-arrow{stroke-width:2.4;stroke-linecap:round;fill:none}
 .ph-head-0{fill:var(--blue)}.ph-head-1{fill:var(--violet)}.ph-head-2{fill:var(--warm)}.ph-head-3{fill:var(--ink-soft)}
 .ph-head-p1,.ph-head-p2{fill:var(--muted)}
-.ph-head-needle{fill:var(--heading)}
+.ph-head-needle{fill:var(--heading);fill-opacity:.5}
 #ph-vec-00{stroke:var(--blue)}
 #ph-vec-01{stroke:var(--violet);stroke-dasharray:7 4}
 #ph-vec-10{stroke:var(--warm)}
 #ph-vec-11{stroke:var(--ink-soft);stroke-dasharray:7 4}
 .ph-label{fill:var(--ink);font:11px var(--sans)}
 .ph-arrow.is-pairing{stroke:var(--muted);stroke-width:1.4;stroke-dasharray:4 4}
-.ph-needle .ph-arrow{stroke:var(--heading);stroke-width:2.6}
-.ph-needle .ph-arrow.is-halo{stroke-width:12;stroke-opacity:.16;stroke-linecap:round;marker-end:none}
+.ph-needle .ph-arrow{stroke:var(--heading);stroke-width:2.6;stroke-opacity:.5}
+.ph-needle .ph-arrow.is-halo{stroke-width:12;stroke-opacity:.1;stroke-linecap:round;marker-end:none}
 .ph-needle .ph-label{fill:var(--heading);font-weight:600}
 .ph-toggle{display:flex;align-items:center;gap:8px;font:12px/1.5 var(--sans);color:var(--ink-soft);cursor:pointer}
 .ph-toggle input{accent-color:var(--blue);width:15px;height:15px;margin:0}
+.phasor-actions{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.ph-normalize{min-height:36px;padding:6px 14px;border:1px solid var(--line-strong);border-radius:4px;background:var(--card);color:var(--ink);font:500 12px/1.4 var(--sans);cursor:pointer}
+.ph-normalize:hover:not(:disabled){background:var(--hover);border-color:var(--field-border);color:var(--blue-strong)}
+.ph-normalize:active:not(:disabled){background:var(--blue-soft)}
+.ph-normalize:disabled{opacity:.5;cursor:default}
+.ph-normalize:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.ph-norm{font:11px/1.6 var(--sans);color:var(--muted);margin:0;font-variant-numeric:tabular-nums}
+.ph-norm.is-unnormalized{color:var(--warm)}
 .ph-hit{stroke:transparent;stroke-width:20;fill:none;pointer-events:stroke}
 .ph-vec{cursor:grab}
 .ph-vec[tabindex="-1"]{cursor:default}
@@ -204,3 +213,46 @@ html[data-theme=dark] .phasor{--heat-0:rgba(240,165,138,0);--heat-1:rgba(240,165
   .phasor{max-width:460px}
 }
 @media print{.phasor-figure,.bloch-figure{break-inside:avoid}.bloch-figure{position:static}.qubit-panel{max-height:none;overflow:visible}}
+/* Three-qubit explorer: eight amplitude arrows, and the two Schmidt planes of the reference cut. */
+.ph3-arrow{stroke-width:2.4;stroke-linecap:round;fill:none}
+.ph3-hit{stroke:transparent;stroke-width:18;fill:none;pointer-events:stroke}
+.ph3-vec{cursor:grab}
+.ph3-vec:hover .ph3-arrow{stroke-width:3.6}
+.ph3-vec:focus-visible .ph3-arrow{stroke-width:4}
+#ph3-vec-000{stroke:var(--blue)}
+#ph3-vec-001{stroke:var(--blue);stroke-dasharray:7 4}
+#ph3-vec-010{stroke:var(--violet)}
+#ph3-vec-011{stroke:var(--violet);stroke-dasharray:7 4}
+#ph3-vec-100{stroke:var(--warm)}
+#ph3-vec-101{stroke:var(--warm);stroke-dasharray:7 4}
+#ph3-vec-110{stroke:var(--ink-soft)}
+#ph3-vec-111{stroke:var(--ink-soft);stroke-dasharray:7 4}
+.ph3-head-0{fill:var(--blue)}.ph3-head-1{fill:var(--violet)}
+.ph3-head-2{fill:var(--warm)}.ph3-head-3{fill:var(--ink-soft)}
+.phasor8 .ph-label{font-size:10px}
+.planes{display:block;width:100%;max-width:520px;height:auto;margin:0 auto;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+.planes.is-orbiting{cursor:grabbing}
+.planes:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.planes .is-empty{display:none}
+.plane-branch.branch-0{--plane:var(--blue);--plane-ink:var(--blue-strong)}
+.plane-branch.branch-1{--plane:var(--warm);--plane-ink:var(--warm)}
+.plane-axis{stroke:var(--plane);stroke-width:1.4;stroke-dasharray:6 4;opacity:.85}
+.plane-arm{stroke:var(--plane);stroke-width:2.6;stroke-linecap:round}
+.plane-p-tip{fill:none;stroke:var(--plane);stroke-width:1.8}
+.plane-q-tip{fill:var(--plane);stroke:var(--surface);stroke-width:1}
+.plane-p-label{fill:var(--plane-ink);font:10px var(--sans)}
+.plane-q-label{fill:var(--plane);font:10px var(--sans)}
+.plane-quad{fill:var(--plane);fill-opacity:.14;stroke:var(--plane);stroke-opacity:.45;stroke-width:1}
+.plane-view{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.plane-hint{font:11px/1.6 var(--sans);color:var(--muted);margin:0;max-width:46ch}
+.plane-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0}
+.plane-key{display:flex;align-items:center;gap:7px;font:12px/1.5 var(--sans);color:var(--ink-soft);margin:0}
+.plane-swatch{width:14px;height:14px;border-radius:3px;border:1px solid var(--line-strong)}
+.plane-swatch.branch-0{background:var(--blue)}
+.plane-swatch.branch-1{background:var(--warm)}
+.plane-table{width:100%;border-collapse:collapse;font:12px/1.5 var(--sans);color:var(--ink-soft)}
+.plane-table th,.plane-table td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+.plane-table thead th{font:500 10px/1.5 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.plane-table tbody th{font-weight:500;color:var(--muted)}
+.plane-table td{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--heading);font-variant-numeric:tabular-nums}
+@media(max-width:980px){.planes{max-width:460px}}

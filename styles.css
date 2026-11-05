@@ -620,6 +620,19 @@ html[data-theme=dark] body.ebook .book-section pre{background:var(--surface);bor
 .research-question #investigation p:last-child{margin-bottom:0}
 .research-question mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:8px 0}
 .research-question .references p{font-size:12px}
+/* Theorem of the Day: statements and new results set off from the proof. */
+.theorem-box{margin:26px 0;padding:20px 22px;border:1px solid var(--line-strong);border-left:3px solid var(--blue);border-radius:8px;background:var(--surface)}
+.theorem-box.theorem-new{border-left-color:var(--violet)}
+.theorem-box>p:last-child,.theorem-remark>p:last-child{margin-bottom:0}
+.theorem-label{font:600 12px/1.5 system-ui,sans-serif;letter-spacing:.2px;color:var(--blue-strong);margin:0 0 12px}
+.theorem-new .theorem-label{color:var(--violet)}
+.theorem-remark{margin:26px 0;padding:16px 20px;border:1px dashed var(--line-strong);border-radius:8px}
+.theorem-status{font-size:15px;padding:16px 20px;border-radius:8px;background:var(--blue-wash);margin-top:28px}
+.research-question-list .theorem-meta,.theorem-teaser .kicker{font:12px/1.6 system-ui,sans-serif;color:var(--muted)}
+.theorem-teaser a{display:block;font:550 18px/1.4 system-ui,sans-serif;margin:6px 0 4px}
+.research-question article>section>h3{font-size:19px;margin:30px 0 14px}
+@media(max-width:760px){.theorem-box{padding:16px 14px}.theorem-remark,.theorem-status{padding:14px}}
+@media print{.theorem-box,.theorem-status{background:white!important;color:#222;break-inside:avoid}}
 .research-figure{margin:28px 0;padding:16px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);color-scheme:light}
 .research-figure .figure-scroll{overflow-x:auto}
 .research-figure img{display:block;width:100%;min-width:440px;height:auto}

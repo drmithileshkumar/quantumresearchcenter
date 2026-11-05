@@ -8,14 +8,12 @@
   const R2D = 180 / Math.PI, D2R = Math.PI / 180;
   const KEYS = ['00', '01', '10', '11'];
   const LABELS = ['|00⟩', '|01⟩', '|10⟩', '|11⟩'];
-  const BELL_LABELS = ['Φ⁺', 'Φ⁻', 'Ψ⁺', 'Ψ⁻'];
 
   const byId = id => document.getElementById(id);
   const parts = {
     heat: byId('ph-heat-disc'),
     status: byId('state-status'), result: byId('measure-result'), tally: byId('measure-tally'),
-    desc: byId('phasor-desc'), basisHint: byId('basis-hint'),
-    computational: byId('basis-computational'), bell: byId('basis-bell'),
+    desc: byId('phasor-desc'),
     menuState: byId('menu-state'), menuGateA: byId('menu-gate-a'), menuGateB: byId('menu-gate-b'),
     menuGateTwo: byId('menu-gate-two'), menuMeasure: byId('menu-measure'),
     sDesc: byId('schmidt-desc'), sFormula: byId('schmidt-formula'), sTheta: byId('schmidt-theta'),
@@ -25,7 +23,8 @@
     sBAxis: byId('schmidt-b-axis'), sBPlusLine: byId('schmidt-b-plus-line'),
     sBMinusLine: byId('schmidt-b-minus-line'), sBPlus: byId('schmidt-b-plus'),
     sBMinus: byId('schmidt-b-minus'), sBPlusLabel: byId('schmidt-b-plus-label'),
-    sBMinusLabel: byId('schmidt-b-minus-label'),
+    sBMinusLabel: byId('schmidt-b-minus-label'), sQuad: byId('schmidt-parallelogram'),
+    norm: byId('state-norm'), normalize: byId('normalize-arrows'),
   };
   if (Object.values(parts).some(element => !element)) return;
   const sphere = byId('schmidt');
@@ -73,7 +72,6 @@
   };
 
   let state = PRESETS['00'].map(c => [...c]);
-  let basis = 'computational';
   let counts = [0, 0, 0, 0];
 
   const gateOn = (matrix, wire) => {
@@ -101,15 +99,24 @@
     }
   };
 
-  // ---- the two views of the same state -----------------------------------------------------
-  const displayState = () => {
-    if (basis === 'computational') return state;
-    // Φ⁺ = (|00⟩+|11⟩)/√2, Φ⁻ = (|00⟩−|11⟩)/√2, Ψ⁺ = (|01⟩+|10⟩)/√2, Ψ⁻ = (|01⟩−|10⟩)/√2.
-    return [scale(add(state[0], state[3]), SQ), scale(sub(state[0], state[3]), SQ),
-            scale(add(state[1], state[2]), SQ), scale(sub(state[1], state[2]), SQ)];
+  // Editing a length can leave the arrows scaling to something other than one. Every physical
+  // readout then divides by the weight Σ|c|², so normalization is a rescaling rather than a new
+  // state, and stretching an arrow cannot fake entanglement.
+  const weight = () => state.reduce((sum, c) => sum + abs2(c), 0);
+  const scaled = () => {
+    const total = weight();
+    return total > ZERO ? state.map(c => scale(c, 1 / Math.sqrt(total))) : state.map(() => [0, 0]);
   };
-
-  const concurrence = () => 2 * size(sub(mul(state[0], state[3]), mul(state[1], state[2])));
+  // The two products the needle is built from, kept inside the unit disc by the same weight.
+  const products = () => {
+    const total = weight();
+    const factor = total > ZERO ? 2 / total : 0;
+    return [scale(mul(state[0], state[3]), factor), scale(mul(state[1], state[2]), factor)];
+  };
+  const concurrence = () => {
+    const [first, second] = products();
+    return size(sub(first, second));
+  };
 
   // ---- Schmidt form: one unit basis and one scaled one --------------------------------------
   // Mirrors scripts/schmidt.py: c = cos θ |+a⟩⟨+b| + e^{iχ} sin θ |−a⟩⟨−b|.
@@ -140,13 +147,14 @@
     return [[[Math.cos(half), 0], scale(turn, Math.sin(half))],
             [[Math.sin(half), 0], scale(turn, -Math.cos(half))]];
   };
-  const overlapPair = (first, second) => state.reduce((sum, amplitude, index) => {
+  const overlapPair = (source, first, second) => source.reduce((sum, amplitude, index) => {
     const bra = mul(conj(first[(index >> 1) & 1]), conj(second[index & 1]));
     return add(sum, mul(bra, amplitude));
   }, [0, 0]);
 
   function schmidtForm() {
-    const [c00, c01, c10, c11] = state;
+    const amplitudes = scaled();
+    const [c00, c01, c10, c11] = amplitudes;
     const row0 = abs2(c00) + abs2(c01), row1 = abs2(c10) + abs2(c11);
     const mixing = add(mul(c00, conj(c10)), mul(c01, conj(c11)));
     const mean = (row0 + row1) / 2;
@@ -160,8 +168,9 @@
         [[mixing[0], mixing[1]], [first * first - row0, 0]],
         [[first * first - row1, 0], [mixing[0], -mixing[1]]],
       ];
-      const weight = pair => size(pair[0]) ** 2 + size(pair[1]) ** 2;
-      lead = normalisePair(weight(candidates[0]) >= weight(candidates[1]) ? candidates[0] : candidates[1]);
+      const pairWeight = pair => size(pair[0]) ** 2 + size(pair[1]) ** 2;
+      lead = normalisePair(pairWeight(candidates[0]) >= pairWeight(candidates[1])
+        ? candidates[0] : candidates[1]);
     } else {
       lead = row0 >= row1 ? [[1, 0], [0, 0]] : [[0, 0], [1, 0]];
     }
@@ -174,7 +183,8 @@
     if (second > ZERO) {
       const plusA = eigenstatesOf(axisA)[0], minusA = eigenstatesOf(axisA)[1];
       const plusB = eigenstatesOf(axisB)[0], minusB = eigenstatesOf(axisB)[1];
-      const weightPlus = overlapPair(plusA, plusB), weightMinus = overlapPair(minusA, minusB);
+      const weightPlus = overlapPair(amplitudes, plusA, plusB);
+      const weightMinus = overlapPair(amplitudes, minusA, minusB);
       if (size(weightPlus) > ZERO && size(weightMinus) > ZERO) chi = phaseOf(divide(weightMinus, weightPlus));
     }
     return { theta, axisA, axisB, chi, first, second };
@@ -211,6 +221,14 @@
     const origin = sProject([0, 0, 0]);
     const aPlus = sProject(axisA), aMinus = sProject(stretch3(axisA, -1));
     const bPlus = sProject(stretch3(axisB, cos)), bMinus = sProject(stretch3(axisB, -sin));
+    const corners = [aPlus, bPlus, aMinus, bMinus];
+    const area = Math.abs(corners.reduce((sum, [x, y], index) => {
+      const [nextX, nextY] = corners[(index + 1) % corners.length];
+      return sum + x * nextY - nextX * y;
+    }, 0)) / 2;
+    parts.sQuad.setAttribute('points',
+      corners.map(point => `${point[0].toFixed(1)},${point[1].toFixed(1)}`).join(' '));
+    parts.sQuad.classList.toggle('is-empty', area < 24);
     setSegment(parts.sBAxis, sProject(stretch3(axisB, -1)), sProject(axisB));
     setSegment(parts.sALine, aMinus, aPlus);
     setSegment(parts.sBPlusLine, origin, bPlus);
@@ -236,7 +254,8 @@
       ? `|ψ⟩ = ${first.toFixed(3)} |+a⟩|+b⟩`
       : `|ψ⟩ = ${first.toFixed(3)} |+a⟩|+b⟩ + e^{i${chi.toFixed(0)}°} ${second.toFixed(3)} |−a⟩|−b⟩`;
     parts.sDesc.textContent = `Schmidt form at θ = ${theta.toFixed(0)} degrees: qubit A's basis has unit`
-      + ` length and qubit B's vectors have lengths ${cos.toFixed(3)} and ${sin.toFixed(3)}.`;
+      + ` length and qubit B's vectors have lengths ${cos.toFixed(3)} and ${sin.toFixed(3)}. A translucent`
+      + ' parallelogram joins the four Schmidt endpoints.';
   }
 
   // ---- drawing ------------------------------------------------------------------------------
@@ -288,9 +307,7 @@
   }
 
   function drawArrows(offsets, labelOffsets) {
-    const amplitudes = displayState();
-    const labels = basis === 'computational' ? LABELS : BELL_LABELS;
-    amplitudes.forEach((amplitude, index) => {
+    state.forEach((amplitude, index) => {
       const key = KEYS[index];
       const group = byId(`ph-group-${key}`);
       const line = byId(`ph-vec-${key}`);
@@ -300,23 +317,20 @@
       const [x, y] = place(line, magnitude, degrees, [CENTER, CENTER], offsets[index]);
       const hit = group.querySelector('.ph-hit');
       if (hit) for (const name of ['x1', 'y1', 'x2', 'y2']) hit.setAttribute(name, line.getAttribute(name));
-      text.textContent = labels[index];
+      text.textContent = LABELS[index];
       placeLabel(text, x, y, labelOffsets[index]);
       text.setAttribute('text-anchor', x < CENTER - 1 ? 'end' : 'start');
       group.classList.toggle('is-empty', magnitude < ZERO);
-      const interactive = basis === 'computational';
-      group.setAttribute('tabindex', interactive ? '0' : '-1');
-      group.setAttribute('role', interactive ? 'button' : 'img');
-      group.setAttribute('aria-label', interactive
-        ? `${labels[index]}: magnitude ${magnitude.toFixed(3)}, phase ${degrees.toFixed(0)} degrees.`
-          + ' Use the left and right arrow keys to turn it.'
-        : `${labels[index]}: magnitude ${magnitude.toFixed(3)}, phase ${degrees.toFixed(0)} degrees.`);
+      group.setAttribute('tabindex', '0');
+      group.setAttribute('role', 'button');
+      group.setAttribute('aria-label', `${LABELS[index]}: magnitude ${magnitude.toFixed(3)},`
+        + ` phase ${degrees.toFixed(0)} degrees. Use the left and right arrow keys to turn it,`
+        + ' and up and down to resize it.');
     });
   }
 
   function drawNeedle(offset) {
-    const first = scale(mul(state[0], state[3]), 2);
-    const second = scale(mul(state[1], state[2]), 2);
+    const [first, second] = products();
     const needle = sub(first, second);
     const magnitude = size(needle);
     const degrees = phaseOf(needle);
@@ -345,9 +359,7 @@
 
   function drawDials() {
     // One dial per basis state: the arrow's length is the magnitude and its angle the phase.
-    const amplitudes = displayState();
-    const labels = basis === 'computational' ? LABELS : BELL_LABELS;
-    amplitudes.forEach((amplitude, index) => {
+    state.forEach((amplitude, index) => {
       const key = KEYS[index];
       const magnitude = size(amplitude);
       const degrees = phaseOf(amplitude);
@@ -361,7 +373,7 @@
       dot.setAttribute('cx', x.toFixed(1));
       dot.setAttribute('cy', y.toFixed(1));
       dot.classList.toggle('is-empty', magnitude < ZERO);
-      byId(`amp-name-${key}`).textContent = labels[index];
+      byId(`amp-name-${key}`).textContent = LABELS[index];
       byId(`amp-mag-${key}`).textContent = magnitude.toFixed(3);
       byId(`amp-phase-${key}`).textContent = magnitude < ZERO ? '—' : degrees.toFixed(0) + '°';
     });
@@ -389,15 +401,14 @@
   const describeType = c => (c < ZERO ? 'Product' : c > 1 - ZERO ? 'Maximally entangled' : 'Entangled');
 
   function render(announce) {
-    const total = state.reduce((sum, c) => sum + abs2(c), 0);
-    if (Math.abs(total - 1) > 1e-9) state = state.map(c => scale(c, 1 / Math.sqrt(total)));
-
+    const total = weight();
+    const normalised = Math.abs(total - 1) < 5e-4;
     const c = concurrence();
 
     // Arrows and the needle share one fan group, so a needle lying on an arrow steps aside too.
-    const shown = displayState();
-    const needle = sub(scale(mul(state[0], state[3]), 2), scale(mul(state[1], state[2]), 2));
-    const vectors = shown.map(a => [size(a), phaseOf(a)]).concat([[size(needle), phaseOf(needle)]]);
+    const [firstProduct, secondProduct] = products();
+    const needle = sub(firstProduct, secondProduct);
+    const vectors = state.map(a => [size(a), phaseOf(a)]).concat([[size(needle), phaseOf(needle)]]);
     const offsets = fanOffsets(vectors, 5);
     drawArrows(offsets, fanOffsets(vectors, 16));
     drawNeedle(offsets[4]);
@@ -408,28 +419,44 @@
     // cools to plain paper as the state factorises and deepens towards the rim as it entangles.
     parts.heat.style.opacity = c.toFixed(3);
 
-    parts.desc.textContent = `${ketText()}. The arrows show the state in the `
-      + `${basis === 'computational' ? 'computational' : 'Bell'} basis; the concurrence needle has length `
-      + `${c.toFixed(3)}, over a background that warms from concurrence 0 at the centre to 1 at the rim and`
-      + ` is shown at ${Math.round(c * 100)}% of its strength.`;
+    parts.norm.textContent = normalised
+      ? `Σ|c|² = ${total.toFixed(3)} — the arrows are normalized.`
+      : `Σ|c|² = ${total.toFixed(3)} — unnormalized, so press Normalize.`;
+    parts.norm.classList.toggle('is-unnormalized', !normalised);
+    parts.normalize.disabled = total < ZERO;
+
+    parts.desc.textContent = `${ketText()}. The arrows are the four computational-basis amplitudes; the`
+      + ` concurrence needle has length ${c.toFixed(3)}, over a background that warms from concurrence 0 at`
+      + ` the centre to 1 at the rim and`
+      + ` is shown at ${Math.round(c * 100)}% of its strength.`
+      + (normalised ? '' : ` The arrows keep the lengths you set, with total weight ${total.toFixed(3)};`
+        + ' Normalize rescales all four so that weight returns to one.');
     if (announce) {
-      parts.status.textContent = `${ketText()}. Concurrence ${c.toFixed(3)}, ${describeType(c).toLowerCase()}.`;
+      parts.status.textContent = `${ketText()}. Concurrence ${c.toFixed(3)}, ${describeType(c).toLowerCase()}`
+        + (normalised ? '.' : `, total weight ${total.toFixed(3)}.`);
     }
   }
 
-  // ---- direct manipulation of one phase -----------------------------------------------------
-  const angleFromPointer = event => {
+  // A drag sets both numbers: the distance from the centre is the length and the bearing the phase.
+  // The floor keeps every arrow long enough to grab again.
+  const MIN_LENGTH = 0.02;
+  const pointerAim = event => {
     const matrix = svg.getScreenCTM();
     if (!matrix) return null;
     const point = svg.createSVGPoint();
     point.x = event.clientX;
     point.y = event.clientY;
     const local = point.matrixTransform(matrix.inverse());
-    return ((Math.atan2(CENTER - local.y, local.x - CENTER) * R2D) + 360) % 360;
+    const dx = local.x - CENTER, dy = CENTER - local.y;
+    return {
+      degrees: ((Math.atan2(dy, dx) * R2D) + 360) % 360,
+      magnitude: Math.min(1, Math.max(MIN_LENGTH, Math.hypot(dx, dy) / RADIUS)),
+    };
   };
 
-  const turnTo = (index, degrees) => {
-    const magnitude = size(state[index]);
+  const reshape = (index, change) => {
+    const magnitude = change.magnitude ?? size(state[index]);
+    const degrees = change.degrees ?? phaseOf(state[index]);
     state[index] = [magnitude * Math.cos(degrees * D2R), magnitude * Math.sin(degrees * D2R)];
   };
 
@@ -437,23 +464,26 @@
   document.querySelectorAll('.ph-vec').forEach(group => {
     const index = Number(group.dataset.index);
     group.addEventListener('pointerdown', event => {
-      if (basis !== 'computational' || event.button !== 0) return;
-      const degrees = angleFromPointer(event);
-      if (degrees === null) return;
+      if (event.button !== 0) return;
+      const aim = pointerAim(event);
+      if (!aim) return;
       dragging = index;
       svg.classList.add('is-dragging');
       if (svg.setPointerCapture) svg.setPointerCapture(event.pointerId);
-      turnTo(index, degrees);
+      reshape(index, aim);
       render(false);
       event.preventDefault();
     });
     group.addEventListener('keydown', event => {
-      if (basis !== 'computational') return;
       const current = phaseOf(state[index]);
-      const step = event.shiftKey ? 15 : 5;
-      if (event.key === 'ArrowRight') turnTo(index, current + step);
-      else if (event.key === 'ArrowLeft') turnTo(index, current - step);
-      else if (event.key === 'Home') turnTo(index, 0);
+      const magnitude = size(state[index]);
+      const turn = event.shiftKey ? 15 : 5;
+      const grow = event.shiftKey ? 0.2 : 0.05;
+      if (event.key === 'ArrowRight') reshape(index, { degrees: current + turn });
+      else if (event.key === 'ArrowLeft') reshape(index, { degrees: current - turn });
+      else if (event.key === 'ArrowUp') reshape(index, { magnitude: Math.min(1, magnitude + grow) });
+      else if (event.key === 'ArrowDown') reshape(index, { magnitude: Math.max(MIN_LENGTH, magnitude - grow) });
+      else if (event.key === 'Home') reshape(index, { degrees: 0 });
       else return;
       event.preventDefault();
       render(true);
@@ -461,9 +491,9 @@
   });
   svg.addEventListener('pointermove', event => {
     if (dragging === null) return;
-    const degrees = angleFromPointer(event);
-    if (degrees === null) return;
-    turnTo(dragging, degrees);
+    const aim = pointerAim(event);
+    if (!aim) return;
+    reshape(dragging, aim);
     render(false);
   });
   const stopDrag = () => {
@@ -475,21 +505,14 @@
   svg.addEventListener('pointerup', stopDrag);
   svg.addEventListener('pointercancel', stopDrag);
 
-  // ---- basis switch ---------------------------------------------------------------------------
-  const setBasis = (next, announce = true) => {
-    basis = next;
-    const computational = basis === 'computational';
-    parts.computational.setAttribute('aria-pressed', String(computational));
-    parts.bell.setAttribute('aria-pressed', String(!computational));
-    parts.basisHint.textContent = computational
-      ? 'Computational basis. Drag or arrow-key an arrow to turn that phase; its length stays fixed.'
-      : 'Bell basis. Each Bell state is a single arrow here; no product state can be one — |00⟩ needs two'
-        + ' arrows and |+0⟩ needs four. A Bell-basis phase would mean a different state, so the arrows are'
-        + ' read-only.';
-    render(announce);
-  };
-  parts.computational.addEventListener('click', () => setBasis('computational'));
-  parts.bell.addEventListener('click', () => setBasis('bell'));
+  // ---- normalization --------------------------------------------------------------------------
+  parts.normalize.addEventListener('click', () => {
+    if (weight() < ZERO) return;
+    state = scaled();
+    render(false);
+    parts.status.textContent = `Normalized every arrow by one factor, so Σ|c|² = 1 and the concurrence`
+      + ` is ${concurrence().toFixed(3)}.`;
+  });
 
   // ---- measurement ----------------------------------------------------------------------------
   const tallyText = () => {
@@ -500,9 +523,10 @@
   };
 
   function measure(wire) {
+    const total = weight() || 1;
     const probability = [0, 0];
     state.forEach((amplitude, index) => {
-      probability[wire === 0 ? (index >> 1) & 1 : index & 1] += abs2(amplitude);
+      probability[wire === 0 ? (index >> 1) & 1 : index & 1] += abs2(amplitude) / total;
     });
     const outcome = Math.random() < probability[1] ? 1 : 0;
     state = state.map((amplitude, index) => {
@@ -515,7 +539,8 @@
   }
 
   function measureBoth() {
-    const probability = state.map(abs2);
+    const total = weight() || 1;
+    const probability = state.map(amplitude => abs2(amplitude) / total);
     const threshold = Math.random();
     let outcome = 0, running = probability[0];
     while (outcome < 3 && threshold > running) { outcome += 1; running += probability[outcome]; }
@@ -546,7 +571,7 @@
   function resetAll() {
     state = PRESETS['00'].map(c => [...c]);
     counts = [0, 0, 0, 0];
-    setBasis('computational', false);
+    render(false);
     parts.result.textContent = 'Measuring A projects onto |0⟩ or |1⟩ on that qubit. On a Bell state the two'
       + ' outcomes always agree.';
     parts.tally.textContent = tallyText();

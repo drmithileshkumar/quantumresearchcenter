@@ -435,6 +435,13 @@ def schmidt_svg(state, prefix='schmidt', center=ORIGIN, radius=RADIUS):
     a_plus, a_minus = project(axis_a, center, radius), project(flip(axis_a), center, radius)
     b_plus = project(stretch(axis_b, cos), center, radius)
     b_minus = project(stretch(axis_b, -sin), center, radius)
+    corners = (a_plus, b_plus, a_minus, b_minus)
+    quad = ' '.join(f'{x:.1f},{y:.1f}' for x, y in corners)
+    # The four endpoints share a plane, but that plane can be seen edge-on or collapse to a line
+    # when both Schmidt bases line up; a flat quad with no area has no shape to show.
+    area = abs(sum(corners[i][0] * corners[(i + 1) % 4][1] - corners[(i + 1) % 4][0] * corners[i][1]
+                   for i in range(4))) / 2
+    flat = ' is-empty' if area < 24 else ''
     faded = ' is-empty' if sin < ZERO else ''
     line = lambda cls, ident, start, end: (f'<line class="{cls}" id="{ident}" x1="{start[0]:.1f}"'
                                            f' y1="{start[1]:.1f}" x2="{end[0]:.1f}" y2="{end[1]:.1f}"/>')
@@ -445,8 +452,10 @@ def schmidt_svg(state, prefix='schmidt', center=ORIGIN, radius=RADIUS):
             f' aria-labelledby="{prefix}-title {prefix}-desc" data-basis="{basis}">'
             f'<title id="{prefix}-title">Schmidt bases of the current two-qubit state</title>'
             f'<desc id="{prefix}-desc">Schmidt form at θ = {form.theta_deg:.0f}°: qubit A\'s basis has unit'
-            f' length and qubit B\'s vectors have lengths {cos:.3f} and {sin:.3f}.</desc>'
+            f' length and qubit B\'s vectors have lengths {cos:.3f} and {sin:.3f}. A translucent'
+            f' parallelogram joins the four Schmidt endpoints.</desc>'
             f'<circle class="bloch-surface" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="{radius:.1f}"/>'
+            f'<polygon class="schmidt-parallelogram{flat}" id="{prefix}-parallelogram" points="{quad}"/>'
             f'<g class="bloch-grid">{"".join(sphere_grid(center, radius))}</g>'
             f'<g class="bloch-axes">{sphere_axes(center, radius)}</g>'
             + line('schmidt-b-axis', f'{prefix}-b-axis', project(flip(axis_b), center, radius),
@@ -464,6 +473,185 @@ def schmidt_svg(state, prefix='schmidt', center=ORIGIN, radius=RADIUS):
             + schmidt_label(b_minus, '|−b⟩', f'{prefix}-b-minus-label', 'schmidt-b-label', 20,
                             empty=sin < ZERO)
             + f'<circle class="bloch-origin" cx="{center[0]:.1f}" cy="{center[1]:.1f}" r="2.5"/>'
+            '</svg>')
+
+
+# Three-qubit explorer: eight amplitudes in one plane, plus the relative-state view on one sphere.
+# One qubit is the reference, so the state splits into |0⟩|φ₀⟩ + |1⟩|φ₁⟩; each branch is a
+# two-qubit state with its own Schmidt bases, and those two bases span one plane in the sphere.
+
+THREE_KEYS = ('000', '001', '010', '011', '100', '101', '110', '111')
+THREE_LABELS = tuple('|' + key + '⟩' for key in THREE_KEYS)
+THREE_QUBITS = ('A', 'B', 'C')
+THREE_SUBSCRIPTS = ('₀', '₁')
+THREE_PRESETS = (('planes', 'Two planes'), ('000', '|000⟩'), ('+++', '|+++⟩'),
+                 ('ghz', 'GHZ'), ('w', 'W'))
+THREE_STATES = {
+    '000': (1, 0, 0, 0, 0, 0, 0, 0),
+    '+++': (math.sqrt(1 / 8),) * 8,
+    'ghz': (math.sqrt(1 / 2), 0, 0, 0, 0, 0, 0, math.sqrt(1 / 2)),
+    'w': (0, math.sqrt(1 / 3), math.sqrt(1 / 3), 0, math.sqrt(1 / 3), 0, 0, 0),
+    # Chosen so that every choice of reference qubit shows two planes that are clearly apart; the
+    # named states (GHZ, W, |000⟩) instead have branches whose Schmidt axes line up.
+    'planes': (-0.28393134960506705 + 0.45168829364378027j, 0.26625299315248008 + 0.082071697093509213j,
+               0.07089425323024845 + 0.1938563742430385j, -0.13168687249243721 - 0.26948978880487245j,
+               -0.15907888253636024 + 0.04783143732863885j, 0.40033177289152511 + 0.059187702119268173j,
+               0.29722942580113965 - 0.068721791063861934j, 0.14988116610591448 - 0.44527155402130247j),
+}
+THREE_TWO_QUBIT = (
+    ('cnot-ab', 'CNOT A→B'), ('cnot-ba', 'CNOT B→A'), ('cnot-ac', 'CNOT A→C'),
+    ('cnot-ca', 'CNOT C→A'), ('cnot-bc', 'CNOT B→C'), ('cnot-cb', 'CNOT C→B'),
+    ('cz-ab', 'CZ A,B'), ('cz-ac', 'CZ A,C'), ('cz-bc', 'CZ B,C'),
+    ('swap-ab', 'SWAP A,B'), ('swap-ac', 'SWAP A,C'), ('swap-bc', 'SWAP B,C'),
+)
+
+
+def branch_amplitudes(state, reference, bit):
+    """The four amplitudes of the other two qubits, in the branch where the reference reads `bit`."""
+    others = [wire for wire in range(3) if wire != reference]
+    amplitudes = []
+    for row in (0, 1):
+        for col in (0, 1):
+            bits = [0, 0, 0]
+            bits[reference] = bit
+            bits[others[0]] = row
+            bits[others[1]] = col
+            amplitudes.append(state[4 * bits[0] + 2 * bits[1] + bits[2]])
+    return amplitudes
+
+
+def branch_form(state, reference, bit):
+    """The branch probability and the Schmidt form of that branch's normalised two-qubit state."""
+    amplitudes = branch_amplitudes(state, reference, bit)
+    weight = sum(abs(amplitude) ** 2 for amplitude in amplitudes)
+    if weight < 1e-9:
+        return weight, None
+    return weight, schmidt.schmidt_form([amplitude / math.sqrt(weight) for amplitude in amplitudes])
+
+
+def three_phasor_svg(state, prefix='ph3'):
+    """Eight amplitude arrows in one plane. There is no needle: three-qubit entanglement is not one
+    number, so the sphere's two Schmidt planes carry that information instead."""
+    rings = (f'<circle class="ph-ring" cx="{PHASOR_CENTER:.1f}" cy="{PHASOR_CENTER:.1f}"'
+             f' r="{PHASOR_RADIUS:.1f}"/>'
+             + ''.join(f'<circle class="ph-contour" cx="{PHASOR_CENTER:.1f}" cy="{PHASOR_CENTER:.1f}"'
+                       f' r="{PHASOR_RADIUS * factor:.1f}"/>' for factor in (0.25, 0.5, 0.75)))
+    rim = PHASOR_RADIUS * 0.82
+    ticks = (f'<text class="ph-tick" x="{PHASOR_CENTER + rim:.0f}" y="{PHASOR_CENTER + 16:.0f}"'
+             ' text-anchor="middle">0°</text>'
+             f'<text class="ph-tick" x="{PHASOR_CENTER + 12:.0f}" y="{PHASOR_CENTER - rim + 4:.0f}">90°</text>'
+             f'<text class="ph-tick" x="{PHASOR_CENTER - rim:.0f}" y="{PHASOR_CENTER + 16:.0f}"'
+             ' text-anchor="middle">180°</text>'
+             f'<text class="ph-tick" x="{PHASOR_CENTER + 12:.0f}" y="{PHASOR_CENTER + rim + 4:.0f}">270°</text>')
+    markers = ''.join(
+        f'<marker id="{prefix}-head-{index}" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="4.6"'
+        f' markerHeight="4.6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"'
+        f' class="{prefix}-head-{index // 2}"/></marker>' for index in range(8))
+    vectors = ''
+    for index, key in enumerate(THREE_KEYS):
+        amplitude = state[index]
+        magnitude = abs(amplitude)
+        phase = math.degrees(cmath.phase(amplitude)) % 360 if magnitude > 1e-9 else 0.0
+        hidden = ' is-empty' if magnitude <= 1e-9 else ''
+        x0, y0 = phasor_tip(magnitude, phase)
+        vectors += (f'<g class="{prefix}-vec{hidden}" data-index="{index}" id="{prefix}-group-{key}">'
+                    f'<line class="{prefix}-hit" x1="{PHASOR_CENTER:.1f}" y1="{PHASOR_CENTER:.1f}"'
+                    f' x2="{x0:.1f}" y2="{y0:.1f}"/>'
+                    + phasor_arrow(f'{prefix}-vec-{key}', magnitude, phase, THREE_LABELS[index],
+                                   f'{prefix}-head-{index}', cls=f'{prefix}-arrow')
+                    + '</g>')
+    return (f'<svg class="phasor phasor8" id="{prefix}" viewBox="0 0 440 440" role="group"'
+            f' aria-labelledby="{prefix}-title {prefix}-desc">'
+            f'<title id="{prefix}-title">Eight vectors of the three-qubit state in one complex plane</title>'
+            f'<desc id="{prefix}-desc">Eight arrows, one per computational basis amplitude: the length is the'
+            f' magnitude and the angle is the phase. Drag an arrow to set both, or use the arrow keys to turn'
+            f' and resize it.</desc>'
+            f'<defs>{markers}</defs>'
+            f'<g class="ph-grid">{rings}'
+            f'<line class="ph-axis" x1="48" y1="{PHASOR_CENTER:.1f}" x2="392" y2="{PHASOR_CENTER:.1f}"/>'
+            f'<line class="ph-axis" x1="{PHASOR_CENTER:.1f}" y1="48" x2="{PHASOR_CENTER:.1f}" y2="392"/>'
+            f'{ticks}</g>'
+            f'<g class="{prefix}-vectors">' + vectors + '</g>'
+            f'<circle class="ph-origin" cx="{PHASOR_CENTER:.1f}" cy="{PHASOR_CENTER:.1f}" r="3"/>'
+            '</svg>')
+
+
+def _vec_cross(a, b):
+    return (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])
+
+
+def _vec_norm(a):
+    return math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2])
+
+
+def three_planes_svg(state, reference=0, prefix='planes'):
+    """One Bloch sphere carrying both branches' Schmidt planes.
+
+    The reference qubit stays the pair of kets |0⟩ and |1⟩; for each value, the other two qubits
+    form a two-qubit state with its own Schmidt bases. Those bases span a plane, so the sphere
+    holds one plane per branch. A plane needs two independent axes: when they line up, the four
+    endpoints are collinear and the plane is hidden rather than drawn as a stray line.
+    """
+    origin = project((0.0, 0.0, 0.0), ORIGIN, RADIUS)
+    names = [THREE_QUBITS[wire].lower() for wire in range(3) if wire != reference]
+    branches = [branch_form(state, reference, bit) for bit in (0, 1)]
+    basis = ','.join(f'{value:.6f}' for value in (*RIGHT, *UP))
+    groups = ''
+    for bit, (weight, form) in enumerate(branches):
+        theta = form.theta_deg if form else 0.0
+        axis_p = form.axis_a if form else (0.0, 0.0, 1.0)
+        axis_q = form.axis_b if form else (0.0, 0.0, 1.0)
+        cos, sin = math.cos(math.radians(theta)), math.sin(math.radians(theta))
+        p_plus, p_minus = project(axis_p), project(tuple(-value for value in axis_p))
+        q_plus = project(tuple(cos * value for value in axis_q))
+        q_minus = project(tuple(-sin * value for value in axis_q))
+        corners = (p_plus, q_plus, p_minus, q_minus)
+        quad = ' '.join(f'{x:.1f},{y:.1f}' for x, y in corners)
+        hidden = ' is-empty' if weight < 1e-9 else ''
+        flat = ' is-empty' if form is None or _vec_norm(_vec_cross(axis_p, axis_q)) < 1e-6 else ''
+        sub = THREE_SUBSCRIPTS[bit]
+        # The two branches can share an axis, so their labels sit on opposite sides of it.
+        p_side, q_side = (-20, 20) if bit == 0 else (20, -20)
+        groups += (
+            f'<g class="plane-branch branch-{bit}{hidden}" id="{prefix}-branch-{bit}"'
+            f' style="opacity:{0.3 + 0.7 * weight:.2f}">'
+            f'<polygon class="plane-quad{flat}" id="{prefix}-quad-{bit}" points="{quad}"/>'
+            f'<line class="plane-axis" id="{prefix}-p-axis-{bit}" x1="{p_minus[0]:.1f}" y1="{p_minus[1]:.1f}"'
+            f' x2="{p_plus[0]:.1f}" y2="{p_plus[1]:.1f}"/>'
+            f'<line class="plane-arm" id="{prefix}-q-plus-{bit}" x1="{origin[0]:.1f}" y1="{origin[1]:.1f}"'
+            f' x2="{q_plus[0]:.1f}" y2="{q_plus[1]:.1f}"/>'
+            f'<line class="plane-arm" id="{prefix}-q-minus-{bit}" x1="{origin[0]:.1f}" y1="{origin[1]:.1f}"'
+            f' x2="{q_minus[0]:.1f}" y2="{q_minus[1]:.1f}"/>'
+            f'<circle class="plane-p-tip" id="{prefix}-p-plus-tip-{bit}" cx="{p_plus[0]:.1f}"'
+            f' cy="{p_plus[1]:.1f}" r="3.4"/>'
+            f'<circle class="plane-p-tip" id="{prefix}-p-minus-tip-{bit}" cx="{p_minus[0]:.1f}"'
+            f' cy="{p_minus[1]:.1f}" r="3.4"/>'
+            f'<circle class="plane-q-tip" id="{prefix}-q-plus-tip-{bit}" cx="{q_plus[0]:.1f}"'
+            f' cy="{q_plus[1]:.1f}" r="3.4"/>'
+            f'<circle class="plane-q-tip" id="{prefix}-q-minus-tip-{bit}" cx="{q_minus[0]:.1f}"'
+            f' cy="{q_minus[1]:.1f}" r="3.4"/>'
+            + schmidt_label(p_plus, f'|+{names[0]}⟩{sub}', f'{prefix}-p-plus-label-{bit}',
+                            'plane-p-label', p_side)
+            + schmidt_label(p_minus, f'|−{names[0]}⟩{sub}', f'{prefix}-p-minus-label-{bit}',
+                            'plane-p-label', p_side)
+            + schmidt_label(q_plus, f'|+{names[1]}⟩{sub}', f'{prefix}-q-plus-label-{bit}',
+                            'plane-q-label', q_side)
+            + schmidt_label(q_minus, f'|−{names[1]}⟩{sub}', f'{prefix}-q-minus-label-{bit}',
+                            'plane-q-label', q_side, empty=sin < ZERO)
+            + '</g>')
+    description = ('Two Schmidt planes, one for each value of the reference qubit. Each plane is spanned'
+                   ' by that branch\'s two Schmidt axes; the branch probability sets its opacity.')
+    return (f'<svg class="planes" id="{prefix}" viewBox="0 0 400 400" role="img" tabindex="0"'
+            f' aria-labelledby="{prefix}-title {prefix}-desc" data-basis="{basis}"'
+            f' data-azimuth="{AZIMUTH:.1f}" data-elevation="{ELEVATION:.1f}">'
+            f'<title id="{prefix}-title">The two Schmidt planes of the relative-state view</title>'
+            f'<desc id="{prefix}-desc">{description} Drag the sphere, or use the arrow keys while it has'
+            f' focus, to orbit the view.</desc>'
+            f'<circle class="bloch-surface" cx="{ORIGIN[0]:.1f}" cy="{ORIGIN[1]:.1f}" r="{RADIUS:.1f}"/>'
+            f'<g class="bloch-grid" id="{prefix}-grid">{"".join(sphere_grid())}</g>'
+            f'<g class="bloch-axes" id="{prefix}-axes">{sphere_axes()}</g>'
+            + groups +
+            f'<circle class="bloch-origin" cx="{ORIGIN[0]:.1f}" cy="{ORIGIN[1]:.1f}" r="2.5"/>'
             '</svg>')
 
 
@@ -530,7 +718,8 @@ def render_two_qubit(root, shell):
         '<span class="measure-result" id="measure-result">Measure A, B or both: the outcome appears here.</span>'
         '<span class="measure-tally" id="measure-tally">No joint measurements yet.</span></p></div>'
         '<noscript><p class="qubit-noscript">The page shows the state |00⟩: one arrow of length 1 along the'
-        ' real axis. Enable JavaScript to turn the arrows, apply gates, and measure.</p></noscript></section>'
+        ' real axis. Enable JavaScript to turn and resize the arrows, apply gates, and measure.</p></noscript>'
+        '</section>'
 
         '<section class="two-views" aria-labelledby="views-heading">'
         '<h2 class="sr-only" id="views-heading">The same state in two pictures</h2>'
@@ -539,25 +728,28 @@ def render_two_qubit(root, shell):
         '<p class="eyebrow">Amplitudes</p>'
         '<h3 class="view-heading" id="phasor-heading">Four arrows in one plane</h3>'
         '<figure class="phasor-figure">' + phasor_svg([1, 0, 0, 0]) +
-        '<figcaption>Pick an arrow and use the arrow keys to turn it, or drag its tip. The background is the'
-        ' concurrence: it deepens from 0 at the centre to 1 at the rim, and its colour rises and fades with the'
-        ' current value. Turning a coefficient changes one phase, and the Schmidt sphere updates with it.'
+        '<figcaption>Drag an arrow to set both its length and its angle, or use ←/→ to turn it and ↑/↓ to'
+        ' resize it. Edits may leave the arrows unnormalized; Normalize rescales all four so that'
+        ' Σ|c|² = 1. The background is the concurrence: it deepens from 0 at the centre to 1 at the rim, and'
+        ' its colour rises and fades with the current value. Every change updates the Schmidt sphere too.'
         '</figcaption></figure>'
         '<div class="phasor-panel">'
-        '<fieldset class="qubit-group"><legend>Display basis</legend><div class="qubit-buttons">'
-        '<button type="button" id="basis-computational" aria-pressed="true">|00⟩ |01⟩ |10⟩ |11⟩</button>'
-        '<button type="button" id="basis-bell" aria-pressed="false">Bell</button>'
-        '</div><p class="slider-hint" id="basis-hint">Computational basis. The Bell view re-expresses the same'
-        ' state in Φ⁺, Φ⁻, Ψ⁺, Ψ⁻, where each Bell state is a single arrow.</p></fieldset>'
+        '<div class="phasor-actions">'
+        '<button type="button" class="ph-normalize" id="normalize-arrows" aria-describedby="state-norm">'
+        'Normalize</button>'
+        '<p class="ph-norm" id="state-norm">Σ|c|² = 1.000 — the arrows are normalized.</p>'
+        '</div>'
         '<div class="amplitude-strip" role="group" aria-label="Magnitude and phase per basis state">'
         + dials + '</div>'
-        '<p class="amp-caption">Arrow length is the magnitude, its angle the phase.</p>'
+        '<p class="amp-caption">Arrow length is the magnitude, its angle the phase. A drag sets both;'
+        ' ←/→ turns an arrow and ↑/↓ resizes it.</p>'
         '<label class="ph-toggle"><input type="checkbox" id="show-products">'
         '<span>Show the two products 2c<sub>00</sub>c<sub>11</sub> and 2c<sub>01</sub>c<sub>10</sub></span>'
         '</label>'
         '<p class="measure-result" id="needle-note">The highlighted arrow is 2·(c<sub>00</sub>c<sub>11</sub> −'
-        ' c<sub>01</sub>c<sub>10</sub>): the first product, then the second one subtracted. Its length is the'
-        ' concurrence — zero for a product state, one for a Bell state.</p>'
+        ' c<sub>01</sub>c<sub>10</sub>) divided by the total weight Σ|c|², which is one while the arrows are'
+        ' normalized: the first product, then the second one subtracted. Its length is the concurrence — zero'
+        ' for a product state, one for a Bell state — and a rescaling leaves it unchanged.</p>'
         '<p class="sr-only" id="state-status" role="status" aria-live="polite"></p>'
         '</div></section>'
 
@@ -567,7 +759,9 @@ def render_two_qubit(root, shell):
         '<figure class="schmidt-figure">' + schmidt_svg([1, 0, 0, 0]) +
         '<figcaption>Qubit A\'s Schmidt basis stays at unit length; qubit B\'s two vectors carry the branch'
         ' amplitudes cos θ and sin θ as their lengths, so the pair always obeys cos²θ + sin²θ = 1. The dashed'
-        ' diameter marks B\'s axis even when an arm has shrunk to nothing.</figcaption></figure>'
+        ' diameter marks B\'s axis even when an arm has shrunk to nothing, and the translucent parallelogram'
+        ' joins the four endpoints, flattening out of sight when the two Schmidt bases line up.'
+        '</figcaption></figure>'
         '<div class="schmidt-panel">'
         '<p class="schmidt-formula" id="schmidt-formula">|ψ⟩ = 1.000 |+a⟩|+b⟩</p>'
         '<dl class="two-invariants schmidt-values">'
@@ -588,6 +782,10 @@ def render_two_qubit(root, shell):
         ' normalization, and multiplying all four arrows by the same phase only rotates the whole figure, which'
         ' no measurement can see. That leaves six, exactly the state\'s six parameters. This is the one common'
         ' plot that holds everything, phases included.</p>'
+        '<p>Here you can stretch the arrows yourself, which makes the first constraint visible. While the lengths'
+        ' are free the drawing is unnormalized; the <strong>Normalize</strong> button divides all four arrows by'
+        ' √(Σ|c|²), so the weights add up to one again. Every readout on the page already divides by that'
+        ' weight, so stretching an arrow changes the picture but never invents entanglement.</p>'
         '<p>Arrows that land on the same point are drawn side by side so that both stay visible; lengths and'
         ' angles are untouched.</p>'
         '<p>Gates act on these arrows in ways you can watch. Z and S turn the arrows whose qubit is |1⟩ and leave'
@@ -601,7 +799,8 @@ def render_two_qubit(root, shell):
         ' multiplied. A state is a product of two single-qubit states exactly when those two vectors coincide.'
         ' So draw the second from the tip of the first, and close the triangle: the closing arrow is'
         ' 2·(c<sub>00</sub>c<sub>11</sub> − c<sub>01</sub>c<sub>10</sub>). Its length is the concurrence, and it'
-        ' vanishes precisely when the state factorizes.</p>'
+        ' vanishes precisely when the state factorizes. Both products are divided by the total weight, which is'
+        ' one for normalized arrows, so the needle stays inside the rim even while the arrows are stretched.</p>'
         '<p>That gives entanglement a single number you can measure with a ruler, and a direction that records'
         ' the relative phase. The length is basis-independent; the direction is a frame, and local gates rotate'
         ' it without changing its length — which is the whole reason a local picture cannot see entanglement.</p>'
@@ -613,14 +812,20 @@ def render_two_qubit(root, shell):
         '<li>Load Φ<sup>+</sup> and Φ<sup>−</sup>. Both have the needle at full length 1.000; only its direction'
         ' flips by 180°, and the |11⟩ arrow flips with it. This is the difference the Bloch spheres cannot'
         ' show.</li>'
-        '<li>Switch to the <strong>Bell</strong> basis. Each of the four Bell presets becomes a single arrow of'
-        ' length 1, while no product state can be: |00⟩ needs two arrows and |+0⟩ needs four. That is the'
-        ' sharpest way to see that Bell states are a different kind of object.</li>'
-        '<li>Load <strong>|++⟩</strong> and drag one arrow round the circle. Its length never changes, only its'
-        ' angle, and the needle grows from zero towards 0.707: a product state becoming entangled as the two'
-        ' products stop agreeing. Drag it back to 0° and the needle vanishes again.</li>'
+        '<li>Load <strong>|++⟩</strong> and turn one arrow with ←/→, or drag it round at a steady radius. Its'
+        ' length never changes, only its angle, and the needle grows from zero towards 0.707: a product state'
+        ' becoming entangled as the two products stop agreeing. Turn it back to 0° and the needle vanishes'
+        ' again.</li>'
         '<li>Load <strong>Partly entangled</strong>: the needle is 0.707 long, and the two starting arrows are'
-        ' 0.924 and 0.383 at the same angle.</li></ol>'
+        ' 0.924 and 0.383 at the same angle.</li>'
+        '<li>Load Φ<sup>+</sup> and drag the |11⟩ arrow outwards. Its length passes 0.707, the weight readout'
+        ' climbs past 1, and the needle shortens to 0.943: two long arrows in step are less entangled once the'
+        ' extra weight is divided out. Press <strong>Normalize</strong>: the arrows shrink so the weight is'
+        ' 1.000 again, while the needle stays at 0.943. Normalization moves the arrows, not the physics.</li>'
+        '<li>Load Φ<sup>+</sup> and press <strong>H on A</strong>. The two Schmidt bases swing apart and a'
+        ' translucent parallelogram joins the four endpoints; at θ = 45° its diagonals bisect each other, so'
+        ' it really is a parallelogram. Press H again and it flattens as the bases line up once more.</li>'
+        '</ol>'
         '<p class="qubit-note">This model follows pure states only, because unitary gates and projective'
         ' measurements keep the state pure. A noisy two-qubit state needs a 4 × 4 density matrix and a'
         ' mixed-state concurrence, and its arrows would need magnitudes that no longer add to one. Measurements'
@@ -629,6 +834,209 @@ def render_two_qubit(root, shell):
           'Every vector of a two-qubit state in one complex plane: four amplitude arrows plus the concurrence'
           ' needle, so phases and entanglement are visible at the same time.',
           body, assets='<link rel="stylesheet" href="tools.css"><script defer src="two-qubit.js"></script>')
+
+
+def render_three_qubit(root, shell):
+    e = escape
+    state = THREE_STATES['planes']
+    dials = ''
+    for index, key in enumerate(THREE_KEYS):
+        magnitude = abs(state[index])
+        phase = math.degrees(cmath.phase(state[index])) % 360 if magnitude > 1e-9 else 0.0
+        empty = magnitude <= 1e-9
+        x = 32 if empty else 32 + AMP_RADIUS * magnitude * math.cos(math.radians(phase))
+        y = 32 if empty else 32 - AMP_RADIUS * magnitude * math.sin(math.radians(phase))
+        tip = ' is-empty' if empty else ''
+        phase_text = '—' if empty else f'{phase:.0f}°'
+        dials += (f'<div class="amp-cell" data-index="{index}">'
+                  '<svg class="amp-dial" viewBox="0 0 64 64" aria-hidden="true">'
+                  f'<circle class="amp-ring" cx="32" cy="32" r="{AMP_RADIUS}"/>'
+                  '<line class="amp-axis" x1="8" y1="32" x2="56" y2="32"/>'
+                  '<line class="amp-axis" x1="32" y1="8" x2="32" y2="56"/>'
+                  f'<line class="amp-needle{tip}" id="amp3-needle-{key}" x1="32" y1="32"'
+                  f' x2="{x:.1f}" y2="{y:.1f}"/>'
+                  f'<circle class="amp-tip{tip}" id="amp3-tip-{key}" cx="{x:.1f}" cy="{y:.1f}" r="2.6"/>'
+                  '</svg>'
+                  f'<p class="amp-name" id="amp3-name-{key}">{THREE_LABELS[index]}</p>'
+                  f'<p class="amp-numbers"><span id="amp3-mag-{key}">{magnitude:.3f}</span>'
+                  f'<span id="amp3-phase-{key}">{phase_text}</span></p>'
+                  '</div>')
+    branches = [branch_form(state, 0, bit) for bit in (0, 1)]
+    names = [THREE_QUBITS[wire].lower() for wire in range(3) if wire != 0]
+    expansion = (f'|ψ⟩ = {math.sqrt(branches[0][0]):.3f} |0⟩<sub>A</sub>|φ₀⟩'
+                 f' + {math.sqrt(branches[1][0]):.3f} |1⟩<sub>A</sub>|φ₁⟩')
+    formulas = ''
+    probabilities, angles, weights, phases = [], [], [], []
+    for bit, (weight, form) in enumerate(branches):
+        sub = THREE_SUBSCRIPTS[bit]
+        cos = math.cos(math.radians(form.theta_deg))
+        sin = math.sin(math.radians(form.theta_deg))
+        probabilities.append(f'{weight:.3f}')
+        angles.append(f'{form.theta_deg:.0f}°')
+        weights.append(f'{cos * cos:.3f} / {sin * sin:.3f}')
+        phases.append(f'{form.chi_deg:.0f}°')
+        formulas += (f'<p class="schmidt-formula" id="branch-formula-{bit}">|φ{sub}⟩ = {cos:.3f}'
+                     f' |+{names[0]}⟩{sub}|+{names[1]}⟩{sub} + e^{{i{form.chi_deg:.0f}°}} {sin:.3f}'
+                     f' |−{names[0]}⟩{sub}|−{names[1]}⟩{sub}</p>')
+    rows = ''.join(
+        f'<tr><th scope="row">{label}</th><td id="branch-{key}-0">{values[0]}</td>'
+        f'<td id="branch-{key}-1">{values[1]}</td></tr>'
+        for label, key, values in (('Probability', 'prob', probabilities),
+                                   ('Schmidt angle θ', 'theta', angles),
+                                   ('cos²θ / sin²θ', 'weights', weights),
+                                   ('Relative phase χ', 'chi', phases)))
+    gate_options = ''.join(f'<option value="{name}" title="{hint}">{name}</option>' for name, hint in GATES)
+    presets = ''.join(f'<option value="{key}">{e(label)}</option>' for key, label in THREE_PRESETS)
+    references = ''.join(f'<option value="{index}"{" selected" if index == 0 else ""}>{name}</option>'
+                         for index, name in enumerate(THREE_QUBITS))
+    pairs = ''.join(f'<option value="{key}">{label}</option>' for key, label in THREE_TWO_QUBIT)
+    body = (
+        '<header class="editorial-intro compact qubit-intro"><p class="eyebrow">Tools / Three-qubit state</p>'
+        '<h1>One qubit as<br><span>the reference.</span></h1>'
+        '<p>A three-qubit pure state is eight complex numbers, so it is eight arrows in one plane. Choose'
+        ' one qubit as the reference and the same state reads |0⟩|φ₀⟩ + |1⟩|φ₁⟩: two two-qubit states, one'
+        ' for each value of that qubit. Each branch has its own Schmidt bases and contributes four endpoints;'
+        ' two Schmidt axes span a plane, so a single Bloch sphere carries two planes — one per branch — and'
+        ' you can turn it to see them from any side.</p></header>'
+
+        '<section class="two-controls" aria-labelledby="controls-heading"><h2 class="sr-only"'
+        ' id="controls-heading">Controls</h2>'
+        '<div class="menu-row">'
+        '<div class="menu"><label for="menu-state3">State</label><select id="menu-state3">'
+        '<option value="">Custom…</option>' + presets + '</select></div>'
+        '<div class="menu"><label for="menu-reference">Reference qubit</label><select id="menu-reference">'
+        + references + '</select></div>'
+        '<div class="menu"><label for="menu-gate-0">Gate on A</label><select id="menu-gate-0">'
+        '<option value="" selected>Choose…</option>' + gate_options + '</select></div>'
+        '<div class="menu"><label for="menu-gate-1">Gate on B</label><select id="menu-gate-1">'
+        '<option value="" selected>Choose…</option>' + gate_options + '</select></div>'
+        '<div class="menu"><label for="menu-gate-2">Gate on C</label><select id="menu-gate-2">'
+        '<option value="" selected>Choose…</option>' + gate_options + '</select></div>'
+        '<div class="menu"><label for="menu-gate-pair">Two-qubit gate</label>'
+        '<select id="menu-gate-pair"><option value="" selected>Choose…</option>' + pairs + '</select></div>'
+        '<div class="menu"><label for="menu-measure3">Measurement</label><select id="menu-measure3">'
+        '<option value="" selected>Choose…</option>'
+        '<option value="measure-0">Measure A</option><option value="measure-1">Measure B</option>'
+        '<option value="measure-2">Measure C</option><option value="measure-all">Measure all three</option>'
+        '<option value="three-reset">Reset</option></select></div>'
+        '</div>'
+        '<div class="control-readouts"><p class="control-line">'
+        '<span class="measure-result" id="measure-result">Measure A, B, C or all three: the outcome appears'
+        ' here.</span><span class="measure-tally" id="measure-tally">No measurements yet.</span></p></div>'
+        '<noscript><p class="qubit-noscript">The page opens on the state with two visible planes. Enable'
+        ' JavaScript to turn and resize the eight arrows, choose the reference qubit, apply gates, and'
+        ' measure.</p></noscript></section>'
+
+        '<section class="two-views" aria-labelledby="views-heading">'
+        '<h2 class="sr-only" id="views-heading">The same state in two pictures</h2>'
+        '<div class="view-grid">'
+        '<section class="view-column" aria-labelledby="phasor-heading">'
+        '<p class="eyebrow">Amplitudes</p>'
+        '<h3 class="view-heading" id="phasor-heading">Eight arrows in one plane</h3>'
+        '<figure class="phasor-figure">' + three_phasor_svg(state) +
+        '<figcaption>Eight arrows, one per computational amplitude: length is the magnitude and the angle'
+        ' is the phase. Drag an arrow to set both, or use ←/→ to turn it and ↑/↓ to resize it. Edits can'
+        ' leave the arrows unnormalized; Normalize divides all eight by √(Σ|c|²).</figcaption></figure>'
+        '<div class="phasor-panel">'
+        '<div class="phasor-actions">'
+        '<button type="button" class="ph-normalize" id="normalize-arrows" aria-describedby="state-norm">'
+        'Normalize</button>'
+        '<p class="ph-norm" id="state-norm">Σ|c|² = 1.000 — the arrows are normalized.</p>'
+        '</div>'
+        '<div class="amplitude-strip" role="group" aria-label="Magnitude and phase per basis state">'
+        + dials + '</div>'
+        '<p class="amp-caption">Arrow length is the magnitude, its angle the phase. A drag sets both;'
+        ' ←/→ turns an arrow and ↑/↓ resizes it.</p>'
+        '<p class="sr-only" id="state-status" role="status" aria-live="polite"></p>'
+        '</div></section>'
+
+        '<section class="view-column" aria-labelledby="planes-heading">'
+        '<p class="eyebrow">Relative state</p>'
+        '<h3 class="view-heading" id="planes-heading">Two planes in one sphere</h3>'
+        '<figure class="schmidt-figure planes-figure">' + three_planes_svg(state) +
+        '<figcaption>The reference qubit stays the pair of kets |0⟩ and |1⟩. For each value, the other two'
+        ' qubits form a two-qubit state, drawn here in its own Schmidt bases: one axis at unit length and'
+        ' the other carrying the branch amplitudes cos θ and sin θ. Each branch contributes four endpoints,'
+        ' and its two Schmidt axes span the plane through them; the opacity follows the branch probability.'
+        ' When a branch\'s axes line up — as they do in GHZ and W — the four endpoints are collinear and the'
+        ' plane is hidden. Drag the sphere, or focus it and use the arrow keys, to look from another side.'
+        '</figcaption></figure>'
+        '<div class="schmidt-panel">'
+        '<div class="plane-view">'
+        '<button type="button" class="ph-normalize" id="reset-view">Reset view</button>'
+        '<p class="plane-hint">Drag the sphere to orbit it; with the sphere focused, ←/→ turns the view and'
+        ' ↑/↓ raises or lowers it.</p>'
+        '</div>'
+        '<div class="plane-legend" aria-hidden="true">'
+        '<p class="plane-key"><span class="plane-swatch branch-0"></span>'
+        '<span id="plane-legend-0">|0⟩<sub>A</sub> branch</span></p>'
+        '<p class="plane-key"><span class="plane-swatch branch-1"></span>'
+        '<span id="plane-legend-1">|1⟩<sub>A</sub> branch</span></p>'
+        '</div>'
+        '<p class="schmidt-formula" id="plane-expansion">' + expansion + '</p>'
+        '<table class="plane-table"><caption class="sr-only">The two reference branches</caption>'
+        '<thead><tr><th scope="col">Quantity</th><th scope="col" id="plane-head-0">|0⟩<sub>A</sub></th>'
+        '<th scope="col" id="plane-head-1">|1⟩<sub>A</sub></th></tr></thead><tbody>'
+        + rows +
+        '</tbody></table>'
+        + formulas +
+        '<p class="slider-hint">The two planes are alternatives, not a simultaneous picture: measuring the'
+        ' reference realizes one branch with probability w₀ or w₁. Changing the reference qubit re-cuts the'
+        ' same state and gives two different planes. Drag the sphere to see them from another side — edge on,'
+        ' a plane shows as a line.</p>'
+        '<p class="sr-only" id="plane-summary">Two Schmidt planes, one per reference branch.</p>'
+        '</div></section>'
+        '</div></section>'
+
+        '<section class="qubit-reading" id="explanation"><h2>Why one qubit is the reference</h2>'
+        '<p>Group the eight amplitudes by the value of one qubit and the state separates into two pieces:'
+        ' |ψ⟩ = |0⟩|φ₀⟩ + |1⟩|φ₁⟩. Nothing is approximated — |φ₀⟩ and |φ₁⟩ are ordinary, unnormalised'
+        ' two-qubit states, and their lengths are the probabilities of the two values: w₀ = ⟨φ₀|φ₀⟩ and'
+        ' w₁ = ⟨φ₁|φ₁⟩, with w₀ + w₁ = 1. The reference qubit contributes only its two kets; everything else'
+        ' lives in the other two qubits.</p>'
+        '<p>Each branch is then a problem this toolkit already solves. Divide |φ_r⟩ by √w_r to normalise it,'
+        ' and it has a Schmidt form cos θ_r |+p⟩|+q⟩ + e^{iχ_r} sin θ_r |−p⟩|−q⟩ with its own axes for the'
+        ' two remaining qubits. Those axes are different in the two branches in general, which is the point'
+        ' of the picture: the same pair of qubits is described by a different pair of local bases depending'
+        ' on what the reference reads.</p>'
+        '<h2>The two planes</h2>'
+        '<p>Two axes through the origin span a plane, so each branch contributes one plane to the sphere.'
+        ' The plane is drawn as the quadrilateral through the four endpoints — the two unit vectors of the'
+        ' first remaining qubit and the two scaled vectors of the second — and its fill is translucent so'
+        ' the sphere and the other plane stay readable. Opacity tracks the branch probability, so the'
+        ' branch that is less likely fades.</p>'
+        '<p>The two planes generally differ, and that is the point of the picture: the same pair of qubits'
+        ' is described by a different pair of local bases depending on what the reference reads. A plane'
+        ' needs two independent directions, so when a branch\'s axes line up — GHZ, W, and any product'
+        ' branch — the four endpoints are collinear and the plane is hidden rather than drawn as a stray'
+        ' line.</p>'
+        '<h2>What this cut does not show</h2>'
+        '<p>Three qubits have more than one way to be entangled, and a single reference sees only one cut.'
+        ' Choose A and the branches are states of B and C; choose B and the same amplitudes regroup into'
+        ' states of A and C. The three cuts carry different information — GHZ is entangled across every'
+        ' cut, while W concentrates its entanglement differently — so switching the reference is not a'
+        ' cosmetic change but a different question asked of the same state.</p>'
+        '<h2>Things to try</h2><ol class="qubit-try">'
+        '<li>Start on <strong>Two planes</strong>: the two branches carry different Schmidt frames, so the'
+        ' two planes sit at an angle. Drag the sphere and the view turns with it.</li>'
+        '<li>Switch the <strong>Reference qubit</strong> to B without touching the state: the same eight'
+        ' amplitudes are regrouped, the branch probabilities change, and both planes move.</li>'
+        '<li>Load <strong>GHZ</strong>: each branch is a product state along the same axis, so the four'
+        ' endpoints are collinear and the planes vanish. The reference qubit is perfectly correlated with'
+        ' the other two, which is what a plane with no area means here.</li>'
+        '<li>Load <strong>W</strong>: the branches have probabilities 1/3 and 2/3, so the legend and the'
+        ' table show unequal weights even before any plane appears.</li>'
+        '<li>Rotate until a plane is edge on: it thins to a line, then widens again on the far side.</li>'
+        '<li>Drag one of the eight arrows, then Normalize: the branch probabilities and both planes follow'
+        ' the amplitudes you set.</li>'
+        '</ol>'
+        '<p class="qubit-note">This model follows pure states only, and measurement uses your browser\'s'
+        ' random number generator. A mixed three-qubit state needs a density matrix and a different notion'
+        ' of Schmidt form, which this tool does not attempt.</p></section>')
+    shell('tools/three-qubit.html', 'Three-qubit state visualizer',
+          'A three-qubit state as eight arrows in one plane, and the same state cut by a reference qubit'
+          ' into two two-qubit branches, each drawn as a Schmidt plane on one Bloch sphere.',
+          body, assets='<link rel="stylesheet" href="tools.css"><script defer src="three-qubit.js"></script>')
 
 
 def validate(root, data):
@@ -839,3 +1247,4 @@ def render_tools(root, shell):
           'Explore a single qubit on the Bloch sphere: drag the state vector, apply gates, and measure the resulting probabilities.',
           tool_body, assets='<link rel="stylesheet" href="tools.css"><script defer src="single-qubit.js"></script>')
     render_two_qubit(root, shell)
+    render_three_qubit(root, shell)

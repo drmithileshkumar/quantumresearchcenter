@@ -23,3 +23,14 @@ python3 -m unittest discover -s tests
 `scripts/research_figures.py` rebuilds the six original plots using NumPy and Matplotlib. These are authoring dependencies; the deployed site uses only the generated SVGs and the existing local MathJax bundle. Preserve captions, alternative descriptions, and narrow-screen scrolling when changing a plot.
 
 `../research-redirects.json` maps earlier research URLs to related current pages. Redirects have canonical links and are excluded from the sitemap. Keep those mappings when changing the taxonomy, and preserve student contributions in `../student.json`.
+
+## Theorem of the Day
+
+`../theorems.json` lists the entries; each `manuscript` is an HTML fragment in `../theorems/`. The newest date is featured on `research/theorem-of-the-day/`, and every entry gets its own page at `research/theorem-of-the-day/<id>/`. A manuscript has four sections:
+
+- `statement`: the theorem with its assumptions, in a `theorem-box`.
+- `proof`: a complete proof ending in `\(\square\)`.
+- `discovery`: a new result with its full proof, in a `theorem-box theorem-new`, followed by a `theorem-status` paragraph that says which parts are already known and cites the closest prior work.
+- `check`: a worked numerical example, a `Reproduce:` step, and an `Extend:` problem.
+
+List every cited work under the entry's `references`. Add exact checks of the entry's mathematics to `tests/test_theorems.py`, then run `python3 scripts/build_all.py` and `python3 scripts/check_site.py`.

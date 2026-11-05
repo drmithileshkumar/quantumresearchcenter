@@ -1,5 +1,5 @@
 {
-  "intro": "Small, self-contained models for building intuition about quantum states, one qubit at a time and then two. Each tool runs entirely in your browser: nothing you set is sent anywhere, and every control has a keyboard equivalent.",
+  "intro": "Small, self-contained models for building intuition about quantum states, one qubit at a time, then two, then three. Each tool runs entirely in your browser: nothing you set is sent anywhere, and every control has a keyboard equivalent.",
   "tools": [
     {
       "id": "single-qubit",
@@ -21,25 +21,38 @@
       "kind": "Visualizer",
       "title": "Two-qubit state visualizer",
       "href": "tools/two-qubit.html",
-      "summary": "Every vector of a two-qubit state in one complex plane: four amplitude arrows at their true angles over a heat map of the concurrence, plus the needle that measures entanglement. The same state is redrawn in Schmidt form on one Bloch sphere, where the first qubit's basis is unit length and the second qubit's vectors carry the branch amplitudes as their lengths. Turn phases by hand, build a Bell state with CNOT, and switch to the Bell basis.",
+      "summary": "Every vector of a two-qubit state in one complex plane: four amplitude arrows at their true lengths and angles over a heat map of the concurrence, plus the needle that measures entanglement. The same state is redrawn in Schmidt form on one Bloch sphere, where the first qubit's basis is unit length and the second qubit's vectors carry the branch amplitudes as their lengths. Stretch and turn the arrows by hand, press Normalize to restore the weights, and build a Bell state with CNOT.",
       "features": [
         "Four amplitude vectors in one plot",
-        "Phases as arrow angles",
+        "Lengths and phases you can drag",
+        "One-click normalization",
         "Schmidt form on one sphere",
         "Concurrence needle",
         "Concurrence heat-map background",
-        "Computational and Bell views",
-        "Phase dragging and arrow keys",
+        "Phase and length keys",
         "CNOT, CZ and SWAP",
         "Measurement of either qubit"
+      ]
+    },
+    {
+      "id": "three-qubit",
+      "kind": "Visualizer",
+      "title": "Three-qubit state visualizer",
+      "href": "tools/three-qubit.html",
+      "summary": "Eight amplitude arrows in one complex plane, plus the relative-state view: choose a reference qubit and the state splits into two two-qubit branches, |0⟩|φ₀⟩ + |1⟩|φ₁⟩. Each branch is drawn in its own Schmidt bases, so one Bloch sphere carries a plane per branch, and the branch probability sets its opacity. Drag the sphere to orbit it.",
+      "features": [
+        "Eight amplitude vectors in one plot",
+        "Any qubit as the reference",
+        "Two Schmidt planes in one sphere",
+        "Drag to orbit the sphere",
+        "Branch weights and Schmidt angles",
+        "Lengths and phases you can drag",
+        "CNOT, CZ and SWAP on any pair",
+        "Measurement of any qubit"
       ]
     }
   ],
   "planned": [
-    {
-      "title": "Three-qubit states and GHZ",
-      "summary": "Where the three spheres and the correlation table stop being enough: genuine three-way entanglement, and why no pairwise table can show it."
-    },
     {
       "title": "Measurement statistics",
       "summary": "Sample outcomes from repeated measurements and compare the histogram with the predicted probabilities."

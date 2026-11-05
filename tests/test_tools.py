@@ -229,6 +229,86 @@ class ToolTests(unittest.TestCase):
                         'id="schmidt-formula">|ψ⟩ = 1.000 |+a⟩|+b⟩<'):
             self.assertIn(readout, page)
 
+    def test_three_qubit_page_publishes_eight_arrows_and_two_planes(self):
+        page = (ROOT / 'tools/three-qubit.html').read_text()
+        for key in tools.THREE_KEYS:
+            self.assertIn(f'id="ph3-group-{key}"', page)
+            self.assertIn(f'id="amp3-mag-{key}"', page)
+        self.assertEqual(page.count('class="plane-branch branch-'), 2)
+        self.assertIn('id="planes-quad-0"', page)
+        self.assertIn('id="planes-quad-1"', page)
+        self.assertIn('id="menu-reference"', page)
+        for index, _ in enumerate(tools.THREE_QUBITS):
+            self.assertIn(f'<option value="{index}"', page)
+        self.assertIn('id="normalize-arrows"', page)
+        self.assertIn('src="three-qubit.js', page)
+
+    def test_three_qubit_sphere_can_be_orbited(self):
+        page = (ROOT / 'tools/three-qubit.html').read_text()
+        self.assertIn('data-azimuth="32.0" data-elevation="17.0"', page)
+        self.assertIn('id="planes-grid"', page)
+        self.assertIn('id="planes-axes"', page)
+        self.assertIn('id="reset-view"', page)
+        self.assertIn('to orbit the view', page)
+        script = (ROOT / 'tools/three-qubit.js').read_text()
+        for token in ('function camera()', 'drawGrid', 'drawAxes', 'renderSphere', 'orbitTo', 'reset-view'):
+            self.assertIn(token, script)
+        # The camera starts from the angles the static drawing was built with.
+        self.assertIn("sphere.dataset.azimuth", script)
+        self.assertIn("sphere.dataset.elevation", script)
+
+    def test_three_qubit_branches_match_the_schmidt_decomposition(self):
+        state = tools.THREE_STATES['ghz']
+        weight, form = tools.branch_form(state, 0, 0)
+        self.assertAlmostEqual(weight, 0.5, places=9)
+        self.assertAlmostEqual(form.theta_deg, 0.0, places=6)
+        weight, form = tools.branch_form(state, 1, 1)
+        self.assertAlmostEqual(weight, 0.5, places=9)
+        self.assertAlmostEqual(form.theta_deg, 0.0, places=6)
+        # A product branch leaves the other branch of |000⟩ empty.
+        weight, form = tools.branch_form(tools.THREE_STATES['000'], 0, 1)
+        self.assertAlmostEqual(weight, 0.0, places=9)
+        self.assertIsNone(form)
+
+    def test_three_qubit_planes_join_the_branch_endpoints(self):
+        state = tools.THREE_STATES['planes']
+        page = tools.three_planes_svg(state)
+        for bit in (0, 1):
+            _, form = tools.branch_form(state, 0, bit)
+            cos = math.cos(math.radians(form.theta_deg))
+            sin = math.sin(math.radians(form.theta_deg))
+            corners = (tools.project(form.axis_a), tools.project(tuple(cos * v for v in form.axis_b)),
+                       tools.project(tuple(-v for v in form.axis_a)),
+                       tools.project(tuple(-sin * v for v in form.axis_b)))
+            points = ' '.join(f'{x:.1f},{y:.1f}' for x, y in corners)
+            self.assertIn(f'id="planes-quad-{bit}" points="{points}"', page)
+        # Every named state has product branches along one axis, so its planes collapse.
+        for name in ('ghz', 'w', '000'):
+            flat = tools.three_planes_svg(tools.THREE_STATES[name])
+            self.assertEqual(flat.count('class="plane-quad is-empty"'), 2)
+        script = (ROOT / 'tools/three-qubit.js').read_text()
+        for token in ('branchAmplitudes', 'branchForm', 'drawPlanes', 'menu-reference', 'planes-quad'):
+            self.assertIn(token, script)
+
+    def test_schmidt_sphere_joins_the_four_endpoints(self):
+        # |00⟩ has coincident bases, so the quadrilateral has no area and starts hidden.
+        page = (ROOT / 'tools/two-qubit.html').read_text()
+        self.assertIn('class="schmidt-parallelogram is-empty" id="schmidt-parallelogram"', page)
+        state = schmidt.schmidt_state(45, (0, 0, 1), (1, 0, 0), 0)
+        page = tools.schmidt_svg(state)
+        form = schmidt.schmidt_form(state)
+        cos, sin = math.cos(math.radians(form.theta_deg)), math.sin(math.radians(form.theta_deg))
+        corners = (tools.project(form.axis_a), tools.project(tuple(cos * v for v in form.axis_b)),
+                   tools.project(tuple(-v for v in form.axis_a)),
+                   tools.project(tuple(-sin * v for v in form.axis_b)))
+        points = ' '.join(f'{x:.1f},{y:.1f}' for x, y in corners)
+        self.assertIn(f'class="schmidt-parallelogram" id="schmidt-parallelogram" points="{points}"/>', page)
+        script = (ROOT / 'tools/two-qubit.js').read_text()
+        self.assertIn("sQuad: byId('schmidt-parallelogram')", script)
+        self.assertIn('parts.sQuad.classList.toggle(\'is-empty\', area < 24)', script)
+        css = (ROOT / 'tools/tools.css').read_text()
+        self.assertIn('.schmidt-parallelogram{fill:var(--heading);fill-opacity:.06;', css)
+
     def test_schmidt_sphere_follows_the_model_for_any_state(self):
         state = tools.schmidt.schmidt_state(30, (0, 0, 1), (1, 0, 0), 40)
         page = tools.schmidt_svg(state)
@@ -253,15 +333,38 @@ class ToolTests(unittest.TestCase):
             self.assertIn(key, script)
         for key, _ in tools.TWO_PRESETS:
             self.assertIn(key + ':', script.replace("'", ''))
-        self.assertIn('BELL_LABELS', script)
         self.assertIn('fanOffsets', script)
-        self.assertIn('displayState', script)
         self.assertIn('ph-needle', script)
+        # The display-basis switch is gone; the panel leads with Normalize instead.
+        self.assertNotIn('BELL_LABELS', script)
+        self.assertNotIn('basis-bell', script)
+        page = (ROOT / 'tools/two-qubit.html').read_text()
+        self.assertNotIn('Display basis', page)
+        self.assertNotIn('id="basis-hint"', page)
+        self.assertLess(page.index('id="normalize-arrows"'), page.index('class="amplitude-strip"'))
         for token in ('schmidtForm', 'drawSchmidt', 'schmidt-b-minus-label', 'schmidt-lambda-0',
                       'schmidt-formula', 'menu-state', 'menu-gate-a', 'menu-gate-two', 'menu-measure',
                       'drawDials'):
             self.assertIn(token, script)
         self.assertNotIn('data-gate-a', script)
+
+    def test_two_qubit_arrows_can_be_resized_and_normalized(self):
+        page = (ROOT / 'tools/two-qubit.html').read_text()
+        self.assertIn('id="normalize-arrows" aria-describedby="state-norm">Normalize</button>', page)
+        self.assertIn('id="state-norm">Σ|c|² = 1.000 — the arrows are normalized.<', page)
+        self.assertIn('↑/↓', page)
+        script = (ROOT / 'tools/two-qubit.js').read_text()
+        for token in ('normalize-arrows', 'state-norm', 'MIN_LENGTH', 'pointerAim', 'reshape',
+                      'const weight = () =>', 'const scaled = () =>', 'const products = () =>'):
+            self.assertIn(token, script)
+        # A stretched arrow must not be rescaled behind the user's back; only the button normalizes.
+        self.assertNotIn('if (Math.abs(total - 1) > 1e-9)', script)
+        css = (ROOT / 'tools/tools.css').read_text()
+        self.assertIn('.ph-normalize{', css)
+        self.assertIn('.ph-norm.is-unnormalized{color:var(--warm)}', css)
+        # The concurrence arrow sits behind the amplitudes, so it is drawn partly transparent.
+        self.assertIn('.ph-needle .ph-arrow{stroke:var(--heading);stroke-width:2.6;stroke-opacity:.5}', css)
+        self.assertIn('.ph-head-needle{fill:var(--heading);fill-opacity:.5}', css)
 
     def test_script_defines_every_gate_and_the_shared_camera(self):
         script = (ROOT / 'tools/single-qubit.js').read_text()

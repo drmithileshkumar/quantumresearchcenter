@@ -1,0 +1,57 @@
+<section id="statement"><h2>The theorem</h2>
+<p>A classical bit can be copied as often as we like. A quantum state cannot, unless the possible states are perfectly distinguishable. This is the first theorem every student of quantum information meets, and it underlies quantum key distribution, the need for quantum error correction to work without copying, and the impossibility of using entanglement to signal.</p>
+<div class="theorem-box"><p class="theorem-label">Theorem 1 · No-cloning (Wootters and Zurek; Dieks, 1982)</p>
+<p>Let \(\ket\psi\) and \(\ket\phi\) be unit vectors in \(\mathcal H\), let \(\ket{0}\in\mathcal H\) be a fixed blank state and \(\ket{E}\) a fixed state of an environment \(\mathcal H_E\). Suppose a unitary \(U\) on \(\mathcal H\otimes\mathcal H\otimes\mathcal H_E\) satisfies</p>
+<p>\[U\ket\psi\ket0\ket E=\ket\psi\ket\psi\ket{E_\psi},\qquad U\ket\phi\ket0\ket E=\ket\phi\ket\phi\ket{E_\phi}\]</p>
+<p>for some unit vectors \(\ket{E_\psi},\ket{E_\phi}\). Then \(\braket\psi\phi=0\) or \(|\braket\psi\phi|=1\): the two states are orthogonal or equal up to a phase.</p></div>
+<p>Allowing an environment makes the statement cover every physical process. By Stinespring’s theorem, any completely positive trace-preserving map is a unitary acting on the system together with an environment that starts in a fixed state.</p></section>
+<section id="proof"><h2>The proof</h2>
+<p>Unitaries preserve inner products. Take the inner product of the two input vectors, then of the two output vectors:</p>
+<p>\[\braket\psi\phi\,\braket00\,\braket EE=\braket\psi\phi^2\,\braket{E_\psi}{E_\phi}.\]</p>
+<p>The left side is \(\braket\psi\phi\). Write \(s=|\braket\psi\phi|\) and take absolute values:</p>
+<p>\[s=s^2\,|\braket{E_\psi}{E_\phi}|.\]</p>
+<p>If \(s=0\), we are done. Otherwise divide by \(s\) to get \(|\braket{E_\psi}{E_\phi}|=1/s\). By the Cauchy–Schwarz inequality, \(|\braket{E_\psi}{E_\phi}|\le1\), so \(1/s\le1\). Since also \(s\le1\), we have \(s=1\). \(\square\)</p>
+<p>The proof uses only one fact: the overlap of the inputs is \(s\), while the overlap of ideal outputs is \(s^2\), which is smaller when \(0\lt s\lt1\). A unitary cannot make two states more distinguishable. The new result below turns this observation into an exact quantitative statement.</p>
+<div class="theorem-remark"><p><strong>What the theorem does not say.</strong> It permits copying any fixed orthonormal basis: the CNOT gate maps \(\ket{x}\ket0\) to \(\ket{x}\ket{x}\). It does not forbid approximate copies, probabilistic exact copies, or a cloner that works for a single known state. Each of these is a different question with its own optimal answer.</p></div></section>
+<section id="discovery"><h2>Today’s new result: how well can two states be cloned?</h2>
+<p>Suppose we are given \(N\) copies of an unknown state that is known to be either \(\ket\psi\) or \(\ket\phi\), and we want \(M\gt N\) copies. Theorem 1 forbids perfect success. What fidelity pairs are possible? We measure the quality of the whole output, the <em>global fidelity</em>. If \(\rho_\psi\) denotes the \(M\)-system output when the input was \(\ket\psi^{\otimes N}\),</p>
+<p>\[F_\psi=\bra{\psi^{\otimes M}}\rho_\psi\ket{\psi^{\otimes M}},\qquad F_\phi=\bra{\phi^{\otimes M}}\rho_\phi\ket{\phi^{\otimes M}}.\]</p>
+<p>Convert each fidelity to an angle: \(\theta_\psi=\arccos\sqrt{F_\psi}\) and \(\theta_\phi=\arccos\sqrt{F_\phi}\), both in \([0,\pi/2]\). A perfect clone has angle zero.</p>
+<div class="theorem-box theorem-new"><p class="theorem-label">Theorem 2 · Geodesic cloning tradeoff (new on this page)</p>
+<p>Let \(s=|\braket\psi\phi|\) and \(M\gt N\ge1\). Define the <em>cloning gap</em></p>
+<p>\[\Delta_{N\to M}(s)=\arccos\left(s^M\right)-\arccos\left(s^N\right).\]</p>
+<p>(a) Every physical cloner from \(N\) to \(M\) copies satisfies</p>
+<p>\[\theta_\psi+\theta_\phi\ \ge\ \Delta_{N\to M}(s).\]</p>
+<p>(b) The bound is tight at every point. For each target \(t\in[\cos^2\Delta,1]\),</p>
+<p>\[\max\{F_\phi:\ F_\psi\ge t\}=\cos^2\!\left(\Delta_{N\to M}(s)-\arccos\sqrt t\right),\]</p>
+<p>and the maximum is attained by a unitary that uses no environment. For \(t\le\cos^2\Delta\), \(F_\phi=1\) is attainable.</p></div>
+<p>The picture is a triangle inequality. Each pure state is a point at an angular distance from every other. The two inputs sit \(\arccos s^N\) apart, and a unitary keeps them exactly that far apart. The two ideal outputs sit farther apart, at \(\arccos s^M\). Whatever the cloner produces must cross the gap between those two distances, and the shortfall is shared between the two clones.</p>
+<h3>Proof</h3>
+<p><strong>The metric.</strong> For unit vectors, \(d(u,v)=\arccos|\braket uv|\) is the Fubini–Study distance between the rays of \(u\) and \(v\). It is a metric on pure states and satisfies the triangle inequality (see Bengtsson and Życzkowski, cited below).</p>
+<p><strong>Fidelity as a distance.</strong> By Stinespring’s theorem, write the cloner as a unitary \(U\) acting on the \(M\) systems and an environment. The \(M-N\) blank systems and the environment start in fixed states, so the input is \(\ket{\psi^{\otimes N}}\ket{0^{\otimes (M-N)}}\ket{E}\). Let \(\ket\Psi\) be the output for this input, and \(\ket\Phi\) the output for \(\phi\). With \(\ket a=\ket{\psi^{\otimes M}}\), the vector \(\ket v=(\bra a\otimes I_E)\ket\Psi\) of the environment satisfies \(F_\psi=\|v\|^2=\max_{\|e\|=1}|\braket{a\otimes e}{\Psi}|^2\). Choose \(\ket e\) attaining the maximum. Then \(d(\Psi,a\otimes e)=\theta_\psi\). Likewise, with \(\ket b=\ket{\phi^{\otimes M}}\) there is \(\ket f\) with \(d(\Phi,b\otimes f)=\theta_\phi\).</p>
+<p><strong>The three distances.</strong> Unitarity fixes the middle distance: \(|\braket\Psi\Phi|=|\braket\psi\phi|^N=s^N\), so \(d(\Psi,\Phi)=\arccos s^N\). The ideal targets satisfy \(|\braket{a\otimes e}{b\otimes f}|=s^M|\braket ef|\le s^M\), so \(d(a\otimes e,b\otimes f)\ge\arccos s^M\). The triangle inequality along the path \(a\otimes e\to\Psi\to\Phi\to b\otimes f\) gives</p>
+<p>\[\arccos s^M\le\theta_\psi+\arccos s^N+\theta_\phi,\]</p>
+<p>which is (a).</p>
+<p><strong>Tightness.</strong> Choose phases so that \(\braket\psi\phi=s\ge0\). Fidelities do not depend on this choice. Then \(\braket ab=s^M\). Let \(\gamma=\arccos s^M\), and let \(\ket{a^\perp}\) be the unit vector with \(\ket b=\cos\gamma\ket a+\sin\gamma\ket{a^\perp}\). For \(x\in[0,\Delta]\), set \(y=\Delta-x\) and</p>
+<p>\[\ket\Psi=\cos x\ket a+\sin x\ket{a^\perp},\qquad\ket\Phi=\cos(\gamma-y)\ket a+\sin(\gamma-y)\ket{a^\perp}.\]</p>
+<p>Both points lie on the great circle through \(\ket a\) and \(\ket b\). Then \(\braket\Psi\Phi=\cos(\gamma-x-y)=\cos(\arccos s^N)=s^N\). This is exactly the overlap of the two inputs \(\ket{\psi^{\otimes N}0^{\otimes(M-N)}}\) and \(\ket{\phi^{\otimes N}0^{\otimes(M-N)}}\), which lie in the same space \(\mathcal H^{\otimes M}\). Two pairs of unit vectors with equal inner products are related by a unitary on that space, so a cloner \(U\) without an environment maps the inputs to \(\ket\Psi\) and \(\ket\Phi\). It achieves \(F_\psi=|\braket a\Psi|^2=\cos^2x\) and \(F_\phi=|\braket b\Phi|^2=\cos^2y\).</p>
+<p>For (b), let \(F_\psi\ge t\) with \(t\ge\cos^2\Delta\). Then \(\theta_\psi\le\arccos\sqrt t\le\Delta\), and by (a) \(\theta_\phi\ge\Delta-\arccos\sqrt t\ge0\). Because \(\Delta\le\pi/2\) and \(\cos^2\) decreases on \([0,\pi/2]\), \(F_\phi\le\cos^2(\Delta-\arccos\sqrt t)\). The construction with \(x=\arccos\sqrt t\) attains this value. If \(t\le\cos^2\Delta\), take \(x=\Delta\), \(y=0\). \(\square\)</p>
+<h3>Consequences</h3>
+<p><strong>No-cloning returns.</strong> Perfect cloning means \(\theta_\psi=\theta_\phi=0\), which requires \(\Delta=0\), so \(s^M=s^N\) with \(M\gt N\). Hence \(s\in\{0,1\}\), which is Theorem 1.</p>
+<p><strong>The symmetric cloner.</strong> Setting \(\theta_\psi=\theta_\phi=\Delta/2\) and using \(\cos^2(\Delta/2)=\tfrac12(1+\cos\Delta)\) gives the best equal fidelity:</p>
+<p>\[F_{\rm sym}=\tfrac12\left(1+s^{M+N}+\sqrt{(1-s^{2M})(1-s^{2N})}\right).\]</p>
+<p>This is the maximum global fidelity for two equiprobable states found by Chefles and Barnett. For \(N=1\), \(M=2\), it is the global fidelity of the optimal state-dependent cloner of Bruß et al. Agreement with these known optima is a check on Theorem 2.</p>
+<div class="theorem-box theorem-new"><p class="theorem-label">Corollary 3 · A pairwise bound for any finite set of states (new on this page)</p>
+<p>Let a cloner act on \(N\) copies of any one of \(\ket{\psi_1},\dots,\ket{\psi_K}\), with overlaps \(s_{ij}=|\braket{\psi_i}{\psi_j}|\). Then \(\theta_i+\theta_j\ge\Delta_{N\to M}(s_{ij})\) for every pair, so the worst-case global fidelity satisfies</p>
+<p>\[\min_i F_i\ \le\ \cos^2\!\left(\tfrac12\max_{i\lt j}\Delta_{N\to M}(s_{ij})\right).\]</p></div>
+<p><em>Proof.</em> Apply part (a) of Theorem 2 to each pair of states. If every \(\theta_i\) were below half the largest gap, the pair attaining that gap would violate (a). \(\square\) For \(K\gt2\), the bound need not be tight, since all pairs constrain one cloner. Finding the exact optimum for three or more states, and comparing it with this pairwise bound, is a natural next problem.</p>
+<p class="theorem-status"><strong>Status of the new result.</strong> The symmetric optimum, and the optimum of a prior-weighted average fidelity, appear in Chefles and Barnett (1998). Because the achievable fidelity pairs form a convex set, those weighted optima carry the same information as the tradeoff curve. What this page adds is the closed angle-sum form of the whole curve, the short geodesic proof, an explicit optimal unitary without an environment, and the pairwise bound for many states. We have not yet found these stated in this form, but our literature search is not complete. Please write to us if you know of an earlier source.</p></section>
+<section id="check"><h2>A worked check</h2>
+<p>Take \(s=3/4\), \(N=1\), \(M=2\). Then \(\cos\left(\arccos\tfrac9{16}-\arccos\tfrac34\right)=\tfrac9{16}\cdot\tfrac34+\sqrt{\tfrac7{16}}\sqrt{\tfrac{175}{256}}=\tfrac{27}{64}+\tfrac{35}{64}=\tfrac{31}{32}\). The gap is \(\Delta\approx0.2507\) rad, about \(14.4^\circ\).</p>
+<ul>
+<li>A cloner that is perfect on \(\ket\psi\) can reach at most \(F_\phi=\cos^2\Delta=(31/32)^2=961/1024\approx0.9385\).</li>
+<li>Demanding \(F_\psi\ge0.99\) leaves at most \(F_\phi\approx0.9775\).</li>
+<li>The best symmetric cloner reaches \(F_\psi=F_\phi=\tfrac12(1+\tfrac{31}{32})=63/64\approx0.9844\).</li>
+</ul>
+<p><strong>Reproduce:</strong> draw random unitaries on \(\mathbb C^{2^M}\otimes\mathbb C^{d_E}\) and confirm that \(\arccos\sqrt{F_\psi}+\arccos\sqrt{F_\phi}\ge\Delta\) for each. Then build the great-circle cloner from the proof by completing the two orthonormal frames to unitaries, and confirm that it reaches \(\cos^2x\) and \(\cos^2(\Delta-x)\) to machine precision. The repository test <code>tests/test_theorems.py</code> checks the exact values above.</p>
+<p><strong>Extend:</strong> find the optimal worst-case fidelity for three symmetric qubit states (the trine) under \(1\to2\) cloning, and measure how far it falls below Corollary 3.</p></section>

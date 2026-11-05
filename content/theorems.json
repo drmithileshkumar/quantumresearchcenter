@@ -1,0 +1,51 @@
+{
+  "title": "Theorem of the Day",
+  "summary": "One theorem from quantum mechanics, quantum computing, or quantum information theory: its statement, a complete proof, and a new result we derive from it.",
+  "theorems": [
+    {
+      "id": "no-cloning",
+      "date": "2026-11-05",
+      "field": "Quantum information theory",
+      "title": "The no-cloning theorem",
+      "summary": "No physical process can copy two distinct, non-orthogonal pure states. We prove it, then derive the exact fidelity tradeoff for approximately cloning two known states from N copies to M.",
+      "new_result": "Geodesic tradeoff for cloning two pure states",
+      "manuscript": "content/theorems/no-cloning.html",
+      "references": [
+        {
+          "title": "A single quantum cannot be cloned",
+          "authors": "W. K. Wootters, W. H. Zurek",
+          "year": 1982,
+          "url": "https://doi.org/10.1038/299802a0",
+          "note": "The original no-cloning argument, from the linearity of quantum evolution."
+        },
+        {
+          "title": "Communication by EPR devices",
+          "authors": "D. Dieks",
+          "year": 1982,
+          "url": "https://doi.org/10.1016/0375-9601(82)90084-6",
+          "note": "An independent proof of no-cloning, made in the context of superluminal signalling."
+        },
+        {
+          "title": "Optimal universal and state-dependent quantum cloning",
+          "authors": "D. Bruß, D. P. DiVincenzo, A. Ekert, C. A. Fuchs, C. Macchiavello, J. A. Smolin",
+          "year": 1997,
+          "url": "https://arxiv.org/abs/quant-ph/9705038",
+          "note": "Optimal 1 → 2 cloners, including the state-dependent cloner for two pure states."
+        },
+        {
+          "title": "Strategies and networks for state-dependent quantum cloning",
+          "authors": "A. Chefles, S. M. Barnett",
+          "year": 1998,
+          "url": "https://arxiv.org/abs/quant-ph/9812035",
+          "note": "Maximum global fidelity for N → M cloning of two pure states, including unequal prior probabilities. Our symmetric formula must agree with theirs."
+        },
+        {
+          "title": "Geometry of Quantum States",
+          "authors": "I. Bengtsson, K. Życzkowski",
+          "year": 2006,
+          "note": "Book. Develops the Fubini–Study metric on pure states, whose triangle inequality drives the new proof."
+        }
+      ]
+    }
+  ]
+}

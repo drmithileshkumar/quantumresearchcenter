@@ -817,4 +817,147 @@
   outcomeSel.onchange=()=>{if(outcomeSel.value!=='random')mn=outcomeSel.value;else mn=pickOutcome();cancel();pos=stepIndex;draw()};
   reset();
  });
+ document.querySelectorAll('[data-lab="no-signalling"]').forEach(lab=>{
+  const svg=stage(lab,680,360,'Interactive demonstration of no-signalling with Alice and Bob');
+  const stateSelect=lab.querySelector('[data-state-select]'),aliceButtons=lab.querySelectorAll('[data-alice]'),bobButtons=lab.querySelectorAll('[data-bob]'),measureOpt=lab.querySelector('[data-measure-opt]'),aliceOutcomeSelect=lab.querySelector('[data-alice-outcome]'),resetBtn=lab.querySelector('[data-reset]'),stateEl=lab.querySelector('[data-state]'),statusEl=lab.querySelector('[data-status]');
+  let stateType='bell',aliceOp='I',bobBasis='Z',aliceOutcome='avg',cancel=()=>{},lastMath='';
+  let curA=[.5,.5],curB=[.5,.5],targetA=[.5,.5],targetB=[.5,.5];
+  function calculate(){
+   let c=stateType==='bell'?[1/Math.SQRT2,0,0,1/Math.SQRT2]:[1/Math.sqrt(3),1/Math.sqrt(3),0,1/Math.sqrt(3)];
+   if(aliceOp==='H'){const s2=Math.SQRT2;c=[(c[0]+c[2])/s2,(c[1]+c[3])/s2,(c[0]-c[2])/s2,(c[1]-c[3])/s2]}
+   else if(aliceOp==='X'){c=[c[2],c[3],c[0],c[1]]}
+   else if(aliceOp==='Z'){c=[c[0],c[1],-c[2],-c[3]]}
+   const pA0=clean(c[0]*c[0]+c[1]*c[1]),pA1=clean(c[2]*c[2]+c[3]*c[3]);
+   let pB0,pB1;
+   if(aliceOp==='M'){
+    const pA0_orig=clean(c[0]*c[0]+c[1]*c[1]),pA1_orig=clean(c[2]*c[2]+c[3]*c[3]);
+    let pB0_g0,pB1_g0,pB0_g1,pB1_g1;
+    if(bobBasis==='Z'){
+     pB0_g0=pA0_orig>0?(c[0]*c[0])/pA0_orig:0;pB1_g0=pA0_orig>0?(c[1]*c[1])/pA0_orig:0;
+     pB0_g1=pA1_orig>0?(c[2]*c[2])/pA1_orig:0;pB1_g1=pA1_orig>0?(c[3]*c[3])/pA1_orig:0;
+    }else{
+     const s2=Math.SQRT2;
+     pB0_g0=pA0_orig>0?((c[0]+c[1])/s2)**2/pA0_orig:0;pB1_g0=pA0_orig>0?((c[0]-c[1])/s2)**2/pA0_orig:0;
+     pB0_g1=pA1_orig>0?((c[2]+c[3])/s2)**2/pA1_orig:0;pB1_g1=pA1_orig>0?((c[2]-c[3])/s2)**2/pA1_orig:0;
+    }
+    if(aliceOutcome==='0'){pB0=pB0_g0;pB1=pB1_g0}
+    else if(aliceOutcome==='1'){pB0=pB0_g1;pB1=pB1_g1}
+    else{pB0=pA0_orig*pB0_g0+pA1_orig*pB0_g1;pB1=pA0_orig*pB1_g0+pA1_orig*pB1_g1}
+   }else{
+    if(bobBasis==='X'){
+     const s2=Math.SQRT2,cb=[(c[0]+c[1])/s2,(c[0]-c[1])/s2,(c[2]+c[3])/s2,(c[2]-c[3])/s2];
+     pB0=clean(cb[0]*cb[0]+cb[2]*cb[2]);pB1=clean(cb[1]*cb[1]+cb[3]*cb[3]);
+    }else{
+     pB0=clean(c[0]*c[0]+c[2]*c[2]);pB1=clean(c[1]*c[1]+c[3]*c[3]);
+    }
+   }
+   return{pA0,pA1,pB0,pB1,c};
+  }
+  function render(interpA,interpB){
+   svg.replaceChildren();
+   node(svg,'rect',{x:16,y:14,width:305,height:130,rx:6,class:'lf-cell'});
+   label(svg,30,36,'ALICE’S LABORATORY',{'text-anchor':'start',class:'lf-caption tint c-state',style:'font-weight:700;font-size:11px;letter-spacing:0.04em'});
+   node(svg,'rect',{x:359,y:14,width:305,height:130,rx:6,class:'lf-cell'});
+   label(svg,373,36,'BOB’S LABORATORY',{'text-anchor':'start',class:'lf-caption tint c-state',style:'font-weight:700;font-size:11px;letter-spacing:0.04em'});
+   node(svg,'path',{d:'M337.5 14 V346',class:'lf-thin lf-dash c-faint'});
+   label(svg,337.5,30,'NO SIGNAL',{class:'lf-caption tint c-neg',style:'font-size:10px;font-weight:700;letter-spacing:0.06em'});
+   node(svg,'path',{d:'M168 76 Q337.5 125 507 76',class:'lf-thin lf-dash c-teal',style:'stroke-width:1.6'});
+   node(svg,'rect',{x:260,y:98,width:155,height:20,rx:10,fill:'#fff',stroke:'#377e80','stroke-width':'1.2'});
+   label(svg,337.5,112,stateType==='bell'?'Shared |Φ⁺⟩':'Shared |Ψ⟩',{class:'tint c-teal',style:'font-size:11px;font-weight:600'});
+   node(svg,'path',{d:'M30 76 H300',class:'lf-wire'});
+   label(svg,45,81,'Q₁');
+   if(aliceOp==='M'){
+    node(svg,'rect',{x:146,y:58,width:44,height:36,rx:4,class:'lf-node checking'});
+    node(svg,'path',{d:'M153 82 A11 11 0 0 1 175 82 M164 81 L171 68',class:'lf-thin c-neg'});
+    label(svg,168,50,'Measure Z',{class:'lf-caption tint c-neg',style:'font-size:11px;font-weight:600'});
+   }else{
+    node(svg,'rect',{x:150,y:58,width:36,height:36,rx:4,class:'lf-node'+(aliceOp!=='I'?' derived':'')});
+    label(svg,168,81,aliceOp);
+    label(svg,168,50,aliceOp==='I'?'Idle':`Gate ${aliceOp}`,{class:'lf-caption',style:'font-size:11px'});
+   }
+   node(svg,'path',{d:'M375 76 H645',class:'lf-wire'});
+   label(svg,390,81,'Q₂');
+   if(bobBasis==='X'){
+    node(svg,'rect',{x:452,y:58,width:36,height:36,rx:4,class:'lf-node derived'});
+    label(svg,470,81,'H');
+    label(svg,470,50,'X basis',{class:'lf-caption',style:'font-size:11px'});
+   }
+   node(svg,'rect',{x:522,y:58,width:44,height:36,rx:4,class:'lf-node'});
+   node(svg,'path',{d:'M529 82 A11 11 0 0 1 551 82 M540 81 L547 68',class:'lf-thin c-state'});
+   label(svg,544,50,'Readout',{class:'lf-caption',style:'font-size:11px'});
+   node(svg,'rect',{x:16,y:160,width:305,height:185,rx:6,class:'lf-node',fill:'#fff'});
+   label(svg,30,184,'Alice’s Local Measurement',{'text-anchor':'start',class:'lf-caption',style:'font-weight:600'});
+   const aChanged=aliceOp!=='I';
+   label(svg,30,202,aChanged?(aliceOp==='M'?'Collapsed by local measurement':'Local distribution modified by gate!'):'Baseline distribution (idle)',{
+    'text-anchor':'start',class:'lf-caption '+(aChanged?'tint c-neg':''),style:'font-size:11px'+(aChanged?';font-weight:600':'')
+   });
+   ['0','1'].forEach((lbl,i)=>{
+    const y=224+i*46;
+    label(svg,42,y+14,`|${lbl}⟩`,{class:'lf-caption',style:'font-weight:600'});
+    node(svg,'rect',{x:65,y,width:175,height:20,rx:3,class:'lf-track'});
+    node(svg,'rect',{x:65,y,width:Math.max(0,175*interpA[i]),height:20,rx:3,class:'lf-bar'+(aChanged?' c-neg':''),style:aChanged?'fill:currentColor':''});
+    label(svg,280,y+15,`${(interpA[i]*100).toFixed(1)}%`,{'text-anchor':'end',style:'font-size:12px;font-variant-numeric:tabular-nums'});
+   });
+   label(svg,30,328,`p_A(0) = ${(interpA[0]*100).toFixed(1)}%,  p_A(1) = ${(interpA[1]*100).toFixed(1)}%`,{'text-anchor':'start',class:'lf-caption',style:'font-size:11px'});
+   node(svg,'rect',{x:359,y:160,width:305,height:185,rx:6,class:'lf-node',fill:'#fff'});
+   label(svg,373,184,'Bob’s Remote Measurement',{'text-anchor':'start',class:'lf-caption',style:'font-weight:600'});
+   const isCond=aliceOp==='M'&&aliceOutcome!=='avg';
+   if(!isCond){
+    node(svg,'rect',{x:373,y:194,width:235,height:20,rx:4,fill:'#edf7ed',stroke:'#2e7d32','stroke-width':'1'});
+    label(svg,490,208,'✓ UNCHANGED · NO SIGNAL TRANSMITTED',{class:'tint c-green',style:'font-size:10px;font-weight:700;letter-spacing:0.04em'});
+   }else{
+    node(svg,'rect',{x:373,y:194,width:250,height:20,rx:4,fill:'#fdf7f2',stroke:'#b27142','stroke-width':'1'});
+    label(svg,498,208,`Conditioned on Alice’s result: ${aliceOutcome}`,{class:'tint c-neg',style:'font-size:10.5px;font-weight:600'});
+   }
+   const bLabels=bobBasis==='Z'?['0','1']:['+','−'];
+   bLabels.forEach((lbl,i)=>{
+    const y=224+i*46;
+    label(svg,385,y+14,`|${lbl}⟩`,{class:'lf-caption',style:'font-weight:600'});
+    node(svg,'rect',{x:408,y,width:175,height:20,rx:3,class:'lf-track'});
+    node(svg,'rect',{x:408,y,width:Math.max(0,175*interpB[i]),height:20,rx:3,class:'lf-bar',style:!isCond?'fill:#246593':''});
+    label(svg,622,y+15,`${(interpB[i]*100).toFixed(1)}%`,{'text-anchor':'end',style:'font-size:12px;font-variant-numeric:tabular-nums'});
+   });
+   label(svg,373,328,`p_B(${bLabels[0]}) = ${(interpB[0]*100).toFixed(1)}%,  p_B(${bLabels[1]}) = ${(interpB[1]*100).toFixed(1)}%`,{
+    'text-anchor':'start',class:'lf-caption tint '+(!isCond?'c-green':'c-neg'),style:'font-size:11px;font-weight:600'
+   });
+  }
+  function update(){
+   const {pA0,pA1,pB0,pB1,c}=calculate();
+   const prevA=[...curA],prevB=[...curB];
+   targetA=[pA0,pA1];targetB=[pB0,pB1];
+   let stFormula=stateType==='bell'?'\\(\\ket{\\Phi^+} = \\tfrac{1}{\\sqrt2}(\\ket{00}+\\ket{11})\\)':'\\(\\ket{\\Psi} = \\tfrac{1}{\\sqrt3}(\\ket{00}+\\ket{01}+\\ket{11})\\)';
+   let mathDesc='';
+   if(aliceOp==='M'){
+    if(aliceOutcome==='avg'){mathDesc=`Alice measured her qubit without transmitting the result. Bob’s unconditioned probability is the weighted mixture \\(\\sum_a p_A(a)p(b\\mid a) = ${fmt(pB0)}\\), perfectly matching his original marginal.`}
+    else{mathDesc=`Alice measured outcome \\(${aliceOutcome}\\) and relayed it over a classical channel. Conditioned on this classical message, Bob observes \\(p(0\\mid ${aliceOutcome}) = ${fmt(pB0)}\\).`}
+   }else if(aliceOp==='H'){mathDesc=`Alice applied \\(H\\). Alice’s local probability shifted to \\(p_A(0) = ${fmt(pA0)}\\), but Bob’s probability is strictly invariant at \\(p_B(${bobBasis==='Z'?'0':'+'}) = ${fmt(pB0)}\\).`}
+   else if(aliceOp==='X'){mathDesc=`Alice applied bit-flip \\(X\\). Alice’s local outcomes swapped (\\(p_A(0) = ${fmt(pA0)}\\)), but Bob’s statistics remain identical at \\(p_B(${bobBasis==='Z'?'0':'+'}) = ${fmt(pB0)}\\).`}
+   else if(aliceOp==='Z'){mathDesc=`Alice applied phase-flip \\(Z\\). Bob’s statistics remain identical at \\(p_B(${bobBasis==='Z'?'0':'+'}) = ${fmt(pB0)}\\).`}
+   else{mathDesc=`Baseline state ${stFormula}. Alice observes \\(p_A(0) = ${fmt(pA0)}\\); Bob observes \\(p_B(${bobBasis==='Z'?'0':'+'}) = ${fmt(pB0)}\\).`}
+   if(mathDesc!==lastMath){lastMath=mathDesc;math(stateEl,mathDesc)}
+   const notes={
+    I:'No local gate applied. Both laboratories observe their baseline marginal distributions.',
+    H:'Alice applied H: notice her local bars shift, but Bob’s bars do not budge by even 0.1%. Local unitaries cannot transfer amplitude across Bob’s basis sectors.',
+    X:'Alice flipped her qubit with X: her local probabilities inverted, but Bob’s remote detector rates remain completely unchanged.',
+    Z:'Alice applied Z: only relative phase changed on her qubit, leaving Bob’s local measurement statistics invariant.',
+    M:aliceOutcome==='avg'
+     ?'Alice measured but kept the result secret. Bob’s detectors sample the unconditioned average, which is identical to his pre-measurement statistics. Zero signal is sent.'
+     :'Conditional correlation: Bob can only filter his runs by Alice’s outcome after receiving a classical phone call or radio message travelling at or below the speed of light.'
+   };
+   statusEl.textContent=notes[aliceOp];
+   lab.dataset.alice=aliceOp;lab.dataset.bob=bobBasis;lab.dataset.state=stateType;lab.dataset.pb0=fmt(pB0);
+   cancel();
+   cancel=tween(350,t=>{
+    curA=[prevA[0]+(targetA[0]-prevA[0])*t,prevA[1]+(targetA[1]-prevA[1])*t];
+    curB=[prevB[0]+(targetB[0]-prevB[0])*t,prevB[1]+(targetB[1]-prevB[1])*t];
+    render(curA,curB);
+   },()=>{curA=[...targetA];curB=[...targetB];render(curA,curB)});
+  }
+  stateSelect.onchange=()=>{stateType=stateSelect.value;update()};
+  aliceButtons.forEach(btn=>{btn.onclick=()=>{aliceButtons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');aliceOp=btn.dataset.alice;if(measureOpt)measureOpt.hidden=aliceOp!=='M';update()}});
+  bobButtons.forEach(btn=>{btn.onclick=()=>{bobButtons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');bobBasis=btn.dataset.bob;update()}});
+  if(aliceOutcomeSelect){aliceOutcomeSelect.onchange=()=>{aliceOutcome=aliceOutcomeSelect.value;update()}}
+  resetBtn.onclick=()=>{stateType='bell';stateSelect.value='bell';aliceOp='I';bobBasis='Z';aliceOutcome='avg';if(aliceOutcomeSelect)aliceOutcomeSelect.value='avg';aliceButtons.forEach(b=>b.classList.toggle('active',b.dataset.alice==='I'));bobButtons.forEach(b=>b.classList.toggle('active',b.dataset.bob==='Z'));if(measureOpt)measureOpt.hidden=true;update()};
+  update();
+ });
 })();
