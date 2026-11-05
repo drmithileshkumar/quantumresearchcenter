@@ -243,6 +243,87 @@ class ToolTests(unittest.TestCase):
         self.assertIn('id="normalize-arrows"', page)
         self.assertIn('src="three-qubit.js', page)
 
+    def test_three_qubit_planes_meet_along_a_line(self):
+        state = tools.THREE_STATES['planes']
+        branches = [tools.branch_form(state, 0, bit) for bit in (0, 1)]
+        axis, angle = tools.plane_meeting(branches)
+        self.assertAlmostEqual(angle, 87.5, places=1)
+        self.assertAlmostEqual(math.hypot(*axis), 1.0, places=9)
+        for _, form in branches:
+            normal = tools.plane_normal(form)
+            self.assertAlmostEqual(sum(a * b for a, b in zip(axis, normal)), 0.0, places=9)
+        # The planes coincide for GHZ, and an empty branch has no normal at all.
+        ghz = [tools.branch_form(tools.THREE_STATES['ghz'], 0, bit) for bit in (0, 1)]
+        self.assertIsNone(tools.plane_meeting(ghz))
+        self.assertIsNone(tools.plane_meeting([(0.5, None), branches[1]]))
+        page = (ROOT / 'tools/three-qubit.html').read_text()
+        self.assertIn('id="planes-meet-line"', page)
+        self.assertIn('id="plane-angle"', page)
+        self.assertIn('The planes meet at 87.5° along û = (−0.33, −0.79, 0.52); that diameter is the basis'
+                      ' |+û⟩, |−û⟩, at polar 59° and azimuth 248°.', page)
+        self.assertIn('class="plane-meet is-empty"', tools.three_planes_svg(tools.THREE_STATES['ghz']))
+
+    def test_three_qubit_shared_basis_is_the_meridian_frame(self):
+        state = tools.THREE_STATES['planes']
+        branches = [tools.branch_form(state, 0, bit) for bit in (0, 1)]
+        axis, angle = tools.plane_meeting(branches)
+
+        def cross(first, second):
+            return (first[1] * second[2] - first[2] * second[1],
+                    first[2] * second[0] - first[0] * second[2],
+                    first[0] * second[1] - first[1] * second[0])
+
+        def dot(first, second):
+            return sum(a * b for a, b in zip(first, second))
+
+        helper = (0.0, 0.0, 1.0) if abs(axis[2]) < 0.9 else (1.0, 0.0, 0.0)
+        east = cross(helper, axis)
+        east = tuple(value / math.hypot(*east) for value in east)
+        north = cross(axis, east)
+        meridians = []
+        for _, form in branches:
+            azimuths = [math.degrees(math.atan2(dot(axis_v, north), dot(axis_v, east))) % 180
+                        for axis_v in (form.axis_a, form.axis_b)]
+            meridians.append(azimuths[0])
+            difference = abs(azimuths[0] - azimuths[1]) % 180
+            self.assertAlmostEqual(min(difference, 180 - difference), 0.0, places=6)
+        gap = abs(meridians[0] - meridians[1]) % 180
+        self.assertAlmostEqual(min(gap, 180 - gap), angle, places=6)
+        # Exchanging the two non-reference qubits flips both normals, so the shared axis survives.
+        def swap_wires(values, first, second):
+            swapped = [0j] * 8
+            for index, amplitude in enumerate(values):
+                bits = [(index >> 2) & 1, (index >> 1) & 1, index & 1]
+                bits[first], bits[second] = bits[second], bits[first]
+                swapped[(bits[0] << 2) | (bits[1] << 1) | bits[2]] = amplitude
+            return swapped
+        mirrored = [tools.branch_form(swap_wires(state, 1, 2), 0, bit) for bit in (0, 1)]
+        self.assertAlmostEqual(abs(dot(tools.plane_meeting(mirrored)[0], axis)), 1.0, places=9)
+        # The readouts name the basis and how far each branch leans away from it.
+        line, detail = tools.basis_report(branches)
+        self.assertIn('that diameter is the basis |+û⟩, |−û⟩, at polar 59°', line)
+        self.assertIn('Schmidt axes lean 23° and 13° in the ₀ branch', detail)
+        self.assertIn('52° and 77° in the ₁ branch', detail)
+        ghz = [tools.branch_form(tools.THREE_STATES['ghz'], 0, bit) for bit in (0, 1)]
+        self.assertIn('every diameter of their common plane', tools.basis_report(ghz)[0])
+        page = (ROOT / 'tools/three-qubit.html').read_text()
+        for token in ('id="plane-basis"', 'id="look-along-u"', 'id="planes-meet-plus-label"',
+                      'id="planes-meet-minus-label"', '|+û⟩', '|−û⟩', 'The basis the line defines',
+                      'Look along û', 'class="plane-meet-casing"', 'shared basis |+û⟩, |−û⟩',
+                      'The violet diameter is where the two planes cross'):
+            self.assertIn(token, page)
+        # The shared basis is a different colour from either plane, with a casing so it reads on top.
+        css = (ROOT / 'tools/tools.css').read_text()
+        self.assertIn('.plane-meet-line{stroke:var(--violet)', css)
+        self.assertIn('.plane-swatch.is-shared{', css)
+        self.assertIn('id="planes-meet-casing"', tools.three_planes_svg(state))
+        script = (ROOT / 'tools/three-qubit.js').read_text()
+        for token in ('look-along-u', 'placeOuterLabel', 'plane-basis', 'axisTilt', 'sharedAxis'):
+            self.assertIn(token, script)
+        # Every part of the diameter moves with the camera, the casing included.
+        self.assertIn("meetCasing: byId('planes-meet-casing')", script)
+        self.assertIn('setSegment(parts.meetCasing, minus, plus)', script)
+
     def test_three_qubit_sphere_can_be_orbited(self):
         page = (ROOT / 'tools/three-qubit.html').read_text()
         self.assertIn('data-azimuth="32.0" data-elevation="17.0"', page)
@@ -251,7 +332,8 @@ class ToolTests(unittest.TestCase):
         self.assertIn('id="reset-view"', page)
         self.assertIn('to orbit the view', page)
         script = (ROOT / 'tools/three-qubit.js').read_text()
-        for token in ('function camera()', 'drawGrid', 'drawAxes', 'renderSphere', 'orbitTo', 'reset-view'):
+        for token in ('function camera()', 'drawGrid', 'drawAxes', 'renderSphere', 'orbitTo', 'reset-view',
+                      'sphere.focus({ preventScroll: true })'):
             self.assertIn(token, script)
         # The camera starts from the angles the static drawing was built with.
         self.assertIn("sphere.dataset.azimuth", script)

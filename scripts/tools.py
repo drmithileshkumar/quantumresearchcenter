@@ -584,6 +584,88 @@ def _vec_norm(a):
     return math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2])
 
 
+def plane_normal(form):
+    """The unit normal of a branch's Schmidt plane, or None when the branch is empty."""
+    if form is None:
+        return None
+    normal = _vec_cross(form.axis_a, form.axis_b)
+    length = _vec_norm(normal)
+    return tuple(value / length for value in normal) if length > 1e-9 else None
+
+
+def _signed(value):
+    return ('−' if value < 0 else '') + f'{abs(value):.2f}'
+
+
+def plane_meeting(branches):
+    """The direction of the two planes' intersection and their dihedral angle, or None."""
+    normals = [plane_normal(form) for _, form in branches]
+    if any(normal is None for normal in normals):
+        return None
+    axis = _vec_cross(normals[0], normals[1])
+    length = _vec_norm(axis)
+    if length < 1e-6:
+        return None
+    cosine = sum(first * second for first, second in zip(normals[0], normals[1]))
+    return (tuple(value / length for value in axis),
+            math.degrees(math.acos(min(1.0, abs(cosine)))))
+
+
+def basis_label(point, text, name, center=ORIGIN, spread=1.16):
+    """One end of the shared basis, tagged just outside the sphere."""
+    x = center[0] + (point[0] - center[0]) * spread
+    y = center[1] + (point[1] - center[1]) * spread + 4
+    return (f'<text class="plane-u-label" id="{name}" x="{x:.1f}" y="{y:.1f}"'
+            f' text-anchor="middle">{text}</text>')
+
+
+def meeting_svg(prefix, branches, center=ORIGIN, radius=RADIUS):
+    """The diameter where the two Schmidt planes meet; hidden when the planes coincide."""
+    meeting = plane_meeting(branches)
+    hidden = '' if meeting else ' is-empty'
+    axis = meeting[0] if meeting else (0.0, 0.0, 1.0)
+    plus = project(axis, center, radius)
+    minus = project(tuple(-value for value in axis), center, radius)
+    return (f'<g class="plane-meet{hidden}" id="{prefix}-meet">'
+            f'<line class="plane-meet-casing" id="{prefix}-meet-casing" x1="{minus[0]:.1f}"'
+            f' y1="{minus[1]:.1f}" x2="{plus[0]:.1f}" y2="{plus[1]:.1f}"/>'
+            f'<line class="plane-meet-line" id="{prefix}-meet-line" x1="{minus[0]:.1f}"'
+            f' y1="{minus[1]:.1f}" x2="{plus[0]:.1f}" y2="{plus[1]:.1f}"/>'
+            f'<circle class="plane-meet-tip" id="{prefix}-meet-plus" cx="{plus[0]:.1f}"'
+            f' cy="{plus[1]:.1f}" r="2.8"/>'
+            f'<circle class="plane-meet-tip" id="{prefix}-meet-minus" cx="{minus[0]:.1f}"'
+            f' cy="{minus[1]:.1f}" r="2.8"/>'
+            + basis_label(plus, '|+û⟩', f'{prefix}-meet-plus-label', center)
+            + basis_label(minus, '|−û⟩', f'{prefix}-meet-minus-label', center)
+            + '</g>')
+
+
+def axis_tilt(axis, direction):
+    """How far a Schmidt axis leans away from the shared basis axis, in degrees."""
+    cosine = abs(sum(first * second for first, second in zip(axis, direction)))
+    return math.degrees(math.acos(min(1.0, cosine)))
+
+
+def basis_report(branches):
+    """The shared basis of the two planes as two lines of text: where it points and how it tilts."""
+    meeting = plane_meeting(branches)
+    if meeting is None:
+        return ('The two planes coincide, so every diameter of their common plane is a shared basis.',
+                'No single shared axis, so no tilts to report.')
+    axis, dihedral = meeting
+    polar, azimuth = schmidt.angles_from_axis(axis)
+    line = (f'The planes meet at {dihedral:.1f}° along û = ('
+            + ', '.join(_signed(value) for value in axis)
+            + f'); that diameter is the basis |+û⟩, |−û⟩, at polar {polar:.0f}° and azimuth {azimuth:.0f}°.')
+    tilts = []
+    for bit, (_, form) in enumerate(branches):
+        tilts.append(f'{axis_tilt(axis, form.axis_a):.0f}° and {axis_tilt(axis, form.axis_b):.0f}°'
+                     f' in the {THREE_SUBSCRIPTS[bit]} branch')
+    detail = ('Schmidt axes lean ' + '; '.join(tilts)
+              + '. One meridian per branch, and the two meridians differ by the dihedral angle.')
+    return line, detail
+
+
 def three_planes_svg(state, reference=0, prefix='planes'):
     """One Bloch sphere carrying both branches' Schmidt planes.
 
@@ -640,7 +722,8 @@ def three_planes_svg(state, reference=0, prefix='planes'):
                             'plane-q-label', q_side, empty=sin < ZERO)
             + '</g>')
     description = ('Two Schmidt planes, one for each value of the reference qubit. Each plane is spanned'
-                   ' by that branch\'s two Schmidt axes; the branch probability sets its opacity.')
+                   ' by that branch\'s two Schmidt axes; the branch probability sets its opacity. The violet'
+                   ' diameter where the planes cross is the basis the two branches share.')
     return (f'<svg class="planes" id="{prefix}" viewBox="0 0 400 400" role="img" tabindex="0"'
             f' aria-labelledby="{prefix}-title {prefix}-desc" data-basis="{basis}"'
             f' data-azimuth="{AZIMUTH:.1f}" data-elevation="{ELEVATION:.1f}">'
@@ -650,7 +733,8 @@ def three_planes_svg(state, reference=0, prefix='planes'):
             f'<circle class="bloch-surface" cx="{ORIGIN[0]:.1f}" cy="{ORIGIN[1]:.1f}" r="{RADIUS:.1f}"/>'
             f'<g class="bloch-grid" id="{prefix}-grid">{"".join(sphere_grid())}</g>'
             f'<g class="bloch-axes" id="{prefix}-axes">{sphere_axes()}</g>'
-            + groups +
+            + groups
+            + meeting_svg(prefix, branches) +
             f'<circle class="bloch-origin" cx="{ORIGIN[0]:.1f}" cy="{ORIGIN[1]:.1f}" r="2.5"/>'
             '</svg>')
 
@@ -863,6 +947,7 @@ def render_three_qubit(root, shell):
                   '</div>')
     branches = [branch_form(state, 0, bit) for bit in (0, 1)]
     names = [THREE_QUBITS[wire].lower() for wire in range(3) if wire != 0]
+    angle_text, basis_text = basis_report(branches)
     expansion = (f'|ψ⟩ = {math.sqrt(branches[0][0]):.3f} |0⟩<sub>A</sub>|φ₀⟩'
                  f' + {math.sqrt(branches[1][0]):.3f} |1⟩<sub>A</sub>|φ₁⟩')
     formulas = ''
@@ -959,11 +1044,14 @@ def render_three_qubit(root, shell):
         ' the other carrying the branch amplitudes cos θ and sin θ. Each branch contributes four endpoints,'
         ' and its two Schmidt axes span the plane through them; the opacity follows the branch probability.'
         ' When a branch\'s axes line up — as they do in GHZ and W — the four endpoints are collinear and the'
-        ' plane is hidden. Drag the sphere, or focus it and use the arrow keys, to look from another side.'
+        ' plane is hidden. The violet diameter is where the two planes cross; its ends are |+û⟩ and |−û⟩,'
+        ' so the diameter names one basis of a single qubit. Drag the sphere, or focus'
+        ' it and use the arrow keys, to look from another side.'
         '</figcaption></figure>'
         '<div class="schmidt-panel">'
         '<div class="plane-view">'
         '<button type="button" class="ph-normalize" id="reset-view">Reset view</button>'
+        '<button type="button" class="ph-normalize" id="look-along-u">Look along û</button>'
         '<p class="plane-hint">Drag the sphere to orbit it; with the sphere focused, ←/→ turns the view and'
         ' ↑/↓ raises or lowers it.</p>'
         '</div>'
@@ -972,6 +1060,8 @@ def render_three_qubit(root, shell):
         '<span id="plane-legend-0">|0⟩<sub>A</sub> branch</span></p>'
         '<p class="plane-key"><span class="plane-swatch branch-1"></span>'
         '<span id="plane-legend-1">|1⟩<sub>A</sub> branch</span></p>'
+        '<p class="plane-key"><span class="plane-swatch is-shared"></span>'
+        '<span>shared basis |+û⟩, |−û⟩</span></p>'
         '</div>'
         '<p class="schmidt-formula" id="plane-expansion">' + expansion + '</p>'
         '<table class="plane-table"><caption class="sr-only">The two reference branches</caption>'
@@ -980,6 +1070,8 @@ def render_three_qubit(root, shell):
         + rows +
         '</tbody></table>'
         + formulas +
+        f'<p class="plane-angle" id="plane-angle">{angle_text}</p>'
+        f'<p class="plane-angle" id="plane-basis">{basis_text}</p>'
         '<p class="slider-hint">The two planes are alternatives, not a simultaneous picture: measuring the'
         ' reference realizes one branch with probability w₀ or w₁. Changing the reference qubit re-cuts the'
         ' same state and gives two different planes. Drag the sphere to see them from another side — edge on,'
@@ -989,16 +1081,20 @@ def render_three_qubit(root, shell):
         '</div></section>'
 
         '<section class="qubit-reading" id="explanation"><h2>Why one qubit is the reference</h2>'
-        '<p>Group the eight amplitudes by the value of one qubit and the state separates into two pieces:'
-        ' |ψ⟩ = |0⟩|φ₀⟩ + |1⟩|φ₁⟩. Nothing is approximated — |φ₀⟩ and |φ₁⟩ are ordinary, unnormalised'
-        ' two-qubit states, and their lengths are the probabilities of the two values: w₀ = ⟨φ₀|φ₀⟩ and'
-        ' w₁ = ⟨φ₁|φ₁⟩, with w₀ + w₁ = 1. The reference qubit contributes only its two kets; everything else'
-        ' lives in the other two qubits.</p>'
-        '<p>Each branch is then a problem this toolkit already solves. Divide |φ_r⟩ by √w_r to normalise it,'
-        ' and it has a Schmidt form cos θ_r |+p⟩|+q⟩ + e^{iχ_r} sin θ_r |−p⟩|−q⟩ with its own axes for the'
-        ' two remaining qubits. Those axes are different in the two branches in general, which is the point'
-        ' of the picture: the same pair of qubits is described by a different pair of local bases depending'
-        ' on what the reference reads.</p>'
+        '<p>Group the eight amplitudes by the value of one qubit and the state separates into two pieces:</p>'
+        r'<p>\[|\psi\rangle = |0\rangle|\phi_0\rangle + |1\rangle|\phi_1\rangle .\]</p>'
+        r'<p>Nothing is approximated — \(|\phi_0\rangle\) and \(|\phi_1\rangle\) are ordinary, unnormalised'
+        ' two-qubit states, and their lengths are the probabilities of the two values:'
+        r' \(w_0 = \langle\phi_0|\phi_0\rangle\) and \(w_1 = \langle\phi_1|\phi_1\rangle\), with'
+        r' \(w_0 + w_1 = 1\). The reference qubit contributes only its two kets; everything else lives in the'
+        ' other two qubits.</p>'
+        r'<p>Each branch is then a problem this toolkit already solves. Divide \(|\phi_r\rangle\) by'
+        r' \(\sqrt{w_r}\) to normalise it, and it has a Schmidt form</p>'
+        r'<p>\[|\phi_r\rangle = \sqrt{w_r}\left(\cos\theta_r\,|{+}p_r\rangle|{+}q_r\rangle'
+        r' + e^{i\chi_r}\sin\theta_r\,|{-}p_r\rangle|{-}q_r\rangle\right),\]</p>'
+        '<p>with its own axes for the two remaining qubits. Those axes are different in the two branches in'
+        ' general, which is the point of the picture: the same pair of qubits is described by a different'
+        ' pair of local bases depending on what the reference reads.</p>'
         '<h2>The two planes</h2>'
         '<p>Two axes through the origin span a plane, so each branch contributes one plane to the sphere.'
         ' The plane is drawn as the quadrilateral through the four endpoints — the two unit vectors of the'
@@ -1010,6 +1106,46 @@ def render_three_qubit(root, shell):
         ' needs two independent directions, so when a branch\'s axes line up — GHZ, W, and any product'
         ' branch — the four endpoints are collinear and the plane is hidden rather than drawn as a stray'
         ' line.</p>'
+        '<h2>The intersection line</h2>'
+        '<p>Both planes pass through the centre of the sphere, and two distinct planes through one point'
+        r' always meet in a line. With unit normals \(\hat n_r = \hat p_r \times \hat q_r\), the line runs'
+        r' along \(\hat u = \hat n_0 \times \hat n_1\), and the planes open at the dihedral angle'
+        r' \(\alpha = \arccos\lvert \hat n_0 \cdot \hat n_1\rvert\).</p>'
+        '<h2>The basis the line defines</h2>'
+        r'<p>Every diameter of the Bloch sphere is a basis: its two ends are the \(\pm 1\) eigenstates of'
+        r' \(\hat u \cdot \vec{\sigma}\), so \(\hat u\) names the orthonormal pair'
+        r' \(\{|{+}\hat u\rangle, |{-}\hat u\rangle\}\). This one sphere carries both non-reference qubits,'
+        ' so that is a single basis read on either of them — the one basis the picture adapts to both'
+        ' branches at once. Lying in both planes is what buys it:</p>'
+        r'<p>\[\hat u \in \Pi_0 \cap \Pi_1 \quad\Longleftrightarrow\quad'
+        r' \hat p_r, \hat q_r \in \operatorname{span}(\hat u, \hat m_r) \quad (r = 0, 1).\]</p>'
+        r'<p>Read it in the frame whose \(z\) axis is \(\hat u\). No Schmidt axis then winds around'
+        r" \(\hat u\): each branch's two axes lie on one meridian, and inside a branch they differ only"
+        r' in how far they lean away from \(\hat u\). All the azimuthal disagreement in the picture'
+        r' therefore collapses into a single meridian angle per branch, and the gap between those two'
+        r' meridian angles is exactly the dihedral angle. The readout under the sphere lists the four lean'
+        r' angles for the current state.</p>'
+        r"<p>That is the line's significance for the three-qubit state. The reference cut produces two"
+        ' branches with two Schmidt frames, and those frames disagree in exactly two ways: by their lean'
+        r' along a common axis, and by a twist around it. The line is that common axis — the only direction'
+        r' on which both branches agree — and \(\alpha\) is the residue of the twist, the part no change of'
+        r' frame removes. Rotating about \(\hat u\) by \(\alpha\) carries one Schmidt plane exactly onto'
+        r' the other, so \(\hat u\) is the axis that relates them. The two frames coincide only when'
+        r' \(\alpha = 0\) — the product, GHZ and W cases, where the planes already lie on top of'
+        ' each other.</p>'
+        r'<p>The line also ignores which of the two non-reference qubits you call the first: exchanging'
+        r' them swaps \(\hat p_r\) with \(\hat q_r\) and so flips both normals, and flipping both vectors'
+        r' leaves a cross product unchanged. The axes and the normals move under that exchange;'
+        r' \(\hat u\), and with it \(\alpha\), does not.</p>'
+        '<p><em>Look along û</em> turns the camera down the shared axis. Seen end on, the two planes'
+        ' flatten into two straight lines through the centre, crossing at the dihedral angle: the meridians'
+        ' themselves.</p>'
+        '<p>Three qualifications. When the planes coincide, the intersection is the whole shared plane, so'
+        ' no single diameter is distinguished and every basis inside that plane qualifies. A maximally'
+        r' entangled branch \((\theta_r = 45^\circ)\) has no unique Schmidt bases, so its plane, and the'
+        ' line through it, inherit that freedom of convention. And the line belongs to this picture, which'
+        ' identifies the Bloch spheres of the two non-reference qubits: a local unitary on either qubit'
+        ' turns the planes and the line, while the branch weights and the Schmidt angles stay put.</p>'
         '<h2>What this cut does not show</h2>'
         '<p>Three qubits have more than one way to be entangled, and a single reference sees only one cut.'
         ' Choose A and the branches are states of B and C; choose B and the same amplitudes regroup into'
@@ -1026,6 +1162,8 @@ def render_three_qubit(root, shell):
         ' the other two, which is what a plane with no area means here.</li>'
         '<li>Load <strong>W</strong>: the branches have probabilities 1/3 and 2/3, so the legend and the'
         ' table show unequal weights even before any plane appears.</li>'
+        '<li>Press <strong>Look along û</strong>: the camera turns down the shared axis, and both planes'
+        ' flatten into straight lines crossing at the dihedral angle.</li>'
         '<li>Rotate until a plane is edge on: it thins to a line, then widens again on the far side.</li>'
         '<li>Drag one of the eight arrows, then Normalize: the branch probabilities and both planes follow'
         ' the amplitudes you set.</li>'

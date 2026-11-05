@@ -39,11 +39,12 @@
       "kind": "Visualizer",
       "title": "Three-qubit state visualizer",
       "href": "tools/three-qubit.html",
-      "summary": "Eight amplitude arrows in one complex plane, plus the relative-state view: choose a reference qubit and the state splits into two two-qubit branches, |0⟩|φ₀⟩ + |1⟩|φ₁⟩. Each branch is drawn in its own Schmidt bases, so one Bloch sphere carries a plane per branch, and the branch probability sets its opacity. Drag the sphere to orbit it.",
+      "summary": "Eight amplitude arrows in one complex plane, plus the relative-state view: choose a reference qubit and the state splits into two two-qubit branches, |0⟩|φ₀⟩ + |1⟩|φ₁⟩. Each branch is drawn in its own Schmidt bases, so one Bloch sphere carries a plane per branch, and the branch probability sets its opacity. Where the planes cross they name one shared basis; drag the sphere to orbit it.",
       "features": [
         "Eight amplitude vectors in one plot",
         "Any qubit as the reference",
         "Two Schmidt planes in one sphere",
+        "The shared basis where the planes meet",
         "Drag to orbit the sphere",
         "Branch weights and Schmidt angles",
         "Lengths and phases you can drag",

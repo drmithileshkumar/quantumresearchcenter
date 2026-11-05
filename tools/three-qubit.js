@@ -28,7 +28,11 @@
     weights: [byId('branch-weights-0'), byId('branch-weights-1')],
     chi: [byId('branch-chi-0'), byId('branch-chi-1')],
     formula: [byId('branch-formula-0'), byId('branch-formula-1')],
-    planesDesc: byId('plane-summary'),
+    planesDesc: byId('plane-summary'), angle: byId('plane-angle'), basis: byId('plane-basis'),
+    meet: byId('planes-meet'), meetLine: byId('planes-meet-line'),
+    meetCasing: byId('planes-meet-casing'),
+    meetPlus: byId('planes-meet-plus'), meetMinus: byId('planes-meet-minus'),
+    meetPlusLabel: byId('planes-meet-plus-label'), meetMinusLabel: byId('planes-meet-minus-label'),
   };
   const flatten = value => (Array.isArray(value) ? value.flatMap(flatten) : [value]);
   if (flatten(Object.values(parts)).some(element => !element)) return;
@@ -321,6 +325,7 @@
   const GRID_STEPS = 180;
   const HOME = { azimuth: Number(sphere.dataset.azimuth || 32), elevation: Number(sphere.dataset.elevation || 17) };
   let azimuth = HOME.azimuth, elevation = HOME.elevation;
+  let sharedAxis = null;
   let sRight = [1, 0, 0], sUp = [0, 1, 0], sForward = [0, 0, -1];
 
   function camera() {
@@ -354,11 +359,28 @@
     label.setAttribute('y', (point[1] - uy * 18 + ux * side).toFixed(1));
     label.setAttribute('text-anchor', 'middle');
   };
+  // The shared basis is tagged just outside the sphere; end on, both ends collapse and the tags go.
+  const placeOuterLabel = (label, point) => {
+    const dx = point[0] - S_CENTER, dy = point[1] - S_CENTER, distance = Math.hypot(dx, dy);
+    if (distance < 24) { label.classList.add('is-empty'); return; }
+    label.classList.remove('is-empty');
+    label.setAttribute('x', (S_CENTER + dx * 1.16).toFixed(1));
+    label.setAttribute('y', (S_CENTER + dy * 1.16 + 4).toFixed(1));
+    label.setAttribute('text-anchor', 'middle');
+  };
+  const axisTilt = (axis, direction) => Math.acos(Math.min(1, Math.abs(
+    axis[0] * direction[0] + axis[1] * direction[1] + axis[2] * direction[2]))) * R2D;
 
   // ---- drawing the sphere at the current camera ------------------------------------------------
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const sCross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
   const sNorm = a => Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+  const planeNormal = form => {
+    if (!form) return null;
+    const normal = sCross(form.axisA, form.axisB);
+    const length = sNorm(normal);
+    return length > 1e-9 ? normal.map(value => value / length) : null;
+  };
   const AXES = [[[1, 0, 0], '|+⟩'], [[-1, 0, 0], '|−⟩'], [[0, 1, 0], '|+i⟩'],
                 [[0, -1, 0], '|−i⟩'], [[0, 0, 1], '|0⟩'], [[0, 0, -1], '|1⟩']];
 
@@ -471,6 +493,42 @@
       part.group.classList.toggle('is-empty', branchWeight < ZERO);
       part.group.style.opacity = (0.3 + 0.7 * branchWeight).toFixed(2);
     });
+    const normals = branches.map(({ form }) => planeNormal(form));
+    const crossing = normals[0] && normals[1] ? sCross(normals[0], normals[1]) : null;
+    const length = crossing ? sNorm(crossing) : 0;
+    if (length > 1e-6) {
+      const axis = crossing.map(value => value / length);
+      const plus = sProject(axis), minus = sProject(axis.map(value => -value));
+      setSegment(parts.meetLine, minus, plus);
+      setSegment(parts.meetCasing, minus, plus);
+      // End on, the diameter is a point: a casing would just blot out the centre of the sphere.
+      parts.meetCasing.classList.toggle('is-empty', Math.hypot(plus[0] - minus[0], plus[1] - minus[1]) < 10);
+      placeTip(parts.meetPlus, plus);
+      placeTip(parts.meetMinus, minus);
+      placeOuterLabel(parts.meetPlusLabel, plus);
+      placeOuterLabel(parts.meetMinusLabel, minus);
+      parts.meet.classList.remove('is-empty');
+      sharedAxis = axis;
+      const cosine = Math.abs(normals[0][0] * normals[1][0] + normals[0][1] * normals[1][1]
+        + normals[0][2] * normals[1][2]);
+      const degrees = Math.acos(Math.min(1, cosine)) * R2D;
+      const polar = Math.acos(Math.max(-1, Math.min(1, axis[2]))) * R2D;
+      const azimuthOf = (Math.atan2(axis[1], axis[0]) * R2D + 360) % 360;
+      parts.angle.textContent = `The planes meet at ${degrees.toFixed(1)}° along û = (`
+        + axis.map(value => fixed(value, 2)).join(', ')
+        + `); that diameter is the basis |+û⟩, |−û⟩, at polar ${polar.toFixed(0)}° and azimuth `
+        + `${azimuthOf.toFixed(0)}°.`;
+      parts.basis.textContent = 'Schmidt axes lean ' + branches.map(({ form }, bit) =>
+        `${axisTilt(axis, form.axisA).toFixed(0)}° and ${axisTilt(axis, form.axisB).toFixed(0)}°`
+        + ` in the ${SUBSCRIPTS[bit]} branch`).join('; ')
+        + '. One meridian per branch, and the two meridians differ by the dihedral angle.';
+    } else {
+      parts.meet.classList.add('is-empty');
+      sharedAxis = null;
+      parts.angle.textContent = 'The two planes coincide, so every diameter of their common plane'
+        + ' is a shared basis.';
+      parts.basis.textContent = 'No single shared axis, so no tilts to report.';
+    }
     return { branches, names };
   }
 
@@ -582,6 +640,8 @@
     orbit = { x: event.clientX, y: event.clientY };
     sphere.classList.add('is-orbiting');
     if (sphere.setPointerCapture) sphere.setPointerCapture(event.pointerId);
+    // preventDefault() also cancels the implicit focus, so take it explicitly for the arrow keys.
+    sphere.focus({ preventScroll: true });
     event.preventDefault();
   });
   sphere.addEventListener('pointermove', event => {
@@ -606,6 +666,14 @@
   });
   byId('reset-view').addEventListener('click', () => {
     orbitTo(HOME.azimuth, HOME.elevation);
+    sphere.focus();
+  });
+  byId('look-along-u').addEventListener('click', () => {
+    if (!sharedAxis) { sphere.focus(); return; }
+    // Point the camera down u: forward = (-cos e sin a, cos e cos a, -sin e) = u.
+    const elevationOf = -Math.asin(Math.max(-1, Math.min(1, sharedAxis[2]))) * R2D;
+    const azimuthOf = Math.atan2(-sharedAxis[0], sharedAxis[1]) * R2D;
+    orbitTo(azimuthOf, elevationOf);
     sphere.focus();
   });
 
