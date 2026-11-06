@@ -8,6 +8,8 @@
   <p>Whenever Alice and Bob orient their spin analyzers along the exact same axis (\(\hat{a} = \hat{b}\)), quantum mechanics predicts—and experiment confirms—perfect anticorrelation: \(E(\hat{a}, \hat{a}) = \langle A B\rangle = -1\), with marginal probabilities \(P(A = \pm 1) = P(B = \pm 1) = 1/2\). However, perfect anticorrelation along parallel axes alone can be reproduced effortlessly by a classical local hidden-variable (LHV) table that assigns each emitted pair a random direction \(\hat{\lambda}\) on the sphere and sets \(A(\hat{a},\hat{\lambda}) = \mathrm{sgn}(\hat{a}\cdot\hat{\lambda})\) and \(B(\hat{b},\hat{\lambda}) = -\mathrm{sgn}(\hat{b}\cdot\hat{\lambda})\). John Bell showed in 1964 that testing whether such prewritten local tables can exist requires comparing correlations across <em>multiple non-collinear</em> analyzer angles.</p>
   <h3>17.1.3 Planar spin-analyzer angles versus optical polarizer angles</h3>
   <p>For coplanar spin-\(1/2\) analyzers at angles \(\theta_a\) and \(\theta_b\) in the \(x\)–\(z\) plane, the singlet correlation depends on the relative angle \(\theta_{ab} = \theta_a - \theta_b\) as \(E_{\mathrm{spin}}(\theta_a, \theta_b) = -\cos(\theta_a - \theta_b)\). In polarization-entangled photon experiments, where orthogonal states \(|H\rangle\) and \(|V\rangle\) sit \(90^\circ\) apart in physical space rather than \(180^\circ\) on the Bloch sphere, a physical polarizer rotation by \(\theta_{\mathrm{opt}}\) corresponds to a Bloch rotation by \(2\theta_{\mathrm{opt}}\), so the optical correlation oscillates as \(\pm\cos[2(\theta_a^{\mathrm{opt}} - \theta_b^{\mathrm{opt}})]\). Throughout this chapter we use Bloch/spin angles \(\theta_a, \theta_b\) (equivalent to twice the physical polarizer angle).</p>
+
+  <div data-scene="section-17-1"></div>
 </section>
 
 <section class="book-section" id="section-17-2">
@@ -26,6 +28,8 @@
   <p>For a Werner state \(\rho_V = V|\Psi^-\rangle\langle\Psi^-| + \frac{1-V}{4}I\) with singlet visibility \(V \in [0,1]\), the quantum correlation is \(E_Q(\theta_a, \theta_b) = -V\cos(\theta_a - \theta_b)\). Choosing the CHSH angles \(\theta_a = 0\), \(\theta_{a'} = \pi/2\), \(\theta_b = \pi/4\), and \(\theta_{b'} = -\pi/4\) gives \(\theta_a - \theta_b = -\pi/4\), \(\theta_a - \theta_{b'} = \pi/4\), \(\theta_{a'} - \theta_b = \pi/4\), and \(\theta_{a'} - \theta_{b'} = 3\pi/4\), where \(\cos(3\pi/4) = -\cos(\pi/4) = -1/\sqrt{2}\). Summing the four terms yields</p>
   \[|S_Q| = 4V\cos\!\left(\frac{\pi}{4}\right) = 2\sqrt{2}\,V \approx 2.8284\,V.\]
   <p>For an ideal singlet (\(V = 1\)), \(|S_Q| = 2\sqrt{2}\) saturates Boris Tsirelson’s general quantum bound for any bipartite state and any local dichotomic observables, and violates the classical bound \(|S| \le 2\) whenever \(V > 1/\sqrt{2} \approx 0.7071\).</p>
+
+  <div data-scene="section-17-2"></div>
 </section>
 
 <section class="book-section" id="section-17-3">
@@ -43,6 +47,8 @@
   <p>The non-classical CHSH correlation \(|S| > 2\) becomes visible only when Alice and Bob bring their classical outcome logs together via an ordinary subluminal channel and compute cross-correlations.</p>
   <h3>17.3.3 Separating model curves from finite-sample hypothesis tests</h3>
   <p>In a laboratory run with \(N\) trials per setting pair \((a_i, b_j)\), each empirical correlation \(\hat{E}_{ij} = (N_{++} + N_{--} - N_{+-} - N_{-+})/N\) carries statistical standard error \(\sigma_{ij} = \sqrt{(1 - \hat{E}_{ij}^2)/N}\). Reporting a Bell test requires stating both the point estimate \(\hat{S}\) and the number of standard deviations \((|\hat{S}| - 2)/\sigma_S\) (or the martingale \(p\)-value for memory-tolerant sequential trials) by which the data exceed the local bound \(2\).</p>
+
+  <div data-scene="section-17-3"></div>
 </section>
 
 <section class="book-section" id="explore">

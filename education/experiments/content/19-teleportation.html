@@ -6,6 +6,8 @@
   <p>Quantum teleportation never violates the no-cloning theorem because Alice’s joint Bell projection entangles \(S\) and \(A\) and erases the original state on \(S\) at the exact stage where the conditional state appears on \(B\)—at no point do two copies of \(|\psi\rangle\) coexist. Equally important, teleportation never violates relativistic no-signalling: before Bob receives the two classical bits \((m_1, m_2)\) over a subluminal communication channel, his local qubit \(B\) is in the maximally mixed state \(\rho_B = \frac{1}{2}I\), completely independent of \((\alpha, \beta)\).</p>
   <h3>19.1.3 Inspecting conditional branch states before and after correction</h3>
   <p>Each of the four equally likely Bell outcomes \((m_1, m_2) \in \{00, 01, 10, 11\}\) recorded by Alice projects Bob’s qubit into a known Pauli-rotated image \(X^{m_2} Z^{m_1}|\psi\rangle_B\) of the input state. Once the classical bits arrive at Bob’s station, applying the conditional inverse unitary \(Z^{m_1} X^{m_2}\) aligns all four branches into the exact target state \(|\psi\rangle_B\).</p>
+
+  <div data-scene="section-19-1"></div>
 </section>
 
 <section class="book-section" id="section-19-2">
@@ -21,6 +23,8 @@
   <p>This Pauli-twirl identity proves algebraically that without the two classical feed-forward bits, zero information about \(|\psi\rangle\) is accessible at Bob’s location.</p>
   <h3>19.2.3 Entangling independent pairs via intermediate Bell projection</h3>
   <p>If the input qubit \(S\) is itself entangled with a reference qubit \(R\)—for example, in a Bell state \(|\Phi^+\rangle_{RS}\)—while \((A, B)\) forms an independent Bell pair \(|\Phi^+\rangle_{AB}\), performing the joint Bell measurement on \((S, A)\) plus Pauli correction on \(B\) projects the distant qubits \((R, B)\) into the entangled state \(|\Phi^+\rangle_{RB}\), even though qubits \(R\) and \(B\) never interacted directly. This protocol, known as <em>entanglement swapping</em>, is the foundational building block of quantum repeaters.</p>
+
+  <div data-scene="section-19-2"></div>
 </section>
 
 <section class="book-section" id="section-19-3">
@@ -35,6 +39,8 @@
   <p>In linear-optical photonic teleportation without auxiliary photons or nonlinearities, a single 50:50 beam splitter can distinguish at most two of the four Bell states (typically \(|\Psi^-\rangle\) and \(|\Psi^+\rangle\) via two-photon HOM interference, with maximum success probability \(1/2\)). Experimental reports must therefore distinguish <em>heralded conditional fidelity</em> (conditioned on a successful Bell-analyzer click before Bob’s detection) from postselected coincidence detection that destroys the output photon.</p>
   <h3>19.3.3 Verifying unknown-state transfer across noncommuting bases</h3>
   <p>Testing teleportation solely on computational-basis inputs \(\{|0\rangle, |1\rangle\}\) cannot distinguish quantum teleportation from a classical CNOT or measure-in-\(Z\) channel, which achieves \(F = 1\) on \(\{|0\rangle, |1\rangle\}\) but only \(F = 1/2\) on equatorial states \(\{|+\rangle, |-\rangle, |+i\rangle, |-i\rangle\}\). A complete verification measures the output fidelity across all six Pauli eigenstates (or performs full quantum process tomography) to prove that \(\bar{F} > 2/3\).</p>
+
+  <div data-scene="section-19-3"></div>
 </section>
 
 <section class="book-section" id="explore">

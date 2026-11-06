@@ -6,6 +6,8 @@
   <p>Because a projective measurement collapses an individual copy and the no-cloning theorem forbids duplicating an unknown quantum state, quantum state tomography is inherently an ensemble protocol. The source must prepare \(N\) independent, identically prepared copies of \(\rho\), partitioned into three sub-ensembles that are measured along the Pauli axes \(X\), \(Y\), and \(Z\). In architectures where only \(Z\)-basis readout is hardware-native, measuring \(X\) is implemented by applying a pre-readout rotation \(R_Y(-\pi/2)\) (or Hadamard gate \(H\)), and measuring \(Y\) is implemented by applying \(R_X(+\pi/2)\) prior to \(Z\) readout.</p>
   <h3>15.1.3 Bloch-plane visualization of purity and orientation</h3>
   <p>The three measured expectation values \(\vec{r} = (r_x, r_y, r_z) = (\langle X\rangle, \langle Y\rangle, \langle Z\rangle)\) specify a point inside or on the unit Bloch ball. The direction of \(\vec{r}\) fixes the eigenbasis of \(\rho\), while its Euclidean length \(r = \|\vec{r}\| = \sqrt{r_x^2 + r_y^2 + r_z^2}\) determines the state’s purity: pure states lie on the spherical surface (\(r = 1\)), partially mixed states lie in the interior (\(0 < r < 1\)), and the maximally mixed state \(\frac{1}{2}I\) sits at the origin (\(r = 0\)).</p>
+
+  <div data-scene="section-15-1"></div>
 </section>
 
 <section class="book-section" id="section-15-2">
@@ -23,6 +25,8 @@
   <p>In an experiment with \(N_k\) shots along axis \(k\) and \(n_{k+}\) positive outcomes, the empirical estimator \(\hat{r}_k = (2n_{k+}/N_k) - 1\) has binomial variance \(\mathrm{Var}(\hat{r}_k) = (1 - r_k^2)/N_k\). When the true state lies on or very near the boundary (\(\|\vec{r}\| \approx 1\)), statistical fluctuations in the bases where \(r_k \approx 0\) add positively in quadrature:</p>
   \[\mathbb{E}\!\left[\|\hat{\vec{r}}\|^2\right] = \|\vec{r}\|^2 + \sum_{k\in\{x,y,z\}} \frac{1 - r_k^2}{N_k}.\]
   <p>Consequently, direct linear inversion of a high-purity state frequently produces \(\|\hat{\vec{r}}\| > 1\) and a slightly negative eigenvalue \(\hat{\lambda}_- < 0\). Constrained maximum-likelihood estimation (MLE) or least-squares projection onto the positive semidefinite cone \(\{\rho \succeq 0, \mathrm{Tr}\,\rho = 1\}\) restores physicality while reporting bootstrap or Bayesian confidence regions.</p>
+
+  <div data-scene="section-15-2"></div>
 </section>
 
 <section class="book-section" id="section-15-3">
@@ -33,6 +37,8 @@
   <p>Tomography reconstructs the density operator \(\rho\), which encodes the probabilities of all possible measurements on the system, but it cannot recover the specific preparation ensemble that produced a mixed state. For instance, an equal classical mixture of \(|0\rangle\) and \(|1\rangle\), an equal mixture of \(|+\rangle\) and \(|-\rangle\), and one half of a maximally entangled Bell pair \((|00\rangle + |11\rangle)/\sqrt{2}\) traced over its partner all yield the exact same reduced density matrix \(\rho = \frac{1}{2}I\) (\(\vec{r} = \vec{0}\)). No local measurement in any basis can distinguish those preparations.</p>
   <h3>15.3.3 Reporting raw counts, positivity constraints, and confidence regions</h3>
   <p>Rigorous tomographic reporting never publishes a constrained MLE state alone without the raw count pairs \((n_{k+}, N_k)\) and the unconstrained linear-inversion vector \(\hat{\vec{r}}\). When \(\|\hat{\vec{r}}\| \gg 1\) beyond what binomial sampling noise \(\sim \sqrt{2/N}\) can explain, clamping the vector onto the unit sphere masks a calibration drift (such as dark-count subtraction bias or pulse-area error) that should instead be diagnosed and corrected at the hardware level.</p>
+
+  <div data-scene="section-15-3"></div>
 </section>
 
 <section class="book-section" id="explore">

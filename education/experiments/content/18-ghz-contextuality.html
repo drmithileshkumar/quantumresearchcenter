@@ -16,6 +16,8 @@
   <p>The three operators in each row \(R_i\) mutually commute, and the three operators in each column \(C_j\) mutually commute, so each row and each column forms a compatible measurement context that can be measured jointly in a single run.</p>
   <h3>18.1.3 Comparing spatially separated locality tests with noncontextuality tests</h3>
   <p>In a three-party GHZ experiment, the compatibility of the three local Pauli measurements in contexts such as \(X_1 Y_2 Y_3\) is justified physically by spatial separation (locality): measuring \(Y_2\) at station 2 cannot disturb the outcome of \(X_1\) at station 1. In a single-system or co-located Peres–Mermin square experiment, the assumption tested is <em>noncontextuality</em>: that a sharp observable \(A\) possesses a predetermined outcome \(v(A) \in \{+1, -1\}\) that is the same whether \(A\) is measured alongside commuting partner \(B\) (say, along a row) or alongside a different commuting partner \(C\) (along a column), where \([B, C] \neq 0\).</p>
+
+  <div data-scene="section-18-1"></div>
 </section>
 
 <section class="book-section" id="section-18-2">
@@ -34,6 +36,8 @@
   <p>Notice that this \(-I\) product is an operator identity that holds for <em>every</em> two-qubit state \(|\psi\rangle\) or \(\rho\), whether entangled or separable.</p>
   <h3>18.2.3 Why noncontextual value assignments fail parity accounting</h3>
   <p>If a noncontextual hidden-variable model assigns a single context-independent value \(v(O_{ij}) \in \{+1, -1\}\) to each of the nine entries \(O_{ij}\) of the Peres–Mermin square, the product of all nine values computed row by row must equal the product computed column by column. Yet the three row products require \(\prod_{i,j} v(O_{ij}) = (+1)(+1)(+1) = +1\), while the three column products require \(\prod_{i,j} v(O_{ij}) = (+1)(+1)(-1) = -1\). Because each entry \(O_{ij}\) appears once in the row product and once in the column product, no noncontextual \(\{\pm 1\}\) table can satisfy all six context rules simultaneously.</p>
+
+  <div data-scene="section-18-2"></div>
 </section>
 
 <section class="book-section" id="section-18-3">
@@ -48,6 +52,8 @@
   <p>In a sequential Peres–Mermin experiment on trapped ions, photons, or superconducting qubits, each context (such as \(R_1 = \{X\otimes I, I\otimes X, X\otimes X\}\)) is measured by performing three nondestructive parity measurements in sequence. If an imperfect measurement of \(X\otimes I\) physically disturbs the subsequent measurement of \(X\otimes X\) differently than \(Y\otimes Y\) does in column \(C_3\), a classical model with context-dependent disturbance could mimic \(\mathcal{K} > 4\). Operational contextuality tests therefore measure marginal non-disturbance directly across context permutations and subtract or bound any measured signalling/disturbance terms from the classical threshold.</p>
   <h3>18.3.3 Consistent quantum context predictions versus global value tables</h3>
   <p>Quantum mechanics avoids the parity contradiction because operators in different contexts do not commute—for instance, \([X_1 Y_2 Y_3, Y_1 X_2 Y_3] = 0\) globally, but the local single-qubit factors \(X_1\) and \(Y_1\) anticommute (\(X_1 Y_1 = -Y_1 X_1\)). Quantum theory defines joint probability distributions only within each commuting context, never over all noncommuting observables simultaneously.</p>
+
+  <div data-scene="section-18-3"></div>
 </section>
 
 <section class="book-section" id="explore">

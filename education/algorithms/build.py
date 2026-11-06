@@ -26,6 +26,7 @@ import sys
 sys.path.insert(0,str(ROOT.parent))
 from course_map import render_course_map, render_chapter_map
 import chapter_summary
+import chapter_banners
 from asset_versions import version_pages
 from site_logo import COURSE_LOGO
 from site_navigation import COURSE_NAV
@@ -202,7 +203,7 @@ def main():
   toc=''.join(f'<li class="contents-part"><a href="#{s["id"]}"><span>{s["number"]}</span> {esc(s["title"])}</a><details><summary>Topics in this section</summary><ol>'+''.join(f'<li><a href="#{t["id"]}"><span>{t["number"]}</span> {esc(t["title"])}</a></li>' for t in s['topics'])+'</ol></details></li>' for s in c['sections'])
   ntopics=sum(len(s['topics']) for s in c['sections'])
   opening=''.join(f'<p{" class=\"chapter-intro\"" if n==0 else ""}>{esc(p)}</p>' for n,p in enumerate(c['opening']))
-  header=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">Chapter {i:02}</p><h1>{esc(c["title"])}</h1>{render_chapter_map(c["title"],c)}{opening}<p class="chapter-subtitle">{esc(c["question"])}</p><p class="chapter-intro">{esc(c["intro"])}</p><details class="chapter-contents"><summary>In this chapter · {len(c["sections"])} sections · {ntopics} topics</summary><ol>{toc}</ol></details></header>'
+  header=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">Chapter {i:02}</p><h1>{esc(c["title"])}</h1>{chapter_banners.render(ROOT,c["stem"])}{render_chapter_map(c["title"],c)}{opening}<p class="chapter-subtitle">{esc(c["question"])}</p><p class="chapter-intro">{esc(c["intro"])}</p><details class="chapter-contents"><summary>In this chapter · {len(c["sections"])} sections · {ntopics} topics</summary><ol>{toc}</ol></details></header>'
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
   links=(f'<a rel="prev" href="{prev["stem"]}.html"><small>Previous chapter</small>{esc(prev["title"])} ←</a>' if prev else '<a href="index.html"><small>Course overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt["stem"]}.html"><small>Next chapter</small>{esc(nxt["title"])} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Course contents →</a>')
   body='<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">'+links+'</nav>'+header+guide(stem)+str(soup)+chapter_summary.render(SUMMARIES.get(stem))+exercises(stem,c['title'],index)+'<nav class="chapter-pagination" aria-label="Chapter navigation">'+links+'</nav>'

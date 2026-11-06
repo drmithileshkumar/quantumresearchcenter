@@ -41,15 +41,8 @@ def navigation(current,data):
  pieces.append('<nav class="book-resources" aria-label="Learning resources"><a href="study-guide.html">Study guide</a><a href="glossary.html">Glossary</a><a href="notation.html">Notation</a><a href="revisions.html">Revisions and corrections</a><a href="downloads/quantum-computing.zip" download>Download offline book</a></nav>')
  return ''.join(pieces)
 def chapter_banner(stem):
- """Inline the chapter's banner (banners.py) so its marks follow the theme; '' if none."""
- import importlib.util
- spec=importlib.util.spec_from_file_location('book_banners',ROOT/'banners.py'); banners=importlib.util.module_from_spec(spec); spec.loader.exec_module(banners)
- entry=banners.BANNERS.get(stem); path=ROOT/'assets'/'banners'/f'{stem}.svg'
- if not entry or not path.exists(): return ''
- svg=path.read_text()
- if re.search(r'<script|\son\w+=|\sid=',svg): raise ValueError('Chapter banner must be a plain SVG: '+path.name)
- svg=svg.replace('<svg',f'<svg role="img" aria-label="{esc(entry[1])}"',1)
- return f'<figure class="chapter-banner">{svg}</figure>'
+ import chapter_banners
+ return chapter_banners.render(ROOT,stem)
 def inline_figures(soup):
  """Inline SVG figures so MathJax can typeset their data-tex labels.
 

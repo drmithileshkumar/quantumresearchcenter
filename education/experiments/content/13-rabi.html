@@ -6,6 +6,8 @@
   <p>A physical Rabi experiment consists of three distinct operational stages: optical pumping or thermal relaxation that initializes the system near \(|0\rangle\), a gated radio-frequency, microwave, or laser pulse of duration \(t\), angular frequency \(\omega\), and Rabi rate \(\Omega\), and a projective readout stage such as state-selective fluorescence or dispersive cavity transmission. When an experimental trace fails to reach \(P_1 = 1\), the shortfall can arise from off-resonant detuning \(\Delta = \omega - \omega_0\), from longitudinal and transverse relaxation (\(T_1, T_2\)) during the pulse, or from state-preparation and measurement (SPAM) errors. Separating coherent control errors from SPAM offsets requires scanning both pulse duration \(t\) and detuning \(\Delta\) (a chevron scan).</p>
   <h3>13.1.3 Representing driven rotations on the Bloch sphere</h3>
   <p>In the frame rotating at the drive frequency \(\omega\), any pure state of the two-level subspace corresponds to a unit Bloch vector \(\vec{r} = (\langle X\rangle, \langle Y\rangle, \langle Z\rangle)\) on the Bloch sphere, with \(|0\rangle\) at the north pole (\(z = +1\)) and \(|1\rangle\) at the south pole (\(z = -1\)). A constant drive with Rabi frequency \(\Omega\) and detuning \(\Delta\) generates a rigid precession of \(\vec{r}(t)\) at angular speed \(\Omega_{\mathrm{eff}} = \sqrt{\Omega^2 + \Delta^2}\) around the tilted effective field axis \(\vec{\Omega}_{\mathrm{eff}} = (\Omega, 0, -\Delta)\). When \(\Delta = 0\), the rotation axis lies entirely in the equatorial plane, sweeping the state smoothly through the poles.</p>
+
+  <div data-scene="section-13-1"></div>
 </section>
 
 <section class="book-section" id="section-13-2">
@@ -21,6 +23,8 @@
   <p>When the drive is detuned by \(\Delta \neq 0\), the rotation axis tilts out of the equatorial plane by angle \(\vartheta\) with \(\tan\vartheta = \Omega/\Delta\). Exponentiation of \(-iH_{\mathrm{RWA}}t/\hbar\) yields the off-resonant Rabi formula for a system initialized in \(|0\rangle\):</p>
   \[P_1(t) = \frac{\Omega^2}{\Omega_{\mathrm{eff}}^2}\sin^2\!\left(\frac{\Omega_{\mathrm{eff}}\,t}{2}\right), \qquad \Omega_{\mathrm{eff}} = \sqrt{\Omega^2 + \Delta^2}.\]
   <p>Increasing \(|\Delta|\) produces two linked signatures in a two-dimensional \((t,\Delta)\) chevron plot: the oscillation frequency speeds up from \(\Omega\) to \(\Omega_{\mathrm{eff}} = \sqrt{\Omega^2 + \Delta^2}\), while the maximum transfer amplitude shrinks to the Lorentzian envelope \(\Omega^2/(\Omega^2 + \Delta^2)\).</p>
+
+  <div data-scene="section-13-2"></div>
 </section>
 
 <section class="book-section" id="section-13-3">
@@ -31,6 +35,8 @@
   <p>Real physical qubits—such as transmon circuits, hyperfine atomic manifolds, or trapped ions—possess higher-lying levels \(|2\rangle, |3\rangle, \dots\) separated by an anharmonicity \(\alpha = \omega_{12} - \omega_{01}\). When the pulse duration \(t_\pi = \pi/\Omega\) is made too short so that the spectral bandwidth \(\sim \Omega\) becomes comparable to \(|\alpha|\), the drive leaks population out of the \(\{|0\rangle, |1\rangle\}\) computational subspace and induces an AC Stark shift of the resonance frequency. Similarly, if \(\Omega\) approaches a significant fraction of the carrier frequency \(\omega_0\), counter-rotating terms break the rotating-wave approximation and produce Bloch–Siegert shifts and fast ripples on top of the sinusoidal nutation curve.</p>
   <h3>13.3.3 Why population scans alone do not certify gate fidelity</h3>
   <p>A resonant Rabi curve measures only the diagonal population \(P_1(t) = \langle 1|\rho(t)|1\rangle = (1 - \langle Z\rangle)/2\) for a single input state \(|0\rangle\). It is insensitive to phase errors around the \(Z\) axis after the pulse, and it cannot distinguish a coherent equatorial state \((|0\rangle - i|1\rangle)/\sqrt{2}\) at \(\Omega t = \pi/2\) from a maximally mixed state \(\frac{1}{2}I\), because both yield \(P_1 = 0.5\). Certifying that a \(\pi/2\) pulse prepares a genuine coherent superposition requires combining Rabi calibration with Ramsey interferometry (Chapter 14) or multi-basis state and process tomography (Chapter 15).</p>
+
+  <div data-scene="section-13-3"></div>
 </section>
 
 <section class="book-section" id="explore">

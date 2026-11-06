@@ -39,6 +39,8 @@ def check(c):
         found = [h.get_text(strip=True) for h in el.find_all('h3')]
         if found != expected:
             problems.append(f'{sec["id"]}: h3 {found} != {expected}')
+        if not el.select_one(f'div[data-scene="{sec["id"]}"]'):
+            problems.append(f'{sec["id"]}: missing div[data-scene="{sec["id"]}"]')
     for sid in ('explore', 'worked', 'practice', 'takeaways', 'sources'):
         if not soup.find('section', id=sid):
             problems.append(f'missing section #{sid}')
@@ -77,11 +79,14 @@ def check_visuals():
             prose = MATH.sub(' ', str(node))
             for m in FORBIDDEN.finditer(prose):
                 problems.append(f'diagrams.svg({kind}): bare math symbol {m.group()!r} in {str(node)!r}')
-    scene_rendered = BeautifulSoup(diagrams.scene_svg('section-1-1'), 'html.parser')
-    for node in scene_rendered.find_all(string=True):
-        prose = MATH.sub(' ', str(node))
-        for m in FORBIDDEN.finditer(prose):
-            problems.append(f'diagrams.scene_svg(section-1-1): bare math symbol {m.group()!r} in {str(node)!r}')
+    for c in CHAPTERS:
+        for sec in c['sections']:
+            sid = sec['id']
+            scene_rendered = BeautifulSoup(diagrams.scene_svg(sid, c), 'html.parser')
+            for node in scene_rendered.find_all(string=True):
+                prose = MATH.sub(' ', str(node))
+                for m in FORBIDDEN.finditer(prose):
+                    problems.append(f'diagrams.scene_svg({sid}): bare math symbol {m.group()!r} in {str(node)!r}')
     return problems
 
 

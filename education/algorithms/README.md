@@ -40,3 +40,7 @@ python3 education/checks/check_mathematics.py
 The reader shares CSS, MathJax, and learning scripts with the computing course
 (`../computing/assets/`) and keeps independent search and reading-position
 storage. Follow [AGENTS.md](AGENTS.md) for the teaching philosophy.
+
+## Chapter banners
+
+Each chapter opens with a banner under its title that draws the chapter's anchor example from `chapters.json` (for example compute–copy–uncompute for Chapter 2, a period-4 pattern and its Fourier peaks for Chapter 4, iterative phase estimation for Chapter 11). `banners.py` draws them into `assets/banners/<chapter>.svg`, reusing the drawing helpers of `../computing/banners.py`, and holds each banner's alt text. The shared `../chapter_banners.py` inlines them, and the `.cb-*` classes in `../computing/assets/book.css` give the theme colours. Run `python3 banners.py` after a change, then rebuild. Where a banner shows a calculation (a readout distribution, a Fourier spectrum), draw the true result.

@@ -355,73 +355,291 @@ def svg(kind, title):
     return f'<svg class="qe-apparatus" viewBox="0 0 720 350" role="img" aria-labelledby="diagram-title diagram-desc"><title id="diagram-title">{e(title)}</title><desc id="diagram-desc">{e(desc)}</desc>{s}</svg>'
 
 
-def scene_svg(name):
+# Formula badges for Section N.2 (quantitative law) and Section N.3 (experimental threshold)
+SECTION_FORMULAS = {
+    'counts': (
+        r'\(P(k_A\mid N,p) = \binom{N}{k_A}p^{k_A}(1-p)^{N-k_A}, \quad \mathrm{SE}(\hat{p}) = \sqrt{p(1-p)/N}\)',
+        r'\(\hat{p}_{\mathrm{cal}} = \frac{\sqrt{R_1 R_2}}{1 + \sqrt{R_1 R_2}}, \quad f_A = \frac{p\,\eta_A}{p\,\eta_A + (1-p)\,\eta_B}\)',
+    ),
+    'energy': (
+        r'\(K_{\max} = h\nu - \Phi = eV_s \quad (\text{for } h\nu \ge \Phi)\)',
+        r'\(I_{\mathrm{photo}} = \eta\,\frac{P_{\mathrm{opt}}}{h\nu}\,\Theta(h\nu - \Phi - eV)\)',
+    ),
+    'slits': (
+        r'\(I(x) = I_0(x)\big[1 + V\cos(2\pi d\,x / \lambda L)\big]\)',
+        r'\(V_{\mathrm{obs}} = \eta\,|\gamma_{12}|, \quad \mathrm{SE}(\hat{p}_m) = \sqrt{p_m(1-p_m)/N}\)',
+    ),
+    'spin': (
+        r'\(P(+\theta) = \cos^2(\theta/2), \quad P(-\theta) = \sin^2(\theta/2)\)',
+        r'\(\langle\sigma_\theta\rangle_{\mathrm{obs}} = \eta\cos\theta, \quad P_{\mathrm{obs}}(\pm\theta) = \frac{1 \pm \eta\cos\theta}{2}\)',
+    ),
+    'polarization': (
+        r'\(P_{\mathrm{3-pol}}(\theta) = \cos^2\theta\,\sin^2\theta = \frac{1}{4}\sin^2(2\theta)\)',
+        r'\(P_{\mathrm{obs}}(\theta) = \frac{\eta}{4}\sin^2(2\theta) + (1-\eta)\epsilon_{\mathrm{leak}}\)',
+    ),
+    'photons': (
+        r'\(g^{(2)}(\tau) = \frac{\langle : \hat{I}(t)\hat{I}(t+\tau) : \rangle}{\langle\hat{I}(t)\rangle^2}\)',
+        r'\(g^{(2)}_{\mathrm{obs}}(0) = 1 - \eta < 1 \;\Longleftrightarrow\; \text{nonclassical anti-bunching}\)',
+    ),
+    'mzi': (
+        r'\(P(D_0) = \frac{1}{2}(1 + V\cos\phi), \quad P(D_1) = \frac{1}{2}(1 - V\cos\phi)\)',
+        r'\(V = \frac{P_{\max} - P_{\min}}{P_{\max} + P_{\min}} = 2\sqrt{p_u(1-p_u)}\,|\langle e_u|e_\ell\rangle|\)',
+    ),
+    'recoil': (
+        r'\(V = |\langle\chi_1|\chi_2\rangle| = \exp\!\big(-\Delta^2/(8\sigma^2)\big), \quad D = \sqrt{1 - V^2}\)',
+        r'\(D^2 + V_{\mathrm{obs}}^2 = \eta^2 \le 1 \quad (\text{Englert–Greenberger duality})\)',
+    ),
+    'delayed': (
+        r'\(P_{\mathrm{closed}}(D_0) = \cos^2(\phi/2), \quad P_{\mathrm{open}}(D_0) = \frac{1}{2}\)',
+        r'\(P_{\mathrm{obs}}(D_0) = \frac{1}{2}\big(1 + \eta\,s_{\mathrm{BS2}}\cos\phi\big)\)',
+    ),
+    'eraser': (
+        r'\(P(D_0\mid \pm) = \frac{1}{2}(1 \pm \cos\phi), \quad P_{\mathrm{unsorted}}(D_0) = \frac{1}{2}\)',
+        r'\(V_{\mathrm{cond}} = \eta, \quad P(D_0) = \frac{1}{2}P(D_0\mid +) + \frac{1}{2}P(D_0\mid -) = \frac{1}{2}\)',
+    ),
+    'bomb': (
+        r'\(P_{\mathrm{abs}} = \frac{1}{2}, \quad P(D_0) = \frac{1}{4}, \quad P(D_1) = \frac{1}{4}\)',
+        r'\(\eta_{\mathrm{IFM}} = \frac{P(D_1)}{P(D_1) + P_{\mathrm{abs}}} \to \frac{1}{3} \quad (\text{single-pass})\)',
+    ),
+    'tunnel': (
+        r'\(T(\kappa a) = \frac{1}{1 + \sinh^2(\kappa a)} = \mathrm{sech}^2(\kappa a) \quad (E = V_0/2)\)',
+        r'\(\ln T(\kappa a) \approx \ln 4 - 2\kappa a, \quad \kappa = \sqrt{2m(V_0 - E)}/\hbar\)',
+    ),
+    'rabi': (
+        r'\(P_1(t) = \frac{\Omega^2}{\Omega_{\mathrm{eff}}^2}\sin^2\!\left(\frac{\Omega_{\mathrm{eff}}\,t}{2}\right), \quad \Theta = \Omega t\)',
+        r'\(P_{1,\mathrm{obs}}(t) = \frac{1}{2}\big[1 - \eta\cos(\Omega t)\big]\)',
+    ),
+    'ramsey': (
+        r'\(P_0(\tau) = \frac{1}{2}\big[1 + W(\tau)\cos(\Delta\tau)\big], \quad W(\tau) = e^{-\tau/T_2}\)',
+        r'\(\frac{1}{T_2} = \frac{1}{2T_1} + \frac{1}{T_\phi} \;\Longrightarrow\; T_2 \le 2T_1\)',
+    ),
+    'tomography': (
+        r'\(\rho = \frac{1}{2}(I + r_x X + r_y Y + r_z Z), \quad \mathrm{Tr}(\rho^2) = \frac{1 + \|\vec{r}\|^2}{2}\)',
+        r'\(\|\hat{\vec{r}}\| \le 1 \;\Longleftrightarrow\; \hat{\lambda}_{\pm} = \frac{1 \pm \|\hat{\vec{r}}\|}{2} \ge 0\)',
+    ),
+    'hom': (
+        r'\(P_{cd}(\Delta\tau) = \frac{1}{2}\big[1 - J(\Delta\tau)\big], \quad J(\Delta\tau) = e^{-\Delta\tau^2/\tau_c^2}\)',
+        r'\(V_{\mathrm{HOM}} = \frac{C(\infty) - C(0)}{C(\infty)} = \eta > 0.50 \;\;(\text{nonclassical threshold})\)',
+    ),
+    'bell': (
+        r'\(E_Q(\theta_a,\theta_b) = -\cos(\theta_a - \theta_b), \quad |S_Q(\theta)| = 2(\cos\theta + \sin\theta)\)',
+        r'\(|S_{\mathrm{obs}}| = 2\sqrt{2}\,\eta > 2 \;\Longleftrightarrow\; \eta > 1/\sqrt{2} \approx 0.7071\)',
+    ),
+    'ghz': (
+        r'\(\langle X_1 X_2 X_3\rangle = +1, \quad \langle X_1 Y_2 Y_3\rangle = \langle Y_1 X_2 Y_3\rangle = \langle Y_1 Y_2 X_3\rangle = -1\)',
+        r'\(\langle\hat{\mathcal{M}}\rangle = 4\eta > 2 \;\Longleftrightarrow\; \eta > 0.50 \quad (\text{Mermin witness})\)',
+    ),
+    'teleport': (
+        r'\(|\psi\rangle_S|\Phi^+\rangle_{AB} = \frac{1}{2}\sum_{a,b\in\{0,1\}} |\Phi_{ab}\rangle_{SA}\otimes(X^b Z^a|\psi\rangle_B)\)',
+        r'\(\bar{F}_{\mathrm{tele}}(\eta) = \frac{1 + \eta}{2} > \frac{2}{3} \;\Longleftrightarrow\; \eta > \frac{1}{3}\)',
+    ),
+    'cat': (
+        r'\(\rho_{SM}(W) = \frac{1}{2}\big(|\Phi_0\rangle\langle\Phi_0| + |\Phi_1\rangle\langle\Phi_1| + W|\Phi_0\rangle\langle\Phi_1| + \text{h.c.}\big)\)',
+        r'\(W(t) = |\langle E_0|E_1\rangle| = \exp(-2\kappa\bar{n}\,t), \quad \mathrm{Tr}(\rho_{SM}^2) = \frac{1 + W^2}{2}\)',
+    ),
+    'friend': (
+        r'\(|\Psi_{SF}\rangle = \mathrm{CNOT}_{S\to F}(|+\rangle_S|0\rangle_F) = \frac{|00\rangle_{SF} + |11\rangle_{SF}}{\sqrt{2}}\)',
+        r'\(P_+(\phi) = \frac{1}{2}(1 + \gamma\cos\phi), \quad [Z_F,\, X_S\otimes X_F] = 2i(X_S\otimes Y_F) \neq 0\)',
+    ),
+    'extended': (
+        r'\(\langle\mathrm{ok},\mathrm{ok}|\Psi_{L_1 L_2}\rangle = \frac{1}{2\sqrt{3}}(1 - 0 - 1 + 1) = \frac{1}{2\sqrt{3}} \;\Rightarrow\; P = \frac{1}{12}\)',
+        r'\(P(\mathrm{ok}_1,\mathrm{ok}_2) = \frac{3 - 4\eta + 2\eta^2}{12} \in \left[\frac{1}{12},\, \frac{1}{4}\right]\)',
+    ),
+    'sensing': (
+        r'\(\delta\Delta(\tau) = \frac{1}{\sqrt{N}\,\tau\,W(\tau)}, \quad \tau_{\mathrm{opt}}^{\mathrm{fixed}\,N} = T_2, \quad \tau_{\mathrm{opt}}^{\mathrm{fixed}\,T} = \frac{T_2}{2}\)',
+        r'\(\delta\Delta_{\mathrm{obs}}(\tau) = \frac{e^{\tau/T_2}}{\eta\sqrt{N}\,\tau}\)',
+    ),
+    'capstone': (
+        r'\(\hat{V}_c = \frac{4}{M}\sum_{m=0}^{M-1}\hat{p}_m\cos\phi_m, \quad \widehat{\mathrm{SE}}(\hat{V}_c) = \frac{4}{M}\sqrt{\sum_m \frac{\hat{p}_m(1-\hat{p}_m)}{N_m}\cos^2\phi_m}\)',
+        r'\(r_m = \frac{\hat{p}_m - \hat{p}_{\mathrm{fit}}(\phi_m)}{\sqrt{\hat{p}_{\mathrm{fit}}(1-\hat{p}_{\mathrm{fit}})/N_m}}, \quad \chi^2 = \sum_{m=0}^{M-1} r_m^2\)',
+    ),
+}
+
+
+def scene_svg(name, chapter=None):
     """Render an inline section visual animation apparatus SVG with MathJax notation."""
-    if name != 'section-1-1':
-        raise ValueError(f'Unknown scene: {name}')
+    if name == 'section-1-1':
+        s = (
+            '<title id="scene-1-1-title">Animated two-outcome quantum experiment: preparation, transformation, and measurement</title>'
+            '<desc id="scene-1-1-desc">Interactive schematic of a triggered single-quantum source, two-channel analyzer, detectors with efficiencies eta_A and eta_B, digital counter ledger, and trial-by-trial event tape.</desc>'
+            '<g class="scene-stage stage-prep" data-stage="prep">'
+            '<rect x="16" y="18" width="196" height="252" rx="12" class="lab-boundary stage-box"/>'
+            + text(114, 42, '1. PREPARATION', 'accent')
+            + text(114, 61, 'Heralded trigger window', 'small')
+            + '<g class="node"><rect x="32" y="82" width="102" height="62" rx="8"/>'
+            + text(83, 108, 'Source')
+            + text(83, 129, '1 pulse / gate', 'small')
+            + '</g>'
+            + '<circle class="trigger-led" cx="46" cy="96" r="5" fill="var(--lab-blue)" opacity="0.35"/>'
+            + '<path d="M40 174 H62 V156 H82 V174 H104 V156 H124 V174 H146" class="axis"/>'
+            + text(93, 193, r'Trigger clock \(t_1, t_2, \dots, t_N\)', 'small', w=180)
+            + '<path d="M168 80 V128 M168 152 V204" class="barrier"/>'
+            + text(168, 224, 'Collimator', 'small')
+            + '<text x="114" y="252" text-anchor="middle" class="small prep-status">Gate ready</text>'
+            + '</g>'
+            + '<g class="scene-stage stage-trans" data-stage="trans">'
+            + '<rect x="226" y="18" width="214" height="252" rx="12" class="lab-boundary stage-box"/>'
+            + text(333, 42, '2. TRANSFORMATION', 'accent')
+            + text(333, 61, r'Two-channel analyzer \(U(p)\)', 'small', w=200)
+            + line(134, 140, 326, 140)
+            + splitter_cube(326, 140, 'Analyzer BS')
+            + line(326, 140, 502, 76, 'ray branch-a')
+            + line(326, 140, 502, 204, 'ray branch-b')
+            + text(412, 88, r'Channel \(A\): \(p = \) <span class="val-pa">0.50</span>', 'small', w=176)
+            + text(412, 222, r'Channel \(B\): \(1-p = \) <span class="val-pb">0.50</span>', 'small', w=176)
+            + text(333, 252, r'Superposition \(\sqrt{p}\,|A\rangle + \sqrt{1-p}\,|B\rangle\)', 'small', w=210)
+            + '</g>'
+            + '<g class="scene-stage stage-meas" data-stage="meas">'
+            + '<rect x="454" y="18" width="290" height="252" rx="12" class="lab-boundary stage-box"/>'
+            + text(599, 42, '3. MEASUREMENT', 'accent')
+            + text(599, 61, 'Detectors & event counter', 'small')
+            + detector(502, 47, r'\(D_A\)', r'\(\eta_A = \) <span class="val-eta-a">1.00</span>')
+            + detector(502, 175, r'\(D_B\)', r'\(\eta_B = \) <span class="val-eta-b">1.00</span>')
+            + '<circle class="scene-flash-a" cx="502" cy="76" r="18" fill="var(--lab-blue)" opacity="0"/>'
+            + '<circle class="scene-flash-b" cx="502" cy="204" r="18" fill="var(--lab-gold)" opacity="0"/>'
+            + '<path d="M594 76 H616 M594 204 H616" class="axis"/>'
+            + '<g class="node"><rect x="616" y="47" width="114" height="186" rx="8"/>'
+            + text(673, 71, 'Counter', 'small')
+            + text(673, 99, r'\(k_A = \) <span class="scene-ka">0</span>', 'accent', w=108)
+            + text(673, 125, r'\(k_B = \) <span class="scene-kb">0</span>', '', w=108)
+            + text(673, 151, r'\(k_{\mathrm{miss}} = \) <span class="scene-kmiss">0</span>', 'small', w=108)
+            + text(673, 177, r'\(N = \) <span class="scene-ntrials">0</span>', 'small', w=108)
+            + text(673, 204, r'\(f_A = \) <span class="scene-fa">—</span>', 'small', w=108)
+            + text(673, 223, r'\(\mathrm{SE} = \) <span class="scene-se">—</span>', 'small', w=108)
+            + '</g>'
+            + '<text x="599" y="252" text-anchor="middle" class="small meas-status">Waiting for first trigger window</text>'
+            + '</g>'
+            + '<circle class="scene-packet-in" cx="134" cy="140" r="8" fill="var(--accent)" opacity="0"/>'
+            + '<circle class="scene-packet-a" cx="326" cy="140" r="7" fill="var(--lab-blue)" opacity="0"/>'
+            + '<circle class="scene-packet-b" cx="326" cy="140" r="7" fill="var(--lab-gold)" opacity="0"/>'
+            + '<g class="scene-tape" transform="translate(16, 282)">'
+            + '<rect x="0" y="0" width="728" height="72" rx="10" fill="var(--sidebar)" stroke="var(--line)"/>'
+            + '<text x="14" y="23" text-anchor="start" class="small">Trial log (seeded sequence):</text>'
+            + '<text x="714" y="23" text-anchor="end" class="small scene-seed-label">Seed 2026 · deterministic replay</text>'
+            + '<g class="scene-tape-cells" transform="translate(14, 32)"></g>'
+            + '</g>'
+        )
+        return f'<svg class="qe-apparatus qe-scene-svg" viewBox="0 0 760 366" role="img" aria-labelledby="scene-1-1-title scene-1-1-desc">{s}</svg>'
+
+    if name == 'section-1-2':
+        s = (
+            '<title id="scene-1-2-title">Binomial distribution, standard-error scaling, and detector efficiency bias</title>'
+            '<desc id="scene-1-2-desc">Left panel shows the binomial distribution P(k_A | N, p) and one-sigma band; right panel shows the 1/sqrt(N) standard-error funnel and efficiency-postselected fraction f_A.</desc>'
+            '<rect x="16" y="16" width="354" height="318" rx="12" class="lab-boundary"/>'
+            + text(193, 40, r'1. Binomial Distribution \(P(k_A\mid N, p)\)', 'accent', w=330)
+            + text(193, 62, r'\(\langle k_A\rangle = Np = \) <span class="s12-mean">50.0</span> \(\;\pm\; \sigma_k = \) <span class="s12-sigma">5.00</span>', 'small', w=330)
+            + '<g class="s12-hist" transform="translate(36, 78)"></g>'
+            + text(193, 316, r'Sample draw: \(k_A = \) <span class="s12-ka">53</span> (\(|z| = \) <span class="s12-z">0.60</span>\(\sigma_k\))', 'small', w=330)
+            + '<rect x="386" y="16" width="358" height="318" rx="12" class="lab-boundary"/>'
+            + text(565, 40, r'2. Convergence \(\mathrm{SE}(\hat{p}) \propto 1/\sqrt{N}\) & Bias \(f_A\)', 'accent', w=340)
+            + text(565, 62, r'True \(p = \) <span class="s12-p">0.50</span> \(\;\to\;\) Postselected \(f_A = \) <span class="s12-fa">0.500</span>', 'small', w=340)
+            + '<g class="s12-funnel" transform="translate(406, 78)"></g>'
+            + text(565, 316, r'\(f_A = \frac{p\,\eta_A}{p\,\eta_A + (1-p)\,\eta_B}, \quad \mathrm{SE}(\hat{p}) = \) <span class="s12-se">0.050</span>', 'small', w=340)
+        )
+        return f'<svg class="qe-apparatus qe-scene-svg" viewBox="0 0 760 348" role="img" aria-labelledby="scene-1-2-title scene-1-2-desc">{s}</svg>'
+
+    if name == 'section-1-3':
+        s = (
+            '<title id="scene-1-3-title">Detector-swap calibration protocol and explicit assumption ledger</title>'
+            '<desc id="scene-1-3-desc">Animates swapping detectors D1 and D2 between ports A and B to cancel efficiency asymmetry and displays the four-item assumption ledger.</desc>'
+            '<rect x="16" y="16" width="404" height="318" rx="12" class="lab-boundary"/>'
+            + text(218, 40, '1. Port-Swap Calibration Protocol', 'accent', w=380)
+            + text(218, 62, r'Cancels \(\eta_1 \neq \eta_2\) via \(\hat{p}_{\mathrm{cal}} = \frac{\sqrt{R_1 R_2}}{1 + \sqrt{R_1 R_2}}\)', 'small', w=380)
+            + box(30, 126, 108, 'Source', r'true \(p\)')
+            + line(138, 158, 206, 158)
+            + splitter_cube(206, 158, 'Analyzer')
+            + line(206, 158, 304, 104, 'ray')
+            + line(206, 158, 304, 212, 'ray')
+            + '<g class="s13-det-top">' + detector(304, 75, r'\(D_1\)', r'\(\eta_1 = \) <span class="s13-eta1">1.00</span>') + '</g>'
+            + '<g class="s13-det-bot">' + detector(304, 183, r'\(D_2\)', r'\(\eta_2 = \) <span class="s13-eta2">0.60</span>') + '</g>'
+            + '<circle class="s13-pulse" cx="138" cy="158" r="7" fill="var(--accent)" opacity="0"/>'
+            + text(218, 272, r'Direct \(f_A^{(1)} = \) <span class="s13-f1">0.625</span> \(\;\mid\;\) Swapped \(f_A^{(2)} = \) <span class="s13-f2">0.375</span>', 'small', w=380)
+            + text(218, 304, r'Calibrated \(\hat{p}_{\mathrm{cal}} = \) <span class="s13-pcal">0.500</span> (True \(p = \) <span class="s13-ptrue">0.500</span>)', 'accent', w=380)
+            + '<rect x="434" y="16" width="310" height="318" rx="12" class="lab-boundary"/>'
+            + text(589, 40, '2. Explicit Assumption Ledger', 'accent', w=290)
+            + text(589, 62, 'Operational status of inference', 'small', w=290)
+            + '<g class="s13-ledger" transform="translate(450, 78)">'
+            + '<g class="node"><rect x="0" y="0" width="278" height="48" rx="8"/>' + text(139, 20, r'A1. Stationary preparation \(p\)', 'small', w=260) + text(139, 39, 'Verified across blocks', 'accent', w=260) + '</g>'
+            + '<g class="node s13-card-eff"><rect x="0" y="58" width="278" height="48" rx="8"/>' + text(139, 78, r'A2. Efficiency balance \(\eta_1 / \eta_2\)', 'small', w=260) + '<text x="139" y="97" text-anchor="middle" class="small s13-status-eff">Uncalibrated asymmetry</text></g>'
+            + '<g class="node"><rect x="0" y="116" width="278" height="48" rx="8"/>' + text(139, 136, r'A3. Fair sampling of misses', 'small', w=260) + text(139, 155, r'Raw bias \(\Delta p = \) <span class="s13-status-bias">+0.125</span>', 'small', w=260) + '</g>'
+            + '<g class="node"><rect x="0" y="174" width="278" height="54" rx="8"/>' + text(139, 195, r'A4. Swap-calibrated estimator \(\hat{p}_{\mathrm{cal}}\)', 'small', w=260) + '<text x="139" y="216" text-anchor="middle" class="accent s13-status-cal">Recovers true p within SE</text></g>'
+            + '</g>'
+        )
+        return f'<svg class="qe-apparatus qe-scene-svg" viewBox="0 0 760 348" role="img" aria-labelledby="scene-1-3-title scene-1-3-desc">{s}</svg>'
+
+    # General section-N-k visual animation for Chapters 2..24
+    parts = name.split('-')
+    ch_num = int(parts[1])
+    sec_idx = int(parts[2])
+    kind = chapter['kind'] if chapter else 'mzi'
+    sec = chapter['sections'][sec_idx - 1] if chapter else {'number': f'{ch_num}.{sec_idx}', 'title': name, 'subsections': ['', '', '']}
+    f_law, f_audit = SECTION_FORMULAS.get(kind, (r'\(P(\theta)\)', r'\(V_{\mathrm{obs}} = \eta\,V\)'))
+
+    if sec_idx == 1:
+        # Section N.1: Animated Apparatus Stage with Live Sub-Stage Progression & Particle/Wave Propagation
+        base = svg(kind, sec['title'])
+        inner = base.split('>', 1)[1].rsplit('</svg>', 1)[0]
+        # Replace diagram-title / diagram-desc IDs so they never collide with #explore
+        inner = inner.replace('id="diagram-title"', f'id="{name}-title"').replace('id="diagram-desc"', f'id="{name}-desc"')
+        sub1, sub2, sub3 = (sec.get('subsections') + ['', '', ''])[:3]
+        overlay = (
+            f'<g class="s-n1-overlay">'
+            f'<circle class="s-n1-pulse-a" cx="60" cy="160" r="8" fill="var(--accent)" opacity="0"/>'
+            f'<circle class="s-n1-pulse-b" cx="60" cy="160" r="7" fill="var(--lab-gold)" opacity="0"/>'
+            f'<g transform="translate(16, 352)">'
+            f'<rect x="0" y="0" width="688" height="54" rx="8" fill="var(--sidebar)" stroke="var(--line)"/>'
+            + text(14, 21, rf'Section {sec["number"]} Live State:', 'accent', 'start', w=220)
+            + f'<foreignObject x="195" y="3" width="480" height="26" class="svg-fo"><div xmlns="http://www.w3.org/1999/xhtml" class="svg-math small s-n1-formula" style="text-align:right">{f_law}</div></foreignObject>'
+            + f'<text x="14" y="42" text-anchor="start" class="small s-n1-stage-text">Stage 1 ({sec["number"]}.1): {e(sub1[:58])}</text>'
+            + f'<text x="674" y="42" text-anchor="end" class="small s-n1-readout">Ready</text>'
+            f'</g></g>'
+        )
+        return f'<svg class="qe-apparatus qe-scene-svg" viewBox="0 0 720 416" role="img" aria-labelledby="{name}-title {name}-desc">{inner}{overlay}</svg>'
+
+    if sec_idx == 2:
+        # Section N.2: Dual-Panel Quantitative Mechanism (Phasor / Bloch / Wave Dial + Live Curve/Bar Sweep)
+        s = (
+            f'<title id="{name}-title">{e(sec["number"] + " " + sec["title"])}</title>'
+            f'<desc id="{name}-desc">Interactive geometric state/phasor dial and quantitative prediction curve for {e(sec["title"])}.</desc>'
+            '<rect x="16" y="16" width="304" height="318" rx="12" class="lab-boundary"/>'
+            + text(168, 40, '1. State / Amplitude Geometry', 'accent', w=284)
+            + '<g class="s-n2-dial" transform="translate(168, 178)">'
+            + '<circle cx="0" cy="0" r="86" class="sphere-ring"/>'
+            + '<ellipse cx="0" cy="0" rx="86" ry="28" class="sphere-ring"/>'
+            + '<path d="M-96 0 H96 M0 -96 V96" class="axis"/>'
+            + '<path class="s-n2-vec-a" d="M0 0 L60 0" stroke="var(--lab-blue)" stroke-width="3" fill="none"/>'
+            + '<path class="s-n2-vec-b" d="M60 0 L60 -50" stroke="var(--lab-gold)" stroke-width="3" stroke-dasharray="5 3" fill="none"/>'
+            + '<path class="s-n2-vec-tot" d="M0 0 L60 -50" stroke="var(--accent)" stroke-width="4" fill="none"/>'
+            + '<circle class="s-n2-tip" cx="60" cy="-50" r="6" fill="var(--accent)"/>'
+            + '</g>'
+            + '<text x="168" y="292" text-anchor="middle" class="small s-n2-dial-label">Amplitude / Bloch projection</text>'
+            + text(168, 318, r'Value \(= \) <span class="s-n2-val">0.500</span>', 'accent', w=280)
+            + '<rect x="334" y="16" width="410" height="318" rx="12" class="lab-boundary"/>'
+            + text(539, 40, f'2. Quantitative Law ({sec["number"]})', 'accent', w=390)
+            + text(539, 64, f_law, 'small', w=395)
+            + '<g class="s-n2-plot" transform="translate(354, 78)"></g>'
+        )
+        return f'<svg class="qe-apparatus qe-scene-svg" viewBox="0 0 760 348" role="img" aria-labelledby="{name}-title {name}-desc">{s}</svg>'
+
+    # Section N.3: Experimental Audit (Ideal vs. Noisy/Imperfect Prediction + Section N.3 Assumption Ledger)
+    sub1, sub2, sub3 = (sec.get('subsections') + ['', '', ''])[:3]
     s = (
-        '<title id="scene-1-1-title">Animated two-outcome quantum experiment: preparation, transformation, and measurement</title>'
-        '<desc id="scene-1-1-desc">Interactive schematic of a triggered single-quantum source, two-channel analyzer, detectors with efficiencies eta_A and eta_B, digital counter ledger, and trial-by-trial event tape.</desc>'
-        # Stage 1: Preparation
-        '<g class="scene-stage stage-prep" data-stage="prep">'
-        '<rect x="16" y="18" width="196" height="252" rx="12" class="lab-boundary stage-box"/>'
-        + text(114, 42, '1. PREPARATION', 'accent')
-        + text(114, 61, 'Heralded trigger window', 'small')
-        + '<g class="node"><rect x="32" y="82" width="102" height="62" rx="8"/>'
-        + text(83, 108, 'Source')
-        + text(83, 129, '1 pulse / gate', 'small')
-        + '</g>'
-        + '<circle class="trigger-led" cx="46" cy="96" r="5" fill="var(--lab-blue)" opacity="0.35"/>'
-        + '<path d="M40 174 H62 V156 H82 V174 H104 V156 H124 V174 H146" class="axis"/>'
-        + text(93, 193, r'Trigger clock \(t_1, t_2, \dots, t_N\)', 'small', w=180)
-        + '<path d="M168 80 V128 M168 152 V204" class="barrier"/>'
-        + text(168, 224, 'Collimator', 'small')
-        + '<text x="114" y="252" text-anchor="middle" class="small prep-status">Gate ready</text>'
-        + '</g>'
-        # Stage 2: Transformation
-        + '<g class="scene-stage stage-trans" data-stage="trans">'
-        + '<rect x="226" y="18" width="214" height="252" rx="12" class="lab-boundary stage-box"/>'
-        + text(333, 42, '2. TRANSFORMATION', 'accent')
-        + text(333, 61, r'Two-channel analyzer \(U(p)\)', 'small', w=200)
-        + line(134, 140, 326, 140)
-        + splitter_cube(326, 140, 'Analyzer BS')
-        + line(326, 140, 502, 76, 'ray branch-a')
-        + line(326, 140, 502, 204, 'ray branch-b')
-        + text(412, 88, r'Channel \(A\): \(p = \) <span class="val-pa">0.50</span>', 'small', w=176)
-        + text(412, 222, r'Channel \(B\): \(1-p = \) <span class="val-pb">0.50</span>', 'small', w=176)
-        + text(333, 252, r'Superposition \(\sqrt{p}\,|A\rangle + \sqrt{1-p}\,|B\rangle\)', 'small', w=210)
-        + '</g>'
-        # Stage 3: Measurement & Ledger
-        + '<g class="scene-stage stage-meas" data-stage="meas">'
-        + '<rect x="454" y="18" width="290" height="252" rx="12" class="lab-boundary stage-box"/>'
-        + text(599, 42, '3. MEASUREMENT', 'accent')
-        + text(599, 61, 'Detectors & event counter', 'small')
-        + detector(502, 47, r'\(D_A\)', r'\(\eta_A = \) <span class="val-eta-a">1.00</span>')
-        + detector(502, 175, r'\(D_B\)', r'\(\eta_B = \) <span class="val-eta-b">1.00</span>')
-        + '<circle class="scene-flash-a" cx="502" cy="76" r="18" fill="var(--lab-blue)" opacity="0"/>'
-        + '<circle class="scene-flash-b" cx="502" cy="204" r="18" fill="var(--lab-gold)" opacity="0"/>'
-        + '<path d="M594 76 H616 M594 204 H616" class="axis"/>'
-        + '<g class="node"><rect x="616" y="47" width="114" height="186" rx="8"/>'
-        + text(673, 71, 'Counter', 'small')
-        + text(673, 99, r'\(k_A = \) <span class="scene-ka">0</span>', 'accent', w=108)
-        + text(673, 125, r'\(k_B = \) <span class="scene-kb">0</span>', '', w=108)
-        + text(673, 151, r'\(k_{\mathrm{miss}} = \) <span class="scene-kmiss">0</span>', 'small', w=108)
-        + text(673, 177, r'\(N = \) <span class="scene-ntrials">0</span>', 'small', w=108)
-        + text(673, 204, r'\(f_A = \) <span class="scene-fa">—</span>', 'small', w=108)
-        + text(673, 223, r'\(\mathrm{SE} = \) <span class="scene-se">—</span>', 'small', w=108)
-        + '</g>'
-        + '<text x="599" y="252" text-anchor="middle" class="small meas-status">Waiting for first trigger window</text>'
-        + '</g>'
-        # Animated wavepacket pulses
-        + '<circle class="scene-packet-in" cx="134" cy="140" r="8" fill="var(--accent)" opacity="0"/>'
-        + '<circle class="scene-packet-a" cx="326" cy="140" r="7" fill="var(--lab-blue)" opacity="0"/>'
-        + '<circle class="scene-packet-b" cx="326" cy="140" r="7" fill="var(--lab-gold)" opacity="0"/>'
-        # Bottom strip: Trial-by-trial event tape & convergence bar
-        + '<g class="scene-tape" transform="translate(16, 282)">'
-        + '<rect x="0" y="0" width="728" height="72" rx="10" fill="var(--sidebar)" stroke="var(--line)"/>'
-        + '<text x="14" y="23" text-anchor="start" class="small">Trial log (seeded sequence):</text>'
-        + '<text x="714" y="23" text-anchor="end" class="small scene-seed-label">Seed 2026 · deterministic replay</text>'
-        + '<g class="scene-tape-cells" transform="translate(14, 32)"></g>'
+        f'<title id="{name}-title">{e(sec["number"] + " " + sec["title"])}</title>'
+        f'<desc id="{name}-desc">Compares ideal prediction against finite efficiency/coherence and audits the experimental assumptions for {e(sec["title"])}.</desc>'
+        '<rect x="16" y="16" width="414" height="318" rx="12" class="lab-boundary"/>'
+        + text(223, 40, '1. Ideal Model vs. Imperfect Apparatus', 'accent', w=394)
+        + text(223, 64, f_audit, 'small', w=398)
+        + '<g class="s-n3-plot" transform="translate(36, 78)"></g>'
+        + '<rect x="444" y="16" width="300" height="318" rx="12" class="lab-boundary"/>'
+        + text(594, 40, f'2. Audit Ledger ({sec["number"]})', 'accent', w=280)
+        + text(594, 62, r'Fidelity / efficiency \(\eta = \) <span class="s-n3-eta">0.85</span>', 'small', w=280)
+        + '<g transform="translate(458, 78)">'
+        + f'<g class="node"><rect x="0" y="0" width="272" height="54" rx="8"/><text x="136" y="22" text-anchor="middle" class="small">{e(sec["number"])}.1 Check</text><text x="136" y="42" text-anchor="middle" class="small">{e(sub1[:38])}</text></g>'
+        + f'<g class="node"><rect x="0" y="64" width="272" height="54" rx="8"/><text x="136" y="86" text-anchor="middle" class="small">{e(sec["number"])}.2 Check</text><text x="136" y="106" text-anchor="middle" class="small">{e(sub2[:38])}</text></g>'
+        + f'<g class="node"><rect x="0" y="128" width="272" height="54" rx="8"/><text x="136" y="150" text-anchor="middle" class="small">{e(sec["number"])}.3 Scope</text><text x="136" y="170" text-anchor="middle" class="small">{e(sub3[:38])}</text></g>'
+        + '<g class="node"><rect x="0" y="192" width="272" height="52" rx="8"/>'
+        + text(136, 212, r'Ideal \(= \) <span class="s-n3-ideal">1.00</span> \(\;\mid\;\) Obs. \(= \) <span class="s-n3-obs">0.85</span>', 'small', w=260)
+        + '<text x="136" y="234" text-anchor="middle" class="accent s-n3-verdict">Audit status: calibrated</text></g>'
         + '</g>'
     )
-    return f'<svg class="qe-apparatus qe-scene-svg" viewBox="0 0 760 366" role="img" aria-labelledby="scene-1-1-title scene-1-1-desc">{s}</svg>'
+    return f'<svg class="qe-apparatus qe-scene-svg" viewBox="0 0 760 348" role="img" aria-labelledby="{name}-title {name}-desc">{s}</svg>'

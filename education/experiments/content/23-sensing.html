@@ -10,6 +10,8 @@
   <p>At the quadrature operating point (\(\Delta \approx 0\)), the nominal probability is \(p_0 = 1/2\) and the population slope scales linearly with both the interrogation time \(\tau\) and the surviving coherence \(W(\tau)\).</p>
   <h3>23.1.3 Balancing longer phase accumulation against decoherence decay</h3>
   <p>Increasing the free-precession time \(\tau\) sharpens the Ramsey fringes (increasing the lever arm \(\tau\)), but waiting too long (\(\tau \gg T_2\)) collapses the envelope \(W(\tau) \to 0\) so the fringes flatten into a featureless \(p = 1/2\) line. Every quantum sensor therefore faces a fundamental trade-off between coherent phase-accumulation time \(\tau\) and decoherence time \(T_2\).</p>
+
+  <div data-scene="section-23-1"></div>
 </section>
 
 <section class="book-section" id="section-23-2">
@@ -33,6 +35,8 @@
   </ul>
   <h3>23.2.3 Fair resource accounting when comparing entangled and unentangled probes</h3>
   <p>For \(M\) unentangled probes, uncertainty scales at the Standard Quantum Limit (SQL) as \(1/\sqrt{M}\). Replacing the \(M\) independent probes with an \(M\)-qubit GHZ state \((|0\rangle^{\otimes M} + |1\rangle^{\otimes M})/\sqrt{2}\) multiplies the phase accumulation speed by \(M\) (\(\phi = M\Delta\tau\)), reaching Heisenberg scaling \(1/(M\tau)\) in the absence of noise. However, under independent local Markovian dephasing at rate \(1/T_2\) per qubit, the \(M\)-qubit GHZ coherence decays \(M\) times faster, \(W_{\mathrm{GHZ}}(\tau) = e^{-M\tau/T_2}\). Under a fixed total integration time \(T_{\mathrm{tot}}\), shortening \(\tau\) to \(T_2/(2M)\) restores the exact same minimum uncertainty \(\sqrt{2e/(M T_{\mathrm{tot}} T_2)}\) as \(M\) uncorrelated probes—highlighting why fair metrological comparisons must include the decoherence model and total time budget.</p>
+
+  <div data-scene="section-23-2"></div>
 </section>
 
 <section class="book-section" id="section-23-3">
@@ -43,6 +47,8 @@
   <p>For non-Markovian or quasi-static Gaussian noise with stretched-exponential envelope \(W(\tau) = \exp[-(\tau/T_2)^p]\), the optimal interrogation time shifts to \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,N} = p^{-1/p}T_2\) for fixed \(N\) and \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,T_{\mathrm{tot}}} = (2p)^{-1/p}T_2\) for fixed total time \(T_{\mathrm{tot}}\) (for Gaussian dephasing \(p = 2\), \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,N} = T_2/\sqrt{2}\) and \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,T_{\mathrm{tot}}} = T_2/2\)). Including finite dead time \(\tau_d > 0\) shifts \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,T_{\mathrm{tot}}}\) continuously from \(T_2/2\) (when \(\tau_d \ll T_2\)) toward \(T_2\) (when \(\tau_d \gg T_2\)).</p>
   <h3>23.3.3 Bridging synthetic sensitivity curves to calibrated clock datasets</h3>
   <p>A precision measurement report pairs its statistical precision \(\delta\Delta_{\mathrm{stat}}\) (obtained from the Allan deviation at \(\tilde{\tau}\)) with a systematic error budget covering AC Stark shifts, second-order Zeeman shifts, blackbody radiation shifts, collisional shifts, and gravitational redshift calibration.</p>
+
+  <div data-scene="section-23-3"></div>
 </section>
 
 <section class="book-section" id="explore">

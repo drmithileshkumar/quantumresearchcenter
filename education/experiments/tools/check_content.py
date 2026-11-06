@@ -8,8 +8,9 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT.parent))
 sys.path.insert(0,str(ROOT/'tools'))
 from site_navigation import SECTIONS
-from check_manuscripts import check as check_chapter
+from check_manuscripts import check as check_chapter, check_visuals
 EXPECTED_NAV=[label for _,label in SECTIONS]
+assert not check_visuals(),check_visuals()
 chapters=json.loads((ROOT/'chapters.json').read_text());labs=json.loads((ROOT/'labs.json').read_text())
 assert len(chapters)==24 and len(labs)==24
 cache={}
@@ -34,7 +35,7 @@ for p in ROOT.glob('*.html'):
  nav=doc.select_one('nav[aria-label="Site navigation"]')
  assert [a.get_text() for a in nav.find_all('a')]==EXPECTED_NAV
  if p.name!='index.html':
-  assert len(doc.select('.qe-lab'))==1 and doc.select_one('svg title') and doc.select_one('svg desc')
+  assert len(doc.select('.qe-lab'))==1 and len(doc.select('.qe-scene'))==3 and doc.select_one('svg title') and doc.select_one('svg desc')
   assert doc.select_one('input[type=range]') and doc.select_one('noscript')
   assert doc.select_one('.qe-controls').has_attr('hidden')
  for el in doc.select('[href],[src]'):

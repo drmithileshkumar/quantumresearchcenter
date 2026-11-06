@@ -6,6 +6,8 @@
   <p>As the free-evolution time \(\tau\) increases, the amplitude of Ramsey fringes decays with characteristic transverse coherence time \(T_2^*\). That decay combines two physically distinct mechanisms: reversible inhomogeneous broadening—where static or slowly drifting shifts \(\delta\omega\) vary from shot to shot or across an ensemble of atoms—and irreversible homogeneous dephasing (\(T_2\)) caused by high-frequency fluctuations and entangling interactions with an uncontrolled environment, alongside longitudinal energy relaxation (\(T_1\)).</p>
   <h3>14.1.3 Refocusing static detuning with a midpoint inversion pulse</h3>
   <p>Erwin Hahn’s spin-echo sequence separates static frequency offsets from genuinely stochastic dephasing by inserting a resonant \(\pi\) inversion pulse at the midpoint \(t = \tau/2\) of the dark interval. A static detuning \(\Delta\) accumulates phase \(+\Delta\tau/2\) during the first half \([0,\tau/2]\); the \(\pi\) pulse flips the equatorial phase angle \(\phi \mapsto -\phi\) by exchanging \(|0\rangle\) and \(|1\rangle\); during the second half \([\tau/2,\tau]\), the same static detuning adds \(+\Delta\tau/2\), bringing the net detuning phase back to zero at \(t = \tau\). Any fringe decay that remains at the echo time \(\tau\) measures dynamic noise that varied between the first and second halves of the trajectory.</p>
+
+  <div data-scene="section-14-1"></div>
 </section>
 
 <section class="book-section" id="section-14-2">
@@ -23,6 +25,8 @@
   <p>With a midpoint \(\pi\) pulse about the \(X\) axis at \(\tau/2\), a static frequency offset \(\Delta + \delta\omega\) evolves the initial superposition \((|0\rangle + |1\rangle)/\sqrt{2}\) through</p>
   \[\frac{|0\rangle + e^{i(\Delta+\delta\omega)\tau/2}|1\rangle}{\sqrt{2}} \;\xrightarrow{\;\pi_X\;}\; \frac{e^{i(\Delta+\delta\omega)\tau/2}|0\rangle + |1\rangle}{\sqrt{2}} \;\xrightarrow{\;\tau/2\;}\; e^{i(\Delta+\delta\omega)\tau/2}\frac{|0\rangle + |1\rangle}{\sqrt{2}}.\]
   <p>Up to a global phase, every static \(\delta\omega\) refocuses at \(t = \tau\), extending the decay time from the inhomogeneous \(T_2^*\) to the homogeneous Hahn-echo coherence time \(T_{2\mathrm{E}} \le 2T_1\).</p>
+
+  <div data-scene="section-14-2"></div>
 </section>
 
 <section class="book-section" id="section-14-3">
@@ -35,6 +39,8 @@
   <p>Geometrically, the Bloch vector shrinks radially inward along the equatorial plane from length \(|\vec{r}| = 1\) (pure state on the surface) toward \(|\vec{r}| = 0\) (maximally mixed state at the center of the ball).</p>
   <h3>14.3.3 Operational scope of coherence times</h3>
   <p>Because \(T_2^*\), \(T_{2\mathrm{E}}\), and dynamical-decoupling coherence times \(T_2^{(N)}\) correspond to different filter functions \(F(\omega\tau)\) and different ensemble averaging windows, quoting a single number “\(T_2\)” without specifying the pulse sequence and averaging time is incomplete. An operational report always pairs the fitted decay constant with the pulse protocol (\(T_2^*\) for Ramsey, \(T_{2\mathrm{E}}\) for single-pulse Hahn echo) and the exponent \(p\) of the stretched-exponential envelope \(\exp[-(\tau/T_2)^p]\).</p>
+
+  <div data-scene="section-14-3"></div>
 </section>
 
 <section class="book-section" id="explore">
