@@ -124,3 +124,31 @@ body.ebook{margin:0;background:var(--paper,#fff);color:var(--ink);font-family:va
 .chapter-slides{display:flex;align-items:baseline;flex-wrap:wrap;gap:.5rem 1.2rem;margin:1rem 0 2rem;padding:.9rem 0;border-bottom:1px solid var(--line)}
 .chapter-slides a{font-weight:600;text-underline-offset:4px}
 .chapter-slides>span{font-size:.85rem;color:var(--muted)}
+/* Chapter banners (banners.py): flat line art in two series colours that follow the theme. */
+.chapter-banner{margin:6px 0 34px;--cb-1:#2f7f80;--cb-2:#b0683a}
+html[data-theme=dark] .chapter-banner{--cb-1:#63c7c4;--cb-2:#e39a68}
+.chapter-banner>svg{display:block;width:100%;height:auto;aspect-ratio:3/1;border-radius:6px}
+.chapter-banner .cb-bg{fill:var(--surface,#f4f6f5)}
+.chapter-banner .cb-grid{stroke:var(--line);stroke-width:1;opacity:.6}
+.chapter-banner .cb-grid-strong{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 5}
+.chapter-banner .cb-line{stroke:var(--ink-soft);stroke-width:1.6;fill:none}
+.chapter-banner .cb-thin{stroke:var(--line-strong);stroke-width:1.4;fill:none}
+.chapter-banner .cb-axis{stroke:var(--muted);stroke-width:1.6;fill:none}
+.chapter-banner .cb-1{stroke:var(--cb-1);stroke-width:3;fill:none;stroke-linecap:round}
+.chapter-banner .cb-1t{stroke:var(--cb-1);stroke-width:1.6;fill:none;opacity:.55}
+.chapter-banner .cb-2{stroke:var(--cb-2);stroke-width:3;fill:none;stroke-linecap:round}
+.chapter-banner .cb-2d{stroke:var(--cb-2);stroke-width:2.5;fill:none;stroke-dasharray:7 6}
+.chapter-banner .cb-f1{fill:var(--cb-1)}
+.chapter-banner .cb-f2{fill:var(--cb-2)}
+.chapter-banner .cb-f1o{fill:var(--cb-1);opacity:.32}
+.chapter-banner .cb-fm{fill:var(--line-strong)}
+.chapter-banner .cb-node{fill:var(--paper);stroke:var(--ink-soft);stroke-width:1.6}
+.chapter-banner .cb-hollow{fill:var(--paper)}
+.chapter-banner .cb-hollow1{fill:var(--paper);stroke:var(--cb-1);stroke-width:3}
+.chapter-banner .cb-hollow2{fill:var(--paper);stroke:var(--cb-2);stroke-width:2.5}
+.chapter-banner .cb-w1{fill:var(--cb-1);opacity:.14}
+.chapter-banner .cb-w1s{fill:var(--paper);stroke:var(--cb-1);stroke-width:2.5}
+.chapter-banner .cb-w2{fill:var(--cb-2);opacity:.12}
+.chapter-banner .cb-box{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.6}
+.chapter-banner .cb-box2{fill:var(--paper);stroke:var(--cb-2);stroke-width:2}
+@media print{.chapter-banner{display:none}}

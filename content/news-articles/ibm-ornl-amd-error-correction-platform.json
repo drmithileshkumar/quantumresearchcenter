@@ -1,0 +1,102 @@
+{
+  "slug": "ibm-ornl-amd-error-correction-platform",
+  "title": "IBM, Oak Ridge and AMD open a shared testbed for quantum error correction",
+  "summary": "IBM's Nighthawk processor now sits next to an AMD-powered Oak Ridge supercomputer in Poughkeepsie, so researchers can try error-correction schemes that need fast classical feedback. What the platform is, what it is for, and what it has not yet shown.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: a square-lattice quantum processor and a rack of GPU boards, joined by a loop that carries measurements out and corrections back."
+  },
+  "key_points": [
+    "On 5 November 2026 IBM, Oak Ridge National Laboratory's Quantum Science Center and AMD launched a co-design platform for quantum error correction at IBM's site in Poughkeepsie, New York.",
+    "It pairs IBM's 120-qubit Nighthawk processor with ORNL's Umbra system, built on AMD Instinct MI355X GPUs and 5th Gen EPYC CPUs, so that measurement results can feed decoders and control in real time.",
+    "It is research infrastructure, not a result: no latency, error-rate or logical-qubit figures for the platform have been published."
+  ],
+  "author": "Quantum Research Center",
+  "published": "2026-11-06",
+  "status": "published",
+  "topic": "projects",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What was announced",
+      "paragraphs": [
+        "On 5 November 2026 IBM, AMD and the Quantum Science Center, a Department of Energy research centre led by Oak Ridge National Laboratory (ORNL), announced a co-design platform for quantum error correction. The first deployment is at IBM's site in Poughkeepsie, New York, and the partners say it will also connect to the Oak Ridge Leadership Computing Facility in Tennessee.",
+        "The quantum side is IBM's Nighthawk, a 120-qubit superconducting processor whose qubits are connected in a square lattice; IBM's blog names the revision as Nighthawk r2. The classical side is ORNL's Umbra system, built on AMD Instinct MI355X GPUs and 5th Gen AMD EPYC CPUs. Neither the release nor IBM's blog gives node counts."
+      ],
+      "source_refs": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "heading": "Why error correction needs a classical computer next door",
+      "paragraphs": [
+        "An error-corrected quantum computer spreads each logical qubit over many physical qubits and repeatedly measures checks that reveal errors without disturbing the stored information. A classical decoder must turn each round of check results into a correction, and some operations, such as conditional gates, must wait for those answers. If the decoder is slow, errors pile up faster than they are removed.",
+        "That is why the partners stress co-location. IBM says researchers can measure qubits during a calculation, act on the results in real time, and work directly with the raw measurement signals. The stated aims are to test and train decoders on GPUs, compare what different error-correction methods cost in qubits, time, samples and classical computing, and find where GPU acceleration helps most."
+      ],
+      "source_refs": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "heading": "Where it fits in IBM's and DOE's plans",
+      "paragraphs": [
+        "IBM says the work will inform Starling, the fault-tolerant computer it plans to deliver by 2029, and research on hierarchical codes, which nest one code inside modules and another across them. The release links the platform to DOE's Genesis Mission, whose Quantum Genesis initiative, announced in June 2026, aims at machines with logical qubits numbering in the low hundreds in 2028.",
+        "DOE's Q Competition, published in September, offers up to $215 million: a $100 million pool shared among teams that demonstrate a first-generation machine with at least 100 logical qubits, and two bonus pools of up to $50 million for 150 and 200 logical qubits. DOE describes the goal as systems capable of hundreds of millions of fault-tolerant operations. The partners' release frames the same target as 100 logical qubits running 100,000 hard operations by late 2028.",
+        "Against that target the release cites IBM experiments with up to 70 logical qubits and 438 hard operations, and says the gap is roughly a 230-fold increase. The 70-logical-qubit run is the sampling experiment IBM and the University of Chicago reported in July 2026, which press coverage described as 2,415 logical two-qubit operations and 468 logical T gates; the release does not explain how its 438 figure is counted."
+      ],
+      "source_refs": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "heading": "How to read it",
+      "paragraphs": [
+        "This is research infrastructure, not a demonstration. The announcement gives no latency figures, no error rates and no logical-qubit results for the platform itself, and coverage so far, including SiliconANGLE's, relies on statements by the three partners. The useful test will be what comes out of it: published decoder latencies, measured logical error rates, and comparisons of error-correction schemes on real hardware with the classical cost counted."
+      ],
+      "source_refs": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "IBM Quantum blog (Rafi Letzter): ORNL, IBM, and AMD launch co-design platform for quantum error correction, 5 November 2026",
+      "url": "https://www.ibm.com/quantum/blog/ornl-amd-error-correction-co-design-platform"
+    },
+    {
+      "title": "Press release (PR Newswire): Oak Ridge National Laboratory, IBM, and AMD Launch New Co-Design Platform for Quantum Error Correction, 5 November 2026",
+      "url": "https://www.tradingview.com/news/prnewswire:7946dd011ee07:0-oak-ridge-national-laboratory-ibm-and-amd-launch-new-co-design-platform-for-quantum-error-correction/"
+    },
+    {
+      "title": "SiliconANGLE, IBM, AMD and Oak Ridge join forces to launch quantum computing error-correction platform, 5 November 2026",
+      "url": "https://siliconangle.com/2026/11/05/ibm-amd-and-oak-ridge-join-forces-to-launch-quantum-computing-error-correction-platform/"
+    },
+    {
+      "title": "US Department of Energy: Quantum Genesis",
+      "url": "https://www.energy.gov/undersecretaryforscience/genesis-mission/quantum-genesis"
+    },
+    {
+      "title": "FedScoop, Energy competition aims to 'maximize' US chances in quantum race, 17 September 2026",
+      "url": "https://fedscoop.com/quantum-genesis-q-competition-energy-department/"
+    },
+    {
+      "title": "The Quantum Insider, IBM and University of Chicago Demonstrate Verified Logical Quantum Computation Beyond Classical Simulation, 31 July 2026",
+      "url": "https://thequantuminsider.com/2026/07/31/ibm-university-of-chicago-verified-logical-quantum-computation/"
+    }
+  ],
+  "related_articles": [
+    "quantinuum-color-code-error-record",
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": []
+}

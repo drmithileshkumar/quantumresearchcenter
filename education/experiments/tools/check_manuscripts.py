@@ -62,6 +62,29 @@ def check(c):
     return problems
 
 
+def check_visuals():
+    problems = []
+    sys.path.insert(0, str(ROOT))
+    import diagrams
+    labs = json.loads((ROOT / 'labs.json').read_text())
+    for kind, spec in labs.items():
+        for field in ('title', 'label'):
+            prose = MATH.sub(' ', spec[field])
+            for m in FORBIDDEN.finditer(prose):
+                problems.append(f'labs.json[{kind}].{field}: bare math symbol {m.group()!r} in {spec[field]!r}')
+        rendered = BeautifulSoup(diagrams.svg(kind, spec['title']), 'html.parser')
+        for node in rendered.find_all(string=True):
+            prose = MATH.sub(' ', str(node))
+            for m in FORBIDDEN.finditer(prose):
+                problems.append(f'diagrams.svg({kind}): bare math symbol {m.group()!r} in {str(node)!r}')
+    scene_rendered = BeautifulSoup(diagrams.scene_svg('section-1-1'), 'html.parser')
+    for node in scene_rendered.find_all(string=True):
+        prose = MATH.sub(' ', str(node))
+        for m in FORBIDDEN.finditer(prose):
+            problems.append(f'diagrams.scene_svg(section-1-1): bare math symbol {m.group()!r} in {str(node)!r}')
+    return problems
+
+
 def main(stems):
     failed = False
     for c in CHAPTERS:
@@ -73,6 +96,12 @@ def main(stems):
             print(f'{c["stem"]}:')
             for p in problems[:25]:
                 print('  ' + p)
+    vis_problems = check_visuals()
+    if vis_problems:
+        failed = True
+        print('visuals:')
+        for p in vis_problems[:25]:
+            print('  ' + p)
     if failed:
         sys.exit(1)
     print('PASS: manuscript headings and MathJax notation.')

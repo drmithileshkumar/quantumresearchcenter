@@ -80,6 +80,10 @@ def validate(articles, config, papers):
             refs = section.get('source_refs', [])
             if not isinstance(refs, list) or any(type(ref) is not int or not 1 <= ref <= len(sources) for ref in refs):
                 raise ValueError('Invalid section source reference: ' + slug)
+        banner = article.get('banner')
+        if banner is not None and (not isinstance(banner, dict) or not re.fullmatch(r'[a-z0-9-]+\.svg', banner.get('file', ''))
+                                   or not isinstance(banner.get('alt'), str) or not banner['alt'].strip()):
+            raise ValueError('Article banners need an SVG file name and alt text: ' + slug)
         points = article.get('key_points', [])
         if not isinstance(points, list) or len(points) > 5 or any(not isinstance(p, str) or not p.strip() for p in points):
             raise ValueError('Key points must be a list of at most five plain-text strings: ' + slug)
@@ -109,8 +113,19 @@ def figure_html(root, slug, figure):
     return f'<figure class="article-figure"><div class="figure-scroll">{svg}</div><figcaption>{esc(figure["caption"])}</figcaption></figure>'
 
 
+def banner_svg(root, article):
+    """The article's banner as inline SVG with its alt text, or ''."""
+    banner = article.get('banner')
+    if not banner:
+        return ''
+    return figure_html(root, article['slug'], {**banner, 'caption': '-'}).split('<div class="figure-scroll">', 1)[1].split('</div><figcaption>', 1)[0]
+
+
 def first_figure(root, article):
-    """The article's first figure as a decorative thumbnail (no caption), or ''."""
+    """A decorative thumbnail (no caption): the banner, else the first figure, else ''."""
+    if article.get('banner'):
+        svg = banner_svg(root, article)
+        return '<div class="article-figure card-figure card-banner" aria-hidden="true">' + re.sub(r'\srole="img" aria-label="[^"]*"', '', svg, count=1) + '</div>'
     figure = next((s['figure'] for s in article['sections'] if s.get('figure')), None)
     if not figure:
         return ''
@@ -222,6 +237,8 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
         long_read = len(sections) >= 5
         body = f'<article class="general-article{" has-toc" if long_read else ""}"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Quantum News</a></li><li><a href="../index.html?topic={article["topic"]}">{esc(TOPICS[article["topic"]])}</a></li></ol></nav>'
         body += f'<header><p class="story-label">{esc(article["format"])}</p><h1>{esc(article["title"])}</h1><p class="article-deck">{esc(article["summary"])}</p>'
+        if article.get('banner'):
+            body += '<figure class="article-figure article-banner">' + banner_svg(root, article) + '</figure>'
         if article.get('key_points'):
             body += '<section class="key-points" aria-labelledby="key-points-heading"><h2 id="key-points-heading" class="eyebrow">Key points</h2><ul>'+''.join('<li>'+esc(p)+'</li>' for p in article['key_points'])+'</ul></section>'
         meta = f'<span>By {esc(article["author"])}</span>{metadata(article)}'

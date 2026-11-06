@@ -2,6 +2,10 @@
   "slug": "measurement-based-quantum-computing-introduction",
   "title": "How can measurements drive a quantum computer?",
   "summary": "An introduction to measurement-based quantum computing: prepare entanglement, measure individual qubits, and use the outcomes to steer what happens next.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: a grid of entangled qubits measured column by column from the left, with the measured column marked and an arrow feeding results forward."
+  },
   "author": "Quantum Research Center",
   "published": "2026-11-06",
   "status": "published",

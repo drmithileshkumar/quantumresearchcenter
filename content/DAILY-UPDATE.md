@@ -111,7 +111,8 @@ When writing one, follow the schema in NEWS.md: `status: "published"`,
 `published: TODAY`, `author: "Quantum Research Center"`, attributed claims,
 explicit announcement dates, a clear line between goals, funding,
 demonstrations and products, and `source_refs` on the sections. Link
-`related_papers` when an approved paper is relevant. Do not add figures.
+`related_papers` when an approved paper is relevant. Add a banner as NEWS.md
+describes (one new function in `draw_banners.py`); do not add other figures.
 
 ## 6. Gate and publish
 

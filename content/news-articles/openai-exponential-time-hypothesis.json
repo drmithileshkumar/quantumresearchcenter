@@ -2,6 +2,10 @@
   "slug": "openai-exponential-time-hypothesis",
   "title": "Exponential Time Hypothesis collapses",
   "summary": "A beginner’s guide to the Exponential Time Hypothesis, how the algorithm OpenAI has released is claimed to work, which results it overturns and which survive, and why it is a statement about growth rates rather than a faster SAT solver.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: a family of exponential curves that differ only in steepness, and one curve that bends away more slowly."
+  },
   "key_points": [
     "OpenAI says its AI system found an algorithm that counts the solutions of fixed-width k-SAT formulas in subexponential time, which would disprove the Exponential Time Hypothesis.",
     "A 67-page manuscript and a Lean proof of a slightly weaker bound are public; an external group led by Impagliazzo, Paturi and Williams is examining the work.",

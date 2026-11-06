@@ -31,6 +31,14 @@ Optional fields:
   as "Key points". Use them for news stories: state what happened, the key
   number, and what it does not show, so readers get the takeaway even if
   they stop there.
+- `banner`: `{"file": "banner.svg", "alt": "..."}`, a representative 1200x400
+  illustration of the story's subject, shown under the summary and reused,
+  cropped, as the card thumbnail and lead-story image. Draw it in
+  `content/news-articles/figures/draw_banners.py` (add a function and a
+  `BANNERS` entry, then run the script): original, text-free line art with the
+  `.fig-*` classes, including `.fig-bg` and `.fig-wash-1`/`-2`. Never use company
+  logos, photographs or other people's images. The alt text starts with
+  "Illustration:" and says what is drawn.
 - `updated`: date of a substantive update, no earlier than `published`.
 - `related_articles`: other published article slugs.
 - Within a section, `source_refs`: optional 1-based source numbers for linked citations

@@ -108,6 +108,19 @@ class NewsPublishingTests(unittest.TestCase):
             with self.subTest(points=points), self.assertRaises(ValueError):
                 news_articles.validate(broken, self.config, self.papers)
 
+    def test_banners_render_and_validate(self):
+        output = self.render()
+        for article in self.articles:
+            if article.get('status') == 'published' and article.get('banner'):
+                page = output[news_articles.article_path(article)]
+                self.assertIn('<figure class="article-figure article-banner"><svg role="img" aria-label="', page)
+        self.assertIn('card-banner', output['news/articles/index.html'])
+        for banner in ('x', {'file': 'banner.png', 'alt': 'a'}, {'file': 'banner.svg', 'alt': ' '}):
+            broken = copy.deepcopy(self.articles)
+            broken[0]['banner'] = banner
+            with self.subTest(banner=banner), self.assertRaises(ValueError):
+                news_articles.validate(broken, self.config, self.papers)
+
     def test_short_articles_omit_reading_time(self):
         short = {'published': '2026-10-26', 'sections': [{'paragraphs': ['word ' * 150]}]}
         self.assertNotIn('min read', news_articles.metadata(short))

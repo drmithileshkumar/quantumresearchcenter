@@ -2,6 +2,10 @@
   "slug": "alice-bob-rsa-2048-cat-qubits",
   "title": "Alice & Bob estimates 22,593 cat qubits could break RSA-2048",
   "summary": "A new preprint lowers the estimated qubit count for factoring a 2048-bit RSA key about 40 times. The figure depends on qubits far better than any measured so far, and no such machine exists.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: a cat qubit drawn as two oscillator states with interference fringes between them, beside a large array of qubits."
+  },
   "key_points": [
     "An Alice & Bob preprint estimates that 22,593 cat qubits could factor a 2048-bit RSA key in about 3.14 days, about 40 times fewer qubits than Craig Gidney’s 2025 estimate of under 900,000.",
     "The saving depends on cat qubits that almost never suffer bit flips: about 100 years per qubit, against 15 to 22 seconds measured so far.",

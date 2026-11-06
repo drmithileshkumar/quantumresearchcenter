@@ -485,3 +485,7 @@ Subsection problem sets use native `<details>` disclosures, closed initially. On
 “Problems” is visible until selected; each solution remains independently hidden.
 Direct problem links expand the enclosing set, and printing expands both questions
 and solutions before restoring the reader’s previous state.
+
+## Chapter banners
+
+Each chapter page opens with a banner under its title: an original, text-free drawing of the chapter's anchor example (a two-path cancellation for Chapter 3, a Bell circuit for Chapter 6, Grover rotations for Chapter 9, and so on). `banners.py` draws them into `assets/banners/<chapter>.svg` and holds each banner's alt text; `build.py` inlines the SVG so the `.cb-*` classes in `assets/book.css` follow the light and dark themes. After changing a drawing, run `python3 banners.py` and rebuild. Keep banners free of text, ids and scripts (the build rejects ids and scripts), and draw what the chapter actually computes rather than decoration.

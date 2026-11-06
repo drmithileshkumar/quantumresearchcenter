@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 742" width="640" height="742"
+     role="img" aria-labelledby="tps-title tps-desc" font-family="DejaVu Sans, Segoe UI, Helvetica, Arial, sans-serif">
+  <title id="tps-title">Types of three-particle states</title>
+  <desc id="tps-desc">Top: for mixed states the fully separable states are a subset of the biseparable
+    states, which are a subset of all tripartite states; the remaining band is genuinely tripartite.
+    Below: for pure three-qubit states there are two inequivalent classes under local operations, the
+    GHZ class with three-tangle one and the W class with three-tangle zero.</desc>
+
+  <rect width="640" height="742" fill="#ffffff"/>
+
+  <!-- ===== mixed states: the inclusion chain ===== -->
+  <text x="16" y="26" font-size="15" font-weight="600" fill="#1e2a36">Mixed states ρ<tspan font-size="11" dy="3">ABC</tspan></text>
+  <text x="16" y="46" font-size="12.5" fill="#5b6875">density matrices on H<tspan font-size="10" dy="2">A</tspan><tspan dy="-2"> ⊗ H</tspan><tspan font-size="10" dy="2">B</tspan><tspan dy="-2"> ⊗ H</tspan><tspan font-size="10" dy="2">C</tspan></text>
+
+  <rect x="16" y="60" width="608" height="236" rx="10" fill="#fdfefe" stroke="#ccd6e0" stroke-width="1.4"/>
+  <text x="34" y="86" font-size="13.5" font-weight="600" fill="#1e2a36">All three-particle states</text>
+  <text x="34" y="108" font-size="12" fill="#5b6875">genuinely tripartite: not biseparable</text>
+
+  <rect x="34" y="120" width="572" height="164" rx="9" fill="#eef4fa" stroke="#9dbcd6" stroke-width="1.2"/>
+  <text x="52" y="144" font-size="13.5" font-weight="600" fill="#246593">Biseparable</text>
+  <text x="52" y="164" font-size="12" fill="#41577a">mixtures of states separable across one cut:</text>
+  <text x="52" y="180" font-size="12" fill="#41577a">A|BC,  B|AC,  C|AB</text>
+
+  <rect x="52" y="192" width="536" height="80" rx="9" fill="#dbe8f3" stroke="#6f9ec0" stroke-width="1.2"/>
+  <text x="70" y="214" font-size="13.5" font-weight="600" fill="#1d4f74">Fully separable</text>
+  <text x="70" y="234" font-size="12" fill="#33506b">ρ<tspan font-size="10" dy="2">A</tspan><tspan dy="-2"> ⊗ ρ</tspan><tspan font-size="10" dy="2">B</tspan><tspan dy="-2"> ⊗ ρ</tspan><tspan font-size="10" dy="2">C</tspan><tspan dy="-2">, a product state</tspan></text>
+  <text x="70" y="252" font-size="12" fill="#33506b">e.g. |000⟩, or |+⟩|0⟩|1⟩</text>
+
+  <text x="16" y="330" font-size="12.5" fill="#1e2a36">A pure state is never a mixture, so a biseparable pure state is</text>
+  <text x="16" y="347" font-size="12.5" fill="#1e2a36">already a product across one of the three cuts. Every pure</text>
+  <text x="16" y="364" font-size="12.5" fill="#1e2a36">three-particle state is therefore either a product across a cut,</text>
+  <text x="16" y="381" font-size="12.5" fill="#1e2a36">or genuinely tripartite — and in that second case three qubits</text>
+  <text x="16" y="398" font-size="12.5" fill="#1e2a36">offer exactly the two classes below.</text>
+
+  <line x1="16" y1="420" x2="624" y2="420" stroke="#e3e9ef" stroke-width="1"/>
+
+  <!-- ===== pure states: the two classes ===== -->
+  <text x="16" y="446" font-size="15" font-weight="600" fill="#1e2a36">Pure states |ψ⟩<tspan font-size="11" dy="3">ABC</tspan></text>
+  <text x="16" y="466" font-size="12.5" fill="#5b6875">three qubits: two classes under local operations</text>
+
+  <rect x="16" y="480" width="296" height="126" rx="10" fill="#eef4fa" stroke="#9dbcd6" stroke-width="1.2"/>
+  <text x="34" y="506" font-size="14" font-weight="700" fill="#246593">GHZ class</text>
+  <rect x="218" y="490" width="76" height="22" rx="11" fill="#dbe8f3" stroke="#6f9ec0" stroke-width="1"/>
+  <text x="256" y="506" font-size="12.5" font-weight="600" fill="#1d4f74" text-anchor="middle">τ₃ = 1</text>
+  <text x="34" y="532" font-size="13" fill="#1e2a36">|GHZ⟩ = (|000⟩+|111⟩)/√2</text>
+  <text x="34" y="558" font-size="12" fill="#41577a">One relation shared by all three</text>
+  <text x="34" y="574" font-size="12" fill="#41577a">particles; tracing out any one leaves</text>
+  <text x="34" y="590" font-size="12" fill="#41577a">a correlated, unentangled pair.</text>
+
+  <rect x="328" y="480" width="296" height="126" rx="10" fill="#fbf1ec" stroke="#d9a58c" stroke-width="1.2"/>
+  <text x="346" y="506" font-size="14" font-weight="700" fill="#a64d26">W class</text>
+  <rect x="530" y="490" width="76" height="22" rx="11" fill="#f3ddd3" stroke="#c98a68" stroke-width="1"/>
+  <text x="568" y="506" font-size="12.5" font-weight="600" fill="#8c3f1d" text-anchor="middle">τ₃ = 0</text>
+  <text x="346" y="532" font-size="13" fill="#1e2a36">|W⟩ = (|001⟩+|010⟩+|100⟩)/√3</text>
+  <text x="346" y="558" font-size="12" fill="#7a4630">Pairwise entanglement of 2/3 with no</text>
+  <text x="346" y="574" font-size="12" fill="#7a4630">three-way residue; monogamy caps</text>
+  <text x="346" y="590" font-size="12" fill="#7a4630">what any one particle can share.</text>
+
+  <text x="16" y="640" font-size="12.5" fill="#1e2a36">Local operations with classical communication cannot convert one</text>
+  <text x="16" y="657" font-size="12.5" fill="#1e2a36">class into the other, even with a small success probability.</text>
+  <text x="16" y="685" font-size="12.5" fill="#1e2a36">For local dimension three the list is no longer finite: three qutrits</text>
+  <text x="16" y="702" font-size="12.5" fill="#1e2a36">fall into continuous families of inequivalent states.</text>
+  <text x="16" y="722" font-size="12" fill="#5b6875">τ₃ is the CKW residual C²(A|BC) − C²(AB) − C²(AC); it vanishes on every W-class state.</text>
+</svg>

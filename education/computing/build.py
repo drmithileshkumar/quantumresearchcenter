@@ -40,6 +40,16 @@ def navigation(current,data):
   pieces.append('</details>')
  pieces.append('<nav class="book-resources" aria-label="Learning resources"><a href="study-guide.html">Study guide</a><a href="glossary.html">Glossary</a><a href="notation.html">Notation</a><a href="revisions.html">Revisions and corrections</a><a href="downloads/quantum-computing.zip" download>Download offline book</a></nav>')
  return ''.join(pieces)
+def chapter_banner(stem):
+ """Inline the chapter's banner (banners.py) so its marks follow the theme; '' if none."""
+ import importlib.util
+ spec=importlib.util.spec_from_file_location('book_banners',ROOT/'banners.py'); banners=importlib.util.module_from_spec(spec); spec.loader.exec_module(banners)
+ entry=banners.BANNERS.get(stem); path=ROOT/'assets'/'banners'/f'{stem}.svg'
+ if not entry or not path.exists(): return ''
+ svg=path.read_text()
+ if re.search(r'<script|\son\w+=|\sid=',svg): raise ValueError('Chapter banner must be a plain SVG: '+path.name)
+ svg=svg.replace('<svg',f'<svg role="img" aria-label="{esc(entry[1])}"',1)
+ return f'<figure class="chapter-banner">{svg}</figure>'
 def inline_figures(soup):
  """Inline SVG figures so MathJax can typeset their data-tex labels.
 
@@ -104,7 +114,7 @@ def main():
   for paragraph in ([continuation] if isinstance(continuation,str) else continuation): opening+=f'<p>{esc(paragraph)}</p>'
   intro_continuation=f'<p>{esc(manifest["intro_continuation"])}</p>' if manifest.get('intro_continuation') else ''
   slide_link=(f'<p class="chapter-slides"><a href="{stem}-slides.html">Presentation slides <span aria-hidden="true">↗</span></a><span>{slide_counts[stem]} slides · Fullscreen presentation or print to PDF</span></p>' if stem in slide_counts else '')
-  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{render_chapter_map(title,manifest)}{slide_link}{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+chapter_summary.render(SUMMARIES.get(stem))+learning.exercises(stem,index,title)
+  body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{"Appendices" if stem=="appendices" else f"Chapter {i+1:02}"}</p><h1>{title}</h1>{chapter_banner(stem)}{render_chapter_map(title,manifest)}{slide_link}{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+chapter_summary.render(SUMMARIES.get(stem))+learning.exercises(stem,index,title)
   prev=META[i-1] if i else None; nxt=META[i+1] if i+1<len(META) else None
   links=(f'<a rel="prev" href="{prev[0]}.html"><small>Previous chapter</small>{prev[1]} ←</a>' if prev else '<a href="index.html"><small>Book overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt[0]}.html"><small>Next chapter</small>{nxt[1]} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Book contents →</a>')
   body='<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">'+links+'</nav>'+body+'<nav class="chapter-pagination" aria-label="Chapter navigation">'+links+'</nav>'

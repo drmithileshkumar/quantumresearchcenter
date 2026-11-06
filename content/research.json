@@ -606,6 +606,33 @@
       "url": "https://arxiv.org/abs/1303.4724",
       "note": "Represents a two-qubit state by the set of Bloch vectors one party can steer the other to.",
       "checked": "2026-10-30"
+    },
+    "quant-ph/0005115": {
+      "title": "Three qubits can be entangled in two inequivalent ways",
+      "authors": "Wolfgang Dür, Guifre Vidal, J. Ignacio Cirac",
+      "year": 2000,
+      "kind": "Research paper",
+      "url": "https://arxiv.org/abs/quant-ph/0005115",
+      "note": "Proves that three-qubit pure states fall into a GHZ class and a W class, and that no stochastic local protocol converts one class into the other.",
+      "checked": "2026-11-06"
+    },
+    "quant-ph/9907047": {
+      "title": "Distributed entanglement",
+      "authors": "Valerie Coffman, Joydip Kundu, William K. Wootters",
+      "year": 1999,
+      "kind": "Research paper",
+      "url": "https://arxiv.org/abs/quant-ph/9907047",
+      "note": "Establishes the monogamy inequality for three qubits and the residual called the three-tangle, which vanishes on the W class.",
+      "checked": "2026-11-06"
+    },
+    "0811.2803": {
+      "title": "Entanglement detection",
+      "authors": "Otfried Gühne, Géza Tóth",
+      "year": 2008,
+      "kind": "Review",
+      "url": "https://arxiv.org/abs/0811.2803",
+      "note": "Surveys witnesses, positive maps and moment criteria for detecting entanglement, including the multipartite case where the partial transpose is no longer sufficient.",
+      "checked": "2026-11-06"
     }
   },
   "categories": [
@@ -813,6 +840,25 @@
           ],
           "children": [],
           "manuscript": "content/research/recoverable-information.html"
+        },
+        {
+          "id": "three-particle-states",
+          "title": "What can three particles share that two cannot?",
+          "keyword": "What can three particles share that two cannot?",
+          "summary": "A third particle removes the Schmidt decomposition, so tripartite entanglement comes in kinds rather than amounts. For three qubits the genuinely tripartite pure states fall into two classes that no local protocol interconverts.",
+          "paragraphs": [
+            "A third particle removes the Schmidt decomposition, so tripartite entanglement comes in kinds rather than amounts. For three qubits the genuinely tripartite pure states fall into two classes that no local protocol interconverts."
+          ],
+          "questions": [],
+          "papers": [
+            "quant-ph/0005115",
+            "quant-ph/9907047",
+            "0811.2803",
+            "quant-ph/0702225"
+          ],
+          "children": [],
+          "manuscript": "content/research/three-particle-states.html",
+          "reviewed": "6 November 2026"
         }
       ]
     },

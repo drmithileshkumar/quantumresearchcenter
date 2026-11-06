@@ -165,4 +165,15 @@ html[data-theme=dark] .article-figure{--fig-1:#3987e5;--fig-2:#d95926}
 .article-figure .fig-link{stroke:var(--ink-soft);stroke-width:1.5;fill:none}
 .article-figure .fig-cross{stroke:var(--fig-2);stroke-width:1.5;fill:none}
 .article-figure .fig-measure{stroke:var(--fig-1);stroke-width:1.5;fill:none;stroke-dasharray:4 3}
+/* Banner marks: a flat panel and translucent washes of the two series colours (no gradients). */
+.article-figure .fig-bg{fill:var(--surface)}
+.article-figure .fig-wash-1{fill:var(--fig-1);opacity:.14}
+.article-figure .fig-wash-2{fill:var(--fig-2);opacity:.16}
+.article-figure .fig-fill-muted-soft{fill:var(--line-strong);opacity:.35}
+/* Banners: 3:1 under the summary; cards and the lead story crop the same drawing (preserveAspectRatio slice). */
+.editorial .article-banner{margin:0 0 26px}
+.article-banner>svg,.card-banner>svg{display:block;width:100%;height:auto;aspect-ratio:3/1;font-family:var(--sans)}
+.card-banner{border-radius:6px;overflow:hidden}
+.feature>.card-banner>svg{aspect-ratio:4/3;max-height:none}
+@media(max-width:520px){.article-banner>svg,.feature>.card-banner>svg{aspect-ratio:5/2}}
 .article-prose .cite-tail{white-space:nowrap}

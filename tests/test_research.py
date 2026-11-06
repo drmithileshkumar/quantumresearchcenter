@@ -29,7 +29,7 @@ class ResearchPages(unittest.TestCase):
         cls.output=builder.render(cls.book)
     def test_every_question_has_an_argument_and_sources(self):
         questions=[i for i in builder.records(self.book) if i.get('manuscript')]
-        self.assertEqual(len(questions),13)
+        self.assertEqual(len(questions),14)
         for item in questions:
             manuscript=(ROOT/item['manuscript']).read_text();doc=Source(manuscript)
             self.assertEqual(doc.sections,['perspective','mathematics','known','frontier','investigation'])

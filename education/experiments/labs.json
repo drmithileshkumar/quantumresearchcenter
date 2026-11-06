@@ -1,7 +1,7 @@
 {
   "counts": {
     "title": "A detector, one trial at a time",
-    "label": "Probability of A",
+    "label": "Probability of \\(A\\) (\\(p\\))",
     "min": 0,
     "max": 1,
     "step": 0.01,
@@ -10,7 +10,7 @@
   },
   "energy": {
     "title": "The photoelectric energy balance",
-    "label": "Photon energy (eV)",
+    "label": "Photon energy \\(h\\nu\\) (eV)",
     "min": 0,
     "max": 5,
     "step": 0.05,
@@ -19,7 +19,7 @@
   },
   "slits": {
     "title": "Build an interference pattern",
-    "label": "Visibility",
+    "label": "Visibility \\(V\\)",
     "min": 0,
     "max": 1,
     "step": 0.01,
@@ -28,7 +28,7 @@
   },
   "spin": {
     "title": "Rotate the analyzer",
-    "label": "Analyzer angle (degrees)",
+    "label": "Analyzer angle \\(\\theta\\) (degrees)",
     "min": 0,
     "max": 180,
     "step": 1,
@@ -37,7 +37,7 @@
   },
   "polarization": {
     "title": "Three polarizers",
-    "label": "Middle angle (degrees)",
+    "label": "Middle angle \\(\\theta\\) (degrees)",
     "min": 0,
     "max": 90,
     "step": 1,
@@ -46,7 +46,7 @@
   },
   "photons": {
     "title": "Correlations between clicks",
-    "label": "Delay τ / τc",
+    "label": "Delay \\(\\tau / \\tau_c\\)",
     "min": -4,
     "max": 4,
     "step": 0.05,
@@ -68,7 +68,7 @@
   },
   "mzi": {
     "title": "Recombine the alternatives",
-    "label": "Phase (degrees)",
+    "label": "Phase \\(\\phi\\) (degrees)",
     "min": 0,
     "max": 360,
     "step": 1,
@@ -77,7 +77,7 @@
   },
   "recoil": {
     "title": "A record becomes distinguishable",
-    "label": "Separation Δ / σ",
+    "label": "Separation \\(\\Delta / \\sigma\\)",
     "min": 0,
     "max": 6,
     "step": 0.05,
@@ -86,7 +86,7 @@
   },
   "delayed": {
     "title": "Choose the final measurement",
-    "label": "Phase (degrees)",
+    "label": "Phase \\(\\phi\\) (degrees)",
     "min": 0,
     "max": 360,
     "step": 1,
@@ -104,7 +104,7 @@
   },
   "eraser": {
     "title": "Sort the same signal records",
-    "label": "Phase (degrees)",
+    "label": "Phase \\(\\phi\\) (degrees)",
     "min": 0,
     "max": 360,
     "step": 1,
@@ -131,7 +131,7 @@
   },
   "tunnel": {
     "title": "Transmission through a barrier",
-    "label": "Width κa",
+    "label": "Width \\(\\kappa a\\)",
     "min": 0,
     "max": 4,
     "step": 0.05,
@@ -140,7 +140,7 @@
   },
   "rabi": {
     "title": "Rotate a state with a pulse",
-    "label": "Pulse area (degrees)",
+    "label": "Pulse area \\(\\Theta = \\Omega t\\) (degrees)",
     "min": 0,
     "max": 720,
     "step": 1,
@@ -149,7 +149,7 @@
   },
   "ramsey": {
     "title": "A clock made from a superposition",
-    "label": "Delay t / T₂",
+    "label": "Delay \\(\\tau / T_2\\)",
     "min": 0,
     "max": 4,
     "step": 0.02,
@@ -167,7 +167,7 @@
   },
   "tomography": {
     "title": "Measure along three axes",
-    "label": "State polar angle (degrees)",
+    "label": "State polar angle \\(\\theta\\) (degrees)",
     "min": 0,
     "max": 180,
     "step": 1,
@@ -189,7 +189,7 @@
   },
   "hom": {
     "title": "Overlap two photons",
-    "label": "Relative delay",
+    "label": "Relative delay \\(\\Delta\\tau / \\tau_c\\)",
     "min": -4,
     "max": 4,
     "step": 0.05,
@@ -198,7 +198,7 @@
   },
   "bell": {
     "title": "Four correlations, one bound",
-    "label": "Bob angle θ (degrees)",
+    "label": "Bob angle \\(\\theta\\) (degrees)",
     "min": 0,
     "max": 90,
     "step": 1,
@@ -225,7 +225,7 @@
   },
   "teleport": {
     "title": "Four messages, one recovered state",
-    "label": "Input polar angle (degrees)",
+    "label": "Input polar angle \\(\\theta\\) (degrees)",
     "min": 0,
     "max": 180,
     "step": 1,
@@ -251,7 +251,7 @@
   },
   "cat": {
     "title": "Records and coherence",
-    "label": "Coherence γ",
+    "label": "Coherence \\(\\gamma\\)",
     "min": 0,
     "max": 1,
     "step": 0.01,
@@ -260,7 +260,7 @@
   },
   "friend": {
     "title": "Inside the laboratory; outside the laboratory",
-    "label": "Coherence γ",
+    "label": "Coherence \\(\\gamma\\)",
     "min": 0,
     "max": 1,
     "step": 0.01,
@@ -296,7 +296,7 @@
   },
   "sensing": {
     "title": "Find a useful interrogation time",
-    "label": "Time t / T₂",
+    "label": "Time \\(\\tau / T_2\\)",
     "min": 0.1,
     "max": 4,
     "step": 0.02,
@@ -305,7 +305,7 @@
   },
   "capstone": {
     "title": "Audit a synthetic phase scan",
-    "label": "Generating visibility",
+    "label": "Generating visibility \\(V\\)",
     "min": 0,
     "max": 1,
     "step": 0.01,

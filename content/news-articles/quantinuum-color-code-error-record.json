@@ -2,6 +2,10 @@
   "slug": "quantinuum-color-code-error-record",
   "title": "Quantinuum reports a tenfold drop in logical error rate",
   "summary": "A trapped-ion experiment runs a color code well below threshold, with about five errors per million operations on one logical qubit. What was shown, what it means for scaling, and what is still a goal.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: three triangular colour codes of increasing size, each tiled with faces in three shades."
+  },
   "key_points": [
     "Quantinuum’s Helios trapped-ion computer kept one logical qubit at 99.9995 percent fidelity, about five errors per million operations.",
     "Each step up in color-code distance cut logical errors about twelvefold, against about twofold in Google’s 2024 surface-code experiment.",
