@@ -2,6 +2,11 @@
   "slug": "alice-bob-rsa-2048-cat-qubits",
   "title": "Alice & Bob estimates 22,593 cat qubits could break RSA-2048",
   "summary": "A new preprint lowers the estimated qubit count for factoring a 2048-bit RSA key about 40 times. The figure depends on qubits far better than any measured so far, and no such machine exists.",
+  "key_points": [
+    "An Alice & Bob preprint estimates that 22,593 cat qubits could factor a 2048-bit RSA key in about 3.14 days, about 40 times fewer qubits than Craig Gidney’s 2025 estimate of under 900,000.",
+    "The saving depends on cat qubits that almost never suffer bit flips: about 100 years per qubit, against 15 to 22 seconds measured so far.",
+    "It is a calculation in a preprint that has not been peer reviewed, not a machine. It adds to the case for post-quantum cryptography but changes no formal deadline."
+  ],
   "author": "Quantum Research Center",
   "published": "2026-11-01",
   "status": "published",
@@ -20,7 +25,10 @@
         "The authors compare this with Craig Gidney’s 2025 estimate, which is the usual reference point: under 900,000 qubits and about five days, for conventional superconducting qubits with surface codes. They report a 40-fold reduction in physical qubits with a shorter run time, while noting that the two estimates rest on different hardware assumptions.",
         "The same paper gives trade-offs. More qubits buy speed, with 610,530 qubits needing about 1.25 hours. Fewer cost time, with 21,188 qubits needing about 8 days. Only the RSA-2048 configuration is compiled in full down to physical qubits; the authors say their other figures are derived from it. These include about 29,588 qubits and one hour for the elliptic-curve problem behind Bitcoin signatures, which they present as an upper bound."
       ],
-      "source_refs": [1, 2]
+      "source_refs": [
+        1,
+        2
+      ]
     },
     {
       "heading": "Where the saving comes from",
@@ -28,7 +36,9 @@
         "Most quantum error correction has to fight two kinds of error, bit flips and phase flips. A cat qubit stores information in two states of a microwave oscillator, in a way that makes bit flips exponentially rarer as the number of photons grows, while phase flips grow only linearly. If bit flips can be nearly ignored, a code needs to correct only one kind of error, which takes far fewer physical qubits per logical qubit.",
         "The paper combines this with low-density parity-check codes built for cat qubits. It also adapts Gidney’s adder circuit and designs new gates. Without the parity-check codes, its simpler repetition-code design needs 49,649 qubits and 2.67 days."
       ],
-      "source_refs": [1]
+      "source_refs": [
+        1
+      ]
     },
     {
       "heading": "What it assumes",
@@ -37,7 +47,10 @@
         "How far is that from today’s hardware? The paper itself says even the two-month bit-flip time needed for its smaller benchmark is far beyond anything measured. The security publication PostQuantum, in a detailed review, reports that the longest published bit-flip times under quantum control are 15 and 22 seconds, on single qubits. That is about eight orders of magnitude short of 100 years. It also reports that the paper does not design a decoder, and that the largest cat-qubit chip with error-correction results has 12 qubits. Alice & Bob’s own target for 2030, according to the same review, is a 2,000-qubit chip.",
         "The bit-flip requirement can be relaxed. With an extra layer of bit-flip protection, the authors estimate that a bit-flip time of about one hour would be enough, at about 45,000 qubits and at least 3.14 days. PostQuantum notes that a logical gate set for that extra layer has not yet been designed."
       ],
-      "source_refs": [1, 2]
+      "source_refs": [
+        1,
+        2
+      ]
     },
     {
       "heading": "What it does and does not change",
@@ -45,7 +58,11 @@
         "The paper is a preprint from a company that builds the hardware it analyses, and it has not completed peer review. Its acknowledgments thank outside cryptographers for reviewing preliminary versions, according to PostQuantum. Comparing qubit counts across technologies also has limits, since other estimates assume different hardware: PostQuantum lists neutral-atom designs with fewer qubits than this one, but with far longer run times.",
         "The authors argue that the trend calls for immediate migration to post-quantum cryptography, using hybrid schemes during the transition. Quantum Computing Report, covering the paper on 30 October, summarises their view as moving critical infrastructure to post-quantum standards by 2035. PostQuantum’s author agrees with the call to migrate but argues that the estimate does not change any formal deadline. Nobody has yet shown a machine that could carry out this attack, but the direction of these estimates, from millions of qubits to tens of thousands on paper, is why cryptographers do not wait for one."
       ],
-      "source_refs": [1, 2, 3]
+      "source_refs": [
+        1,
+        2,
+        3
+      ]
     }
   ],
   "sources": [

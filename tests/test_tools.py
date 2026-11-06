@@ -235,8 +235,10 @@ class ToolTests(unittest.TestCase):
             self.assertIn(f'id="ph3-group-{key}"', page)
             self.assertIn(f'id="amp3-mag-{key}"', page)
         self.assertEqual(page.count('class="plane-branch branch-'), 2)
-        self.assertIn('id="planes-quad-0"', page)
-        self.assertIn('id="planes-quad-1"', page)
+        for bit in (0, 1):
+            self.assertIn(f'id="planes-fill-{bit}-near"', page)
+            self.assertIn(f'id="planes-fill-{bit}-far"', page)
+        self.assertIn('id="planes-edges"', page)
         self.assertIn('id="menu-reference"', page)
         for index, _ in enumerate(tools.THREE_QUBITS):
             self.assertIn(f'<option value="{index}"', page)
@@ -299,30 +301,39 @@ class ToolTests(unittest.TestCase):
             return swapped
         mirrored = [tools.branch_form(swap_wires(state, 1, 2), 0, bit) for bit in (0, 1)]
         self.assertAlmostEqual(abs(dot(tools.plane_meeting(mirrored)[0], axis)), 1.0, places=9)
-        # The readouts name the basis and how far each branch leans away from it.
+        # The readouts name the basis, the two leans per branch and the twist between them.
         line, detail = tools.basis_report(branches)
         self.assertIn('that diameter is the basis |+û⟩, |−û⟩, at polar 59°', line)
-        self.assertIn('Schmidt axes lean 23° and 13° in the ₀ branch', detail)
-        self.assertIn('52° and 77° in the ₁ branch', detail)
+        self.assertIn('all four amplitudes survive in each branch', detail)
+        self.assertIn('λ₀ = 23°, μ₀ = 13°', detail)
+        self.assertIn('λ₁ = 52°, μ₁ = 77°', detail)
+        self.assertIn('α = 87.5° between the two meridians', detail)
         ghz = [tools.branch_form(tools.THREE_STATES['ghz'], 0, bit) for bit in (0, 1)]
         self.assertIn('every diameter of their common plane', tools.basis_report(ghz)[0])
         page = (ROOT / 'tools/three-qubit.html').read_text()
         for token in ('id="plane-basis"', 'id="look-along-u"', 'id="planes-meet-plus-label"',
                       'id="planes-meet-minus-label"', '|+û⟩', '|−û⟩', 'The basis the line defines',
-                      'Look along û', 'class="plane-meet-casing"', 'shared basis |+û⟩, |−û⟩',
-                      'The violet diameter is where the two planes cross'):
+                      'Look along û', 'id="planes-meet-line"', 'shared basis |+û⟩, |−û⟩',
+                      'The violet diameter is where the two planes cross',
+                      'Both branches in the shared basis', 'all four amplitudes survive',
+                      'a basis and not a Schmidt basis'):
             self.assertIn(token, page)
-        # The shared basis is a different colour from either plane, with a casing so it reads on top.
+        # The shared basis is a different colour from either plane and carries no pale halo, which
+        # would read as a white patch over the two translucent plane fills.
         css = (ROOT / 'tools/tools.css').read_text()
         self.assertIn('.plane-meet-line{stroke:var(--violet)', css)
         self.assertIn('.plane-swatch.is-shared{', css)
-        self.assertIn('id="planes-meet-casing"', tools.three_planes_svg(state))
+        self.assertNotIn('plane-meet-casing', css)
+        self.assertNotIn('plane-meet-casing', tools.three_planes_svg(state))
         script = (ROOT / 'tools/three-qubit.js').read_text()
         for token in ('look-along-u', 'placeOuterLabel', 'plane-basis', 'axisTilt', 'sharedAxis'):
             self.assertIn(token, script)
-        # Every part of the diameter moves with the camera, the casing included.
-        self.assertIn("meetCasing: byId('planes-meet-casing')", script)
-        self.assertIn('setSegment(parts.meetCasing, minus, plus)', script)
+        # The live readout carries the same λ, μ, α wording as the static one.
+        self.assertIn('the twist α = ', script)
+        self.assertIn('λ${SUBSCRIPTS[bit]}', script)
+        # The diameter follows the camera.
+        self.assertIn('setSegment(parts.meetLine, minus, plus)', script)
+        self.assertNotIn('meetCasing', script)
 
     def test_three_qubit_sphere_can_be_orbited(self):
         page = (ROOT / 'tools/three-qubit.html').read_text()
@@ -352,24 +363,50 @@ class ToolTests(unittest.TestCase):
         self.assertAlmostEqual(weight, 0.0, places=9)
         self.assertIsNone(form)
 
-    def test_three_qubit_planes_join_the_branch_endpoints(self):
+    def test_three_qubit_planes_cut_the_sphere(self):
         state = tools.THREE_STATES['planes']
         page = tools.three_planes_svg(state)
+        branches = [tools.branch_form(state, 0, bit) for bit in (0, 1)]
+        axis, _ = tools.plane_meeting(branches)
+        # Each plane is filled where it meets the sphere: the ring is on the sphere and inside the plane.
         for bit in (0, 1):
             _, form = tools.branch_form(state, 0, bit)
-            cos = math.cos(math.radians(form.theta_deg))
-            sin = math.sin(math.radians(form.theta_deg))
-            corners = (tools.project(form.axis_a), tools.project(tuple(cos * v for v in form.axis_b)),
-                       tools.project(tuple(-v for v in form.axis_a)),
-                       tools.project(tuple(-sin * v for v in form.axis_b)))
-            points = ' '.join(f'{x:.1f},{y:.1f}' for x, y in corners)
-            self.assertIn(f'id="planes-quad-{bit}" points="{points}"', page)
-        # Every named state has product branches along one axis, so its planes collapse.
+            curve = tools.plane_ring(form.axis_a, form.axis_b)
+            ring = [curve(2 * math.pi * index / tools.PLANE_RING_STEPS)
+                    for index in range(tools.PLANE_RING_STEPS)]
+            self.assertAlmostEqual(tools._vec_norm(ring[0]), 1.0, places=9)
+            self.assertAlmostEqual(tools._vec_dot(ring[0], tools.plane_normal(form)), 0.0, places=9)
+            for half in ('near', 'far'):
+                start = page.index(f'id="planes-fill-{bit}-{half}"')
+                points = page[page.index('points="', start) + 8:]
+                self.assertGreater(len(points[:points.index('"')].split(' ')), 3)
+        # Both planes are painted far half first, so every overlap puts the near plane on top.
+        self.assertLess(page.index('id="planes-fill-0-far"'), page.index('id="planes-fill-0-near"'))
+        self.assertLess(page.index('id="planes-fill-1-far"'), page.index('id="planes-fill-1-near"'))
+        self.assertLess(page.index('id="planes-fill-1-far"'), page.index('id="planes-fill-0-near"'))
+        # The cut of each disc is the shared diameter itself, which is what makes the violet line
+        # read as lying in both planes rather than floating in front of them.
+        for bit in (0, 1):
+            _, form = tools.branch_form(state, 0, bit)
+            curve = tools.plane_ring(form.axis_a, form.axis_b)
+            ring = [curve(2 * math.pi * index / tools.PLANE_RING_STEPS)
+                    for index in range(tools.PLANE_RING_STEPS)]
+            other = tools.plane_normal(branches[1 - bit][1])
+            side = 1.0 if tools._vec_dot(other, tools.FORWARD) < 0 else -1.0
+            on_the_line = [point for point in tools.clip_half(ring, other, side)
+                           if abs(tools._vec_dot(other, point)) < 1e-9]
+            self.assertEqual(len(on_the_line), 2)
+            for point in on_the_line:
+                self.assertLess(tools._vec_norm(tools._vec_cross(point, axis)), 1e-9)
+        # A product branch has no plane to fill, so nothing is drawn for GHZ, W or |000⟩.
         for name in ('ghz', 'w', '000'):
             flat = tools.three_planes_svg(tools.THREE_STATES[name])
-            self.assertEqual(flat.count('class="plane-quad is-empty"'), 2)
+            for bit in (0, 1):
+                for half in ('near', 'far'):
+                    self.assertIn(f'class="plane-fill plane-{half} branch-{bit} is-empty"', flat)
         script = (ROOT / 'tools/three-qubit.js').read_text()
-        for token in ('branchAmplitudes', 'branchForm', 'drawPlanes', 'menu-reference', 'planes-quad'):
+        for token in ('branchAmplitudes', 'branchForm', 'drawPlanes', 'menu-reference',
+                      'planeCurve', 'clipHalf', 'planes-fill-${bit}-near'):
             self.assertIn(token, script)
 
     def test_schmidt_sphere_joins_the_four_endpoints(self):

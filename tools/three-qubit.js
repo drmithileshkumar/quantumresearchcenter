@@ -30,7 +30,6 @@
     formula: [byId('branch-formula-0'), byId('branch-formula-1')],
     planesDesc: byId('plane-summary'), angle: byId('plane-angle'), basis: byId('plane-basis'),
     meet: byId('planes-meet'), meetLine: byId('planes-meet-line'),
-    meetCasing: byId('planes-meet-casing'),
     meetPlus: byId('planes-meet-plus'), meetMinus: byId('planes-meet-minus'),
     meetPlusLabel: byId('planes-meet-plus-label'), meetMinusLabel: byId('planes-meet-minus-label'),
   };
@@ -40,7 +39,8 @@
   const sphere = byId('planes');
   if (!sphere) return;
   const planes = [0, 1].map(bit => ({
-    group: byId(`planes-branch-${bit}`), quad: byId(`planes-quad-${bit}`),
+    group: byId(`planes-branch-${bit}`),
+    near: byId(`planes-fill-${bit}-near`), far: byId(`planes-fill-${bit}-far`),
     pAxis: byId(`planes-p-axis-${bit}`), qPlus: byId(`planes-q-plus-${bit}`),
     qMinus: byId(`planes-q-minus-${bit}`), pPlusTip: byId(`planes-p-plus-tip-${bit}`),
     pMinusTip: byId(`planes-p-minus-tip-${bit}`), qPlusTip: byId(`planes-q-plus-tip-${bit}`),
@@ -381,6 +381,46 @@
     const length = sNorm(normal);
     return length > 1e-9 ? normal.map(value => value / length) : null;
   };
+  const RING_STEPS = 48;
+  // The planes are too nearly twins to split front from back below this, and the camera lies in
+  // the other plane below the second, where depth along it is a tie rather than an order.
+  const SPLIT_MIN = 0.06;
+  const VIEW_FLAT = 0.05;
+  const sDot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const sUnit = a => {
+    const length = sNorm(a);
+    return length > 1e-12 ? a.map(value => value / length) : null;
+  };
+  const planeCurve = (axisP, axisQ) => {
+    const e1 = sUnit(axisP), q = sUnit(axisQ);
+    if (!e1 || !q) return null;
+    const along = sDot(q, e1);
+    const e2 = sUnit([q[0] - along * e1[0], q[1] - along * e1[1], q[2] - along * e1[2]]);
+    if (!e2) return null;
+    return t => [Math.cos(t) * e1[0] + Math.sin(t) * e2[0],
+                 Math.cos(t) * e1[1] + Math.sin(t) * e2[1],
+                 Math.cos(t) * e1[2] + Math.sin(t) * e2[2]];
+  };
+  const clipHalf = (polygon, normal, sign) => {
+    const kept = [];
+    polygon.forEach((current, index) => {
+      const previous = polygon[(index + polygon.length - 1) % polygon.length];
+      const currentSide = sign * sDot(normal, current);
+      const previousSide = sign * sDot(normal, previous);
+      if ((currentSide >= 0) !== (previousSide >= 0)) {
+        const t = previousSide / (previousSide - currentSide);
+        kept.push([previous[0] + t * (current[0] - previous[0]),
+                   previous[1] + t * (current[1] - previous[1]),
+                   previous[2] + t * (current[2] - previous[2])]);
+      }
+      if (currentSide >= 0) kept.push(current);
+    });
+    return kept;
+  };
+  const polygonPoints = polygon => polygon.map(point => {
+    const [x, y] = sProject(point);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
   const AXES = [[[1, 0, 0], '|+⟩'], [[-1, 0, 0], '|−⟩'], [[0, 1, 0], '|+i⟩'],
                 [[0, -1, 0], '|−i⟩'], [[0, 0, 1], '|0⟩'], [[0, 0, -1], '|1⟩']];
 
@@ -461,7 +501,11 @@
     const others = [0, 1, 2].filter(wire => wire !== reference);
     const names = others.map(wire => QUBITS[wire].toLowerCase());
     const branches = [branchForm(0), branchForm(1)];
+    const normals = branches.map(({ form }) => planeNormal(form));
+    const splittable = Boolean(normals[0] && normals[1]
+      && sNorm(sCross(normals[0], normals[1])) > SPLIT_MIN);
     const origin = sProject([0, 0, 0]);
+    const rings = branches.map(({ form }) => (form ? planeCurve(form.axisA, form.axisB) : null));
     branches.forEach(({ weight: branchWeight, form }, bit) => {
       const part = planes[bit];
       const theta = form ? form.theta : 0;
@@ -470,10 +514,23 @@
       const cos = Math.cos(theta * D2R), sin = Math.sin(theta * D2R);
       const pPlus = sProject(axisP), pMinus = sProject(stretch3(axisP, -1));
       const qPlus = sProject(stretch3(axisQ, cos)), qMinus = sProject(stretch3(axisQ, -sin));
-      part.quad.setAttribute('points',
-        [pPlus, qPlus, pMinus, qMinus].map(point => `${point[0].toFixed(1)},${point[1].toFixed(1)}`).join(' '));
-      // A plane needs two independent axes; with them collinear the four endpoints are one line.
-      part.quad.classList.toggle('is-empty', !form || sNorm(sCross(axisP, axisQ)) < 1e-6);
+      // The plane is filled where it cuts the sphere, split by the other plane: the half towards
+      // the camera is the half in front, so the darker piece is the one that covers the other plane.
+      const other = normals[1 - bit];
+      const curve = rings[bit];
+      const ring = curve
+        ? Array.from({ length: RING_STEPS }, (ignored, index) => curve((2 * Math.PI * index) / RING_STEPS))
+        : [];
+      const side = splittable && Math.abs(sDot(other, sForward)) >= VIEW_FLAT
+        ? (sDot(other, sForward) < 0 ? 1 : -1) : 0;
+      const near = !ring.length ? [] : side ? clipHalf(ring, other, side) : ring;
+      const far = !ring.length || !side ? [] : clipHalf(ring, other, -side);
+      const empty = !form || branchWeight < ZERO || sNorm(sCross(axisP, axisQ)) < 1e-6;
+      [[part.near, near, 0.11], [part.far, far, 0.03]].forEach(([element, polygon, base]) => {
+        element.setAttribute('points', polygon.length > 2 ? polygonPoints(polygon) : '');
+        element.setAttribute('style', `fill-opacity:${(base + (base > 0.05 ? 0.18 : 0.04) * branchWeight).toFixed(3)}`);
+        element.classList.toggle('is-empty', empty || polygon.length < 3);
+      });
       setSegment(part.pAxis, pMinus, pPlus);
       setSegment(part.qPlus, origin, qPlus);
       setSegment(part.qMinus, origin, qMinus);
@@ -493,16 +550,22 @@
       part.group.classList.toggle('is-empty', branchWeight < ZERO);
       part.group.style.opacity = (0.3 + 0.7 * branchWeight).toFixed(2);
     });
-    const normals = branches.map(({ form }) => planeNormal(form));
+    const edges = byId('planes-edges');
+    edges.replaceChildren();
+    rings.forEach((curve, bit) => {
+      if (!curve) return;
+      curveRuns(curve).forEach(run => {
+        edges.appendChild(svgElement('path', {
+          class: `plane-edge branch-${bit}${run.visible ? '' : ' is-behind'}`, d: run.path,
+        }));
+      });
+    });
     const crossing = normals[0] && normals[1] ? sCross(normals[0], normals[1]) : null;
     const length = crossing ? sNorm(crossing) : 0;
     if (length > 1e-6) {
       const axis = crossing.map(value => value / length);
       const plus = sProject(axis), minus = sProject(axis.map(value => -value));
       setSegment(parts.meetLine, minus, plus);
-      setSegment(parts.meetCasing, minus, plus);
-      // End on, the diameter is a point: a casing would just blot out the centre of the sphere.
-      parts.meetCasing.classList.toggle('is-empty', Math.hypot(plus[0] - minus[0], plus[1] - minus[1]) < 10);
       placeTip(parts.meetPlus, plus);
       placeTip(parts.meetMinus, minus);
       placeOuterLabel(parts.meetPlusLabel, plus);
@@ -518,16 +581,17 @@
         + axis.map(value => fixed(value, 2)).join(', ')
         + `); that diameter is the basis |+û⟩, |−û⟩, at polar ${polar.toFixed(0)}° and azimuth `
         + `${azimuthOf.toFixed(0)}°.`;
-      parts.basis.textContent = 'Schmidt axes lean ' + branches.map(({ form }, bit) =>
-        `${axisTilt(axis, form.axisA).toFixed(0)}° and ${axisTilt(axis, form.axisB).toFixed(0)}°`
-        + ` in the ${SUBSCRIPTS[bit]} branch`).join('; ')
-        + '. One meridian per branch, and the two meridians differ by the dihedral angle.';
+      parts.basis.textContent = 'In the shared û basis all four amplitudes survive in each branch;'
+        + ' the frame data left is ' + branches.map(({ form }, bit) =>
+          `λ${SUBSCRIPTS[bit]} = ${axisTilt(axis, form.axisA).toFixed(0)}°, `
+          + `μ${SUBSCRIPTS[bit]} = ${axisTilt(axis, form.axisB).toFixed(0)}°`).join(', ')
+        + `, and the twist α = ${degrees.toFixed(1)}° between the two meridians.`;
     } else {
       parts.meet.classList.add('is-empty');
       sharedAxis = null;
       parts.angle.textContent = 'The two planes coincide, so every diameter of their common plane'
         + ' is a shared basis.';
-      parts.basis.textContent = 'No single shared axis, so no tilts to report.';
+      parts.basis.textContent = 'No single shared axis, so no leans to report.';
     }
     return { branches, names };
   }

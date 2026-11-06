@@ -80,6 +80,9 @@ def validate(articles, config, papers):
             refs = section.get('source_refs', [])
             if not isinstance(refs, list) or any(type(ref) is not int or not 1 <= ref <= len(sources) for ref in refs):
                 raise ValueError('Invalid section source reference: ' + slug)
+        points = article.get('key_points', [])
+        if not isinstance(points, list) or len(points) > 5 or any(not isinstance(p, str) or not p.strip() for p in points):
+            raise ValueError('Key points must be a list of at most five plain-text strings: ' + slug)
         for field in ('related_articles', 'related_papers'):
             if not isinstance(article.get(field, []), list) or any(not isinstance(x, str) for x in article.get(field, [])):
                 raise ValueError('Invalid related links: ' + slug)
@@ -106,22 +109,38 @@ def figure_html(root, slug, figure):
     return f'<figure class="article-figure"><div class="figure-scroll">{svg}</div><figcaption>{esc(figure["caption"])}</figcaption></figure>'
 
 
+def first_figure(root, article):
+    """The article's first figure as a decorative thumbnail (no caption), or ''."""
+    figure = next((s['figure'] for s in article['sections'] if s.get('figure')), None)
+    if not figure:
+        return ''
+    svg = figure_html(root, article['slug'], figure).split('<div class="figure-scroll">', 1)[1].split('</div><figcaption>', 1)[0]
+    return '<div class="article-figure card-figure" aria-hidden="true">' + re.sub(r'\srole="img" aria-label="[^"]*"', '', svg, count=1) + '</div>'
+
+
 def metadata(article):
     words = sum(len(p.split()) for s in article['sections'] for p in s['paragraphs'])
-    minutes = max(1, (words + 199) // 200)
-    return f'<time datetime="{article["published"]}">{long_date(article["published"])}</time><span>{minutes} min read</span>'
+    minutes = (words + 199) // 200
+    # A one-minute estimate says more about brevity than about reading time; show it only from two minutes.
+    reading = f'<span>{minutes} min read</span>' if minutes >= 2 else ''
+    return f'<time datetime="{article["published"]}">{long_date(article["published"])}</time>{reading}'
 
 
-def card(article, source, featured=False):
+def card(article, source, featured=False, thumbnail=''):
     url = relative(article_path(article), source)
     cls = 'lead-story' if featured else 'story-card'
     heading = 'h2' if featured else 'h3'
-    return (f'<article class="{cls}" data-article data-topic="{article["topic"]}" data-format="{article["format"]}">'
+    return (f'<article class="{cls}" data-article data-topic="{article["topic"]}" data-format="{article["format"]}">' + ('' if featured else thumbnail) +
             f'<p class="story-label">{esc(TOPICS[article["topic"]])}<span> / </span>{esc(article["format"])}</p>'
             f'<{heading}><a href="{url}">{esc(article["title"])}</a></{heading}>'
             f'<p class="story-summary">{esc(article["summary"])}</p>'
             f'<p class="story-meta">{metadata(article)}</p>'
             + (f'<a class="story-read" href="{url}">Read the story <span aria-hidden="true">↗</span></a>' if featured else '') + '</article>')
+
+
+def lead_feature(root, article, source):
+    # The lead story is shown beside its own first figure when it has one, else the house illustration.
+    return '<section class="feature" aria-label="Featured story">' + card(article, source, True) + (first_figure(root, article) or signal_art()) + '</section>'
 
 
 def signal_art():
@@ -176,11 +195,11 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
         body = '<header class="editorial-intro"><p class="eyebrow">Quantum Research Center / '+('The wider picture' if home else 'News desk')+'</p><h1>'+('Quantum science.<br><span>In perspective.</span>' if home else 'Follow the quantum world.')+'</h1><p>Discoveries, people, and projects shaping quantum technology. Clear explanations, with a path to the research behind them.</p></header>'
         body += stream_nav(source, '' if home else 'all')
         if featured:
-            body += '<section class="feature" aria-label="Featured story">'+card(featured, source, True)+signal_art()+'</section>'
+            body += lead_feature(root, featured, source)
         else:
             body += '<section class="empty-news"><h2>Quantum News</h2><p>Our first stories are on the way. Explore the research papers and courses below.</p></section>'
         recent = [a for a in published if a != featured][:6]
-        body += '<section class="latest-stories"><div class="section-top"><div><p class="eyebrow">For curious minds</p><h2>News &amp; explainers</h2></div><a href="'+relative('news/articles/index.html', source)+'">All Quantum News ↗</a></div><div class="story-grid">'+''.join(card(a, source) for a in recent)+'</div></section>'
+        body += '<section class="latest-stories"><div class="section-top"><div><p class="eyebrow">For curious minds</p><h2>News &amp; explainers</h2></div><a href="'+relative('news/articles/index.html', source)+'">All Quantum News ↗</a></div><div class="story-grid">'+''.join(card(a, source, thumbnail=first_figure(root, a)) for a in recent)+'</div></section>'
         body += '<section class="explore-paths" aria-label="Explore quantum science"><div><p class="eyebrow">Build your understanding</p><h2>Start with a question.<br>Follow it further.</h2><p><a href="'+relative('conferences/index.html', source)+'">Find a quantum conference ↗</a></p></div><a href="'+relative('education/index.html', source)+'"><span>01 / Education</span><strong>Learn the foundations ↗</strong><p>Courses, worked examples, and interactive experiments.</p></a><a href="'+relative('research/index.html', source)+'"><span>02 / Research</span><strong>Explore open questions ↗</strong><p>Follow the ideas and mathematics behind our research.</p></a><a href="'+relative('map/index.html', source)+'"><span>03 / Maps</span><strong>See how ideas connect ↗</strong><p>An atlas of quantum topics, from foundations to technology.</p></a></section>'
         body += paper_preview(approved, source)
         shell(source, 'Quantum science, news & ideas' if home else 'News', 'Accessible quantum news and explainers, alongside technical research papers, courses, and open questions.', body)
@@ -188,7 +207,9 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
     source = 'news/articles/index.html'
     body = '<header class="editorial-intro compact"><p class="eyebrow">For curious minds</p><h1>Quantum News</h1><p>Progress in quantum science, explained. Explore discoveries, companies, public programmes, and the ideas behind the headlines.</p></header>'+stream_nav(source, 'articles')
     body += '<section class="article-filters" aria-label="Filter articles" hidden><label>Search articles<input id="article-search" type="search" placeholder="Search headlines and summaries…"></label><label>Topic<select id="article-topic"><option value="all">All topics</option>'+''.join(f'<option value="{key}">{esc(label)}</option>' for key, label in TOPICS.items())+'</select></label><label>Format<select id="article-format"><option value="all">All formats</option>'+''.join(f'<option>{label}</option>' for label in FORMATS)+'</select></label><p id="article-count" role="status"></p></section>'
-    body += '<section aria-label="Articles" class="story-grid article-list">'+''.join(card(a, source) for a in published)+'</section>'
+    if featured:
+        body += lead_feature(root, featured, source)
+    body += '<section aria-label="Articles" class="story-grid article-list">'+''.join(card(a, source, thumbnail=first_figure(root, a)) for a in published if a != featured)+'</section>'
     if not published:
         body += '<p>Our first stories are on the way. <a href="../papers/index.html">Explore research papers →</a></p>'
     shell(source, 'Quantum News', 'Quantum discoveries, companies, government programmes, and explainers for curious readers.', body)
@@ -197,24 +218,45 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
     by_id = {p['id']: p for p in approved}
     for article in published:
         source = article_path(article)
-        body = '<article class="general-article"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../index.html">News</a></li><li><a href="../index.html">Quantum News</a></li></ol></nav>'
-        body += f'<header><p class="story-label">{esc(TOPICS[article["topic"]])} / {article["format"]}</p><h1>{esc(article["title"])}</h1><p class="article-deck">{esc(article["summary"])}</p><p class="story-meta"><span>By {esc(article["author"])}</span>{metadata(article)}</p>'
+        sections = article['sections']
+        long_read = len(sections) >= 5
+        body = f'<article class="general-article{" has-toc" if long_read else ""}"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Quantum News</a></li><li><a href="../index.html?topic={article["topic"]}">{esc(TOPICS[article["topic"]])}</a></li></ol></nav>'
+        body += f'<header><p class="story-label">{esc(article["format"])}</p><h1>{esc(article["title"])}</h1><p class="article-deck">{esc(article["summary"])}</p>'
+        if article.get('key_points'):
+            body += '<section class="key-points" aria-labelledby="key-points-heading"><h2 id="key-points-heading" class="eyebrow">Key points</h2><ul>'+''.join('<li>'+esc(p)+'</li>' for p in article['key_points'])+'</ul></section>'
+        meta = f'<span>By {esc(article["author"])}</span>{metadata(article)}'
         if article.get('updated') and article['updated'] != article['published']:
-            body += f'<p class="story-meta">Updated <time datetime="{article["updated"]}">{long_date(article["updated"])}</time></p>'
-        if article['format'] == 'Explainer':
-            body += '<p class="article-context">Background reading · An introduction to the ideas behind the news.</p>'
-        body += '</header><div class="article-prose">'
-        for i, section in enumerate(article['sections'], 1):
-            body += f'<section id="section-{i}"><h2>{esc(section["heading"])}</h2>'+''.join('<p>'+esc(p)+'</p>' for p in section['paragraphs'])
+            meta += f'<span>Updated <time datetime="{article["updated"]}">{long_date(article["updated"])}</time></span>'
+        papers_here = article.get('related_papers', [])
+        if papers_here:
+            target = '#research-analysis' if len(papers_here) > 1 else relative(paper_path(by_id[papers_here[0]]), source)
+            meta += f'<a href="{target}">Technical summary →</a>'
+        body += f'<p class="story-meta">{meta}</p></header><div class="article-layout">'
+        if long_read:
+            # A plain disclosure (the site's standard toggle); articles.js opens it where it fits in the margin.
+            body += '<details class="article-toc"><summary>In this article</summary><ol>'+''.join(f'<li><a href="#section-{i}">{esc(s["heading"])}</a></li>' for i, s in enumerate(sections, 1))+'</ol></details>'
+        body += '<div class="article-prose">'
+        for i, section in enumerate(sections, 1):
+            paragraphs = ['<p>'+esc(p) for p in section['paragraphs']]
+            if section.get('source_refs'):
+                # Section-level citations sit quietly after the section's last paragraph.
+                # Bind the citation to the paragraph's last word so it never wraps onto a line of its own.
+                last = paragraphs[-1]
+                head, _, word = last.rpartition(' ')
+                if (' ' in last and '\\' not in word and head.count('\\(') == head.count('\\)') and head.count('\\[') == head.count('\\]')):
+                    paragraphs[-1] = head + ' <span class="cite-tail">' + word
+                    closing = '</span>'
+                else:
+                    closing = ''
+                paragraphs[-1] += '<sup class="cite">'+'<span aria-hidden="true">[</span>'+','.join(f'<a href="#source-{ref}" aria-label="Source {ref}: {esc(article["sources"][ref-1]["title"])}">{ref}</a>' for ref in section['source_refs'])+'<span aria-hidden="true">]</span></sup>'+closing
+            body += f'<section id="section-{i}"><h2>{esc(section["heading"])}</h2>'+''.join(p+'</p>' for p in paragraphs)
             if section.get('figure'):
                 body += figure_html(root, article['slug'], section['figure'])
-            if section.get('source_refs'):
-                body += '<p class="section-sources">Sources: '+', '.join(f'<a href="#source-{ref}" aria-label="Source {ref}: {esc(article["sources"][ref-1]["title"])}">[{ref}]</a>' for ref in section['source_refs'])+'</p>'
             body += '</section>'
         body += '<section class="article-sources"><h2>Sources &amp; further reading</h2><ol>'+''.join(f'<li id="source-{ref}"><a href="{esc(s["url"])}">{esc(s["title"])} ↗</a></li>' for ref, s in enumerate(article['sources'], 1))+'</ol></section>'
         if article.get('related_papers'):
-            body += '<section><h2>Read the research analysis</h2><ul>'+''.join(f'<li><a href="{relative(paper_path(by_id[pid]), source)}">{esc(by_id[pid]["title"])}</a></li>' for pid in article['related_papers'])+'</ul></section>'
-        body += '</div></article>'
+            body += '<section id="research-analysis"><h2>Read the research analysis</h2><ul>'+''.join(f'<li><a href="{relative(paper_path(by_id[pid]), source)}">{esc(by_id[pid]["title"])}</a></li>' for pid in article['related_papers'])+'</ul></section>'
+        body += '</div></div></article>'
         if article.get('related_articles'):
             body += '<section class="related-stories"><h2>Keep exploring</h2><div class="story-grid">'+''.join(card(by_slug[slug], source) for slug in article['related_articles'])+'</div></section>'
         shell(source, article['title'], article['summary'], body, article)

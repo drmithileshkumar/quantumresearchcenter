@@ -1,0 +1,47 @@
+{
+  "id": "2611.05912",
+  "topic": "computing",
+  "title": "Algorithmic Wave-Particle Duality: Pathfinding in Welded Trees is Hard",
+  "authors": "Joseph Carolan; Andrew M. Childs; Matthew Coudron; Amin Shiraz Gilani; David Miloschewsky; Supartha Podder",
+  "submitted": "2026-11-04",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "In the welded trees problem, two binary trees of height \\(n\\) are joined at their leaves by a random cycle, vertices carry random labels, and an algorithm starts at one root. A quantum walk reaches the other root in polynomial time, whereas classical algorithms need exponentially many queries. The walk never records a route, and recording one destroys its interference. Can some other quantum algorithm efficiently output an entrance–exit path? The question had been open since the original paper on the problem.",
+  "result": "No. Under a distribution over welded trees graphs with a single-cycle weld, any \\(q\\)-query algorithm outputs an entrance–exit path with probability \\[O\\Bigl(\\frac{q}{2^{n/3}}+\\frac{n\\,q^3}{2^n}\\Bigr),\\] so \\(\\tilde\\Omega(2^{n/3})\\) queries are needed. This is tight up to factors polynomial in \\(n\\): find the exit with the walk, then use collision finding to join a root-to-leaf path from each side in \\(O(n\\,2^{n/3})\\) queries.",
+  "significance": "Reaching the exit and finding a route to it have exponentially different quantum costs, which the authors call an algorithmic wave–particle duality. Classically the two tasks cost the same. The result removes the restrictions of earlier lower bounds, which applied only to algorithms that query known labels and keep a path to every vertex. It also shows that finding any path is as hard as finding a shortest one, and that exit finding stays classically hard when an edge colouring is revealed.",
+  "limitations": "The bound is for a coloured-edge oracle and a specific graph distribution. It gives worst-case hardness, but not average-case hardness for the original distribution; the authors sketch a variant for that and omit its details. A gap of a factor polynomial in \\(n\\) remains. Like the classical separation, the result is black-box: no efficient instantiation of the oracle is known, and non-black-box attacks are not covered. The authors state that ChatGPT 6 Astra produced the step from their earlier work to an \\(\\Omega(N^{1/4})\\) bound and suggested the sharpening that gave the final bound, and that GPT-6 wrote the proof of Lemma 4.4.",
+  "status": "approved",
+  "summary_basis": "Description based on the abstract, Section 1 (including the technical overview and open problems), the proof of Theorem 4.1 in Section 4.5 and the AI disclosure of the linked arXiv version, read 2026-11-05. Sections 3 and 4.1–4.4 were not checked line by line.",
+  "verified_on": "2026-11-05",
+  "methods_source_section": "Section 1.1 (technical overview) and Section 4.5",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The oracle takes a vertex label and an edge colour and returns the neighbour's label. Revealing colours only helps the algorithm, so a lower bound in this model also holds for the usual adjacency-list oracle. The instance is randomised by two families of permutations: one assigns vertex labels, the other permutes edges of each colour between adjacent columns in a region around the weld. Edges near the roots stay fixed. The trees keep their shape and the colouring stays proper.",
+    "Replacing both permutations by compressed permutation oracles gives quantum databases of labels and edges that the algorithm has recorded, in superposition, and that it can erase by uncomputing. The quantum walk leaves the edge database empty and holds at most one label, so different routes to the same vertex remain indistinguishable and can interfere. An algorithm that outputs a path, in contrast, must have recorded edges that cross the permuted region.",
+    "The good space consists of states whose records cannot contain a crossing. Positions of recorded vertices are described by a random assignment that follows the recorded edges from fixed data, and a state is good if the assignment is injective and avoids the boundary of the permuted region. The core lemma shows that each query moves the state only slightly out of the good space. The hard cases are adding an edge record, which may hit the boundary, close a cycle, or join two recorded trees, and deleting one, where amplitudes of different assignments add up.",
+    "Summing the per-query errors and accounting for the comparison between the oracles yields Theorem 4.1. The open problems are an efficient instantiation of the oracle that keeps pathfinding hard for efficient quantum algorithms, closing the polynomial gap, and an average-case bound for the original distribution."
+  ],
+  "methods": [
+    {
+      "technique": "A good space of records that cannot contain a path",
+      "explanation": "A lower bound has to cover algorithms that forget. The compressed oracle makes the algorithm's knowledge a quantum database, and the proof tracks the norm of the state outside a subspace of databases with no crossing path, with fixed data and random assignments as the bookkeeping.",
+      "math": [
+        "Standard telescoping (editorial summary): if algorithm unitaries preserve the good space and each query satisfies \\(\\|(I-\\Pi_{\\rm good})\\,O\\,\\Pi_{\\rm good}\\|\\le\\delta\\), then after \\(q\\) queries from the empty, good database the bad component has norm at most \\(q\\delta\\). Success requires a recorded crossing, so its probability is at most \\((q\\delta)^2\\) plus the cost of comparing oracles.",
+        "The paper shows \\(\\delta^2=O(\\epsilon_l+nq/N)\\) with \\(N=2^n\\). After \\(q\\) queries there are \\(O(q)\\) recorded vertices. A free vertex lands on any given structural vertex with probability \\(O(1/N)\\) and coincides with another recorded vertex with probability \\(O(n/N)\\), so a new vertex hits the boundary or a recorded vertex with probability \\(O(|B|/N+nq/N)\\).",
+        "Section 4.5 assembles the bound \\[\\Pr[\\text{success}]=O\\Bigl(\\frac q{N_l}+q^2\\epsilon_l+\\frac{n\\,q^3}N\\Bigr),\\] where the level \\(l\\) fixes the extent of the permuted region and its boundary. Taking \\(l=\\lfloor2n/3\\rfloor\\) gives \\(N_l=\\Theta(N^{1/3})\\) and \\(\\epsilon_l=\\Theta(N^{-2/3})\\). Editorial check: the three terms become \\(q/2^{n/3}\\), \\((q/2^{n/3})^2\\) and \\(nq^3/2^n\\), and all three reach order one at \\(q\\approx2^{n/3}\\) (the last at \\((2^n/n)^{1/3}\\)). With this choice no term is weaker than the others."
+      ],
+      "transfer": "For quantum lower bounds against algorithms that explore a hidden structure, use compressed oracles to turn knowledge into records, define the success-free subspace through random consistent assignments, and bound the leakage per query. The leakage controls success for every algorithm, including those that uncompute."
+    },
+    {
+      "technique": "Averaging a collision probability over where the walker is",
+      "explanation": "Edge permutations near the boundary act on small columns, and a per-query collision estimate of \\(O(q/s)\\) for a permutation of size \\(s\\) would cap the bound at \\(s^{1/3}\\), the collision lower bound. The proof instead weights each column by the probability that a free vertex lies there at all.",
+      "math": [
+        "Let \\(s_b\\) be the size of edge class \\(b\\) between adjacent columns. A free queried vertex lies in class \\(b\\) with probability \\(O(s_b/N)\\), and then hits one of the \\(O(q)\\) recorded vertices with probability \\(O(q/s_b)\\). Over the \\(O(n)\\) classes, \\[\\sum_bO\\Bigl(\\frac{s_b}N\\Bigr)\\cdot O\\Bigl(\\frac q{s_b}\\Bigr)=O\\Bigl(\\frac{nq}N\\Bigr).\\] Small classes collide more easily, but the walker is correspondingly unlikely to be there, and the column size cancels.",
+        "Deletion is handled the same way. At most \\(O(q)\\) deleted edges lead to the same database, each carrying a factor \\(O(1/\\sqrt{s_b})\\), so Cauchy–Schwarz gives a squared error \\(O(q/s_b)\\), which is then averaged as above. When a deletion also erases a vertex, the amplitudes over its possible positions add, and the missing terms are those that would already have been bad, a reverse addition that the same bound controls.",
+        "Editorial remark: the cancellation explains why the bound is \\(2^{n/3}\\) and not the \\(s^{1/3}\\) of the smallest permutation. It also shows the matching algorithm's strategy, collision finding between two sets of about \\(2^n\\) leaves at cost \\(O(n)\\) per evaluation, is the natural limit."
+      ],
+      "transfer": "When a lower bound pays for collisions in many differently sized registers, weight each register by the probability that the algorithm's unknown position falls in it. Sizes often cancel, and the bound then depends on the number of registers rather than the smallest one."
+    }
+  ],
+  "approved_on": "2026-11-05"
+}

@@ -6,6 +6,9 @@
     location.replace('papers/index.html' + location.search + location.hash);
     return;
   }
+  // Long articles: the contents list sits in the left margin on wide screens, so open it there.
+  const toc = document.querySelector('.article-toc');
+  if (toc && matchMedia('(min-width: 1280px)').matches) toc.open = true;
   const filters = document.querySelector('.article-filters');
   if (!filters) return;
   const search = document.getElementById('article-search');
@@ -25,10 +28,12 @@
     const query = search.value.trim().toLocaleLowerCase();
     let visible = 0;
     for (const card of cards) {
-      card.hidden = !((topic.value === 'all' || card.dataset.topic === topic.value) &&
+      // The lead story is hidden together with its figure.
+      const show = (topic.value === 'all' || card.dataset.topic === topic.value) &&
         (format.value === 'all' || card.dataset.format === format.value) &&
-        card.textContent.toLocaleLowerCase().includes(query));
-      if (!card.hidden) visible++;
+        card.textContent.toLocaleLowerCase().includes(query);
+      (card.closest('.feature') || card).hidden = !show;
+      if (show) visible++;
     }
     count.textContent = visible ? `${visible} of ${cards.length} articles` : 'No matching articles. Try another topic, format, or search.';
     if (updateURL) {

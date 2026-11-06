@@ -1,0 +1,47 @@
+{
+  "id": "2611.06751",
+  "topic": "computing",
+  "title": "A Quantum Lower Bound for Triangle Finding",
+  "authors": "Arjan Cornelissen; Amin Shiraz Gilani; Xingyu Zhou",
+  "submitted": "2026-11-04",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Given the adjacency matrix of an \\(N\\)-vertex graph, how many quantum queries are needed to find a triangle? Upper bounds fell from Grover's \\(O(N^{3/2})\\) to \\(O(N^{5/4})\\), but the only lower bound was the \\(\\Omega(N)\\) inherited from unstructured search. Positive-weight adversary methods cannot beat \\(O(N)\\) here, because a triangle certificate has only three edges.",
+  "result": "Triangle finding needs \\(\\Omega(N^{13/12})\\) quantum queries, the first superlinear lower bound. The same bound holds for triangle detection and for detecting any fixed connected non-bipartite subgraph. For sparse graphs with \\(\\bar m\\) edges in the range \\(N\\log N\\lesssim\\bar m\\lesssim N^{3/2}\\) the bound \\(\\Omega(N^{5/6}\\bar m^{1/6})\\) is tight up to polylogarithmic factors.",
+  "significance": "The bound breaks the linear barrier that had been noted repeatedly as a central obstacle in quantum graph algorithms. The method compares the computation on planted-triangle inputs with that on random triangle-free graphs. It combines Zhandry's compressed oracle, Belovs's transfer operators, and an averaging step that discounts inputs whose recorded edges cluster near a candidate. The authors note that the estimates apply to any family of forbidden all-ones patterns.",
+  "limitations": "The gap to the \\(O(N^{5/4})\\) upper bound remains. The exponent is limited by the density at which the triangle-free conditioning stays controllable (\\(\\Delta p^2\\) a small constant), and the sparse-graph tightness shows that this input distribution cannot give more than \\(13/12\\). The authors state that GPT 6 Astra helped with an initial \\(\\Omega(N\\sqrt{\\log N})\\) proof and then developed the entire argument for the \\(\\Omega(N^{13/12})\\) bound; GPT 6 Astra and Anthropic Opus 5.5 were also used for literature search, drafting, proof development and checking.",
+  "status": "approved",
+  "summary_basis": "Description based on the abstract, Section 1, the proof overview of Section 2 and the generative-AI statement of the linked arXiv version, read 2026-11-05. The full proofs in Sections 4 and 5 were not checked line by line.",
+  "verified_on": "2026-11-05",
+  "methods_source_section": "Section 2 (proof overview), Eqs. (2.3)–(2.19)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Fix a graph \\(G\\) known to the algorithm, with \\(m\\) edges, maximum degree \\(\\Delta\\) and \\(M\\) triangles, and let the input be a subgraph of \\(G\\). Negative inputs are Bernoulli(\\(p\\)) subgraphs conditioned to be triangle-free. Positive inputs plant a uniformly random triangle \\(T\\) and condition on it being the only one. Theorem 1.3 states that if \\(p\\le1/(10\\sqrt\\Delta)\\) and \\(\\Delta p\\ge C_0\\log(2m)\\), any \\(t\\)-query algorithm that outputs the hidden triangle with average success \\(\\sigma\\) satisfies \\[\\sqrt\\sigma\\le C_1(t+3)\\,\\frac{\\Delta^{1/3}}{\\sqrt M\\,p^{1/6}}.\\]",
+    "For \\(G=K_{n,n,n}\\) the parameters are \\(\\Delta=2n\\) and \\(M=n^3\\), and \\(p=\\Theta(n^{-1/2})\\) is the largest allowed density. The right side is then of order \\(n^{-13/12}\\), so constant success needs \\(t=\\Omega(n^{13/12})\\). At this density an unconditioned random graph has about \\(n^{3/2}\\) triangles and Grover search finds one quickly. Conditioning removes them while keeping a local rule: given the other edges, each edge is either forced absent or an independent Bernoulli(\\(p\\)) bit.",
+    "The proof follows Belovs's comparison method. A linear map \\(\\Upsilon\\) carries the negative input state to the positive one, and each query changes the comparison by at most \\(\\varepsilon\\) on the states that actually occur. Errors add, three verification queries are appended, and \\(\\sqrt\\sigma\\le(t+3)\\varepsilon\\). The analysis is first done for independent bits in the compressed-oracle record basis, then redone under the conditioned distribution. There the record projections no longer commute, and two-coordinate interaction estimates take their place.",
+    "Above \\(\\Delta p^2\\approx1\\) the interactions between conditional averages are no longer small. That is what stops the argument, and the sparse-range tightness shows that closing the gap to \\(N^{5/4}\\) needs negative inputs that are denser or more structured than a triangle-free random graph."
+  ],
+  "methods": [
+    {
+      "technique": "The four-input map",
+      "explanation": "For one candidate triangle, a positive input must be expressed as a combination of nearby negative inputs whose query phases reproduce the positive input's phases. Using only the most probable negative assignments of the three edges keeps the price of rare inputs low.",
+      "math": [
+        "Let \\(\\mathbf y\\) contain \\(T\\) and let \\(\\mathbf y^A\\) keep exactly the edges \\(A\\subseteq T\\). Use \\(\\mathbf y^\\varnothing,\\mathbf y^{\\{1\\}},\\mathbf y^{\\{2\\}},\\mathbf y^{\\{3\\}}\\) with coefficients \\(\\lambda_0,\\ldots,\\lambda_3\\). The initial states must agree, so \\(\\sum\\lambda_k=1\\). A query to edge 1 gives phase \\(-1\\) on \\(\\mathbf y\\) but only on \\(\\mathbf y^{\\{1\\}}\\) among the four, which requires \\(\\lambda_0-\\lambda_1+\\lambda_2+\\lambda_3=-1\\), hence \\(\\lambda_1=1\\). By symmetry \\(\\lambda_2=\\lambda_3=1\\) and \\(\\lambda_0=-2\\): \\[(\\mathsf T_T\\mathbf f)_{\\mathbf y}=\\sum_{i\\in T}\\mathbf f_{\\mathbf y^{\\{i\\}}}-2\\,\\mathbf f_{\\mathbf y^\\varnothing}.\\]",
+        "For a query to \\(e\\in T\\) the term at \\(\\mathbf y^{\\{e\\}}\\) cancels from the commutator. The error is then \\(-2\\sum_{i\\in T\\setminus\\{e\\}}(\\mathbf f_{\\mathbf y^{\\{i\\}}}-\\mathbf f_{\\mathbf y^\\varnothing})\\), which depends only on the other two edges. In the record basis \\(|\\omega_p\\rangle=\\sqrt{1-p}|0\\rangle+\\sqrt p|1\\rangle\\), \\(|\\eta_p\\rangle=\\sqrt p|0\\rangle-\\sqrt{1-p}|1\\rangle\\), the map multiplies a state with \\(k\\) records on \\(T\\) by \\(c_k\\), with \\[c_0=1,\\quad c_1=-\\sqrt{\\tfrac{1-p}{p}},\\quad c_2=-2-\\tfrac{p}{1-p},\\quad c_3=-3\\sqrt{\\tfrac{p}{1-p}}-2\\bigl(\\tfrac{p}{1-p}\\bigr)^{3/2}.\\] Only records on \\(T\\) cost the factor \\(1/p\\).",
+        "Editorial check: we wrote \\(\\mathsf T_T\\) as the functional \\[\\frac{\\langle100|+\\langle010|+\\langle001|}{\\sqrt{p(1-p)^2}}-\\frac{2\\langle000|}{\\sqrt{(1-p)^3}}\\] and applied it to all eight record states at \\(p=0.17\\). The results matched \\(c_{|S\\cap T|}\\) to machine precision."
+      ],
+      "transfer": "For lower bounds on finding a small certificate, build the transfer map from the cheapest negative neighbours of each positive input and fix the coefficients by phase matching. The commutator then depends only on part of the certificate, which is what makes the per-query error small."
+    },
+    {
+      "technique": "Soft averaging over vertex stars",
+      "explanation": "Without averaging, an algorithm could concentrate its recorded edges in the stars of a queried edge's endpoints, and the bound would only reach \\(N^{11/12}\\). Damping each candidate by a factor that shrinks smoothly with the number of nearby records caps the total cost per star while keeping the commutator with a query small.",
+      "math": [
+        "With \\(k_T(S)\\) the number of records in the three stars of \\(T\\), set \\(\\mathsf F_T|S\\rangle=\\frac{R}{R+k_T(S)}|S\\rangle\\). It is realised by random-scan Gibbs resampling, so it fixes the initial state and never increases the infinity norm. A star with \\(k\\) records costs \\(kR/(R+k)\\le R\\) in total, whereas a hard cutoff at \\(k=R\\) would have a commutator of size \\(2\\sqrt{p(1-p)}\\) on every component at the cutoff.",
+        "The four kinds of error contribution sum to \\[\\frac1M\\sum_T\\|\\mathbf g_T\\|^2\\le\\frac cM\\Bigl(\\frac Rp+\\frac\\Delta R+\\frac\\Delta{R^2}+\\frac{\\Delta^2p}{R^2}\\Bigr)\\|\\mathbf f\\|^2.\\] Choosing \\(R=(\\Delta p)^{2/3}\\) makes the first and last terms equal, to \\(\\Delta^{2/3}p^{-1/3}\\). Then \\(\\varepsilon\\approx\\Delta^{1/3}p^{-1/6}M^{-1/2}\\), and with \\(p=\\Delta^{-1/2}\\) this is \\(\\Delta^{5/12}M^{-1/2}\\).",
+        "Editorial check: for \\(\\Delta=2n\\) and \\(M=n^3\\), \\[\\Delta^{5/12}M^{-1/2}=2^{5/12}\\,n^{5/12-3/2}=2^{5/12}\\,n^{-13/12}.\\] At \\(n=10^6\\) the middle two terms are 9% and 0.1% of the first, so they do not affect the balance. Inverting the general bound gives \\(t\\gtrsim\\sqrt M\\,p^{1/6}\\Delta^{-1/3}=n^{7/6}p^{1/6}\\), the sparse-range bound the paper states."
+      ],
+      "transfer": "When a hybrid-type argument is defeated by adversaries that concentrate their information locally, precompose the transfer map with a resolvent-type damping \\((I+H/R)^{-1}\\) of a local record count \\(H\\), and optimise \\(R\\). Soft damping has a small, explicit commutator with queries; a hard cutoff does not."
+    }
+  ],
+  "approved_on": "2026-11-05"
+}

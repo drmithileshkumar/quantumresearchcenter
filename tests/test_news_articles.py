@@ -85,6 +85,35 @@ class NewsPublishingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             news_articles.validate(broken, self.config, self.papers)
 
+    def test_article_page_layout(self):
+        articles = copy.deepcopy(self.articles)
+        story = articles[0]
+        story['key_points'] = ['KEYPOINT SENTINEL']
+        story['sections'] = [{'heading': f'Part {i}', 'paragraphs': [f'Body text {i} ends here.'], 'source_refs': [1]} for i in range(5)]
+        story['sections'][1]['paragraphs'] = ['A bound of \\(O(n \\log n)\\)']
+        with patch.object(news_articles, 'load_articles', return_value=articles):
+            output = self.render()
+        page = output[news_articles.article_path(story)]
+        self.assertIn('<li>KEYPOINT SENTINEL</li>', page)
+        self.assertIn('<details class="article-toc"><summary>In this article</summary>', page)
+        self.assertIn('href="#section-5"', page)
+        self.assertIn('<span class="cite-tail">here.<sup class="cite">', page)
+        # A citation must never split inline TeX.
+        self.assertIn('\\(O(n \\log n)\\)<sup class="cite">', page)
+        self.assertNotIn('Sources: <a', page)
+        build.check_output(output)
+        for points in ('one', [''], ['x'] * 6):
+            broken = copy.deepcopy(self.articles)
+            broken[0]['key_points'] = points
+            with self.subTest(points=points), self.assertRaises(ValueError):
+                news_articles.validate(broken, self.config, self.papers)
+
+    def test_short_articles_omit_reading_time(self):
+        short = {'published': '2026-10-26', 'sections': [{'paragraphs': ['word ' * 150]}]}
+        self.assertNotIn('min read', news_articles.metadata(short))
+        short['sections'][0]['paragraphs'] = ['word ' * 450]
+        self.assertIn('3 min read', news_articles.metadata(short))
+
     def test_cross_stream_links_are_reciprocal(self):
         articles = copy.deepcopy(self.articles)
         paper = next(p for p in self.papers if p['status'] == 'approved')

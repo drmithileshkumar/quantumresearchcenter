@@ -1,0 +1,96 @@
+{
+  "slug": "measurement-based-quantum-computing-introduction",
+  "title": "How can measurements drive a quantum computer?",
+  "summary": "An introduction to measurement-based quantum computing: prepare entanglement, measure individual qubits, and use the outcomes to steer what happens next.",
+  "author": "Quantum Research Center",
+  "published": "2026-11-06",
+  "status": "published",
+  "topic": "discoveries",
+  "format": "Explainer",
+  "sections": [
+    {
+      "heading": "Can measuring a quantum system perform a computation?",
+      "source_refs": [
+        1
+      ],
+      "paragraphs": [
+        "Measurement is often introduced as the last step of a quantum computation: prepare qubits, apply gates, and measure the answer. That picture can make measurement seem like something to postpone until the useful quantum work is over.",
+        "Measurement-based quantum computing changes that order. First prepare a suitably entangled collection of qubits. Then use a planned sequence of measurements to process information. Some later measurement choices depend on earlier outcomes. The measurements help carry out the computation itself.",
+        "This is an established model, not a new announcement. Raussendorf and Briegel described the cluster-state approach in a 2000 preprint, preceding their 2001 publication. Its central question remains striking: how can measurements with unpredictable outcomes implement a controlled calculation?"
+      ]
+    },
+    {
+      "heading": "Prepare the connections before choosing the measurements",
+      "source_refs": [
+        2
+      ],
+      "paragraphs": [
+        "A useful starting resource is a cluster state. Picture qubits arranged on a grid, with lines joining selected neighbours. A mathematical preparation recipe puts each qubit in the plus state and applies a controlled-Z operation along every line. The lines specify entangling operations; they are not ordinary wires carrying classical bits.",
+        "Preparation does real work. Calling the computation measurement-based does not mean that useful entanglement appears for free, or that independent, unconnected qubits become a quantum computer merely because we measure them.",
+        "Once the resource is ready, the measurement pattern specifies the processing. Changing the bases—the alternatives each measurement distinguishes—can change the calculation performed on that resource."
+      ]
+    },
+    {
+      "heading": "A two-qubit example: measurement transfers and transforms a state",
+      "source_refs": [
+        2
+      ],
+      "paragraphs": [
+        "Here is an ideal, noiseless example, with its algebra worked out for this article. Put an unknown state \\( |\\psi\\rangle=a|0\\rangle+b|1\\rangle \\) on qubit A and prepare qubit B in \\( |+\\rangle=(|0\\rangle+|1\\rangle)/\\sqrt{2} \\). A controlled-Z operation produces",
+        "\\[ a|0\\rangle_A|+\\rangle_B+b|1\\rangle_A|-\\rangle_B, \\]",
+        "where \\( |-\\rangle=(|0\\rangle-|1\\rangle)/\\sqrt{2} \\). Measure A in the plus/minus basis. For the plus outcome, B becomes \\(a|+\\rangle+b|-\\rangle\\). For the minus outcome, it becomes \\(a|+\\rangle-b|-\\rangle\\). Each outcome has probability one half.",
+        "The first state is \\(H|\\psi\\rangle\\), where H is the Hadamard gate. The second is \\(XH|\\psi\\rangle\\), where X exchanges the zero and one basis states. Applying X in the second case gives the same intended output in both cases.",
+        "The measurement has transferred the input information to B while implementing a gate, with a correction determined by one classical bit. It has not revealed the unknown amplitudes a and b or left a second copy on A."
+      ]
+    },
+    {
+      "heading": "Random outcomes need classical feedback",
+      "source_refs": [
+        3
+      ],
+      "paragraphs": [
+        "In a longer computation, those outcome-dependent corrections must be accounted for. A classical controller records measurement results and uses them to choose later measurement bases. This dependence is called feedforward. Some corrections can be tracked in software and absorbed into later operations or the interpretation of the final readout.",
+        "The outcome is not selected by wishing for the right answer. The measurement pattern is designed so that different outcome branches implement the intended logical operation once their known corrections are handled. A quantum algorithm may still have an intrinsically probabilistic output.",
+        "The two-qubit example illustrates one building block. Universal computation requires suitable larger resources and measurement patterns, including ways to implement operations between logical qubits. A short chain demonstrating state transfer is not, by itself, a universal computer."
+      ]
+    },
+    {
+      "heading": "Why it is called a one-way computer",
+      "source_refs": [
+        3
+      ],
+      "paragraphs": [
+        "Measurements consume the prepared cluster resource: the original entangled state is not available for another run after its qubits have been measured. That is the sense in which the computation is one-way. It does not mean that every physical component must be discarded. Qubits can be prepared again, and resource preparation can be organized in successive stages."
+      ]
+    },
+    {
+      "heading": "What changes for a real machine?",
+      "source_refs": [
+        4
+      ],
+      "paragraphs": [
+        "This model offers a different way to organize quantum hardware. It separates the production of an entangled resource from the measurements that use it. Photonic implementations are an important setting for this idea, but measurement-based computing is not restricted to photons.",
+        "The difficult engineering questions remain: can the resource be prepared reliably, can measurements distinguish the required outcomes, and can classical feedback arrive when needed? Loss, noise and imperfect operations still have to be addressed. Measurement-based schemes can incorporate fault tolerance; measurement alone does not automatically correct errors.",
+        "It is also not a promise of a stronger class of algorithms than the circuit model. The attraction is the alternative organization of the physical work. For a particular implementation, any claim of an advantage needs a concrete comparison of resources and errors."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Raussendorf and Briegel — Quantum computing via measurements only (2000 preprint)",
+      "url": "https://arxiv.org/abs/quant-ph/0010033v1"
+    },
+    {
+      "title": "Nielsen — Cluster-state quantum computation (2005), section 3",
+      "url": "https://arxiv.org/abs/quant-ph/0504097v2"
+    },
+    {
+      "title": "Raussendorf, Browne and Briegel — Measurement-based quantum computation on cluster states (2003), section II",
+      "url": "https://arxiv.org/abs/quant-ph/0301052v2"
+    },
+    {
+      "title": "Wei — Measurement-Based Quantum Computation (2021)",
+      "url": "https://arxiv.org/abs/2109.10111"
+    }
+  ]
+}

@@ -214,22 +214,19 @@ html[data-theme=dark] .phasor{--heat-0:rgba(240,165,138,0);--heat-1:rgba(240,165
 }
 @media print{.phasor-figure,.bloch-figure{break-inside:avoid}.bloch-figure{position:static}.qubit-panel{max-height:none;overflow:visible}}
 /* Three-qubit explorer: eight amplitude arrows, and the two Schmidt planes of the reference cut. */
-.ph3-arrow{stroke-width:2.4;stroke-linecap:round;fill:none}
+.ph3-arrow{stroke:var(--amp,var(--ink));stroke-width:2.4;stroke-linecap:round;fill:none}
 .ph3-hit{stroke:transparent;stroke-width:18;fill:none;pointer-events:stroke}
 .ph3-vec{cursor:grab}
 .ph3-vec:hover .ph3-arrow{stroke-width:3.6}
 .ph3-vec:focus-visible .ph3-arrow{stroke-width:4}
-#ph3-vec-000{stroke:var(--blue)}
-#ph3-vec-001{stroke:var(--blue);stroke-dasharray:7 4}
-#ph3-vec-010{stroke:var(--violet)}
-#ph3-vec-011{stroke:var(--violet);stroke-dasharray:7 4}
-#ph3-vec-100{stroke:var(--warm)}
-#ph3-vec-101{stroke:var(--warm);stroke-dasharray:7 4}
-#ph3-vec-110{stroke:var(--ink-soft)}
-#ph3-vec-111{stroke:var(--ink-soft);stroke-dasharray:7 4}
+#ph3-group-000,#ph3-group-001{--amp:var(--blue)}
+#ph3-group-010,#ph3-group-011{--amp:var(--violet)}
+#ph3-group-100,#ph3-group-101{--amp:var(--warm)}
+#ph3-group-110,#ph3-group-111{--amp:var(--ink-soft)}
+#ph3-vec-001,#ph3-vec-011,#ph3-vec-101,#ph3-vec-111{stroke-dasharray:7 4}
 .ph3-head-0{fill:var(--blue)}.ph3-head-1{fill:var(--violet)}
 .ph3-head-2{fill:var(--warm)}.ph3-head-3{fill:var(--ink-soft)}
-.phasor8 .ph-label{font-size:10px}
+.phasor8 .ph-label{font-size:10px;fill:var(--amp,var(--ink))}
 .planes{display:block;width:100%;max-width:520px;height:auto;margin:0 auto;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
 .planes.is-orbiting{cursor:grabbing}
 .planes:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
@@ -242,12 +239,15 @@ html[data-theme=dark] .phasor{--heat-0:rgba(240,165,138,0);--heat-1:rgba(240,165
 .plane-q-tip{fill:var(--plane);stroke:var(--surface);stroke-width:1}
 .plane-p-label{fill:var(--plane-ink);font:10px var(--sans)}
 .plane-q-label{fill:var(--plane);font:10px var(--sans)}
-.plane-meet-casing{stroke:var(--surface);stroke-width:7;stroke-opacity:.8;stroke-linecap:round}
 .plane-meet-line{stroke:var(--violet);stroke-width:2.4;stroke-linecap:round}
 .plane-meet-tip{fill:var(--violet);stroke:var(--surface);stroke-width:1}
 .plane-u-label{fill:var(--violet);font:500 10px var(--sans)}
 .plane-angle{font:11px/1.6 var(--sans);color:var(--muted);margin:0;font-variant-numeric:tabular-nums}
-.plane-quad{fill:var(--plane);fill-opacity:.14;stroke:var(--plane);stroke-opacity:.45;stroke-width:1}
+.plane-fills .branch-0,.plane-edges .branch-0{--plane:var(--blue)}
+.plane-fills .branch-1,.plane-edges .branch-1{--plane:var(--warm)}
+.plane-fill{fill:var(--plane);stroke:none}
+.plane-edge{fill:none;stroke:var(--plane);stroke-width:1;stroke-opacity:.5}
+.plane-edge.is-behind{stroke-dasharray:3 5;stroke-opacity:.3}
 .plane-view{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
 .plane-hint{font:11px/1.6 var(--sans);color:var(--muted);margin:0;max-width:46ch}
 .plane-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0}

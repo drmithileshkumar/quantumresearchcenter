@@ -27,6 +27,10 @@ Required fields:
 
 Optional fields:
 
+- `key_points`: up to five short plain-text sentences shown under the summary
+  as "Key points". Use them for news stories: state what happened, the key
+  number, and what it does not show, so readers get the takeaway even if
+  they stop there.
 - `updated`: date of a substantive update, no earlier than `published`.
 - `related_articles`: other published article slugs.
 - Within a section, `source_refs`: optional 1-based source numbers for linked citations
@@ -87,3 +91,18 @@ and sitemap. Unmanaged pages are never removed by this cleanup.
 - The article renderer is `scripts/news_articles.py`; styles and filtering are
   in `news/editorial.css` and `news/articles.js`. Research/course styles retain
   their existing reader layout.
+
+## Article page layout
+
+- Articles with five or more sections get an "In this article" contents list.
+  On screens at least 1280 px wide it is open and stays in view in the left
+  margin; on narrower screens it is a closed disclosure under the header.
+- `source_refs` render as small bracketed superscript links after the
+  section's last paragraph.
+- The breadcrumb links to the topic's filtered list. The label above the
+  headline shows the format, so label long beginner's guides `Explainer`.
+- Reading time is shown only from two minutes up.
+- Cards and the lead story reuse an article's first figure as a thumbnail;
+  the lead story falls back to the house illustration.
+- Body text uses the self-hosted Source Serif 4 (`fonts/`), with Georgia as
+  the fallback.

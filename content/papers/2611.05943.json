@@ -1,0 +1,46 @@
+{
+  "id": "2611.05943",
+  "topic": "information",
+  "title": "Norm Bounds on Sums of Positive Operators with Applications to Monogamy Games and Quantum Key Distribution",
+  "authors": "Salman Beigi; Marco Tomamichel",
+  "submitted": "2026-11-04",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "In the BB84 monogamy game, Alice measures \\(n\\) qubits in random bases, and two separated players, Bob and Charlie, must each guess her outcome string. Perfect guessing has optimal probability \\((\\cos^2\\tfrac\\pi8)^n\\). If Bob may make \\(\\beta n\\) errors and Charlie \\(\\gamma n\\), for which \\((\\beta,\\gamma)\\) does the winning probability still decay exponentially? The existing bound certified decay only up to about 1.53% symmetric error, and the same weakness limited the one-sided device-independent QKD rate built on it.",
+  "result": "The winning probability decays exponentially if \\((1-2\\beta)^2+(1-2\\gamma)^2>1\\), tends to one exponentially fast under the reverse strict inequality, and stays bounded away from zero on the circle itself. The symmetric threshold is \\(\\sin^2\\tfrac\\pi8\\approx14.64\\%\\). For one-sided device-independent BB84, where Bob may make an arbitrary joint measurement depending on the whole basis string, every key rate \\(0<R<1-2h_2(\\gamma)\\) is achievable, which is the standard BB84 rate with its 11% noise threshold.",
+  "significance": "The previous analysis of the same protocol gave a zero-noise rate of 0.228 bits per qubit and a 1.53% noise threshold. The new one recovers the textbook BB84 rate without assuming anything about Bob's measurement beyond receipt and isolation, and without a sequential structure across rounds. The engine is a general operator-norm inequality for weighted sums of positive operators, which the authors also apply to the subspace coset monogamy problem.",
+  "limitations": "The results are asymptotic: they need sufficiently large \\(n\\), and the constants in the decay exponents come from a polynomial approximation of NOR and from an uncertainty estimate, and are not optimised. The QKD result assumes trusted measurements on Alice's side, asymptotically optimal reconciliation, and the receipt and isolation requirements of the protocol. It is not fully device-independent. The authors state that OpenAI Codex with ChatGPT 6 Astra assisted with exploring and checking proof strategies and with preparing the manuscript, and that the exposition of the proofs is theirs.",
+  "status": "approved",
+  "summary_basis": "Description based on the abstract, Section 1, Section 2 (Theorems 1 and 2 with proofs), the statement of Theorem 4 and Lemma 5, the statements of Proposition 7 and Theorem 10, and the AI statement of the linked arXiv version, read 2026-11-05. The proofs of the QKD results were not checked.",
+  "verified_on": "2026-11-05",
+  "methods_source_section": "Section 2 (Theorems 1 and 2, Lemma 3) and Section 3 (Theorem 4, Lemma 5)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "For fixed strategies, the game's success probability is the expectation of an acceptance operator \\(A_\\theta\\) averaged over Alice's basis string \\(\\theta\\in\\{0,1\\}^n\\). It is therefore at most \\(\\|2^{-n}\\sum_\\theta A_\\theta\\|\\), uniformly over the shared state. Tomamichel, Fehr, Kaniewski and Wehner bounded such norms through pairwise overlaps \\(\\|\\sqrt{A_\\theta}\\sqrt{A_{\\theta'}}\\|\\), which captures exact guessing. With errors allowed, overlaps between nearby bases are not small, and that method breaks down.",
+    "Theorem 1 handles this. It approximates the rank-one averaging projection \\(R_{ij}=\\sqrt{p_ip_j}\\) by a matrix \\(\\widetilde R\\) that vanishes where overlaps are large, paying the spectral error \\(\\|R-\\widetilde R\\|\\). For basis strings, Theorem 2 builds \\(\\widetilde R\\) from a low-degree polynomial approximation of NOR, supported on pairs of strings at Hamming distance at least \\(n-D\\). For such distant strings, the overlaps of the acceptance projectors reduce to overlaps of a Hamming ball with the Hadamard transform of another.",
+    "A theorem of Polyanskiy and Samorodnitsky makes those overlaps exponentially small exactly when \\((1-2\\beta)^2+(1-2\\gamma)^2>1\\). An asymmetric qubit cloner shows that this region is sharp. In the symmetric case, preparing \\(\\cos\\tfrac\\pi8|0\\rangle+\\sin\\tfrac\\pi8|1\\rangle\\) for Alice and always answering 0 gives error rate \\(\\sin^2\\tfrac\\pi8\\) in both bases.",
+    "For QKD, Charlie's Hamming-ball test is replaced by arbitrary effects summing to at most \\(L\\) times the identity, a relaxation of quantum list decoding. The same machinery shows that their acceptance tends to zero when \\(\\log L<n(1-h_2(\\beta)-\\nu)\\). Semidefinite duality then gives \\(H^\\varepsilon_{\\min}(X|C\\Theta)\\ge n(1-h_2(\\beta)-\\nu)\\) on the event that Bob's string is within \\(\\beta n\\) of Alice's, which yields the key rate."
+  ],
+  "methods": [
+    {
+      "technique": "Operator-norm bound via matrix approximation",
+      "explanation": "The norm of an average of positive operators equals the norm of a block matrix of their pairwise products. Replacing the averaging projection by an approximation that ignores the large overlaps trades a spectral error for a sum over small overlaps only.",
+      "math": [
+        "Set \\(\\Lambda=(\\sqrt{p_1}\\sqrt{A_1};\\ldots;\\sqrt{p_N}\\sqrt{A_N})\\) and \\(\\Delta=\\bigoplus_i\\sqrt{A_i}\\). Then \\(\\Lambda^\\dagger\\Lambda=\\sum_ip_iA_i\\) and \\(\\Lambda\\Lambda^\\dagger=\\Delta(R\\otimes I)\\Delta\\), so the two have the same norm. Adding and subtracting \\(\\Delta(\\widetilde R\\otimes I)\\Delta\\), using \\(\\|\\Delta\\|^2=\\max_i\\|A_i\\|\\), and decomposing \\(\\widetilde R\\) along a complete orthogonal family \\(\\mathcal P\\) of permutations gives \\[\\Bigl\\|\\sum_ip_iA_i\\Bigr\\|\\le\\|R-\\widetilde R\\|\\max_i\\|A_i\\|+\\sum_{\\pi\\in\\mathcal P}\\max_i|\\tilde r_{i,\\pi(i)}|\\,\\bigl\\|\\sqrt{A_i}\\sqrt{A_{\\pi(i)}}\\bigr\\|.\\] Taking \\(\\widetilde R=R\\) recovers the earlier lemma.",
+        "Editorial check: we tested the inequality on 3,000 random instances with four projectors of rank one or two in \\(\\mathbb C^3\\), random weights, cyclic shifts as \\(\\mathcal P\\), and \\(\\widetilde R\\) equal to \\(R\\), a randomly masked \\(R\\), or a perturbed \\(R\\). It always held, with a largest ratio of left to right side of 0.92."
+      ],
+      "transfer": "When averaging measurement operators over settings, look for an approximate averaging matrix supported on the pairs of settings that are far apart, where incompatibility makes overlaps small. Polynomial approximations of Boolean functions are a ready source of such matrices on the hypercube."
+    },
+    {
+      "technique": "From a circle of overlaps to sharp thresholds and key rates",
+      "explanation": "Only strings at Hamming distance at least \\(n-D\\) enter the overlap sum, and for them the acceptance projectors reduce to a Hamming ball against the Fourier transform of another ball. The uncertainty estimate for that pair fixes the exact region of exponential decay.",
+      "math": [
+        "Theorem 2 gives, for overlaps bounded by \\(g(d_H(\\theta,\\theta'))\\), \\[\\Bigl\\|2^{-n}\\sum_\\theta A_\\theta\\Bigr\\|\\le2^{-cD^2/n}\\max_\\theta\\|A_\\theta\\|+\\Bigl(\\sum_{k\\le D}\\binom nk\\Bigr)^{1/2}\\max_{n-D\\le s\\le n}g(s).\\] The NOR polynomial has \\(q(0)=1\\) and \\(|q(k)|\\le2^{-cD^2/n}\\) for \\(k\\ge1\\). With \\(D\\) a small constant fraction of \\(n\\), the first term decays exponentially, and the second does too once \\(g\\) decays faster than the binomial count grows.",
+        "Editorial check of the stated constants: the threshold circle meets the diagonal where \\(2(1-2\\beta)^2=1\\), so \\(\\beta=\\tfrac12(1-\\tfrac1{\\sqrt2})=\\sin^2\\tfrac\\pi8=0.14645\\). The earlier bound \\(2^{2nh_2(\\beta)}(\\cos^2\\tfrac\\pi8)^n\\) decays only while \\(2h_2(\\beta)<-\\log_2\\cos^2\\tfrac\\pi8=0.22845\\), which gives \\(\\beta<1.531\\%\\) and the old zero-noise rate 0.228. The new rate \\(1-2h_2(\\gamma)\\) vanishes at \\(\\gamma=11.003\\%\\).",
+        "Editorial remark: the circle \\((1-2\\beta)^2+(1-2\\gamma)^2=1\\) is the cloning trade-off for the two bases. Writing \\(1-2\\beta=\\cos\\phi\\) and \\(1-2\\gamma=\\sin\\phi\\) parametrises a family of asymmetric cloners whose error rates trace the boundary; the paper uses such a cloner to show that the region it proves is the right one."
+      ],
+      "transfer": "Robust versions of monogamy or uncertainty games often reduce to the norm of a Hamming-ball projector times a rotated one. When a sharp uncertainty estimate for that pair is known, it can be fed into the matrix-approximation bound to obtain both a sharp game threshold and, through duality, a smooth min-entropy bound for security proofs."
+    }
+  ],
+  "approved_on": "2026-11-05"
+}

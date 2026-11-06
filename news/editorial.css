@@ -1,4 +1,6 @@
 /* Editorial surfaces share the site's palette; course and research typography stays independent. */
+/* Article body face, self-hosted (SIL OFL, fonts/SourceSerif4-OFL.txt); Georgia remains the fallback. */
+@font-face{font-family:"Source Serif 4";src:url("../fonts/source-serif-4-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 .stream-nav{display:flex;gap:28px;flex-wrap:wrap;border-block:1px solid var(--line);margin:0 0 32px;font:500 13px/1.5 var(--sans)}
 .stream-nav a{display:block;color:var(--ink-soft);padding:14px 0;border-bottom:2px solid transparent;text-decoration:none}
 .stream-nav a:hover,.stream-nav a[aria-current=page]{color:var(--blue-strong);border-bottom-color:var(--blue)}
@@ -62,12 +64,29 @@
 #article-count{grid-column:1/-1;font-size:12px;color:var(--muted);margin:0}
 .article-list{padding-bottom:64px}
 .editorial [hidden]{display:none!important}
-.editorial .general-article{max-width:780px;margin:40px auto 64px}
+.editorial .general-article{max-width:680px;margin:40px auto 64px}
 .general-article .breadcrumbs{margin-bottom:36px}
 .editorial .general-article h1{font-size:clamp(32px,4vw,52px);line-height:1.15;letter-spacing:-.04em;font-weight:550;margin:0 0 24px}
 .editorial .article-deck{font-size:20px;line-height:1.65;color:var(--ink-soft);margin:0 0 24px}
-.editorial .article-context{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;margin:24px 0 0}
-.article-prose{max-width:680px;margin:36px auto 0;font:18px/1.85 var(--reading-font)}
+.editorial .general-article .story-meta a{color:var(--blue-strong);font-weight:600}
+.editorial .key-points{border-top:1px solid var(--line);padding-top:18px;margin:0 0 24px}
+.editorial .key-points h2{margin:0 0 10px}
+.key-points ul{margin:0;padding-left:1.2em;font:15px/1.7 var(--sans);color:var(--ink)}
+.key-points li{margin-bottom:6px}
+.article-toc{margin-top:28px}
+.article-toc ol{font:13px/1.6 var(--sans);margin:0}
+.article-toc li{margin-bottom:6px}
+.editorial .article-toc a{color:var(--ink-soft);text-decoration:none}
+.editorial .article-toc a:hover{color:var(--blue-strong);text-decoration:underline}
+/* Wide screens: the contents list sits in the left margin and stays in view; the text column keeps its place. */
+@media(min-width:1280px){
+ .has-toc .article-layout{display:grid;grid-template-columns:200px 680px;column-gap:40px;margin-left:-240px}
+ .has-toc .article-toc{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow-y:auto;margin-top:36px}
+}
+.article-prose{max-width:680px;margin:36px auto 0;font:18px/1.85 "Source Serif 4",var(--reading-font)}
+.article-prose sup.cite{font:600 11px/1 var(--sans);margin-left:3px;color:var(--muted);white-space:nowrap}
+.editorial .article-prose sup.cite a{text-decoration:none;padding:0 1px}
+.editorial .article-prose sup.cite a:hover{text-decoration:underline}
 .editorial .article-prose h2{font:500 24px/1.4 var(--sans);letter-spacing:-.025em;margin:36px 0 16px}
 .article-prose p{margin:0 0 22px}
 .article-prose mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:2px 0}
@@ -75,6 +94,7 @@
 .article-sources :is(ul,ol){padding-left:20px;font:14px/1.8 var(--sans)}
 .article-sources li{margin-bottom:12px;overflow-wrap:anywhere}
 .related-stories{border-top:1px solid var(--line)}
+.general-article~.related-stories{max-width:680px;margin-inline:auto}
 .related-stories>.story-grid{margin-top:28px}
 @media(max-width:800px){
  .editorial .editorial-header{padding:20px 24px;gap:18px;flex-wrap:wrap}
@@ -100,6 +120,7 @@
  .signal-art svg{height:270px;width:270px;position:absolute;left:50%;top:-50px;transform:translateX(-50%)}
  .signal-art>span{bottom:12px;left:16px}
  .stream-nav{gap:22px;font-size:12px;margin-bottom:24px}
+ .feature>.card-figure{max-width:none}
  .story-grid,.explore-paths,.article-filters{grid-template-columns:1fr}
  .editorial .section-top{align-items:start;flex-direction:column;gap:14px}
  .latest-stories,.paper-digest{padding:32px 0}
@@ -113,13 +134,17 @@
  .editorial .general-article{margin:0;max-width:none}
 }
 
-.editorial .article-prose .section-sources{font:12px/1.6 var(--sans);color:var(--muted);margin:0 0 28px}
 /* Article figures: inline SVG drawn with these classes so marks follow the light/dark theme.
    Series colours are the validated categorical pair (blue, orange); text stays in ink tokens. */
 .article-figure{margin:30px 0 34px;--fig-1:#2a78d6;--fig-2:#eb6834}
 html[data-theme=dark] .article-figure{--fig-1:#3987e5;--fig-2:#d95926}
 .article-figure .figure-scroll{overflow-x:auto}
 .article-figure .figure-scroll>svg{display:block;width:100%;min-width:300px;height:auto;font-family:var(--sans)}
+/* Thumbnails reuse an article's first figure, without its caption. */
+.card-figure{margin:0 0 20px}
+.card-figure>svg{display:block;width:100%;height:auto;max-height:220px;font-family:var(--sans)}
+.feature>.card-figure{margin:0;width:100%;max-width:460px;justify-self:end}
+.feature>.card-figure>svg{max-height:none}
 .article-figure figcaption{font:13px/1.6 var(--sans);color:var(--muted);margin-top:10px}
 .article-figure .fig-text{fill:var(--ink-soft);font-size:13px}
 .article-figure .fig-label{fill:var(--ink);font-size:13px;font-weight:600}
@@ -140,3 +165,4 @@ html[data-theme=dark] .article-figure{--fig-1:#3987e5;--fig-2:#d95926}
 .article-figure .fig-link{stroke:var(--ink-soft);stroke-width:1.5;fill:none}
 .article-figure .fig-cross{stroke:var(--fig-2);stroke-width:1.5;fill:none}
 .article-figure .fig-measure{stroke:var(--fig-1);stroke-width:1.5;fill:none;stroke-dasharray:4 3}
+.article-prose .cite-tail{white-space:nowrap}

@@ -1,0 +1,46 @@
+{
+  "id": "2611.06573",
+  "topic": "information",
+  "title": "Equivalence of Correlated Catalytic and Marginal Asymptotic Transformations in Quantum Resource Theories",
+  "authors": "Jingsong Ao; Aby Philip; Alexander Streltsov",
+  "submitted": "2026-11-04",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "In correlated catalysis, an auxiliary system helps convert \\(\\rho\\) into (approximately) \\(\\sigma\\), and is returned with exactly its original marginal, though it may end up correlated with the system. A catalyst built from many copies turns any marginal asymptotic conversion at rate one into a correlated-catalytic one. Does the converse hold? In particular, can a correlated catalyst make an undistillable entangled state distillable under LOCC?",
+  "result": "In every resource theory that allows classical control and processing, permutations, full-rank free states and free informationally complete measurements, \\(\\rho\\) converts to \\(\\sigma\\) by correlated catalysis if and only if the marginal asymptotic rate \\(R_{\\rm m}(\\rho\\to\\sigma)\\) is at least one. Under LOCC, correlated catalysts cannot increase distillable entanglement or distillable key, cannot activate bound entanglement, and cannot raise the two-way private capacity of a finite-dimensional channel.",
+  "significance": "The converse was known only for distillable states under LOCC and for PPT operations. The result covers entanglement, coherence and magic theories at once, makes correlated-catalytic convertibility transitive, and equates catalytic and marginal rates. It settles whether correlated catalysis can distil hypothetical NPT bound-entangled states: it cannot. The proof idea is a learning argument. A free memory need not reconstruct the catalyst; it only needs to reproduce the catalyst's predictions for future outputs.",
+  "limitations": "The equivalence reduces catalysis to computing \\(R_{\\rm m}\\), which is generally hard and largely unexplored for magic and multipartite entanglement. The assumptions fail for asymmetry and for some thermodynamic and nonlocality theories, where catalysis can be strictly more powerful. The construction is not efficient: it uses very many copies, and the complexity of the protocols is left open. The authors state that ChatGPT was used for language editing, literature searches and discussions of mathematical arguments.",
+  "status": "approved",
+  "summary_basis": "Description based on the full main text and Sections I–III of the supplemental material (cyclic construction, IC lemma, Blackwell–Dubins lemma) of the linked arXiv version, read 2026-11-05. The full proof of Proposition 3 and the applications in Sections IV–V were not checked line by line.",
+  "verified_on": "2026-11-05",
+  "methods_source_section": "Proposition 1 (main text) and Supplemental Material, Sections II–III",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A resource theory fixes the free operations. Write \\(\\rho\\xrightarrow{\\rm cc}\\sigma\\) if for every \\(\\varepsilon>0\\) some catalyst \\(\\tau\\) and free \\(\\Lambda\\) give \\(\\mu^{BC}=\\Lambda(\\rho\\otimes\\tau)\\) with \\(\\mu^C=\\tau\\) exactly and \\(\\mu^B\\) within \\(\\varepsilon\\) of \\(\\sigma\\). The marginal asymptotic rate \\(R_{\\rm m}\\) is the best ratio \\(m/n\\) at which \\(n\\) copies of \\(\\rho\\) can be turned into \\(m\\) outputs, each of which is individually close to \\(\\sigma\\). It is at least the standard rate.",
+    "The forward direction is the known cyclic construction. The converse, Proposition 1, takes a catalytic protocol and builds a marginal asymptotic one without the catalyst. A full-rank free memory \\(\\omega\\ge c\\tau\\) is run through the protocol for \\(k\\) learning rounds, measuring each output with a free informationally complete POVM. A coin then accepts the history with probability \\(cQ(h)/P(h)\\). Production rounds keep the outputs, \\(B_1,\\ldots,B_m\\), and each is close to \\(\\sigma\\).",
+    "Five assumptions make this work, and the paper tabulates which theories satisfy them. Entanglement under LOCC, separable or PPT operations, several coherence theories and stabilizer-based magic theories satisfy all five. Group-covariant asymmetry theories lack free informationally complete measurements, and there exact catalysis is known to be strictly stronger.",
+    "Under LOCC, \\(R_{\\rm m}(\\rho\\to\\phi)=E_d(\\rho)/S(\\phi_A)\\) for entangled pure \\(\\phi\\), so \\(\\rho\\xrightarrow{\\rm cc}\\phi\\) holds exactly when \\(E_d(\\rho)\\ge S(\\phi_A)\\). Open questions include whether a rate below one characterises probabilistic catalytic conversion, explicit marginal rates for magic states, and how protocol complexity compares."
+  ],
+  "methods": [
+    {
+      "technique": "The cyclic catalyst",
+      "explanation": "A catalyst can store a many-copy protocol at every stage of completion. Each use feeds one fresh copy in, emits one output, and shifts the stages, so the catalyst's marginal returns exactly while the output is a random one of the \\(n\\) marginals.",
+      "math": [
+        "Let \\(\\Gamma_n=\\Lambda(\\rho^{\\otimes n})\\) have marginals within \\(\\varepsilon\\) of \\(\\sigma\\) on the first \\(m\\) outputs, let \\(\\Gamma_j\\) be its marginal on the first \\(j\\) systems, and take a classical register \\(K\\). The catalyst is \\[\\tau=\\frac1n\\sum_{k=1}^n\\rho^{\\otimes(k-1)}\\otimes\\Gamma_{n-k}\\otimes|k\\rangle\\langle k|.\\] Adding a copy of \\(\\rho\\) gives \\(\\frac1n\\sum_k\\rho^{\\otimes k}\\otimes\\Gamma_{n-k}\\otimes|k\\rangle\\langle k|\\). Apply \\(\\Lambda\\) when \\(k=n\\), shift the systems cyclically, and relabel \\(k\\mapsto k+1\\). The remaining systems then hold \\(\\tau\\) again exactly, and the emitted system is \\(\\frac1n\\sum_j\\Gamma_n^{S_j}\\), within \\(\\varepsilon+2(n-m)/n\\) of \\(\\sigma\\).",
+        "Editorial check: we ran the construction for classical bits (\\(n=3\\), \\(\\rho=(0.7,0.3)\\), a random stochastic \\(\\Lambda\\) on three bits). The returned catalyst equalled \\(\\tau\\) in every branch of \\(K\\), and the emitted bit's distribution equalled the average of the three output marginals of \\(\\Lambda(\\rho^{\\otimes3})\\), both to machine precision."
+      ],
+      "transfer": "To convert an asymptotic protocol into a single-shot catalytic one, store the protocol's intermediate stages in a classically indexed catalyst and rotate them. Exact return is automatic. The cost is correlation between output and catalyst, and a catalyst whose size grows with \\(n\\)."
+    },
+    {
+      "technique": "Merging of opinions replaces the catalyst",
+      "explanation": "The converse cannot assume a free copy of the catalyst. A full-rank free state dominates it, and conditioning on observed history makes the two memories predict the same future outputs, which is all that the output marginals depend on.",
+      "math": [
+        "Run \\(k\\) rounds from memory \\(\\omega\\) or from \\(\\tau\\), measuring outputs with the informationally complete POVM, to get history laws \\(P\\) and \\(Q\\). Since the process is linear and positive, \\(\\omega\\ge c\\tau\\) gives \\(P(h)\\ge cQ(h)\\). Accepting with probability \\(cQ(h)/P(h)\\le1\\) leaves weight \\(cQ(h)\\) on each history with the memory state \\(\\omega_h\\) unchanged. Repeating up to \\(T\\) times leaves failure probability \\((1-c)^T\\), and conditioned on success the history weights are exactly \\(Q\\).",
+        "Blackwell–Dubins: if \\(Q\\ll P\\) on infinite sequences over a finite alphabet, then \\[\\sum_hQ(h)\\,\\sup_{s\\ge1}\\sum_{\\rm future}\\bigl|P(\\text{future}\\mid h)-Q(\\text{future}\\mid h)\\bigr|\\xrightarrow[k\\to\\infty]{}0.\\] Informational completeness gives \\(\\|X\\|_1\\le K_M\\sum_z|\\operatorname{tr}(M_zX)|\\), so close outcome laws mean close output marginals in every future round. The reference ensemble \\(\\{Q(h),\\tau_h\\}\\) averages to \\(\\tau\\) by exact return, so each output marginal is \\(\\mu^B\\approx\\sigma\\). The rate is \\(m/(Tk+m)\\to1\\) as \\(m\\) grows.",
+        "Editorial remark: the memory states \\(\\omega_h\\) and \\(\\tau_h\\) need not converge. Only their predictions do, which is why the catalytic effect can be reproduced without ever learning the catalyst."
+      ],
+      "transfer": "To show that an unknown auxiliary resource can be simulated, compare predictions, not states: start from a free state that dominates it, use rejection sampling to align the history weights, and invoke merging of opinions. The method needs free full-rank states and free informationally complete measurements, and fails without them."
+    }
+  ],
+  "approved_on": "2026-11-05"
+}
