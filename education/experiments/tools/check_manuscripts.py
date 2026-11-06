@@ -24,6 +24,10 @@ def check(c):
     problems = []
     soup = BeautifulSoup((ROOT / 'content' / f'{c["stem"]}.html').read_text(), 'html.parser')
     for sec in c['sections']:
+        if sec['title'] in ('The question and the apparatus', 'Build a prediction', 'What the evidence can establish'):
+            problems.append(f'{sec["id"]}: generic section title "{sec["title"]}"')
+        if len(sec.get('subsections', [])) < 3:
+            problems.append(f'{sec["id"]}: expected at least 3 subsections')
         el = soup.find('section', id=sec['id'])
         if not el:
             problems.append(f'missing section {sec["id"]}')
@@ -43,6 +47,8 @@ def check(c):
     for el in soup.select('section'):
         if el.get('id') == 'sources':
             continue
+        for tag in el.find_all(['sub', 'sup']):
+            problems.append(f'HTML <{tag.name}>{tag.get_text()}</{tag.name}> used instead of MathJax')
         for node in el.find_all(string=True):
             if node.parent.name in ('a', 'script', 'style'):
                 continue

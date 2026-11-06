@@ -1,7 +1,127 @@
-<section class="book-section" id="section-15-1"><h2>15.1 The question and the apparatus</h2><p>A z measurement alone cannot distinguish |+⟩ from a balanced mixture of |0⟩ and |1⟩. Both give equal z counts. Prepare many fresh copies of the same procedure and divide them among x, y, and z measurements. The extra bases reveal phase-sensitive information missing from the first dataset.</p><p>This is state tomography. You do not measure all three components on one untouched system. Each measurement consumes or changes its copy. The procedure assumes that the preparations across the three groups represent the same state and that the measurement axes are calibrated.</p><p>The explorer varies the polar angle and purity of a state in the xz plane. It shows a Bloch vector and the three predicted plus-outcome probabilities. The restriction y=0 is for legibility; the reconstruction formula itself includes all three components.</p></section>
-<section class="book-section" id="section-15-2"><h2>15.2 Build a prediction</h2><p>Any qubit density matrix can be written \(\rho=(I+r_xX+r_yY+r_zZ)/2\), with a real vector r satisfying |r|≤1. The measured plus probabilities give rk=2P(+k)−1. Pure states lie on the unit sphere; mixed states lie inside.</p><p>The matrix is \(\tfrac12\begin{pmatrix}1+r_z&r_x-ir_y\\r_x+ir_y&1-r_z\end{pmatrix}\). Its eigenvalues are (1±|r|)/2, so |r|≤1 is the condition for nonnegative probabilities for every possible measurement. Purity is Trρ²=(1+|r|²)/2.</p><p>Finite independent samples can produce a linear estimate with |r|>1. This does not discover a new quantum state outside the sphere. It signals statistical or systematic error in an unconstrained estimate. Physical reconstruction methods impose positivity and should report uncertainties rather than silently clipping every component separately.</p></section>
-<section class="book-section" id="section-15-3"><h2>15.3 What the evidence can establish</h2><p>Tomography is only as trustworthy as its preparation and measurement assumptions. If every axis is miscalibrated consistently, a reconstruction can look excellent and still describe the wrong physical operations. Self-consistent calibration and independent validation measurements address different parts of that problem.</p><p>Do not confuse an estimated density matrix with a unique preparation history. The maximally mixed state has many ensemble decompositions. Tomography predicts measurement statistics and cannot determine which decomposition was used without additional records.</p><p>The browser gives exact model probabilities, so the vector always remains physical. Use the exercises to examine noisy estimates. A practical tomography report should give the counts per setting, the measurement model, the fitting method, and a check against held-out settings.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Compare a pure equatorial state with a zero-length Bloch vector. Their z probabilities match, but their x probabilities differ. Rotate the pure state and predict all three measurement probabilities.</p><div data-lab="tomography"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>Measured plus frequencies are Px=0.8, Py=0.5, Pz=0.9. Reconstruct the vector and check physicality.</p><div class="worked-answer"><p>r=(0.6,0,0.8), whose length is one. The reconstructed matrix is [[0.9,0.3],[0.3,0.1]]. Its determinant is zero and its trace one, so it is a pure state under the assumed calibration.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 15.1</h3><p>What is the state if all three plus probabilities are 1/2?</p><details class="exercise-hint"><summary>Hint</summary><p>Compute r component by component.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>r=0 and ρ=I/2, the maximally mixed qubit state.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 15.2</h3><p>Why is Px=Py=Pz=0.9 not a physical exact qubit prediction?</p><details class="exercise-hint"><summary>Hint</summary><p>Calculate |r|.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>r=(0.8,0.8,0.8) has length √1.92>1, giving a negative eigenvalue in the linear reconstruction.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 15.3</h3><p>Can tomography distinguish different ensembles with the same density matrix?</p><details class="exercise-hint"><summary>Hint</summary><p>Use the Born rule.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No system-only measurement distinguishes identical density matrices. Extra classical preparation records may distinguish their histories.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Tomography reconstructs a statistical state from calibrated measurements on repeated preparations. Positivity and uncertainty are part of the inference.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://arxiv.org/abs/quant-ph/0103121">James et al.: Measurement of qubits</a></li></ul></section>
+<section class="book-section" id="section-15-1">
+  <h2>15.1 Measuring fresh copies across Pauli bases</h2>
+  <h3>15.1.1 Why a single measurement basis leaves relative phases hidden</h3>
+  <p>Measuring a qubit solely in the computational basis \(\{|0\rangle, |1\rangle\}\) yields only the diagonal entries \(\rho_{00} = P(+Z)\) and \(\rho_{11} = P(-Z) = 1 - \rho_{00}\) of its density matrix \(\rho\). Every state of the form \((|0\rangle + e^{i\phi}|1\rangle)/\sqrt{2}\)—as well as the incoherent fifty-fifty mixture \(\frac{1}{2}|0\rangle\langle 0| + \frac{1}{2}|1\rangle\langle 1|\)—produces the exact same \(Z\)-basis statistics \(P(+Z) = P(-Z) = 1/2\). Reconstructing the off-diagonal coherence \(\rho_{01} = \frac{1}{2}(\langle X\rangle - i\langle Y\rangle)\) requires rotating the measurement axis into at least two complementary equatorial bases before projective readout.</p>
+  <h3>15.1.2 Consuming identically prepared copies across orthogonal settings</h3>
+  <p>Because a projective measurement collapses an individual copy and the no-cloning theorem forbids duplicating an unknown quantum state, quantum state tomography is inherently an ensemble protocol. The source must prepare \(N\) independent, identically prepared copies of \(\rho\), partitioned into three sub-ensembles that are measured along the Pauli axes \(X\), \(Y\), and \(Z\). In architectures where only \(Z\)-basis readout is hardware-native, measuring \(X\) is implemented by applying a pre-readout rotation \(R_Y(-\pi/2)\) (or Hadamard gate \(H\)), and measuring \(Y\) is implemented by applying \(R_X(+\pi/2)\) prior to \(Z\) readout.</p>
+  <h3>15.1.3 Bloch-plane visualization of purity and orientation</h3>
+  <p>The three measured expectation values \(\vec{r} = (r_x, r_y, r_z) = (\langle X\rangle, \langle Y\rangle, \langle Z\rangle)\) specify a point inside or on the unit Bloch ball. The direction of \(\vec{r}\) fixes the eigenbasis of \(\rho\), while its Euclidean length \(r = \|\vec{r}\| = \sqrt{r_x^2 + r_y^2 + r_z^2}\) determines the state’s purity: pure states lie on the spherical surface (\(r = 1\)), partially mixed states lie in the interior (\(0 < r < 1\)), and the maximally mixed state \(\frac{1}{2}I\) sits at the origin (\(r = 0\)).</p>
+</section>
+
+<section class="book-section" id="section-15-2">
+  <h2>15.2 Bloch vector inversion, positivity, and purity</h2>
+  <h3>15.2.1 Expanding the qubit density matrix in the Pauli basis</h3>
+  <p>Because the four operators \(\{I, X, Y, Z\}\) form an orthogonal basis for \(2\times 2\) Hermitian matrices with \(\mathrm{Tr}(\sigma_j\sigma_k) = 2\delta_{jk}\), any unit-trace Hermitian matrix \(\rho\) has the unique linear tomographic expansion</p>
+  \[\rho = \frac{1}{2}\left(I + r_x X + r_y Y + r_z Z\right) = \frac{1}{2}\begin{pmatrix} 1 + r_z & r_x - i r_y \\ r_x + i r_y & 1 - r_z \end{pmatrix},\]
+  <p>where \(r_k = \mathrm{Tr}(\rho\sigma_k) = P(+\sigma_k) - P(-\sigma_k) = 2P(+\sigma_k) - 1\) for \(k \in \{x,y,z\}\).</p>
+  <h3>15.2.2 Eigenvalue positivity and purity from Bloch-vector length</h3>
+  <p>A valid physical density matrix must be positive semidefinite (\(\rho \succeq 0\)). Since the eigenvalues of \(\frac{1}{2}(I + \vec{r}\cdot\vec{\sigma})\) are</p>
+  \[\lambda_{\pm} = \frac{1 \pm \|\vec{r}\|}{2}, \qquad \|\vec{r}\| = \sqrt{r_x^2 + r_y^2 + r_z^2},\]
+  <p>positivity \(\lambda_- \ge 0\) is equivalent to the Bloch-ball condition \(\|\vec{r}\| \le 1\). The purity of the reconstructed state is directly</p>
+  \[\gamma = \mathrm{Tr}(\rho^2) = \lambda_+^2 + \lambda_-^2 = \frac{1 + \|\vec{r}\|^2}{2} \in \left[\frac{1}{2},\, 1\right].\]
+  <h3>15.2.3 Finite-sample overstepping of the Bloch sphere boundary</h3>
+  <p>In an experiment with \(N_k\) shots along axis \(k\) and \(n_{k+}\) positive outcomes, the empirical estimator \(\hat{r}_k = (2n_{k+}/N_k) - 1\) has binomial variance \(\mathrm{Var}(\hat{r}_k) = (1 - r_k^2)/N_k\). When the true state lies on or very near the boundary (\(\|\vec{r}\| \approx 1\)), statistical fluctuations in the bases where \(r_k \approx 0\) add positively in quadrature:</p>
+  \[\mathbb{E}\!\left[\|\hat{\vec{r}}\|^2\right] = \|\vec{r}\|^2 + \sum_{k\in\{x,y,z\}} \frac{1 - r_k^2}{N_k}.\]
+  <p>Consequently, direct linear inversion of a high-purity state frequently produces \(\|\hat{\vec{r}}\| > 1\) and a slightly negative eigenvalue \(\hat{\lambda}_- < 0\). Constrained maximum-likelihood estimation (MLE) or least-squares projection onto the positive semidefinite cone \(\{\rho \succeq 0, \mathrm{Tr}\,\rho = 1\}\) restores physicality while reporting bootstrap or Bayesian confidence regions.</p>
+</section>
+
+<section class="book-section" id="section-15-3">
+  <h2>15.3 Detector calibration and ensemble ambiguity</h2>
+  <h3>15.3.1 Systematic axis miscalibration and cross-validation</h3>
+  <p>Statistical uncertainty decreases as \(1/\sqrt{N}\), but systematic errors in the pre-readout rotations \(R_Y(-\pi/2)\) and \(R_X(+\pi/2)\) do not average away with more shots. If the \(X\) and \(Y\) analysis pulses suffer from an under-rotation angle \(\epsilon\) or an axis tilt, linear inversion maps a pure state into a distorted ellipsoid and misreports both its Bloch angles and its purity. Overcomplete measurement sets—such as measuring along all six Pauli eigenstates \(\{\pm X, \pm Y, \pm Z\}\)—combined with detector tomography or gate-set tomography cross-check the measurement axes independently of state preparation.</p>
+  <h3>15.3.2 Why identical density matrices hide distinct mixing histories</h3>
+  <p>Tomography reconstructs the density operator \(\rho\), which encodes the probabilities of all possible measurements on the system, but it cannot recover the specific preparation ensemble that produced a mixed state. For instance, an equal classical mixture of \(|0\rangle\) and \(|1\rangle\), an equal mixture of \(|+\rangle\) and \(|-\rangle\), and one half of a maximally entangled Bell pair \((|00\rangle + |11\rangle)/\sqrt{2}\) traced over its partner all yield the exact same reduced density matrix \(\rho = \frac{1}{2}I\) (\(\vec{r} = \vec{0}\)). No local measurement in any basis can distinguish those preparations.</p>
+  <h3>15.3.3 Reporting raw counts, positivity constraints, and confidence regions</h3>
+  <p>Rigorous tomographic reporting never publishes a constrained MLE state alone without the raw count pairs \((n_{k+}, N_k)\) and the unconstrained linear-inversion vector \(\hat{\vec{r}}\). When \(\|\hat{\vec{r}}\| \gg 1\) beyond what binomial sampling noise \(\sim \sqrt{2/N}\) can explain, clamping the vector onto the unit sphere masks a calibration drift (such as dark-count subtraction bias or pulse-area error) that should instead be diagnosed and corrected at the hardware level.</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Set the target Bloch vector components \((r_x, r_y, r_z)\) and the number of shots \(N\) per Pauli basis, then compare the true density matrix against the empirical linear-inversion estimate \(\hat{\rho}_{\mathrm{lin}}\) and the positivity-projected physical estimate \(\hat{\rho}_{\mathrm{phys}}\). Observe how near-pure states frequently produce \(\|\hat{\vec{r}}\| > 1\) at small \(N\).</p>
+  <div data-lab="tomography"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> A qubit ensemble is measured with \(N = 500\) shots in each Pauli basis, yielding positive-outcome counts \(n_{x+} = 400\), \(n_{y+} = 150\), and \(n_{z+} = 250\). Compute the linear-inversion Bloch vector \(\hat{\vec{r}}\), the reconstructed density matrix \(\hat{\rho}\), its eigenvalues \(\hat{\lambda}_{\pm}\), and its purity \(\hat{\gamma}\).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. Convert counts into empirical expectations \(\hat{r}_k = 2(n_{k+}/N) - 1\):</p>
+    \[\hat{r}_x = 2\left(\frac{400}{500}\right) - 1 = +0.60, \qquad \hat{r}_y = 2\left(\frac{150}{500}\right) - 1 = -0.40, \qquad \hat{r}_z = 2\left(\frac{250}{500}\right) - 1 = 0.00.\]
+    <p>2. Assemble \(\hat{\rho} = \frac{1}{2}(I + \hat{\vec{r}}\cdot\vec{\sigma})\):</p>
+    \[\hat{\rho} = \frac{1}{2}\begin{pmatrix} 1 & 0.60 + 0.40i \\ 0.60 - 0.40i & 1 \end{pmatrix} = \begin{pmatrix} 0.50 & 0.30 + 0.20i \\ 0.30 - 0.20i & 0.50 \end{pmatrix}.\]
+    <p>3. Compute the Bloch length, eigenvalues, and purity:</p>
+    \[\|\hat{\vec{r}}\| = \sqrt{0.60^2 + (-0.40)^2 + 0^2} = \sqrt{0.52} \approx 0.721 \le 1,\]
+    \[\hat{\lambda}_{\pm} = \frac{1 \pm 0.721}{2} \approx \{0.861,\, 0.139\}, \qquad \hat{\gamma} = \frac{1 + 0.52}{2} = 0.760.\]
+    <p>Because \(\|\hat{\vec{r}}\| \le 1\), Both eigenvalues are non-negative and \(\hat{\rho}\) is already a valid physical density matrix.</p>
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 15.1: Detecting an unphysical linear reconstruction</h3>
+      <p>Finite-sample counts yield \(\hat{\vec{r}} = (0.80, 0.50, -0.40)\). Determine whether the linear-inversion matrix \(\hat{\rho}_{\mathrm{lin}}\) is positive semidefinite, find its eigenvalues, and compute the radially projected physical Bloch vector \(\hat{\vec{r}}_{\mathrm{phys}} = \hat{\vec{r}}/\|\hat{\vec{r}}\|\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Evaluate \(\|\hat{\vec{r}}\| = \sqrt{0.80^2 + 0.50^2 + (-0.40)^2}\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Here \(\|\hat{\vec{r}}\| = \sqrt{0.64 + 0.25 + 0.16} = \sqrt{1.05} \approx 1.0247 > 1\). Thus \(\hat{\lambda}_{\pm} = (1 \pm 1.0247)/2 = \{+1.0123, -0.0123\}\), so \(\hat{\rho}_{\mathrm{lin}}\) has a negative eigenvalue. Rescaling onto the unit sphere gives \(\hat{\vec{r}}_{\mathrm{phys}} = \hat{\vec{r}}/\sqrt{1.05} \approx (0.781, 0.488, -0.390)\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 15.2: Expected boundary overshoot for a pure state</h3>
+      <p>Suppose a qubit is prepared in the exact pure state \(|+Z\rangle = |0\rangle\) with \(\vec{r} = (0, 0, 1)\) and measured with \(N = 200\) shots in each of the \(X\), \(Y\), and \(Z\) bases using ideal detectors. What is the expected value \(\mathbb{E}[\|\hat{\vec{r}}\|^2]\) of the squared empirical Bloch length?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use \(\mathrm{Var}(\hat{r}_k) = (1 - r_k^2)/N\) for each basis \(k \in \{x,y,z\}\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>For \(\vec{r} = (0,0,1)\), \(\mathrm{Var}(\hat{r}_z) = 0\) while \(\mathrm{Var}(\hat{r}_x) = \mathrm{Var}(\hat{r}_y) = 1/N = 1/200\). Therefore \(\mathbb{E}[\|\hat{\vec{r}}\|^2] = 1 + 1/200 + 1/200 = 1.010\), showing that statistical noise along the two unbiased equatorial axes systematically pushes \(\|\hat{\vec{r}}\|^2\) above \(1\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 15.3: Scaling of tomographic parameters with qubit number</h3>
+      <p>How many real independent parameters specify an \(n\)-qubit unit-trace density matrix, and how many \(n\)-fold non-identity Pauli product expectation values are required for full multi-qubit state tomography of \(n = 3\) qubits?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>A \(d\times d\) Hermitian matrix has \(d^2\) real parameters before imposing \(\mathrm{Tr}(\rho) = 1\), with \(d = 2^n\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>An \(n\)-qubit state has dimension \(d = 2^n\) and requires \(d^2 - 1 = 4^n - 1\) real Pauli-string expectation values. For \(n = 3\) qubits (\(d = 8\)), full state tomography requires \(4^3 - 1 = 63\) independent Pauli expectation values measured across \(3^3 = 27\) local Pauli basis settings.</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>Reconstructing a single-qubit density matrix \(\rho = \frac{1}{2}(I + \vec{r}\cdot\vec{\sigma})\) requires measuring identically prepared copies across three complementary Pauli bases (\(X, Y, Z\)).</li>
+    <li>Positivity \(\rho \succeq 0\) is equivalent to \(\|\vec{r}\| \le 1\), and the state’s purity is \(\mathrm{Tr}(\rho^2) = (1 + \|\vec{r}\|^2)/2\).</li>
+    <li>For states near the surface of the Bloch sphere, finite-sample binomial fluctuations in orthogonal bases frequently push linear-inversion estimates slightly outside the sphere (\(\|\hat{\vec{r}}\| > 1\)), motivating constrained maximum-likelihood estimation alongside raw count reporting.</li>
+    <li>The density matrix predicts all measurement statistics on the system but does not distinguish different physical ensembles that share the same \(\rho\).</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>D. F. V. James, P. G. Kwiat, W. J. Munro, and A. G. White, <a href="https://doi.org/10.1103/PhysRevA.64.052312">Measurement of qubits</a>, <em>Physical Review A</em> 64, 052312 (2001).</li>
+    <li>M. Paris and J. Řeháček (eds.), <a href="https://doi.org/10.1007/b98673"><em>Quantum State Estimation</em></a>, Lecture Notes in Physics 649, Springer (2004).</li>
+    <li>R. Blume-Kohout, <a href="https://doi.org/10.1088/1367-2630/12/4/043034">Optimal, reliable estimation of quantum states</a>, <em>New Journal of Physics</em> 12, 043034 (2010).</li>
+  </ul>
+</section>

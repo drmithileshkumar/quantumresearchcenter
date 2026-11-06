@@ -1,7 +1,126 @@
-<section class="book-section" id="section-19-1"><h2>19.1 The question and the apparatus</h2><p>Alice holds an unknown qubit and one half of a Bell pair; Bob holds the other half. Alice performs an entangling operation and measures her two qubits. She sends two classical bits to Bob, who applies a correction. The protocol transfers the input state to Bob's system while consuming the shared entanglement.</p><p>The transferred object is a state, not matter. Alice does not learn its arbitrary amplitudes from one copy and does not retain an independent copy. The two-bit message is necessary: without it, Bob cannot know which correction to apply and cannot recover a controllable signal.</p><p>The visual lets you choose a real input state and one of the four measurement branches. It displays Bob's state before and after the correction. A branch selector examines conditional predictions; it is not a way for Alice to choose her random measurement outcomes.</p></section>
-<section class="book-section" id="section-19-2"><h2>19.2 Build a prediction</h2><p>Write |ψ⟩=α|0⟩+β|1⟩, with |α|²+|β|²=1. After Alice's CNOT and Hadamard, the joint state can be grouped as \(\tfrac12\sum_{a,b=0}^1|ab\rangle X^bZ^a|\psi\rangle\). Each branch has probability 1/4, independent of the input. Bob applies ZᵃXᵇ, the inverse up to an irrelevant global phase.</p><p>Before the message arrives, Bob averages over the four branches: ρB=¼ΣabXᵇZᵃρZᵃXᵇ=I/2. This explains the absence of faster-than-light transmission within the protocol. The dependence on |ψ⟩ appears in correlations with Alice's classical record.</p><p>Entanglement swapping replaces the unknown input with one member of another Bell pair. A Bell measurement on the two middle systems prepares a conditional Bell state of the outer systems. Its label depends on the middle result. This does not mean the outer observers can identify that conditional state from their unsorted local records.</p></section>
-<section class="book-section" id="section-19-3"><h2>19.3 What the evidence can establish</h2><p>A laboratory claim must specify the ensemble of input states, success probability, heralding, and the definition of fidelity. The familiar average fidelity benchmark 2/3 applies to deterministic measure-and-prepare strategies for a uniformly distributed unknown pure qubit. It is not a universal benchmark for arbitrary selected inputs or postselected protocols.</p><p>Linear-optical Bell measurements can have limited success probabilities, so a high conditional fidelity must be reported with the successful-event rate. Check that the state was not simply known in advance to the receiving apparatus. Input selection and verification measurements are part of the experiment.</p><p>The explorer is an exact ideal circuit identity with real amplitudes. General complex inputs obey the same identity. Its branch-by-branch agreement verifies the algebra but does not measure transmission fidelity, loss tolerance, or the quality of an actual entanglement source.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Choose an input angle, cycle through all four messages, and apply the correction. Compare the corrected state with the input. Then average the uncorrected branches conceptually to recover I/2.</p><div data-lab="teleport"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>If Alice records a=1,b=0, what state does Bob have and how does he correct it?</p><div class="worked-answer"><p>Bob has Z|ψ⟩=α|0⟩−β|1⟩. Applying Z again restores |ψ⟩ because Z²=I. The message identifies the correction without revealing α or β.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 19.1</h3><p>Why are the two classical bits insufficient to describe an arbitrary qubit by themselves?</p><details class="exercise-hint"><summary>Hint</summary><p>Compare the continuous input parameters with four messages.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The bits label a correction to a pre-existing entangled resource. They are not a classical specification of the continuous amplitudes.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 19.2</h3><p>What state does Bob assign without the message?</p><details class="exercise-hint"><summary>Hint</summary><p>Average all four Pauli branches.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>I/2 for every input, so no input information can be recovered locally before receiving the message.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 19.3</h3><p>Does postselected fidelity alone characterize a useful experiment?</p><details class="exercise-hint"><summary>Hint</summary><p>Consider an almost never successful device.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No. Report success probability, input ensemble, loss, and the applicable classical comparison alongside conditional fidelity.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Teleportation combines entanglement, a local measurement, and classical communication. Conditional state transfer does not bypass communication or clone the input.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://doi.org/10.1103/PhysRevLett.70.1895">Bennett et al.: Teleporting an unknown quantum state</a></li></ul></section>
+<section class="book-section" id="section-19-1">
+  <h2>19.1 Joint Bell measurement and classical feed-forward</h2>
+  <h3>19.1.1 Combining an unknown qubit, a shared Bell pair, and two classical bits</h3>
+  <p>Direct classical transmission of an unknown single-qubit state \(|\psi\rangle_S = \alpha|0\rangle + \beta|1\rangle\) (\(|\alpha|^2 + |\beta|^2 = 1\)) is impossible: measuring a single copy yields at most one bit of information and collapses the state, while sending the continuous complex amplitudes \((\alpha, \beta)\) would require infinitely many classical bits. In 1993, Bennett, Brassard, Crépeau, Jozsa, Peres, and Wootters showed that if Alice and Bob pre-share a maximally entangled Bell pair \(|\Phi^+\rangle_{AB} = (|00\rangle_{AB} + |11\rangle_{AB})/\sqrt{2}\), Alice can transfer \(|\psi\rangle_S\) intact to Bob’s register \(B\) by performing a joint Bell-basis measurement on \((S, A)\) and sending Bob the two-bit classical outcome \((m_1, m_2) \in \{0,1\}^2\).</p>
+  <h3>19.1.2 Why teleportation respects both no-cloning and no-signalling</h3>
+  <p>Quantum teleportation never violates the no-cloning theorem because Alice’s joint Bell projection entangles \(S\) and \(A\) and erases the original state on \(S\) at the exact stage where the conditional state appears on \(B\)—at no point do two copies of \(|\psi\rangle\) coexist. Equally important, teleportation never violates relativistic no-signalling: before Bob receives the two classical bits \((m_1, m_2)\) over a subluminal communication channel, his local qubit \(B\) is in the maximally mixed state \(\rho_B = \frac{1}{2}I\), completely independent of \((\alpha, \beta)\).</p>
+  <h3>19.1.3 Inspecting conditional branch states before and after correction</h3>
+  <p>Each of the four equally likely Bell outcomes \((m_1, m_2) \in \{00, 01, 10, 11\}\) recorded by Alice projects Bob’s qubit into a known Pauli-rotated image \(X^{m_2} Z^{m_1}|\psi\rangle_B\) of the input state. Once the classical bits arrive at Bob’s station, applying the conditional inverse unitary \(Z^{m_1} X^{m_2}\) aligns all four branches into the exact target state \(|\psi\rangle_B\).</p>
+</section>
+
+<section class="book-section" id="section-19-2">
+  <h2>19.2 Four Pauli-frame branches and entanglement swapping</h2>
+  <h3>19.2.1 Decomposing the three-qubit state into four Bell-measurement branches</h3>
+  <p>Define the four orthonormal Bell states on Alice’s two qubits \((S, A)\):</p>
+  \[|\Phi^{\pm}\rangle_{SA} = \frac{|00\rangle \pm |11\rangle}{\sqrt{2}}, \qquad |\Psi^{\pm}\rangle_{SA} = \frac{|01\rangle \pm |10\rangle}{\sqrt{2}}.\]
+  <p>In the circuit realization of the Bell analyzer (a \(\mathrm{CNOT}_{S\to A}\) followed by a Hadamard gate \(H_S\) and computational-basis measurements yielding bits \(m_1\) on \(S\) and \(m_2\) on \(A\)), the four Bell states map to \(|m_1 m_2\rangle \in \{|00\rangle, |10\rangle, |01\rangle, |11\rangle\}\). Rewriting the initial three-qubit product state \(|\psi\rangle_S \otimes |\Phi^+\rangle_{AB}\) in the Bell basis of \((S, A)\) yields the algebraic identity</p>
+  \[|\psi\rangle_S\otimes|\Phi^+\rangle_{AB} = \frac{1}{2}\Big[|\Phi^+\rangle_{SA}\otimes|\psi\rangle_B + |\Phi^-\rangle_{SA}\otimes(Z|\psi\rangle_B) + |\Psi^+\rangle_{SA}\otimes(X|\psi\rangle_B) + |\Psi^-\rangle_{SA}\otimes(XZ|\psi\rangle_B)\Big].\]
+  <h3>19.2.2 Uniform marginal state prior to classical message arrival</h3>
+  <p>Each Bell branch occurs with probability \(P(m_1, m_2) = \| \frac{1}{2} X^{m_2} Z^{m_1}|\psi\rangle \|^2 = 1/4\), regardless of \(\alpha\) and \(\beta\). If Bob does not learn \((m_1, m_2)\)—or discards the classical message—his ensemble density matrix is the average over all four Pauli frames:</p>
+  \[\rho_B^{\mathrm{uncond}} = \frac{1}{4}\Big(|\psi\rangle\langle\psi| + Z|\psi\rangle\langle\psi|Z + X|\psi\rangle\langle\psi|X + XZ|\psi\rangle\langle\psi|ZX\Big) = \frac{1}{2}I.\]
+  <p>This Pauli-twirl identity proves algebraically that without the two classical feed-forward bits, zero information about \(|\psi\rangle\) is accessible at Bob’s location.</p>
+  <h3>19.2.3 Entangling independent pairs via intermediate Bell projection</h3>
+  <p>If the input qubit \(S\) is itself entangled with a reference qubit \(R\)—for example, in a Bell state \(|\Phi^+\rangle_{RS}\)—while \((A, B)\) forms an independent Bell pair \(|\Phi^+\rangle_{AB}\), performing the joint Bell measurement on \((S, A)\) plus Pauli correction on \(B\) projects the distant qubits \((R, B)\) into the entangled state \(|\Phi^+\rangle_{RB}\), even though qubits \(R\) and \(B\) never interacted directly. This protocol, known as <em>entanglement swapping</em>, is the foundational building block of quantum repeaters.</p>
+</section>
+
+<section class="book-section" id="section-19-3">
+  <h2>19.3 Classical measure-and-prepare benchmarks and heralding</h2>
+  <h3>19.3.1 Comparing average teleportation fidelity against the two-thirds classical bound</h3>
+  <p>Suppose Alice and Bob share no entanglement and Alice instead measures the unknown qubit \(|\psi\rangle\) along some axis and sends the classical outcome to Bob, who prepares a guessed state \(\rho_{\mathrm{guess}}\). Averaged uniformly over all pure states on the Bloch sphere (Haar measure), any such classical measure-and-prepare strategy achieves an average state fidelity of at most</p>
+  \[\bar{F}_{\mathrm{classical}}^{\max} = \frac{2}{3} \approx 0.6667.\]
+  <p>When Alice and Bob instead use a noisy shared Werner resource \(\rho_p = p|\Phi^+\rangle\langle\Phi^+| + \frac{1-p}{4}I_4\) (which has singlet/Bell fraction \(F_{\mathrm{Bell}} = (3p+1)/4\)) and ideal local operations, the average teleportation fidelity across the Bloch sphere is</p>
+  \[\bar{F}_{\mathrm{tele}}(p) = \frac{2F_{\mathrm{Bell}} + 1}{3} = \frac{1 + p}{2}.\]
+  <p>Surpassing the classical benchmark \(\bar{F}_{\mathrm{tele}} > 2/3\) therefore requires \(p > 1/3\) (equivalently \(F_{\mathrm{Bell}} > 1/2\)).</p>
+  <h3>19.3.2 Accounting for probabilistic Bell analyzers and postselection rates</h3>
+  <p>In linear-optical photonic teleportation without auxiliary photons or nonlinearities, a single 50:50 beam splitter can distinguish at most two of the four Bell states (typically \(|\Psi^-\rangle\) and \(|\Psi^+\rangle\) via two-photon HOM interference, with maximum success probability \(1/2\)). Experimental reports must therefore distinguish <em>heralded conditional fidelity</em> (conditioned on a successful Bell-analyzer click before Bob’s detection) from postselected coincidence detection that destroys the output photon.</p>
+  <h3>19.3.3 Verifying unknown-state transfer across noncommuting bases</h3>
+  <p>Testing teleportation solely on computational-basis inputs \(\{|0\rangle, |1\rangle\}\) cannot distinguish quantum teleportation from a classical CNOT or measure-in-\(Z\) channel, which achieves \(F = 1\) on \(\{|0\rangle, |1\rangle\}\) but only \(F = 1/2\) on equatorial states \(\{|+\rangle, |-\rangle, |+i\rangle, |-i\rangle\}\). A complete verification measures the output fidelity across all six Pauli eigenstates (or performs full quantum process tomography) to prove that \(\bar{F} > 2/3\).</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Choose the polar and azimuthal angles \((\theta, \phi)\) of the input state \(|\psi\rangle_S = \cos(\theta/2)|0\rangle + e^{i\phi}\sin(\theta/2)|1\rangle\) and the purity \(p\) of the shared Bell pair. Inspect all four Bell-measurement branches \((m_1, m_2) \in \{00, 01, 10, 11\}\) before and after the conditional Pauli feed-forward \(Z^{m_1}X^{m_2}\), and compare the average output fidelity \(\bar{F} = (1+p)/2\) against the \(2/3\) classical measure-and-prepare threshold.</p>
+  <div data-lab="teleport"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> Alice teleports the state \(|\psi\rangle_S = \frac{3}{5}|0\rangle + \frac{4i}{5}|1\rangle\) using an ideal shared Bell pair \(|\Phi^+\rangle_{AB}\). Write down the unnormalized branch state on Bob’s qubit when Alice’s Bell circuit reports \((m_1, m_2) = (1, 1)\) (corresponding to \(|\Psi^-\rangle_{SA}\)), identify the conditional recovery gate Bob must apply, and verify that the recovered state equals \(|\psi\rangle_B\). Next, if the shared Bell pair is degraded by depolarizing noise to \(p = 0.72\), find the average teleportation fidelity \(\bar{F}\).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. For outcome \((m_1, m_2) = (1, 1)\), Bob’s pre-correction state is</p>
+    \[|\psi_{11}\rangle_B = X^1 Z^1|\psi\rangle_B = XZ\left(\frac{3}{5}|0\rangle + \frac{4i}{5}|1\rangle\right) = X\left(\frac{3}{5}|0\rangle - \frac{4i}{5}|1\rangle\right) = -\frac{4i}{5}|0\rangle + \frac{3}{5}|1\rangle.\]
+    <p>2. Bob applies \(Z^{m_1}X^{m_2} = ZX\), which satisfies \((ZX)(XZ) = Z X^2 Z = Z^2 = I\):</p>
+    \[ZX|\psi_{11}\rangle_B = Z\left(\frac{3}{5}|0\rangle - \frac{4i}{5}|1\rangle\right) = \frac{3}{5}|0\rangle + \frac{4i}{5}|1\rangle = |\psi\rangle_B.\]
+    <p>3. With Werner parameter \(p = 0.72\), the state-averaged teleportation fidelity is</p>
+    \[\bar{F}_{\mathrm{tele}} = \frac{1 + p}{2} = \frac{1 + 0.72}{2} = 0.860 > \frac{2}{3} \approx 0.667.\]
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 19.1: Fidelity when classical feed-forward is omitted</h3>
+      <p>Suppose Alice performs an ideal Bell measurement on \(|\psi\rangle_S \otimes |\Phi^+\rangle_{AB}\), but the classical communication line is disconnected so Bob always applies the identity operation \(I_B\). What is Bob’s unconditional output state \(\rho_B\), and what is its fidelity \(F = \langle\psi|\rho_B|\psi\rangle\) with the input state \(|\psi\rangle\)?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use the Pauli-twirl average \(\rho_B = \frac{1}{2}I\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Averaging over the four equally probable outcomes \((00, 01, 10, 11)\) gives \(\rho_B = \frac{1}{2}I\). For any normalized pure state \(|\psi\rangle\), the fidelity is \(F = \langle\psi|\frac{1}{2}I|\psi\rangle = 1/2 = 0.50\), equivalent to random guessing.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 19.2: Minimum Bell-state fidelity to beat the classical bound</h3>
+      <p>A noisy two-qubit resource state has maximally entangled fraction \(F_{\mathrm{Bell}} = \langle\Phi^+|\rho_{AB}|\Phi^+\rangle\) and isotropic noise on the remaining three Bell states. Express the average teleportation fidelity \(\bar{F}\) in terms of \(F_{\mathrm{Bell}}\) and determine the threshold \(F_{\mathrm{Bell}}\) needed to exceed \(\bar{F}_{\mathrm{classical}} = 2/3\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use \(\bar{F} = (2F_{\mathrm{Bell}} + 1)/3\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>From \(\bar{F} = (2F_{\mathrm{Bell}} + 1)/3 > 2/3\), we obtain \(2F_{\mathrm{Bell}} > 1\), so \(F_{\mathrm{Bell}} > 1/2 = 0.50\). Any isotropic state with Bell fidelity above \(0.50\) is entangled and yields nonclassical average teleportation fidelity.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 19.3: Classical dephasing channel masquerading as teleportation</h3>
+      <p>Suppose a flawed protocol replaces the shared Bell pair with the classically correlated separable state \(\rho_{\mathrm{sep}} = \frac{1}{2}|00\rangle\langle 00| + \frac{1}{2}|11\rangle\langle 11|\). What output fidelity is obtained for computational-basis inputs \(\{|0\rangle, |1\rangle\}\), what fidelity is obtained for equatorial inputs \(\{|+\rangle, |-\rangle\}\), and what is the six-state average fidelity?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Note that \(\rho_{\mathrm{sep}} = \frac{1}{2}(|\Phi^+\rangle\langle\Phi^+| + |\Phi^-\rangle\langle\Phi^-|)\) applies a random \(Z\) flip with probability \(1/2\) to Bob’s output.</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Because \(\rho_{\mathrm{sep}}\) lacks off-diagonal coherence between \(|00\rangle\) and \(|11\rangle\), the teleportation channel reduces to full \(Z\)-basis dephasing \(\mathcal{E}(\rho) = \frac{1}{2}\rho + \frac{1}{2}Z\rho Z\). It preserves \(|0\rangle\) and \(|1\rangle\) with fidelity \(F_Z = 1\), but maps \(|\pm\rangle\) and \(|\pm i\rangle\) to \(\frac{1}{2}I\) with fidelity \(F_X = F_Y = 1/2\). The six-state (and Bloch-sphere) average fidelity is \((1 + 1 + 0.5 + 0.5 + 0.5 + 0.5)/6 = 2/3\), never exceeding the classical bound.</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>Quantum teleportation transfers an unknown state \(|\psi\rangle_S\) using a shared Bell pair \(|\Phi^+\rangle_{AB}\), a joint Bell measurement on \((S,A)\), and two bits \((m_1, m_2)\) of classical feed-forward that select the Pauli correction \(Z^{m_1}X^{m_2}\).</li>
+    <li>Before the classical bits arrive, Bob’s marginal density matrix is \(\rho_B = \frac{1}{2}I\) for every input state, strictly preserving no-signalling; the joint measurement destroys \(|\psi\rangle\) at Alice’s station, preserving no-cloning.</li>
+    <li>Beating the maximum classical measure-and-prepare average fidelity \(\bar{F}_{\mathrm{classical}} = 2/3\) across noncommuting bases requires shared entanglement with Bell fidelity \(F_{\mathrm{Bell}} > 1/2\).</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>C. H. Bennett, G. Brassard, C. Crépeau, R. Jozsa, A. Peres, and W. K. Wootters, <a href="https://doi.org/10.1103/PhysRevLett.70.1895">Teleporting an unknown quantum state via dual classical and Einstein-Podolsky-Rosen channels</a>, <em>Physical Review Letters</em> 70, 1895 (1993).</li>
+    <li>D. Bouwmeester et al., <a href="https://doi.org/10.1038/37539">Experimental quantum teleportation</a>, <em>Nature</em> 390, 575–579 (1997).</li>
+    <li>S. Massar and S. Popescu, <a href="https://doi.org/10.1103/PhysRevLett.74.1259">Optimal Extraction of Information from Finite Quantum Ensembles</a>, <em>Physical Review Letters</em> 74, 1259 (1995).</li>
+  </ul>
+</section>

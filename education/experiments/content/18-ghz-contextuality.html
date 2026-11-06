@@ -1,7 +1,139 @@
-<section class="book-section" id="section-18-1"><h2>18.1 The question and the apparatus</h2><p>Prepare three qubits in |GHZ⟩=(|000⟩+|111⟩)/√2 and let each station choose X or Y. Rather than estimate a smooth correlation curve, focus on products of three outcomes. Quantum theory predicts certain products for selected triples of settings. Those certainties conflict with a single assignment of all six local values.</p><p>A second construction, the Peres–Mermin square, uses compatible observables arranged into rows and columns. Each observable appears in two contexts. Its purpose is to test the assumption that its assigned value is independent of which compatible companions are measured. Spatial separation and measurement compatibility are different physical conditions.</p><p>The explorer switches between the GHZ product ledger and the square. Step through the rows of the argument. This is an animated logical calculation, not a simulated loophole-free experiment. Each displayed product must be tied to the specified quantum state or operator identity.</p></section>
-<section class="book-section" id="section-18-2"><h2>18.2 Build a prediction</h2><p>For the chosen GHZ state, the predictions are XXX=+1, XYY=−1, YXY=−1, and YYX=−1. Suppose all local X and Y results have preassigned ±1 values independent of the other stations' choices. Multiply the last three equalities: each Y value appears twice and cancels, leaving XXX=−1, contradicting the first prediction.</p><p>For the square use rows (XI, IX, XX), (IY, YI, YY), and (XY, YX, ZZ), with tensor products implied. Each row contains commuting observables and has product +I. The first two columns also have product +I, while the last column has product −I. These are operator identities, independent of the state.</p><p>A context-independent assignment respecting these product relations is impossible: multiplying all six row and column constraints gives +1 from each value appearing twice, but −1 from the prescribed products. The inference uses compatibility and functional consistency. It does not merely say that all unperformed questions are meaningless.</p></section>
-<section class="book-section" id="section-18-3"><h2>18.3 What the evidence can establish</h2><p>Ideal certainty proofs become statistical tests when there is noise. For GHZ, the Mermin combination M=⟨XXX⟩−⟨XYY⟩−⟨YXY⟩−⟨YYX⟩ is four ideally, while deterministic local assignments have |M|≤2. A visibility model scales the ideal correlations, giving a violation only above the corresponding threshold.</p><p>Contextuality experiments must check compatibility and disturbance. Measuring purportedly compatible observables with different apparatus implementations can introduce a context dependence unrelated to the intended theorem. The operational version of a noncontextuality assumption should be stated before interpreting a violation.</p><p>These examples sharpen the distinction between a mathematical contradiction in an assignment scheme and a contradiction in quantum predictions. Quantum theory consistently computes each compatible measurement context. The conflict comes from demanding one joint classical value table satisfying every constraint.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Switch between GHZ and the Peres–Mermin square. Step through each constraint and multiply the signs by hand. Identify which values occur twice and which product carries the negative sign.</p><div data-lab="ghz"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>If every ideal GHZ correlation is reduced by visibility v, when does the Mermin expression exceed two?</p><div class="worked-answer"><p>M=4v, so a violation requires v>1/2 in this specific white-noise-style scaling model. At v=1/2 it reaches the bound; experimental uncertainty still matters.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 18.1</h3><p>Why do the Y values disappear in the GHZ multiplication?</p><details class="exercise-hint"><summary>Hint</summary><p>Each takes a value ±1.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>Every local Y value appears twice, and (±1)²=1.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 18.2</h3><p>Does the Peres–Mermin square require a special entangled input state?</p><details class="exercise-hint"><summary>Hint</summary><p>Inspect whether the constraints are state expectations or operator identities.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The product identities hold for every state in the two-qubit space. Implementing compatible measurements remains essential.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 18.3</h3><p>Why is checking disturbance important in a contextuality test?</p><details class="exercise-hint"><summary>Hint</summary><p>Compare the same observable in different contexts.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>If its implementation or preceding operations change it, the measured contexts may not represent the same observable assumed in the argument.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>A no-go argument identifies incompatible assumptions. Real tests also need the compatibility, calibration, and statistical conditions behind the ideal algebra.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://doi.org/10.1103/PhysRevLett.65.3373">Mermin: Simple unified form for the major no-hidden-variables theorems</a></li></ul></section>
+<section class="book-section" id="section-18-1">
+  <h2>18.1 Three-party parity products and compatible operator grids</h2>
+  <h3>18.1.1 All-versus-nothing parity predictions on a three-qubit GHZ state</h3>
+  <p>Bell’s inequality exposes the conflict between quantum mechanics and local hidden variables statistically, through correlations bounded by \(2\) versus \(2\sqrt{2}\). In 1989, Greenberger, Horne, and Zeilinger (GHZ) showed that for three entangled particles prepared in the state</p>
+  \[|\mathrm{GHZ}\rangle = \frac{|000\rangle + |111\rangle}{\sqrt{2}},\]
+  <p>the conflict becomes an “all-versus-nothing” parity contradiction at the level of unit-probability predictions (\(+1\) versus \(-1\)) when three distant observers each measure local Pauli operators \(X\) or \(Y\).</p>
+  <h3>18.1.2 Compatible measurement contexts in the Peres–Mermin square</h3>
+  <p>A parallel algebraic contradiction arises for <em>every</em> quantum state of a two-qubit (four-level) system via the Kochen–Specker theorem, streamlined by Asher Peres and N. David Mermin into a \(3\times 3\) grid of two-qubit Pauli observables:</p>
+  \[\begin{array}{c|ccc|c}
+    & C_1 & C_2 & C_3 & \text{Row product} \\ \hline
+    R_1 & X\otimes I & I\otimes X & X\otimes X & +I \\
+    R_2 & I\otimes Y & Y\otimes I & Y\otimes Y & +I \\
+    R_3 & X\otimes Y & Y\otimes X & Z\otimes Z & +I \\ \hline
+    \text{Col.\ product} & +I & +I & -I &
+  \end{array}\]
+  <p>The three operators in each row \(R_i\) mutually commute, and the three operators in each column \(C_j\) mutually commute, so each row and each column forms a compatible measurement context that can be measured jointly in a single run.</p>
+  <h3>18.1.3 Comparing spatially separated locality tests with noncontextuality tests</h3>
+  <p>In a three-party GHZ experiment, the compatibility of the three local Pauli measurements in contexts such as \(X_1 Y_2 Y_3\) is justified physically by spatial separation (locality): measuring \(Y_2\) at station 2 cannot disturb the outcome of \(X_1\) at station 1. In a single-system or co-located Peres–Mermin square experiment, the assumption tested is <em>noncontextuality</em>: that a sharp observable \(A\) possesses a predetermined outcome \(v(A) \in \{+1, -1\}\) that is the same whether \(A\) is measured alongside commuting partner \(B\) (say, along a row) or alongside a different commuting partner \(C\) (along a column), where \([B, C] \neq 0\).</p>
+</section>
+
+<section class="book-section" id="section-18-2">
+  <h2>18.2 Sign parity contradictions in GHZ and Peres–Mermin tables</h2>
+  <h3>18.2.1 Multiplying four three-party Pauli expectations on the GHZ state</h3>
+  <p>Using \(X|0\rangle = |1\rangle\), \(X|1\rangle = |0\rangle\), \(Y|0\rangle = i|1\rangle\), and \(Y|1\rangle = -i|0\rangle\), the state \(|\mathrm{GHZ}\rangle = (|000\rangle + |111\rangle)/\sqrt{2}\) is a simultaneous eigenstate of the four commuting three-qubit operators</p>
+  \[X_1 Y_2 Y_3|\mathrm{GHZ}\rangle = -|\mathrm{GHZ}\rangle, \qquad Y_1 X_2 Y_3|\mathrm{GHZ}\rangle = -|\mathrm{GHZ}\rangle, \qquad Y_1 Y_2 X_3|\mathrm{GHZ}\rangle = -|\mathrm{GHZ}\rangle,\]
+  <p>and</p>
+  \[X_1 X_2 X_3|\mathrm{GHZ}\rangle = +|\mathrm{GHZ}\rangle.\]
+  <p>Now suppose a local deterministic instruction set assigns six numbers \(x_k, y_k \in \{+1, -1\}\) (\(k = 1,2,3\)) to the six local observables before the settings are chosen. To reproduce the first three quantum eigenvalue equations, those numbers must satisfy \(x_1 y_2 y_3 = -1\), \(y_1 x_2 y_3 = -1\), and \(y_1 y_2 x_3 = -1\). Multiplying these three scalar equations together yields</p>
+  \[(x_1 y_2 y_3)(y_1 x_2 y_3)(y_1 y_2 x_3) = x_1 x_2 x_3 (y_1^2 y_2^2 y_3^2) = x_1 x_2 x_3 = (-1)^3 = -1,\]
+  <p>since \(y_k^2 = +1\). Every local deterministic assignment therefore predicts \(x_1 x_2 x_3 = -1\), in flat contradiction with the quantum prediction \(\langle X_1 X_2 X_3\rangle = +1\).</p>
+  <h3>18.2.2 State-independent row and column operator products in the square</h3>
+  <p>In the Peres–Mermin \(3\times 3\) square, the operator product along every row \(R_1, R_2, R_3\) and along the first two columns \(C_1, C_2\) equals \(+I\otimes I\). In the third column \(C_3\), however, multiplying \((X\otimes X)(Y\otimes Y) = (XY)\otimes(XY) = (iZ)\otimes(iZ) = -Z\otimes Z\) gives the three-operator product</p>
+  \[(X\otimes X)(Y\otimes Y)(Z\otimes Z) = -(Z\otimes Z)^2 = -I\otimes I.\]
+  <p>Notice that this \(-I\) product is an operator identity that holds for <em>every</em> two-qubit state \(|\psi\rangle\) or \(\rho\), whether entangled or separable.</p>
+  <h3>18.2.3 Why noncontextual value assignments fail parity accounting</h3>
+  <p>If a noncontextual hidden-variable model assigns a single context-independent value \(v(O_{ij}) \in \{+1, -1\}\) to each of the nine entries \(O_{ij}\) of the Peres–Mermin square, the product of all nine values computed row by row must equal the product computed column by column. Yet the three row products require \(\prod_{i,j} v(O_{ij}) = (+1)(+1)(+1) = +1\), while the three column products require \(\prod_{i,j} v(O_{ij}) = (+1)(+1)(-1) = -1\). Because each entry \(O_{ij}\) appears once in the row product and once in the column product, no noncontextual \(\{\pm 1\}\) table can satisfy all six context rules simultaneously.</p>
+</section>
+
+<section class="book-section" id="section-18-3">
+  <h2>18.3 Mermin inequalities and operational context independence</h2>
+  <h3>18.3.1 Converting ideal parity contradictions into noise-tolerant inequalities</h3>
+  <p>Real experiments never achieve unit fidelity \(F = 1\), so experimental tests convert the GHZ and Peres–Mermin parity identities into linear inequalities that tolerate finite noise. For the three-qubit GHZ state, the Mermin witness operator</p>
+  \[\hat{\mathcal{M}} = X_1 X_2 X_3 - X_1 Y_2 Y_3 - Y_1 X_2 Y_3 - Y_1 Y_2 X_3\]
+  <p>is bounded in any local hidden-variable model by \(|\langle\hat{\mathcal{M}}\rangle_{\mathrm{LHV}}| \le 2\), because for any \(\{x_k, y_k\} \in \{\pm 1\}^6\) the product of the four terms is \(-(x_1 x_2 x_3)^2(y_1 y_2 y_3)^2 = -1\), so three terms carry one sign and the fourth carries the opposite sign. Quantum mechanics achieves \(\langle\mathrm{GHZ}|\hat{\mathcal{M}}|\mathrm{GHZ}\rangle = 1 - (-1) - (-1) - (-1) = 4\), double the classical ceiling. Similarly, for the Peres–Mermin square, the six-context witness</p>
+  \[\hat{\mathcal{K}} = \langle R_1\rangle + \langle R_2\rangle + \langle R_3\rangle + \langle C_1\rangle + \langle C_2\rangle - \langle C_3\rangle\]
+  <p>satisfies \(\mathcal{K}_{\mathrm{NCHV}} \le 4\) for every noncontextual value assignment (at least one of the six contexts must fail), whereas quantum mechanics predicts \(\mathcal{K}_Q = 6\) for every two-qubit input state.</p>
+  <h3>18.3.2 Testing compatibility and non-disturbance in sequential measurements</h3>
+  <p>In a sequential Peres–Mermin experiment on trapped ions, photons, or superconducting qubits, each context (such as \(R_1 = \{X\otimes I, I\otimes X, X\otimes X\}\)) is measured by performing three nondestructive parity measurements in sequence. If an imperfect measurement of \(X\otimes I\) physically disturbs the subsequent measurement of \(X\otimes X\) differently than \(Y\otimes Y\) does in column \(C_3\), a classical model with context-dependent disturbance could mimic \(\mathcal{K} > 4\). Operational contextuality tests therefore measure marginal non-disturbance directly across context permutations and subtract or bound any measured signalling/disturbance terms from the classical threshold.</p>
+  <h3>18.3.3 Consistent quantum context predictions versus global value tables</h3>
+  <p>Quantum mechanics avoids the parity contradiction because operators in different contexts do not commute—for instance, \([X_1 Y_2 Y_3, Y_1 X_2 Y_3] = 0\) globally, but the local single-qubit factors \(X_1\) and \(Y_1\) anticommute (\(X_1 Y_1 = -Y_1 X_1\)). Quantum theory defines joint probability distributions only within each commuting context, never over all noncommuting observables simultaneously.</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Inspect the three-qubit GHZ parity contexts and the \(3\times 3\) Peres–Mermin operator square side by side. Try toggling any classical pre-assigned \(\pm 1\) value table and observe how fixing five contexts automatically forces a parity mismatch on the sixth, while the quantum expectations achieve \(\langle\hat{\mathcal{M}}\rangle = 4\,V\) and \(\mathcal{K}_Q = 6\,V\) as a function of experimental visibility \(V\).</p>
+  <div data-lab="ghz"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> A three-qubit processor prepares a noisy GHZ state \(\rho_p = p|\mathrm{GHZ}\rangle\langle\mathrm{GHZ}| + \frac{1-p}{8}I_8\) mixed with white noise. Find the expectation value of the Mermin operator \(\langle\hat{\mathcal{M}}\rangle = \mathrm{Tr}(\rho_p\hat{\mathcal{M}})\) as a function of \(p\), the minimum state fidelity \(F = \langle\mathrm{GHZ}|\rho_p|\mathrm{GHZ}\rangle\) required to violate the local hidden-variable bound \(|\langle\hat{\mathcal{M}}\rangle| \le 2\), and the value of \(\langle\hat{\mathcal{M}}\rangle\) when \(p = 0.78\).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. Because every three-qubit Pauli string in \(\hat{\mathcal{M}}\) is traceless (\(\mathrm{Tr}(I_8\hat{\mathcal{M}}) = 0\)), only the \(|\mathrm{GHZ}\rangle\) component contributes:</p>
+    \[\langle\hat{\mathcal{M}}\rangle = p\,\langle\mathrm{GHZ}|\hat{\mathcal{M}}|\mathrm{GHZ}\rangle = 4p.\]
+    <p>2. Violating the local bound \(4p > 2\) requires \(p > 1/2 = 0.50\). The corresponding GHZ state fidelity is</p>
+    \[F = \langle\mathrm{GHZ}|\rho_p|\mathrm{GHZ}\rangle = p + \frac{1-p}{8} = \frac{7p + 1}{8} > \frac{7(0.5) + 1}{8} = \frac{9}{16} = 0.5625.\]
+    <p>3. For \(p = 0.78\), the Mermin witness evaluates to \(\langle\hat{\mathcal{M}}\rangle = 4(0.78) = 3.12 > 2\).</p>
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 18.1: Maximum classical score in the Peres–Mermin game</h3>
+      <p>Verify explicitly that if a classical deterministic model assigns \(v(O_{ij}) = +1\) to every entry of the \(3\times 3\) Peres–Mermin square, five of the six contexts match the quantum product rule and one fails, giving \(\mathcal{K}_{\mathrm{NCHV}} = 4\). Explain why flipping the sign of any single entry \(v(O_{ij}) \mapsto -1\) cannot raise \(\mathcal{K}_{\mathrm{NCHV}}\) above \(4\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Each cell \((i,j)\) belongs to exactly one row \(R_i\) and one column \(C_j\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>With \(v(O_{ij}) = +1\) everywhere, all three row products and all three column products equal \(+1\), so \(R_1, R_2, R_3, C_1, C_2\) each contribute \(+1\) to \(\mathcal{K}\) while \(-C_3\) contributes \(-1\), giving \(\mathcal{K} = 5 - 1 = 4\). Flipping any single cell \(v(O_{ij})\) flips the sign of both its row product \(R_i\) and its column product \(C_j\), changing the number of satisfied contexts by \(0\) or \(-2\), so \(\mathcal{K}_{\mathrm{NCHV}} \le 4\) for all \(2^9 = 512\) tables.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 18.2: Action of \(X_1 Y_2 Y_3\) on \(|\mathrm{GHZ}\rangle\)</h3>
+      <p>Apply the tensor-product operator \(X_1\otimes Y_2\otimes Y_3\) term by term to \(|\mathrm{GHZ}\rangle = (|000\rangle + |111\rangle)/\sqrt{2}\) using \(Y|0\rangle = i|1\rangle\) and \(Y|1\rangle = -i|0\rangle\) to show that the eigenvalue is \(-1\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Keep track of the factor \(i^2 = -1\) from the two \(Y\) operators acting on \(|00\rangle\) and \((-i)^2 = -1\) acting on \(|11\rangle\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>On the first branch, \((X\otimes Y\otimes Y)|000\rangle = |1\rangle\otimes(i|1\rangle)\otimes(i|1\rangle) = i^2|111\rangle = -|111\rangle\). On the second branch, \((X\otimes Y\otimes Y)|111\rangle = |0\rangle\otimes(-i|0\rangle)\otimes(-i|0\rangle) = (-i)^2|000\rangle = -|000\rangle\). Adding both branches gives \(X_1 Y_2 Y_3|\mathrm{GHZ}\rangle = -|\mathrm{GHZ}\rangle\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 18.3: Peres–Mermin witness on the maximally mixed state</h3>
+      <p>Evaluate the quantum expectation value of the Peres–Mermin witness \(\hat{\mathcal{K}} = R_1 + R_2 + R_3 + C_1 + C_2 - C_3\) on the four-dimensional maximally mixed two-qubit state \(\rho = \frac{1}{4}(I\otimes I)\), assuming ideal compatible sequential measurements.</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Substitute the operator product identities \(R_1 = R_2 = R_3 = C_1 = C_2 = +I\otimes I\) and \(C_3 = -I\otimes I\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Because each row and column operator product simplifies to \(\pm I\otimes I\) at the operator level, \(\hat{\mathcal{K}} = 5(I\otimes I) - (-I\otimes I) = 6(I\otimes I)\). Therefore \(\mathrm{Tr}(\rho\hat{\mathcal{K}}) = 6\,\mathrm{Tr}(\rho) = 6\) even for the completely unentangled maximally mixed state \(\rho = \frac{1}{4}I_4\), demonstrating state-independent quantum contextuality.</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>The three-qubit GHZ state \((|000\rangle + |111\rangle)/\sqrt{2}\) produces a sign contradiction between the quantum eigenvalue \(X_1 X_2 X_3 = +1\) and the product \(-1\) forced by any local hidden-variable assignment satisfying \(X_1 Y_2 Y_3 = Y_1 X_2 Y_3 = Y_1 Y_2 X_3 = -1\).</li>
+    <li>The Peres–Mermin \(3\times 3\) Pauli square demonstrates state-independent Kochen–Specker contextuality: row products multiply to \(+I\) while column products multiply to \(-I\), ruling out noncontextual \(\pm 1\) value tables for every two-qubit state.</li>
+    <li>Noise-tolerant Mermin inequalities (\(\langle\hat{\mathcal{M}}\rangle \le 2\) vs.\ \(4\); \(\langle\hat{\mathcal{K}}\rangle \le 4\) vs.\ \(6\)) convert these parity contradictions into quantitative experimental witnesses.</li>
+    <li>Sequential contextuality tests must verify operational non-disturbance across compatible measurements so that context-dependent apparatus crosstalk does not mimic a violation.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>D. M. Greenberger, M. A. Horne, A. Shimony, and A. Zeilinger, <a href="https://doi.org/10.1119/1.16243">Bell’s theorem without inequalities</a>, <em>American Journal of Physics</em> 58, 1131 (1990).</li>
+    <li>N. D. Mermin, <a href="https://doi.org/10.1103/PhysRevLett.65.3373">Simple unified form for the major no-hidden-variables theorems</a>, <em>Physical Review Letters</em> 65, 3373 (1990).</li>
+    <li>G. Kirchmair et al., <a href="https://doi.org/10.1038/nature08172">State-independent experimental test of quantum contextuality</a>, <em>Nature</em> 460, 494–497 (2009).</li>
+  </ul>
+</section>

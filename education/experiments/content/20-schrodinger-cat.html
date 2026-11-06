@@ -1,7 +1,129 @@
-<section class="book-section" id="section-20-1"><h2>20.1 The question and the apparatus</h2><p>Imagine a microscopic trigger coupled to a detector and then to a macroscopic record. Schrödinger's cat makes the consequences vivid by replacing a pointer with two macroscopically distinct cat conditions. No animal experiment is needed: the thought experiment asks what follows if the same linear dynamics describes the trigger, detector, and record.</p><p>A reliable interaction maps |0⟩|ready⟩ to |0⟩|record 0⟩ and |1⟩|ready⟩ to |1⟩|record 1⟩. Linearity then maps a superposition of inputs into a superposition of correlated records. The interaction explains why each term contains a consistent record. It does not, by itself, select one term as the sole outcome.</p><p>The visual uses two record boxes rather than a literal animated animal. Their weights are branch probabilities in the model, not measured percentages of a partly living organism. A coherence control compares the full coherent description with the reduced statistics available after environmental information is ignored.</p></section>
-<section class="book-section" id="section-20-2"><h2>20.2 Build a prediction</h2><p>For a balanced trigger, the joint pure state is \(|\Psi\rangle=(|0,R_0\rangle+|1,R_1\rangle)/\sqrt2\). An incoherent mixture assigns probability 1/2 to each product state. Both predict the same pointer-basis counts, but they differ on suitable joint interference measurements.</p><p>In the two-dimensional subspace spanned by |0,R0⟩ and |1,R1⟩, write ρ=½[[1,γ],[γ*,1]]. The pure balanced state has γ=1 and the fully dephased mixture has γ=0. Measuring in the joint ± basis gives P+=(1+Reγ)/2. Thus equal record frequencies do not imply identical global states.</p><p>If the environment stores states |E0⟩ and |E1⟩, the accessible coherence is multiplied by ⟨E1|E0⟩. Nearly orthogonal environment states suppress interference in the reduced description. The formal operation of tracing out the environment is not an additional law that chooses one unique global result.</p></section>
-<section class="book-section" id="section-20-3"><h2>20.3 What the evidence can establish</h2><p>The measurement problem concerns how to connect the formal description to definite experienced outcomes. Interpretations and modified dynamics address it differently. Decoherence explains why interference between certain records becomes locally inaccessible and why stable pointer descriptions are useful, but it does not alone select an interpretation.</p><p>Laboratory cat states are coherent superpositions of distinguishable states in controlled systems, such as field modes or collective degrees of freedom. Calling them cats does not mean that a living animal's conscious state has been coherently controlled. Assess the actual Hilbert space, separation, and coherence witness used in a claim.</p><p>The diagram's branches are a bookkeeping tool shared by the calculation. It neither declares multiple worlds real nor assumes an objective collapse. Read it with an assumption ledger: linear evolution, the meaning of a state, and the account of outcomes are separate commitments.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Reduce coherence while watching the record probabilities remain 1/2 each. Compare the joint + measurement, which changes, with the pointer counts, which do not.</p><div data-lab="cat"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>A reduced record subspace has real γ=0.4. What is P+ and how does it compare with pointer statistics?</p><div class="worked-answer"><p>P+=(1+0.4)/2=0.7. The two pointer outcomes remain 0.5 each. Interference measurements distinguish states that pointer counts alone cannot.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 20.1</h3><p>Does a diagonal reduced state prove a global collapse happened?</p><details class="exercise-hint"><summary>Hint</summary><p>Compare a partial trace with a dynamical change.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No. Entanglement with an ignored environment can give the same local diagonal matrix while the global state remains pure.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 20.2</h3><p>What is the difference between a coherent state sum and a classical mixture here?</p><details class="exercise-hint"><summary>Hint</summary><p>Inspect the off-diagonal terms.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The coherent sum includes cross terms that affect joint interference. The mixture lacks those terms even though pointer frequencies agree.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 20.3</h3><p>Why should experimental cat claims specify the degrees of freedom?</p><details class="exercise-hint"><summary>Hint</summary><p>The metaphor covers very different physical systems.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The preparation and coherence witness apply to a particular system, such as two oscillator wave packets. They do not automatically establish coherent control over all macroscopic or biological variables.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Correlation, loss of accessible interference, and a unique outcome are different explanatory tasks. The cat makes their separation explicit.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://arxiv.org/abs/quant-ph/0312059">Schlosshauer: Decoherence, the measurement problem, and interpretations</a></li><li><a href="https://www.nobelprize.org/prizes/physics/2012/haroche/lecture/">Haroche: Controlling photons in a box and exploring the quantum to classical boundary</a></li></ul></section>
+<section class="book-section" id="section-20-1">
+  <h2>20.1 Amplifying a microscopic superposition into pointer records</h2>
+  <h3>20.1.1 Coupling a two-level trigger to a macroscopic apparatus pointer</h3>
+  <p>In his 1935 essay, Erwin Schrödinger posed a sharp question about how the linear unitary dynamics of quantum mechanics connects to definite macroscopic records: if a microscopic system \(S\) prepared in a superposition \(\alpha|0\rangle_S + \beta|1\rangle_S\) interacts with a macroscopic detector or pointer \(M\) initialized in a ready state \(|R_0\rangle_M\), linearity of the time-evolution operator \(U_{SM}\) forces the composite state into an entangled superposition of distinct pointer configurations:</p>
+  \[U_{SM}\Big(\big(\alpha|0\rangle_S + \beta|1\rangle_S\big)\otimes|R_0\rangle_M\Big) = \alpha|0\rangle_S|R_0\rangle_M + \beta|1\rangle_S|R_1\rangle_M, \qquad \langle R_0|R_1\rangle = 0.\]
+  <h3>20.1.2 Von Neumann premeasurement and linearity of pointer entanglement</h3>
+  <p>In John von Neumann’s measurement chain, this unitary stage \(U_{SM}\) is called a <em>premeasurement</em>: it correlates the system eigenbasis \(\{|0\rangle_S, |1\rangle_S\}\) with orthogonal pointer states \(\{|R_0\rangle_M, |R_1\rangle_M\}\) without breaking unitarity. In modern laboratory realizations—such as a Rydberg atom coupled dispersively to a microwave cavity field or a superconducting qubit coupled to a resonator or mechanical mode—the pointer states \(|R_0\rangle_M\) and \(|R_1\rangle_M\) are coherent states \(|\pm\alpha_{\mathrm{cat}}\rangle\) separated in phase space by distance \(D = 2|\alpha_{\mathrm{cat}}|\).</p>
+  <h3>20.1.3 Pointer branch weights versus coherent off-diagonal terms</h3>
+  <p>Written in the joint two-branch subspace spanned by \(|\Phi_0\rangle = |0, R_0\rangle\) and \(|\Phi_1\rangle = |1, R_1\rangle\), the pure premeasurement state has density matrix</p>
+  \[\rho_{\mathrm{pure}} = \begin{pmatrix} |\alpha|^2 & \alpha\beta^* \\ \alpha^*\beta & |\beta|^2 \end{pmatrix}.\]
+  <p>The diagonal entries \(|\alpha|^2\) and \(|\beta|^2\) give the probabilities of finding the pointer in \(|R_0\rangle_M\) or \(|R_1\rangle_M\), while the off-diagonal terms \(\alpha\beta^*\) encode phase coherence between the two pointer branches.</p>
+</section>
+
+<section class="book-section" id="section-20-2">
+  <h2>20.2 Reduced density matrices and environmental decoherence</h2>
+  <h3>20.2.1 Comparing a coherent pointer superposition with an incoherent mixture</h3>
+  <p>An incoherent classical mixture of the two pointer branches—where the pointer is already definitely in \(|0, R_0\rangle\) with probability \(|\alpha|^2\) or definitely in \(|1, R_1\rangle\) with probability \(|\beta|^2\)—is described by the diagonal density matrix</p>
+  \[\rho_{\mathrm{mix}} = \begin{pmatrix} |\alpha|^2 & 0 \\ 0 & |\beta|^2 \end{pmatrix}.\]
+  <p>For any observable that is diagonal in the pointer basis \(\{|\Phi_0\rangle, |\Phi_1\rangle\}\), \(\rho_{\mathrm{pure}}\) and \(\rho_{\mathrm{mix}}\) predict the exact same outcome probabilities \(|\alpha|^2\) and \(|\beta|^2\).</p>
+  <h3>20.2.2 Probing off-diagonal coherence in the joint pointer subspace</h3>
+  <p>Distinguishing \(\rho_{\mathrm{pure}}\) from \(\rho_{\mathrm{mix}}\) requires measuring an interference observable that flips both the microscopic trigger \(S\) and the pointer \(M\) simultaneously—such as the joint parity/coherence operator \(\hat{X}_{\mathrm{joint}}(\phi) = e^{-i\phi}|\Phi_0\rangle\langle\Phi_1| + e^{i\phi}|\Phi_1\rangle\langle\Phi_0|\). For a state with coherence factor \(W \in [0, 1]\),</p>
+  \[\rho(W) = \begin{pmatrix} |\alpha|^2 & W\alpha\beta^* \\ W\alpha^*\beta & |\beta|^2 \end{pmatrix}, \qquad P_+(\phi) = \frac{1}{2} + W|\alpha\beta|\cos(\phi - \arg(\alpha\beta^*)).\]
+  <p>Varying \(\phi\) produces interference fringes of visibility \(V = 2W|\alpha\beta|\).</p>
+  <h3>20.2.3 Suppression of local coherence by orthogonal environment records</h3>
+  <p>A macroscopic pointer cannot be isolated from its surrounding environment \(E\) (scattered photons, phonons, residual gas molecules). Even a tiny interaction leaks which-branch information into \(E\):</p>
+  \[\big(\alpha|\Phi_0\rangle + \beta|\Phi_1\rangle\big)\otimes|E_0\rangle \;\longrightarrow\; |\Psi_{SME}\rangle = \alpha|\Phi_0\rangle|E_0\rangle + \beta|\Phi_1\rangle|E_1\rangle.\]
+  <p>Tracing over the unobserved environment degrees of freedom yields the reduced system–pointer state</p>
+  \[\rho_{SM} = \mathrm{Tr}_E\big(|\Psi_{SME}\rangle\langle\Psi_{SME}|\big) = \begin{pmatrix} |\alpha|^2 & \alpha\beta^*\langle E_1|E_0\rangle \\ \alpha^*\beta\langle E_0|E_1\rangle & |\beta|^2 \end{pmatrix}, \qquad W = |\langle E_0|E_1\rangle|.\]
+  <p>For a photonic or oscillator cat state of size \(|\alpha_{\mathrm{cat}}|^2 = \bar{n}\) coupled to an environment with energy loss rate \(\kappa\), the overlap decays as \(W(t) = \exp(-2\kappa\bar{n}\,t)\): the decoherence rate \(\Gamma_{\mathrm{dec}} = 2\kappa\bar{n}\) scales linearly with the macroscopic separation \(D^2 = 4\bar{n}\) between the two pointer branches.</p>
+</section>
+
+<section class="book-section" id="section-20-3">
+  <h2>20.3 Decoherence versus the definite-outcome problem</h2>
+  <h3>20.3.1 Why environment-induced decoherence does not by itself select one branch</h3>
+  <p>Environment-induced decoherence quantitatively explains why \(W = |\langle E_0|E_1\rangle|\) vanishes on sub-femtosecond timescales for macroscopic pointers and why preferred pointer bases (\(|R_0\rangle, |R_1\rangle\)) are dynamically selected (einselection) by local environmental monitoring. However, decoherence is derived entirely within linear unitary quantum mechanics applied to \(S + M + E\): the global state \(|\Psi_{SME}\rangle\) remains an entangled superposition of all branches, and tracing out \(E\) yields an improper mixture \(\rho_{SM}\). Decoherence explains why local interference vanishes, while the interpretive question of how or whether a single outcome is selected belongs to interpretations of quantum mechanics (Copenhagen/operational, Everett/many-worlds, Bohmian mechanics, or objective-collapse models).</p>
+  <h3>20.3.2 Evaluating mesoscopic cat-state experiments in cavities and traps</h3>
+  <p>Experiments in cavity QED (Haroche’s group), trapped ions (Wineland’s group), superconducting circuit QED, and optomechanical resonators directly verify the \(\Gamma_{\mathrm{dec}} \propto D^2\) scaling law by preparing cat states \(|\alpha_{\mathrm{cat}}\rangle + e^{i\phi}|-\alpha_{\mathrm{cat}}\rangle\) of tunable phase-space separation \(D = 2|\alpha_{\mathrm{cat}}|\) and measuring Wigner-function negativity or parity oscillations as a function of hold time \(t\) and cat size \(\bar{n}\).</p>
+  <h3>20.3.3 Keeping formal density-matrix predictions distinct from interpretations</h3>
+  <p>In an experimental audit, the testable physical claims are the reduced density matrix \(\rho_{SM}(t)\), the Wigner fringe visibility \(V(\bar{n}, t) = \exp(-2\kappa\bar{n}\,t)\), and the purity \(\mathrm{Tr}(\rho_{SM}^2)\). Metaphysical claims that do not modify \(\rho_{SM}(t)\) cannot be decided by any measurement restricted to \(S + M\); by contrast, objective-collapse theories (such as GRW or CSL) predict an extra environment-independent damping term that can be bounded experimentally by ultracold mechanical and matter-wave interferometers.</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Adjust the initial branch weight \(|\alpha|^2\), the pointer separation \(\bar{n} = |\alpha_{\mathrm{cat}}|^2\), and the environmental coupling \(\kappa t\) to watch the off-diagonal coherence \(W = |\langle E_0|E_1\rangle| = \exp(-2\kappa\bar{n}\,t)\) and the joint interference visibility \(V = 2W|\alpha\beta|\) decay while the diagonal branch probabilities remain constant.</p>
+  <div data-lab="cat"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> A superconducting microwave cavity with photon energy relaxation rate \(\kappa = 2.0\times 10^4\text{ s}^{-1}\) (\(T_1^{\mathrm{cav}} = 50\,\mu\text{s}\)) is prepared in an equal cat superposition \((|\alpha_{\mathrm{cat}}\rangle + |-\alpha_{\mathrm{cat}}\rangle)/\sqrt{\mathcal{N}}\) with mean photon number \(\bar{n} = |\alpha_{\mathrm{cat}}|^2 = 5.0\). Calculate the cat decoherence rate \(\Gamma_{\mathrm{dec}}\), the coherence time \(T_{\mathrm{cat}} = 1/\Gamma_{\mathrm{dec}}\), and the remaining off-diagonal coherence \(W(t)\) and reduced purity \(\mathrm{Tr}(\rho_{SM}^2)\) after \(t = 2.5\,\mu\text{s}\).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. The cat decoherence rate scales as \(2\bar{n}\) times the single-photon loss rate \(\kappa\):</p>
+    \[\Gamma_{\mathrm{dec}} = 2\kappa\bar{n} = 2(2.0\times 10^4\text{ s}^{-1})(5.0) = 2.0\times 10^5\text{ s}^{-1}, \qquad T_{\mathrm{cat}} = \frac{1}{\Gamma_{\mathrm{dec}}} = 5.0\,\mu\text{s}.\]
+    <p>2. At \(t = 2.5\,\mu\text{s}\), the coherence factor is</p>
+    \[W(2.5\,\mu\text{s}) = \exp\!\left(-\frac{2.5\,\mu\text{s}}{5.0\,\mu\text{s}}\right) = e^{-0.50} \approx 0.6065.\]
+    <p>3. For equal branch weights \(|\alpha|^2 = |\beta|^2 = 1/2\), the reduced two-branch purity is</p>
+    \[\mathrm{Tr}\!\left(\rho_{SM}^2\right) = |\alpha|^4 + |\beta|^4 + 2W^2|\alpha|^2|\beta|^2 = \frac{1 + W^2}{2} = \frac{1 + e^{-1.0}}{2} \approx 0.6839.\]
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 20.1: Scattering of \(N\) environmental photons</h3>
+      <p>Suppose each scattered thermal photon has state overlap \(|\langle e_0|e_1\rangle| = 0.90\) between the two pointer positions. After \(N = 30\) independent photons scatter off the pointer, what is the collective environment overlap \(W = |\langle E_0|E_1\rangle| = |\langle e_0|e_1\rangle|^N\)?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>For a product of \(N\) independent environmental modes, the inner product multiplies: \(\langle E_0|E_1\rangle = \prod_{k=1}^N \langle e_0^{(k)}|e_1^{(k)}\rangle\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Raising the single-photon overlap to the \(30\)th power gives \(W = 0.90^{30} \approx 0.0424\). Even when each individual environmental particle carries very weak which-branch distinguishability, tens of scattered particles suppress macroscopic coherence exponentially.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 20.2: Comparing single-branch vs. joint observables</h3>
+      <p>For the reduced density matrix \(\rho(W) = \frac{1}{2}|\Phi_0\rangle\langle\Phi_0| + \frac{1}{2}|\Phi_1\rangle\langle\Phi_1| + \frac{W}{2}(|\Phi_0\rangle\langle\Phi_1| + |\Phi_1\rangle\langle\Phi_0|)\), show that any observable of the form \(\hat{O}_S \otimes I_M\) has an expectation value completely independent of \(W\) whenever \(\langle R_0|R_1\rangle = 0\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Evaluate \(\langle\Phi_0|\hat{O}_S\otimes I_M|\Phi_1\rangle = \langle 0|\hat{O}_S|1\rangle\langle R_0|R_1\rangle\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>In the cross term, \(\langle\Phi_0|\hat{O}_S\otimes I_M|\Phi_1\rangle = \langle 0|\hat{O}_S|1\rangle\langle R_0|R_1\rangle = 0\) because the pointer states are orthogonal (\(\langle R_0|R_1\rangle = 0\)). Thus \(\mathrm{Tr}[(\hat{O}_S\otimes I_M)\rho(W)] = \frac{1}{2}\langle 0|\hat{O}_S|0\rangle + \frac{1}{2}\langle 1|\hat{O}_S|1\rangle\), which is independent of \(W\). Observing the coherence \(W\) requires an operator that simultaneously connects \(|0\rangle \leftrightarrow |1\rangle\) and \(|R_0\rangle \leftrightarrow |R_1\rangle\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 20.3: Cat size scaling of decoherence</h3>
+      <p>In a cavity QED cat-state experiment, doubling the phase-space displacement amplitude from \(|\alpha_{\mathrm{cat}}| = 1.5\) to \(|\alpha_{\mathrm{cat}}| = 3.0\) changes the cat coherence time \(T_{\mathrm{cat}}\) by what factor?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Recall that \(\Gamma_{\mathrm{dec}} = 2\kappa|\alpha_{\mathrm{cat}}|^2\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Doubling \(|\alpha_{\mathrm{cat}}|\) quadruples the mean photon number \(\bar{n} = |\alpha_{\mathrm{cat}}|^2\) from \(2.25\) to \(9.0\), which quadruples the decoherence rate \(\Gamma_{\mathrm{dec}}\) and shortens the cat coherence time \(T_{\mathrm{cat}}\) by a factor of \(4\).</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>Unitary premeasurement couples a microscopic superposition \(\alpha|0\rangle_S + \beta|1\rangle_S\) to orthogonal pointer states \(|R_0\rangle_M, |R_1\rangle_M\), forming the entangled state \(\alpha|0,R_0\rangle + \beta|1,R_1\rangle\).</li>
+    <li>Tracing out an environment that records branch states \(|E_0\rangle, |E_1\rangle\) damps the off-diagonal pointer coherence by \(W = |\langle E_0|E_1\rangle|\).</li>
+    <li>For oscillator cat states of size \(\bar{n} = |\alpha_{\mathrm{cat}}|^2\), the decoherence rate \(\Gamma_{\mathrm{dec}} = 2\kappa\bar{n}\) grows in proportion to the squared phase-space separation between branches.</li>
+    <li>Environment-induced decoherence explains the rapid suppression of local interference in the pointer basis, while the question of single-outcome selection distinguishes interpretations of quantum mechanics.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>E. Schrödinger, <a href="https://doi.org/10.1007/BF01491891">Die gegenwärtige Situation in der Quantenmechanik</a>, <em>Die Naturwissenschaften</em> 23, 807–812 (1935).</li>
+    <li>M. Brune et al., <a href="https://doi.org/10.1103/PhysRevLett.77.4887">Observing the Progressive Decoherence of the “Meter” in a Quantum Measurement</a>, <em>Physical Review Letters</em> 77, 4887 (1996).</li>
+    <li>W. H. Zurek, <a href="https://doi.org/10.1103/RevModPhys.75.715">Decoherence, einselection, and the quantum origins of the classical</a>, <em>Reviews of Modern Physics</em> 75, 715 (2003).</li>
+  </ul>
+</section>

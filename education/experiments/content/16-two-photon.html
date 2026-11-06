@@ -1,7 +1,127 @@
-<section class="book-section" id="section-16-1"><h2>16.1 The question and the apparatus</h2><p>Send one photon into each input of a balanced beam splitter and count coincidences between its outputs. If the photons overlap in their relevant modes, coincidence counts are suppressed: the Hong–Ou–Mandel effect. Delaying one photon makes them distinguishable and restores the baseline.</p><p>Overlap includes timing, spectrum, polarization, and spatial mode. Equal colour labels alone do not guarantee indistinguishability. A delay scan is useful because it changes one of those variables while leaving much of the apparatus fixed. Loss, multiphoton emissions, and detector response still affect the measured dip.</p><p>The visual shows two incoming wave-packet envelopes, their relative delay, and a coincidence curve. It depicts the cancellation of two-photon alternatives, not an attraction between photons. In the ideal output state, either both photons leave one port or both leave the other.</p></section>
-<section class="book-section" id="section-16-2"><h2>16.2 Build a prediction</h2><p>With a consistent balanced splitter convention, input creation operators transform as a†→(c†+d†)/√2 and b†→(c†−d†)/√2. Their product becomes [(c†)²−(d†)²]/2. The c†d† terms cancel. Properly normalized, the output is (|2,0⟩−|0,2⟩)/√2.</p><p>For pure single-photon modes f and g, the coincidence probability is \(P_c=(1-|\langle f|g\rangle|^2)/2\). The teaching model chooses squared overlap exp(−δ²), where δ is dimensionless delay. This gives Pc=0 at perfect overlap and approaches 1/2 at large separation.</p><p>Entanglement is a related but distinct property. A polarization pair such as (|HH⟩+|VV⟩)/√2 has correlations that cannot be represented as a product state. Comparing several polarization bases distinguishes it from an ordinary mixture of HH and VV. A Hong–Ou–Mandel dip alone does not certify every desired polarization-entanglement property.</p></section>
-<section class="book-section" id="section-16-3"><h2>16.3 What the evidence can establish</h2><p>Measure the large-delay baseline and the near-zero-delay coincidence rate using the same normalization. Report the source model and how multiphoton terms were handled. Visibility can be affected by postselection, so the protocol must say which trials enter the denominator.</p><p>The two-photon experiment tests indistinguishability through interference. Entanglement certification requires an appropriate witness, tomography, or a Bell test with its assumptions. Different optical experiments reveal different resources; a single impressive plot is not a complete characterization.</p><p>In this course the dip is an ideal prediction. The next chapters use entangled states to examine local models and contextual value assignments. Their conclusions require more than mode overlap: measurement settings, correlations, and assumptions about which values can be jointly assigned become central.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Slide one packet through the other. Compare the temporal overlap with the coincidence dip. Explain why the large-delay coincidence probability is 1/2 rather than one.</p><div data-lab="hom"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>If the squared mode overlap is 0.8, what coincidence probability is predicted?</p><div class="worked-answer"><p>Pc=(1−0.8)/2=0.1. Relative to the distinguishable baseline 0.5, the ideal dip visibility is (0.5−0.1)/0.5=0.8.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 16.1</h3><p>Why is the coincidence baseline 1/2 for distinguishable inputs?</p><details class="exercise-hint"><summary>Hint</summary><p>List the independent output alternatives.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>Each input has two equally likely outputs. Two of the four alternatives put one photon at each output.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 16.2</h3><p>Does a pair that always gives matching H/V results have to be entangled?</p><details class="exercise-hint"><summary>Hint</summary><p>Compare a mixture of HH and VV.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No. A 50/50 classical mixture gives the same H/V correlations. Measurements in other bases are needed.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 16.3</h3><p>What happens if the photons have orthogonal polarizations?</p><details class="exercise-hint"><summary>Hint</summary><p>Consider their mode inner product.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>Without erasing that distinguishability, the overlap is zero and the ideal coincidence probability is 1/2.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Two-photon interference probes indistinguishability. Entanglement and nonlocal correlations require their own measurements and criteria.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://doi.org/10.1103/PhysRevLett.59.2044">Hong, Ou and Mandel: Measurement of subpicosecond time intervals between two photons</a></li></ul></section>
+<section class="book-section" id="section-16-1">
+  <h2>16.1 Hong–Ou–Mandel coincidence suppression at a beam splitter</h2>
+  <h3>16.1.1 Two-photon input modes and output coincidence counting</h3>
+  <p>In a single-photon interferometer (Chapters 6 and 7), one photon enters a 50:50 beam splitter and interferes with itself across two paths. In the 1987 Hong–Ou–Mandel (HOM) experiment, two independent photons enter a lossless 50:50 beam splitter simultaneously—one in input port \(a\) and one in input port \(b\)—while single-photon detectors monitor output ports \(c\) and \(d\) through a coincidence circuit. A relative optical delay stage \(\Delta\tau\) in one input arm scans the arrival-time difference between the two wavepackets without creating any stable optical phase lock between the two input paths.</p>
+  <h3>16.1.2 Temporal, spectral, polarization, and spatial mode overlap</h3>
+  <p>When the path delay \(|\Delta\tau|\) far exceeds the photon coherence time \(\tau_c\), the two photons arrive at distinguishable times and behave as independent particles: each photon is transmitted or reflected with probability \(1/2\), yielding a coincidence probability \(P_{cd}(\infty) = 1/2\). As \(\Delta\tau \to 0\), if the two photons are also matched in polarization, center frequency, bandwidth, and transverse spatial mode, the coincidence rate drops sharply toward zero—forming the Hong–Ou–Mandel dip.</p>
+  <h3>16.1.3 Destructive interference of two-photon coincidence pathways</h3>
+  <p>A coincidence click between output ports \(c\) and \(d\) can occur in two ways: both photons are transmitted (\(T\text{–}T\)), or both photons are reflected (\(R\text{–}R\)). When the two photons are completely indistinguishable in all internal and spatiotemporal degrees of freedom, the final state \(|1_c, 1_d\rangle\) produced by \(T\text{–}T\) is physically identical to the final state produced by \(R\text{–}R\). Because a lossless symmetric beam splitter imparts a relative phase factor of \(i\) per reflection (\(r = i/\sqrt{2}\), \(t = 1/\sqrt{2}\)), the \(T\text{–}T\) amplitude is \(t^2 = +1/2\) while the \(R\text{–}R\) amplitude is \(r^2 = (i/\sqrt{2})^2 = -1/2\). The two coincidence pathways interfere destructively and cancel, forcing both photons to exit bunched together in the same output port.</p>
+</section>
+
+<section class="book-section" id="section-16-2">
+  <h2>16.2 Bosonic mode algebra and the overlap dip</h2>
+  <h3>16.2.1 Unitary transformation of bosonic creation operators</h3>
+  <p>For a lossless beam splitter with power transmittance \(T\) and reflectance \(R = 1 - T\), the input creation operators \(\hat{a}^\dagger, \hat{b}^\dagger\) map to the output creation operators \(\hat{c}^\dagger, \hat{d}^\dagger\) via</p>
+  \[\hat{a}^\dagger \mapsto \sqrt{T}\,\hat{c}^\dagger + i\sqrt{R}\,\hat{d}^\dagger, \qquad \hat{b}^\dagger \mapsto i\sqrt{R}\,\hat{c}^\dagger + \sqrt{T}\,\hat{d}^\dagger.\]
+  <p>When the two photons occupy identical internal modes (\([\hat{c}, \hat{c}^\dagger] = 1\)), the input state \(|1_a, 1_b\rangle = \hat{a}^\dagger\hat{b}^\dagger|0\rangle\) evolves to</p>
+  \[\hat{a}^\dagger\hat{b}^\dagger|0\rangle \mapsto i\sqrt{TR}\left(\hat{c}^{\dagger 2} + \hat{d}^{\dagger 2}\right)|0\rangle + (T - R)\hat{c}^\dagger\hat{d}^\dagger|0\rangle = i\sqrt{2TR}\big(|2_c,0_d\rangle + |0_c,2_d\rangle\big) + (T - R)|1_c,1_d\rangle.\]
+  <p>At a balanced 50:50 beam splitter (\(T = R = 1/2\)), the coincidence term \((T - R)|1_c, 1_d\rangle\) vanishes identically, leaving the bunched two-photon NOON state \(i(|2_c, 0_d\rangle + |0_c, 2_d\rangle)/\sqrt{2}\).</p>
+  <h3>16.2.2 Coincidence probability as a function of mode inner product</h3>
+  <p>When the two input photons carry normalized internal wavefunctions \(|\psi_a\rangle\) and \(|\psi_b(\Delta\tau)\rangle\) with mode overlap \(J(\Delta\tau) = |\langle\psi_a|\psi_b(\Delta\tau)\rangle|^2 \in [0,1]\), only the indistinguishable projection \(J(\Delta\tau)\) undergoes two-photon interference while the orthogonal fraction \(1 - J(\Delta\tau)\) scatters independently. For general beam-splitter transmittance \(T\) and reflectance \(R = 1 - T\), the coincidence probability is</p>
+  \[P_{cd}(\Delta\tau) = T^2 + R^2 - 2TR\,J(\Delta\tau).\]
+  <p>For a balanced 50:50 splitter (\(T = R = 1/2\)) and Gaussian wavepackets with overlap \(J(\Delta\tau) = V_{\mathrm{mode}}\exp(-\Delta\tau^2/\tau_c^2)\), this simplifies to</p>
+  \[P_{cd}(\Delta\tau) = \frac{1}{2}\Big[1 - J(\Delta\tau)\Big] = \frac{1}{2}\left[1 - V_{\mathrm{mode}}\exp\!\left(-\frac{\Delta\tau^2}{\tau_c^2}\right)\right].\]
+  <h3>16.2.3 Distinguishing two-photon bunching from polarization entanglement</h3>
+  <p>Although the output state \((|2_c, 0_d\rangle + |0_c, 2_d\rangle)/\sqrt{2}\) is a mode-entangled superposition in photon number between spatial arms \(c\) and \(d\), the standard HOM dip does not require the two input photons to be entangled prior to the beam splitter—it works equally well for two completely unentangled single photons emitted by separate quantum dots or trapped ions, provided their wavepackets are indistinguishable (\(J \to 1\)). Conversely, if two photons are prepared in the antisymmetric polarization singlet state \(|\Psi^-\rangle = (|H_a V_b\rangle - |V_a H_b\rangle)/\sqrt{2}\), spatial exchange symmetry flips sign and produces a coincidence <em>peak</em> (\(P_{cd}(0) = 1\)) instead of a dip.</p>
+</section>
+
+<section class="book-section" id="section-16-3">
+  <h2>16.3 Baseline normalization and entanglement witnesses</h2>
+  <h3>16.3.1 Calibrating large-delay baselines and multiphoton contamination</h3>
+  <p>The operational HOM visibility is defined relative to the distinguishable large-delay baseline \(C(\infty)\) as</p>
+  \[V_{\mathrm{HOM}} = \frac{C(\infty) - C(0)}{C(\infty)}.\]
+  <p>For perfectly balanced splitting (\(T = R = 1/2\)) and pure single-photon inputs, \(V_{\mathrm{HOM}} = J(0)\) directly measures the mode indistinguishability. In practice, two systematic effects reduce \(V_{\mathrm{HOM}}\) below \(1\): beam-splitter asymmetry (\(T \neq R\)), which caps the dip visibility at \(V_{\max} = 2TR/(T^2 + R^2)\), and multi-pair emission (\(g^{(2)}(0) > 0\)) from spontaneous parametric down-conversion or attenuated lasers, which injects accidental coincidences at \(\Delta\tau = 0\). Classical phase-randomized coherent pulses cannot exceed \(V_{\mathrm{HOM}} = 0.50\), so observing \(V_{\mathrm{HOM}} > 0.50\) without accidental subtraction certifies nonclassical two-photon interference.</p>
+  <h3>16.3.2 Why mode indistinguishability and entanglement require distinct tests</h3>
+  <p>Observing \(V_{\mathrm{HOM}} \approx 1\) proves that two photons share nearly identical spectral-temporal-polarization modes and obey bosonic exchange symmetry, which is the prerequisite for linear-optical two-qubit gates and Bell-state analyzers. However, a single HOM dip does not by itself certify nonlocal Bell entanglement between spatially separated particles; verifying nonlocal correlations requires switched multi-setting analyzers on separated arms (Chapter 17).</p>
+  <h3>16.3.3 Bridging two-photon interference to correlation inequalities</h3>
+  <p>By combining a polarizing beam splitter or a balanced beam splitter with polarization rotators in the output ports, two-photon HOM interference projects an incoming pair onto Bell states. That projection links the mode-overlap physics of this chapter directly to the EPR–Bell correlation tests of Chapter 17 and the quantum teleportation circuit of Chapter 19.</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Scan the relative arrival-time delay \(\Delta\tau\), the internal mode overlap \(V_{\mathrm{mode}}\) (via relative polarization angle or spectral mismatch), and the beam-splitter transmittance \(T\). Compare the coincidence probability \(P_{cd}(\Delta\tau)\) against the bunched two-photon probabilities \(P_{2c,0d}\) and \(P_{0c,2d}\) at the center of the dip.</p>
+  <div data-lab="hom"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> Two single photons with mode overlap \(J(0) = 0.92\) interfere at a slightly asymmetric beam splitter with transmittance \(T = 0.55\) and reflectance \(R = 0.45\). Calculate the large-delay coincidence probability \(P_{cd}(\infty)\), the zero-delay coincidence probability \(P_{cd}(0)\), and the resulting HOM dip visibility \(V_{\mathrm{HOM}}\).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. At large delay (\(\Delta\tau \gg \tau_c\), \(J(\infty) = 0\)), the two photons scatter independently:</p>
+    \[P_{cd}(\infty) = T^2 + R^2 = 0.55^2 + 0.45^2 = 0.3025 + 0.2025 = 0.5050.\]
+    <p>2. At zero delay (\(\Delta\tau = 0\), \(J(0) = 0.92\)),</p>
+    \[P_{cd}(0) = T^2 + R^2 - 2TR\,J(0) = 0.5050 - 2(0.55)(0.45)(0.92) = 0.5050 - 0.4554 = 0.0496.\]
+    <p>3. The HOM visibility is</p>
+    \[V_{\mathrm{HOM}} = \frac{P_{cd}(\infty) - P_{cd}(0)}{P_{cd}(\infty)} = \frac{2TR\,J(0)}{T^2 + R^2} = \frac{0.4554}{0.5050} \approx 0.902.\]
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 16.1: Polarization rotation between input photons</h3>
+      <p>Two otherwise identical single photons enter a balanced 50:50 beam splitter (\(T = R = 1/2\)) at \(\Delta\tau = 0\) with linear polarizations rotated by angle \(\theta = 30^\circ\) relative to each other. What are the mode overlap \(J(0)\), the coincidence probability \(P_{cd}(0)\), and the dip visibility \(V_{\mathrm{HOM}}\)?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>For linear polarizations separated by angle \(\theta\), the inner product squared is \(J(0) = \cos^2\theta\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>The polarization overlap is \(J(0) = \cos^2(30^\circ) = 3/4 = 0.75\). At a 50:50 splitter, \(V_{\mathrm{HOM}} = J(0) = 0.75\) and \(P_{cd}(0) = \frac{1}{2}(1 - 0.75) = 0.125\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 16.2: Inferring coherence time from dip width</h3>
+      <p>A Gaussian-envelope HOM scan \(C(\Delta\tau) = C(\infty)[1 - V\exp(-\Delta\tau^2/\tau_c^2)]\) exhibits a full width at half minimum (FWHM) of \(\Delta\tau_{\mathrm{FWHM}} = 1.665\text{ ps}\). What is the \(1/e\) coherence time \(\tau_c\) and the corresponding spatial wavepacket length \(L_c = c\tau_c\) in free space?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>For \(\exp(-\Delta\tau^2/\tau_c^2) = 1/2\) at \(\Delta\tau = \Delta\tau_{\mathrm{FWHM}}/2\), note that \(\Delta\tau_{\mathrm{FWHM}} = 2\sqrt{\ln 2}\,\tau_c \approx 1.665\,\tau_c\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Since \(2\sqrt{\ln 2} \approx 1.665\), the coherence time is \(\tau_c = 1.00\text{ ps}\), corresponding to a free-space wavepacket length \(L_c = (3.00\times 10^8\text{ m/s})(1.00\times 10^{-12}\text{ s}) = 0.300\text{ mm} = 300\,\mu\text{m}\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 16.3: Maximum HOM visibility for an unbalanced beam splitter</h3>
+      <p>If two input photons are 100% indistinguishable (\(J(0) = 1\)) but the beam splitter has \(T = 0.60\) and \(R = 0.40\), what is the highest possible HOM visibility \(V_{\mathrm{HOM}}\)?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Evaluate \(V_{\max} = 2TR/(T^2 + R^2)\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Substituting \(T = 0.60\) and \(R = 0.40\) gives \(V_{\max} = 2(0.60)(0.40)/(0.36 + 0.16) = 0.48/0.52 = 12/13 \approx 0.923\). Even with ideal single photons, beam-splitter imbalance leaves a residual coincidence fraction \(P_{cd}(0) = (T - R)^2 = 0.04\).</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>When two indistinguishable single photons enter separate ports of a balanced 50:50 beam splitter, the transmitted–transmitted (\(t^2 = +1/2\)) and reflected–reflected (\(r^2 = -1/2\)) coincidence amplitudes cancel destructively.</li>
+    <li>The output coincidence probability obeys \(P_{cd}(\Delta\tau) = T^2 + R^2 - 2TR\,J(\Delta\tau)\), where \(J(\Delta\tau) = |\langle\psi_a|\psi_b(\Delta\tau)\rangle|^2\) is the joint internal and temporal mode overlap.</li>
+    <li>Observing \(V_{\mathrm{HOM}} > 0.50\) surpasses the classical coherent-pulse ceiling and quantifies single-photon indistinguishability.</li>
+    <li>Two-photon bunching is a consequence of bosonic exchange symmetry and mode overlap; certifying nonlocal entanglement requires separate multi-setting correlation tests.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>C. K. Hong, Z. Y. Ou, and L. Mandel, <a href="https://doi.org/10.1103/PhysRevLett.59.2044">Measurement of subpicosecond time intervals between two photons by interference</a>, <em>Physical Review Letters</em> 59, 2044 (1987).</li>
+    <li>F. Bouchard et al., <a href="https://doi.org/10.1088/1361-6633/abcd7a">Two-photon interference: the Hong–Ou–Mandel effect</a>, <em>Reports on Progress in Physics</em> 84, 012402 (2021).</li>
+    <li>C. Gerry and P. Knight, <a href="https://doi.org/10.1017/CBO9780511791239"><em>Introductory Quantum Optics</em></a>, Cambridge University Press (2005), Chapter 6.</li>
+  </ul>
+</section>

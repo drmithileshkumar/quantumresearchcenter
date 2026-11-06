@@ -10,20 +10,32 @@
       {
         "id": "section-1-1",
         "number": "1.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Counting events in a two-outcome apparatus",
+        "subsections": [
+          "Defining a valid experimental trial",
+          "Preparation, transformation, and measurement",
+          "Synthetic sequences versus physical randomness"
+        ]
       },
       {
         "id": "section-1-2",
         "number": "1.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Binomial fluctuations and detection efficiency",
+        "subsections": [
+          "Mean counts and standard error scaling",
+          "Interpreting finite-sample fluctuations",
+          "Unbalanced detector efficiencies and postselection bias"
+        ]
       },
       {
         "id": "section-1-3",
         "number": "1.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Protocols, calibration, and the assumption ledger",
+        "subsections": [
+          "Independent calibration and out-of-sample predictions",
+          "Tracking explicit assumptions across experiments",
+          "Limits of simulated frequency convergence"
+        ]
       }
     ]
   },
@@ -38,20 +50,32 @@
       {
         "id": "section-2-1",
         "number": "2.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Photoemission, line spectra, and inelastic collisions",
+        "subsections": [
+          "Frequency, flux, and the retarding-potential collector",
+          "Atomic line spectra and Franck–Hertz energy loss",
+          "Idealized surface barriers versus real cathodes"
+        ]
       },
       {
         "id": "section-2-2",
         "number": "2.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Linear stopping potentials and level differences",
+        "subsections": [
+          "Einstein’s energy balance and the threshold frequency",
+          "Electron-volt scaling of stopping voltages",
+          "Spectroscopic transitions as energy differences"
+        ]
       },
       {
         "id": "section-2-3",
         "number": "2.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Energy quantization versus field quantization",
+        "subsections": [
+          "What stopping voltages do and do not prove about light",
+          "Dark current, contact potentials, and linewidth calibration",
+          "Scope of the single-photon threshold model"
+        ]
       }
     ]
   },
@@ -66,20 +90,32 @@
       {
         "id": "section-3-1",
         "number": "3.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Localized arrivals and two-aperture geometry",
+        "subsections": [
+          "Single-particle detections accumulating into fringes",
+          "Aperture geometry and open versus monitored slits",
+          "Diffraction envelopes and schematic trial markers"
+        ]
       },
       {
         "id": "section-3-2",
         "number": "3.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Superposing amplitudes and de Broglie wavelength",
+        "subsections": [
+          "Cross terms from coherent amplitude addition",
+          "Far-field path difference and fringe period",
+          "Momentum scaling and the visibility parameter"
+        ]
       },
       {
         "id": "section-3-3",
         "number": "3.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Disentangling path records from phase drift",
+        "subsections": [
+          "Why fringes rule out independent slit probabilities",
+          "Mechanical stability, transverse coherence, and contrast loss",
+          "Finite-sample histograms versus expected intensity"
+        ]
       }
     ]
   },
@@ -94,20 +130,32 @@
       {
         "id": "section-4-1",
         "number": "4.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Magnetic gradients and sequential spin analyzers",
+        "subsections": [
+          "Spatial channel separation and state preparation",
+          "Noncommuting analyzer sequences and reappearing outcomes",
+          "Two-level spin space versus translational beam dynamics"
+        ]
       },
       {
         "id": "section-4-2",
         "number": "4.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Half-angle spin projections and cascaded filtering",
+        "subsections": [
+          "Two-component spinors and the half-angle overlap rule",
+          "Physical analyzer directions versus state-space orthogonality",
+          "Conditional versus net transmission across three stages"
+        ]
       },
       {
         "id": "section-4-3",
         "number": "4.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Projective state update and postselection accounting",
+        "subsections": [
+          "Distinguishing projective measurement from destructive readout",
+          "Beam losses, stray fields, and survival normalization",
+          "Operational predictions without hidden spin vectors"
+        ]
       }
     ]
   },
@@ -122,20 +170,32 @@
       {
         "id": "section-5-1",
         "number": "5.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Crossed polarizers and intermediate state projection",
+        "subsections": [
+          "Restoring transmission with an angled middle polarizer",
+          "Classical field components versus single-photon probabilities",
+          "Extinction ratios, insertion loss, and optical safety"
+        ]
       },
       {
         "id": "section-5-2",
         "number": "5.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Malus’s law and noncommuting projections",
+        "subsections": [
+          "Linear polarization basis and full-angle projection",
+          "Two-stage transmission and the forty-five-degree maximum",
+          "Operator ordering of projective filters"
+        ]
       },
       {
         "id": "section-5-3",
         "number": "5.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Separating wave projection from photon statistics",
+        "subsections": [
+          "What three polarizers show and what requires photon counting",
+          "Normalizing against polarized versus unpolarized inputs",
+          "Interpreting axis diagrams and sequential stage bars"
+        ]
       }
     ]
   },
@@ -150,20 +210,32 @@
       {
         "id": "section-6-1",
         "number": "6.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Hanbury Brown–Twiss beam-splitter correlations",
+        "subsections": [
+          "Measuring delay-resolved coincidences across two outputs",
+          "True single-photon states versus attenuated laser pulses",
+          "Ideal correlation profiles and detector timing artifacts"
+        ]
       },
       {
         "id": "section-6-2",
         "number": "6.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Second-order correlation and the antibunching dip",
+        "subsections": [
+          "Factorial photon-number moments at zero delay",
+          "Time-delay recovery for antibunched, coherent, and thermal light",
+          "Cauchy–Schwarz inequality for classical intensity fluctuations"
+        ]
       },
       {
         "id": "section-6-3",
         "number": "6.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Dead time, accidental subtraction, and source claims",
+        "subsections": [
+          "Why two detectors are needed to bypass single-channel dead time",
+          "Separating photon-number purity from mode indistinguishability",
+          "Reporting coincidence windows and background corrections"
+        ]
       }
     ]
   },
@@ -178,20 +250,32 @@
       {
         "id": "section-7-1",
         "number": "7.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Two-arm recombination in a Mach–Zehnder interferometer",
+        "subsections": [
+          "Splitting, phase shifting, and recombining two optical modes",
+          "Mode matching as the condition for indistinguishable paths",
+          "Amplitude branches versus physical particle trajectories"
+        ]
       },
       {
         "id": "section-7-2",
         "number": "7.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Beam-splitter matrices and fringe visibility",
+        "subsections": [
+          "Hadamard convention for balanced two-port splitters",
+          "Phase-dependent output probabilities and dark-port cancellation",
+          "Visibility reduction from partial coherence"
+        ]
       },
       {
         "id": "section-7-3",
         "number": "7.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Phase scans, drift controls, and single-photon fringes",
+        "subsections": [
+          "Comparing classical wave interference with single-photon counts",
+          "Calibrating detector imbalance and path-length drift",
+          "Foundation for delayed-choice, eraser, and bomb-tester protocols"
+        ]
       }
     ]
   },
@@ -206,20 +290,32 @@
       {
         "id": "section-8-1",
         "number": "8.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Coupling path alternatives to a mechanical pointer",
+        "subsections": [
+          "Einstein’s momentum-recoil challenge at a movable aperture",
+          "Including the support state inside the quantum description",
+          "Dimensionless pointer wave packets and overlap"
+        ]
       },
       {
         "id": "section-8-2",
         "number": "8.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Pointer overlap and the visibility–distinguishability tradeoff",
+        "subsections": [
+          "Tracing out the pointer and the off-diagonal overlap factor",
+          "Gaussian pointer separation and smooth loss of contrast",
+          "Englert–Greenberger duality for pure balanced states"
+        ]
       },
       {
         "id": "section-8-3",
         "number": "8.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Entanglement with the apparatus versus classical noise",
+        "subsections": [
+          "Why an unread apparatus record already suppresses local fringes",
+          "Connecting pointer basis choice to quantum erasure",
+          "Assumptions behind quantitative complementarity bounds"
+        ]
       }
     ]
   },
@@ -234,20 +330,32 @@
       {
         "id": "section-9-1",
         "number": "9.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Selecting path readout or recombination after entry",
+        "subsections": [
+          "Inserting or omitting the second beam splitter on the fly",
+          "Causal ordering of preparation, propagation, and measurement choice",
+          "Timing markers versus retrocausal narratives"
+        ]
       },
       {
         "id": "section-9-2",
         "number": "9.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Incompatible observables on a single two-path state",
+        "subsections": [
+          "Evaluating open-port and closed-port operators on the same state",
+          "Wave-like and particle-like statistics as basis choices",
+          "Phase sensitivity without rewriting past records"
+        ]
       },
       {
         "id": "section-9-3",
         "number": "9.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Spacelike switching and experimental timing audits",
+        "subsections": [
+          "Relativistic separation in laboratory delayed-choice tests",
+          "Separating empirical probabilities from interpretive histories",
+          "Comparing full phase scans across open and closed modes"
+        ]
       }
     ]
   },
@@ -262,20 +370,32 @@
       {
         "id": "section-10-1",
         "number": "10.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Entangled path markers and coincidence sorting",
+        "subsections": [
+          "Tagging interferometer arms with orthogonal marker states",
+          "Sorting signal arrivals by diagonal marker outcomes",
+          "Complementary sub-ensembles versus the flat marginal sum"
+        ]
       },
       {
         "id": "section-10-2",
         "number": "10.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Basis rotation of the marker and antiphase fringes",
+        "subsections": [
+          "Rewriting the path–marker state in the diagonal basis",
+          "Opposite-phase conditional fringes and exact marginal cancellation",
+          "Commuting local measurements and post-hoc coincidence sorting"
+        ]
       },
       {
         "id": "section-10-3",
         "number": "10.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "No-signalling and coincidence-window discipline",
+        "subsections": [
+          "Why quantum erasure cannot transmit a faster-than-light signal",
+          "Reporting both conditional subsets and accidental coincidences",
+          "Distinguishing coherent basis rotation from deleting classical files"
+        ]
       }
     ]
   },
@@ -290,20 +410,32 @@
       {
         "id": "section-11-1",
         "number": "11.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Blocking one arm of a dark-port interferometer",
+        "subsections": [
+          "Disrupting destructive interference with an opaque obstruction",
+          "Accounting for all three outcomes: absorption, bright port, and dark port",
+          "Operational meaning of interaction-free certification"
+        ]
       },
       {
         "id": "section-11-2",
         "number": "11.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Three-outcome branching and certification efficiency",
+        "subsections": [
+          "Amplitude survival after the first splitter and arm blockage",
+          "Why a dark-port click certifies the obstacle in an ideal setup",
+          "Unconditional versus non-absorbed success fractions"
+        ]
       },
       {
         "id": "section-11-3",
         "number": "11.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Imperfect extinction, false positives, and Zeno extensions",
+        "subsections": [
+          "Bayesian updating when the empty dark port has baseline counts",
+          "Counterfactual phrasing versus Hamiltonian boundary conditions",
+          "Single-pass accounting as the baseline for multi-pass protocols"
+        ]
       }
     ]
   },
@@ -318,20 +450,32 @@
       {
         "id": "section-12-1",
         "number": "12.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Sub-barrier scattering and scanning tunnelling probes",
+        "subsections": [
+          "Boundary continuity across a classically forbidden region",
+          "Tip–sample gap sensitivity in scanning tunnelling microscopy",
+          "Elastic stationary scattering without energy borrowing"
+        ]
       },
       {
         "id": "section-12-2",
         "number": "12.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Evanescent decay constant and exact rectangular transmission",
+        "subsections": [
+          "Imaginary wavevector inside the barrier and exponential scaling",
+          "Exact boundary-matching formula and the thin-barrier limit",
+          "Probability current conservation across incident, reflected, and transmitted waves"
+        ]
       },
       {
         "id": "section-12-3",
         "number": "12.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Separating elastic tunnelling from thermal activation",
+        "subsections": [
+          "Testing distance and temperature dependence against competing models",
+          "Energy conservation and the ambiguity of barrier traversal time",
+          "From one-dimensional barrier models to real electrode interfaces"
+        ]
       }
     ]
   },
@@ -346,20 +490,32 @@
       {
         "id": "section-13-1",
         "number": "13.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Resonant driving of a two-level transition",
+        "subsections": [
+          "Coherent population cycling versus incoherent rate saturation",
+          "Separating state preparation, drive calibration, and readout fidelity",
+          "Representing driven rotations on the Bloch sphere"
+        ]
       },
       {
         "id": "section-13-2",
         "number": "13.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Rotating-frame Hamiltonian, pulse area, and detuning",
+        "subsections": [
+          "Resonant Rabi nutation and the pulse-area angle",
+          "Inversion and superposition pulses on the Bloch sphere",
+          "Generalized Rabi frequency under nonzero detuning"
+        ]
       },
       {
         "id": "section-13-3",
         "number": "13.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Amplitude scaling, leakage, and control calibration",
+        "subsections": [
+          "Verifying linear scaling of Rabi frequency with drive field amplitude",
+          "Breakdown of two-level and rotating-wave approximations",
+          "Why population scans alone do not certify gate fidelity"
+        ]
       }
     ]
   },
@@ -374,20 +530,32 @@
       {
         "id": "section-14-1",
         "number": "14.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Separated oscillatory fields and Hahn spin echo",
+        "subsections": [
+          "Converting free-evolution phase into population with two pulses",
+          "Inhomogeneous frequency spread versus irreversible environment coupling",
+          "Refocusing static detuning with a midpoint inversion pulse"
+        ]
       },
       {
         "id": "section-14-2",
         "number": "14.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Transverse decay envelopes and relaxation bounds",
+        "subsections": [
+          "Exponential visibility decay, longitudinal relaxation, and pure dephasing",
+          "Gaussian envelopes from static ensemble detuning distributions",
+          "Phase reversal under an ideal echo pulse"
+        ]
       },
       {
         "id": "section-14-3",
         "number": "14.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Noise spectroscopy and reduced-state interpretation",
+        "subsections": [
+          "Fitting envelope shapes and non-Markovian revivals",
+          "Shrinking Bloch vectors as mixed reduced states",
+          "Operational scope of coherence times"
+        ]
       }
     ]
   },
@@ -402,20 +570,32 @@
       {
         "id": "section-15-1",
         "number": "15.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Measuring fresh copies across Pauli bases",
+        "subsections": [
+          "Why a single measurement basis leaves relative phases hidden",
+          "Consuming identically prepared copies across orthogonal settings",
+          "Bloch-plane visualization of purity and orientation"
+        ]
       },
       {
         "id": "section-15-2",
         "number": "15.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Bloch vector inversion, positivity, and purity",
+        "subsections": [
+          "Expanding the qubit density matrix in the Pauli basis",
+          "Eigenvalue positivity and purity from Bloch-vector length",
+          "Finite-sample overstepping of the Bloch sphere boundary"
+        ]
       },
       {
         "id": "section-15-3",
         "number": "15.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Detector calibration and ensemble ambiguity",
+        "subsections": [
+          "Systematic axis miscalibration and cross-validation",
+          "Why identical density matrices hide distinct mixing histories",
+          "Reporting raw counts, positivity constraints, and confidence regions"
+        ]
       }
     ]
   },
@@ -430,20 +610,32 @@
       {
         "id": "section-16-1",
         "number": "16.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Hong–Ou–Mandel coincidence suppression at a beam splitter",
+        "subsections": [
+          "Two-photon input modes and output coincidence counting",
+          "Temporal, spectral, polarization, and spatial mode overlap",
+          "Destructive interference of two-photon coincidence pathways"
+        ]
       },
       {
         "id": "section-16-2",
         "number": "16.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Bosonic mode algebra and the overlap dip",
+        "subsections": [
+          "Unitary transformation of bosonic creation operators",
+          "Coincidence probability as a function of mode inner product",
+          "Distinguishing two-photon bunching from polarization entanglement"
+        ]
       },
       {
         "id": "section-16-3",
         "number": "16.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Baseline normalization and entanglement witnesses",
+        "subsections": [
+          "Calibrating large-delay baselines and multiphoton contamination",
+          "Why mode indistinguishability and entanglement require distinct tests",
+          "Bridging two-photon interference to correlation inequalities"
+        ]
       }
     ]
   },
@@ -458,20 +650,32 @@
       {
         "id": "section-17-1",
         "number": "17.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Singlet anticorrelations and switched analyzer settings",
+        "subsections": [
+          "From EPR elements of reality to Bohm’s spin-singlet pair",
+          "Why single-axis anticorrelation admits prewritten local instructions",
+          "Planar spin-analyzer angles versus optical polarizer angles"
+        ]
       },
       {
         "id": "section-17-2",
         "number": "17.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Local hidden-variable factorization and the CHSH bound",
+        "subsections": [
+          "Factorizable conditional probabilities and setting independence",
+          "Algebraic derivation of the Clauser–Horne–Shimony–Holt inequality",
+          "Singlet cosine correlations and Tsirelson’s two-root-two maximum"
+        ]
       },
       {
         "id": "section-17-3",
         "number": "17.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Loopholes, no-signalling, and assumption packages",
+        "subsections": [
+          "Locality, fair-sampling, and setting-freedom requirements",
+          "What a Bell violation refutes and why it cannot transmit signals",
+          "Separating model curves from finite-sample hypothesis tests"
+        ]
       }
     ]
   },
@@ -486,20 +690,32 @@
       {
         "id": "section-18-1",
         "number": "18.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Three-party parity products and compatible operator grids",
+        "subsections": [
+          "All-versus-nothing parity predictions on a three-qubit GHZ state",
+          "Compatible measurement contexts in the Peres–Mermin square",
+          "Comparing spatially separated locality tests with noncontextuality tests"
+        ]
       },
       {
         "id": "section-18-2",
         "number": "18.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Sign parity contradictions in GHZ and Peres–Mermin tables",
+        "subsections": [
+          "Multiplying four three-party Pauli expectations on the GHZ state",
+          "State-independent row and column operator products in the square",
+          "Why noncontextual value assignments fail parity accounting"
+        ]
       },
       {
         "id": "section-18-3",
         "number": "18.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Mermin inequalities and operational context independence",
+        "subsections": [
+          "Converting ideal parity contradictions into noise-tolerant inequalities",
+          "Testing compatibility and non-disturbance in sequential measurements",
+          "Consistent quantum context predictions versus global value tables"
+        ]
       }
     ]
   },
@@ -514,20 +730,32 @@
       {
         "id": "section-19-1",
         "number": "19.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Joint Bell measurement and classical feed-forward",
+        "subsections": [
+          "Combining an unknown qubit, a shared Bell pair, and two classical bits",
+          "Why teleportation respects both no-cloning and no-signalling",
+          "Inspecting conditional branch states before and after correction"
+        ]
       },
       {
         "id": "section-19-2",
         "number": "19.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Four Pauli-frame branches and entanglement swapping",
+        "subsections": [
+          "Decomposing the three-qubit state into four Bell-measurement branches",
+          "Uniform marginal state prior to classical message arrival",
+          "Entangling independent pairs via intermediate Bell projection"
+        ]
       },
       {
         "id": "section-19-3",
         "number": "19.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Classical measure-and-prepare benchmarks and heralding",
+        "subsections": [
+          "Comparing average teleportation fidelity against the two-thirds classical bound",
+          "Accounting for probabilistic Bell analyzers and postselection rates",
+          "Verifying unknown-state transfer across noncommuting bases"
+        ]
       }
     ]
   },
@@ -542,20 +770,32 @@
       {
         "id": "section-20-1",
         "number": "20.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Amplifying a microscopic superposition into pointer records",
+        "subsections": [
+          "Coupling a two-level trigger to a macroscopic apparatus pointer",
+          "Von Neumann premeasurement and linearity of pointer entanglement",
+          "Pointer branch weights versus coherent off-diagonal terms"
+        ]
       },
       {
         "id": "section-20-2",
         "number": "20.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Reduced density matrices and environmental decoherence",
+        "subsections": [
+          "Comparing a coherent pointer superposition with an incoherent mixture",
+          "Probing off-diagonal coherence in the joint pointer subspace",
+          "Suppression of local coherence by orthogonal environment records"
+        ]
       },
       {
         "id": "section-20-3",
         "number": "20.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Decoherence versus the definite-outcome problem",
+        "subsections": [
+          "Why environment-induced decoherence does not by itself select one branch",
+          "Evaluating mesoscopic cat-state experiments in cavities and traps",
+          "Keeping formal density-matrix predictions distinct from interpretations"
+        ]
       }
     ]
   },
@@ -570,20 +810,32 @@
       {
         "id": "section-21-1",
         "number": "21.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "An isolated laboratory inside a superobserver’s apparatus",
+        "subsections": [
+          "Internal record formation versus external unitary evolution",
+          "Reading the friend’s record versus performing a joint interference test",
+          "Modeling the friend as a reversible quantum memory register"
+        ]
       },
       {
         "id": "section-21-2",
         "number": "21.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Uncomputing a CNOT premeasurement and joint interference",
+        "subsections": [
+          "Superobserver basis states and the coherent visibility witness",
+          "Reversing the system–memory CNOT to test interference",
+          "Conditioned internal states versus unconditioned global states"
+        ]
       },
       {
         "id": "section-21-3",
         "number": "21.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Environmental record leakage and observer assumptions",
+        "subsections": [
+          "How interpretations resolve the friend–superobserver assignment gap",
+          "Scope of few-qubit photonic and superconducting friend demonstrations",
+          "Why unreversed environmental copies destroy superobserver interference"
+        ]
       }
     ]
   },
@@ -598,20 +850,32 @@
       {
         "id": "section-22-1",
         "number": "22.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Two entangled laboratories and superobserver basis choices",
+        "subsections": [
+          "Comparing the Frauchiger–Renner protocol with local-friendliness theorems",
+          "Internal record basis states across two coupled laboratories",
+          "Tracking amplitude interference separately from modal agent reasoning"
+        ]
       },
       {
         "id": "section-22-2",
         "number": "22.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Three-term amplitude cancellation and the one-twelfth probability",
+        "subsections": [
+          "Evaluating the non-maximally entangled two-lab state in the outside basis",
+          "Full joint probability table for superobserver outcomes",
+          "Where chained certainty inferences cross incompatible contexts"
+        ]
       },
       {
         "id": "section-22-3",
         "number": "22.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Dissecting no-go assumption packages",
+        "subsections": [
+          "Universal unitary validity, single outcomes, and cross-agent consistency",
+          "Absoluteness of observed events in local-friendliness inequalities",
+          "Why destroying internal records during superobserver readout matters"
+        ]
       }
     ]
   },
@@ -626,20 +890,32 @@
       {
         "id": "section-23-1",
         "number": "23.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Ramsey frequency interrogation and clock feedback loops",
+        "subsections": [
+          "Mapping a frequency detuning into population via free precession",
+          "Biasing to the maximum-slope quadrature point of a fringe",
+          "Balancing longer phase accumulation against decoherence decay"
+        ]
       },
       {
         "id": "section-23-2",
         "number": "23.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Shot-noise error propagation and optimal interrogation time",
+        "subsections": [
+          "Slope sensitivity and binomial projection noise at quadrature",
+          "Optimal interrogation time under fixed shots versus fixed total time",
+          "Fair resource accounting when comparing entangled and unentangled probes"
+        ]
       },
       {
         "id": "section-23-3",
         "number": "23.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Systematic shifts, dead time, and stability metrics",
+        "subsections": [
+          "Technical noise correlations, dead time, and Allan deviation",
+          "Why optimal sensing times depend on the noise envelope and cost model",
+          "Bridging synthetic sensitivity curves to calibrated clock datasets"
+        ]
       }
     ]
   },
@@ -654,20 +930,32 @@
       {
         "id": "section-24-1",
         "number": "24.1",
-        "title": "The question and the apparatus",
-        "subsections": []
+        "title": "Provenance and structure of a phase-scan dataset",
+        "subsections": [
+          "Inspecting a seeded sixteen-phase binomial interference scan",
+          "Preserving raw counts, trial denominators, and generator metadata",
+          "Criteria for substituting a published laboratory dataset"
+        ]
       },
       {
         "id": "section-24-2",
         "number": "24.2",
-        "title": "Build a prediction",
-        "subsections": []
+        "title": "Fourier-moment visibility estimation and plug-in variance",
+        "subsections": [
+          "Unbiased cosine-moment estimator over a uniform phase grid",
+          "Binomial variance propagation and boundary breakdown near unit visibility",
+          "Diagnosing unmodeled phase offsets, background, and detector imbalance"
+        ]
       },
       {
         "id": "section-24-3",
         "number": "24.3",
-        "title": "What the evidence can establish",
-        "subsections": []
+        "title": "Writing a reproducible experimental audit report",
+        "subsections": [
+          "Essential components: apparatus model, estimator, residuals, and code",
+          "Bounding the claim: why a cosine fit does not certify nonclassicality",
+          "Verification checklist for synthetic and physical interference audits"
+        ]
       }
     ]
   }

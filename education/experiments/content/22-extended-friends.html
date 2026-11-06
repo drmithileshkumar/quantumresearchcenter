@@ -1,7 +1,135 @@
-<section class="book-section" id="section-22-1"><h2>22.1 The question and the apparatus</h2><p>Extended Wigner scenarios place more than one observing laboratory inside a larger coherent experiment. Frauchiger and Renner analyse a protocol in which agents reason about other agents' predictions. Bong and colleagues formulate a different family of constraints, called local-friendliness inequalities. These are related questions, but they are not the same theorem.</p><p>We first examine a two-laboratory state that captures the probability calculation in the Frauchiger–Renner setup. Each laboratory includes a recorded result. Treat the states |h⟩ and |t⟩ as orthogonal records in the first lab, and |d⟩ and |u⟩ as orthogonal records in the second. An outside experimenter can, ideally, measure superpositions of those record states.</p><p>The display separates record-basis probabilities from probabilities in the two outside ok/fail bases. It animates the three amplitude contributions to an ok,ok event. No agents' beliefs are simulated. The inference rules must be examined in words rather than inferred from the animation alone.</p></section>
-<section class="book-section" id="section-22-2"><h2>22.2 Build a prediction</h2><p>Consider \(|\Psi\rangle=(|h,d\rangle+|t,d\rangle+|t,u\rangle)/\sqrt3\). Let |ok⟩A=(|h⟩−|t⟩)/√2 and |ok⟩B=(|d⟩−|u⟩)/√2, with plus signs defining fail. The three contributions to the ok,ok amplitude are +1/√12, −1/√12, and +1/√12. Their sum is 1/√12, so the probability is 1/12.</p><p>The other joint probabilities are P(ok,fail)=1/12, P(fail,ok)=1/12, and P(fail,fail)=3/4. They sum to one. Ordinary unitary quantum theory therefore makes an unambiguous prediction for this fully specified joint measurement.</p><p>The conceptual puzzle adds certainty inferences: conditioned on t, the second lab is in the fail superposition; a recorded u excludes h; and an outside ok in the first lab excludes d in the relevant hybrid context. Chaining those statements across observers can appear to forbid ok,ok. The chain crosses different measurement contexts and uses assumptions about transferable certainty and single outcomes. The nonzero amplitude alone is not a contradiction.</p></section>
-<section class="book-section" id="section-22-3"><h2>22.3 What the evidence can establish</h2><p>Frauchiger–Renner's no-go claim concerns a package of universal quantum reasoning, consistency between agents, and single outcomes under its protocol. Responses differ over which inference steps are warranted. This chapter supplies the finite amplitude calculation and locates the extra reasoning assumptions; it does not pretend that a probability table proves a unique interpretation.</p><p>Local-friendliness results instead constrain combinations including absoluteness of observed events and local causal assumptions, under idealized control of friend systems. Their experimental implementations use small quantum systems as observers. Extending the conclusion to conscious observers or unrestricted macroscopic laboratories requires further premises.</p><p>In both cases, specify what is physically measured, what is counterfactual, and what information each agent conditions on. When a proposal uses an interference measurement on a laboratory, retaining its original record elsewhere may change the prediction. A source's theorem statement and operational scenario should be read together.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Switch between the record and outside bases. In the outside basis, step through the three signed contributions to ok,ok. Square their sum, not their individual magnitudes, and compare with the probability table.</p><div data-lab="extended"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>What erroneous probability results from adding the three squared ok,ok contributions instead of amplitudes?</p><div class="worked-answer"><p>Each squared contribution is 1/12, so the erroneous sum is 1/4. The correct amplitude sum includes cancellation and gives 1/12. Treating alternatives as an incoherent mixture changes the preparation.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 22.1</h3><p>Check the normalization of the outside probability table.</p><details class="exercise-hint"><summary>Hint</summary><p>Use a denominator of twelve.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>1/12+1/12+1/12+9/12=1.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 22.2</h3><p>Does a nonzero ok,ok probability itself make quantum theory inconsistent?</p><details class="exercise-hint"><summary>Hint</summary><p>Separate the prediction from the additional inference chain.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No. It is a consistent Born-rule prediction. The tension arises when it is combined with cross-agent certainty claims under an additional assumption package.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 22.3</h3><p>Why are local-friendliness inequalities not interchangeable with the Frauchiger–Renner argument?</p><details class="exercise-hint"><summary>Hint</summary><p>Compare their premises and experimental tasks.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>They constrain different assumption packages and use different operational scenarios. A violation or inference in one is not automatically a demonstration of the other.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Calculate the specified experiment first. Then identify the extra assumptions needed to transfer claims between observers and incompatible contexts.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://arxiv.org/abs/1604.07422">Frauchiger and Renner: Quantum theory cannot consistently describe the use of itself</a></li><li><a href="https://arxiv.org/abs/1907.05607">Bong et al.: A strong no-go theorem on the Wigner’s friend paradox</a></li></ul></section>
+<section class="book-section" id="section-22-1">
+  <h2>22.1 Two entangled laboratories and superobserver basis choices</h2>
+  <h3>22.1.1 Comparing the Frauchiger–Renner protocol with local-friendliness theorems</h3>
+  <p>A single Wigner’s friend laboratory (Chapter 21) does not by itself force a Bell-type contradiction: one can always assign a joint probability distribution to the friend’s single outcome and Wigner’s single outcome because the two measurements are never performed together. By coupling <em>two</em> isolated Wigner’s-friend laboratories—\(\mathrm{Lab}_1\) containing friend \(F_1\) and \(\mathrm{Lab}_2\) containing friend \(F_2\)—and allowing external superobservers \(W_1\) and \(W_2\) to measure those laboratories in complementary bases, Časlav Brukner (2018), Daniela Frauchiger and Renato Renner (2018), and Bong et al. (2020) proved extended Wigner’s-friend no-go theorems. These theorems show that one cannot simultaneously maintain universal unitary quantum mechanics, locality/no-superdeterminism, and the assumption that every internal measurement produces a single context-independent “absolute” outcome that can be combined into a joint four-party probability table \(P(f_1, f_2, w_1, w_2)\).</p>
+  <h3>22.1.2 Internal record basis states across two coupled laboratories</h3>
+  <p>Let \(|0\rangle_{L_k}\) and \(|1\rangle_{L_k}\) denote the orthonormal composite states of laboratory \(k \in \{1, 2\}\) in which the internal system and the friend’s memory register record outcome \(0\) (e.g., “heads” or \(-1\)) or outcome \(1\) (e.g., “tails” or \(+1\)):</p>
+  \[|0\rangle_{L_k} = |0\rangle_{S_k}|R_0\rangle_{F_k}, \qquad |1\rangle_{L_k} = |1\rangle_{S_k}|R_1\rangle_{F_k}.\]
+  <p>Each superobserver \(W_k\) can either open the door to read the friend’s record in the computational basis \(\{|0\rangle_{L_k}, |1\rangle_{L_k}\}\) or perform a coherent reversal measurement in the Hadamard/superobserver basis</p>
+  \[|\mathrm{ok}\rangle_{L_k} = \frac{|0\rangle_{L_k} - |1\rangle_{L_k}}{\sqrt{2}} = |-\rangle_{L_k}, \qquad |\mathrm{fail}\rangle_{L_k} = \frac{|0\rangle_{L_k} + |1\rangle_{L_k}}{\sqrt{2}} = |+\rangle_{L_k}.\]
+  <h3>22.1.3 Tracking amplitude interference separately from modal agent reasoning</h3>
+  <p>Extended-friend papers often interleave two very different kinds of derivation: (1) standard Hilbert-space inner products on the two-laboratory state \(|\Psi_{L_1 L_2}\rangle\), which are completely unambiguous, and (2) modal logic rules describing how one agent reasons about another agent’s certainty across different measurement contexts. Keeping the exact Hilbert-space amplitudes separate from the modal inference rules makes it immediately transparent why the contradiction arises.</p>
+</section>
+
+<section class="book-section" id="section-22-2">
+  <h2>22.2 Three-term amplitude cancellation and the one-twelfth probability</h2>
+  <h3>22.2.1 Evaluating the non-maximally entangled two-lab state in the outside basis</h3>
+  <p>In the Frauchiger–Renner state preparation, friend \(F_1\) measures a biased coin with \(P(0) = 1/3\) and \(P(1) = 2/3\); conditioned on \(0\), \(F_1\) sends \(|0\rangle_{S_2}\) to \(F_2\), and conditioned on \(1\), \(F_1\) sends \((|0\rangle_{S_2} + |1\rangle_{S_2})/\sqrt{2}\) to \(F_2\). Under universal unitary evolution of both isolated laboratories, the joint state of \(\mathrm{Lab}_1 \otimes \mathrm{Lab}_2\) is the Hardy-type non-maximally entangled state</p>
+  \[|\Psi_{L_1 L_2}\rangle = \frac{1}{\sqrt{3}}\Big(|0,0\rangle + |1,0\rangle + |1,1\rangle\Big),\]
+  <p>where the fourth computational basis term \(|0,1\rangle\) has amplitude strictly zero: \(\langle 0,1|\Psi_{L_1 L_2}\rangle = 0\).</p>
+  <p>Now evaluate the amplitude for both superobservers \(W_1\) and \(W_2\) to obtain \(|\mathrm{ok}\rangle = (|0\rangle - |1\rangle)/\sqrt{2}\) simultaneously. Since</p>
+  \[|\mathrm{ok}, \mathrm{ok}\rangle = \frac{1}{2}\Big(|0,0\rangle - |0,1\rangle - |1,0\rangle + |1,1\rangle\Big),\]
+  <p>taking the inner product with \(|\Psi_{L_1 L_2}\rangle\) gives</p>
+  \[\langle\mathrm{ok},\mathrm{ok}|\Psi_{L_1 L_2}\rangle = \frac{1}{2\sqrt{3}}\big(1 - 0 - 1 + 1\big) = \frac{1}{2\sqrt{3}} \quad\Longrightarrow\quad P(\mathrm{ok}_1, \mathrm{ok}_2) = \big|\langle\mathrm{ok},\mathrm{ok}|\Psi_{L_1 L_2}\rangle\big|^2 = \frac{1}{12}.\]
+  <h3>22.2.2 Full joint probability table for superobserver outcomes</h3>
+  <p>Projecting \(|\Psi_{L_1 L_2}\rangle\) onto all four basis states \(\{|\mathrm{ok}\rangle, |\mathrm{fail}\rangle\}^{\otimes 2}\) yields the normalized superobserver distribution:</p>
+  \[P(\mathrm{ok}_1, \mathrm{ok}_2) = \frac{1}{12}, \qquad P(\mathrm{ok}_1, \mathrm{fail}_2) = \frac{1}{12}, \qquad P(\mathrm{fail}_1, \mathrm{ok}_2) = \frac{1}{12}, \qquad P(\mathrm{fail}_1, \mathrm{fail}_2) = \frac{9}{12} = \frac{3}{4}.\]
+  <p>Notice that the \(|0,0\rangle\) and \(|1,0\rangle\) amplitudes cancel destructively in \(\langle\mathrm{ok},\mathrm{ok}|\Psi_{L_1 L_2}\rangle\) (\(+1 - 1 = 0\)), leaving only the \(|1,1\rangle\) contribution \(1/(2\sqrt{3})\).</p>
+  <h3>22.2.3 Where chained certainty inferences cross incompatible contexts</h3>
+  <p>Why do the chained agent inferences predict \(P(\mathrm{ok}_1, \mathrm{ok}_2) = 0\) when the quantum calculation gives \(1/12\)? Consider the three certainty conditions encoded in \(|\Psi_{L_1 L_2}\rangle\):</p>
+  <ol>
+    <li>Because \(\langle 0,1|\Psi_{L_1 L_2}\rangle = 0\), if \(F_1\) records \(1_{L_1}\), then \(\mathrm{Lab}_1\) is definitely in \(|1\rangle_{L_1}\)? No: if \(F_2\) records \(1_{L_2}\), the only surviving computational branch is \(|1,1\rangle\), so \(L_1\) is in \(|1\rangle_{L_1}\).</li>
+    <li>Writing \(|\Psi_{L_1 L_2}\rangle = \sqrt{\frac{2}{3}}\,|+\rangle_{L_1}|0\rangle_{L_2} + \frac{1}{\sqrt{3}}\,|1\rangle_{L_1}|1\rangle_{L_2}\) shows that \(\langle\mathrm{ok}_1, 0_{L_2}|\Psi_{L_1 L_2}\rangle = 0\): conditioned on \(W_1\) obtaining \(\mathrm{ok}_1\), \(\mathrm{Lab}_2\) would yield \(1_{L_2}\) with certainty <em>if measured in the \(Z_{L_2}\) basis</em>.</li>
+    <li>Writing \(|\Psi_{L_1 L_2}\rangle = \frac{1}{\sqrt{3}}\,|0\rangle_{L_1}|0\rangle_{L_2} + \sqrt{\frac{2}{3}}\,|1\rangle_{L_1}|+\rangle_{L_2}\) shows that \(\langle 1_{L_1}, \mathrm{ok}_2|\Psi_{L_1 L_2}\rangle = 0\): conditioned on \(1_{L_1}\), \(W_2\) would obtain \(\mathrm{fail}_2\) with certainty.</li>
+  </ol>
+  <p>Chaining (2) \(\mathrm{ok}_1 \Rightarrow 1_{L_2}\), (1) \(1_{L_2} \Rightarrow 1_{L_1}\), and (3) \(1_{L_1} \Rightarrow \mathrm{fail}_2\) treats the unperformed intermediate measurements \(Z_{L_2}\) and \(Z_{L_1}\) as possessing definite values inside the run where \(W_1\) and \(W_2\) actually measure \(X_{L_1}\) and \(X_{L_2}\). Just as in Hardy’s paradox and Chapter 18, combining counterfactual certainties from noncommuting contexts eliminates the destructive interference between \(|0,0\rangle\) and \(|1,0\rangle\).</p>
+</section>
+
+<section class="book-section" id="section-22-3">
+  <h2>22.3 Dissecting no-go assumption packages</h2>
+  <h3>22.3.1 Universal unitary validity, single outcomes, and cross-agent consistency</h3>
+  <p>The Frauchiger–Renner theorem proves that at least one of three assumptions must be dropped: <strong>(Q)</strong> universal validity of unitary quantum mechanics at the superobserver scale, <strong>(S)</strong> each measurement has a single outcome, and <strong>(C)</strong> agents can paste together certainty claims derived in incompatible measurement contexts as if a single global history of internal and external outcomes existed.</p>
+  <h3>22.3.2 Absoluteness of observed events in local-friendliness inequalities</h3>
+  <p>The local-friendliness theorem (Bong et al., 2020) replaces modal agent logic with a strictly operational Bell-like test. In each run, superobserver \(W_k\) chooses either \(x_k = 0\) (open the door and copy friend \(F_k\)’s record \(w_k = f_k\)) or \(x_k = 1\) (measure \(\mathrm{Lab}_k\) in a rotated basis). The assumption of <em>Absoluteness of Observed Events</em> (AOE) states that in every run there exists a joint probability distribution \(P(w_1, w_2, f_1, f_2 \mid x_1, x_2)\) whose marginals recover the observed outcome when \(x_k = 0\). Together with Locality and No-Superdeterminism, AOE implies that the observed correlations \(E(x_1, x_2)\) must satisfy the standard CHSH and local-friendliness polytope bounds (such as \(|S| \le 2\)), whereas unitary quantum mechanics on two entangled laboratories violates those bounds up to \(2\sqrt{2}\).</p>
+  <h3>22.3.3 Why destroying internal records during superobserver readout matters</h3>
+  <p>Measuring \(\mathrm{Lab}_k\) in the \(|\mathrm{ok}\rangle/|\mathrm{fail}\rangle\) basis requires applying the inverse of the friend’s measurement unitary and erasing the internal record \(f_k\). Consequently, in any run where \(W_1\) and \(W_2\) actually measure \(\mathrm{ok}/\mathrm{fail}\), no durable physical record of \((f_1, f_2)\) survives at the end of the experiment.</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Inspect the four computational branch amplitudes of the two-laboratory state \(|\Psi_{L_1 L_2}\rangle = (|0,0\rangle + |1,0\rangle + |1,1\rangle)/\sqrt{3}\) and adjust the coherence factor \(W \in [0, 1]\) of the superobserver reversal measurements. Compare the unitary quantum probability \(P(\mathrm{ok}_1, \mathrm{ok}_2) = 1/12\) against the decohered mixture (\(W = 0\), where \(P(\mathrm{ok}_1, \mathrm{ok}_2) = 1/4\)) and trace how the \(|0,0\rangle\) and \(|1,0\rangle\) amplitudes cancel destructively.</p>
+  <div data-lab="extended"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> Suppose the two laboratories are prepared in \(|\Psi_{L_1 L_2}\rangle = (|0,0\rangle + |1,0\rangle + |1,1\rangle)/\sqrt{3}\), and each laboratory undergoes partial dephasing in the friend’s record basis so that off-diagonal elements between \(|0\rangle_{L_k}\) and \(|1\rangle_{L_k}\) are damped by \(W \in [0,1]\) independently in each lab. Find \(P(\mathrm{ok}_1, \mathrm{ok}_2)\) as a function of \(W\), and evaluate it at \(W = 1\) (ideal unitary labs) and \(W = 0\) (collapsed labs).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. Since \(|\mathrm{ok}\rangle\langle\mathrm{ok}| = \frac{1}{2}(I - X)\), independent dephasing \(X_{L_k} \mapsto W X_{L_k}\) replaces the projector expectation by</p>
+    \[P(\mathrm{ok}_1, \mathrm{ok}_2) = \frac{1}{4}\Big\langle (I - W X_{L_1})\otimes (I - W X_{L_2})\Big\rangle_{\Psi}.\]
+    <p>2. On \(|\Psi_{L_1 L_2}\rangle = (|0,0\rangle + |1,0\rangle + |1,1\rangle)/\sqrt{3}\), direct evaluation gives</p>
+    \[\langle X_{L_1}\otimes I\rangle = \frac{2}{3}, \qquad \langle I\otimes X_{L_2}\rangle = \frac{2}{3}, \qquad \langle X_{L_1}\otimes X_{L_2}\rangle = \frac{2}{3}.\]
+    <p>3. Substituting these three expectations yields</p>
+    \[P(\mathrm{ok}_1, \mathrm{ok}_2) = \frac{1}{4}\left(1 - \frac{4}{3}W + \frac{2}{3}W^2\right) = \frac{3 - 4W + 2W^2}{12}.\]
+    <p>At \(W = 1\) (coherent unitary labs), \(P(\mathrm{ok}_1, \mathrm{ok}_2) = (3 - 4 + 2)/12 = 1/12 \approx 0.0833\). At \(W = 0\) (collapsed labs), \(P(\mathrm{ok}_1, \mathrm{ok}_2) = 3/12 = 1/4 = 0.250\).</p>
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 22.1: Verifying the zero-amplitude Hardy condition</h3>
+      <p>Starting from the state \(|\Psi_{L_1 L_2}\rangle = (|0,0\rangle + |1,0\rangle + |1,1\rangle)/\sqrt{3}\) and \(|\mathrm{ok}\rangle = (|0\rangle - |1\rangle)/\sqrt{2}\), verify explicitly that \(\langle\mathrm{ok}_1, 0_{L_2}|\Psi_{L_1 L_2}\rangle = 0\) and \(\langle 1_{L_1}, \mathrm{ok}_2|\Psi_{L_1 L_2}\rangle = 0\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Expand \(\langle\mathrm{ok}_1, 0_{L_2}| = (\langle 0,0| - \langle 1,0|)/\sqrt{2}\) and take the inner product with \(|\Psi_{L_1 L_2}\rangle\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>First, \(\langle\mathrm{ok}_1, 0_{L_2}|\Psi_{L_1 L_2}\rangle = \frac{1}{\sqrt{6}}(1 - 1 + 0) = 0\). Second, \(\langle 1_{L_1}, \mathrm{ok}_2| = (\langle 1,0| - \langle 1,1|)/\sqrt{2}\), so \(\langle 1_{L_1}, \mathrm{ok}_2|\Psi_{L_1 L_2}\rangle = \frac{1}{\sqrt{6}}(0 + 1 - 1) = 0\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 22.2: Superobserver marginal probability \(P(\mathrm{ok}_1)\)</h3>
+      <p>Using \(|\Psi_{L_1 L_2}\rangle = \sqrt{\frac{2}{3}}\,|\mathrm{fail}\rangle_{L_1}|0\rangle_{L_2} + \frac{1}{\sqrt{3}}\,|1\rangle_{L_1}|1\rangle_{L_2}\), find the marginal probability \(P(\mathrm{ok}_1)\) that superobserver \(W_1\) obtains outcome \(\mathrm{ok}_1\) regardless of what \(W_2\) measures.</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use \(\langle\mathrm{ok}|\mathrm{fail}\rangle = 0\) and \(|\langle\mathrm{ok}|1\rangle|^2 = 1/2\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Projecting onto \(|\mathrm{ok}\rangle_{L_1}\) annihilates the first term and leaves \(\frac{1}{\sqrt{3}}\langle\mathrm{ok}|1\rangle_{L_1}|1\rangle_{L_2} = -\frac{1}{\sqrt{6}}|1\rangle_{L_2}\), whose norm squared is \(P(\mathrm{ok}_1) = 1/6 = 2/12\) (which equals \(P(\mathrm{ok}_1, \mathrm{ok}_2) + P(\mathrm{ok}_1, \mathrm{fail}_2) = 1/12 + 1/12\)).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 22.3: Why \(P(\mathrm{ok}_1, \mathrm{ok}_2) = 1/4\) when both friends’ records collapse</h3>
+      <p>Suppose both friends’ measurements irreversibly collapse the state to the diagonal mixture \(\rho_{\mathrm{mix}} = \frac{1}{3}(|0,0\rangle\langle 0,0| + |1,0\rangle\langle 1,0| + |1,1\rangle\langle 1,1|)\). Show directly that \(\langle\mathrm{ok}, \mathrm{ok}|\rho_{\mathrm{mix}}|\mathrm{ok}, \mathrm{ok}\rangle = 1/4\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>For every computational basis state \(|a,b\rangle\), \(|\langle\mathrm{ok},\mathrm{ok}|a,b\rangle|^2 = (1/2)(1/2) = 1/4\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Because \(|\langle\mathrm{ok},\mathrm{ok}|a,b\rangle|^2 = 1/4\) for every \((a,b) \in \{0,1\}^2\), any diagonal mixture \(\sum_{a,b} p_{ab}|a,b\rangle\langle a,b|\) yields \(P(\mathrm{ok}_1, \mathrm{ok}_2) = \frac{1}{4}\sum_{a,b} p_{ab} = 1/4\). The reduction from \(1/4\) down to \(1/12\) in the unitary case is a direct signature of destructive quantum interference between \(|0,0\rangle\) and \(|1,0\rangle\).</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>For the two-laboratory state \(|\Psi_{L_1 L_2}\rangle = (|0,0\rangle + |1,0\rangle + |1,1\rangle)/\sqrt{3}\), unitary quantum mechanics predicts \(P(\mathrm{ok}_1, \mathrm{ok}_2) = |\frac{1}{2\sqrt{3}}(1 - 0 - 1 + 1)|^2 = 1/12\).</li>
+    <li>The apparent paradox (\(P = 0\) vs.\ \(P = 1/12\)) arises from chaining counterfactual certainty statements across noncommuting measurement contexts (\(Z_{L_k}\) vs.\ \(X_{L_k}\)), which ignores the destructive interference between the \(|0,0\rangle\) and \(|1,0\rangle\) amplitudes.</li>
+    <li>Local-friendliness theorems show that universal unitarity, locality, and the existence of a single joint probability distribution over both internal and external outcomes cannot all hold simultaneously.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>D. Frauchiger and R. Renner, <a href="https://doi.org/10.1038/s41467-018-05739-8">Quantum theory cannot consistently describe the use of itself</a>, <em>Nature Communications</em> 9, 3711 (2018).</li>
+    <li>K.-W. Bong et al., <a href="https://doi.org/10.1038/s41567-020-0990-x">A strong no-go theorem on the Wigner’s friend paradox</a>, <em>Nature Physics</em> 16, 1199–1205 (2020).</li>
+    <li>L. Hardy, <a href="https://doi.org/10.1103/PhysRevLett.71.1665">Nonlocality for Two Particles without Inequalities for Almost All Entangled States</a>, <em>Physical Review Letters</em> 71, 1665 (1993).</li>
+  </ul>
+</section>

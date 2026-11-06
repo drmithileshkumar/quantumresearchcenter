@@ -1,7 +1,134 @@
-<section class="book-section" id="section-23-1"><h2>23.1 The question and the apparatus</h2><p>Prepare a superposition, let an unknown frequency offset act for time t, and convert the accumulated phase into a population. Repeat and infer the offset. This is the basic logic behind Ramsey-based frequency sensing. Atomic clocks add a feedback loop that adjusts an oscillator using the atomic response.</p><p>Sensitivity depends on the slope of the response and the measurement noise. A high-contrast signal at its maximum can be locally insensitive because the slope there is zero. A phase bias moves the operating point to the steep part of a fringe. The apparatus must also resolve which fringe is being measured.</p><p>The explorer varies the interrogation time in units of a chosen coherence time. It displays the decreasing contrast and the predicted frequency uncertainty for a fixed number of shots. Longer interrogation is beneficial only until the loss of contrast outweighs the additional phase accumulation.</p></section>
-<section class="book-section" id="section-23-2"><h2>23.2 Build a prediction</h2><p>Use P0=[1+V cos(δωt+φ)]/2 and choose the quadrature point where the cosine is zero. There |∂P0/∂δω|=Vt/2. For N independent binary outcomes, the standard error of the measured probability is 1/(2√N). Linear error propagation gives \(\delta\omega\simeq1/(Vt\sqrt N)\).</p><p>For V=e<sup>−t/T₂</sup> and fixed N, minimizing the predicted uncertainty gives t=T2. If instead the total free-evolution time is fixed and overhead is negligible, N≈Ttotal/t and the optimum becomes t=T2/2. The resource constraint changes the answer. Real overhead, correlated noise, and phase ambiguity modify both estimates.</p><p>Entanglement can change sensitivity scaling in ideal models, but noise and preparation cost must be counted. A claim of quantum advantage requires comparison at matched resources, not merely comparing an entangled sensor with an arbitrarily weak baseline. The present display uses independent probes and makes no entanglement advantage claim.</p></section>
-<section class="book-section" id="section-23-3"><h2>23.3 What the evidence can establish</h2><p>Calibrate the relation between field and frequency, characterize dead time and drift, and report how uncertainty was estimated. Repeated measurements in a noisy laboratory may be correlated, invalidating a naïve √N improvement. Clock stability over time and the uncertainty of an absolute frequency are related but distinct quantities.</p><p>The displayed optimum is conditional on exponential contrast loss and a fixed-shot budget. It is not an equipment recommendation or a universal optimal sensing time. Use the alternate resource calculation as an example of how experimental design changes when costs are accounted for.</p><p>A useful extension is to compare the model with a supplied measured Ramsey scan or clock dataset, keeping calibration and uncertainty metadata. Until such measurements are provided, generated curves and CSV files in this course remain labelled synthetic.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Sweep t/T2 and locate the minimum fixed-shot uncertainty. Compare it with the decreasing contrast and the increasing phase-accumulation time. Explain why t=0 is uninformative.</p><div data-lab="sensing"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>At t=T2 with N=100, what is δω in units of 1/T2?</p><div class="worked-answer"><p>V=e⁻¹ and √N=10, so δωT2=e/10≈0.272. This is a local error-propagation estimate near quadrature, not a global confidence interval over many phase wraps.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 23.1</h3><p>How does quadrupling N change the uncertainty under independent noise?</p><details class="exercise-hint"><summary>Hint</summary><p>Use the square root dependence.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>It halves the uncertainty.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 23.2</h3><p>Why is the top of a fringe a poor local operating point?</p><details class="exercise-hint"><summary>Hint</summary><p>Differentiate the probability.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The first derivative with respect to frequency vanishes there, so a small offset produces only a second-order change.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 23.3</h3><p>Why do fixed-shot and fixed-total-time optimizations differ?</p><details class="exercise-hint"><summary>Hint</summary><p>Count how many shots fit as t changes.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>With fixed total time, longer shots reduce N. That extra resource cost shifts the optimum from T2 to T2/2 in the ideal overhead-free model.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Sensitivity is a combination of response slope, noise, and resources. Quote an optimum together with the assumptions that make it optimal.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://www.nobelprize.org/prizes/physics/2012/wineland/lecture/">Wineland: Superposition, entanglement, and raising Schrödinger’s cat</a></li></ul></section>
+<section class="book-section" id="section-23-1">
+  <h2>23.1 Ramsey frequency interrogation and clock feedback loops</h2>
+  <h3>23.1.1 Mapping a frequency detuning into population via free precession</h3>
+  <p>Atomic clocks, optically pumped magnetometers, and atom-interferometer gravimeters all operate by converting an unknown physical parameter—such as a magnetic field \(B\) via the Zeeman shift \(\Delta = \gamma_B B\) or a local oscillator frequency offset \(\Delta = \omega_{\mathrm{LO}} - \omega_0\)—into a quantum phase \(\phi = \Delta\tau\) during a free-evolution interrogation interval \(\tau\). Using the Ramsey separated-oscillatory-field sequence introduced in Chapter 14, two \(\pi/2\) pulses separated by \(\tau\) and offset by relative phase \(\phi_{\mathrm{ref}}\) map the accumulated phase \(\Delta\tau\) into the excited-state readout probability</p>
+  \[p(\Delta, \tau) = \frac{1}{2}\Big[1 + W(\tau)\cos(\Delta\tau + \phi_{\mathrm{ref}})\Big],\]
+  <p>where \(W(\tau) = \exp[-(\tau/T_2)^p]\) is the coherence decay envelope.</p>
+  <h3>23.1.2 Biasing to the maximum-slope quadrature point of a fringe</h3>
+  <p>Near a fringe peak or trough (\(\Delta\tau + \phi_{\mathrm{ref}} = 0\) or \(\pi\)), the derivative \(\partial p/\partial\Delta\) vanishes to first order, making the population nearly insensitive to small frequency shifts \(\delta\Delta\). To achieve maximum linear sensitivity around \(\Delta \approx 0\), the reference phase of the second \(\pi/2\) pulse is biased to quadrature (\(\phi_{\mathrm{ref}} = -\pi/2\)), so that</p>
+  \[p(\Delta, \tau) = \frac{1}{2}\Big[1 + W(\tau)\sin(\Delta\tau)\Big], \qquad \left.\frac{\partial p}{\partial\Delta}\right|_{\Delta=0} = \frac{1}{2}\tau\,W(\tau).\]
+  <p>At the quadrature operating point (\(\Delta \approx 0\)), the nominal probability is \(p_0 = 1/2\) and the population slope scales linearly with both the interrogation time \(\tau\) and the surviving coherence \(W(\tau)\).</p>
+  <h3>23.1.3 Balancing longer phase accumulation against decoherence decay</h3>
+  <p>Increasing the free-precession time \(\tau\) sharpens the Ramsey fringes (increasing the lever arm \(\tau\)), but waiting too long (\(\tau \gg T_2\)) collapses the envelope \(W(\tau) \to 0\) so the fringes flatten into a featureless \(p = 1/2\) line. Every quantum sensor therefore faces a fundamental trade-off between coherent phase-accumulation time \(\tau\) and decoherence time \(T_2\).</p>
+</section>
+
+<section class="book-section" id="section-23-2">
+  <h2>23.2 Shot-noise error propagation and optimal interrogation time</h2>
+  <h3>23.2.1 Slope sensitivity and binomial projection noise at quadrature</h3>
+  <p>In \(N\) independent probe measurements (either \(N\) uncorrelated atoms read out in parallel or \(N\) sequential shots), the number of excited-state counts \(n_1 \sim \mathrm{Binomial}(N, p)\) gives the empirical estimator \(\hat{p} = n_1/N\) with quantum projection noise (shot-noise) standard deviation</p>
+  \[\sigma_{\hat{p}} = \sqrt{\frac{p(1-p)}{N}}.\]
+  <p>By linear error propagation, the uncertainty \(\delta\Delta\) in the inferred frequency detuning is</p>
+  \[\delta\Delta(\tau) = \frac{\sigma_{\hat{p}}}{\big|\partial p/\partial\Delta\big|} = \frac{\sqrt{p(1-p)}}{\sqrt{N}\,\big|\partial p/\partial\Delta\big|}.\]
+  <p>At the quadrature operating point (\(\Delta \to 0\), \(p = 1/2\), \(\sqrt{p(1-p)} = 1/2\)), this yields the fundamental single-parameter Ramsey sensitivity formula</p>
+  \[\delta\Delta(\tau) = \frac{1}{\sqrt{N}\,\tau\,W(\tau)}.\]
+  <h3>23.2.2 Optimal interrogation time under fixed shots versus fixed total time</h3>
+  <p>The optimal interrogation time \(\tau_{\mathrm{opt}}\) depends critically on which experimental resource is held fixed:</p>
+  <ul>
+    <li><strong>Fixed number of shots \(N\):</strong> For exponential Markovian dephasing \(W(\tau) = e^{-\tau/T_2}\), minimizing \(\delta\Delta(\tau) = e^{\tau/T_2}/(\sqrt{N}\tau)\) sets \(\frac{\mathrm{d}}{\mathrm{d}\tau}(\tau e^{-\tau/T_2}) = (1 - \tau/T_2)e^{-\tau/T_2} = 0\), giving
+    \[\tau_{\mathrm{opt}}^{\mathrm{fixed}\,N} = T_2, \qquad \delta\Delta_{\min}^{\mathrm{fixed}\,N} = \frac{e}{\sqrt{N}\,T_2}.\]</li>
+    <li><strong>Fixed total campaign time \(T_{\mathrm{tot}}\) with zero dead time:</strong> When each shot takes duration \(\tau\) so that \(N = T_{\mathrm{tot}}/\tau\), substituting \(\sqrt{N} = \sqrt{T_{\mathrm{tot}}/\tau}\) gives
+    \[\delta\Delta(\tau) = \frac{e^{\tau/T_2}}{\sqrt{T_{\mathrm{tot}}}\,\sqrt{\tau}}.\]
+    Minimizing \(e^{\tau/T_2}/\sqrt{\tau}\) sets \(\frac{\mathrm{d}}{\mathrm{d}\tau}(\tau^{1/2}e^{-\tau/T_2}) = 0\), which gives
+    \[\tau_{\mathrm{opt}}^{\mathrm{fixed}\,T_{\mathrm{tot}}} = \frac{T_2}{2}, \qquad \delta\Delta_{\min}^{\mathrm{fixed}\,T_{\mathrm{tot}}} = \sqrt{\frac{2e}{T_{\mathrm{tot}}\,T_2}}.\]</li>
+  </ul>
+  <h3>23.2.3 Fair resource accounting when comparing entangled and unentangled probes</h3>
+  <p>For \(M\) unentangled probes, uncertainty scales at the Standard Quantum Limit (SQL) as \(1/\sqrt{M}\). Replacing the \(M\) independent probes with an \(M\)-qubit GHZ state \((|0\rangle^{\otimes M} + |1\rangle^{\otimes M})/\sqrt{2}\) multiplies the phase accumulation speed by \(M\) (\(\phi = M\Delta\tau\)), reaching Heisenberg scaling \(1/(M\tau)\) in the absence of noise. However, under independent local Markovian dephasing at rate \(1/T_2\) per qubit, the \(M\)-qubit GHZ coherence decays \(M\) times faster, \(W_{\mathrm{GHZ}}(\tau) = e^{-M\tau/T_2}\). Under a fixed total integration time \(T_{\mathrm{tot}}\), shortening \(\tau\) to \(T_2/(2M)\) restores the exact same minimum uncertainty \(\sqrt{2e/(M T_{\mathrm{tot}} T_2)}\) as \(M\) uncorrelated probes—highlighting why fair metrological comparisons must include the decoherence model and total time budget.</p>
+</section>
+
+<section class="book-section" id="section-23-3">
+  <h2>23.3 Systematic shifts, dead time, and stability metrics</h2>
+  <h3>23.3.1 Technical noise correlations, dead time, and Allan deviation</h3>
+  <p>Every physical clock cycle includes a non-zero dead time \(\tau_d\) spent on state preparation, cooling, and fluorescence readout, so the cycle duration is \(T_c = \tau + \tau_d\) and \(N = T_{\mathrm{tot}}/(\tau + \tau_d)\). During \(\tau_d\), the local oscillator is not interrogated by the atoms, allowing high-frequency oscillator phase noise at harmonics of \(1/T_c\) to alias into the feedback loop (the Dick effect). Long-term clock stability is quantified by the overlapping Allan deviation \(\sigma_y(\tilde{\tau})\) as a function of averaging time \(\tilde{\tau}\): white frequency noise (projection noise) averages down as \(\sigma_y(\tilde{\tau}) \propto \tilde{\tau}^{-1/2}\), whereas flicker frequency floors and random-walk drifts cause \(\sigma_y(\tilde{\tau})\) to flatten and eventually rise at long averaging times.</p>
+  <h3>23.3.2 Why optimal sensing times depend on the noise envelope and cost model</h3>
+  <p>For non-Markovian or quasi-static Gaussian noise with stretched-exponential envelope \(W(\tau) = \exp[-(\tau/T_2)^p]\), the optimal interrogation time shifts to \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,N} = p^{-1/p}T_2\) for fixed \(N\) and \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,T_{\mathrm{tot}}} = (2p)^{-1/p}T_2\) for fixed total time \(T_{\mathrm{tot}}\) (for Gaussian dephasing \(p = 2\), \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,N} = T_2/\sqrt{2}\) and \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,T_{\mathrm{tot}}} = T_2/2\)). Including finite dead time \(\tau_d > 0\) shifts \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,T_{\mathrm{tot}}}\) continuously from \(T_2/2\) (when \(\tau_d \ll T_2\)) toward \(T_2\) (when \(\tau_d \gg T_2\)).</p>
+  <h3>23.3.3 Bridging synthetic sensitivity curves to calibrated clock datasets</h3>
+  <p>A precision measurement report pairs its statistical precision \(\delta\Delta_{\mathrm{stat}}\) (obtained from the Allan deviation at \(\tilde{\tau}\)) with a systematic error budget covering AC Stark shifts, second-order Zeeman shifts, blackbody radiation shifts, collisional shifts, and gravitational redshift calibration.</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Adjust the interrogation time \(\tau\), the coherence time \(T_2\), the dead time \(\tau_d\), and the readout phase \(\phi_{\mathrm{ref}}\). Compare the quadrature slope \(\partial p/\partial\Delta\), the fixed-\(N\) frequency uncertainty \(\delta\Delta(\tau)\) (minimized at \(\tau = T_2\)), and the fixed-total-time uncertainty \(\delta\Delta(\tau)\) (minimized at \(\tau = T_2/2\) when \(\tau_d = 0\)).</p>
+  <div data-lab="sensing"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> A single-qubit Ramsey magnetometer has Markovian coherence time \(T_2 = 2.0\text{ ms}\) and zero dead time (\(\tau_d = 0\)). Over a total measurement window \(T_{\mathrm{tot}} = 10\text{ s}\), compare the angular-frequency sensitivity \(\delta\Delta\) achieved at the fixed-\(T_{\mathrm{tot}}\) optimum \(\tau_1 = T_2/2 = 1.0\text{ ms}\) against the sensitivity achieved at \(\tau_2 = T_2 = 2.0\text{ ms}\).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. At \(\tau_1 = T_2/2 = 1.0\text{ ms}\), the number of shots is \(N_1 = T_{\mathrm{tot}}/\tau_1 = 10\text{ s}/(1.0\text{ ms}) = 10{,}000\) and \(W(\tau_1) = e^{-1/2}\):</p>
+    \[\delta\Delta(\tau_1) = \frac{e^{1/2}}{\sqrt{10{,}000}\,(1.0\times 10^{-3}\text{ s})} = \frac{1.6487}{100\times 10^{-3}\text{ s}} \approx 16.49\text{ rad/s}\;\; (2.62\text{ Hz}).\]
+    <p>2. At \(\tau_2 = T_2 = 2.0\text{ ms}\), the number of shots is \(N_2 = 5{,}000\) and \(W(\tau_2) = e^{-1}\):</p>
+    \[\delta\Delta(\tau_2) = \frac{e^1}{\sqrt{5{,}000}\,(2.0\times 10^{-3}\text{ s})} = \frac{2.7183}{0.14142\text{ s}} \approx 19.22\text{ rad/s}\;\; (3.06\text{ Hz}).\]
+    <p>Operating at \(\tau_1 = T_2/2\) yields a \(14.2\%\) lower uncertainty than operating at \(\tau_2 = T_2\) for the same total integration time.</p>
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 23.1: Optimal interrogation time with dead time \(\tau_d\)</h3>
+      <p>When each shot requires interrogation time \(\tau\) plus dead time \(\tau_d\), the number of shots in total time \(T_{\mathrm{tot}}\) is \(N = T_{\mathrm{tot}}/(\tau + \tau_d)\). Show that for Markovian dephasing \(W(\tau) = e^{-\tau/T_2}\), minimizing \(\delta\Delta(\tau) \propto \sqrt{\tau + \tau_d}\,e^{\tau/T_2}/\tau\) gives the quadratic equation \(2\tau^2 + \tau(2\tau_d - T_2) - 2\tau_d T_2 = 0\), and find \(\tau_{\mathrm{opt}}\) when \(\tau_d = T_2\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Set \(\frac{\mathrm{d}}{\mathrm{d}\tau}\ln\big[\sqrt{\tau + \tau_d}\,e^{\tau/T_2}/\tau\big] = \frac{1}{2(\tau + \tau_d)} + \frac{1}{T_2} - \frac{1}{\tau} = 0\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Clearing denominators in \(\frac{1}{2(\tau + \tau_d)} + \frac{1}{T_2} - \frac{1}{\tau} = 0\) gives \(\tau T_2 + 2\tau(\tau + \tau_d) - 2T_2(\tau + \tau_d) = 0\), or \(2\tau^2 + \tau(2\tau_d - T_2) - 2\tau_d T_2 = 0\). For \(\tau_d = T_2\), this becomes \(2\tau^2 + T_2\tau - 2T_2^2 = 0\), which has positive root \(\tau_{\mathrm{opt}} = \frac{-1 + \sqrt{17}}{4}T_2 \approx 0.781\,T_2\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 23.2: Optimal interrogation time under Gaussian inhomogeneous dephasing</h3>
+      <p>Suppose the Ramsey fringe envelope is Gaussian, \(W(\tau) = \exp[-(\tau/T_2^*)^2]\). Find the interrogation time \(\tau_{\mathrm{opt}}\) that minimizes \(\delta\Delta(\tau) = [\sqrt{N}\,\tau\,W(\tau)]^{-1}\) when the number of shots \(N\) is fixed.</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Maximize \(\tau\exp[-(\tau/T_2^*)^2]\) with respect to \(\tau\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Differentiating \(\tau\exp[-(\tau/T_2^*)^2]\) gives \([1 - 2(\tau/T_2^*)^2]\exp[-(\tau/T_2^*)^2] = 0\), so \(\tau_{\mathrm{opt}}^{\mathrm{fixed}\,N} = T_2^*/\sqrt{2} \approx 0.7071\,T_2^*\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 23.3: Unambiguous frequency capture range of a single Ramsey fringe</h3>
+      <p>At quadrature (\(\phi_{\mathrm{ref}} = -\pi/2\)), the Ramsey signal \(p(\Delta) = \frac{1}{2}[1 + W(\tau)\sin(\Delta\tau)]\) is monotonic in \(\Delta\) only on the central half-fringe \(\Delta\tau \in [-\pi/2, +\pi/2]\). For \(\tau = 5.0\text{ ms}\), what is the maximum unambiguous linear frequency offset \(|\Delta f_{\max}| = |\Delta_{\max}|/(2\pi)\) before the fringe wraps around?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Set \(2\pi|\Delta f_{\max}|\tau = \pi/2\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>From \(2\pi|\Delta f_{\max}|\tau = \pi/2\), we find \(|\Delta f_{\max}| = 1/(4\tau) = 1/(20\text{ ms}) = 50\text{ Hz}\).</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>Biasing the second Ramsey pulse by \(\phi_{\mathrm{ref}} = -\pi/2\) places the readout at quadrature (\(p_0 = 1/2\)), maximizing the linear frequency slope \(\partial p/\partial\Delta = \frac{1}{2}\tau W(\tau)\).</li>
+    <li>With binomial projection noise \(\sigma_{\hat{p}} = 1/(2\sqrt{N})\), the frequency uncertainty is \(\delta\Delta(\tau) = [\sqrt{N}\,\tau\,W(\tau)]^{-1}\).</li>
+    <li>For Markovian dephasing \(W(\tau) = e^{-\tau/T_2}\), \(\delta\Delta(\tau)\) is minimized at \(\tau_{\mathrm{opt}} = T_2\) for fixed shot count \(N\), and at \(\tau_{\mathrm{opt}} = T_2/2\) for fixed total integration time \(T_{\mathrm{tot}} = N\tau\) with zero dead time.</li>
+    <li>Practical quantum sensors must balance interrogation time against dead time (the Dick effect), non-Markovian noise envelopes, and long-term systematic drifts quantified by the Allan deviation.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>C. L. Degen, F. Reinhard, and P. Cappellaro, <a href="https://doi.org/10.1103/RevModPhys.89.035002">Quantum sensing</a>, <em>Reviews of Modern Physics</em> 89, 035002 (2017).</li>
+    <li>S. F. Huelga et al., <a href="https://doi.org/10.1103/PhysRevLett.79.3865">Improvement of Frequency Standards with Quantum Entanglement</a>, <em>Physical Review Letters</em> 79, 3865 (1997).</li>
+    <li>A. D. Ludlow, M. M. Boyd, J. Ye, E. Peik, and P. O. Schmidt, <a href="https://doi.org/10.1103/RevModPhys.87.637">Optical atomic clocks</a>, <em>Reviews of Modern Physics</em> 87, 637 (2015).</li>
+  </ul>
+</section>

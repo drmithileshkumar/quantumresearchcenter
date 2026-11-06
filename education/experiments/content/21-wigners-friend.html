@@ -1,7 +1,132 @@
-<section class="book-section" id="section-21-1"><h2>21.1 The question and the apparatus</h2><p>A friend inside an isolated laboratory measures a qubit prepared in |+⟩. The friend records zero or one. Wigner outside treats the qubit and the friend’s record as a combined quantum system. If the interaction is unitary and the whole laboratory remains isolated, Wigner writes a coherent superposition of the two correlated record states.</p><p>Two possible later actions must be distinguished. Wigner can open the laboratory and read the record, or attempt a joint interference measurement that probes coherence between the entire record branches. The second action requires extraordinary control, including every degree of freedom that contains which-record information. It is not equivalent to asking the friend what happened.</p><p>The visual models the friend as a reversible memory qubit. That makes the algebra explicit and experimentally approachable, but does not model consciousness or prove that a human observer can be coherently reversed. The sealed box is an assumption in the thought experiment, not evidence that macroscopic isolation is achievable.</p></section>
-<section class="book-section" id="section-21-2"><h2>21.2 Build a prediction</h2><p>Let |F0⟩ and |F1⟩ be orthogonal memory states. Ideal premeasurement gives |Ψ⟩=(|0,F0⟩+|1,F1⟩)/√2. Reading the record yields equal probabilities. Define |W±⟩=(|0,F0⟩±|1,F1⟩)/√2. Wigner's coherent description predicts P(W+)=1; an actual incoherent 50/50 mixture predicts 1/2.</p><p>A convenient circuit writes a record with a CNOT from system to memory. Reversing that CNOT, then measuring the system in X, implements an interference test on this ideal subspace. It also erases the memory's record. One cannot both retain an independent perfectly distinguishing record and recover perfect interference in that same reduced system.</p><p>With real residual coherence γ, the explorer gives P(W+)=(1+γ)/2. The friend's record probabilities remain 1/2. A state conditioned on a particular friend's record and Wigner's unconditioned joint state answer different questions. They cannot be substituted into one another without tracking the conditioning and the later measurement.</p></section>
-<section class="book-section" id="section-21-3"><h2>21.3 What the evidence can establish</h2><p>Wigner's friend exposes the difficulty of applying quantum theory to observers who themselves use it. The tension depends on what a quantum state represents, how outcome statements are used, and which global operations are allowed. Different interpretations respond differently. The elementary calculation is not a proof that ordinary quantum predictions are inconsistent.</p><p>Experiments can implement memory systems and interference operations inspired by the scenario. Their conclusions concern those systems and their measured correlations. Equating such memories with conscious observers is an additional interpretive step, not an observed feature of the apparatus.</p><p>The essential practical limitation is leaked information. If an environment holds an unreversed copy of the record, reversing the small memory alone does not restore full coherence. Any claim of a Wigner measurement should identify the controlled subsystem and explain which records remain outside it.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Switch Wigner’s measurement between reading the record and testing interference. Vary the surviving coherence. Observe that the two measurement choices reveal different properties of the same joint-state model.</p><div data-lab="friend"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>A record is copied to an inaccessible environment with orthogonal states. Wigner reverses only the system–memory CNOT. What X statistics remain?</p><div class="worked-answer"><p>The system is still correlated with orthogonal environment records. Its reduced state is I/2, so both X outcomes have probability 1/2. Reversing the accessible record does not erase the environmental copy.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 21.1</h3><p>What does Wigner predict for reading the friend’s record in the coherent model?</p><details class="exercise-hint"><summary>Hint</summary><p>Use the record basis, not the W basis.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>Zero and one each have probability 1/2. Coherence is not visible in that basis.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 21.2</h3><p>What distinguishes a coherent laboratory from a mixture?</p><details class="exercise-hint"><summary>Hint</summary><p>Find a joint observable with different expectations.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The W± measurement gives P(W+)=1 for the ideal coherent state and 1/2 for the mixture.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 21.3</h3><p>Does a photonic memory experiment show that a person’s experience was reversed?</p><details class="exercise-hint"><summary>Hint</summary><p>Identify the implemented observer model.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No. It tests controlled quantum degrees of freedom used as a record. A claim about conscious experience requires assumptions beyond those measurements.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Specify the observer, the conditioning, and the later measurement. A reversible memory model illuminates the thought experiment without settling the status of human observers.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://arxiv.org/abs/1907.05607">Bong et al.: A strong no-go theorem on the Wigner’s friend paradox</a></li><li><a href="https://doi.org/10.1007/BF00670071">Deutsch: Quantum theory as a universal physical theory</a></li></ul></section>
+<section class="book-section" id="section-21-1">
+  <h2>21.1 An isolated laboratory inside a superobserver’s apparatus</h2>
+  <h3>21.1.1 Internal record formation versus external unitary evolution</h3>
+  <p>Eugene Wigner sharpened Schrödinger’s cat scenario in 1961 by replacing the inanimate pointer with an observer—Wigner’s friend \(F\)—inside a completely isolated laboratory \(L = S \otimes F\). The friend measures a spin/qubit \(S\) prepared in \(\alpha|0\rangle_S + \beta|1\rangle_S\) in the \(\{|0\rangle_S, |1\rangle_S\}\) basis and records a definite outcome in memory register \(F\). From the friend’s internal perspective upon seeing an outcome, the state appears updated to \(|0\rangle_S|0\rangle_F\) (with probability \(|\alpha|^2\)) or \(|1\rangle_S|1\rangle_F\) (with probability \(|\beta|^2\)). From the external perspective of Wigner (a “superobserver” whose laboratory is completely isolated from \(L\)), the interaction inside \(L\) is a unitary premeasurement \(U_{\mathrm{meas}} = \mathrm{CNOT}_{S\to F}\) that prepares the entangled state</p>
+  \[|\Psi_{SF}\rangle = \alpha|0\rangle_S|0\rangle_F + \beta|1\rangle_S|1\rangle_F.\]
+  <h3>21.1.2 Reading the friend’s record versus performing a joint interference test</h3>
+  <p>So long as Wigner simply opens the door and asks the friend which outcome occurred—measuring in the record basis \(\{|00\rangle_{SF}, |11\rangle_{SF}\}\)—both descriptions predict the exact same probabilities \(P(00) = |\alpha|^2\) and \(P(11) = |\beta|^2\). A physical discrepancy between the pure entangled state \(|\Psi_{SF}\rangle\) and the incoherent mixture \(\rho_{\mathrm{mix}} = |\alpha|^2|00\rangle\langle 00| + |\beta|^2|11\rangle\langle 11|\) arises only if Wigner instead performs a coherent joint measurement across the entire laboratory \(S \otimes F\) in a complementary superobserver basis.</p>
+  <h3>21.1.3 Modeling the friend as a reversible quantum memory register</h3>
+  <p>In circuit language, treating the friend’s apparatus and memory register as a qubit \(F\) initialized to \(|0\rangle_F\) models the internal measurement as \(\mathrm{CNOT}_{S\to F}((\alpha|0\rangle_S + \beta|1\rangle_S)|0\rangle_F) = \alpha|00\rangle_{SF} + \beta|11\rangle_{SF}\). Testing whether coherence between \(|00\rangle_{SF}\) and \(|11\rangle_{SF}\) survives requires either measuring the two-qubit parity operator \(X_S \otimes X_F\) or applying the inverse unitary \(\mathrm{CNOT}_{S\to F}^\dagger = \mathrm{CNOT}_{S\to F}\) to uncompute the friend’s memory register.</p>
+</section>
+
+<section class="book-section" id="section-21-2">
+  <h2>21.2 Uncomputing a CNOT premeasurement and joint interference</h2>
+  <h3>21.2.1 Superobserver basis states and the coherent visibility witness</h3>
+  <p>Suppose the system starts in \(|+\rangle_S = (|0\rangle_S + |1\rangle_S)/\sqrt{2}\) (\(\alpha = \beta = 1/\sqrt{2}\)) so that unitary premeasurement yields \(|\Phi^+\rangle_{SF} = (|00\rangle_{SF} + |11\rangle_{SF})/\sqrt{2}\). Define Wigner’s joint interference basis</p>
+  \[|\Phi_{\pm}(\phi)\rangle_{SF} = \frac{|00\rangle_{SF} \pm e^{i\phi}|11\rangle_{SF}}{\sqrt{2}}.\]
+  <p>If the laboratory \(S\otimes F\) retains coherence fraction \(W \in [0, 1]\) between the two record branches,</p>
+  \[\rho_{SF}(W) = \frac{1}{2}\Big(|00\rangle\langle 00| + |11\rangle\langle 11| + W|00\rangle\langle 11| + W|11\rangle\langle 00|\Big),\]
+  <p>then Wigner’s probability of obtaining outcome \(|\Phi_+(\phi)\rangle_{SF}\) is</p>
+  \[P_+(\phi) = \langle\Phi_+(\phi)|\rho_{SF}(W)|\Phi_+(\phi)\rangle = \frac{1}{2}\big(1 + W\cos\phi\big).\]
+  <p>An irreversible collapse inside \(L\) (\(W = 0\)) yields a flat line \(P_+(\phi) = 1/2\) for all \(\phi\), whereas reversible unitary evolution (\(W = 1\)) yields full-contrast fringes \(P_+(\phi) = \cos^2(\phi/2)\), reaching \(P_+(0) = 1\).</p>
+  <h3>21.2.2 Reversing the system–memory CNOT to test interference</h3>
+  <p>David Deutsch noted in 1985 that Wigner can implement the \(\phi = 0\) interference test by applying a second \(\mathrm{CNOT}_{S\to F}\) to uncompute the friend’s record:</p>
+  \[\mathrm{CNOT}_{S\to F}\left(\frac{|00\rangle_{SF} + |11\rangle_{SF}}{\sqrt{2}}\right) = \left(\frac{|0\rangle_S + |1\rangle_S}{\sqrt{2}}\right)\otimes|0\rangle_F = |+\rangle_S\otimes|0\rangle_F.\]
+  <p>Measuring \(S\) in the \(\{|+\rangle_S, |-\rangle_S\}\) basis then yields \(|+\rangle_S\) with probability \(P(+_S) = (1 + W)/2 = 1\) when \(W = 1\), versus \(P(+_S) = 1/2\) if the friend’s measurement collapsed the state to \(\rho_{\mathrm{mix}}\). Crucially, however, uncomputing \(F\) back to \(|0\rangle_F\) erases the friend’s outcome record: Wigner can never simultaneously retain the friend’s which-outcome record and observe \(P(+_S) = 1\).</p>
+  <h3>21.2.3 Conditioned internal states versus unconditioned global states</h3>
+  <p>The mathematical difference between the friend’s state assignment (\(|0\rangle_S\) or \(|1\rangle_S\)) and Wigner’s state assignment (\(|\Phi^+\rangle_{SF}\)) is the difference between a <em>state conditioned on an internal branch record</em> and an <em>unconditioned joint state of system plus memory</em>. Both assignments agree on every measurement that preserves and commutes with the friend’s memory register \(Z_F\); they differ only on superobserver operations that do not commute with \(Z_F\) and therefore overwrite the friend’s memory.</p>
+</section>
+
+<section class="book-section" id="section-21-3">
+  <h2>21.3 Environmental record leakage and observer assumptions</h2>
+  <h3>21.3.1 How interpretations resolve the friend–superobserver assignment gap</h3>
+  <p>Different interpretations of quantum mechanics locate the resolution of Wigner’s friend in different places:</p>
+  <ul>
+    <li><strong>Textbook collapse / objective collapse:</strong> A sufficiently macroscopic record collapses \(\rho_{SF}\) to \(W = 0\), predicting \(P_+(\phi) = 1/2\).</li>
+    <li><strong>Everett / relative-state / relational / QBism:</strong> Unitary evolution holds universally (\(W = 1\) for an isolated lab), and state assignments are indexed relative to the physical record system or agent; reversing the CNOT erases the relative record.</li>
+    <li><strong>Bohmian mechanics:</strong> The universal wavefunction evolves unitarily (\(W = 1\)) while actual configuration coordinates occupy one branch until the branches are re-overlapped by \(\mathrm{CNOT}_{S\to F}\).</li>
+  </ul>
+  <h3>21.3.2 Scope of few-qubit photonic and superconducting friend demonstrations</h3>
+  <p>Recent experiments on entangled photons and superconducting circuits implement the Wigner’s friend circuit by using a single ancillary qubit or photon path as the “friend” register \(F\). These experiments confirm \(W \approx 1\) and verify the two-qubit circuit identities cleanly, but because a one-qubit register is not a macroscopic observer with thermodynamically irreversible records, they test two-qubit unitary mechanics rather than macroscopic observer collapse.</p>
+  <h3>21.3.3 Why unreversed environmental copies destroy superobserver interference</h3>
+  <p>If even a single environmental mode \(E\) outside Wigner’s control correlates with the friend’s record (\(|00\rangle|E_0\rangle\) vs.\ \(|11\rangle|E_1\rangle\) with \(\langle E_0|E_1\rangle = 0\)), applying \(\mathrm{CNOT}_{S\to F}\) to \(S\) and \(F\) alone produces \((|0\rangle_S|E_0\rangle + |1\rangle_S|E_1\rangle)|0\rangle_F/\sqrt{2}\), whose reduced state on \(S\) is \(\frac{1}{2}I_S\) with \(P(+_S) = 1/2\). Reversing a measurement requires reversing <em>every</em> physical copy of the record.</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Prepare the system state \(\alpha|0\rangle_S + \beta|1\rangle_S\), run the internal \(\mathrm{CNOT}_{S\to F}\) premeasurement, and adjust the environmental record leakage \(1 - W\) outside the isolated laboratory. Compare Wigner’s outcomes when reading the friend’s record (\(Z_F\)) versus uncomputing the record and measuring interference in the superobserver basis \(|\Phi_{\pm}(\phi)\rangle_{SF}\).</p>
+  <div data-lab="friend"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> System \(S\) is initialized in \(|+\rangle_S = (|0\rangle_S + |1\rangle_S)/\sqrt{2}\) and the friend’s memory register \(F\) starts in \(|0\rangle_F\). After the internal measurement \(\mathrm{CNOT}_{S\to F}\), residual coupling to an unreversed environment mode leaves coherence \(W = |\langle E_0|E_1\rangle| = 0.76\). Wigner then applies \(\mathrm{CNOT}_{S\to F}\) to uncompute the friend’s register and measures \(S\) in the \(\{|+\rangle_S, |-\rangle_S\}\) basis. Find the probabilities \(P(+_S)\) and \(P(-_S)\), and compare them with the case of complete collapse (\(W = 0\)).</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. Before Wigner’s reversal, the reduced state of \(S\otimes F\) is</p>
+    \[\rho_{SF}(W) = \frac{1}{2}\Big(|00\rangle\langle 00| + |11\rangle\langle 11| + W|00\rangle\langle 11| + W|11\rangle\langle 00|\Big).\]
+    <p>2. Applying \(\mathrm{CNOT}_{S\to F}\) maps \(|00\rangle \mapsto |00\rangle\) and \(|11\rangle \mapsto |10\rangle\), factoring out \(|0\rangle_F\langle 0|_F\) and leaving system \(S\) in</p>
+    \[\rho_S^{\mathrm{rev}}(W) = \frac{1}{2}\begin{pmatrix} 1 & W \\ W & 1 \end{pmatrix} = \frac{1+W}{2}|+\rangle\langle +| + \frac{1-W}{2}|-\rangle\langle -|.\]
+    <p>3. For \(W = 0.76\), Wigner observes</p>
+    \[P(+_S) = \frac{1 + 0.76}{2} = 0.880, \qquad P(-_S) = \frac{1 - 0.76}{2} = 0.120,\]
+    <p>whereas complete collapse (\(W = 0\)) predicts \(P(+_S) = P(-_S) = 0.500\).</p>
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 21.1: Expectation value of the joint parity witness \(X_S \otimes X_F\)</h3>
+      <p>For the partially decohered laboratory state \(\rho_{SF}(W) = \frac{1}{2}(|00\rangle\langle 00| + |11\rangle\langle 11| + W|00\rangle\langle 11| + W|11\rangle\langle 00|)\), calculate \(\langle Z_S\otimes Z_F\rangle\) and \(\langle X_S\otimes X_F\rangle\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use \((X_S\otimes X_F)|00\rangle = |11\rangle\) and \((X_S\otimes X_F)|11\rangle = |00\rangle\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Because both \(|00\rangle\) and \(|11\rangle\) have \(Z_S Z_F = +1\), \(\langle Z_S\otimes Z_F\rangle = +1\) for every \(W \in [0,1]\). By contrast, \(\mathrm{Tr}[\rho_{SF}(W)(X_S\otimes X_F)] = \frac{W}{2}\langle 11|11\rangle + \frac{W}{2}\langle 00|00\rangle = W\). Thus \(Z_S Z_F\) verifies record correlation while \(X_S X_F\) directly measures the surviving coherence \(W\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 21.2: Why retaining a copy of the friend’s record blocks interference</h3>
+      <p>Suppose that before Wigner applies \(\mathrm{CNOT}_{S\to F}\) to uncompute \(F\), the friend copies the record into a notebook qubit \(N\) via \(\mathrm{CNOT}_{F\to N}\), preparing \((|000\rangle_{SFN} + |111\rangle_{SFN})/\sqrt{2}\). If Wigner reverses only \(S\) and \(F\) (leaving \(N\) untouched) and measures \(S\) in the \(\{|+\rangle_S, |-\rangle_S\}\) basis, what is \(P(+_S)\)?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Apply \(\mathrm{CNOT}_{S\to F}\) to \((|000\rangle_{SFN} + |111\rangle_{SFN})/\sqrt{2}\) and trace over \(N\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Applying \(\mathrm{CNOT}_{S\to F}\) produces \((|000\rangle_{SFN} + |101\rangle_{SFN})/\sqrt{2} = \frac{1}{\sqrt{2}}(|0\rangle_S|0\rangle_N + |1\rangle_S|1\rangle_N)\otimes|0\rangle_F\). Because \(S\) remains maximally entangled with the unreversed notebook \(N\), \(\rho_S = \frac{1}{2}I_S\) and \(P(+_S) = 1/2\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 21.3: Noncommutativity of record readout and interference readout</h3>
+      <p>Compute the commutator \([Z_F,\, X_S\otimes X_F]\) between reading the friend’s record \(Z_F = I_S\otimes Z_F\) and measuring Wigner’s joint coherence witness \(X_S\otimes X_F\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use \([Z, X] = 2iY\) on the second tensor factor.</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>\([I_S\otimes Z_F,\, X_S\otimes X_F] = X_S\otimes [Z_F, X_F] = 2i(X_S\otimes Y_F) \neq 0\). Because the two observables do not commute, no measurement can simultaneously read the friend’s definite outcome \(Z_F\) and certify nonvanishing superobserver coherence \(X_S\otimes X_F\).</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>Inside an isolated laboratory \(S\otimes F\), a reversible measurement \(\mathrm{CNOT}_{S\to F}\) maps \((\alpha|0\rangle_S + \beta|1\rangle_S)|0\rangle_F\) to \(\alpha|00\rangle_{SF} + \beta|11\rangle_{SF}\).</li>
+    <li>In the record basis \(\{|00\rangle, |11\rangle\}\), the entangled state and the collapsed mixture \(\rho_{\mathrm{mix}}\) give identical statistics; they differ only on superobserver interference observables such as \(X_S\otimes X_F\) or after CNOT uncomputation.</li>
+    <li>Observing superobserver interference after uncomputation requires erasing the friend’s memory register and requires that zero unreversed copies of the outcome have leaked into the environment.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>E. P. Wigner, “Remarks on the mind-body question,” in I. J. Good (ed.), <em>The Scientist Speculates</em>, Heinemann, pp. 284–302 (1961).</li>
+    <li>D. Deutsch, <a href="https://doi.org/10.1007/BF00670071">Quantum theory as a universal physical theory</a>, <em>International Journal of Theoretical Physics</em> 24, 1–41 (1985).</li>
+    <li>Č. Brukner, <a href="https://doi.org/10.3390/e20050350">A No-Go Theorem for Observer-Independent Facts</a>, <em>Entropy</em> 20, 350 (2018).</li>
+  </ul>
+</section>

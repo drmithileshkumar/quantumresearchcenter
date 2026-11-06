@@ -1,7 +1,125 @@
-<section class="book-section" id="section-14-1"><h2>14.1 The question and the apparatus</h2><p>Apply a π/2 pulse, wait for time t, then apply a second π/2 pulse and measure. During the wait, a frequency difference between the system and the reference drive accumulates a phase. The second pulse converts that phase into a population difference. This is Ramsey interferometry, with time playing the role of the separation between interferometer arms.</p><p>Repeated runs can lose contrast because individual systems acquire different phases or because uncontrolled environment interactions carry away coherence. A spin-echo pulse halfway through the wait can refocus static frequency offsets. It cannot generally reverse energy relaxation or arbitrary fluctuating noise.</p><p>The visual compares a damped Ramsey fringe with an idealized echo envelope. It fixes a phenomenological dephasing time and a chosen oscillation period. The echo comparison represents perfectly refocusable static spread without other decoherence; it is an upper-limit toy model, not a promise of perfect recovery in a laboratory.</p></section>
-<section class="book-section" id="section-14-2"><h2>14.2 Build a prediction</h2><p>For a suitable final-pulse phase convention, P0(t)=[1+V(t)cos(Δt)]/2. An exponential model uses V(t)=e<sup>−t/T₂</sup>. T1 describes energy relaxation, while T2 describes decay of transverse coherence. In a simple Markovian qubit model, 1/T2=1/(2T1)+1/Tφ, where Tφ characterizes pure dephasing.</p><p>An ensemble of static detunings has visibility equal to the magnitude of its characteristic function ⟨e<sup>iΔt</sup>⟩. Gaussian detuning noise produces a Gaussian envelope, not necessarily an exponential. The fitted symbol T2* often includes this inhomogeneous broadening. State the envelope before quoting a coherence time.</p><p>An ideal π echo reverses the sign of phase accumulation from a constant detuning during the second half. The accumulated phases cancel, while irreversible loss to an inaccessible environment need not. The ability to recover a signal supplies information about the noise; it does not establish that all apparent decoherence is reversible.</p></section>
-<section class="book-section" id="section-14-3"><h2>14.3 What the evidence can establish</h2><p>Fit relaxation and coherence experiments separately. Correct for imperfect pulse contrast, measure enough delays to resolve the envelope, and avoid using an unconstrained exponential fit when the data show revivals or oscillatory noise. Different pulse sequences probe different parts of a noise spectrum.</p><p>A diagonal reduced density matrix predicts local statistics but does not identify one definite global outcome. The cat chapter returns to that distinction. Here the operational task is narrower: measure how well a phase-sensitive signal survives and what an echo can recover.</p><p>In the display, the sphere's transverse component shrinks with the chosen envelope. The resulting shorter arrow represents a mixed reduced state, not a smaller physical particle. Pressing play advances delay, while pausing permits direct comparison of the fringe and envelope.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Compare free evolution with the ideal echo mode. Locate one full phase period and explain why the envelope, rather than the individual fringe minima, measures lost contrast.</p><div data-lab="ramsey"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>At t=T2 and Δt=0 modulo 2π, what is P0 for unit initial contrast?</p><div class="worked-answer"><p>P0=(1+e⁻¹)/2≈0.684. At the opposite phase it is about 0.316. The fringe contrast is e⁻¹, not either of these probabilities individually.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 14.1</h3><p>For T1=100 μs and no pure dephasing, what is T2?</p><details class="exercise-hint"><summary>Hint</summary><p>Use the stated Markovian relation.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>T2=2T1=200 μs within that model.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 14.2</h3><p>Does an echo restore a particle already lost from the apparatus?</p><details class="exercise-hint"><summary>Hint</summary><p>Identify what the pulse reverses.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No. Refocusing phase does not undo particle loss or ordinary irreversible relaxation.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 14.3</h3><p>Why can a Gaussian envelope arise?</p><details class="exercise-hint"><summary>Hint</summary><p>Average exp(iΔt) over a Gaussian static detuning distribution.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The average is exp(−σ²t²/2), so static frequency spread gives a Gaussian contrast decay.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Distinguish phase evolution, ensemble averaging, and irreversible noise. A coherence time belongs to a specified model and measurement sequence.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://www.nobelprize.org/prizes/physics/1989/ramsey/lecture/">Ramsey: Molecular beams, Nobel lecture</a></li><li><a href="https://arxiv.org/abs/quant-ph/0312059">Schlosshauer: Decoherence, the measurement problem, and interpretations</a></li></ul></section>
+<section class="book-section" id="section-14-1">
+  <h2>14.1 Separated oscillatory fields and Hahn spin echo</h2>
+  <h3>14.1.1 Converting free-evolution phase into population with two pulses</h3>
+  <p>A single population measurement cannot read the equatorial phase \(\phi\) of a superposition \((|0\rangle + e^{i\phi}|1\rangle)/\sqrt{2}\) directly because \(P_1 = 1/2\) for every \(\phi\). Norman Ramsey’s method of separated oscillatory fields turns phase accumulation into a population signal using two resonant \(\pi/2\) pulses separated by a free-precession interval \(\tau\). The first \(\pi/2\) pulse rotates \(|0\rangle\) onto the Bloch equator; during the dark interval \(\tau\), a detuning \(\Delta = \omega - \omega_0\) rotates the equatorial state around the \(Z\) axis by angle \(\phi = \Delta\tau\); the second \(\pi/2\) pulse maps the resulting equatorial projection into the readout population \(P_1(\tau)\).</p>
+  <h3>14.1.2 Inhomogeneous frequency spread versus irreversible environment coupling</h3>
+  <p>As the free-evolution time \(\tau\) increases, the amplitude of Ramsey fringes decays with characteristic transverse coherence time \(T_2^*\). That decay combines two physically distinct mechanisms: reversible inhomogeneous broadening—where static or slowly drifting shifts \(\delta\omega\) vary from shot to shot or across an ensemble of atoms—and irreversible homogeneous dephasing (\(T_2\)) caused by high-frequency fluctuations and entangling interactions with an uncontrolled environment, alongside longitudinal energy relaxation (\(T_1\)).</p>
+  <h3>14.1.3 Refocusing static detuning with a midpoint inversion pulse</h3>
+  <p>Erwin Hahn’s spin-echo sequence separates static frequency offsets from genuinely stochastic dephasing by inserting a resonant \(\pi\) inversion pulse at the midpoint \(t = \tau/2\) of the dark interval. A static detuning \(\Delta\) accumulates phase \(+\Delta\tau/2\) during the first half \([0,\tau/2]\); the \(\pi\) pulse flips the equatorial phase angle \(\phi \mapsto -\phi\) by exchanging \(|0\rangle\) and \(|1\rangle\); during the second half \([\tau/2,\tau]\), the same static detuning adds \(+\Delta\tau/2\), bringing the net detuning phase back to zero at \(t = \tau\). Any fringe decay that remains at the echo time \(\tau\) measures dynamic noise that varied between the first and second halves of the trajectory.</p>
+</section>
+
+<section class="book-section" id="section-14-2">
+  <h2>14.2 Transverse decay envelopes and relaxation bounds</h2>
+  <h3>14.2.1 Exponential visibility decay, longitudinal relaxation, and pure dephasing</h3>
+  <p>In the rotating frame of the drive, free evolution for duration \(\tau\) followed by a second \(\pi/2\) pulse with relative phase \(\phi_{\mathrm{ref}}\) produces the Ramsey population signal</p>
+  \[P_1(\tau) = \frac{1}{2}\Big[1 + W(\tau)\cos(\Delta\tau + \phi_{\mathrm{ref}})\Big],\]
+  <p>where \(W(\tau) \in [0,1]\) is the coherence envelope equal to the magnitude of the normalized off-diagonal density-matrix element \(2|\rho_{01}(\tau)|\). For Markovian white-noise fluctuations, \(W(\tau) = \exp(-\tau/T_2)\) decays exponentially, and complete positivity of the quantum channel bounds the transverse dephasing rate \(\Gamma_2 = 1/T_2\) in terms of the longitudinal energy relaxation rate \(\Gamma_1 = 1/T_1\) and the pure dephasing rate \(\Gamma_\phi = 1/T_\phi\):</p>
+  \[\frac{1}{T_2} = \frac{1}{2T_1} + \frac{1}{T_\phi} \quad\Longrightarrow\quad T_2 \le 2T_1.\]
+  <h3>14.2.2 Gaussian envelopes from static ensemble detuning distributions</h3>
+  <p>When each experimental shot or sub-ensemble member experiences a quasi-static frequency shift \(\delta\omega\) drawn from a zero-mean Gaussian distribution \(p(\delta\omega) = \exp[-\delta\omega^2/(2\sigma_\omega^2)]/\sqrt{2\pi\sigma_\omega^2}\), averaging the phase factor \(e^{i(\Delta + \delta\omega)\tau}\) over \(p(\delta\omega)\) yields a Gaussian envelope</p>
+  \[W_{\mathrm{inhom}}(\tau) = \int_{-\infty}^{\infty} p(\delta\omega)\cos(\delta\omega\,\tau)\,\mathrm{d}(\delta\omega) = \exp\!\left(-\frac{1}{2}\sigma_\omega^2\tau^2\right) = \exp\!\left[-\left(\frac{\tau}{T_2^*}\right)^2\right],\]
+  <p>with \(T_2^* = \sqrt{2}/\sigma_\omega\). Combined Markovian and quasi-static noise gives a Voigt-profile envelope \(W(\tau) = \exp(-\tau/T_2 - (\tau/T_2^*)^2)\).</p>
+  <h3>14.2.3 Phase reversal under an ideal echo pulse</h3>
+  <p>With a midpoint \(\pi\) pulse about the \(X\) axis at \(\tau/2\), a static frequency offset \(\Delta + \delta\omega\) evolves the initial superposition \((|0\rangle + |1\rangle)/\sqrt{2}\) through</p>
+  \[\frac{|0\rangle + e^{i(\Delta+\delta\omega)\tau/2}|1\rangle}{\sqrt{2}} \;\xrightarrow{\;\pi_X\;}\; \frac{e^{i(\Delta+\delta\omega)\tau/2}|0\rangle + |1\rangle}{\sqrt{2}} \;\xrightarrow{\;\tau/2\;}\; e^{i(\Delta+\delta\omega)\tau/2}\frac{|0\rangle + |1\rangle}{\sqrt{2}}.\]
+  <p>Up to a global phase, every static \(\delta\omega\) refocuses at \(t = \tau\), extending the decay time from the inhomogeneous \(T_2^*\) to the homogeneous Hahn-echo coherence time \(T_{2\mathrm{E}} \le 2T_1\).</p>
+</section>
+
+<section class="book-section" id="section-14-3">
+  <h2>14.3 Noise spectroscopy and reduced-state interpretation</h2>
+  <h3>14.3.1 Fitting envelope shapes and non-Markovian revivals</h3>
+  <p>More generally, for stationary Gaussian phase noise with power spectral density \(S_\omega(\omega)\), the coherence envelope obeys \(W(\tau) = \exp[-\chi(\tau)]\), where the attenuation integral \(\chi(\tau) = \frac{1}{2\pi}\int_0^\infty S_\omega(\omega)\,[F(\omega\tau)/\omega^2]\,\mathrm{d}\omega\) weights the noise spectrum by the sequence filter function \(F(\omega\tau)\). Free induction decay (Ramsey) has \(F_{\mathrm{FID}}(\omega\tau) = 4\sin^2(\omega\tau/2)\), which peaks at \(\omega = 0\) and is maximally sensitive to DC drift, whereas Hahn echo has \(F_{\mathrm{echo}}(\omega\tau) = 8\sin^4(\omega\tau/4)\), which vanishes at \(\omega = 0\) and acts as a bandpass filter centered near \(\omega \sim 2\pi/\tau\). If the qubit couples to a discrete coherent bath mode (such as a nearby nuclear spin), \(W(\tau)\) can exhibit collapse and revival oscillations rather than monotonic decay.</p>
+  <h3>14.3.2 Shrinking Bloch vectors as mixed reduced states</h3>
+  <p>When the fringe visibility \(W(\tau)\) decays toward zero, the reduced qubit density matrix at the end of the free-evolution window approaches</p>
+  \[\rho(\tau) = \frac{1}{2}\begin{pmatrix} 1 & W(\tau)e^{-i\Delta\tau} \\ W(\tau)e^{i\Delta\tau} & 1 \end{pmatrix}, \qquad \mathrm{Tr}\!\left[\rho(\tau)^2\right] = \frac{1 + W(\tau)^2}{2}.\]
+  <p>Geometrically, the Bloch vector shrinks radially inward along the equatorial plane from length \(|\vec{r}| = 1\) (pure state on the surface) toward \(|\vec{r}| = 0\) (maximally mixed state at the center of the ball).</p>
+  <h3>14.3.3 Operational scope of coherence times</h3>
+  <p>Because \(T_2^*\), \(T_{2\mathrm{E}}\), and dynamical-decoupling coherence times \(T_2^{(N)}\) correspond to different filter functions \(F(\omega\tau)\) and different ensemble averaging windows, quoting a single number “\(T_2\)” without specifying the pulse sequence and averaging time is incomplete. An operational report always pairs the fitted decay constant with the pulse protocol (\(T_2^*\) for Ramsey, \(T_{2\mathrm{E}}\) for single-pulse Hahn echo) and the exponent \(p\) of the stretched-exponential envelope \(\exp[-(\tau/T_2)^p]\).</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Adjust the detuning \(\Delta\), the free-evolution time \(\tau\), and the inhomogeneous and homogeneous dephasing rates to compare Ramsey free-induction fringes against the Hahn spin-echo envelope. Observe how switching the midpoint \(\pi\) pulse on cancels quasi-static frequency offsets and restores coherence up to the irreversible \(T_{2\mathrm{E}}\) ceiling.</p>
+  <div data-lab="ramsey"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> A qubit has energy relaxation time \(T_1 = 40\,\mu\text{s}\), Markovian pure dephasing time \(T_\phi = 80\,\mu\text{s}\), and Gaussian shot-to-shot frequency jitter that yields \(T_2^* = 2.5\,\mu\text{s}\) in a Ramsey scan. What homogeneous coherence time \(T_{2\mathrm{E}}\) is measured when a Hahn echo \(\pi\) pulse removes the static jitter, and what is the echo visibility at \(\tau = 16\,\mu\text{s}\)?</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. Combine the longitudinal relaxation contribution \(1/(2T_1)\) and the Markovian pure dephasing rate \(1/T_\phi\):</p>
+    \[\frac{1}{T_{2\mathrm{E}}} = \frac{1}{2(40\,\mu\text{s})} + \frac{1}{80\,\mu\text{s}} = \frac{1}{80\,\mu\text{s}} + \frac{1}{80\,\mu\text{s}} = \frac{1}{40\,\mu\text{s}} \quad\Longrightarrow\quad T_{2\mathrm{E}} = 40\,\mu\text{s}.\]
+    <p>2. At \(\tau = 16\,\mu\text{s}\), the unrefocused Ramsey contrast would be \(\exp[-(16/2.5)^2] \approx 1.5\times 10^{-18} \approx 0\), whereas the Hahn echo visibility is</p>
+    \[W_{\mathrm{echo}}(16\,\mu\text{s}) = \exp\!\left(-\frac{16\,\mu\text{s}}{40\,\mu\text{s}}\right) = e^{-0.40} \approx 0.670.\]
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 14.1: Extracting detuning from Ramsey fringe spacing</h3>
+      <p>In a Ramsey experiment with zero phase advance on the second \(\pi/2\) pulse, consecutive maxima of \(P_1(\tau)\) occur at \(\tau_k = k \times 0.40\,\mu\text{s}\) for integer \(k\). What is the magnitude of the detuning \(|\Delta|/(2\pi)\) between the drive and the qubit transition?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>One full fringe period \(\Delta\tau_{\mathrm{period}}\) corresponds to a phase advance \(|\Delta|\,\Delta\tau_{\mathrm{period}} = 2\pi\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>The fringe period is \(\Delta\tau_{\mathrm{period}} = 0.40\,\mu\text{s}\), so \(|\Delta|/(2\pi) = 1/\Delta\tau_{\mathrm{period}} = 1/(0.40\,\mu\text{s}) = 2.5\text{ MHz}\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 14.2: Testing the \(T_2 \le 2T_1\) bound</h3>
+      <p>An experimental calibration table reports \(T_1 = 15\,\mu\text{s}\) and \(T_{2\mathrm{E}} = 38\,\mu\text{s}\) for the same two-level transition under Markovian relaxation. Explain why these two numbers are mutually inconsistent and identify the tightest upper bound on \(T_{2\mathrm{E}}\) compatible with \(T_1 = 15\,\mu\text{s}\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Check the sign of \(1/T_\phi\) in \(1/T_2 = 1/(2T_1) + 1/T_\phi\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Since the pure dephasing rate \(1/T_\phi\) cannot be negative, \(1/T_{2\mathrm{E}} \ge 1/(2T_1)\), which requires \(T_{2\mathrm{E}} \le 2T_1 = 30\,\mu\text{s}\). Reporting \(T_{2\mathrm{E}} = 38\,\mu\text{s}\) indicates either a misfit baseline or that \(T_1\) drifted upward between the two measurements.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 14.3: Purity from Ramsey fringe contrast</h3>
+      <p>At free-evolution delay \(\tau = 5.0\,\mu\text{s}\), a Ramsey phase scan over the second pulse’s phase \(\phi_{\mathrm{ref}} \in [0, 2\pi)\) yields \(P_{1,\max} = 0.85\) and \(P_{1,\min} = 0.15\). Assuming equal populations \(\rho_{00} = \rho_{11} = 1/2\) prior to the second pulse, find the fringe contrast \(W(\tau)\) and the purity \(\mathrm{Tr}(\rho^2)\) of the qubit state at time \(\tau\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use \(W(\tau) = P_{1,\max} - P_{1,\min}\) and \(\mathrm{Tr}(\rho^2) = (1 + W^2)/2\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>The coherence amplitude is \(W(\tau) = 0.85 - 0.15 = 0.70\). With \(\rho_{00} = \rho_{11} = 1/2\) and \(|\rho_{01}| = W/2 = 0.35\), the purity is \(\mathrm{Tr}(\rho^2) = (1 + 0.70^2)/2 = 1.49/2 = 0.745\).</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>Ramsey interferometry brackets a free-evolution interval \(\tau\) between two \(\pi/2\) pulses, converting relative phase accumulation \(\phi = \Delta\tau\) into population oscillations \(P_1(\tau) = \frac{1}{2}[1 + W(\tau)\cos(\Delta\tau + \phi_{\mathrm{ref}})]\).</li>
+    <li>Free-induction fringe decay (\(T_2^*\)) combines reversible quasi-static frequency inhomogeneity with irreversible dephasing.</li>
+    <li>Inserting a Hahn spin-echo \(\pi\) pulse at \(\tau/2\) reverses static phase accumulation and measures the homogeneous coherence time \(T_{2\mathrm{E}}\), which satisfies \(T_{2\mathrm{E}} \le 2T_1\).</li>
+    <li>Loss of Ramsey fringe contrast \(W(\tau) \to 0\) reflects radial shrinkage of the Bloch vector from a pure equatorial state to a mixed reduced state.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>N. F. Ramsey, <a href="https://doi.org/10.1103/PhysRev.78.695">A Molecular Beam Resonance Method with Separated Oscillating Fields</a>, <em>Physical Review</em> 78, 695 (1950).</li>
+    <li>E. L. Hahn, <a href="https://doi.org/10.1103/PhysRev.80.580">Spin Echoes</a>, <em>Physical Review</em> 80, 580 (1950).</li>
+    <li>Ł. Cywiński, R. M. Lutchyn, C. P. Nave, and S. Das Sarma, <a href="https://doi.org/10.1103/PhysRevB.77.174509">How to enhance dephasing time in superconducting qubits</a>, <em>Physical Review B</em> 77, 174509 (2008).</li>
+  </ul>
+</section>

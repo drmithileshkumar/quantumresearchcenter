@@ -1,7 +1,135 @@
-<section class="book-section" id="section-17-1"><h2>17.1 The question and the apparatus</h2><p>The EPR argument asks whether quantum mechanics completely describes physical reality. Perfect correlations appear to let one predict a distant quantity without acting on the distant system. Bohm's spin version makes this accessible with two spin-one-half particles in a singlet. Equal-axis measurements always give opposite results, while either local record alone is random.</p><p>Perfect anticorrelation is not sufficient to rule out a classical account: a source could send opposite prewritten instructions. Bell's insight is to compare several independently chosen measurement settings and constrain the entire family of correlations predicted by a local model. Each station records its setting and a result ±1.</p><p>The visual uses singlet spins measured along axes in one plane. Alice's axes are 0° and 90°. Bob's axes are θ and −θ. This is a spin-angle convention; photon polarization correlations involve doubled physical analyzer angles. Keeping the convention explicit avoids a common factor-of-two error.</p></section>
-<section class="book-section" id="section-17-2"><h2>17.2 Build a prediction</h2><p>A local model with shared variable λ factorizes the conditional probabilities as P(a,b|x,y,λ)=P(a|x,λ)P(b|y,λ). Assume the setting distribution is independent of λ. Deterministic assignments suffice for deriving the bound because stochastic assignments are mixtures of them.</p><p>For predetermined ±1 values A0,A1,B0,B1, the expression C=A0(B0+B1)+A1(B0−B1) is always ±2: one bracket vanishes and the other is ±2. Averaging yields \(|S|=|E_{00}+E_{01}+E_{10}-E_{11}|\le2\). This is the CHSH inequality.</p><p>Quantum singlet correlations obey E(a,b)=−cos(a−b). With the axes in the visual, S=−2(cosθ+sinθ), reaching magnitude 2√2 at θ=45°. The local marginals remain 1/2, so stronger correlations do not enable a controllable message from one station to the other.</p></section>
-<section class="book-section" id="section-17-3"><h2>17.3 What the evidence can establish</h2><p>A physical Bell test must address detection and locality loopholes and account for the setting process and statistical analysis. Throwing away missing detections can invalidate the simple local bound unless justified by an additional sampling assumption. A finite estimate slightly above two needs a statistical analysis; the curve in the simulator is an exact model expectation.</p><p>A violation rules out the stated package of local factorization, setting independence, and the experimental assumptions. It is not a proof that communication can exceed light speed, that every notion of reality is impossible, or that one interpretation is uniquely correct. Different interpretations locate the failed assumptions differently.</p><p>The lesson separates EPR's motivation, the Bell inequality, and its experimental test. The thought argument alone is not a measured violation. The browser implements the quantum correlation function, so seeing it cross the bound checks the model and geometry, not nature.</p></section>
-<section class="book-section" id="explore"><h2>Explore the experiment</h2><p>Sweep Bob’s angle and find the largest |S|. Inspect the four correlation terms separately. Check that the local outcome probabilities stay balanced throughout.</p><div data-lab="bell"></div></section>
-<section class="book-section" id="worked"><h2>A worked example</h2><p>At θ=45°, calculate the four correlations and S.</p><div class="worked-answer"><p>E00=E01=E10=−1/√2 and E11=+1/√2. Thus S=−4/√2=−2√2, whose magnitude exceeds the local bound two.</p></div></section>
-<section class="book-section" id="practice"><h2>Try it yourself</h2><article class="exercise" id="exercise-1"><h3>Problem 17.1</h3><p>Why can perfect anticorrelation at one setting have a local explanation?</p><details class="exercise-hint"><summary>Hint</summary><p>Construct opposite instructions.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>The source can send A=λ and B=−λ for a random λ=±1. Additional settings are needed to constrain such models.</p></details></article><article class="exercise" id="exercise-2"><h3>Problem 17.2</h3><p>What is |S| at θ=0°?</p><details class="exercise-hint"><summary>Hint</summary><p>Substitute into the derived expression.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>|S|=2, at the local bound. Entanglement alone does not make every setting choice violate CHSH.</p></details></article><article class="exercise" id="exercise-3"><h3>Problem 17.3</h3><p>Can Alice choose her individual singlet outcome to signal?</p><details class="exercise-hint"><summary>Hint</summary><p>Distinguish a setting choice from a random result.</p></details><details class="problem-solution exercise-solution"><summary>Worked solution</summary><p>No. Her outcome is uncontrollable and Bob’s marginal remains balanced. Correlations are revealed by comparing records.</p></details></article></section>
-<section class="book-section" id="takeaways"><h2>What to carry forward</h2><p>Bell tests constrain a precise assumption package using correlations across settings. Keep the local bound, quantum prediction, and statistical estimate distinct.</p></section><section class="book-section" id="sources"><h2>Sources and further exploration</h2><p>These readings provide historical context, experimental implementations, or deeper derivations. The interactive display above is an educational model, not a reproduction of their measured data.</p><ul><li><a href="https://arxiv.org/abs/2212.04737">Aspect: Experimental tests of Bell’s inequalities, a first-hand account</a></li><li><a href="https://arxiv.org/abs/1508.05949">Hensen et al.: Loophole-free Bell inequality violation</a></li></ul></section>
+<section class="book-section" id="section-17-1">
+  <h2>17.1 Singlet anticorrelations and switched analyzer settings</h2>
+  <h3>17.1.1 From EPR elements of reality to Bohm’s spin-singlet pair</h3>
+  <p>In 1935, Einstein, Podolsky, and Rosen (EPR) argued that if an outcome on system \(B\) can be predicted with certainty from a distant measurement on system \(A\) without disturbing \(B\), then \(B\) must already possess a preexisting value (“element of reality”) for that observable. David Bohm reformulated the EPR scenario using two spin-\(1/2\) particles prepared in the rotationally invariant singlet state</p>
+  \[|\Psi^-\rangle = \frac{|01\rangle - |10\rangle}{\sqrt{2}},\]
+  <p>and distributed to two distant stations, Alice and Bob, who choose analyzer directions \(\hat{a}\) and \(\hat{b}\) and record binary outcomes \(A, B \in \{+1, -1\}\).</p>
+  <h3>17.1.2 Why single-axis anticorrelation admits prewritten local instructions</h3>
+  <p>Whenever Alice and Bob orient their spin analyzers along the exact same axis (\(\hat{a} = \hat{b}\)), quantum mechanics predicts—and experiment confirms—perfect anticorrelation: \(E(\hat{a}, \hat{a}) = \langle A B\rangle = -1\), with marginal probabilities \(P(A = \pm 1) = P(B = \pm 1) = 1/2\). However, perfect anticorrelation along parallel axes alone can be reproduced effortlessly by a classical local hidden-variable (LHV) table that assigns each emitted pair a random direction \(\hat{\lambda}\) on the sphere and sets \(A(\hat{a},\hat{\lambda}) = \mathrm{sgn}(\hat{a}\cdot\hat{\lambda})\) and \(B(\hat{b},\hat{\lambda}) = -\mathrm{sgn}(\hat{b}\cdot\hat{\lambda})\). John Bell showed in 1964 that testing whether such prewritten local tables can exist requires comparing correlations across <em>multiple non-collinear</em> analyzer angles.</p>
+  <h3>17.1.3 Planar spin-analyzer angles versus optical polarizer angles</h3>
+  <p>For coplanar spin-\(1/2\) analyzers at angles \(\theta_a\) and \(\theta_b\) in the \(x\)–\(z\) plane, the singlet correlation depends on the relative angle \(\theta_{ab} = \theta_a - \theta_b\) as \(E_{\mathrm{spin}}(\theta_a, \theta_b) = -\cos(\theta_a - \theta_b)\). In polarization-entangled photon experiments, where orthogonal states \(|H\rangle\) and \(|V\rangle\) sit \(90^\circ\) apart in physical space rather than \(180^\circ\) on the Bloch sphere, a physical polarizer rotation by \(\theta_{\mathrm{opt}}\) corresponds to a Bloch rotation by \(2\theta_{\mathrm{opt}}\), so the optical correlation oscillates as \(\pm\cos[2(\theta_a^{\mathrm{opt}} - \theta_b^{\mathrm{opt}})]\). Throughout this chapter we use Bloch/spin angles \(\theta_a, \theta_b\) (equivalent to twice the physical polarizer angle).</p>
+</section>
+
+<section class="book-section" id="section-17-2">
+  <h2>17.2 Local hidden-variable factorization and the CHSH bound</h2>
+  <h3>17.2.1 Factorizable conditional probabilities and setting independence</h3>
+  <p>A local hidden-variable model posits a shared hidden state \(\lambda\) drawn from a normalized probability distribution \(\rho(\lambda)\) that is independent of the analyzer choices (\(\rho(\lambda|a,b) = \rho(\lambda)\), the measurement-independence or “no-superdeterminism” assumption) and satisfies Bell locality: the joint outcome probability factorizes when conditioned on \(\lambda\),</p>
+  \[P(A, B \mid a, b, \lambda) = P_A(A \mid a, \lambda)\,P_B(B \mid b, \lambda).\]
+  <p>Consequently, the local expectation values \(\bar{A}(a,\lambda) = \sum_{A=\pm 1} A\,P_A(A|a,\lambda) \in [-1, 1]\) and \(\bar{B}(b,\lambda) \in [-1, 1]\) yield the ensemble correlation</p>
+  \[E_{\mathrm{LHV}}(a,b) = \int \rho(\lambda)\,\bar{A}(a,\lambda)\,\bar{B}(b,\lambda)\,\mathrm{d}\lambda.\]
+  <h3>17.2.2 Algebraic derivation of the Clauser–Horne–Shimony–Holt inequality</h3>
+  <p>In the Clauser–Horne–Shimony–Holt (CHSH) protocol, Alice chooses between two settings \(a, a'\) and Bob chooses between two settings \(b, b'\). For any fixed \(\lambda\), since \(\bar{A}(a,\lambda), \bar{A}(a',\lambda), \bar{B}(b,\lambda), \bar{B}(b',\lambda) \in [-1, 1]\), the four-term combination</p>
+  \[s(\lambda) = \bar{A}(a,\lambda)\big[\bar{B}(b,\lambda) + \bar{B}(b',\lambda)\big] + \bar{A}(a',\lambda)\big[\bar{B}(b,\lambda) - \bar{B}(b',\lambda)\big]\]
+  <p>is bounded in magnitude by \(|s(\lambda)| \le |\bar{B}(b,\lambda) + \bar{B}(b',\lambda)| + |\bar{B}(b,\lambda) - \bar{B}(b',\lambda)| = 2\max(|\bar{B}(b,\lambda)|, |\bar{B}(b',\lambda)|) \le 2\). Integrating over \(\rho(\lambda)\) yields the CHSH inequality:</p>
+  \[|S| = \big|E(a,b) + E(a,b') + E(a',b) - E(a',b')\big| \le 2.\]
+  <h3>17.2.3 Singlet cosine correlations and Tsirelson’s two-root-two maximum</h3>
+  <p>For a Werner state \(\rho_V = V|\Psi^-\rangle\langle\Psi^-| + \frac{1-V}{4}I\) with singlet visibility \(V \in [0,1]\), the quantum correlation is \(E_Q(\theta_a, \theta_b) = -V\cos(\theta_a - \theta_b)\). Choosing the CHSH angles \(\theta_a = 0\), \(\theta_{a'} = \pi/2\), \(\theta_b = \pi/4\), and \(\theta_{b'} = -\pi/4\) gives \(\theta_a - \theta_b = -\pi/4\), \(\theta_a - \theta_{b'} = \pi/4\), \(\theta_{a'} - \theta_b = \pi/4\), and \(\theta_{a'} - \theta_{b'} = 3\pi/4\), where \(\cos(3\pi/4) = -\cos(\pi/4) = -1/\sqrt{2}\). Summing the four terms yields</p>
+  \[|S_Q| = 4V\cos\!\left(\frac{\pi}{4}\right) = 2\sqrt{2}\,V \approx 2.8284\,V.\]
+  <p>For an ideal singlet (\(V = 1\)), \(|S_Q| = 2\sqrt{2}\) saturates Boris Tsirelson’s general quantum bound for any bipartite state and any local dichotomic observables, and violates the classical bound \(|S| \le 2\) whenever \(V > 1/\sqrt{2} \approx 0.7071\).</p>
+</section>
+
+<section class="book-section" id="section-17-3">
+  <h2>17.3 Loopholes, no-signalling, and assumption packages</h2>
+  <h3>17.3.1 Locality, fair-sampling, and setting-freedom requirements</h3>
+  <p>Translating an observed experimental violation \(|\hat{S}| > 2\) into a rigorous refutation of local hidden variables requires closing three operational loopholes:</p>
+  <ul>
+    <li><strong>Locality loophole:</strong> The setting choice and outcome recording at station \(A\) must be spacelike separated from the setting choice and outcome recording at station \(B\), preventing subluminal or luminal communication of the chosen angle.</li>
+    <li><strong>Detection (fair-sampling) loophole:</strong> If detectors miss a large fraction of emitted pairs and the experimenter postselects only coincidence events, a local model can fake \(|S| > 2\) by making detection probability depend on the local angle and \(\lambda\). Closing the detection loophole without fair-sampling assumptions requires overall system detection efficiency \(\eta > 2/(\sqrt{2} + 1) \approx 82.8\%\) for symmetric CHSH tests (or \(\eta > 2/3\) for Eberhard’s non-maximally entangled inequality).</li>
+    <li><strong>Freedom-of-choice loophole:</strong> Setting generators must be statistically independent of the source’s emission variables \(\lambda\).</li>
+  </ul>
+  <h3>17.3.2 What a Bell violation refutes and why it cannot transmit signals</h3>
+  <p>A loophole-free Bell violation rules out the conjunction of <em>locality</em> and <em>outcome determinism / preexisting setting-independent values</em> (often summarized as local realism). At the same time, quantum mechanics strictly preserves the relativistic no-signalling principle: for every setting \(\theta_b\) chosen by Bob, Alice’s local marginal probability remains</p>
+  \[P(A = \pm 1 \mid \theta_a, \theta_b) = \mathrm{Tr}_B\!\left[(\Pi_A^{\pm}(\theta_a)\otimes I)\rho_{AB}\right] = \frac{1}{2}.\]
+  <p>The non-classical CHSH correlation \(|S| > 2\) becomes visible only when Alice and Bob bring their classical outcome logs together via an ordinary subluminal channel and compute cross-correlations.</p>
+  <h3>17.3.3 Separating model curves from finite-sample hypothesis tests</h3>
+  <p>In a laboratory run with \(N\) trials per setting pair \((a_i, b_j)\), each empirical correlation \(\hat{E}_{ij} = (N_{++} + N_{--} - N_{+-} - N_{-+})/N\) carries statistical standard error \(\sigma_{ij} = \sqrt{(1 - \hat{E}_{ij}^2)/N}\). Reporting a Bell test requires stating both the point estimate \(\hat{S}\) and the number of standard deviations \((|\hat{S}| - 2)/\sigma_S\) (or the martingale \(p\)-value for memory-tolerant sequential trials) by which the data exceed the local bound \(2\).</p>
+</section>
+
+<section class="book-section" id="explore">
+  <h2>Explore the Apparatus</h2>
+  <p>Adjust the four analyzer angles \((\theta_a, \theta_{a'}, \theta_b, \theta_{b'})\) and the singlet state visibility \(V\) to compare the quantum correlation \(E_Q(\theta_a,\theta_b) = -V\cos(\theta_a - \theta_b)\) against the best classical local hidden-variable triangle wave. Identify the visibility threshold \(V > 1/\sqrt{2}\) above which \(|S|\) crosses the classical ceiling \(2\) toward Tsirelson’s bound \(2\sqrt{2}\).</p>
+  <div data-lab="bell"></div>
+</section>
+
+<section class="book-section" id="worked">
+  <h2>Worked Check</h2>
+  <p><strong>Problem:</strong> A Bell experiment prepares a noisy singlet state with visibility \(V = 0.85\) and uses the optimal CHSH angles (\(|S_Q| = 2\sqrt{2}\,V\)). Each of the four setting pairs \((a,b), (a,b'), (a',b), (a',b')\) is measured for \(N = 1000\) independent pair trials. Compute the expected CHSH parameter \(|S_Q|\), the single-setting correlation magnitude \(|E|\), the statistical standard error \(\sigma_S\) on \(S\), and the significance \((|S_Q| - 2)/\sigma_S\) of the violation.</p>
+  <div class="worked-answer">
+    <p><strong>Solution:</strong></p>
+    <p>1. At the optimal CHSH angles, each of the four correlations has magnitude</p>
+    \[|E| = \frac{V}{\sqrt{2}} = \frac{0.85}{\sqrt{2}} \approx 0.6010, \qquad |S_Q| = 4|E| = 2\sqrt{2}(0.85) \approx 2.4042.\]
+    <p>2. Each setting pair has variance \(\sigma_E^2 = (1 - E^2)/N = (1 - 0.85^2/2)/1000 = (1 - 0.36125)/1000 = 6.3875\times 10^{-4}\). Summing the four independent setting variances gives</p>
+    \[\sigma_S = \sqrt{4\sigma_E^2} = 2\sqrt{6.3875\times 10^{-4}} \approx 0.0505.\]
+    <p>3. The violation exceeds the classical bound \(2\) by</p>
+    \[\frac{|S_Q| - 2}{\sigma_S} = \frac{2.4042 - 2.0000}{0.0505} \approx 8.0\,\sigma.\]
+  </div>
+</section>
+
+<section class="book-section" id="practice">
+  <h2>Practice Problems</h2>
+  <div class="exercise-list">
+    <article class="exercise" id="exercise-1">
+      <h3>Problem 17.1: Visibility threshold for a CHSH violation</h3>
+      <p>A source emits the Werner state \(\rho_V = V|\Psi^-\rangle\langle\Psi^-| + \frac{1-V}{4}I\). What minimum singlet visibility \(V_{\min}\) is required to violate the CHSH inequality \(|S| \le 2\), and what is the maximum \(|S|\) achievable when \(V = 0.65\)?</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Set \(2\sqrt{2}\,V_{\min} = 2\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Setting \(2\sqrt{2}\,V_{\min} = 2\) gives \(V_{\min} = 1/\sqrt{2} \approx 0.7071\). When \(V = 0.65 < 1/\sqrt{2}\), the maximum quantum value is \(|S_{\max}| = 2\sqrt{2}(0.65) \approx 1.838 \le 2\), which cannot violate the CHSH inequality for any choice of analyzer angles.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-2">
+      <h3>Problem 17.2: Evaluating CHSH at non-optimal angles</h3>
+      <p>For an ideal singlet (\(V = 1\)), suppose Alice chooses \(\theta_a = 0^\circ\) and \(\theta_{a'} = 60^\circ\), while Bob chooses \(\theta_b = 30^\circ\) and \(\theta_{b'} = -30^\circ\). Calculate the four correlations \(E(a,b), E(a,b'), E(a',b), E(a',b')\) and the resulting \(|S|\).</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Use \(E(\theta_a,\theta_b) = -\cos(\theta_a - \theta_b)\) and note that \(\theta_{a'} - \theta_{b'} = 90^\circ\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Here \(E(0^\circ, 30^\circ) = -\cos(-30^\circ) = -\sqrt{3}/2\), \(E(0^\circ, -30^\circ) = -\cos(30^\circ) = -\sqrt{3}/2\), \(E(60^\circ, 30^\circ) = -\cos(30^\circ) = -\sqrt{3}/2\), and \(E(60^\circ, -30^\circ) = -\cos(90^\circ) = 0\). Thus \(|S| = |-\frac{3\sqrt{3}}{2} - 0| = \frac{3\sqrt{3}}{2} \approx 2.598 > 2\).</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="exercise" id="exercise-3">
+      <h3>Problem 17.3: Why rotated analyzers cannot send a faster-than-light bit</h3>
+      <p>Suppose Bob switches from measuring along \(\theta_b = 0^\circ\) to measuring along \(\theta_{b'} = 90^\circ\) on every pair. Using the singlet reduced state \(\rho_A = \mathrm{Tr}_B(|\Psi^-\rangle\langle\Psi^-|)\), show that Alice’s outcome probabilities \(P(A = \pm 1 \mid \theta_a)\) remain completely unchanged.</p>
+      <div class="exercise-actions">
+        <details class="exercise-hint">
+          <summary>Hint</summary>
+          <p>Compute \(\rho_A = \mathrm{Tr}_B(|\Psi^-\rangle\langle\Psi^-|)\) and evaluate \(\mathrm{Tr}[\Pi_A^{\pm}(\theta_a)\rho_A]\).</p>
+        </details>
+        <details class="problem-solution exercise-solution">
+          <summary>Solution</summary>
+          <p>Tracing out qubit \(B\) from \(|\Psi^-\rangle = (|01\rangle - |10\rangle)/\sqrt{2}\) gives \(\rho_A = \frac{1}{2}|0\rangle\langle 0| + \frac{1}{2}|1\rangle\langle 1| = \frac{1}{2}I\), regardless of what basis Bob chooses or even whether Bob performs a measurement at all. For any rank-1 projector \(\Pi_A^{\pm}(\theta_a)\), \(\mathrm{Tr}[\Pi_A^{\pm}(\theta_a)\rho_A] = \frac{1}{2}\mathrm{Tr}[\Pi_A^{\pm}(\theta_a)] = 1/2\).</p>
+        </details>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="book-section" id="takeaways">
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>Perfect anticorrelation along parallel axes (\(\hat{a} = \hat{b}\)) can be explained by prewritten classical tables, whereas correlations across multiple non-collinear settings are constrained by the CHSH bound \(|S| \le 2\) in any local hidden-variable model.</li>
+    <li>For a spin singlet with visibility \(V\), quantum mechanics predicts \(E_Q(\theta_a,\theta_b) = -V\cos(\theta_a - \theta_b)\) and achieves \(|S_Q| = 2\sqrt{2}\,V\), violating the classical bound whenever \(V > 1/\sqrt{2}\).</li>
+    <li>Loophole-free Bell tests require spacelike separation of setting choices and outcomes (locality), high overall detection efficiency (closing fair sampling), and independent setting generators.</li>
+    <li>Bell violations refute local hidden-variable models while strictly preserving relativistic no-signalling, because local marginal probabilities remain \(1/2\) for all remote setting choices.</li>
+  </ul>
+</section>
+
+<section class="book-section" id="sources">
+  <h2>Sources and Further Reading</h2>
+  <ul>
+    <li>J. S. Bell, <a href="https://doi.org/10.1103/PhysicsPhysiqueFizika.1.195">On the Einstein Podolsky Rosen paradox</a>, <em>Physics Physique Fizika</em> 1, 195 (1964).</li>
+    <li>J. F. Clauser, M. A. Horne, A. Shimony, and R. A. Holt, <a href="https://doi.org/10.1103/PhysRevLett.23.880">Proposed Experiment to Test Local Hidden-Variable Theories</a>, <em>Physical Review Letters</em> 23, 880 (1969).</li>
+    <li>B. Hensen et al., <a href="https://doi.org/10.1038/nature15759">Loophole-free Bell inequality violation using electron spins separated by 1.3 kilometres</a>, <em>Nature</em> 526, 682–686 (2015).</li>
+  </ul>
+</section>

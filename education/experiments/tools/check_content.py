@@ -2,9 +2,14 @@
 """Check the complete course, generated readers, navigation, and local references."""
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
-import json
+import json,sys
 from bs4 import BeautifulSoup
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT.parent))
+sys.path.insert(0,str(ROOT/'tools'))
+from site_navigation import SECTIONS
+from check_manuscripts import check as check_chapter
+EXPECTED_NAV=[label for _,label in SECTIONS]
 chapters=json.loads((ROOT/'chapters.json').read_text());labs=json.loads((ROOT/'labs.json').read_text())
 assert len(chapters)==24 and len(labs)==24
 cache={}
@@ -21,12 +26,13 @@ for c in chapters:
  assert len(manuscript.select('#practice .exercise'))==3
  assert len(manuscript.select('.exercise-hint'))==3 and len(manuscript.select('.exercise-solution'))==3
  assert manuscript.select('#sources a[href^="https://"]')
+ assert not check_chapter(c),check_chapter(c)
 for p in ROOT.glob('*.html'):
  doc=parse(p);ids=[el['id'] for el in doc.select('[id]')]
  assert len(ids)==len(set(ids)),p
  assert doc.h1 and doc.main and doc.title
  nav=doc.select_one('nav[aria-label="Site navigation"]')
- assert [a.get_text() for a in nav.find_all('a')]==['Home','News','Education','Research']
+ assert [a.get_text() for a in nav.find_all('a')]==EXPECTED_NAV
  if p.name!='index.html':
   assert len(doc.select('.qe-lab'))==1 and doc.select_one('svg title') and doc.select_one('svg desc')
   assert doc.select_one('input[type=range]') and doc.select_one('noscript')
