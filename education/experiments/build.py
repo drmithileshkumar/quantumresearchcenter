@@ -9,9 +9,11 @@ sys.path.insert(0,str(ROOT.parent))
 from site_navigation import COURSE_NAV
 from site_logo import COURSE_LOGO
 from asset_versions import version_pages
+import chapter_summary
 from diagrams import svg, scene_svg
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 LABS=json.loads((ROOT/'labs.json').read_text())
+SUMMARIES=chapter_summary.load(ROOT,{c['stem'] for c in CHAPTERS})
 
 def nav(current):
  out=COURSE_LOGO+'<a class="book-home" href="index.html">Quantum Experiments<span>Apparatus, arguments, and evidence</span></a><a class="nav-introduction" href="index.html">About this course</a>'
@@ -62,6 +64,9 @@ def main():
    if tag in source:
     source=source.replace(tag,scene_block(sid,c,sec))
   source=source.replace(f'<div data-lab="{c["kind"]}"></div>',lab(c))
+  summary_html=chapter_summary.render(SUMMARIES.get(c['stem']))
+  if summary_html and '<section class="book-section" id="practice">' in source:
+   source=source.replace('<section class="book-section" id="practice">',summary_html+'<section class="book-section" id="practice">',1)
   toc=''.join(f'<li><a href="#{s["id"]}">{esc(s["title"])}</a></li>' for s in c['sections'])+'<li><a href="#explore">Interactive experiment</a></li><li><a href="#practice">Problems and solutions</a></li>'
   body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{esc(c["part"])} · Chapter {i+1:02}</p><h1>{esc(c["title"])}</h1><p class="chapter-subtitle">{esc(c["question"])}</p><details class="chapter-contents"><summary>In this chapter</summary><ol>{toc}</ol></details></header>'+source
   prev=CHAPTERS[i-1] if i else None;nxt=CHAPTERS[i+1] if i+1<len(CHAPTERS) else None

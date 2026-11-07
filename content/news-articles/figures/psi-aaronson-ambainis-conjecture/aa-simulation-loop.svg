@@ -1,0 +1,76 @@
+<svg viewBox="0 0 640 310" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="310" rx="8" class="fig-bg"/>
+
+  <text x="20" y="26" class="fig-label" text-anchor="start">How polynomial influence turns a quantum circuit into a classical decision tree</text>
+
+  <!-- Step 1: Quantum Circuit to Polynomial -->
+  <rect x="20" y="46" width="138" height="176" rx="6" class="fig-box"/>
+  <text x="89" y="68" class="fig-label" text-anchor="middle">Step 1: Polynomial</text>
+  <text x="89" y="88" class="fig-muted" text-anchor="middle">Quantum circuit</text>
+  <text x="89" y="104" class="fig-muted" text-anchor="middle">with T queries</text>
+  <line x1="89" y1="112" x2="89" y2="132" class="fig-line-1"/>
+  <polygon points="85,126 89,134 93,126" class="fig-fill-1"/>
+  <rect x="34" y="140" width="110" height="68" rx="4" class="fig-box-claimed"/>
+  <text x="89" y="160" class="fig-label" text-anchor="middle">f(x) ∈ [−1, 1]</text>
+  <text x="89" y="178" class="fig-text" text-anchor="middle">deg(f) ≤ 2T</text>
+  <text x="89" y="196" class="fig-muted" text-anchor="middle">variance Var(f)</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="158" y1="134" x2="180" y2="134" class="fig-line-1"/>
+  <polygon points="174,130 182,134 174,138" class="fig-fill-1"/>
+
+  <!-- Step 2: AA Conjecture (Heavy Influence Coordinate) -->
+  <rect x="184" y="46" width="154" height="176" rx="6" class="fig-box-claimed"/>
+  <text x="261" y="68" class="fig-label" text-anchor="middle">Step 2: Heavy wire</text>
+  <text x="261" y="86" class="fig-muted" text-anchor="middle">AA theorem guarantees</text>
+  <text x="261" y="102" class="fig-muted" text-anchor="middle">some bit i* has large</text>
+  <text x="261" y="118" class="fig-label" text-anchor="middle">Infᵢ*[f] ≥ c·Var(f)⁵/²/d⁶</text>
+
+  <!-- Mini bar chart of influences -->
+  <line x1="204" y1="188" x2="318" y2="188" class="fig-axis"/>
+  <rect x="212" y="172" width="12" height="16" class="fig-fill-muted"/>
+  <rect x="230" y="176" width="12" height="12" class="fig-fill-muted"/>
+  <rect x="248" y="132" width="16" height="56" class="fig-fill-2"/>
+  <rect x="270" y="168" width="12" height="20" class="fig-fill-muted"/>
+  <rect x="288" y="178" width="12" height="10" class="fig-fill-muted"/>
+  <text x="256" y="204" class="fig-label" text-anchor="middle">bit i*</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <line x1="338" y1="134" x2="360" y2="134" class="fig-line-2"/>
+  <polygon points="354,130 362,134 354,138" class="fig-fill-2"/>
+
+  <!-- Step 3: Classical Query & Restriction -->
+  <rect x="364" y="46" width="136" height="176" rx="6" class="fig-box"/>
+  <text x="432" y="68" class="fig-label" text-anchor="middle">Step 3: Query xᵢ*</text>
+  <text x="432" y="88" class="fig-muted" text-anchor="middle">Classical simulator</text>
+  <text x="432" y="104" class="fig-muted" text-anchor="middle">queries bit xᵢ* = ±1</text>
+  <text x="432" y="120" class="fig-muted" text-anchor="middle">and restricts f:</text>
+
+  <circle cx="432" cy="144" r="13" class="fig-node"/>
+  <text x="432" y="148" class="fig-label" text-anchor="middle">xᵢ*</text>
+  <line x1="422" y1="154" x2="398" y2="180" class="fig-link"/>
+  <line x1="442" y1="154" x2="466" y2="180" class="fig-link"/>
+  <text x="396" y="196" class="fig-text" text-anchor="middle">f|+1</text>
+  <text x="468" y="196" class="fig-text" text-anchor="middle">f|−1</text>
+  <text x="432" y="212" class="fig-muted" text-anchor="middle">Var drops by Infᵢ*[f]</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <line x1="500" y1="134" x2="522" y2="134" class="fig-line-1"/>
+  <polygon points="516,130 524,134 516,138" class="fig-fill-1"/>
+
+  <!-- Step 4: Stop when variance is small -->
+  <rect x="526" y="46" width="94" height="176" rx="6" class="fig-box-claimed"/>
+  <text x="573" y="76" class="fig-label" text-anchor="middle">Step 4</text>
+  <text x="573" y="102" class="fig-text" text-anchor="middle">When</text>
+  <text x="573" y="122" class="fig-label" text-anchor="middle">Var(f) &lt; ε²</text>
+  <text x="573" y="146" class="fig-muted" text-anchor="middle">f is nearly</text>
+  <text x="573" y="162" class="fig-muted" text-anchor="middle">constant:</text>
+  <text x="573" y="184" class="fig-label" text-anchor="middle">Output E[f]</text>
+
+  <!-- Feedback Loop Arrow under Step 3 -> Step 2 -->
+  <path d="M 432,222 L 432,254 L 261,254 L 261,226" class="fig-measure"/>
+  <polygon points="257,232 261,222 265,232" class="fig-fill-1"/>
+  <text x="346" y="272" class="fig-muted" text-anchor="middle">Repeat poly(T / ε) times while Var(f) ≥ ε²</text>
+  <text x="320" y="294" class="fig-text" text-anchor="middle">Result: a classical decision tree of depth O(T⁶ / ε⁵) approximates the quantum circuit on a (1 − ε)-fraction of inputs</text>
+</svg>
+

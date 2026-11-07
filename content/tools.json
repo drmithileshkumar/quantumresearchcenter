@@ -51,6 +51,21 @@
         "CNOT, CZ and SWAP on any pair",
         "Measurement of any qubit"
       ]
+    },
+    {
+      "id": "majorana",
+      "kind": "Visualizer",
+      "title": "Majorana constellation explorer",
+      "href": "tools/majorana.html",
+      "summary": "A symmetric state of n qubits drawn as n points on one Bloch sphere. Drag the stars, or prepare a cat, coherent, Dicke or W state, and read the Dicke amplitudes, the collective spin and the geometric measure of entanglement. The page states exactly which states the picture can and cannot describe.",
+      "features": [
+        "n stars for n symmetric spins",
+        "Draggable stars on an orbitable sphere",
+        "Dicke amplitudes beside the picture",
+        "Spin length and geometric measure",
+        "Cat, coherent, Dicke and W presets",
+        "Keyboard control of every star"
+      ]
     }
   ],
   "planned": [

@@ -1,0 +1,45 @@
+{
+  "id": "2611.07271",
+  "topic": "information",
+  "title": "Upper and lower bounds for few-copy Gaussian tomography, and the absence of a fermionic warm regime",
+  "authors": "Ron Rubin",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Learning an \\(m\\)-mode Gaussian state to trace distance \\(\\epsilon\\) takes \\(\\Theta(m^2/\\epsilon^2)\\) copies if all copies can be measured jointly. With one copy at a time, mixed states need more. Chen, Mele, Mele and Preskill showed that for bosons cold states need \\(m^3/\\epsilon^2\\) but warm states only \\(m^2/\\epsilon^2\\). They asked how this temperature crossover looks for finite-dimensional systems. Is there a warm regime for fermions, and what do measurements on blocks of \\(k\\) copies buy?",
+  "result": "Fermions have no warm regime: for every \\(\\beta_0>0\\), quadratic Gibbs states with \\(\\beta\\|h\\|_F\\le\\beta_0\\) need \\(\\Theta(m^3/\\epsilon^2)\\) single-copy samples at accuracies resolving the ball. At the maximally mixed state, blocks of at most \\(k\\) copies need \\[N>\\frac{m^3}{8{,}553{,}600\\,k\\,\\epsilon^2}\\qquad(\\epsilon\\le1/3600).\\] An exact formula shows that the Fisher budget behind this bound is asymptotically attained. Near the vacuum, blocks need \\(\\Omega(m^3/(\\epsilon^2\\min\\{\\sqrt k,m\\}))\\). A particle-number measurement followed by the Nayak–Zhou qudit protocol attains this for every \\(k\\) on number-conserving fermionic and on all cold bosonic Gaussian states.",
+  "significance": "It answers the fermionic version of the Chen–Mele–Mele–Preskill question. The reason is that the fermionic covariance is bounded, \\(\\|\\Gamma\\|_{\\rm op}\\le1\\), so nothing plays the role of a large thermal photon number. It closes their \"k-entangled gap\" on the cold bosonic class. It also separates the two regimes: per extra copy in a block, the gain is a factor \\(t\\) at infinite temperature but only \\(\\sqrt t\\) near the vacuum. Parity superselection changes none of the rates.",
+  "limitations": "Whether \\(1/k\\) is the true block rate at the maximally mixed state, or only a property of the Fisher budget, is open, as are intermediate temperatures and \\(k\\)-copy upper bounds on the general classes. The constants are explicit but far from tight. The author's earlier single-copy result and the bosonic results it builds on are recent preprints. The representation-theoretic formula for the maximal Fisher information (Theorem 3.6) and the near-vacuum batching argument were not checked here.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1–2 and Section 3 through Remark 3.5 of the linked arXiv version, read 2026-11-07, including the full proofs of Lemmas 3.1–3.2 and Theorem 3.4. Sections 3.6 onward, 4–6 and the open-problems section were read for their statements only.",
+  "verified_on": "2026-11-07",
+  "methods_source_section": "Section 3 (Lemmas 3.1–3.2, Theorem 3.4, Theorem 3.6)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Mixed fermionic Gaussian states on \\(m\\) modes are \\(\\rho_\\theta=e^{K_\\theta}/(2^mz_\\theta)\\) with \\(K_\\theta=\\sum_{a<b}\\theta_{ab}\\,ic_ac_b\\), which has \\(p=m(2m-1)\\) real parameters. Here \\(\\theta=-\\beta h\\) for a quadratic Hamiltonian \\(h\\), so \\(\\|\\theta\\|_2=\\beta\\|h\\|_F\\). The maximally mixed state is \\(\\theta=0\\). In the block model a protocol measures \\(t_j\\le k\\) fresh copies jointly in round \\(j\\), adaptively, with no quantum memory between rounds.",
+    "The hard family sits in the small ball \\(\\|\\theta\\|_2\\le120\\sqrt3\\,\\epsilon\\) around the maximally mixed state. That ball is the high-temperature end of every Gibbs class. So raising the temperature only narrows the accuracy window \\(\\epsilon\\le\\min\\{1/3600,\\beta_0/(120\\sqrt3)\\}\\) and never lowers the \\(m^3\\) rate. This is the fermionic answer to the warm-regime question.",
+    "Near the vacuum the argument is different. Qudit tomography embeds into number-conserving Gaussian states through exterior powers, so the qudit separation \\(d^3\\) versus \\(d^2\\) transfers. The Chen–Mele–Mele–Preskill batching argument removes a logarithm that the author's earlier version carried. The same embedding also carries upper bounds, which is how the \\(k\\)-copy rate is pinned down on the cold classes.",
+    "The collective lower bound \\(N>m^2/(4{,}276{,}800\\,\\epsilon^2)\\) at the maximally mixed state comes from the same argument with the quantum Fisher information. The single-copy and quantum budgets, \\(2m\\) and \\(m(2m-1)\\), differ by exactly the factor \\(m\\) that separates the two rates."
+  ],
+  "methods": [
+    {
+      "technique": "Replicated-parameter Fisher budget",
+      "explanation": "\\(t\\) copies of an \\(m\\)-mode Gaussian state are one \\(mt\\)-mode Gaussian state whose parameters are copied block-diagonally. The known single-copy bound on total Fisher information, applied in \\(mt\\) modes and pulled back through the copying map, bounds any joint measurement on \\(t\\) copies. A van Trees inequality turns the Fisher budget into a sample bound.",
+      "math": [
+        "With Jordan–Wigner Majoranas on \\(mt\\) modes, \\(\\rho_\\theta^{\\otimes t}=\\rho_{A\\theta}\\), where \\(A\\) copies \\(\\theta\\) into each diagonal block. Then \\(A^TA=tI_p\\) and \\(\\|AA^T\\|_{\\rm op}=t\\). The chain rule gives \\(I^{(t)}_M(\\theta)=A^TI^{(mt)}_M(A\\theta)A\\), so \\[\\operatorname{tr}I^{(t)}_M\\le t\\,\\operatorname{tr}I^{(mt)}_M\\le C_r^2\\,m\\,t^2,\\qquad C_r=\\frac{\\sinh 2r}{2r}.\\] Over an adaptive protocol the block scores add, giving total Fisher trace at most \\(2mkn\\) for \\(n\\) copies when \\(r\\le r_0=1/(10\\sqrt3)\\).",
+        "Van Trees on the cube \\([-a,a]^p\\) with \\(a=r/\\sqrt p\\) gives \\(\\mathbb E\\|\\hat\\theta-\\theta\\|^2\\ge p^2/(2mkn+\\pi^2p^2/r^2)\\). If \\(n\\le p^2/(2mkr^2)\\), this is at least \\(r^2/(1+\\pi^2)\\approx0.092\\,r^2\\). A protocol with accuracy \\(\\epsilon\\), amplified over 99 runs, achieves risk \\((r/5)^2+0.01(2r)^2=0.08\\,r^2\\) when \\(r=120\\sqrt3\\,\\epsilon\\). The contradiction forces \\(99N>p^2/(2mk\\cdot43{,}200\\,\\epsilon^2)\\). Editorial check: \\(198\\times43{,}200=8{,}553{,}600\\); \\(120\\sqrt3/3600=r_0\\) to machine precision, so \\(\\epsilon\\le1/3600\\) is exactly \\(r\\le r_0\\); and \\(C_{r_0}^2=1.0045<2\\)."
+      ],
+      "transfer": "For any family where \\(t\\) copies form another member of the same family with replicated parameters (Gaussian states, product exponential families, i.i.d. channels), a single-copy Fisher-trace bound uniform in system size immediately bounds block measurements by a factor \\(t\\) per copy. The real question is then whether that budget is attained."
+    },
+    {
+      "technique": "Exact maximal Fisher information from spinor tensor powers",
+      "explanation": "At the maximally mixed state the \\(t\\)-copy problem has \\(\\mathrm{Spin}(2m)\\) symmetry, so the best joint measurement can be found by decomposing \\(t\\) tensor copies of the spinor representation into irreducibles. The maximal Fisher trace is a dimension-weighted average of squared highest weights. For \\(t=2\\) it has a closed form.",
+      "math": [
+        "For \\(t=2\\) the paper states \\(F_{\\max}(m,2)=4m\\bigl(1-\\binom{2m}{m}4^{-m}\\bigr)\\). Editorial derivation of the shape: the Dirac spinor squared decomposes as \\(\\bigoplus_{j=0}^{2m}\\Lambda^jV\\), with dimensions \\(\\binom{2m}{j}\\). Up to normalisation, \\(\\Lambda^j\\) has squared highest weight \\(\\min(j,2m-j)\\). With \\(J\\sim\\mathrm{Bin}(2m,\\tfrac12)\\), the weighted average is \\(\\mathbb E\\min(J,2m-J)=m-\\mathbb E|J-m|\\). The identity \\(\\mathbb E|J-m|=m\\binom{2m}{m}4^{-m}\\) then gives \\[\\mathbb E\\min(J,2m-J)=m\\Bigl(1-\\tbinom{2m}{m}4^{-m}\\Bigr).\\] Four times this is the stated formula. We checked it exactly for \\(m=2,5,20,100\\) (values 5, 15.08, 69.97, 377.46).",
+        "The Casimir argument gives \\(F_{\\max}(m,t)\\ge mt^2(1-\\sqrt{2(t-1)/m}-3/m)\\), so blocks of fixed size \\(t\\ll m\\) reach the budget \\(mt^2\\) as \\(m\\to\\infty\\). For \\(t=2\\), \\(m=100\\): the lower bound is 331.4, the exact value is 377.5 and the budget is 400. Since \\(\\binom{2m}{m}4^{-m}\\sim1/\\sqrt{\\pi m}\\), the exact value approaches the budget only slowly, as \\(1-O(m^{-1/2})\\)."
+      ],
+      "transfer": "To test whether a Fisher-information budget is tight for joint measurements on copies, compute the maximal Fisher information at a symmetric point by decomposing the copies into irreducibles of the symmetry group. The answer is an average of squared highest weights, which Casimir operators make tractable for every number of copies."
+    }
+  ],
+  "approved_on": "2026-11-07"
+}

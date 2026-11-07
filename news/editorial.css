@@ -177,3 +177,25 @@ html[data-theme=dark] .article-figure{--fig-1:#3987e5;--fig-2:#d95926}
 .feature>.card-banner>svg{aspect-ratio:4/3;max-height:none}
 @media(max-width:520px){.article-banner>svg,.feature>.card-banner>svg{aspect-ratio:5/2}}
 .article-prose .cite-tail{white-space:nowrap}
+/* Structured article parts (NEWS.md): kicker, key numbers, tables and "What to ask" lists.
+   Typography and thin rules only; no boxes or shadows (site style). */
+.editorial .article-prose section.has-kicker{margin-top:52px}
+.editorial .article-prose .section-kicker{font:600 11px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-strong);margin:0 0 6px}
+.editorial .article-prose .section-kicker+h2{margin-top:0}
+.editorial .article-prose section.has-kicker h2{font-size:28px;line-height:1.3;letter-spacing:-.025em}
+.article-toc .toc-kicker{display:block;font:600 10px/1.5 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.editorial .article-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 28px;margin:26px 0 30px;padding:18px 0 4px;border-block:1px solid var(--line)}
+.article-stats>div{display:flex;flex-direction:column-reverse;margin-bottom:14px}
+.article-stats dd{margin:0;font:600 30px/1.15 var(--sans);letter-spacing:-.02em;color:var(--heading)}
+.article-stats dt{font:13px/1.5 var(--sans);color:var(--ink-soft);margin-top:6px}
+.editorial .article-table{margin:28px 0 32px;overflow-x:auto}
+.article-table table{width:100%;min-width:520px;border-collapse:collapse;font:14px/1.55 var(--sans);color:var(--ink)}
+.article-table caption{caption-side:bottom;text-align:left;font:13px/1.6 var(--sans);color:var(--muted);padding-top:10px}
+.article-table th,.article-table td{text-align:left;vertical-align:top;padding:11px 14px 11px 0;border-bottom:1px solid var(--line)}
+.article-table thead th{font:600 11px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line-strong)}
+.article-table tbody th{font-weight:600;color:var(--heading)}
+.editorial .article-asks{margin:28px 0 8px;padding:2px 0 2px 18px;border-left:2px solid var(--blue)}
+.article-asks .asks-label{font:600 11px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-strong);margin:0 0 8px}
+.article-asks ul{margin:0;padding-left:1.1em;font:15.5px/1.65 var(--sans);color:var(--ink)}
+.article-asks li{margin-bottom:6px}
+@media(max-width:520px){.article-stats dd{font-size:26px}.editorial .article-prose section.has-kicker h2{font-size:24px}}

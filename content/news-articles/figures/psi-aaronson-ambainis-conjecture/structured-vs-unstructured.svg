@@ -1,0 +1,74 @@
+<svg viewBox="0 0 640 310" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="310" rx="8" class="fig-bg"/>
+
+  <!-- Left Panel: Structured Promise Problem (Shor / Simon) -->
+  <rect x="18" y="18" width="292" height="274" rx="6" class="fig-box"/>
+  <text x="164" y="42" class="fig-label" text-anchor="middle">1  Structured promise (Shor / Simon)</text>
+  <text x="164" y="60" class="fig-muted" text-anchor="middle">Only inputs obeying a global rule are allowed</text>
+
+  <!-- Periodic wave / valid subset region -->
+  <rect x="36" y="76" width="256" height="96" rx="5" class="fig-wash-1"/>
+  <path d="M 48,136 C 68,88 88,88 108,136 C 128,162 148,162 168,136 C 188,88 208,88 228,136 C 248,162 268,162 280,136" class="fig-line-1"/>
+  <circle cx="78" cy="100" r="6" class="fig-fill-1"/>
+  <circle cx="168" cy="136" r="6" class="fig-fill-1"/>
+  <circle cx="208" cy="100" r="6" class="fig-fill-1"/>
+
+  <!-- Period arrow -->
+  <line x1="78" y1="86" x2="208" y2="86" class="fig-measure"/>
+  <text x="143" y="83" class="fig-label" text-anchor="middle">hidden period r: xᵢ₊ᵣ = xᵢ</text>
+
+  <!-- Single bit flip escaping promise -->
+  <line x1="168" y1="136" x2="168" y2="196" class="fig-line-2"/>
+  <polygon points="164,188 168,196 172,188" class="fig-fill-2"/>
+  <circle cx="168" cy="204" r="6" class="fig-hollow"/>
+  <text x="168" y="224" class="fig-label" text-anchor="middle">Flip 1 bit (xᵢ ↦ −xᵢ): forbidden!</text>
+  <text x="164" y="244" class="fig-muted" text-anchor="middle">Breaks global periodicity, so P(x) does not</text>
+  <text x="164" y="260" class="fig-muted" text-anchor="middle">have to stay in [0, 1] outside the promise.</text>
+  <text x="164" y="278" class="fig-label" text-anchor="middle">Exponential quantum speedup possible</text>
+
+  <!-- Right Panel: Unstructured Hypercube {−1, +1}^n -->
+  <rect x="330" y="18" width="292" height="274" rx="6" class="fig-box"/>
+  <text x="476" y="42" class="fig-label" text-anchor="middle">2  Unstructured inputs on all of {−1, +1}ⁿ</text>
+  <text x="476" y="60" class="fig-muted" text-anchor="middle">Every bit-string is a valid input to the circuit</text>
+
+  <!-- 3D Hypercube illustration -->
+  <line x1="388" y1="106" x2="468" y2="106" class="fig-link"/>
+  <line x1="388" y1="176" x2="468" y2="176" class="fig-link"/>
+  <line x1="388" y1="106" x2="388" y2="176" class="fig-link"/>
+  <line x1="468" y1="106" x2="468" y2="176" class="fig-link"/>
+
+  <line x1="428" y1="80" x2="508" y2="80" class="fig-link"/>
+  <line x1="428" y1="150" x2="508" y2="150" class="fig-link"/>
+  <line x1="428" y1="80" x2="428" y2="150" class="fig-link"/>
+  <line x1="508" y1="80" x2="508" y2="150" class="fig-link"/>
+
+  <line x1="388" y1="106" x2="428" y2="80" class="fig-link"/>
+  <line x1="468" y1="106" x2="508" y2="80" class="fig-link"/>
+  <line x1="388" y1="176" x2="428" y2="150" class="fig-link"/>
+  <line x1="468" y1="176" x2="508" y2="150" class="fig-link"/>
+
+  <!-- Highlighted influential coordinate edge -->
+  <line x1="468" y1="106" x2="508" y2="80" class="fig-line-2"/>
+  <line x1="388" y1="176" x2="428" y2="150" class="fig-line-2"/>
+
+  <!-- Vertices all valid -->
+  <circle cx="388" cy="106" r="6" class="fig-fill-1"/>
+  <circle cx="468" cy="106" r="6" class="fig-fill-1"/>
+  <circle cx="388" cy="176" r="6" class="fig-fill-1"/>
+  <circle cx="468" cy="176" r="6" class="fig-fill-1"/>
+  <circle cx="428" cy="80" r="6" class="fig-fill-1"/>
+  <circle cx="508" cy="80" r="6" class="fig-fill-2"/>
+  <circle cx="428" cy="150" r="6" class="fig-fill-2"/>
+  <circle cx="508" cy="150" r="6" class="fig-fill-1"/>
+
+  <text x="558" y="106" class="fig-label" text-anchor="middle">0 ≤ P(x) ≤ 1</text>
+  <text x="558" y="124" class="fig-muted" text-anchor="middle">at all 2ⁿ</text>
+  <text x="558" y="140" class="fig-muted" text-anchor="middle">corners</text>
+
+  <text x="476" y="204" class="fig-label" text-anchor="middle">Flip any bit: still a valid input!</text>
+  <text x="476" y="224" class="fig-muted" text-anchor="middle">Capping a degree-2T polynomial at all 2ⁿ</text>
+  <text x="476" y="240" class="fig-muted" text-anchor="middle">corners forces some bit xᵢ to have large</text>
+  <text x="476" y="256" class="fig-muted" text-anchor="middle">influence Infᵢ[P] ≥ poly(Var(P)/T).</text>
+  <text x="476" y="278" class="fig-label" text-anchor="middle">Classical poly(T) simulation on most inputs</text>
+</svg>
+

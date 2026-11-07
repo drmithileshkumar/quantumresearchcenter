@@ -1,0 +1,98 @@
+{
+  "01-physical-quantum-computation": [
+    "DiVincenzo’s criteria organize physical quantum computation around well-defined qubits, fiducial state initialization, universal gate control, long coherence times relative to gate duration, and high-fidelity qubit-specific readout.",
+    "Physical error rates, gate speeds, connectivity graphs, and classical control bandwidth determine whether an abstract circuit can execute before decoherence erases its quantum state.",
+    "Different hardware platforms trade fast solid-state couplings against long atomic or optical coherence times, requiring platform-aware compilation and architecture design."
+  ],
+  "02-physical-qubits": [
+    "A physical qubit isolates two controllable energy levels \\(|0\\rangle\\) and \\(|1\\rangle\\) inside a much larger Hilbert space of anharmonic oscillators, atomic hyperfine states, or spin degrees of freedom.",
+    "Sufficient anharmonicity \\(\\alpha = \\omega_{12} - \\omega_{01}\\) is essential so resonant drives address the \\(|0\\rangle \\leftrightarrow |1\\rangle\\) transition without leaking population into higher excited states \\(|2\\rangle\\).",
+    "Rotating-frame transformations and the rotating-wave approximation reduce fast carrier oscillations to an effective Bloch-sphere control Hamiltonian."
+  ],
+  "03-coherent-control": [
+    "Resonant microwave or optical pulses drive Rabi oscillations at rate \\(\\Omega\\), where pulse amplitude and duration set the rotation angle \\(\\theta = \\int \\Omega(t)\\,dt\\) and carrier phase sets the rotation axis in the \\(XY\\) plane.",
+    "Virtual \\(Z\\) gates update the software reference phase of subsequent drive pulses instantaneously with zero physical gate time and zero additional decoherence.",
+    "Pulse shaping techniques such as DRAG suppress spectral leakage to neighboring transitions and correct AC Stark phase shifts."
+  ],
+  "04-qubit-interactions": [
+    "Entangling two-qubit gates require a controllable physical interaction—such as capacitive/inductive coupling, shared motional modes, or dipolar blockade—that generates conditional phase or exchange dynamics.",
+    "Always-on couplings are switched effectively by tuning qubit frequencies into and out of resonance or by driving sideband and cross-resonance transitions.",
+    "Two-qubit gates are typically slower and more error-prone than single-qubit rotations, making two-qubit gate fidelity and spectator crosstalk the primary bottlenecks of circuit execution."
+  ],
+  "05-initialization-and-readout": [
+    "Passive thermal equilibration initializes qubits only when \\(\\hbar\\omega_{01} \\gg k_B T\\); faster execution uses active reset, optical pumping, or conditional measurement feed-forward.",
+    "Quantum non-demolition (QND) readout couples the qubit observable \\(Z\\) to a pointer mode—such as a dispersive microwave resonator or cycling fluorescence transition—so repeated integration amplifies the signal without flipping the qubit.",
+    "Assignment fidelity balances integration time against \\(T_1\\) relaxation decay during measurement and overlap between pointer-state distributions."
+  ],
+  "06-noise-and-decoherence": [
+    "Energy relaxation (\\(T_1\\)) describes irreversible decay between \\(|1\\rangle\\) and \\(|0\\rangle\\) through spontaneous emission or dielectric loss, shrinking the longitudinal Bloch component.",
+    "Pure dephasing (\\(T_\\phi\\)) arises from low-frequency fluctuations in the qubit transition frequency, combining with relaxation via \\(1/T_2 = 1/(2T_1) + 1/T_\\phi\\) to damp transverse phase coherence.",
+    "Dynamical decoupling sequences such as Hahn spin echo and CPMG filter out quasistatic and low-frequency environmental noise while preserving targeted gate operations."
+  ],
+  "07-calibration-and-characterization": [
+    "Spectroscopy, Rabi chevron scans, Ramsey fringes, and spin-echo sequences form the daily calibration pipeline that locks drive frequencies, amplitudes, and coherence times.",
+    "Quantum state and process tomography reconstruct full density matrices or channels at exponential sampling cost and remain vulnerable to state-preparation-and-measurement (SPAM) errors.",
+    "Randomized benchmarking (RB) and cycle benchmarking isolate average gate error rates from SPAM bias by fitting survival decay curves over variable-length Clifford sequences."
+  ],
+  "08-superconducting-circuits": [
+    "Josephson junctions provide a dissipationless nonlinear inductance that turns an LC microwave resonator into an anharmonic transmon, fluxonium, or phase qubit.",
+    "Transmon qubits operate at large \\(E_J/E_C\\) ratios to exponentially suppress charge-noise sensitivity at the cost of reduced anharmonicity (\\(\\alpha/2\\pi \\approx -200\\text{ to }-300\\text{ MHz}\\)).",
+    "Dispersive circuit QED couples superconducting qubits to microwave transmission-line resonators for both multiplexed QND readout and bus-mediated two-qubit gates."
+  ],
+  "09-trapped-ions": [
+    "Radio-frequency Paul traps and Penning traps levitate atomic ions in ultra-high vacuum, providing identical qubits with coherence times reaching seconds to minutes.",
+    "Laser or microwave fields couple internal hyperfine or optical qubit states to shared quantized vibrational (phonon) modes of the ion crystal.",
+    "Mølmer–Sørensen and geometric-phase gates entangle arbitrary pairs of ions within a trap module via bichromatic sideband drives that disentangle the motional mode at the end of the pulse."
+  ],
+  "10-neutral-atoms": [
+    "Optical tweezers formed by tightly focused laser beams trap and dynamically rearrange hundreds to thousands of neutral alkali or alkaline-earth atoms in two- and three-dimensional arrays.",
+    "Exciting atoms to high-principal-quantum-number Rydberg states induces strong van der Waals or dipole–dipole interactions that blockade simultaneous excitation within the blockade radius \\(R_b\\).",
+    "The Rydberg blockade mechanism enables sub-microsecond multi-qubit \\(CZ\\) gates combined with zoned architectures where coherent atom shuttling reconfigures connectivity mid-circuit."
+  ],
+  "11-semiconductor-spins": [
+    "Electrostatic quantum dots in isotopically purified silicon or germanium confine single electrons or holes whose spin states serve as sub-micron solid-state qubits.",
+    "Exchange interactions \\(J(t)\\) controlled by barrier gate voltages implement fast \\(\\sqrt{\\mathrm{SWAP}}\\) and controlled-phase gates between neighboring dots, while micromagnets or spin–orbit coupling enable electric-dipole spin resonance (EDSR).",
+    "Pauli spin blockade and RF single-electron transistors convert spin correlations into measurable charge configurations Compatible with CMOS fabrication."
+  ],
+  "12-defect-centers": [
+    "Point defects in wide-bandgap crystals—such as nitrogen-vacancy (NV) and silicon-vacancy (SiV) centers in diamond—host optically addressable electronic spins with long coherence even at elevated temperatures.",
+    "The central electronic spin couples via hyperfine interactions to nearby nuclear spins (such as \\(^{13}\\mathrm{C}\\)), which act as long-lived quantum memory registers.",
+    "Spin-selective optical transitions entangle remote defect centers by heralded photon interference, making color centers prime nodes for quantum networks and nanoscale sensing."
+  ],
+  "13-photonic-computation": [
+    "Photons encode qubits in polarization, dual-rail path, time-bin, or frequency modes that propagate with negligible thermal decoherence at room temperature.",
+    "Because photon–photon interactions in linear media are vanishingly weak, Knill–Laflamme–Milburn (KLM) and fusion-based architectures induce effective entangling gates through Hong–Ou–Mandel interference, ancilla photons, and heralding photodetectors.",
+    "Photon loss is the dominant error channel in integrated photonic circuits, driving architectural shifts toward measurement-based cluster states and multiplexed resource-state generators."
+  ],
+  "14-bosonic-encodings": [
+    "Bosonic codes embed a single logical qubit into the infinite-dimensional Fock or phase space of a high-\\(Q\\) harmonic oscillator rather than replicating many two-level systems.",
+    "Cat codes, binomial codes, and Gottesman–Kitaev–Preskill (GKP) grid states structure phase-space support so single-photon loss or small displacement shifts map to orthogonal, correctable error subspaces.",
+    "Dispersive coupling to an ancilla transmon enables parity measurements and SNAP gates, provided ancilla faults are prevented from propagating back into the cavity."
+  ],
+  "15-topological-approaches": [
+    "Topological quantum computation stores logical states in degenerate ground-state manifolds whose protection stems from global topological invariants rather than local symmetry.",
+    "Non-Abelian anyons—such as Majorana zero modes in topological superconductors—transform state vectors by unitary representation matrices when their worldlines are braided in \\(2+1\\) dimensions.",
+    "Distinguishing genuine topological Majorana modes from trivial disorder-induced Andreev bound states requires stringent nonlocal correlation and braiding signatures."
+  ],
+  "16-control-infrastructure": [
+    "Executing a quantum circuit requires a synchronized classical control stack spanning dilution refrigerators or vacuum chambers, ultra-low-noise DAC/ADC boards, microwave mixers, and FPGA/ASIC sequencers.",
+    "Thermal heat loads, wiring attenuation, reflection standing waves, and phase drift across hundreds of coaxial or optical channels impose strict cryogenic engineering budgets.",
+    "Real-time feedback and error correction demand sub-microsecond round-trip latency between readout demodulation and conditional pulse dispatch."
+  ],
+  "17-processor-architecture": [
+    "Qubit connectivity graphs—such as heavy-hex, square-grid, or all-to-all ion chains—govern the SWAP routing overhead versus frequency crowding and crosstalk.",
+    "When single-chip or single-trap capacity saturates, modular architectures link sub-processors via cryogenic microwave interconnects, photonic links, or physical ion/atom shuttling.",
+    "Co-design aligns device topology and native gate sets with target error-correcting codes and compilation passes."
+  ],
+  "18-fault-tolerant-hardware": [
+    "Fault-tolerant operation requires every physical component—two-qubit gates, mid-circuit syndrome readout, ancilla reset, and leakage removal—to remain below the code’s threshold error rate.",
+    "Repeated stabilizer extraction must complete within a single code cycle faster than logical errors accumulate, while classical decoders process syndrome streams without falling behind.",
+    "Correlated cosmic-ray bursts, leakage out of the computational subspace, and erasure errors require dedicated hardware mitigation and erasure-aware decoding."
+  ],
+  "19-hardware-evaluation": [
+    "No single number summarizes a quantum processor: physical qubit count, two-qubit fidelity, coherence-to-gate ratio, connectivity, and circuit layer operations per second (CLOPS) capture complementary dimensions.",
+    "System-level benchmarks such as Quantum Volume, mirror circuits, and application-oriented suites test holistic compilation, crosstalk, and drift that isolated two-qubit RB misses.",
+    "Rigorous hardware evaluation compares quantum execution against the best available classical tensor-network and stabilizer simulators under transparent resource accounting."
+  ]
+}
+

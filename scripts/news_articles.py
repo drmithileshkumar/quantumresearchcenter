@@ -76,6 +76,21 @@ def validate(articles, config, papers):
             if figure is not None and (not isinstance(figure, dict) or not re.fullmatch(r'[a-z0-9-]+\.svg', figure.get('file', ''))
                                        or any(not isinstance(figure.get(k), str) or not figure[k].strip() for k in ('caption', 'alt'))):
                 raise ValueError('Article figures need an SVG file name, caption and alt text: ' + slug)
+        strings = lambda xs: isinstance(xs, list) and all(isinstance(x, str) and x.strip() for x in xs)
+        for section in sections:
+            if 'kicker' in section and (not isinstance(section['kicker'], str) or not section['kicker'].strip()):
+                raise ValueError('Section kicker must be plain text: ' + slug)
+            if 'asks' in section and (not strings(section['asks']) or not section['asks']):
+                raise ValueError('Section asks must be a nonempty list of strings: ' + slug)
+            stats = section.get('stats')
+            if stats is not None and (not isinstance(stats, list) or not 1 <= len(stats) <= 4
+                                      or any(not isinstance(x, dict) or not strings([x.get('value'), x.get('label')]) for x in stats)):
+                raise ValueError('Section stats need one to four items with a value and a label: ' + slug)
+            table = section.get('table')
+            if table is not None and (not isinstance(table, dict) or not strings(table.get('columns')) or not table.get('rows')
+                                      or any(not strings(r) or len(r) != len(table['columns']) for r in table['rows'])
+                                      or ('caption' in table and not strings([table['caption']]))):
+                raise ValueError('Section tables need columns and rows of matching length: ' + slug)
         for section in sections:
             refs = section.get('source_refs', [])
             if not isinstance(refs, list) or any(type(ref) is not int or not 1 <= ref <= len(sources) for ref in refs):
@@ -251,7 +266,7 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
         body += f'<p class="story-meta">{meta}</p></header><div class="article-layout">'
         if long_read:
             # A plain disclosure (the site's standard toggle); articles.js opens it where it fits in the margin.
-            body += '<details class="article-toc"><summary>In this article</summary><ol>'+''.join(f'<li><a href="#section-{i}">{esc(s["heading"])}</a></li>' for i, s in enumerate(sections, 1))+'</ol></details>'
+            body += '<details class="article-toc"><summary>In this article</summary><ol>'+''.join(f'<li><a href="#section-{i}">'+(f'<span class="toc-kicker">{esc(s["kicker"])}</span> ' if s.get('kicker') else '')+f'{esc(s["heading"])}</a></li>' for i, s in enumerate(sections, 1))+'</ol></details>'
         body += '<div class="article-prose">'
         for i, section in enumerate(sections, 1):
             paragraphs = ['<p>'+esc(p) for p in section['paragraphs']]
@@ -266,9 +281,23 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
                 else:
                     closing = ''
                 paragraphs[-1] += '<sup class="cite">'+'<span aria-hidden="true">[</span>'+','.join(f'<a href="#source-{ref}" aria-label="Source {ref}: {esc(article["sources"][ref-1]["title"])}">{ref}</a>' for ref in section['source_refs'])+'<span aria-hidden="true">]</span></sup>'+closing
-            body += f'<section id="section-{i}"><h2>{esc(section["heading"])}</h2>'+''.join(p+'</p>' for p in paragraphs)
+            kicker = f'<p class="section-kicker">{esc(section["kicker"])}</p>' if section.get('kicker') else ''
+            stats = ''
+            if section.get('stats'):
+                # Key numbers, set large, follow the first paragraph that introduces them.
+                stats = '<dl class="article-stats">'+''.join(f'<div><dt>{esc(x["label"])}</dt><dd>{esc(x["value"])}</dd></div>' for x in section['stats'])+'</dl>'
+            parts = [p+'</p>' for p in paragraphs]
+            body += f'<section id="section-{i}"{" class=\"has-kicker\"" if kicker else ""}>{kicker}<h2>{esc(section["heading"])}</h2>'+parts[0]+stats+''.join(parts[1:])
+            table = section.get('table')
+            if table:
+                head = ''.join(f'<th scope="col">{esc(c)}</th>' for c in table['columns'])
+                rows = ''.join('<tr>'+''.join((f'<th scope="row">{esc(c)}</th>' if k == 0 else f'<td>{esc(c)}</td>') for k, c in enumerate(r))+'</tr>' for r in table['rows'])
+                caption = f'<caption>{esc(table["caption"])}</caption>' if table.get('caption') else ''
+                body += f'<div class="article-table" role="region" aria-label="{esc(table.get("caption", section["heading"]))}" tabindex="0"><table>{caption}<thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table></div>'
             if section.get('figure'):
                 body += figure_html(root, article['slug'], section['figure'])
+            if section.get('asks'):
+                body += '<div class="article-asks"><p class="asks-label">What to ask</p><ul>'+''.join(f'<li>{esc(q)}</li>' for q in section['asks'])+'</ul></div>'
             body += '</section>'
         body += '<section class="article-sources"><h2>Sources &amp; further reading</h2><ol>'+''.join(f'<li id="source-{ref}"><a href="{esc(s["url"])}">{esc(s["title"])} ↗</a></li>' for ref, s in enumerate(article['sources'], 1))+'</ol></section>'
         if article.get('related_papers'):

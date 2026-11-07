@@ -1,0 +1,200 @@
+{
+  "slug": "psi-aaronson-ambainis-conjecture",
+  "title": "AI-built proof claims to settle the Aaronson–Ambainis conjecture",
+  "summary": "Physical Superintelligence and David Turturean have released a paper and Lean 4 formalisation claiming to prove the 2008 Aaronson–Ambainis conjecture, which limits quantum speedups on unstructured problems. The background, the key lemma, and what the Lean 4 verification covers.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: two linked hypercubes on the left with a few influential vertices highlighted in orange, and an arrow to a shallow classical decision tree on the right."
+  },
+  "key_points": [
+    "Physical Superintelligence and David Turturean have released a 13-page paper and a Lean 4 formalization claiming to prove the 2008 Aaronson–Ambainis conjecture.",
+    "In the black-box query model, any quantum circuit making T oracle queries has an acceptance probability that is a bounded real polynomial of degree at most 2T.",
+    "The proved bound shows that every such polynomial has at least one input bit whose influence is at least a fixed polynomial in Var(f)/d, allowing a classical decision tree of depth poly(T) to simulate the quantum circuit on most inputs.",
+    "The key breakthrough is a Sign-Preserving Butterfly Lemma that fixes a counterexample in an earlier fractional-certificate strategy by pairing two inputs via a nonvanishing determinant.",
+    "The theorem explains why exponential quantum speedups like Shor's algorithm require rigid global promises on the input rather than working on arbitrary unstructured data."
+  ],
+  "author": "Quantum Research Center",
+  "published": "2026-11-06",
+  "status": "published",
+  "topic": "discoveries",
+  "format": "Explainer",
+  "sections": [
+    {
+      "heading": "An 18-year-old quantum puzzle meets an AI prover",
+      "paragraphs": [
+        "Suppose someone hands you a quantum computer and asks a deceptively simple question: when can this machine beat a classical computer not just by a modest polynomial factor, but exponentially? Every famous exponential quantum speedup we know—Shor’s factoring algorithm, Simon’s period-finding algorithm, the Deutsch–Jozsa algorithm—relies on inputs that obey a rigid, hidden algebraic symmetry. Whenever that symmetry disappears, the exponential speedup seems to vanish too, dropping down to the quadratic speedup of Grover’s search.",
+        "In 2008, computer scientists Scott Aaronson and Andris Ambainis proposed a precise mathematical reason for why that happens. They reduced the question of whether unstructured exponential quantum speedups can exist to a clean conjecture about ordinary multivariable polynomials on the hypercube \\(\\{-1,+1\\}^n\\). For eighteen years, that polynomial statement—the Aaronson–Ambainis conjecture—stood as one of the central open problems in theoretical computer science.",
+        "On 5 November 2026, a research group called Physical Superintelligence (PSI) and researcher David Turturean announced that an internal AI system, guided by human prompting over a three-day run, had discovered and formally verified a proof of the conjecture in the Lean 4 theorem prover. To understand what was proved, why it stayed out of reach for nearly two decades, and what finally unlocked it, let us build the story from the ground up—starting with how computer scientists measure the power of algorithms using black boxes."
+      ],
+      "source_refs": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "heading": "Query complexity 101: counting questions inside a black box",
+      "paragraphs": [
+        "When we want to compare classical and quantum computers without getting bogged down in hardware details or unproven complexity assumptions like \\(\\mathsf{P} \\neq \\mathsf{NP}\\), we use the query model, also called the black-box or oracle model. Imagine an input of \\(n\\) bits, written as \\(x = (x_1, x_2, \\dots, x_n)\\), where for mathematical convenience each bit is represented as \\(+1\\) or \\(-1\\) rather than \\(0\\) or \\(1\\). The string \\(x\\) is locked inside a box. You want to compute some property \\(f(x)\\)—say, whether the string contains an all-ones block, or whether it repeats with some period—by asking the box as few questions as possible.",
+        "How does a classical algorithm interact with this box? It works like a game of Twenty Questions. In step one, the algorithm picks an index \\(i_1\\) and asks, “What is bit \\(x_{i_1}\\)?” The box replies \\(+1\\) or \\(-1\\). Depending on that answer, the algorithm branches along a decision tree and chooses the next index \\(i_2\\) to inspect. After \\(T\\) queries, a classical algorithm has followed a single path down a binary decision tree of depth \\(T\\) and has seen at most \\(T\\) individual bits of \\(x\\). Any other work the algorithm does between questions is free; we only count the number of oracle queries \\(T\\).",
+        "A quantum circuit plays by fundamentally different rules. Instead of picking one index \\(i\\) at a time, the quantum algorithm prepares a register of qubits in a superposition over all \\(n\\) indices at once, written \\(\\sum_{i=1}^n \\alpha_i |i\\rangle\\). When it calls the quantum oracle gate \\(O_x\\), the box acts simultaneously on every branch of the superposition, multiplying the amplitude of branch \\(|i\\rangle\\) by the hidden sign \\(x_i \\in \\{-1,+1\\}\\): \\[ O_x : |i\\rangle \\longmapsto x_i |i\\rangle. \\] A \\(T\\)-query quantum circuit alternates \\(T\\) copies of this oracle gate \\(O_x\\) with fixed unitary gate layers \\(U_0, U_1, \\dots, U_T\\) that do not depend on \\(x\\), and finally measures an output qubit."
+      ],
+      "source_refs": [
+        4,
+        7
+      ],
+      "figure": {
+        "file": "query-circuit-model.svg",
+        "alt": "Two-panel schematic. Top panel shows a classical decision tree querying one bit x_i at a time from an n-bit black box and branching on +1 or -1. Bottom panel shows a quantum query circuit with three horizontal qubit registers passing through alternating unitary gates U_0, U_1, ..., U_T and oracle gates O_x, ending in a measurement whose acceptance probability P(x) is a polynomial of degree at most 2T.",
+        "caption": "Schematic of the black-box query model. A classical algorithm (top) asks for one bit \\(x_i\\) at a time along a decision tree of depth \\(T\\). A quantum circuit (bottom) interleaves \\(T\\) calls to the oracle gate \\(O_x\\) with fixed unitary layers \\(U_0,\\dots,U_T\\); by Beals et al. (1998), its final acceptance probability \\(P(x)\\) is always a polynomial in \\(x_1,\\dots,x_n\\) of degree at most \\(2T\\)."
+      }
+    },
+    {
+      "heading": "Why quantum circuits secretly compute low-degree polynomials",
+      "paragraphs": [
+        "At first glance, querying all \\(n\\) bits in superposition during a single gate \\(O_x\\) sounds invincible. If one quantum query touches every bit \\(x_1, \\dots, x_n\\), why can a quantum computer not solve every problem in one or two steps? The catch is that touching all bits in superposition is not the same as reading them out. A measurement at the end of the circuit yields just a single bit, and quantum advantage comes only when the unitary layers \\(U_k\\) steer the amplitudes so that wrong answers cancel out by destructive interference while the right answer reinforces by constructive interference.",
+        "In 1998, Robert Beals, Harry Buhrman, Richard Cleve, Michele Mosca, and Ronald de Wolf discovered a remarkable algebraic lens on this process, now called the polynomial method. Look at the state of our quantum circuit just before measurement. Before any query, the state \\(U_0|0\\rangle\\) has amplitudes that do not depend on \\(x\\) at all—they are polynomials of degree \\(0\\). Each time the state passes through the oracle gate \\(O_x\\), each amplitude gets multiplied by one variable \\(x_i\\), raising the polynomial degree by at most \\(1\\). The unitary gates \\(U_k\\) in between just take linear combinations of amplitudes, which never increases the degree.",
+        "Therefore, after \\(T\\) quantum queries, every complex amplitude \\(\\psi_T(x)\\) in the circuit is a polynomial in \\(x_1, \\dots, x_n\\) of total degree at most \\(T\\). When we measure the output wire at the end of the circuit, Born’s rule tells us that the acceptance probability \\(P(x) = |\\psi_{\\text{acc}}(x)|^2\\) is the sum of squared magnitudes of those amplitudes. Squaring a degree-\\(T\\) polynomial doubles its degree, and since \\(x_i^2 = (\\pm 1)^2 = 1\\) on the hypercube, we never need powers higher than one for any single variable. In short: the acceptance probability \\(P(x)\\) of any \\(T\\)-query quantum circuit is a multilinear real polynomial of degree \\(d \\le 2T\\) whose value lies in \\([0,1]\\) at every corner \\(x \\in \\{-1,+1\\}^n\\)."
+      ],
+      "source_refs": [
+        4,
+        7
+      ]
+    },
+    {
+      "heading": "Motivating the conjecture: why structure is required for exponential speedups",
+      "paragraphs": [
+        "This polynomial translation lets us see right away why structured quantum algorithms like Shor’s and Simon’s can achieve exponential speedups, while unstructured problems hit a wall. In a structured promise problem, we are promised in advance that the input \\(x\\) is not just any string of \\(n\\) bits: it must obey a strict global constraint, such as being periodic with some hidden period \\(r\\). Because only a tiny, highly correlated subset of the \\(2^n\\) corners of the hypercube are legal inputs, flipping a single bit \\(x_i \\mapsto -x_i\\) breaks the global period and takes us outside the promise. Outside the allowed promise set, the polynomial \\(P(x)\\) does not represent a circuit run on a valid input, so it is free to behave nicely on the periodic inputs while ignoring how single-bit flips behave.",
+        "Now contrast that with an unstructured or total problem, where every single one of the \\(2^n\\) bit strings in \\(\\{-1,+1\\}^n\\) is a legal input. Here, the polynomial \\(P(x)\\) must stay trapped between \\(0\\) and \\(1\\) at all \\(2^n\\) corners of the hypercube simultaneously. Think of this condition—\\(0 \\le P(x) \\le 1\\) everywhere on \\(\\{-1,+1\\}^n\\)—as a tight corset around a polynomial of low degree \\(d \\le 2T\\). A low-degree polynomial that is clamped between \\(0\\) and \\(1\\) at every corner cannot depend equally and noticeably on millions of independent bits at once without its value shooting outside \\([0,1]\\) on the corners where those terms add up with the same sign.",
+        "Aaronson and Ambainis realized that if this intuition is true, then any low-degree bounded polynomial on the full hypercube must have at least one individual bit \\(x_i\\) that carries a substantial share of the polynomial’s variation. And if there is always a single “load-bearing” bit \\(x_i\\), a classical computer can simply query that bit first!"
+      ],
+      "source_refs": [
+        4,
+        7
+      ],
+      "figure": {
+        "file": "structured-vs-unstructured.svg",
+        "alt": "Two-panel comparison. Left panel shows a structured promise problem (Shor or Simon) where valid inputs lie on a periodic wave and flipping a single bit x_i jumps outside the promise. Right panel shows an unstructured problem on the full hypercube {-1, +1}^n where every corner is valid and P(x) must stay in [0, 1] at all 2^n vertices, forcing some bit x_i to have large influence.",
+        "caption": "Why structure separates exponential from polynomial quantum speedups. In a structured promise problem (left), flipping a single bit violates the global period, so the quantum circuit only needs to work on a sparse subset of inputs. On the full unstructured hypercube \\(\\{-1,+1\\}^n\\) (right), bounding \\(0 \\le P(x) \\le 1\\) at all \\(2^n\\) corners forces the degree-\\(2T\\) polynomial to concentrate weight on individual influential coordinates."
+      }
+    },
+    {
+      "heading": "The Aaronson–Ambainis conjecture and the classical simulation loop",
+      "paragraphs": [
+        "To state their conjecture precisely, Aaronson and Ambainis shifted the polynomial from \\([0,1]\\) to \\([-1,1]\\) and used two standard quantities from the analysis of Boolean functions. First, the variance \\(\\mathrm{Var}(f) = \\mathbb{E}[f(x)^2] - \\mathbb{E}[f(x)]^2\\) measures how much \\(f(x)\\) fluctuates across a uniformly random input \\(x \\in \\{-1,+1\\}^n\\); if \\(\\mathrm{Var}(f)\\) is tiny, \\(f\\) is nearly constant and you can guess its value without making any queries at all. Second, the influence of coordinate \\(i\\), written \\(\\mathrm{Inf}_i[f]\\), measures how much \\(f\\) changes on average when you flip just the \\(i\\)-th bit \\(x_i \\mapsto -x_i\\). Setting \\(D_i f(x) = \\tfrac{1}{2}\\bigl(f(x^{(i=+1)}) - f(x^{(i=-1)})\\bigr)\\) for the discrete derivative along bit \\(i\\), the influence is \\[ \\mathrm{Inf}_i[f] = \\mathbb{E}_{x}\\!\\left[(D_i f(x))^2\\right]. \\]",
+        "The Aaronson–Ambainis conjecture states that for every degree-\\(d\\) polynomial \\(f : \\{-1,+1\\}^n \\to [-1,1]\\), there is at least one coordinate \\(i\\) whose influence is bounded below by a fixed polynomial in \\(\\mathrm{Var}(f)/d\\): \\[ \\max_{1 \\le i \\le n} \\mathrm{Inf}_i[f] \\ge \\left(\\frac{\\mathrm{Var}(f)}{d}\\right)^{O(1)}. \\] Notice what is missing from the right-hand side: the number of variables \\(n\\)! Whether the black box holds a hundred bits or \\(10^{100}\\) bits, a degree-\\(d\\) bounded polynomial cannot spread its variance into an exponentially thin mist across all \\(n\\) coordinates; at least one coordinate \\(i^\\star\\) must carry at least a \\(\\mathrm{poly}(\\mathrm{Var}(f)/d)\\) chunk of influence.",
+        "Why does this immediately let a classical computer simulate a quantum circuit on most inputs? Because querying bit \\(i^\\star\\) reduces the expected variance of the remaining polynomial by exactly \\(\\mathrm{Inf}_{i^\\star}[f]\\)! As shown in the schematic below, a classical simulator starts with the quantum circuit’s degree-\\(2T\\) polynomial \\(f\\), finds the most influential bit \\(i^\\star\\), asks the oracle for \\(x_{i^\\star}\\), and plugs the revealed \\(+1\\) or \\(-1\\) into \\(f\\). This produces a new bounded polynomial of degree at most \\(2T\\) on \\(n-1\\) variables whose variance has dropped on average by \\(\\mathrm{Inf}_{i^\\star}[f]\\). Repeating this greedy step \\(\\mathrm{poly}(T/\\varepsilon)\\) times drains the variance below \\(\\varepsilon^2\\), at which point the restricted polynomial is almost constant and the classical tree outputs its mean, matching the quantum circuit within error \\(\\varepsilon\\) on at least a \\((1-\\varepsilon)\\)-fraction of all \\(2^n\\) inputs."
+      ],
+      "source_refs": [
+        2,
+        4
+      ],
+      "figure": {
+        "file": "aa-simulation-loop.svg",
+        "alt": "Four-step flowchart of the Aaronson–Ambainis classical simulation loop. Step 1 converts a T-query quantum circuit into a degree-2T polynomial f(x) in [-1, 1]. Step 2 uses the AA theorem to identify a heavy bit i* with influence at least c * Var(f)^(5/2) / d^6. Step 3 queries bit x_{i*} classically and restricts f, reducing variance by Inf_{i*}[f]. Step 4 loops back until Var(f) < epsilon^2, then outputs the mean.",
+        "caption": "The Aaronson–Ambainis simulation pipeline. Because the polynomial has a coordinate \\(i^\\star\\) with influence at least \\(\\Omega(\\mathrm{Var}(f)^{5/2}/d^6)\\), querying \\(x_{i^\\star}\\) classically and substituting its value shrinks the remaining variance by a polynomial fraction at each step. After \\(O(T^6/\\varepsilon^5)\\) classical queries, the polynomial is nearly constant on almost all inputs."
+      }
+    },
+    {
+      "heading": "Why did this polynomial question stay open for 18 years?",
+      "paragraphs": [
+        "If the conjecture is just a statement about polynomials of degree \\(d\\) bounded between \\(-1\\) and \\(1\\), why was it so hard to prove? The core difficulty is the mismatch between the tools we have for continuous functions and the rigidity of the discrete hypercube \\(\\{-1,+1\\}^n\\). When a function outputs only Boolean values \\(\\{-1,+1\\}\\), famous theorems from Fourier analysis—such as the Kahn–Kalai–Linial (KKL) theorem—give sharp lower bounds on the maximum influence. When a polynomial takes real values in \\([-1,1]\\), however, the algebraic constraint \\(f(x) \\in [-1,1]\\) holds only at the \\(2^n\\) discrete corners; in between those corners, the polynomial can swing wildly.",
+        "Standard hypercontractive inequalities (such as the Bonami–Beckner inequality and the Dinur–Friedgut–Kindler–O’Donnell theorem) do apply to real-valued low-degree polynomials, but they treat the bound \\(|f(x)| \\le 1\\) mainly as an average \\(L_2\\) or \\(L_p\\) norm constraint. As a result, they only guarantee a coordinate with influence \\(2^{-O(d)}\\)—exponentially small in the degree \\(d\\)—which corresponds to a useless \\(2^{O(T)}\\) classical query bound. Getting a polynomial bound \\((\\mathrm{Var}(f)/d)^{O(1)}\\) requires exploiting the fact that \\(|f(x)| \\le 1\\) at every single vertex of the cube, not just on average.",
+        "Even promising breakthroughs repeatedly hit subtle barriers. In 2019, Nathan Keller and Ohad Klein posted a preprint claiming to prove the conjecture by geometric methods, only to retract it after a gap was found in a key lemma. Then, in 2023, Shachar Lovett and Jiapeng Zhang introduced a powerful framework called fractional certificates, proposing a clean route (their Conjecture 37) to prove Aaronson–Ambainis: if one takes disjoint blocks of coordinates \\(B_1,\\dots,B_k\\) at any single input \\(x\\), the sum of squared block shifts \\(\\sum_j (D_{B_j} f(x))^2\\) should be bounded by \\(O(d^2)\\), matching the classical Chebyshev–Markov bound for one-dimensional polynomials. Unfortunately, that single-point conjecture turned out to be false! On the well-known Tribes function (an OR of small AND blocks), a single worst-case corner \\(x\\) allows many blocks to align and push the sum of squared shifts up to \\(\\Omega(d^4)\\), which was too weak to close the concentration argument."
+      ],
+      "source_refs": [
+        1,
+        2,
+        5,
+        8
+      ]
+    },
+    {
+      "heading": "What idea solved the conjecture: the Sign-Preserving Butterfly Lemma",
+      "paragraphs": [
+        "This is exactly where the November 2026 proof by David Turturean and Physical Superintelligence enters. Rather than abandoning the Lovett–Zhang fractional-certificate roadmap, the proof asks: why did the Tribes counterexample defeat the single-point inequality? Because looking at a single worst-case vertex \\(x\\) lets all the sensitivity blocks gang up at one corner. What if, instead of bounding the block shifts at a single point \\(x\\), we average or pair two related points \\((x, y)\\) across the sensitivity blocks?",
+        "The heart of the new paper is a combinatorial and linear-algebraic tool called the Sign-Preserving Butterfly Lemma. Given a collection of disjoint coordinate blocks \\(B_j\\) along which the polynomial \\(f\\) changes significantly, the lemma constructs a pairing between pairs of inputs \\((x, y)\\) and transformed pairs \\((x', y')\\) using a matrix whose determinant is guaranteed not to vanish. Because the determinant is nonzero, the pairing forms a bijection that preserves the signs of the block derivatives \\(D_{B_j} f\\) while strictly bounding the coordinate agreement \\(\\alpha(x,y)\\) between the paired points.",
+        "Once single points are replaced by butterfly-paired configurations \\((x, y)\\), the \\(\\Omega(d^4)\\) spike that ruined the single-point bound cannot happen simultaneously across the paired endpoints, bringing Chebyshev’s classical polynomial inequality back into force with degree scaling \\(d^2\\). Combining this two-point certificate bound with a February 2025 theorem by Utsav Agarwal and Shalev Ben-David—which lower-bounds the fractional block sensitivity of any bounded function by \\(\\Omega(\\mathrm{Var}(f)^2)\\)—yields the explicit theorem verified in the paper: \\[ \\max_{1 \\le i \\le n} \\mathrm{Inf}_i[f] \\ge \\frac{8\\sqrt{15}}{125\\pi^4}\\,\\frac{\\mathrm{Var}(f)^{5/2}}{d^6}. \\] Because the total exponent on \\(\\mathrm{Var}(f)\\) and \\(d\\) is \\(5/2 + 6 = 8.5\\) (or degree exponent \\(6\\), corresponding to an Aaronson–Ambainis exponent of \\(7\\) when written in terms of total influence), the conjecture is established with completely explicit constants."
+      ],
+      "source_refs": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "figure": {
+        "file": "butterfly-pairing-proof.svg",
+        "alt": "Two-panel schematic. Left panel shows the 2023 roadblock: on the Tribes circuit (AND blocks feeding an OR gate), a single worst-case input x lets squared block derivatives spike to Omega(d^4). Right panel shows the 2026 Sign-Preserving Butterfly Lemma: a bipartite butterfly crossing between paired inputs (x, y) and (x', y') via a nonvanishing determinant det(M) != 0, which bounds coordinate agreement and proves max_i Inf_i[f] >= (8*sqrt(15)/(125*pi^4)) * Var(f)^(5/2) / d^6.",
+        "caption": "Overcoming the 18-year barrier. Left: evaluating fractional block certificates at a single corner \\(x\\) fails on Tribes-like functions where block shifts spike to \\(\\Omega(d^4)\\). Right: the 2026 Sign-Preserving Butterfly Lemma pairs inputs \\((x,y)\\) via a nonvanishing determinant bijection, restoring \\(d^2\\) degree scaling and proving \\(\\max_i \\mathrm{Inf}_i[f] = \\Omega(\\mathrm{Var}(f)^{5/2}/d^6)\\)."
+      }
+    },
+    {
+      "heading": "How the AI system built the proof—and what Lean 4 verified",
+      "paragraphs": [
+        "How the proof was found is almost as interesting as the mathematics itself. According to Physical Superintelligence’s technical blog, their internal mathematical reasoning system worked alongside researcher David Turturean over roughly 72 hours. Rather than leaping straight to the final formula, the AI system first found a working way around the Lovett–Zhang counterexample that gave a much looser polynomial bound with exponent \\(22\\). Once that beachhead existed, iterative cycles of algebraic simplification and formal verification tightened the exponent from \\(22\\) to \\(11\\), then to \\(8\\), and finally to the clean bound with degree exponent \\(6\\) presented in the 13-page manuscript.",
+        "Crucially, the authors did not stop at a LaTeX PDF. Because previous human attempts at the Aaronson–Ambainis conjecture (such as the 2019 Keller–Klein preprint) had stumbled over subtle, easy-to-miss algebraic edge cases, the team translated the entire proof of the main polynomial inequality into the Lean 4 interactive theorem prover, building on the community’s Mathlib library. In the public GitHub repository `phys-si/aaronson-ambainis`, the main theorem `aaronson_ambainis` compiles from scratch with zero `sorry` placeholders—meaning Lean’s kernel has mechanically checked every logical and algebraic step from the basic axioms of mathematics to the final inequality.",
+        "What should careful readers still watch for? In any computer-verified proof, the kernel guarantees that the proved theorem follows from the stated definitions; human experts still inspect the top-level definitions in the Lean file to confirm that they faithfully encode multilinear polynomials on \\(\\{-1,+1\\}^n\\), variance, and coordinate influence without hidden hypotheses. Moreover, the classical decision-tree simulation corollary (that \\(O(T^6/\\varepsilon^5)\\) classical queries simulate a \\(T\\)-query quantum circuit on most inputs) follows by Aaronson and Ambainis’s already-published 2008 reduction, so only the core polynomial inequality needed new formalization."
+      ],
+      "source_refs": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ]
+    },
+    {
+      "heading": "What this means for quantum computing going forward",
+      "paragraphs": [
+        "Does settling the Aaronson–Ambainis conjecture mean quantum computers are less useful than we thought? Not at all—it sharpens our map of where quantum advantage actually lives. First, the theorem applies to average-case simulation across the uniform distribution on all \\(2^n\\) unstructured inputs. Even on unstructured search, Grover’s algorithm still achieves its provable quadratic speedup in the worst case—finding a single marked needle in a haystack of \\(N=2^n\\) items in \\(O(\\sqrt{N})\\) quantum queries versus \\(\\Omega(N)\\) classical queries—because on nearly all haystacks the needle is absent and the output is constant anyway.",
+        "Second, and more importantly, the theorem gives a rigorous foundation to a guiding principle that quantum algorithm designers have long suspected: exponential quantum speedups require global structure. Whether you are factoring integers with Shor’s algorithm, simulating the time evolution of molecules and quantum many-body Hamiltonians, or solving linear systems with specific sparsity and conditioning guarantees, exponential quantum advantage comes from exploiting global symmetries and interference patterns that break down if you flip arbitrary bits of the problem description.",
+        "Finally, the polynomial degree exponent is not yet at the end of the road. Known examples show that any Aaronson–Ambainis bound must pay at least \\(d^{-2}\\) in the degree, whereas the newly proved bound pays \\(d^{-6}\\). Closing the gap between \\(d^{-6}\\) and the conjectured optimal \\(d^{-2}\\)—and seeing whether human-AI mathematical collaboration can now tackle even deeper questions in complexity theory, such as the sensitivity and degree structure of quantum communication protocols—will keep both quantum theorists and formal-methods researchers busy well beyond 2026."
+      ],
+      "source_refs": [
+        1,
+        2,
+        4
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Physical Superintelligence: announcement of the Aaronson–Ambainis proof",
+      "url": "https://www.p.si/blog/aaronson-ambainis"
+    },
+    {
+      "title": "David Turturean: A Polynomial Proof of the Aaronson–Ambainis Conjecture",
+      "url": "https://www.p.si/aaronson-ambainis-paper.pdf"
+    },
+    {
+      "title": "Physical Superintelligence: Lean 4 formalization repository",
+      "url": "https://github.com/phys-si/aaronson-ambainis"
+    },
+    {
+      "title": "Scott Aaronson and Andris Ambainis: The Need for Structure in Quantum Speedups",
+      "url": "https://arxiv.org/abs/0911.0996"
+    },
+    {
+      "title": "Shachar Lovett and Jiapeng Zhang: Fractional Certificates",
+      "url": "https://arxiv.org/abs/2308.01493"
+    },
+    {
+      "title": "Utsav Agarwal and Shalev Ben-David: Limitations of Localization",
+      "url": "https://arxiv.org/abs/2502.11275"
+    },
+    {
+      "title": "Beals, Buhrman, Cleve, Mosca and de Wolf: Quantum Lower Bounds by Polynomials",
+      "url": "https://arxiv.org/abs/quant-ph/9802049"
+    },
+    {
+      "title": "Nathan Keller and Ohad Klein: retracted 2019 preprint on the conjecture",
+      "url": "https://arxiv.org/abs/1906.03883"
+    }
+  ],
+  "related_articles": [
+    "openai-exponential-time-hypothesis",
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": []
+}

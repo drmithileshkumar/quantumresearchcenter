@@ -1,0 +1,45 @@
+{
+  "id": "2611.08488",
+  "topic": "computing",
+  "title": "Provable circuit-level thresholds for non-abelian topological phases",
+  "authors": "Yuanjie Ren; Margarita Davydova; Shankar Balasubramanian; Andreas Bauer",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Abelian topological codes such as the toric code have shallow syndrome circuits and decoders with proven thresholds. Non-abelian phases could offer more powerful logical gates, but outside a few \"solvable\" cases (\\(D_4\\), \\(S_3\\)) there was no explicit syndrome-extraction circuit and no circuit-level threshold proof. Earlier work on the double-Fibonacci phase gave only numerics under simplified noise. Can every non-chiral 2D topological phase serve as a fault-tolerant memory under realistic noise?",
+  "result": "For every non-chiral bosonic topological order given by a Turaev–Viro state sum, the paper constructs a local circuit that extracts syndromes and applies corrections. It pairs the circuit with a polynomial-time clustering decoder that runs on the fly. Under local stochastic circuit-level noise with rate below a constant threshold \\(\\epsilon_*\\), the logical error probability decays quasi-stretched-exponentially in the system size \\(L\\). The paper also sketches how the scheme extends to logical gates built from defects.",
+  "significance": "This is the first end-to-end circuit-level threshold theorem for arbitrary non-abelian topological memories, including non-solvable ones such as double Fibonacci. Building the circuit from the space–time path integral makes the usual physical assumptions provable rather than assumed. These include that contractible damage causes no logical fault and that isolated bursts are charge-neutral. The proof makes no use of anyon-specific physics.",
+  "limitations": "The threshold is proved to exist but is not estimated, and no numerics are given; the constants in the proof, such as the factor \\(800\\lambda^{\\mathsf C}Q\\) in Theorem 1, suggest a small value. The decoder is global and assumes instantaneous classical processing. The circuits are generic rather than hardware-optimised, so their depth and qubit overhead for a specific model such as Fibonacci are not worked out. Logical gates are only sketched. The detailed burst estimates of Section IV and the appendices were not checked here.",
+  "status": "approved",
+  "summary_basis": "Description based on the introduction, Sections II.1–II.3 and IV.1, the statement of Theorem 1, and the conclusion of the linked arXiv version, read 2026-11-07. The detailed burst-level estimates of Section IV and the appendices were not checked.",
+  "verified_on": "2026-11-07",
+  "methods_source_section": "Sections III and IV (cluster decoder, burst decomposition, Theorem 1)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A unitary fusion category defines a Turaev–Viro path integral on 2+1-dimensional space–time, whose spatial slice is the Levin–Wen string-net model. The authors implement that path integral directly as a circuit. Each non-unitary local tensor becomes the Kraus operator of a measurement instrument, and a non-trivial outcome inserts a short anyon worldline. Without noise all outcomes are trivial; with noise, outcomes trace out anyon worldlines in space–time.",
+    "Non-abelian anyons cannot simply be paired up at the end and annihilated; corrections must be applied as the computation runs. At each time step the decoder clusters the entire recorded syndrome history, including false positives from measurement errors, picks a base point per cluster, and moves every anyon one lattice step toward it. Because anyons move at bounded speed, a wrong decision caused by a faulty measurement does only bounded damage, which later steps can undo.",
+    "The proof has three parts. Damage that contains no non-contractible loop causes no logical error, which follows from the path-integral axioms. Error configurations with a burst decomposition whose largest burst has radius at most \\((L-2)/(800\\lambda^{\\mathsf C}Q)\\) never produce such a loop (Theorem 1). Under \\(\\epsilon\\)-bounded noise, the probability that no such decomposition exists falls quasi-stretched-exponentially in \\(L\\), by a sparsity argument of Gács.",
+    "Open directions named by the authors include new universal gate sets from defect-decorated 3-manifolds, hardware-optimised circuits for double Fibonacci, model-specific decoders with larger thresholds, and schemes where syndrome outcomes are random even without noise."
+  ],
+  "methods": [
+    {
+      "technique": "Bounded-speed clustering decoder",
+      "explanation": "Each correction moves an anyon by at most one step, so the decoder can be wrong locally without catastrophe. An isolated burst of errors produces worldlines that keep growing in time. Once their time extent exceeds their spatial spread, the clustering joins them into one cluster, which is then shrunk to a point and annihilated because it is charge-neutral.",
+      "math": [
+        "Let a burst have radius \\(r\\). Its worldlines start within distance \\(r\\) of each other and move at most one step per round. After a time of order \\(r\\) they are clustered together and contracted at unit speed, so the total damage lies in a space–time box of radius \\(\\lambda r\\) for a constant \\(\\lambda\\). Damage from separate bursts stays separate if the bursts are at least \\(\\gamma(r)\\) apart. The separation function \\[\\gamma(r)=C_\\gamma\\,r\\log^\\zeta(e+r)\\] grows slightly faster than linearly, so that smaller bursts near a larger one cannot slow its contraction indefinitely.",
+        "Editorial remark: a strictly linear separation is not enough. A large burst surrounded by a hierarchy of smaller bursts can have its contraction speed reduced at each level, and the logarithmic excess in \\(\\gamma\\) makes the slowdowns sum to a bounded factor. The proof constants (\\(\\lambda^{\\mathsf C}\\), \\(Q\\), the \\(10^{-6}\\) slack) come from that summation."
+      ],
+      "transfer": "For codes whose syndromes cannot be decoded in one batch (non-abelian phases, cellular-automaton decoders, just-in-time decoding), make every correction local and speed-limited, and cluster the full space–time history rather than only defect endpoints. Speed limits turn measurement errors into bounded, recoverable damage."
+    },
+    {
+      "technique": "Hierarchical burst decomposition",
+      "explanation": "Errors are grouped into bursts at geometric size scales \\(r_k=Q^k\\). A bad event at scale \\(k\\) needs two nearby bad events at scale \\(k-1\\). This squares the probability at each level while the size grows only by a factor \\(Q\\), so large bad bursts are very unlikely.",
+      "math": [
+        "Editorial sketch of the mechanism: if \\(p_k\\) bounds the probability that a given region holds an unsparse level-\\(k\\) configuration, the two-nearby-subbursts requirement gives \\(p_{k+1}\\le Cp_k^2\\), so \\[p_k\\le\\frac{(Cp_0)^{2^k}}{C}.\\] For \\(p_0\\propto\\epsilon<1/C\\) this falls doubly exponentially in \\(k\\). With \\(r_k=Q^k\\), \\(2^k=r_k^{\\log2/\\log Q}\\), so the failure probability at size \\(r\\) is \\(\\exp(-c\\,r^{\\alpha})\\) with \\(\\alpha=\\log2/\\log Q<1\\). That is a stretched exponential, and the super-linear \\(\\gamma\\) adds the \"quasi\".",
+        "Taking \\(r\\) of order \\(L\\) (the largest burst size allowed by Theorem 1) gives a logical failure probability that falls as a stretched exponential in \\(L\\), up to logarithmic factors in the exponent. This is the scaling the paper states."
+      ],
+      "transfer": "Gács-style sparsity is the standard tool when local correction rules, rather than global matching, must clean up errors. Examples are Toom's rule, self-correcting memories and local decoders for topological codes. Pair it with a proof that each isolated burst is cleaned within a box proportional to its size."
+    }
+  ],
+  "approved_on": "2026-11-07"
+}

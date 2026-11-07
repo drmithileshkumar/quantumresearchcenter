@@ -1,0 +1,58 @@
+{
+  "01-quantum-algorithmic-thinking": [
+    "Every quantum algorithm begins with a precise specification of the computational problem, the input access model, the target output, and the allowed failure probability \\(\\varepsilon\\).",
+    "Superposition alone does not solve problems; quantum advantage comes from steering amplitudes through unitary transformations so wrong branches cancel by destructive interference while target branches reinforce.",
+    "Honest resource accounting tracks oracle queries, two-qubit gate count, circuit depth, ancilla workspace, and classical pre- or post-processing separately."
+  ],
+  "02-coherent-computation": [
+    "Any classical circuit can be made reversible using Toffoli gates and clean ancilla qubits so that \\(|x,0,0\\rangle \\mapsto |x,w(x),f(x)\\rangle\\) preserves quantum coherence across superpositions.",
+    "Leftover workspace bits \\(w(x)\\) entangle with the input register and destroy interference unless they are uncomputed via Bennett’s compute–copy–uncompute trick.",
+    "Trading ancilla width against circuit depth changes the physical footprint of a subroutine without changing its logical action on the input and output registers."
+  ],
+  "03-phase-encoding": [
+    "Applying a bit-flip oracle to a target prepared in \\(|-\\rangle = (|0\\rangle - |1\\rangle)/\\sqrt{2}\\) kicks the function value into the relative phase \\((-1)^{f(x)}|x\\rangle\\) while leaving the ancilla unentangled.",
+    "Hadamard transforms convert global linear phase patterns \\((-1)^{s\\cdot x}\\) into deterministic computational-basis outcomes, as in the Deutsch–Jozsa and Bernstein–Vazirani algorithms.",
+    "Continuous phase kickback \\(e^{2\\pi i g(x)/2^m}\\) generalizes Boolean kickback to arithmetic functions and prepares the periodic states consumed by Fourier readout."
+  ],
+  "04-fourier-methods": [
+    "The \\(n\\)-qubit Quantum Fourier Transform maps periodic superpositions with period \\(r\\) to sharp amplitude peaks near integer multiples of \\(2^n/r\\) using \\(O(n^2)\\) gates.",
+    "Quantum phase estimation combines controlled powers \\(U^{2^k}\\) with the inverse QFT to read out an eigenphase \\(\\varphi\\) of \\(U|\\psi\\rangle = e^{2\\pi i\\varphi}|\\psi\\rangle\\) to \\(m\\) bits of precision.",
+    "Order finding and Shor’s factoring algorithm reduce integer factorization to estimating the eigenphases of modular multiplication \\(|y\\rangle \\mapsto |ay \\bmod N\\rangle\\) followed by continued-fraction post-processing."
+  ],
+  "05-amplitude-manipulation": [
+    "Two reflections—one about the marked target subspace and one about the initial state \\(A|0\\rangle\\)—compose into a planar rotation by angle \\(2\\theta\\) in the two-dimensional span of good and bad states.",
+    "Amplitude amplification boosts an initial success probability \\(p = \\sin^2\\theta\\) to near certainty in \\(\\Theta(1/\\sqrt{p})\\) applications of \\(A\\) and \\(A^\\dagger\\), achieving the optimal quadratic speedup for unstructured search.",
+    "Fixed-point phase sequences and quantum amplitude estimation avoid overshooting when \\(p\\) is unknown and estimate \\(p\\) with error \\(\\varepsilon\\) in \\(O(1/\\varepsilon)\\) coherent queries."
+  ],
+  "06-quantum-walks": [
+    "Discrete-time coined walks and continuous-time walks \\(e^{-iHt}\\) replace diffusive classical spreading with ballistic wave propagation and graph-dependent interference.",
+    "Szegedy’s construction turns any reversible Markov chain into a bipartite reflection walk whose spectral gap is the square root of the classical gap.",
+    "Quantum walk search and element distinctness combine graph traversal with local marking reflections to achieve polynomial speedups over classical random walks."
+  ],
+  "07-operator-embedding": [
+    "A block encoding embeds a non-unitary matrix \\(A/\\alpha\\) into the top-left block of a larger unitary \\(U\\) so that \\((\\langle 0|_a \\otimes I)U(|0\\rangle_a \\otimes |\\psi\\rangle) = (A/\\alpha)|\\psi\\rangle\\).",
+    "Linear combinations of unitaries (LCU) implement \\(A = \\sum_j c_j U_j\\) with normalization factor \\(\\alpha = \\sum_j |c_j|\\) using a prepare–select–unprepare circuit.",
+    "Block encodings compose cleanly under sums and products, allowing complex operators to be assembled modularly while tracking the subnormalization factor \\(\\alpha\\) and ancilla overhead."
+  ],
+  "08-polynomial-transformations": [
+    "Quantum signal processing (QSP) interleaves a single-qubit signal rotation \\(W(x)\\) with tunable \\(Z\\)-phase angles to synthesize bounded degree-\\(d\\) polynomials \\(P(x)\\) of fixed parity.",
+    "Qubitization lifts QSP to any block-encoded operator \\(A/\\alpha\\), applying a polynomial transformation \\(P(A/\\alpha)\\) simultaneously across every singular value or eigenvalue inside invariant \\(2\\times 2\\) subspaces.",
+    "Quantum singular value transformation (QSVT) unifies search, Hamiltonian simulation, matrix inversion, and spectral filtering under polynomial approximation theory."
+  ],
+  "09-evolution-engineering": [
+    "Lie–Trotter and higher-order Suzuki product formulas approximate \\(e^{-i(\\sum_j H_j)t}\\) by short alternating steps whose error depends on the commutators \\([H_j, H_k]\\) rather than the full operator norms.",
+    "LCU and QSVT simulation strategies achieve optimal query scaling in time \\(t\\) and precision \\(\\log(1/\\varepsilon)\\) at the cost of ancilla qubits and block-encoding circuitry.",
+    "Adiabatic evolution tracks the instantaneous ground state of a slowly interpolated Hamiltonian \\(H(s)\\) provided the runtime scales inversely with a power of the minimum spectral gap \\(\\Delta_{\\min}\\)."
+  ],
+  "10-variational-methods": [
+    "Variational algorithms pair a shallow parameterized quantum circuit \\(U(\\boldsymbol{\\theta})\\) with a classical optimizer that minimizes a measured expectation value \\(E(\\boldsymbol{\\theta}) = \\langle\\psi(\\boldsymbol{\\theta})|H|\\psi(\\boldsymbol{\\theta})\\rangle\\).",
+    "The parameter-shift rule evaluates exact analytic gradients on hardware by running the same circuit at shifted angles \\(\\theta_k \\pm \\pi/2\\), while shot noise requires explicit measurement-budget allocation.",
+    "Expressibility and trainability stand in tension: unstructured deep ansätze suffer from barren plateaus where gradient variances decay exponentially with qubit count."
+  ],
+  "11-adaptive-measurement": [
+    "Mid-circuit measurement and classical feed-forward allow subsequent quantum gates to depend on observed outcomes, trading circuit width for classical control latency.",
+    "Iterative phase estimation replaces an \\(m\\)-qubit Fourier register with a single recycled control qubit measured bit-by-bit from least to most significant phase digit.",
+    "Measurement-based quantum computation (MBQC) prepares a fixed entangled cluster state first and drives universal unitary computation entirely through adaptive single-qubit measurements and Pauli byproduct corrections."
+  ]
+}
+

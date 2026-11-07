@@ -1,0 +1,123 @@
+{
+  "01-evidence": [
+    "Every experimental run separates into three operational stages—preparation, transformation, and measurement—logged as discrete detector clicks across triggered clock windows.",
+    "Finite sample counts fluctuate binomially with standard error scaling as \\(1/\\sqrt{N}\\), whereas unbalanced detector efficiencies \\(\\eta_A \\neq \\eta_B\\) introduce systematic postselection bias that more trials never erase.",
+    "Swapping physical detectors between output ports cancels asymmetric detection efficiencies via the geometric-mean estimator and exposes hidden apparatus assumptions."
+  ],
+  "02-energy": [
+    "Discrete atomic spectral lines, the Franck–Hertz collision steps, and the photoelectric threshold \\(K_{\\max} = hf - \\phi\\) establish that energy exchange with matter and light occurs in quantized packets \\(\\Delta E = hf\\).",
+    "Stopping-potential measurements show that maximum photoelectron kinetic energy depends linearly on optical frequency \\(f\\) with universal slope \\(h/e\\), independent of classical beam intensity.",
+    "Photodiode dark currents, reverse leakage, and collector-emitter contact potential differences must be calibrated before extracting Planck’s constant from threshold curves."
+  ],
+  "03-matter-waves": [
+    "Electrons, neutrons, atoms, and molecules accumulate double-slit interference fringes with de Broglie wavelength \\(\\lambda = h/p\\) even when particles traverse the apparatus one at a time.",
+    "Each detection event is localized at a single pixel, while the probability density \\(P(x) = |\\psi_1(x) + \\psi_2(x)|^2\\) governs the long-run spatial envelope and fringe visibility \\(\\mathcal{V}\\).",
+    "Transverse source size, velocity dispersion, mechanical vibration, and residual gas scattering reduce fringe contrast without turning individual clicks into smeared waves."
+  ],
+  "04-stern-gerlach": [
+    "An inhomogeneous magnetic field splits a spin-\\(\\frac{1}{2}\\) beam into exactly two discrete spatial components along the chosen gradient axis rather than a continuous classical band.",
+    "Projecting sequentially along axes separated by angle \\(\\theta\\) transmits fraction \\(\\cos^2(\\theta/2)\\), and inserting an intermediate \\(\\hat{x}\\) analyzer erases prior \\(\\hat{z}\\) memory so \\(|+z\\rangle \\to |+x\\rangle \\to |-z\\rangle\\) occurs with nonzero probability.",
+    "Blocking vs. recombining internal Stern–Gerlach paths distinguishes irreversible projective filtering from coherent unitary spin rotation."
+  ],
+  "05-polarization": [
+    "Malus’s law \\(I(\\theta) = I_0 \\cos^2\\theta\\) follows from projecting a linear polarization state \\(|\\theta\\rangle = \\cos\\theta|H\\rangle + \\sin\\theta|V\\rangle\\) onto the analyzer axis.",
+    "Inserting a diagonal polarizer at \\(45^\\circ\\) between crossed \\(H\\) and \\(V\\) filters restores transmission from \\(0\\) to \\(\\frac{1}{4}\\) because projection prepares a new coherent superposition rather than filtering pre-existing tags.",
+    "Real polarizers have finite extinction ratios, surface reflections, and retardance tolerances that set a nonzero floor on crossed-filter leakage."
+  ],
+  "06-photon-counting": [
+    "Classical coherent or thermal light beams split at a beam splitter always satisfy the Cauchy–Schwarz inequality \\(g^{(2)}(0) \\ge 1\\), whereas a true single-photon Fock state \\(|1\\rangle\\) exhibits antibunching \\(g^{(2)}(0) = 0\\).",
+    "Heralded spontaneous parametric down-conversion (SPDC) suppresses accidental multi-pair coincidences \\(g^{(2)}_h(0) \\ll 1\\) only in the low-pump-power regime where pair probability per window \\(\\mu \\ll 1\\).",
+    "Unheralded attenuated laser pulses remain Poissonian mixtures of vacuum, single, and multi-photon states regardless of how dim the filter is."
+  ],
+  "07-interferometer": [
+    "In a balanced Mach–Zehnder interferometer, two 50:50 beam splitters that each act randomly in isolation combine via relative phase \\(\\phi\\) to produce deterministic routing \\(P_+ = \\cos^2(\\phi/2)\\) at \\(\\phi = 0\\) or \\(\\pi\\).",
+    "Blocking either arm destroys the cross term \\(\\cos\\phi\\) and drops the output probability at each port from \\(1\\) (or \\(0\\)) to \\(\\frac{1}{4}\\).",
+    "Wavefront mismatch, polarization drift between arms, and optical path fluctuations faster than the integration window degrade measured fringe visibility \\(\\mathcal{V}\\)."
+  ],
+  "08-recoiling-slit": [
+    "In Einstein’s recoiling-slit thought experiment, measuring the slit’s transverse momentum kick \\(\\delta p_y\\) to identify which path the particle took entangles the particle with the slit state \\(|\\phi_1\\rangle, |\\phi_2\\rangle\\).",
+    "Heisenberg’s position–momentum uncertainty \\(\\Delta y\\,\\Delta p_y \\ge \\hbar/2\\) ensures that localizing the slit well enough to resolve a fringe spacing \\(\\Lambda\\) makes the momentum kicks overlap, and vice versa.",
+    "The quantitative duality relation \\(\\mathcal{D}^2 + \\mathcal{V}^2 \\le 1\\) bounds path distinguishability \\(\\mathcal{D}\\) and interference visibility \\(\\mathcal{V} = |\\langle\\phi_1|\\phi_2\\rangle|\\) continuously across all coupling strengths."
+  ],
+  "09-delayed-choice": [
+    "Wheeler’s delayed-choice experiment inserts or removes the final beam splitter \\(\\mathrm{BS}_2\\) by a fast electro-optic switch after the photon has already entered the interferometer.",
+    "When \\(\\mathrm{BS}_2\\) is absent, detectors register equal path probabilities \\(P = \\frac{1}{2}\\); when \\(\\mathrm{BS}_2\\) is present, they register phase-dependent fringes \\(\\cos^2(\\phi/2)\\)—all computed forward in time from the unitary state evolution.",
+    "No retrocausal signal is sent into the past: the photon was never required to commit to a classical ‘particle-only’ or ‘wave-only’ biography at the first beam splitter."
+  ],
+  "10-quantum-eraser": [
+    "When path-System entanglement marks which arm a particle took, the unconditional marginal signal distribution is a flat sum of two complementary fringe patterns \\(\\cos^2(\\phi/2)\\) and \\(\\sin^2(\\phi/2)\\) that add to \\(1\\).",
+    "Measuring the marker in the erased diagonal basis \\(|\\pm\\rangle\\) and sorting signal detections by coincidence outcome recovers full-visibility fringes (shifted by \\(\\pi\\) between \\(|+\\rangle\\) and \\(|-\\rangle\\)).",
+    "Because the total marginal signal remains completely flat without classical coincidence sorting, quantum erasure never transmits faster-than-light messages."
+  ],
+  "11-interaction-free": [
+    "In the Elitzur–Vaidman bomb tester, an absorbing object placed inside one arm of a tuned Mach–Zehnder interferometer breaks destructive interference at the dark port.",
+    "With a single 50:50 interferometer, \\(25\\%\\) of trials click at the dark port without absorbing the photon, yielding a maximum efficiency of \\(\\eta = \\frac{1}{3}\\) per intact bomb.",
+    "Concatenating \\(N\\) weak reflective cycles of rotation angle \\(\\theta = \\pi/(2N)\\) via the quantum Zeno effect drives the absorption probability toward \\(0\\) and interaction-free efficiency toward \\(1\\)."
+  ],
+  "12-tunnelling": [
+    "Inside a classically forbidden rectangular barrier of height \\(V_0 > E\\) and width \\(a\\), the wavefunction decays evanescently with attenuation constant \\(\\kappa = \\sqrt{2m(V_0 - E)}/\\hbar\\) rather than vanishing abruptly.",
+    "Boundary continuity at both interfaces yields non-zero transmission \\(T \\approx T_0 e^{-2\\kappa a}\\), whose exponential sensitivity to \\(a\\) and \\(\\sqrt{m(V_0-E)}\\) powers scanning tunnelling microscopy and alpha decay.",
+    "Energy conservation holds strictly: a transmitted particle emerges on the far side with its full initial total energy \\(E\\), never with negative kinetic energy."
+  ],
+  "13-rabi": [
+    "A near-resonant coherent drive couples states \\(|0\\rangle\\) and \\(|1\\rangle\\) with Rabi frequency \\(\\Omega\\) and detuning \\(\\Delta\\), rotating the state vector on the Bloch sphere at generalized rate \\(\\Omega_{\\mathrm{eff}} = \\sqrt{\\Omega^2 + \\Delta^2}\\).",
+    "On resonance (\\(\\Delta = 0\\)), a \\(\\pi/2\\) pulse prepares an equal superposition and a \\(\\pi\\) pulse inverts population completely, while nonzero detuning caps maximum inversion at \\(\\Omega^2/(\\Omega^2+\\Delta^2)\\).",
+    "Finite relaxation \\(T_1\\), dephasing \\(T_2\\), and spatial drive inhomogeneities damp Rabi oscillations toward a mixed steady state at long pulse durations."
+  ],
+  "14-ramsey": [
+    "Ramsey interferometry separates two \\(\\pi/2\\) pulses by a free-precession interval \\(\\tau\\), converting detuning \\(\\Delta\\) into phase accumulation \\(\\phi = \\Delta\\tau\\) and fringe oscillations \\(\\cos(\\Delta\\tau)\\).",
+    "Inhomogeneous quasi-static frequency offsets across an ensemble cause free-induction fringes to decay on timescale \\(T_2^*\\), even when individual spins remain coherent.",
+    "Inserting a refocusing \\(\\pi\\) Hahn spin-echo pulse at \\(\\tau/2\\) reverses static phase dispersion and restores coherence up to the irreversible homogeneous decay time \\(T_2\\)."
+  ],
+  "15-tomography": [
+    "A single qubit’s density matrix \\(\\rho = \\frac{1}{2}(I + r_x X + r_y Y + r_z Z)\\) requires measurements along at least three linearly independent axes (\\(X, Y, Z\\)) because no single basis reveals both populations and phase coherences.",
+    "Direct linear inversion of noisy finite-sample frequencies \\((\\hat{r}_x, \\hat{r}_y, \\hat{r}_z)\\) can yield unphysical vectors with \\(\\|\\hat{\\mathbf{r}}\\| > 1\\) and negative eigenvalues.",
+    "Constrained maximum-likelihood or least-squares estimation projects the reconstructed operator back onto the physical Bloch ball \\(\\|\\mathbf{r}\\| \\le 1\\) with bootstrap uncertainty regions."
+  ],
+  "16-two-photon": [
+    "When two indistinguishable photons arrive simultaneously at opposite ports of a balanced 50:50 beam splitter, the reflection–reflection and transmission–transmission coincidence amplitudes interfere with opposite signs (\\(\\frac{1}{2} - \\frac{1}{2} = 0\\)).",
+    "Scanning the arrival delay \\(\\Delta\\tau\\) traces out the Hong–Ou–Mandel (HOM) coincidence dip, where visibility exceeding \\(50\\%\\) certifies nonclassical two-photon interference.",
+    "Polarization-entangled Bell pairs produce phase-sensitive two-photon fringes \\(\\cos^2(\\alpha - \\beta)\\) across arbitrary analyzer settings while keeping each individual photon’s marginal statistics completely unpolarized."
+  ],
+  "17-epr-bell": [
+    "Any local hidden-variable model that assigns pre-existing outcome rules \\(A(a,\\lambda), B(b,\\lambda) \\in \\{\\pm 1\\}\\) satisfies the Clauser–Horne–Shimony–Holt (CHSH) bound \\(|S| \\le 2\\).",
+    "A singlet Bell state measured at relative analyzer angles of \\(45^\\circ\\) achieves correlation \\(E(a,b) = -\\cos(a-b)\\) and violates the CHSH inequality up to Tsirelson’s bound \\(|S| = 2\\sqrt{2} \\approx 2.828\\).",
+    "Loophole-free Bell tests close the locality, detection-efficiency (\\(\\eta > 82.8\\%\\) for symmetric CHSH), and setting-independence loopholes simultaneously while respecting relativistic no-signaling."
+  ],
+  "18-ghz-contextuality": [
+    "For the three-qubit Greenberger–Horne–Zeilinger state \\(|\\mathrm{GHZ}\\rangle = (|000\\rangle + |111\\rangle)/\\sqrt{2}\\), multiplying the three commuting stabilizers \\(X_1Y_2Y_3, Y_1X_2Y_3, Y_1Y_2X_3\\) against \\(X_1X_2X_3\\) yields an algebraic sign contradiction (\\(+1 = -1\\)) for any noncontextual value assignment.",
+    "The Peres–Mermin magic square demonstrates state-independent contextuality on two qubits using nine observables arranged in six commuting rows and columns.",
+    "Experimental tests translate ideal deterministic paradoxes into noise-tolerant noncontextuality inequalities that account for finite gate fidelities and imperfect compatibility."
+  ],
+  "19-teleportation": [
+    "Quantum teleportation transfers an unknown state \\(|\\psi\\rangle\\) using a shared Bell pair and two classical bits from Alice’s Bell-basis measurement so Bob can apply the matching Pauli correction \\(X^{b_2}Z^{b_1}\\).",
+    "Without Alice’s two classical bits, Bob’s local density matrix is the maximally mixed state \\(I/2\\) regardless of \\(|\\psi\\rangle\\), preserving relativistic causality.",
+    "Entanglement swapping teleports an entangled share itself, projecting two independent pairs \\(AB\\) and \\(CD\\) into an entangled pair \\(AD\\) conditioned on the middle Bell-state outcome."
+  ],
+  "20-schrodinger-cat": [
+    "Unitary Schrödinger evolution maps a microscopic superposition coupled to a pointer into an entangled state \\(\\alpha|0\\rangle|D_0\\rangle + \\beta|1\\rangle|D_1\\rangle\\) rather than selecting a single macroscopic branch on its own.",
+    "Environmental scattering rapidly damps the off-diagonal coherence factor \\(\\gamma(t) = \\langle E_1(t)|E_0(t)\\rangle = e^{-\\Gamma t}\\), turning the reduced system–pointer state into a diagonal mixture in the pointer basis.",
+    "Decoherence explains why macroscopic interference cannot be observed locally and why the pointer basis is stable, while leaving the single-outcome measurement problem distinct."
+  ],
+  "21-wigners-friend": [
+    "In Wigner’s friend scenario, an internal observer \\(F\\) describes her measurement by a projective state collapse, whereas an external superobserver \\(W\\) describes the isolated laboratory unitarily as an entangled state \\(|\\Phi\\rangle_{SF}\\).",
+    "As long as \\(W\\) does not perform coherent interference measurements that overwrite \\(F\\)’s memory register, both descriptions predict identical marginal probabilities for \\(F\\)’s recorded outcomes.",
+    "Testing \\(|\\Phi\\rangle_{SF}\\) in a coherent superobserver basis requires reversing the entire laboratory unitary—an operation that erases \\(F\\)’s classical record."
+  ],
+  "22-extended-friends": [
+    "Brukner’s and Frauchiger–Renner’s extended Wigner’s friend scenarios couple two entangled laboratories so four observables \\(A_1, A_2, B_1, B_2\\) cannot share a single joint probability distribution \\(P(A_1,A_2,B_1,B_2)\\).",
+    "No-go theorems prove that four assumptions—universal unitary validity (Q), observer-independent single outcomes (A), local setting independence (L), and consistency across agents (C)—cannot all hold simultaneously.",
+    "Laboratory demonstrations using single-photon or qubit ‘friends’ test two-qubit unitary interference and Bell violations, not conscious macroscopic observers."
+  ],
+  "23-sensing": [
+    "A Ramsey quantum sensor encodes an external magnetic field or clock frequency shift into a phase \\(\\phi = \\gamma B\\tau\\), achieving maximum slope at the quadrature bias point \\(\\phi_0 = \\pi/2\\).",
+    "For \\(N\\) uncorrelated probes, quantum projection noise limits phase uncertainty to the Standard Quantum Limit \\(\\delta\\phi_{\\mathrm{SQL}} = 1/\\sqrt{N}\\), whereas \\(N\\)-partite GHZ or spin-squeezed states reach the Heisenberg scaling \\(1/N\\) in the absence of decoherence.",
+    "Under realistic dephasing at rate \\(\\gamma\\), an \\(N\\)-qubit GHZ state decoheres \\(N\\) times faster than a single spin, requiring optimal interrogation times \\(\\tau \\sim 1/(2\\gamma)\\)."
+  ],
+  "24-investigation": [
+    "Auditing an experimental quantum claim requires verifying every step from raw timestamped coincidence tables to background subtraction, efficiency normalization, and propagation of statistical uncertainties.",
+    "True visibility must be bounded with confidence intervals after accounting for accidental coincidences \\(R_A R_B \\tau_c\\), dark counts, and postselection fractions.",
+    "A rigorous scientific conclusion explicitly states which alternative models the data rule out, which instrumental loopholes remain open, and how the analysis can be reproduced."
+  ]
+}
+

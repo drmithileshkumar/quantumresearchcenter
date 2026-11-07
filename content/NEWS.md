@@ -51,6 +51,15 @@ Optional fields:
   so they follow the light/dark theme; scripts, event handlers and `id` attributes
   are rejected. Keep a generator script beside the figures (see the ETH article's
   `draw.py`) so they can be redrawn.
+- Within a section, optional structure for explainers and checklists, rendered in
+  the site's plain style (rules and type, no boxes):
+  `kicker` (a short label above the heading, such as "Question 1"; it also
+  appears in the contents list, so the heading itself can stay short);
+  `stats` (one to four `{"value", "label"}` key numbers, shown large after the
+  section's first paragraph); `table` (`{"columns", "rows", "caption"}`, every
+  row as long as `columns`; the first cell of a row is its header); `asks` (a
+  list of questions shown as "What to ask"). Order within a section:
+  paragraphs (with stats after the first), table, figure, asks.
 - Mathematics: write TeX in paragraphs and captions, `\(...\)` inline and `\[...\]`
   displayed. MathJax loads only on article pages that contain TeX. Keep titles and
   summaries plain text, since cards and RSS readers do not typeset.

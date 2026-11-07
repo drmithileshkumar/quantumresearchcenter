@@ -121,6 +121,26 @@ class NewsPublishingTests(unittest.TestCase):
             with self.subTest(banner=banner), self.assertRaises(ValueError):
                 news_articles.validate(broken, self.config, self.papers)
 
+    def test_structured_section_parts(self):
+        articles = copy.deepcopy(self.articles)
+        story = articles[0]
+        story['sections'][0].update(kicker='Question 1', stats=[{'value': '37%', 'label': 'STAT SENTINEL'}],
+                                    table={'columns': ['A', 'B'], 'rows': [['TABLE SENTINEL', 'x']], 'caption': 'Cap'},
+                                    asks=['ASK SENTINEL'])
+        with patch.object(news_articles, 'load_articles', return_value=articles):
+            output = self.render()
+        page = output[news_articles.article_path(story)]
+        for marker in ('<p class="section-kicker">Question 1</p>', '<dd>37%</dd>', '<th scope="row">TABLE SENTINEL</th>',
+                       '<caption>Cap</caption>', '<li>ASK SENTINEL</li>'):
+            self.assertIn(marker, page)
+        build.check_output(output)
+        for bad in ({'kicker': ''}, {'asks': []}, {'stats': [{'value': '1'}]},
+                    {'table': {'columns': ['A', 'B'], 'rows': [['only one']]}}):
+            broken = copy.deepcopy(self.articles)
+            broken[0]['sections'][0].update(bad)
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                news_articles.validate(broken, self.config, self.papers)
+
     def test_short_articles_omit_reading_time(self):
         short = {'published': '2026-10-26', 'sections': [{'paragraphs': ['word ' * 150]}]}
         self.assertNotIn('min read', news_articles.metadata(short))

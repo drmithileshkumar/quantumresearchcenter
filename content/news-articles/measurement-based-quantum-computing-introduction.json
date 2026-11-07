@@ -1,7 +1,7 @@
 {
   "slug": "measurement-based-quantum-computing-introduction",
   "title": "How can measurements drive a quantum computer?",
-  "summary": "An introduction to measurement-based quantum computing: prepare entanglement, measure individual qubits, and use the outcomes to steer what happens next.",
+  "summary": "In measurement-based quantum computing, an entangled resource state is prepared first and the computation is carried out by measuring single qubits, with later measurements adapted to earlier outcomes. The model, a worked two-qubit example, and what it demands of real hardware.",
   "banner": {
     "file": "banner.svg",
     "alt": "Illustration: a grid of entangled qubits measured column by column from the left, with the measured column marked and an arrow feeding results forward."

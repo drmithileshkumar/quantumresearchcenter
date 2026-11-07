@@ -1,0 +1,47 @@
+{
+  "id": "2611.07318",
+  "topic": "information",
+  "title": "Asymptotic advantage of quantum one-way and SMP communication for total functions",
+  "authors": "Dmytro Gavinsky",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "For partial functions, with a promise on the inputs, quantum one-way communication can be exponentially cheaper than classical. For total functions, defined on every input, the question is how large a gap can be at all. Is there a total Boolean function with a polynomial gap between bounded-error quantum and randomised communication in the one-way and simultaneous-message (SMP) models, with public randomness allowed?",
+  "result": "Yes. Alice holds \\(M\\in\\mathbb F_2^{d\\times d}\\) and Bob holds \\(u,z\\in\\mathbb F_2^d\\), with input length \\(n=d^2+2d\\). Let \\(F_d(M;u,z)=1\\) exactly when \\((M+M^{\\mathsf T})u=z\\) and \\(u^{\\mathsf T}Mu=0\\). Then \\(Q^{\\parallel}(F_d)\\) and \\(Q^{\\to}(F_d)\\) are \\(\\Theta(\\sqrt n)\\), while \\(R^{\\to}(F_d)\\) and \\(R^{\\parallel}(F_d)\\) are \\(\\Theta(n)\\). With \\(2d\\) shared EPR pairs, a classical SMP protocol costs \\(O(\\sqrt n)\\), and any entanglement still leaves \\(\\Omega(\\sqrt n)\\).",
+  "significance": "The separation is quadratic, for a total function, in both the one-way and SMP models, with public randomness given to the classical side. The quantum protocol is a single \\(d\\)-qubit quadratic-phase state and one two-outcome measurement, so the mechanism is transparent: the message is a quantum encoding of a quadratic form, which Bob can test along any direction. The classical lower bound is a self-contained Fourier moment argument.",
+  "limitations": "The gap is quadratic, not exponential, and the paper does not compare it with earlier separations for total functions or say whether it is optimal. Two-way classical communication solves the problem in \\(\\Theta(\\sqrt n)\\), so the advantage is specific to restricted communication patterns. The paper is a four-page note, and the moment estimate is proved compactly. The author's acknowledgement states that the work was developed in collaboration with \"Anna – Anonymous Neural-Network Assistant\".",
+  "status": "approved",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-06, which is the whole note: the problem, quantum protocols (Section 2), classical reduction (Section 3) and moment estimate (Section 4). The moment estimate was followed step by step but not independently re-proved.",
+  "verified_on": "2026-11-06",
+  "methods_source_section": "Sections 2.1-2.2 (protocols), Section 3 (reduction) and Section 4 (moment estimate)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The function asks Bob to check two things about Alice's matrix along his vector \\(u\\): that the alternating matrix \\(A_M=M+M^{\\mathsf T}\\) maps \\(u\\) to his \\(z\\), and that the quadratic form \\(f_M(x)=x^{\\mathsf T}Mx\\) vanishes at \\(u\\). Everything is over \\(\\mathbb F_2\\). Because \\(A_M\\) is alternating, \\(u\\cdot A_Mu=0\\), so Bob can reject at once when \\(u\\cdot z=1\\).",
+    "Alice sends the \\(d\\)-qubit state \\(\\psi_M(0)=2^{-d/2}\\sum_x(-1)^{f_M(x)}|x\\rangle\\). Bob measures the two-outcome observable \\(P_{u,z}|x\\rangle=(-1)^{z\\cdot x}|x+u\\rangle\\). The state is an eigenvector with eigenvalue \\((-1)^{f_M(u)}\\) when \\(z=A_Mu\\), and is orthogonal to its image otherwise. So Bob accepts with probability 1, 0 or 1/2, and two repetitions give one-sided error at most 1/4 with \\(2d\\) qubits. In the SMP version Alice and Bob share EPR pairs, Alice applies the phase and measures in the Hadamard basis, and the referee corrects with her outcome.",
+    "For the classical lower bound, choose \\(M\\) and \\(u\\) uniformly and set \\(z=A_Mu\\). The correct answer is then \\((-1)^{u^{\\mathsf T}Mu}\\). Any one-way protocol with a \\(c\\)-bit message gives, for each message, a Boolean function \\(h_j(u,z)\\) that must correlate with that answer. Proposition 3.1 shows that \\(p\\)-th moments of such correlations, averaged over \\(M\\), are at most \\(2^{2p^2-pd/10}\\). Taking \\(p=\\Theta(d)\\) forces \\(c=\\Omega(d^2)\\).",
+    "The moment estimate expands \\(R_g(M)^p\\) in the Fourier transform of \\(g\\). Averaging over \\(M\\) keeps only configurations whose \\(2p\\) vectors have self-orthogonal row space. Each such subspace is then bounded in two ways, by counting and by Cauchy–Schwarz with Parseval, and the two bounds are combined. The open questions include larger total-function gaps in these models and whether the entanglement-assisted classical SMP bound is tight."
+  ],
+  "methods": [
+    {
+      "technique": "Testing a quadratic form with one phase state",
+      "explanation": "Bob needs to learn something about \\(M\\) along a direction only he knows, and a classical message long enough to cover every direction would carry most of \\(M\\). A quadratic phase state answers every directional question at once. Shifting it by \\(u\\) multiplies it by a linear phase that encodes both \\(A_Mu\\) and \\(f_M(u)\\).",
+      "math": [
+        "Over \\(\\mathbb F_2\\), \\(f_M(x+u)+f_M(x)=f_M(u)+(A_Mu)\\cdot x\\), because the cross terms \\(x^{\\mathsf T}Mu+u^{\\mathsf T}Mx\\) equal \\((A_Mu)\\cdot x\\). Hence, for \\(u\\cdot z=0\\), \\[P_{u,z}\\,\\psi_M(a)=(-1)^{f_M(u)+a\\cdot u}\\,\\psi_M(a+A_Mu+z).\\]",
+        "The basis states \\(\\psi_M(a)\\) are orthonormal, so \\[\\Pr[\\text{accept}]=\\frac{1+\\langle\\psi_M(0)|P_{u,z}|\\psi_M(0)\\rangle}{2}=\\frac{1+(-1)^{f_M(u)}\\,\\mathbf 1[z=A_Mu]}{2}.\\] In the SMP protocol Bob holds \\(\\psi_M(a)\\) for Alice's random outcome \\(a\\), and the referee's check \\(s=(-1)^{a\\cdot u}\\) removes the extra sign.",
+        "Editorial check: for \\(d=3\\) and \\(d=4\\), with 30 random matrices each and all \\((u,z)\\) with \\(u\\cdot z=0\\), the identity, the one-way acceptance probability and the SMP acceptance probability averaged over \\(a\\) all matched the formulas exactly. Two repetitions give false acceptance at most \\((1/2)^2=1/4\\) and no false rejection."
+      ],
+      "transfer": "Quadratic phase states \\(\\sum_x(-1)^{x^{\\mathsf T}Mx}|x\\rangle\\) let a receiver test linear and quadratic data in any direction of its choosing with a single measurement. Use them whenever a function asks about a shared matrix along a vector held by the other party."
+    },
+    {
+      "technique": "Self-orthogonal subspaces in a Fourier moment bound",
+      "explanation": "To show that a short classical message cannot predict \\((-1)^{u^{\\mathsf T}Mu}\\), it suffices that, for a random \\(M\\), every fixed decision rule has tiny correlation with the answer, with high-moment control so that a union bound over \\(2^c\\) messages works. Averaging over \\(M\\) turns the moment into a sum over vector configurations constrained to be self-orthogonal.",
+      "math": [
+        "Fourier inversion gives \\[R_g(M)=2^d\\,\\mathbb E_{r,s}\\bigl[\\hat g(r+s;s)(-1)^{f_M(r)+f_M(s)}\\bigr],\\] and averaging \\(R_g(M)^p\\) over \\(M\\) keeps exactly the configurations \\(Y=(r_1,\\dots,r_p,s_1,\\dots,s_p)\\) with \\(YY^{\\mathsf T}=0\\). Their row space \\(L\\) is self-orthogonal in \\(\\mathbb F_2^{2p}\\), of dimension \\(k\\le p\\).",
+        "Each subspace is bounded twice: \\(Z_L\\le2^{d(k-q/2)}\\) by counting free columns, and \\(Z_L^2\\le2^{d(k+m)}\\) by Cauchy–Schwarz with \\(\\sum_s|\\hat g(u;s)|^2=1\\). Combining the first bound cubed with the second, and using \\(2m\\le p+3q\\) and \\(k\\le p\\), gives \\(Z_L\\le2^{9pd/10}\\). There are at most \\(2^{2p^2}\\) such subspaces, so \\(\\mathbb E_M|R_g(M)|^p\\le2^{2p^2-pd/10}\\).",
+        "For the reduction, a protocol with average success \\(2/3\\) needs \\[\\tfrac13\\le\\mathbb E_M\\max_j|R_{h_j}(M)|\\le\\bigl(2^c\\cdot2^{-pd/10+O(p^2)}\\bigr)^{1/p}.\\] Editorial remark: taking logarithms gives \\(c\\ge pd/10-O(p^2)-p\\log_23\\). Choosing \\(p=\\epsilon d\\) with small \\(\\epsilon\\) makes the right side \\(\\Omega(d^2)=\\Omega(n)\\), which is why the moment exponent must be linear in \\(d\\) and quadratic only in \\(p\\)."
+      ],
+      "transfer": "For one-way lower bounds on functions defined by quadratic forms over \\(\\mathbb F_2\\), average high moments over the hidden matrix. The average reduces to self-orthogonal configurations, whose number, \\(2^{O(p^2)}\\), is small enough to beat \\(2^{\\Omega(pd)}\\) decay."
+    }
+  ],
+  "approved_on": "2026-11-06"
+}

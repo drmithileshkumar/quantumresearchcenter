@@ -1,0 +1,45 @@
+{
+  "id": "2611.07413",
+  "topic": "computing",
+  "title": "Structured Quantum Hardness from Unstructured Assumptions",
+  "authors": "Xiao Liang; Takashi Yamakawa; Chak Fai Yung",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Languages in \\(\\mathsf{NP}\\cap\\mathsf{coNP}\\) have short checkable certificates for both answers. The classic candidates for hard ones, factoring and discrete logarithm, fall to Shor's algorithm, and lattice assumptions give certificates only on promise inputs. Bennett and Gill asked whether \\(\\mathsf{NP}\\cap\\mathsf{coNP}\\) stays hard relative to a random oracle. Is there quantum-hard two-sided certification that arises from unstructured sources?",
+  "result": "If \\(\\mathsf{UP}\\not\\subseteq\\mathsf{BQP}\\), then \\(\\mathsf{NP}^{\\mathcal O}\\cap\\mathsf{coNP}^{\\mathcal O}\\not\\subseteq\\mathsf{BQP}^{\\mathcal O}\\) with probability one over a random oracle \\(\\mathcal O\\). Along the way the paper builds an unbounded-prover NIZK proof for \\(\\mathsf{NP}\\) in the quantum random oracle model with no further assumptions. In the other direction, no fully black-box quantum reduction derives a worst-case quantum-hard \\(\\mathsf{NP}\\cap\\mathsf{coNP}\\) problem from post-quantum injective one-way functions and indistinguishability obfuscation.",
+  "significance": "It is the quantum analogue of the 2023 conditional answer to the Bennett–Gill question. It gives evidence that quantum-hard languages with two-sided certificates can exist without the algebraic structure that Shor exploits. The new notion of a strong \\(\\delta\\)-dense pseudorandom hash function repairs a composition gap left open even classically (GIKKLS Remark 7.6). The impossibility result explains why the main proof needs a non-black-box step.",
+  "limitations": "The separation is relative to a random oracle and conditional on \\(\\mathsf{UP}\\not\\subseteq\\mathsf{BQP}\\); it gives no explicit hard language in the real world. The NIZK prover is computationally unbounded. The barrier excludes only fully black-box constructions, and the paper leaves open whether the assumption \\(\\mathsf{UP}\\not\\subseteq\\mathsf{BQP}\\) can be removed, which would settle the quantum Bennett–Gill question outright. The hybrid proof of strong PRHF security (Section 4) was not checked here.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1 and 2 (introduction and full technical overview) of the linked arXiv version, read 2026-11-07. Proofs in Sections 3–6 were not checked line by line.",
+  "verified_on": "2026-11-07",
+  "methods_source_section": "Sections 2.1–2.4 (technical overview) and Section 4",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A random oracle supplies hardness without algebraic structure. Bennett and Gill (1981) showed \\(\\mathsf P^{\\mathcal O}\\ne\\mathsf{NP}^{\\mathcal O}\\) for random \\(\\mathcal O\\), and \\(\\mathsf P^{\\mathcal O}\\ne\\mathsf{NP}^{\\mathcal O}\\cap\\mathsf{coNP}^{\\mathcal O}\\) for a random permutation, which is structured because every output has one preimage. The random-function case stayed open until GIKKLS (STOC 2023) answered it classically under \\(\\mathsf{UP}\\not\\subseteq\\mathsf{RP}\\). The quantum case matters more: the post-quantum candidates (LWE, SIS, codes, isogenies) give hard search or promise problems, not total languages with certificates on both sides.",
+    "The language is built from a NIZK proof. Take \\(\\mathcal L\\in\\mathsf{UP}\\setminus\\mathsf{BQP}\\), whose YES instances have unique witnesses. The oracle language asks about bits of the witness, and the certificates in both directions are NIZK proofs relative to \\(\\mathcal O\\). Statistical soundness with Borel–Cantelli puts it in \\(\\mathsf{NP}^{\\mathcal O}\\cap\\mathsf{coNP}^{\\mathcal O}\\) for almost every oracle. A quantum decider for it, run on simulated proofs, would recover the unique witness bit by bit, giving a \\(\\mathsf{BQP}\\) algorithm for \\(\\mathcal L\\). A quantum version of the Bennett–Gill measure-zero lemma upgrades this to probability one.",
+    "The NIZK comes from hidden bits. A public random \\(y\\) defines the bit \\(r(y)=0\\) if \\(y\\) is in the image of a hash \\(H\\) and 1 otherwise. An unbounded prover can open a 0 by showing a preimage, and can falsely claim a 1, but can never open a 1 as a 0. That one-sided tampering is exactly what the hidden-bits protocol of GIKKLS tolerates.",
+    "The black-box barrier works in a world with a universal decision oracle that answers every verifier pair complementary for all functionally correct implementations of the primitives. That oracle solves every black-box-constructed \\(\\mathsf{NP}\\cap\\mathsf{coNP}\\) problem without breaking injective one-way functions or \\(i\\mathcal O\\)."
+  ],
+  "methods": [
+    {
+      "technique": "Strong preimage pseudorandomness",
+      "explanation": "The classical proof replaced samples one at a time, which smuggles in advice that depends on the oracle; that is fatal once the hash is itself the random oracle. The fix is to demand indistinguishability of the whole polynomial-size collection of samples at once. Then the reduction never fixes intermediate values and stays uniform and query-bounded.",
+      "math": [
+        "Fix bits \\(r_i\\) with \\(\\Pr[r_i=1]=\\gamma=1-\\delta\\). Backward sampling draws \\(y_i\\) uniformly from \\(\\mathrm{Im}(H)\\) and a uniform preimage \\(v_i\\) when \\(r_i=0\\), and \\(y_i\\notin\\mathrm{Im}(H)\\) when \\(r_i=1\\). Forward sampling draws uniform \\(v_i\\) and sets \\(y_i=H(v_i)\\) at every position. The adversary sees \\((r,\\{y_i\\},\\{v_i\\}_{r_i=0})\\) and may query \\(H\\) in superposition. Strong PRHF security asks that it cannot tell backward from forward sampling. After the switch, every \\((v_i,H(v_i))\\) is independent of \\(r\\), so the simulator knows a preimage even at positions it presents as 1.",
+        "The density is \\(\\delta=1-e^{-1}\\) for a length-preserving random function, since each point is missed by all \\(N\\) inputs with probability \\((1-1/N)^N\\to e^{-1}\\). Editorial check: sampled random functions on \\(2^8\\), \\(2^{12}\\), \\(2^{16}\\) points had image fractions 0.602, 0.626, 0.634, against \\(1-1/e=0.632\\). Hidden bits therefore equal one with probability about \\(0.368\\)."
+      ],
+      "transfer": "When a hybrid argument hard-codes intermediate values as advice and the primitive is later instantiated by a random oracle, restate security for the whole joint sample at once. Prove that strengthened notion directly for the oracle, typically with compressed-oracle techniques in the quantum case."
+    },
+    {
+      "technique": "Compressed partially fixed oracle",
+      "explanation": "The simulator must program some oracle values (to match the simulated reference string) and still answer superposition queries consistently with a random oracle elsewhere. Classical lazy sampling cannot do this against quantum queries. Zhandry's compressed oracle, with a list of prescribed entries kept outside the compression, can.",
+      "math": [
+        "Let \\(F\\) be a partial function fixed by the simulation. \\(\\operatorname{Com}(F)\\) stores \\(F\\) explicitly and represents all other entries in Zhandry's compressed form, which records only the points touched so far in a superposition over their values. Its query behaviour is identical to a uniformly random oracle conditioned on agreeing with \\(F\\). The simulator first runs the reference-string simulator with a persistent compressed PRHF oracle. It then initialises the reference-string oracle conditioned on the simulated string, and keeps both oracle states through the remaining interaction. This costs polynomial overhead.",
+        "Two independent oracles are then merged into one by domain separation, \\(O_{\\rm URS}(z)=O(0\\|z)\\) and \\(O_{\\rm PRHF}(z)=O(1\\|z)\\), so the final NIZK uses a single random oracle."
+      ],
+      "transfer": "Any quantum-random-oracle simulation that must program some outputs ahead of time, as in NIZK simulators, Fiat–Shamir with programmed challenges or random-oracle commitments, can use a partially fixed compressed oracle. It replaces the classical lazy-sampling step that breaks against superposition queries."
+    }
+  ],
+  "approved_on": "2026-11-07"
+}

@@ -564,6 +564,117 @@ class ToolTests(unittest.TestCase):
         self.assertGreater(offset, 15)      # clear of the handle at the tip
         self.assertLess(offset, 40)         # and still read as its label
 
+    def test_majorana_cat_state_is_n_stars_round_the_equator(self):
+        stars = tools.majorana_stars(tools.MAJORANA_DEFAULT)
+        self.assertEqual(len(stars), tools.MAJORANA_N)
+        for point in stars:
+            self.assertAlmostEqual(tools._vec_norm(point), 1.0, places=9)
+            self.assertAlmostEqual(point[2], 0.0, places=9)
+        # Roots of zⁿ + 1 are equally spaced, so consecutive azimuths differ by 2π/n.
+        angles = sorted(math.atan2(point[1], point[0]) % (2 * math.pi) for point in stars)
+        steps = [(second - first) % (2 * math.pi) for first, second in zip(angles, angles[1:] + angles[:1])]
+        for step in steps:
+            self.assertAlmostEqual(step, 2 * math.pi / tools.MAJORANA_N, places=9)
+
+    def test_majorana_dicke_state_counts_its_poles(self):
+        for excited in range(5):
+            coefficients = [1 + 0j if index == excited else 0j for index in range(5)]
+            stars = tools.majorana_stars(coefficients)
+            south = sum(1 for point in stars if point[2] < -0.999999)
+            north = sum(1 for point in stars if point[2] > 0.999999)
+            self.assertEqual((south, north), (excited, 4 - excited))
+
+    def test_majorana_stars_round_trip_to_their_state(self):
+        cases = [tools.MAJORANA_DEFAULT,
+                 [1 + 0j if index == 2 else 0j for index in range(5)],
+                 [cmath.exp(0.7j * index) / (index + 1) for index in range(5)],
+                 [index + 0.5j * index ** 2 for index in range(6)]]
+        for coefficients in cases:
+            amplitudes = tools.majorana_state(tools.majorana_stars(coefficients))
+            norm = math.sqrt(sum(abs(value) ** 2 for value in coefficients))
+            expected = [value / norm for value in coefficients]
+            # Up to one global phase, fixed by the largest component so the zeros stay harmless.
+            pivot = max(range(len(expected)), key=lambda index: abs(expected[index]))
+            phase = cmath.exp(1j * (cmath.phase(amplitudes[pivot]) - cmath.phase(expected[pivot])))
+            for got, want in zip(amplitudes, expected):
+                self.assertAlmostEqual(abs(got / phase - want), 0, places=6)
+
+    def test_majorana_readouts_match_the_known_states(self):
+        coherent = [(0.0, 0.0, 1.0)] * tools.MAJORANA_N
+        cases = {'cat': (tools.MAJORANA_DEFAULT, 0.0, 0.5),
+                 'dicke-2': ([1 + 0j if index == 2 else 0j for index in range(5)], 0.0, 0.375),
+                 'w': ([1 + 0j if index == 1 else 0j for index in range(5)], 0.5, 0.421875),
+                 'coherent': (tools.majorana_state(coherent), 1.0, 1.0)}
+        for name, (coefficients, spin, fidelity) in cases.items():
+            report = tools.majorana_report(coefficients)
+            self.assertAlmostEqual(report['spin'], spin, places=9, msg=name)
+            self.assertAlmostEqual(report['fidelity'], fidelity, places=6, msg=name)
+
+    def test_majorana_polynomial_is_set_as_tex(self):
+        self.assertEqual(tools.majorana_polynomial_tex(tools.MAJORANA_DEFAULT), 'P(z)=0.71z^{4}+0.71')
+        # The printed polynomial is the one whose roots are the stars, so a product state shows
+        # a perfect power of one linear form.
+        self.assertEqual(tools.majorana_polynomial_tex([1 + 0j if index == 1 else 0j for index in range(5)]),
+                         'P(z)=2.00z')
+        product = tools.majorana_state([(1.0, 0.0, 0.0)] * 3)
+        self.assertEqual(tools.majorana_polynomial_tex(product), 'P(z)=0.35z^{3}+1.06z^{2}+1.06z+0.35')
+        # A coefficient with both parts is bracketed, or it would read as two terms, and a
+        # negative term is joined with a minus rather than a signed bracket after a plus.
+        self.assertEqual(tools.majorana_polynomial_tex([0.5 + 0.5j, 0.5 - 0.5j]),
+                         'P(z)=(0.50-0.50i)z+(0.50+0.50i)')
+        self.assertEqual(tools.majorana_polynomial_tex([-0.4 - 0.3j, 0.2 + 0.6j, -0.5]),
+                         'P(z)=-0.50z^{2}+(0.28+0.85i)z-(0.40+0.30i)')
+        # A coefficient whose real part is a tiny negative must not flip sign for ever.
+        self.assertEqual(tools.majorana_term_tex(3.2e-8 - 0.048j), ('-', '0.05i'))
+        self.assertEqual(tools.majorana_term_tex(-3.2e-8 + 0.048j), ('+', '0.05i'))
+
+    def test_majorana_page_draws_the_stars_the_build_computed(self):
+        page = (ROOT / 'tools/majorana.html').read_text()
+        report = tools.majorana_report(tools.MAJORANA_DEFAULT)
+        start = page[page.index('data-stars="') + 12:]
+        start = start[:start.index('"')]
+        drawn = [tuple(float(value) for value in point.split(',')) for point in start.split(' ')]
+        self.assertEqual(len(drawn), tools.MAJORANA_N)
+        for got, want in zip(drawn, report['stars']):
+            for axis in range(3):
+                self.assertAlmostEqual(got[axis], want[axis], places=9)
+        for index, point in enumerate(report['stars']):
+            x, y = tools.project(point)
+            self.assertIn(f'id="majorana-star-{index}" cx="{x:.1f}" cy="{y:.1f}"', page)
+        for name in ('majorana-title', 'majorana-count', 'majorana-spin', 'majorana-fidelity',
+                     'majorana-entanglement', 'majorana-polynomial', 'majorana-n', 'majorana-star',
+                     'majorana-theta', 'majorana-phi', 'majorana-reset-view', 'majorana-rows',
+                     'majorana-status'):
+            self.assertIn(f'id="{name}"', page)
+        # The readouts the build printed are the ones the script recomputes, so nothing jumps on load.
+        self.assertIn(f'<dd id="majorana-spin">{report["spin"]:.3f}</dd>', page)
+        self.assertIn(f'<dd id="majorana-fidelity">{report["fidelity"]:.3f}</dd>', page)
+        # The polynomial readout, like the prose, is MathJax rather than a unicode approximation.
+        self.assertIn(r'\(P(z)=0.71z^{4}+0.71\)', page)
+
+    def test_majorana_script_and_styles_mirror_the_build(self):
+        script = (ROOT / 'tools/majorana.js').read_text()
+        for token in ('stateOf', 'starsOf', 'rootsOf', 'coherentOverlap', 'spinLength', 'polynomialTex',
+                      'tex2svgPromise',
+                      'const RINGS = 48', 'dataset.stars', 'majorana-reset-view',
+                      'data-majorana-preset', 'polynomialCoefficients'):
+            self.assertIn(token, script)
+        style = (ROOT / 'tools/tools.css').read_text()
+        for rule in ('.majorana-star', '.majorana-index', '.majorana-polynomial', '.majorana-table'):
+            self.assertIn(rule, style)
+
+    def test_majorana_coincident_stars_share_one_label(self):
+        stars = [(0.0, 0.0, 1.0)] * 3
+        groups = tools.majorana_groups(stars)
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(groups[0]['indices'], [0, 1, 2])
+        apart = tools.majorana_groups(tools.majorana_stars(tools.MAJORANA_DEFAULT))
+        self.assertEqual(len(apart), tools.MAJORANA_N)
+        page = tools.majorana_svg('majorana', stars)
+        self.assertEqual(page.count('class="majorana-index'), 1)
+        self.assertEqual(page.count('id="majorana-star-'), 3)
+        self.assertIn('>1·2·3</text>', page)
+
     def test_script_applies_the_matrix_the_controls_build(self):
         script = (ROOT / 'tools/single-qubit.js').read_text()
         for token in ('rotationMatrix', 'rotationAxis', 'rotationReadout', 'apply-rotation',

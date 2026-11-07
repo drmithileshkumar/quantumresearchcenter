@@ -1,0 +1,68 @@
+<svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="340" rx="8" class="fig-bg"/>
+
+  <!-- Left Panel: The 2023 Single-Point Roadblock -->
+  <rect x="18" y="18" width="292" height="272" rx="6" class="fig-box"/>
+  <text x="164" y="42" class="fig-label" text-anchor="middle">1  Why single-point bounds hit a wall</text>
+  <text x="164" y="60" class="fig-muted" text-anchor="middle">Lovett–Zhang Conjecture 37 vs. Tribes function</text>
+
+  <!-- Tribes circuit illustration (AND blocks into OR) -->
+  <rect x="38" y="78" width="66" height="26" rx="4" class="fig-node"/>
+  <text x="71" y="95" class="fig-muted" text-anchor="middle">AND B₁</text>
+  <rect x="131" y="78" width="66" height="26" rx="4" class="fig-node"/>
+  <text x="164" y="95" class="fig-muted" text-anchor="middle">AND B₂</text>
+  <rect x="224" y="78" width="66" height="26" rx="4" class="fig-node"/>
+  <text x="257" y="95" class="fig-muted" text-anchor="middle">AND Bₖ</text>
+
+  <line x1="71" y1="104" x2="144" y2="132" class="fig-link"/>
+  <line x1="164" y1="104" x2="164" y2="132" class="fig-link"/>
+  <line x1="257" y1="104" x2="184" y2="132" class="fig-link"/>
+
+  <rect x="124" y="132" width="80" height="26" rx="4" class="fig-box-open"/>
+  <text x="164" y="149" class="fig-label" text-anchor="middle">OR (Tribes)</text>
+
+  <!-- Single point x star -->
+  <circle cx="164" cy="186" r="9" class="fig-hollow"/>
+  <text x="164" y="210" class="fig-label" text-anchor="middle">Single bad input x ∈ {±1}ⁿ</text>
+
+  <text x="164" y="232" class="fig-muted" text-anchor="middle">Hoped: ∑ (D_B f(x))² ≤ O(d²) at each x.</text>
+  <text x="164" y="250" class="fig-muted" text-anchor="middle">Reality: at 1 worst-case corner x, all blocks</text>
+  <text x="164" y="266" class="fig-label" text-anchor="middle">spike together to Ω(d⁴) — plan stalls!</text>
+
+  <!-- Right Panel: The 2026 Butterfly Lemma Breakthrough -->
+  <rect x="330" y="18" width="292" height="272" rx="6" class="fig-box-claimed"/>
+  <text x="476" y="42" class="fig-label" text-anchor="middle">2  2026 Fix: Sign-Preserving Butterfly</text>
+  <text x="476" y="60" class="fig-muted" text-anchor="middle">Replace 1 point x with a paired configuration (x, y)</text>
+
+  <!-- Butterfly bipartite crossing diagram -->
+  <rect x="352" y="76" width="248" height="122" rx="5" class="fig-wash-1"/>
+
+  <!-- Left pair of nodes x, y -->
+  <circle cx="392" cy="108" r="13" class="fig-node"/>
+  <text x="392" y="112" class="fig-label" text-anchor="middle">x</text>
+  <circle cx="392" cy="166" r="13" class="fig-node"/>
+  <text x="392" y="170" class="fig-label" text-anchor="middle">y</text>
+
+  <!-- Right pair of nodes x', y' -->
+  <circle cx="560" cy="108" r="13" class="fig-box-claimed"/>
+  <text x="560" y="112" class="fig-label" text-anchor="middle">x′</text>
+  <circle cx="560" cy="166" r="13" class="fig-box-claimed"/>
+  <text x="560" y="170" class="fig-label" text-anchor="middle">y′</text>
+
+  <!-- Butterfly wings (horizontal + diagonal determinant pairing) -->
+  <line x1="405" y1="108" x2="547" y2="108" class="fig-line-1"/>
+  <line x1="405" y1="166" x2="547" y2="166" class="fig-line-1"/>
+  <line x1="405" y1="112" x2="547" y2="162" class="fig-line-2"/>
+  <line x1="405" y1="162" x2="547" y2="112" class="fig-line-2"/>
+
+  <text x="476" y="96" class="fig-label" text-anchor="middle">det(M) ≠ 0 bijection</text>
+  <text x="476" y="188" class="fig-muted" text-anchor="middle">preserves signs of block shifts D_B f</text>
+
+  <text x="476" y="218" class="fig-text" text-anchor="middle">Bounds coordinate agreement α(x, y)</text>
+  <text x="476" y="236" class="fig-muted" text-anchor="middle">+ Agarwal–Ben-David fbs(f) ≥ Ω(Var(f)²)</text>
+  <text x="476" y="262" class="fig-label" text-anchor="middle">maxᵢ Infᵢ[f] ≥ (8√15 / 125π⁴) · Var(f)⁵/² / d⁶</text>
+
+  <!-- Bottom Banner -->
+  <text x="320" y="316" class="fig-muted" text-anchor="middle">Pairing two inputs spreads the derivative spike across the hypercube so Chebyshev concentration succeeds with degree exponent 6 (total exponent 7)</text>
+</svg>
+

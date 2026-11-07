@@ -1,0 +1,83 @@
+{
+  "01-quantum-programming-languages": [
+    "Quantum programming languages coordinate two execution domains: classical host computation that prepares parameters and processes outcomes, and quantum circuit instructions that manipulate coherent registers.",
+    "Circuit-description libraries, hardware-level pulse/assembly representations (such as OpenQASM 3), and high-level functional languages trade explicit hardware control against automated resource management.",
+    "Unitary reversibility, no-cloning of unknown states, and destructive measurement shape the type systems and control flow of quantum software."
+  ],
+  "02-the-qiskit-environment": [
+    "Reproducible quantum software pins exact package versions, records random seeds, and separates circuit construction from backend execution.",
+    "In Qiskit, <code>QuantumCircuit</code> defines the logical program, <code>quantum_info</code> supplies exact linear-algebra inspection, and primitives (<code>Sampler</code> and <code>Estimator</code>) standardize execution interfaces.",
+    "Qiskit uses little-endian bit ordering (qubit 0 is the rightmost, least-significant bit in string labels and tensor products), a convention that must be tracked consistently across circuits and matrices."
+  ],
+  "03-circuit-construction": [
+    "Quantum and classical registers give structured names to wires, while multi-qubit gates such as <code>cx</code>, <code>cz</code>, and <code>ccx</code> require explicit control-to-target ordering.",
+    "Barriers prevent compiler passes from merging or reordering gates across diagnostic boundaries without altering the circuit’s unitary matrix.",
+    "Inspecting circuit depth, gate counts, and nonlocal two-qubit layers early catches scalability bottlenecks before transpilation."
+  ],
+  "04-states-and-operators": [
+    "<code>Statevector</code> and <code>DensityMatrix</code> simulate pure and mixed states exactly in memory, allowing step-by-step verification of small circuits before shot-based sampling.",
+    "<code>Operator</code> and <code>SparsePauliOp</code> represent unitaries and Hermitian observables algebraically so expectation values \\(\\langle\\psi|O|\\psi\\rangle\\) and unitary equivalence up to global phase can be tested directly.",
+    "Exact statevector simulation scales exponentially as \\(2^n\\) in memory and runtime, making it a verification tool for small instances rather than a replacement for scalable execution."
+  ],
+  "05-reusable-quantum-programs": [
+    "Encapsulating subcircuits via <code>to_gate()</code> or <code>to_instruction()</code> with explicit parameter bindings turns ad-hoc gate lists into composable subroutines.",
+    "Every reversible subroutine must satisfy a workspace contract: ancilla qubits allocated for intermediate scratch steps must be uncomputed back to \\(|0\\rangle\\) before the subroutine returns.",
+    "Controlled versions of custom gates (<code>.control(k)</code>) propagate phase kickback and enable modular construction of phase estimation and LCU circuits."
+  ],
+  "06-sampling-and-estimation": [
+    "The <code>Sampler</code> primitive returns shot-based bitstring distributions over measured classical registers, whereas the <code>Estimator</code> primitive returns expectation values \\(\\langle H\\rangle\\) of observables.",
+    "Because an observable is decomposed into non-commuting Pauli groups, estimating \\(\\langle H\\rangle\\) to precision \\(\\varepsilon\\) requires \\(O(1/\\varepsilon^2)\\) shots distributed across measurement bases.",
+    "Batching parameterized pubs (Primitive Unified Blocs) amortizes compilation and communication overhead across parameter sweeps."
+  ],
+  "07-oracles-and-arithmetic": [
+    "A concrete oracle is not a magic black box; it is a reversible Boolean or arithmetic circuit synthesized from classical logic gates without leaking path information into uncleaned ancillas.",
+    "Bit-flip oracles \\(|x,y\\rangle \\mapsto |x, y\\oplus f(x)\\rangle\\) convert into phase oracles \\((-1)^{f(x)}|x\\rangle\\) either by targeting a \\(|-\\rangle\\) ancilla or by direct multi-controlled phase synthesis.",
+    "Reversible adders, comparators, and modular multipliers dominate the gate count of practical Grover and Shor implementations."
+  ],
+  "08-algorithm-implementation": [
+    "Implementing Fourier, amplitude-amplification, and quantum-walk algorithms in code requires matching bit-reversal conventions, reflection phases, and oracle workspace uncomputation.",
+    "Small-scale statevector assertions verify that intermediate reflections and inverse QFT layers produce the exact theoretical amplitudes before adding shot noise.",
+    "Resource scaling should be measured empirically by sweeping register size \\(n\\) and recording transpiled two-qubit gate counts and circuit depth."
+  ],
+  "09-testing-and-verification": [
+    "Quantum software testing combines deterministic matrix/statevector unit tests on small widths with statistical hypothesis tests on sampled shot distributions.",
+    "Adjoint testing (\\(U U^\\dagger = I\\)) and ancilla-purity checks verify that subroutines leave scratch registers unentangled and return to \\(|0\\rangle\\).",
+    "Statistical tests of sampled outputs must account for finite-shot variance, multiple-testing corrections, and explicit failure tolerances."
+  ],
+  "10-compilation-and-transpilation": [
+    "Transpilation translates an abstract circuit into a target backend’s native basis gates while inserting SWAP networks to satisfy the device’s coupling map.",
+    "Layout selection, routing heuristics (such as SABRE), unitary synthesis, and peephole optimization trade compilation runtime against output two-qubit gate count and depth.",
+    "Because stochastic routing passes can produce different depths across runs, pinning the transpiler seed (<code>seed_transpiler</code>) is mandatory for reproducible benchmarks."
+  ],
+  "11-quantum-hardware-execution": [
+    "Running on physical QPU hardware requires inspecting live calibration data—per-qubit \\(T_1, T_2\\), readout assignment error, and per-edge two-qubit gate error—to choose a high-fidelity qubit layout.",
+    "Queue latency, session management, and shot budgets shape how hardware experiments arebatched and monitored.",
+    "Raw hardware histograms must be interpreted alongside baseline noise expectations and classical reference simulations."
+  ],
+  "12-dynamic-circuits": [
+    "Dynamic circuits execute mid-circuit measurements, active qubit resets, and classical feed-forward branches within the coherence window of a single shot.",
+    "Constant-depth entanglement preparation, teleportation, and iterative phase estimation use mid-circuit feed-forward to replace deep unitary trees with shallow adaptive layers.",
+    "Hardware execution of dynamic circuits is constrained by measurement-plus-branching latency \\(\\tau_{\\mathrm{feed}}\\), during which unmeasured spectator qubits undergo \\(T_1/T_2\\) idling decay."
+  ],
+  "13-noise-and-reliability": [
+    "Custom <code>NoiseModel</code> simulations combine depolarizing, thermal-relaxation (\\(T_1/T_2\\)), and readout-assignment errors to diagnose whether hardware deviations stem from gate noise or program bugs.",
+    "Error mitigation techniques—readout mitigation, zero-noise extrapolation (ZNE), dynamical decoupling, and probabilistic error cancellation (PEC)—reduce estimator bias at the cost of increased sampling variance.",
+    "Unlike fault-tolerant error correction, error mitigation sampling overhead scales exponentially with circuit error volume."
+  ],
+  "14-hybrid-quantum-programs": [
+    "Variational workflows bind symbolic <code>ParameterVector</code> objects inside an ansatz circuit and iterate between quantum <code>Estimator</code> calls and a classical optimizer.",
+    "Gradient-based optimizers using the parameter-shift rule and gradient-free optimizers (such as COBYLA or SPSA) respond differently to finite-shot measurement noise.",
+    "Tracking convergence trajectories, variance bars, and total shot evaluations prevents cherry-picking lucky optimizer runs."
+  ],
+  "15-advanced-algorithm-construction": [
+    "Hamiltonian simulation via Trotterization, Linear Combinations of Unitaries (LCU), and Quantum Signal Processing (QSP) can be assembled programmatically from Pauli evolutions and block-encoding primitives.",
+    "Postselection probabilities and block-encoding subnormalization factors \\(\\alpha\\) must be tracked in code alongside gate counts to reflect true end-to-end runtime.",
+    "Comparing Trotter step error against LCU ancilla overhead on concrete spin Hamiltonians illustrates where asymptotic algorithms cross over in practice."
+  ],
+  "16-reproducible-quantum-projects": [
+    "An independently reproducible quantum project packages source code, environment lockfiles, random seeds, transpiled circuits, raw shot counts, and analysis scripts in a self-contained repository.",
+    "Every reported plot or table should be generated deterministically from archived raw execution records with explicit error bars and stated assumptions.",
+    "Clear separation between exact small-instance verification, noisy simulation, and hardware execution prevents overclaiming algorithmic performance."
+  ]
+}
+

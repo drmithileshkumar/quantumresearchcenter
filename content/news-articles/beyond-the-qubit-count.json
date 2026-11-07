@@ -1,45 +1,430 @@
 {
   "slug": "beyond-the-qubit-count",
   "title": "Beyond the qubit count: how to read a quantum computing headline",
-  "summary": "A bigger processor is only part of the story. Reliability and the work a machine can actually perform matter too.",
+  "summary": "Qubit counts say little about whether a quantum computer can do useful work. Six questions on error rates, error-correction scaling, classical competition and practical requirements separate genuine progress from headline figures, and are applied here to two recent results.",
   "banner": {
     "file": "banner.svg",
     "alt": "Illustration: a large chip with many unreliable qubits beside a small chip of reliable ones, with error rates falling in a bar chart."
   },
+  "key_points": [
+    "Errors compound: at one error per thousand operations, a computation of ten thousand steps almost never runs cleanly, however many qubits the machine has.",
+    "The strongest evidence of progress is a logical error rate that keeps falling as the error-correcting code grows, measured during repeated correction and with the decoding done in time.",
+    "A result is not a capability until it is verified, compared with the best classical methods, and set against what a useful task would actually require."
+  ],
   "author": "Quantum Research Center",
   "published": "2026-10-26",
+  "updated": "2026-11-07",
   "status": "published",
   "topic": "discoveries",
   "format": "Explainer",
   "sections": [
     {
-      "heading": "What is being counted?",
+      "kicker": "The problem",
+      "heading": "Size is not capability",
       "paragraphs": [
-        "A physical qubit is a component of a quantum processor. A logical qubit encodes quantum information across physical qubits so that errors can be detected and corrected. The two counts describe different things."
+        "A headline that a processor has a thousand qubits tells you how big it is, not what it can do. Every operation on today's hardware has some chance of failing, and a computation is a long chain of operations. If each fails with probability \\(p\\), all \\(N\\) succeed with probability about \\((1-p)^N\\).",
+        "The numbers above are our calculations from that formula. Adding qubits to a machine with the first error rate does not help; it gives the errors more places to happen.",
+        "Useful algorithms such as factoring or detailed chemistry need millions to billions of operations. Microsoft's quantum team, writing with John Martinis in September 2026, puts the error rate needed at about one in ten billion for the simplest useful applications and one in a million billion for the most demanding. No physical qubit comes close. The real question behind a headline is how close the machine gets to reliable operation, and at what cost."
+      ],
+      "stats": [
+        {
+          "value": "37%",
+          "label": "chance 100 steps run error-free at 1 error in 100"
+        },
+        {
+          "value": "1 in 22,000",
+          "label": "chance 10,000 steps run error-free at 1 error in 1,000"
+        },
+        {
+          "value": "99%",
+          "label": "the same 10,000 steps at 1 error in a million"
+        }
+      ],
+      "figure": {
+        "file": "compounding.svg",
+        "caption": "The chance that a computation of N operations runs with no error, if each operation fails independently with the probability shown. The best physical error rates today lie between the 1-in-100 and 1-in-10,000 curves; useful algorithms need the right-hand ones. Our calculation of (1 − p)^N.",
+        "alt": "Line chart: the chance of no error falls from one to zero as the number of operations grows. At 1 error in 100 it collapses after about a hundred operations, at 1 in 1,000 after about a thousand, and at 1 in a billion it stays near one up to about a hundred million operations."
+      },
+      "source_refs": [
+        1
       ]
     },
     {
-      "heading": "Reliability changes the picture",
+      "kicker": "Question 1",
+      "heading": "What exactly is being counted?",
       "paragraphs": [
-        "A useful comparison asks how reliably a processor preserves information and performs operations, and how long it can keep a computation running. Error correction must operate repeatedly during computation; a single successful demonstration does not establish every capability needed for larger applications."
+        "A physical qubit is one device: an ion, an atom, a superconducting circuit. A logical qubit is information spread over many physical qubits by an error-correcting code, so that errors can be found and undone without disturbing it. The code's distance d is the number of physical errors needed to cause an undetected logical one; a surface code of distance d uses about \\(2d^2\\) physical qubits.",
+        "\"Logical qubit\" is used loosely. Some demonstrations run correction for many rounds; others prepare and measure a code once. Some correct errors; others only detect them and discard the failed runs afterwards, which looks clean in small tests but wastes a fraction of runs that grows with the computation. The comparison to look for is whether the logical qubit beats its own parts: in Google's 2024 experiment, the distance-7 logical memory outlived the best physical qubit by a factor of about 2.4."
+      ],
+      "asks": [
+        "Physical or logical? If logical, which code, and what distance?",
+        "Corrected over many rounds, or detected once with failed runs discarded?",
+        "Is the logical qubit more reliable than the best physical qubit in it?"
+      ],
+      "source_refs": [
+        2
       ]
     },
     {
-      "heading": "Three questions to bring to the next announcement",
+      "kicker": "Question 2",
+      "heading": "How good is each operation?",
       "paragraphs": [
-        "Are the reported qubits physical or logical? Which operations were demonstrated, and with what error rates? What resources and running time would the proposed application require?",
-        "These questions help separate a hardware milestone from evidence of practical usefulness. A company roadmap describes an intended destination; the experiment shows what has been achieved so far."
+        "Two-qubit gates are usually the weakest link, because entangling operations are hardest and every algorithm needs many of them. Measurement errors, errors while qubits wait, leakage out of the two levels that form the qubit, and crosstalk between neighbours count too. A headline fidelity is often the best pair on the chip.",
+        "How the number was measured matters as much as its size. Randomized benchmarking reports an average over many inputs. Coherent errors, small systematic over-rotations, can look tiny on average yet add up in step over a long circuit, so the worst case can be far worse than the average. Long coherence times mean little on their own; what counts is how many operations fit inside them."
+      ],
+      "asks": [
+        "What is the median two-qubit gate error across the whole device, not the best pair?",
+        "Is it an average (randomized benchmarking) or a worst-case figure?",
+        "Are measurement, idling, leakage and crosstalk errors included?"
       ]
+    },
+    {
+      "kicker": "Question 3",
+      "heading": "Does the error fall as the code grows?",
+      "paragraphs": [
+        "Error correction helps only below a threshold error rate. Below it, a larger code gives a more reliable logical qubit; above it, a larger code just collects more errors. The most informative single number is the suppression factor \\(\\Lambda\\): how much the logical error falls each time the distance grows by two.",
+        "The two results below use different codes and count errors differently, per correction round or per operation, so compare their slopes, not their absolute values. The slope sets the cost. If each trend continued from distance 3, a billionfold reduction would need distance about 59 at \\(\\Lambda\\approx2.1\\) but about 21 at \\(\\Lambda\\approx12\\): roughly seven thousand physical qubits per logical qubit against nine hundred. That is our extrapolation; rare correlated errors, from cosmic rays or leakage, are what could break it.",
+        "Protecting memory is not computing. A complete demonstration also runs logical gates between logical qubits, including the costly non-Clifford gates, usually supplied as magic states, and decodes fast enough to keep up during a long run."
+      ],
+      "table": {
+        "columns": [
+          "Experiment",
+          "Platform and code",
+          "Distances",
+          "Suppression per step",
+          "Reported logical error"
+        ],
+        "rows": [
+          [
+            "Google, 2024",
+            "Superconducting, surface code",
+            "3, 5, 7",
+            "2.14",
+            "0.143% per round (1.1 µs rounds, real-time decoding at d = 5)"
+          ],
+          [
+            "Quantinuum, 2026",
+            "Trapped ions, colour code",
+            "3, 5, 7",
+            "about 12",
+            "about 5 per million operations (preprint)"
+          ]
+        ],
+        "caption": "Two error-correction results. Absolute error rates are not directly comparable; the suppression per step is."
+      },
+      "figure": {
+        "file": "suppression.svg",
+        "caption": "Logical error relative to its value at distance 3, if each increase of the distance by two divides it by Λ. Solid segments span the distances 3 to 7 used in the 2024 Google (Λ ≈ 2.1) and 2026 Quantinuum (about 12) experiments; dashed lines are our extrapolation, which assumes the trend continues.",
+        "alt": "Logarithmic chart of relative logical error against code distance. The steeper line, twelve per step, reaches a billionfold reduction near distance 21; the shallower line, about two per step, needs distance about 59."
+      },
+      "asks": [
+        "Does the logical error fall across at least three code sizes?",
+        "Was it measured over repeated rounds, with decoding done in real time?",
+        "Were logical gates shown, including non-Clifford ones, or only memory?"
+      ],
+      "source_refs": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "kicker": "Question 4",
+      "heading": "Could a classical computer do the same?",
+      "paragraphs": [
+        "Many beyond-classical demonstrations run tasks chosen because they are hard to simulate, such as sampling the outputs of random circuits. They are honest tests of hardware but say little about applications, and their classical cost is a moving target, as the revisions to the first such claim, in the table below, show.",
+        "So ask whether the comparison used the best known classical method, ideally one proposed by people outside the team, and whether the output can be checked at all. Results with a verifiable answer, or a statistical certificate of how faithfully the circuit ran, carry more weight. Composite benchmarks such as quantum volume, the largest random circuit of equal width and depth a machine runs successfully, help compare machines but do not measure usefulness."
+      ],
+      "table": {
+        "columns": [
+          "Year",
+          "Who",
+          "Estimate for Google's 53-qubit sampling task"
+        ],
+        "rows": [
+          [
+            "2019",
+            "Google",
+            "200 seconds on the processor; about 10,000 years on a supercomputer (their estimate)"
+          ],
+          [
+            "2019",
+            "IBM",
+            "about 2.5 days for an ideal classical simulation"
+          ],
+          [
+            "2022",
+            "Pan, Chen and Zhang",
+            "about 15 hours on 512 GPUs, at the experiment's low fidelity"
+          ]
+        ],
+        "caption": "How the classical cost of the 2019 Sycamore task was revised."
+      },
+      "asks": [
+        "Was the classical baseline the best known method, and who proposed it?",
+        "Can the output be verified, or only checked on smaller versions?",
+        "Was the task chosen to be useful, or only to be hard?"
+      ],
+      "source_refs": [
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "kicker": "Question 5",
+      "heading": "What would a useful task need?",
+      "paragraphs": [
+        "A resource estimate turns an algorithm into hardware: logical qubits, non-Clifford gate counts, run time, and the physical qubits needed at an assumed error rate and speed. The headline number always rests on assumptions, and lower qubit counts usually rest on stronger ones.",
+        "Speed matters as much as size. On hardware whose correction cycles are a thousand times slower, a one-week computation becomes one of about two decades. John Preskill has proposed a nearer milestone: error-corrected machines running about a million operations reliably, which he calls megaquop machines, the scale at which correction starts to pay off well before factoring."
+      ],
+      "table": {
+        "columns": [
+          "Estimate",
+          "Qubits",
+          "Run time",
+          "Key assumptions"
+        ],
+        "rows": [
+          [
+            "Gidney, 2025",
+            "fewer than 1 million noisy qubits",
+            "less than a week",
+            "0.1% gate error, 1 µs correction cycle, 10 µs reaction time"
+          ],
+          [
+            "Alice & Bob, 2026 (preprint)",
+            "22,593 cat qubits",
+            "about 3.14 days",
+            "bit flips rarer than once a century per qubit; seconds are measured today"
+          ]
+        ],
+        "caption": "Two estimates for breaking 2048-bit RSA. Compare the assumptions, not the qubit counts."
+      },
+      "asks": [
+        "How many logical qubits and non-Clifford operations does the task need?",
+        "What error rate, cycle time and reaction time are assumed?",
+        "How do those assumptions compare with what has been measured?"
+      ],
+      "source_refs": [
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "kicker": "Question 6",
+      "heading": "Result, plan or product?",
+      "paragraphs": [
+        "Programmes that fund the field increasingly pay for verified performance. DARPA's Quantum Benchmarking Initiative asks whether any approach can reach utility scale by 2033, meaning computational value above the machine's cost, and verifies hardware in its final stage. The Department of Energy's Q Competition ties payments to lab-verified demonstrations of at least 100 logical qubits. Microsoft's post argues for judging reliability, scale, capability and performance together.",
+        "Announcements mix statements of very different weight, and the wording rarely says which kind it is. Sort each claim into one of these before weighing it."
+      ],
+      "table": {
+        "columns": [
+          "Kind of statement",
+          "What it establishes"
+        ],
+        "rows": [
+          [
+            "Peer-reviewed paper",
+            "Referees checked the method and the claims"
+          ],
+          [
+            "Preprint",
+            "The authors' account, not yet reviewed"
+          ],
+          [
+            "Independent replication",
+            "Another group reproduced the result"
+          ],
+          [
+            "Roadmap",
+            "An intended machine and date"
+          ],
+          [
+            "Funding or contract",
+            "Money committed, not capability"
+          ],
+          [
+            "Cloud product",
+            "What users can run today, with published error rates and limits"
+          ]
+        ]
+      },
+      "asks": [
+        "Is this a measured result, and has anyone outside the team checked it?",
+        "Which parts are goals or roadmap dates?",
+        "Is money being reported as if it were capability?"
+      ],
+      "source_refs": [
+        1,
+        12,
+        13
+      ]
+    },
+    {
+      "kicker": "Worked example",
+      "heading": "Two real announcements, scored",
+      "paragraphs": [
+        "Neither result below answers every question, and neither claims to. The scorecard shows which questions each one does answer. A headline that a company has unveiled a 1,000-qubit processor, by contrast, answers only the size of the machine until the same questions are put to it."
+      ],
+      "table": {
+        "columns": [
+          "Question",
+          "Quantinuum, October 2026",
+          "IBM and University of Chicago, July 2026"
+        ],
+        "rows": [
+          [
+            "Counted",
+            "One logical qubit; colour codes of distance 3 to 7",
+            "70 logical qubits"
+          ],
+          [
+            "Quality",
+            "Leakage removal part of the result",
+            "Logical errors about ten times below physical, per IBM"
+          ],
+          [
+            "Scaling",
+            "About twelvefold less error per distance step",
+            "Not a code-size scaling experiment"
+          ],
+          [
+            "Classical",
+            "A memory, not a computation",
+            "Sampling task said to exceed leading classical methods, with a statistical lower bound on fidelity"
+          ],
+          [
+            "Resources",
+            "Accuracy said to be in the range targeted for a 2029 machine",
+            "2,415 logical two-qubit operations and 468 logical T gates"
+          ],
+          [
+            "Status",
+            "Preprint, not yet peer reviewed; 2029 machine is a goal",
+            "arXiv paper; review status not stated in coverage"
+          ]
+        ],
+        "caption": "Based on the company announcements and the coverage cited in our earlier articles."
+      },
+      "source_refs": [
+        3,
+        4,
+        14
+      ]
+    },
+    {
+      "kicker": "Summary",
+      "heading": "The checklist",
+      "paragraphs": [
+        "Few announcements answer all six questions, and that is normal. The point is to know which ones a result answers and which it leaves open."
+      ],
+      "table": {
+        "columns": [
+          "Question",
+          "Look for",
+          "Be wary of"
+        ],
+        "rows": [
+          [
+            "What is counted",
+            "Logical qubits with code and distance stated",
+            "Physical counts presented as capability"
+          ],
+          [
+            "Operation quality",
+            "Median two-qubit error across the device",
+            "Best-pair or average-only figures"
+          ],
+          [
+            "Scaling",
+            "Error falling across three or more code sizes",
+            "A single code size, or one round of correction"
+          ],
+          [
+            "Classical comparison",
+            "Best known method, verifiable output",
+            "Comparisons with outdated simulation methods"
+          ],
+          [
+            "Resources",
+            "Stated assumptions close to measured values",
+            "Qubit counts without error rates or speeds"
+          ],
+          [
+            "Status",
+            "Peer review or independent replication",
+            "Roadmap dates and funding reported as results"
+          ]
+        ]
+      }
     }
   ],
   "sources": [
     {
-      "title": "Microsoft Quantum: scalable logical qubits (22 September 2026)",
+      "title": "Microsoft Quantum (M. Troyer, C. Nayak, J. Martinis): scalable logical qubits, 22 September 2026",
       "url": "https://quantum.microsoft.com/en-us/insights/blogs/scalable-logical-qubits"
+    },
+    {
+      "title": "Google Quantum AI, Quantum error correction below the surface code threshold, Nature 638, 920 (2025); arXiv:2408.13687",
+      "url": "https://arxiv.org/abs/2408.13687"
+    },
+    {
+      "title": "Quantinuum press release, 19 October 2026",
+      "url": "https://www.quantinuum.com/press-releases/quantinuum-breaks-error-correction-world-record-by-10x-validating-its-leading-path-to-fault-tolerant-quantum-computing-by-2029"
+    },
+    {
+      "title": "Lavasani et al., Quantum error correction well below the color code threshold, arXiv:2610.24077",
+      "url": "https://arxiv.org/abs/2610.24077"
+    },
+    {
+      "title": "Arute et al., Quantum supremacy using a programmable superconducting processor, Nature 574, 505 (2019)",
+      "url": "https://doi.org/10.1038/s41586-019-1666-5"
+    },
+    {
+      "title": "IBM Research (E. Pednault, D. Maslov, J. Gunnels, J. Gambetta), On “Quantum Supremacy”, 22 October 2019",
+      "url": "https://www.ibm.com/quantum/blog/on-quantum-supremacy"
+    },
+    {
+      "title": "F. Pan, K. Chen and P. Zhang, Solving the sampling problem of the Sycamore quantum circuits, Phys. Rev. Lett. 129, 090502 (2022); arXiv:2111.03011",
+      "url": "https://arxiv.org/abs/2111.03011"
+    },
+    {
+      "title": "A. W. Cross et al., Validating quantum computers using randomized model circuits (quantum volume), Phys. Rev. A 100, 032328 (2019); arXiv:1811.12926",
+      "url": "https://arxiv.org/abs/1811.12926"
+    },
+    {
+      "title": "C. Gidney, How to factor 2048 bit RSA integers with less than a million noisy qubits, arXiv:2505.15917 (2025)",
+      "url": "https://arxiv.org/abs/2505.15917"
+    },
+    {
+      "title": "Pappalardo et al., Shor’s algorithm compiled on cat qubits: 22 593 qubits for RSA-2048 in 3.14 days, arXiv:2610.37839",
+      "url": "https://arxiv.org/abs/2610.37839"
+    },
+    {
+      "title": "J. Preskill, Beyond NISQ: The Megaquop Machine, arXiv:2502.17368 (2025)",
+      "url": "https://arxiv.org/abs/2502.17368"
+    },
+    {
+      "title": "US Department of War release: $350 million in quantum computing initiatives (Quantum Benchmarking Initiative)",
+      "url": "https://www.war.gov/News/Releases/Release/Article/4622109/department-of-war-announces-350-million-in-quantum-computing-initiatives/"
+    },
+    {
+      "title": "US Department of Energy: Quantum Genesis",
+      "url": "https://www.energy.gov/undersecretaryforscience/genesis-mission/quantum-genesis"
+    },
+    {
+      "title": "The Quantum Insider, IBM and University of Chicago Demonstrate Verified Logical Quantum Computation Beyond Classical Simulation, 31 July 2026",
+      "url": "https://thequantuminsider.com/2026/07/31/ibm-university-of-chicago-verified-logical-quantum-computation/"
     }
   ],
   "related_articles": [
-    "quantum-safe-security"
+    "quantinuum-color-code-error-record",
+    "alice-bob-rsa-2048-cat-qubits",
+    "ibm-ornl-amd-error-correction-platform",
+    "pentagon-quantum-350-million"
   ],
   "related_papers": []
 }

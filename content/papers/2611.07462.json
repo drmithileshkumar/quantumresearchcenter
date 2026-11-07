@@ -1,0 +1,45 @@
+{
+  "id": "2611.07462",
+  "topic": "information",
+  "title": "Information-Spectrum General Formulas for the Capacity Region of Classical-Quantum Multiple Access Channels",
+  "authors": "Takuya Kubo; Hiroshi Nagaoka",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Two senders transmit classical messages through a channel whose output is a quantum state. For memoryless channels the capacity region is known, but real channels may have memory or change with block length. The information-spectrum method gives capacity formulas for arbitrary channel sequences: Verdú–Han and Hayashi–Nagaoka for one sender, Han (1998) for the classical two-sender channel. For the classical-quantum multiple access channel only an outer bound (Kubo–Nagaoka 2015) was known. What is the exact region?",
+  "result": "For every sequence of cq-MACs, the capacity region (vanishing error) is the union over input-distribution sequences of the regions \\(R_1\\le\\underline I_1\\), \\(R_2\\le\\underline I_2\\), \\(R_1+R_2\\le\\underline I_0\\), defined by three spectral inf-mutual information rates. This is the quantum counterpart of Han's formula. For every \\(0\\le\\varepsilon<1\\), the \\(\\varepsilon\\)-capacity region equals the 2015 outer bound evaluated at the marginal states, so that bound is tight. Its consistency constraint turns out to be unnecessary.",
+  "significance": "This completes the information-spectrum picture for the simplest multi-user quantum channel. The direct part comes from applying Sen's one-shot simultaneous-decoding inner bound to each channel in the sequence separately. A second direct part, for every \\(\\varepsilon\\), uses the outer bound's own threshold test as the decoder, with a square-root measurement and the Hayashi–Nagaoka inequality. No quantum joint-typicality machinery is needed.",
+  "limitations": "The formulas are as hard to evaluate as any information-spectrum quantity; they characterise, not compute. For \\(\\varepsilon=0\\), whether the two expressions agree for each fixed input sequence, rather than only after the union, is open. The paper says the authors could not verify Sen's proof with the stated constant \\(c=49\\) and verified it with \\(c=240\\) instead, in a check they do not include; their results need only some constant. The authors thank Anthropic's Claude for help with references, logical details and drafting.",
+  "status": "approved",
+  "summary_basis": "Description based on the full text of the linked arXiv version (Sections 1–8), read 2026-11-07, including the proofs of inclusions (10)–(12) and Lemma 13. Appendix A (the outer bound without the consistency constraint) was read but not checked line by line.",
+  "verified_on": "2026-11-07",
+  "methods_source_section": "Sections 5–7 (proofs of the direct parts and Lemma 13)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A code for the \\(n\\)-th channel \\(W^{(n)}:(x_1,x_2)\\mapsto W^{(n)}_{x_1,x_2}\\) uses independent stochastic encoders for the two senders and one decoding POVM. No relation is assumed between different \\(n\\). Averaging the output over one or both senders' inputs gives the marginal states \\(\\bar W_{p_1,x_2}\\), \\(\\bar W_{x_1,p_2}\\) and \\(\\bar W_{p_1,p_2}\\). They play the alternative hypotheses in three hypothesis tests.",
+    "The spectral inf-mutual information rate \\(\\underline I_1\\) is the largest \\(R\\) such that the projector \\(\\{W_{x_1,x_2}\\le e^{nR}\\bar W_{p_1,x_2}\\}\\) captures vanishing average weight of \\(W_{x_1,x_2}\\). \\(\\underline I_2\\) and \\(\\underline I_0\\) are defined the same way with the other two marginals. Theorem 6 states \\(C(0|\\vec W)=\\bigcup_{\\vec p_1,\\vec p_2}\\mathcal R(\\vec p_1,\\vec p_2)\\). It also gives two equivalent forms in terms of the single linear-combination test \\[\\{W_{x_1,x_2}\\le e^{nR_1}\\sigma_{x_2}+e^{nR_2}\\sigma_{x_1}+e^{n(R_1+R_2)}\\sigma\\}\\] from the outer bound.",
+    "The proof combines three inclusions: Sen's inner bound applied member by member; an elementary argument that splits the single linear-combination condition into the three single-hypothesis conditions; and a direct coding theorem for every \\(\\varepsilon\\) that decodes with the threshold test itself. With the 2015 converse, they close the region.",
+    "Classically, Han's quantity \\(J\\) is the probability of a union of three events, and passing to the three inf-information rates is elementary. In the quantum case the three tests do not commute. The only route the authors know goes through Sen's bound and the converse, and a direct argument is left open."
+  ],
+  "methods": [
+    {
+      "technique": "One-shot bounds applied member by member",
+      "explanation": "An information-spectrum direct part does not need asymptotic equipartition. A one-shot coding theorem, applied to each channel \\(W^{(n)}\\) with tests that pass the true state and nearly reject the product-of-marginals state, yields codes for the whole sequence. Sen's simultaneous-decoding bound is the one-shot theorem that works for two senders.",
+      "math": [
+        "Write \\(\\rho^{(n)}=\\sum p_1p_2|x_1x_2\\rangle\\langle x_1x_2|\\otimes W_{x_1,x_2}\\) and \\(\\tau_1=\\rho^{X_1}\\otimes\\rho^{X_2Z}\\), and similarly \\(\\tau_2\\) and \\(\\tau_0\\). Because everything is block diagonal in the classical registers, \\(\\iota_{n,i}(R)=\\operatorname{Tr}[\\rho^{(n)}\\{\\rho^{(n)}\\le e^{nR}\\tau_i^{(n)}\\}]\\). So \\(\\underline I_i\\) is the Nagaoka–Hayashi spectral inf-divergence rate \\(\\underline D(\\vec\\rho\\|\\vec\\tau_i)\\). That rate equals the best exponent \\(-\\frac1n\\log\\operatorname{Tr}\\Lambda_i\\tau_i\\) of tests with \\(\\operatorname{Tr}\\Lambda_i\\rho\\to1\\).",
+        "For \\(R_i<\\underline I_i-\\delta\\), such tests give \\(\\log M_i\\le-\\log\\operatorname{Tr}[\\Lambda_i\\tau_i]-n\\delta\\). Since \\(n\\delta\\ge1+\\log\\frac1\\varepsilon\\) for large \\(n\\), Sen's conditions hold and yield codes with error \\(c\\sqrt\\varepsilon\\). Letting \\(\\varepsilon\\to0\\) and using closedness of \\(C(0|\\vec W)\\) gives the inner bound."
+      ],
+      "transfer": "For any multi-terminal quantum problem with a one-shot achievability theorem stated in terms of hypothesis-testing quantities, the general (non-i.i.d.) formula follows by applying it to each block length and identifying the hypothesis-testing exponents with spectral divergence rates."
+    },
+    {
+      "technique": "Threshold tests as a square-root decoder",
+      "explanation": "The outer bound's test \\(T=\\{W>\\Sigma\\}\\) is itself a good decoding element. Each of the three marginal states has small weight on it, which bounds the three kinds of confusion: wrong first message, wrong second message, or both wrong. The Hayashi–Nagaoka inequality converts these weights into an error bound for the square-root measurement.",
+      "math": [
+        "Because \\(T\\) projects where \\(W\\) exceeds \\(\\Sigma=e^{nR_1}\\bar W_{p_1,x_2}+e^{nR_2}\\bar W_{x_1,p_2}+e^{n(R_1+R_2)}\\bar W_{p_1,p_2}\\), we have \\(\\operatorname{Tr}\\Sigma T\\le1\\). Each term is non-negative, so \\(\\operatorname{Tr}\\bar W_{p_1,x_2}T\\le e^{-nR_1}\\), and likewise for the other two marginals. For \\(Y_m=G^{-1/2}T_mG^{-1/2}\\) with \\(G=\\sum T_{m}\\), Hayashi–Nagaoka gives, for \\(c'\\in(0,1]\\), \\[I-Y_m\\le(1+c')(I-T_m)+\\Bigl(2+c'+\\tfrac1{c'}\\Bigr)\\sum_{\\hat m\\ne m}T_{\\hat m}.\\] Averaging over random codebooks, the three cross terms sum to at most \\(3e^{-n\\delta}\\) when rates are backed off by \\(\\delta\\). With \\(c'=e^{-n\\delta/2}\\) this gives \\(\\mathbb E[\\mathrm{Pe}]\\le\\kappa_n(R_1+\\delta,R_2+\\delta)+13e^{-n\\delta/2}\\).",
+        "Editorial check: on 3,000 random \\(4\\times4\\) pairs \\(0\\le S\\le I\\), \\(T\\ge0\\) and random \\(c'\\), the Hayashi–Nagaoka operator inequality held, with smallest eigenvalue margin \\(+0.045\\). The constant 13 is valid: with \\(a=e^{-n\\delta/2}\\le1\\) the excess is \\(4a+6a^2+3a^3\\le13a\\)."
+      ],
+      "transfer": "When a converse is proved with a single linear-combination test, try decoding with that same test. A square-root measurement and Hayashi–Nagaoka then give a matching direct part with no further work, often for every error level \\(\\varepsilon\\) and not just \\(\\varepsilon\\to0\\)."
+    }
+  ],
+  "approved_on": "2026-11-07"
+}

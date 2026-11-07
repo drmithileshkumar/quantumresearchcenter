@@ -331,8 +331,43 @@ def quantum_safe():
     return svg(''.join(out))
 
 
+def aaronson_ambainis():
+    """A cube of inputs with one influential direction, and the classical query tree it allows."""
+    out = [grid(0, 0, W, H, 40)]
+    # four-dimensional cube drawn as two offset three-dimensional cubes
+    base = [(0, 0), (150, 0), (0, 150), (150, 150)]
+    def cube(ox, oy):
+        front = [(ox + x, oy + y) for x, y in base]
+        back = [(x + 60, y - 45) for x, y in front]
+        return front + back
+    a, b = cube(90, 150), cube(330, 190)
+    edges = [(0, 1), (2, 3), (4, 5), (6, 7), (0, 2), (1, 3), (4, 6), (5, 7), (0, 4), (1, 5), (2, 6), (3, 7)]
+    for (i, j) in edges:
+        out.append(line(*a[i], *a[j], 'fig-link'))
+        out.append(line(*b[i], *b[j], 'fig-link'))
+    for k in range(8):  # the influential coordinate: edges joining the two cubes
+        out.append(line(*a[k], *b[k], 'fig-line-1'))
+    rnd = random.Random(2008)
+    for p in a + b:
+        out.append(circle(*p, 9, 'fig-fill-1' if rnd.random() < .5 else 'fig-node'))
+    out.append(arrow(700, 220, 780, 220, 'fig-line-2', 14))
+    # classical decision tree: query the influential bit, fix it, repeat
+    def tree(x, y, depth, spread):
+        if depth == 0:
+            out.append(rect(x - 9, y - 9, 18, 18, 'fig-fill-muted', 3))
+            return
+        for sgn in (-1, 1):
+            nx, ny = x + sgn * spread, y + 80
+            out.append(line(x, y, nx, ny, 'fig-link'))
+            tree(nx, ny, depth - 1, spread / 2)
+        out.append(circle(x, y, 13, 'fig-fill-2' if depth == 3 else 'fig-fill-1'))
+    tree(980, 70, 3, 112)
+    return svg(''.join(out))
+
+
 BANNERS = {
     'alice-bob-rsa-2048-cat-qubits': cat_qubits,
+    'psi-aaronson-ambainis-conjecture': aaronson_ambainis,
     'beyond-the-qubit-count': qubit_count,
     'ibm-ornl-amd-error-correction-platform': qec_platform,
     'indias-quantum-mission': india_mission,

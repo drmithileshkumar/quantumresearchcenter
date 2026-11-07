@@ -1346,6 +1346,384 @@ def rotation_controls():
             '<dl class="qubit-values rotation-matrix">' + entries + '</dl></fieldset>')
 
 
+# ---- Majorana constellations: n symmetric spins drawn as n points on one sphere --------------
+
+MAJORANA_PREFIX = 'majorana'
+MAJORANA_MIN, MAJORANA_MAX = 2, 8
+MAJORANA_N = 4
+MAJORANA_DEFAULT = [1 / math.sqrt(2) if k in (0, MAJORANA_N) else 0j for k in range(MAJORANA_N + 1)]
+MAJORANA_RINGS = 48
+
+
+def majorana_clamp(value):
+    return max(-1.0, min(1.0, value))
+
+
+def majorana_roots(coefficients, iterations=400):
+    """Roots of c₀ + c₁z + … by Durand–Kerner; a degree below n leaves the rest at infinity."""
+    values = [complex(coefficient) for coefficient in coefficients]
+    while values and abs(values[-1]) < 1e-13:
+        values.pop()
+    degree = len(values) - 1
+    if degree < 1:
+        return []
+    lead = values[-1]
+    lower = [value / lead for value in values[:-1]]
+    radius = 1 + max((abs(value) for value in lower), default=0.0)
+    roots = [radius * cmath.exp(2j * math.pi * (index + 0.25) / degree) for index in range(degree)]
+
+    def evaluate(point):
+        total = 1.0 + 0j
+        for coefficient in reversed(lower):
+            total = total * point + coefficient
+        return total
+
+    for _ in range(iterations):
+        moved = 0.0
+        updated = []
+        for index, root in enumerate(roots):
+            divisor = 1 + 0j
+            for other_index, other in enumerate(roots):
+                if other_index != index:
+                    divisor *= root - other
+            step = evaluate(root) / divisor
+            updated.append(root - step)
+            moved = max(moved, abs(step))
+        roots = updated
+        if moved < 1e-15:
+            break
+    return roots
+
+
+def majorana_spinor(point):
+    """The single-spin state whose Bloch vector is point: (u, v) with |u|² + |v|² = 1."""
+    theta = math.acos(majorana_clamp(point[2]))
+    return math.cos(theta / 2), cmath.exp(1j * math.atan2(point[1], point[0])) * math.sin(theta / 2)
+
+
+def majorana_star(root):
+    """Bloch vector of the root z = −u/v, with z = ∞ sent to the north pole."""
+    if root is None:
+        return (0.0, 0.0, 1.0)
+    scale = 1 / math.sqrt(1 + abs(root) ** 2)
+    u, v = -root * scale, scale
+    return (2 * (u.conjugate() * v).real, 2 * (u.conjugate() * v).imag, abs(u) ** 2 - abs(v) ** 2)
+
+
+def majorana_polynomial_coefficients(coefficients):
+    """Σ_k √C(n,k) c_k z^k, the polynomial whose roots are the stars: the product of the n
+    linear forms (u_j + v_j z), up to a scale."""
+    count = len(coefficients) - 1
+    return [value * math.sqrt(math.comb(count, index)) for index, value in enumerate(coefficients)]
+
+
+def majorana_stars(coefficients):
+    """The n stars of a symmetric state given in the Dicke basis, k counting the excitations."""
+    count = len(coefficients) - 1
+    found = majorana_roots(majorana_polynomial_coefficients(coefficients))
+    return [majorana_star(root) for root in found] + [(0.0, 0.0, 1.0)] * (count - len(found))
+
+
+def majorana_state(stars):
+    """The symmetric state of those stars, as normalized Dicke amplitudes c_k."""
+    count = len(stars)
+    poly = [1 + 0j]
+    for point in stars:
+        u, v = majorana_spinor(point)
+        grown = [0j] * (len(poly) + 1)
+        for index, coefficient in enumerate(poly):
+            grown[index] += coefficient * u
+            grown[index + 1] += coefficient * v
+        poly = grown
+    amplitudes = [value / math.sqrt(math.comb(count, index)) for index, value in enumerate(poly)]
+    norm = math.sqrt(sum(abs(value) ** 2 for value in amplitudes)) or 1.0
+    return [value / norm for value in amplitudes]
+
+
+def majorana_overlap2(coefficients, direction):
+    """|⟨n̂|ψ⟩|² for the spin-coherent state pointing along direction."""
+    count = len(coefficients) - 1
+    u, v = majorana_spinor(direction)
+    total = sum(math.sqrt(math.comb(count, index)) * value * u.conjugate() ** (count - index)
+                * v.conjugate() ** index for index, value in enumerate(coefficients))
+    return abs(total) ** 2
+
+
+def majorana_coherent_overlap(coefficients):
+    """The largest |⟨n̂|ψ⟩|² over product states, by a fixed grid and a pattern search."""
+    rings = MAJORANA_RINGS
+    best, arg = -1.0, (0.0, 0.0, 1.0)
+    for ring in range(rings):
+        theta = math.pi * (ring + 0.5) / rings
+        count = max(1, int(round(2 * rings * math.sin(theta))))
+        for step in range(count):
+            phi = 2 * math.pi * step / count
+            candidate = (math.sin(theta) * math.cos(phi), math.sin(theta) * math.sin(phi), math.cos(theta))
+            value = majorana_overlap2(coefficients, candidate)
+            if value > best:
+                best, arg = value, candidate
+    side = math.pi / rings
+    for _ in range(200):
+        improved = False
+        for axis in range(3):
+            for sign in (1.0, -1.0):
+                moved = [arg[k] + (sign * side if k == axis else 0.0) for k in range(3)]
+                length = math.sqrt(sum(component * component for component in moved)) or 1.0
+                moved = tuple(component / length for component in moved)
+                value = majorana_overlap2(coefficients, moved)
+                if value > best:
+                    best, arg, improved = value, moved, True
+        if not improved:
+            side *= 0.5
+            if side < 1e-9:
+                break
+    return best
+
+
+def majorana_spin_length(stars):
+    """|⟨Ĵ⟩| in units of its maximum n/2: one for a coherent state."""
+    count = len(stars)
+    total = [sum(point[axis] for point in stars) for axis in range(3)]
+    return math.sqrt(sum(value * value for value in total)) / count
+
+
+def majorana_term_tex(value):
+    """A coefficient as (sign, TeX body), so a negative term can be joined with a minus sign.
+
+    The sign is decided once, from whichever part is actually displayed: a coefficient whose real
+    part is negligible is signed by its imaginary part, or the two would cancel the wrong way.
+    """
+    if abs(value.real) < ZERO:
+        if abs(value.imag) < ZERO:
+            return '+', '0.00'
+        return ('-' if value.imag < 0 else '+'), f'{abs(value.imag):.2f}i'
+    if value.real < 0:
+        sign, body = majorana_term_tex(-value)
+        return ('-' if sign == '+' else '+'), body
+    if abs(value.imag) < ZERO:
+        return '+', f'{value.real:.2f}'
+    # Both parts show, so the coefficient needs brackets or it reads as two terms.
+    inner = '+' if value.imag >= 0 else '-'
+    return '+', f'({value.real:.2f}{inner}{abs(value.imag):.2f}i)'
+
+
+def majorana_polynomial_tex(coefficients):
+    """TeX for the Majorana polynomial whose roots are the stars."""
+    terms = [(index, value) for index, value in enumerate(majorana_polynomial_coefficients(coefficients))
+             if abs(value) > 1e-9]
+    if not terms:
+        return 'P(z)=0'
+    pieces = []
+    for index, value in reversed(terms):
+        sign, body = majorana_term_tex(value)
+        variable = '' if index == 0 else ('z' if index == 1 else f'z^{{{index}}}')
+        pieces.append((sign, body + variable))
+    lead, first = pieces[0]
+    out = ('-' if lead == '-' else '') + first
+    for sign, body in pieces[1:]:
+        out += sign + body
+    return 'P(z)=' + out
+
+
+def majorana_report(coefficients):
+    """Everything the readouts need, from one set of Dicke amplitudes."""
+    stars = majorana_stars(coefficients)
+    return {'stars': stars,
+            'spin': majorana_spin_length(stars),
+            'fidelity': majorana_coherent_overlap(coefficients),
+            'amplitudes': coefficients}
+
+
+def majorana_groups(stars):
+    """Stars on the same point: they share one marker and one label listing every index."""
+    groups = []
+    for index, point in enumerate(stars):
+        for group in groups:
+            if math.dist(point, group['point']) < 1e-6:
+                group['indices'].append(index)
+                break
+        else:
+            groups.append({'point': point, 'indices': [index]})
+    return groups
+
+
+def majorana_svg(prefix, stars):
+    """The sphere with its stars, as drawn before the script takes over."""
+    basis = ','.join(f'{value:.6f}' for value in (*RIGHT, *UP))
+    start = ' '.join(','.join(f'{value:.12f}' for value in point) for point in stars)
+    dots = ''
+    for group in majorana_groups(stars):
+        x, y = project(group['point'])
+        behind = '' if facing(group['point']) else ' is-behind'
+        label = '·'.join(str(index + 1) for index in group['indices'])
+        # A star on the north pole would print its number over the |0⟩ axis tag.
+        below = y < ORIGIN[1] - RADIUS + 14
+        for index in group['indices']:
+            dots += (f'<circle class="majorana-star{behind}" id="{prefix}-star-{index}"'
+                     f' cx="{x:.1f}" cy="{y:.1f}" r="6.5"/>')
+        dots += (f'<text class="majorana-index{behind}" id="{prefix}-index-{group["indices"][0]}"'
+                 f' x="{x:.1f}" y="{y + 19 if below else y - 11:.1f}" text-anchor="middle">{label}</text>')
+    return (f'<svg class="bloch majorana-sphere" id="{prefix}" viewBox="0 0 400 400" role="img" tabindex="0"'
+            f' aria-labelledby="{prefix}-sphere-title {prefix}-sphere-desc" data-basis="{basis}" data-stars="{start}"'
+            f' data-azimuth="{AZIMUTH:.1f}" data-elevation="{ELEVATION:.1f}">'
+            f'<title id="{prefix}-sphere-title">The Majorana constellation of a symmetric state</title>'
+            f'<desc id="{prefix}-sphere-desc">One point per spin, placed on the Bloch sphere. Drag a star to move'
+            f' it, or drag the sphere itself to orbit the view.</desc>'
+            f'<circle class="bloch-surface" cx="{ORIGIN[0]:.1f}" cy="{ORIGIN[1]:.1f}" r="{RADIUS:.1f}"/>'
+            f'<g class="bloch-grid" id="{prefix}-grid">{"".join(sphere_grid())}</g>'
+            f'<g class="bloch-axes" id="{prefix}-axes">{sphere_axes()}</g>'
+            f'<g class="majorana-stars" id="{prefix}-stars">{dots}</g></svg>')
+
+
+def render_majorana(root, shell):
+    """The Majorana constellation page: n symmetric spins, one star per spin."""
+    e = escape
+    report = majorana_report(MAJORANA_DEFAULT)
+    entanglement = -math.log2(report['fidelity']) if report['fidelity'] > 1e-12 else 0.0
+    rows = ''
+    for index in range(MAJORANA_MAX + 1):
+        value = MAJORANA_DEFAULT[index] if index <= MAJORANA_N else 0j
+        empty = ' is-empty' if index > MAJORANA_N or abs(value) < 1e-9 else ''
+        phase = '—' if abs(value) < 1e-9 else f'{math.degrees(cmath.phase(value)) % 360:.0f}°'
+        rows += (f'<tr class="majorana-row{empty}" id="{MAJORANA_PREFIX}-row-{index}">'
+                 f'<th scope="row">{index}</th>'
+                 f'<td id="{MAJORANA_PREFIX}-ket-{index}">\\(\\ket{{{MAJORANA_N},{index}}}\\)</td>'
+                 f'<td id="{MAJORANA_PREFIX}-amp-{index}">{complex_text(value, 3)}</td>'
+                 f'<td id="{MAJORANA_PREFIX}-mag-{index}">{abs(value):.3f}</td>'
+                 f'<td id="{MAJORANA_PREFIX}-phase-{index}">{phase}</td></tr>')
+    options = ''.join(f'<option value="{index}">{index + 1}</option>' for index in range(MAJORANA_N))
+    controls = ('<fieldset class="qubit-group"><legend>How many spins</legend>'
+                r'<div class="slider-row"><label for="majorana-n">\(n\) <span class="slider-note">spins</span></label>'
+                f'<input id="majorana-n" type="range" min="{MAJORANA_MIN}" max="{MAJORANA_MAX}" step="1"'
+                f' value="{MAJORANA_N}"><output id="majorana-n-value" for="majorana-n">{MAJORANA_N}</output>'
+                '</div></fieldset>'
+                '<fieldset class="qubit-group"><legend>Prepare a constellation</legend><div class="qubit-buttons">'
+                r'<button type="button" data-majorana-preset="cat"'
+                r' aria-label="Cat state, the equal superposition of all zeros and all ones">Cat'
+                r' \(\tfrac{1}{\sqrt2}(\ket{0\dots0}+\ket{1\dots1})\)</button>'
+                '<button type="button" data-majorana-preset="coherent">Coherent</button>'
+                r'<button type="button" data-majorana-preset="dicke">Dicke \(\ket{n,k}\)</button>'
+                '<button type="button" data-majorana-preset="w">One excitation</button>'
+                '<button type="button" data-majorana-preset="random">Random</button>'
+                '<button type="button" id="majorana-reset-view">Reset view</button></div>'
+                r'<div class="slider-row"><label for="majorana-k">\(k\) <span class="slider-note">excitations</span></label>'
+                '<input id="majorana-k" type="range" min="1" max="3" step="1" value="2">'
+                '<output id="majorana-k-value" for="majorana-k">2</output></div></fieldset>'
+                '<fieldset class="qubit-group"><legend>Move one star</legend>'
+                '<div class="slider-row"><label for="majorana-star">star</label>'
+                f'<select id="majorana-star">{options}</select><output for="majorana-star"'
+                ' id="majorana-star-value">1</output></div>'
+                r'<div class="slider-row"><label for="majorana-theta">\(\theta\) <span class="slider-note">polar'
+                ' angle</span></label>'
+                '<input id="majorana-theta" type="range" min="0" max="180" step="1" value="90">'
+                '<output id="majorana-theta-value" for="majorana-theta">90°</output></div>'
+                r'<div class="slider-row"><label for="majorana-phi">\(\varphi\) <span class="slider-note">azimuth'
+                '</span></label>'
+                '<input id="majorana-phi" type="range" min="0" max="360" step="1" value="135">'
+                '<output id="majorana-phi-value" for="majorana-phi">135°</output></div>'
+                '<p class="plane-hint">Drag a star on the sphere to move it, or drag the empty sphere to orbit.'
+                ' Every control here has a keyboard path.</p></fieldset>')
+    state_block = ('<div class="qubit-state"><p class="qubit-kicker">Constellation</p>'
+                   f'<p class="qubit-ket" id="majorana-title">Cat, n = {MAJORANA_N}</p>'
+                   '<dl class="qubit-values">'
+                   f'<div><dt>stars</dt><dd id="majorana-count">{MAJORANA_N}</dd></div>'
+                   f'<div><dt>\\(\\lvert\\langle\\hat J\\rangle\\rvert/(n/2)\\)</dt>'
+                   f'<dd id="majorana-spin">{report["spin"]:.3f}</dd></div>'
+                   f'<div><dt>max fidelity</dt><dd id="majorana-fidelity">{report["fidelity"]:.3f}</dd></div>'
+                   f'<div><dt>\\(E_G\\) (bits)</dt><dd id="majorana-entanglement">{entanglement:.3f}</dd>'
+                   '</div></dl>'
+                   f'<p class="majorana-polynomial" id="majorana-polynomial">\\({majorana_polynomial_tex(MAJORANA_DEFAULT)}\\)</p>'
+                   '</div>')
+    body = ('<header class="editorial-intro compact qubit-intro">'
+            '<p class="eyebrow">Tools / Majorana constellation</p>'
+            '<h1>n spins, n points.</h1>'
+            r'<p>A symmetric state of \(n\) qubits is not a list of \(2^n\) amplitudes: it is \(n\)'
+            ' directions on one sphere. Drag a star, or prepare a known state, and the symmetric state — its Dicke'
+            ' amplitudes, its collective spin and its distance from the nearest product state — follows. The'
+            ' same construction is the standard way to see why symmetric states are the tractable corner of'
+            ' multipartite entanglement.</p></header>'
+            '<section class="qubit-lab" aria-labelledby="majorana-lab-heading">'
+            '<h2 class="sr-only" id="majorana-lab-heading">Majorana constellation explorer</h2>'
+            f'<figure class="bloch-figure">{majorana_svg(MAJORANA_PREFIX, report["stars"])}'
+            '<figcaption>One star per spin. Coincident stars mean a product state; spread stars mean the state'
+            ' is entangled. Stars on the far side of the sphere are drawn lighter. Drag a star to move it, drag'
+            ' the sphere to orbit, or use the sliders to set one star exactly by its two angles.'
+            '</figcaption></figure>'
+            f'<div class="qubit-panel">{state_block}{controls}</div></section>'
+            '<section class="qubit-reading" id="majorana-amplitudes-section">'
+            '<h2>The symmetric state behind the stars</h2>'
+            r'<p>The amplitudes are written in the Dicke basis: \(\ket{n,k}\) is the normalized sum of all'
+            r' computational basis states with exactly \(k\) ones. For \(n\) spins there are \(n+1\) of'
+            ' them, which is the whole of the symmetric subspace.</p>'
+            '<table class="plane-table majorana-table"><caption class="sr-only">Dicke amplitudes of the'
+            ' current symmetric state</caption>'
+            r'<thead><tr><th scope="col">\(k\)</th><th scope="col">basis state</th>'
+            r'<th scope="col">amplitude</th><th scope="col">\(\lvert c_k\rvert\)</th>'
+            '<th scope="col">phase</th></tr></thead>'
+            f'<tbody id="majorana-rows">{rows}</tbody></table>'
+            '<p class="sr-only" id="majorana-status" role="status" aria-live="polite"></p></section>'
+            '<section class="qubit-reading" id="majorana-why"><h2>Why n points are enough</h2>'
+            r'<p>Permuting the qubits of an \(n\)-qubit state leaves it unchanged only for special states.'
+            r' Those states form the symmetric subspace, of dimension \(n+1\): the Dicke states \(\ket{n,k}\)'
+            r' for \(k=0,\dots,n\). Majorana’s observation is that this subspace can also be described by'
+            r' \(n\) points on the sphere. A product of \(n\) identical spin states is symmetric, and every'
+            r' symmetric state is, up to a scalar, the symmetrization of \(n\) single-spin states</p>'
+            r'<p>\[|\psi\rangle=\mathcal{N}\;\mathcal{S}\bigl(\ket{n_1}\ket{n_2}\cdots\ket{n_n}\bigr),\]</p>'
+            r'<p>with the \(n\) directions \(n_j\) unique up to permutation. The proof is a factorization.'
+            r' Read the'
+            r' coefficients \(c_k\) in the Dicke basis and assemble the homogeneous polynomial'
+            r' \(P(X,Y)=\sum_k\sqrt{\binom{n}{k}}\,c_k\,X^{n-k}Y^{k}\), which is \(\prod_j(u_jX+v_jY)\) up'
+            r' to a scale and so factors over the complex numbers into \(n\) linear forms; each form is a spin'
+            r' direction. This page labels each star by its root \(z=-u/v\) of the polynomial in one'
+            r' variable, with \(z=\infty\) sent to the north pole, so the north pole is the spin \(\ket0\) and'
+            r' the south pole \(\ket1\).</p>'
+            r'<p>Three consequences are visible in the picture. Stars that coincide cannot be told apart, so'
+            r' the polynomial has a repeated root and the state is the product \(\ket{\hat n}^{\otimes n}\)'
+            r' — a spin coherent state. For two spins the only maximally entangled symmetric state is the Bell'
+            r' state \((\ket{01}+\ket{10})/\sqrt2\), and its two stars sit at opposite ends of a diameter.'
+            ' And because a global phase'
+            ' multiplies the polynomial without moving its roots, the constellation depends on the state only'
+            ' up to a scalar, exactly as a point on the Bloch sphere does for one qubit.</p></section>'
+            '<section class="qubit-reading" id="majorana-reading"><h2>Reading the numbers</h2>'
+            r'<p>The <em>spin length</em> \(\lvert\langle\hat J\rangle\rvert/(n/2)\) is the length of the'
+            r' mean of the \(n\) star vectors. It is one'
+            ' when all stars coincide and zero when their centroid sits at the centre of the sphere; it does'
+            ' not, by itself, measure entanglement.</p>'
+            r'<p>The <em>entanglement</em> readout is the geometric measure,'
+            r' \(E_G=-\log_2\max_{\hat n}\lvert\langle\hat n^{\otimes n}|\psi\rangle\rvert^2\), the distance'
+            r' from the state to the nearest product state on a logarithmic scale. The maximum is taken'
+            ' numerically over all product directions, with the same fixed grid in the page and in the build.'
+            r' A value of zero means the state is a product; one bit is the value for the cat state'
+            r' \((\ket{0\dots0}+\ket{1\dots1})/\sqrt2\) at every \(n\), because that state is as far from'
+            ' a product as a Bell pair.</p>'
+            r'<p>Familiar states have constellations worth memorising. The cat state always lands on \(n\)'
+            r' equally spaced stars on the equator, because its polynomial is \(z^n+1\). The Dicke state'
+            r' \(\ket{n,k}\) puts \(k\) stars at the south pole and \(n-k\) at the north, so its'
+            ' constellation records a single number. The state with one excitation — the symmetric W state —'
+            r' has one star at the south pole and the rest at the north, which is why its spin length is'
+            r' \((n-2)/n\).</p></section>'
+            '<section class="qubit-reading" id="majorana-try"><h2>Things to try</h2><ol class="qubit-try">'
+            '<li>Start on the cat: four stars at the equator, spin length 0.000, one bit of entanglement.'
+            r' Raise \(n\): the stars stay on the equator and \(E_G\) stays at 1.000.</li>'
+            '<li>Press Coherent: every star collapses to one point, the spin length becomes 1.000 and'
+            r' \(E_G\) becomes 0.000. A coherent state carries no entanglement at all.</li>'
+            r'<li>Choose Dicke with \(k=2\) at \(n=4\): two stars at each pole, spin length 0,'
+            r' \(E_G=1.415\) bits. Set \(k=1\) instead: that is the W state, spin length 0.500.</li>'
+            r'<li>From a coherent state, drag one star off the pole: the spin length falls and \(E_G\)'
+            ' rises as soon as the stars separate.</li>'
+            r'<li>Set a star to \(\theta=0\) and another to \(\theta=180^\circ\) with the same'
+            r' \(\varphi\), and watch the polynomial lose all but two terms.</li>'
+            r'<li>Compare \(n=2\) with the cat: the two stars are antipodal, so the state is the Bell state'
+            r' and \(E_G=1.000\).</li></ol>'
+            r'<p class="qubit-note">This page draws the symmetric subspace only. A general \(n\)-qubit state'
+            r' has \(2^n\) amplitudes and is not a symmetrization of \(n\) spin directions, so \(n\) stars'
+            ' cannot determine it; extending the picture to non-symmetric states needs more data than one point'
+            ' per spin, and is the next step planned for this tool.</p></section>')
+    shell('tools/majorana.html', 'Majorana constellation explorer',
+          'Draw a symmetric n-qubit state as n points on the Bloch sphere: drag the Majorana stars and read the state, the collective spin and the geometric measure of entanglement.',
+          body, assets='<link rel="stylesheet" href="tools.css"><script defer src="majorana.js"></script>')
+
+
 def render_tools(root, shell):
     data = json.loads((root / 'content/tools.json').read_text())
     validate(root, data)
@@ -1497,3 +1875,4 @@ def render_tools(root, shell):
           tool_body, assets='<link rel="stylesheet" href="tools.css"><script defer src="single-qubit.js"></script>')
     render_two_qubit(root, shell)
     render_three_qubit(root, shell)
+    render_majorana(root, shell)

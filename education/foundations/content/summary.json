@@ -1,0 +1,88 @@
+{
+  "01-physical-theories": [
+    "Experimental data alone cannot uniquely fix the mathematical axioms of a physical theory without operational principles that specify how preparations, transformations, and measurements compose.",
+    "In an operational framework, a physical system is characterized by the laboratory procedures that prepare it, act on it, and produce outcome probabilities.",
+    "Reconstructing quantum mechanics from operational axioms reveals which features of Hilbert space come from general probability rules and which come from distinctly quantum postulates."
+  ],
+  "02-states": [
+    "An operational state is completely defined by the list of outcome probabilities it assigns to every possible measurement on the system.",
+    "Statistical mixing of preparations makes the state space a convex set whose extremal points are the pure states.",
+    "A finite set of fiducial measurements suffices to determine the state vector \\(\\mathbf{p} \\in \\mathbb{R}^K\\), and transformations act linearly on this state space to preserve convex mixtures."
+  ],
+  "03-effects": [
+    "Each measurement outcome corresponds to a linear functional—an effect \\(e\\)—mapping every normalized state \\(\\omega\\) to a probability \\(e(\\omega) \\in [0,1]\\).",
+    "The information capacity \\(N\\) of a system is the maximum number of states that can be distinguished from one another in a single-shot measurement.",
+    "Generalized probabilistic theories (GPTs) include classical probability, quantum theory, and hypothetical foil theories such as boxworld within a single geometric framework."
+  ],
+  "04-composition": [
+    "No-signaling requires that marginal outcome probabilities on system \\(A\\) be independent of the measurement choice made on adistant system \\(B\\).",
+    "Local tomography postulates that the joint state of a composite system \\(AB\\) is completely determined by the statistics of product measurements \\(e_A \\otimes f_B\\), so \\(K_{AB} = K_A K_B\\).",
+    "Even under local tomography and no-signaling, composite state spaces can contain non-product entangled states that correlate local outcomes more strongly than any shared classical randomness."
+  ],
+  "05-classical-theory": [
+    "A classical system with \\(N\\) distinguishable outcomes has a state space that is a simplex with \\(N\\) vertices and \\(K = N\\) degrees of freedom.",
+    "Every mixed state in a classical simplex has a unique decomposition into pure vertices, leaving no room for interference or complementary measurements.",
+    "The reversible transformations of a classical simplex form the finite permutation group \\(S_N\\), so one pure state cannot be continuously and reversibly deformed into another."
+  ],
+  "06-continuous-reversibility": [
+    "Postulating that every pure state can be transformed into any other along a continuous path of reversible operations rules out the discrete classical simplex.",
+    "Continuous reversibility between two distinguishable states forces intrinsic randomness: intermediate pure states must yield probabilistic outcomes when measured in the original basis.",
+    "For the simplest non-trivial system (\\(N = 2\\)), continuous reversibility requires the state space to be a Euclidean ball \\(B^{K-1}\\) of some dimension \\(d = K - 1\\)."
+  ],
+  "07-the-qubit": [
+    "Combining continuous reversibility, local tomography (\\(K_{AB} = K_A K_B\\)), and composite gate existence selects the three-dimensional Bloch ball (\\(d = 3, K = 4\\)) over all other Euclidean spheres.",
+    "Points in the Bloch ball \\(\\mathbf{r} \\in B^3\\) correspond one-to-one with \\(2\\times 2\\) Hermitian density matrices \\(\\rho = \\frac{1}{2}(I + \\mathbf{r}\\cdot\\boldsymbol{\\sigma})\\) over the complex numbers.",
+    "The trace rule \\(P(k) = \\mathrm{Tr}(E_k \\rho)\\) emerges naturally as the inner product between state vectors and effect vectors on the Bloch sphere."
+  ],
+  "08-larger-systems": [
+    "Subspace equivalence states that any two systems or subspaces with the same number of distinguishable states \\(N\\) are operationally isomorphic.",
+    "Requiring every two-outcome subspace of an \\(N\\)-level system to form a three-dimensional Bloch ball forces the full state space to be the set of positive trace-one operators on \\(\\mathbb{C}^N\\) with \\(K = N^2\\).",
+    "Every valid measurement on \\(\\mathbb{C}^N\\) is represented by a positive operator-valued measure (POVM) \\(\\{E_k\\}\\) satisfying \\(E_k \\ge 0\\) and \\(\\sum_k E_k = I\\)."
+  ],
+  "09-symmetry-and-dynamics": [
+    "Wigner’s theorem establishes that any symmetry preserving transition probabilities \\(|\\langle\\psi|\\phi\\rangle|^2\\) on complex Hilbert space is implemented by a unitary or antiunitary operator.",
+    "A continuous one-parameter group of reversible time translations \\(U(t+s) = U(t)U(s)\\) must consist of unitary operators connected to the identity.",
+    "By Stone’s theorem, every continuous unitary group has a self-adjoint generator \\(H\\) such that \\(U(t) = e^{-iHt/\\hbar}\\), yielding the time-dependent Schrödinger equation."
+  ],
+  "10-observables": [
+    "A real-valued physical quantity whose outcomes have sharp repeatable eigenstates is represented by a self-adjoint operator \\(A = \\sum_a a\\,P_a\\) via the spectral theorem.",
+    "Two projective observables can be measured jointly without mutual disturbance if and only if their operators commute, \\([A, B] = 0\\).",
+    "Non-commuting observables obey the Robertson uncertainty relation \\(\\Delta A\\,\\Delta B \\ge \\frac{1}{2}|\\langle[A,B]\\rangle|\\), reflecting the geometry of non-orthogonal state subspaces."
+  ],
+  "11-state-update": [
+    "A quantum instrument describes both the outcome probability \\(P(k) = \\mathrm{Tr}(\\mathcal{I}_k(\\rho))\\) and the normalized post-measurement state \\(\\rho_k = \\mathcal{I}_k(\\rho)/P(k)\\).",
+    "For repeatable, minimally disturbing projective measurements, the state updates by the Lüders rule \\(\\rho \\mapsto P_k \\rho P_k / \\mathrm{Tr}(P_k \\rho)\\).",
+    "In quantum theory, extracting information to distinguish non-orthogonal states inevitably disturbs at least one of them."
+  ],
+  "12-contextuality": [
+    "A noncontextual hidden-variable model assigns pre-existing outcome values to observables independently of which compatible partner observables are measured alongside them.",
+    "Gleason’s theorem proves that in Hilbert spaces of dimension \\(d \\ge 3\\), any frame function assigning additive probabilities to orthogonal projectors must have the Born-rule form \\(\\mathrm{Tr}(\\rho P)\\).",
+    "The Kochen–Specker and Peres–Mermin constructions exhibit finite sets of observables for which no noncontextual value assignment can satisfy all functional identities simultaneously."
+  ],
+  "13-entanglement": [
+    "When a composite system is in an entangled pure state \\(|\\Psi\\rangle_{AB}\\), its subsystems do not possess pure states of their own and are described by mixed reduced density matrices \\(\\rho_A = \\mathrm{Tr}_B(|\\Psi\\rangle\\langle\\Psi|)\\).",
+    "Bell’s theorem shows that local hidden-variable models obey the CHSH inequality \\(|S| \\le 2\\), whereas entangled quantum states reach Tsirelson’s bound \\(2\\sqrt{2}\\).",
+    "Quantum nonlocality violates local causality in outcome correlations while strictly respecting operational no-signaling."
+  ],
+  "14-identical-particles": [
+    "When two particles are operationally indistinguishable, swapping them leaves every observable expectation value invariant, so physical states lie in representations of the permutation group.",
+    "In three spatial dimensions, topological equivalence of double exchanges restricts identical particles to symmetric bosonic states (\\(P_{12}|\\Psi\\rangle = +|\\Psi\\rangle\\)) or antisymmetric fermionic states (\\(P_{12}|\\Psi\\rangle = -|\\Psi\\rangle\\)).",
+    "The Pauli exclusion principle follows directly from antisymmetrization, while two-dimensional systems allow braided anyonic phases \\(e^{i\\theta}\\)."
+  ],
+  "15-open-systems": [
+    "Every mixed state \\(\\rho_A\\) arises as the marginal of a pure entangled state \\(|\\Psi\\rangle_{AE}\\) on a larger composite system, unique up to unitary transformations on the purifying environment \\(E\\).",
+    "Stinespring’s dilation theorem proves that any completely positive trace-preserving (CPTP) quantum channel \\(\\mathcal{E}(\\rho) = \\sum_k K_k \\rho K_k^\\dagger\\) is equivalent to unitary interaction with an environment followed by partial trace.",
+    "Decoherence suppresses off-diagonal interference terms in the pointer basis selected by system–environment interactions, producing apparent classical mixtures locally."
+  ],
+  "16-infinite-dimensions": [
+    "Canonical commutation relations \\([X, P] = i\\hbar I\\) cannot be realized by finite-dimensional matrices because the trace of a finite commutator always vanishes.",
+    "In infinite-dimensional separable Hilbert space \\(L^2(\\mathbb{R})\\), unbounded observables like position and momentum require careful domain definitions and projection-valued measures over continuous spectra.",
+    "The Stone–von Neumann theorem guarantees that all irreducible unitary representations of the Weyl commutation relations are unitarily equivalent to Schrödinger wave mechanics."
+  ],
+  "17-assumptions-and-alternatives": [
+    "Five operational principles—causality, local tomography, subspace equivalence, continuous reversibility, and purification—uniquely single out finite-dimensional complex quantum theory.",
+    "Relaxing local tomography yields real-amplitude quantum mechanics (where \\(K_{AB} > K_A K_B\\)), while relaxing continuous reversibility or subspace equivalence leads to classical or post-quantum foil theories.",
+    "Open foundational frontiers include reconstructing quantum field theory and understanding how causal structure behaves when spacetime geometry itself is in quantum superposition."
+  ]
+}
+

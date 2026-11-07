@@ -1,0 +1,45 @@
+{
+  "id": "2611.08064",
+  "topic": "foundations",
+  "title": "Exponential mixing time for the Davies dynamics of the quantum random energy model",
+  "authors": "Giacomo De Palma; Emanuele Mingione",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "The quantum random energy model (QREM) puts an independent Gaussian energy of variance \\(n\\) on each of the \\(2^n\\) computational-basis states and adds a transverse field. In its spin-glass phase, how long does it take to thermalise when weakly coupled to a bath through single-qubit Pauli operators? Lower bounds on mixing times for noncommuting random Hamiltonians were listed as open, because their eigenbasis, and hence the Davies jump operators, is not explicitly known.",
+  "result": "For every \\(\\beta>\\beta_c=\\sqrt{2\\log2}\\) and every field \\(0\\le\\Gamma<\\Gamma_c(\\beta)\\), where \\(e^{\\beta\\beta_c}=2\\cosh(\\beta\\Gamma_c)\\), the Davies mixing time satisfies \\(\\liminf_n\\frac1n\\log T_{\\rm mix}\\ge c_{\\rm mix}>0\\) almost surely. This holds for any detailed-balance rates whose maximum grows subexponentially, with or without dephasing terms, and without assuming primitivity.",
+  "significance": "The authors describe it as the first rigorous mixing-time lower bound for a noncommuting random quantum spin glass. It covers the whole equilibrium spin-glass region, not just a perturbative neighbourhood of \\(\\Gamma=0\\). The obstruction is a bottleneck in the Gibbs-weighted transition graph, not a small Hamiltonian gap. That is the relevant notion for thermal-state preparation.",
+  "limitations": "The result is for Davies generators, whose jump operators are resolved exactly in energy. It does not directly cover the smoothed KMS-detailed-balance Lindbladians used in recent quantum Gibbs-sampling algorithms, though the authors expect the same mechanism. The exponent \\(c_{\\rm mix}\\) is not optimised or computed. The proof rests on a low-energy localisation theorem of Manai and Warzel, used in a slightly adapted form proved in an appendix that was not checked here.",
+  "status": "approved",
+  "summary_basis": "Description based on Sections 1, 3–4 and 11 of the linked arXiv version, read 2026-11-07, including the full proof of the bottleneck estimate (Theorem 4.2). The constructions of Sections 5–10 and Appendix C were read for their statements only.",
+  "verified_on": "2026-11-07",
+  "methods_source_section": "Theorem 4.2 and Remark 4.3 (Section 4); Sections 6–8 for the localisation input",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The Hamiltonian is \\(H=\\Gamma T+U\\) with \\(T=-\\sum_l\\sigma_1^{(l)}\\) and \\(U\\) diagonal with \\(U(x)=\\sqrt n\\,G(x)\\), \\(G(x)\\) independent standard Gaussians. The classical REM freezes at \\(\\beta_c=\\sqrt{2\\log2}\\). Beyond it, an order-one share of the Gibbs weight sits on a subexponential set of very deep configurations, pairwise at Hamming distance of order \\(n\\). The quantum spin-glass region \\(\\Gamma<\\Gamma_c(\\beta)\\) was established by Manai and Warzel. Editorial check: solving \\(e^{\\beta\\beta_c}=2\\cosh(\\beta\\Gamma_c)\\) gives \\(\\Gamma_c=1.157, 1.173, 1.177\\) at \\(\\beta=1.5, 2, 4\\), approaching \\(\\beta_c\\approx1.1774\\) as \\(\\beta\\to\\infty\\).",
+    "The bath couples through all single-qubit Paulis. The Davies generator keeps energy-diagonal states energy-diagonal, so populations evolve as a reversible Markov chain on eigenstates. Its rates are \\(q_{j\\to i}=\\sum_{k,l}\\gamma_{ijkl}|\\langle\\psi_i|\\sigma_k^{(l)}|\\psi_j\\rangle|^2\\). The mixing time is the first \\(t\\) at which any two evolved states are within trace distance one half.",
+    "The proof splits the spectrum into three parts. \\(A\\) and \\(C\\) are spanned by eigenstates localised near two far-apart families of deep configurations; \\(C\\) has more than half the Gibbs weight and \\(A\\) a non-exponentially-small share. \\(B\\) is everything else. Localisation makes direct \\(A\\to C\\) rates exponentially small, because one Pauli moves Hamming distance by at most one and the eigenvectors' tails decay exponentially. The pressure formula makes \\(w_B/w_A\\) exponentially small. Starting from the Gibbs state restricted to \\(A\\), weight can reach \\(C\\) only slowly.",
+    "Open problems named in the paper: the optimal exponent for \\(\\Gamma>0\\), and the same statement for the non-Davies thermal Lindbladians used in algorithms."
+  ],
+  "methods": [
+    {
+      "technique": "A three-set flux bound for Davies generators",
+      "explanation": "Start from the Gibbs state conditioned on \\(A\\). Positivity and stationarity cap how much weight can ever sit in \\(B\\), so the rate of flow into \\(C\\) is bounded by a direct-jump term and a Gibbs-suppressed term. Mixing requires \\(C\\) to fill to at least \\(w_C-\\tfrac12\\), which then takes a long time.",
+      "math": [
+        "Let \\(\\rho_0=\\Pi_A\\omega/w_A\\le\\omega/w_A\\). The semigroup preserves order and fixes \\(\\omega\\), so \\(\\rho_t\\le\\omega/w_A\\) and \\(\\operatorname{Tr}\\Pi_B\\rho_t\\le w_B/w_A\\) for all \\(t\\). From the diagonal form of \\(\\mathcal L^\\dagger(\\Pi_C)\\), \\[\\frac{d}{dt}\\operatorname{Tr}\\Pi_C\\rho_t\\le r_A+r_B\\frac{w_B}{w_A},\\] with \\(r_A,r_B\\) the largest total rates from a state in \\(A\\) or \\(B\\) into \\(C\\). Unitarity of each Pauli gives \\(r_B\\le3n\\gamma_{\\max}\\). If \\(\\|\\rho_t-\\omega\\|_1\\le1\\), the negative part of \\(\\rho_t-\\omega\\) has trace at most \\(\\tfrac12\\), so \\(\\operatorname{Tr}\\Pi_C\\rho_t\\ge w_C-\\tfrac12\\). Hence \\[T_{\\rm mix}\\ge\\frac{w_C-\\frac12}{r_Bw_B/w_A+r_A}.\\]",
+        "Editorial check: we built random reversible 12-state Markov chains with three energy blocks, making direct \\(A\\)–\\(C\\) rates \\(10^{-4}\\) times smaller and \\(B\\) high in energy. In five trials the bound gave 6.1–10.2 against true mixing times of 59–112 (worst-case \\(L^1\\) distance over all initial pairs). The bound always held, with room to spare."
+      ],
+      "transfer": "For any Lindbladian that reduces to a population chain, a lower bound on mixing needs only three numbers: the Gibbs weights of a source, a buffer and a target, and the largest jump rates from source and buffer into target. The buffer may be delocalised, so long as its Gibbs weight is exponentially small relative to the source."
+    },
+    {
+      "technique": "Localisation turns Hamming distance into suppressed jump rates",
+      "explanation": "Single-qubit operators cannot jump between configurations more than one bit-flip apart. If low-energy eigenvectors are exponentially concentrated around deep configurations, the matrix element between eigenvectors at extensive Hamming distance inherits that exponential smallness. This works even though the potential has no spatial locality.",
+      "math": [
+        "In the computational basis, \\(\\langle y|\\sigma_k^{(l)}|x\\rangle=0\\) whenever \\(d(x,y)\\ge2\\). Write each localised eigenvector as \\(\\psi_j=\\psi_j^{\\rm core}+\\psi_j^{\\rm tail}\\), with the core supported in a Hamming ball of radius \\(R\\) around its deep configuration and \\(\\|\\psi_j^{\\rm tail}\\|\\le e^{-\\kappa R}\\). If the two cores are at distance greater than \\(2R+1\\), the core–core matrix element vanishes. Each remaining term has a tail factor, so \\(|\\langle\\psi_i|\\sigma_k^{(l)}|\\psi_j\\rangle|\\le2e^{-\\kappa R}\\) (editorial sketch). Summing over \\(3n\\) Paulis and a subexponential number of target states keeps \\(r_A\\) exponentially small when \\(R\\) is a fixed fraction of \\(n\\).",
+        "The paper's actual argument uses the Manai–Warzel localisation theorem, which pairs each sufficiently deep REM configuration with its own QREM eigenstate. It also shows that every eigenstate not so paired lies above a threshold energy, which with the QREM pressure formula makes \\(w_B/w_A\\) exponentially small."
+      ],
+      "transfer": "For a mean-field or random Hamiltonian without geometric locality, check whether the bath coupling is local in some basis in which low-energy eigenvectors localise. If so, bottleneck arguments that are usually stated for spatially local models apply in that basis. Fock-space localisation then becomes a statement about slow thermalisation."
+    }
+  ],
+  "approved_on": "2026-11-07"
+}

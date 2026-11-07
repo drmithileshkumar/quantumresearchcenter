@@ -1,0 +1,83 @@
+{
+  "01-information-and-distinguishability": [
+    "Information is physical, and a physical carrier encodes messages only to the extent that different preparations produce statistically distinguishable measurement outcomes.",
+    "Perfect single-shot distinguishability requires mutually exclusive outcome supports; overlapping probability distributions inevitably introduce identification error.",
+    "Operational tasks—compression, noisy transmission, state discrimination, and privacy—define the quantitative measures of both classical and quantum information theory."
+  ],
+  "02-classical-information": [
+    "Shannon entropy \\(H(X) = -\\sum_x p(x)\\log_2 p(x)\\) measures the expected surprise of a source and sets the asymptotic limit of lossless data compression at \\(H(X)\\) bits per symbol.",
+    "Joint entropy, conditional entropy \\(H(X|Y)\\), and mutual information \\(I(X:Y) = H(X) - H(X|Y)\\) quantify how much observing one random variable reduces uncertainty about another.",
+    "Shannon’s noisy-channel coding theorem establishes that reliable communication over a discrete memoryless channel is possible up to capacity \\(C = \\max_{p(x)} I(X:Y)\\)."
+  ],
+  "03-quantum-states": [
+    "Pure quantum states are unit vectors \\(|\\psi\\rangle\\) in a complex Hilbert space up to global phase, where coherent superpositions exhibit interference that classical probability mixtures cannot reproduce.",
+    "Projective measurements in an orthonormal basis \\(\\{|b_k\\rangle\\}\\) yield outcome \\(k\\) with Born probability \\(p(k) = |\\langle b_k|\\psi\\rangle|^2\\) and project the system onto \\(|b_k\\rangle\\).",
+    "Unitary operators \\(U^\\dagger U = I\\) preserve inner products \\(\\langle\\phi|\\psi\\rangle\\), so no unitary transformation can change the overlap or distinguishability of two states."
+  ],
+  "04-composite-systems": [
+    "The joint Hilbert space of composite systems \\(A\\) and \\(B\\) is the tensor product \\(\\mathcal{H}_A \\otimes \\mathcal{H}_B\\), whose dimension grows multiplicatively as \\(d_A d_B\\).",
+    "Product states \\(|\\psi\\rangle_A \\otimes |\\phi\\rangle_B\\) exhibit independent local statistics, whereas entangled states such as the Bell basis cannot be factored into separate subsystem state vectors.",
+    "Every bipartite pure state admits a Schmidt decomposition \\(|\\Psi\\rangle_{AB} = \\sum_i \\sqrt{\\lambda_i}|u_i\\rangle_A|v_i\\rangle_B\\), whose positive Schmidt coefficients \\(\\lambda_i\\) completely characterize its bipartite entanglement."
+  ],
+  "05-mixed-states": [
+    "A density operator \\(\\rho = \\sum_j p_j |\\psi_j\\rangle\\langle\\psi_j|\\) is a positive semidefinite operator of trace one that captures both classical ensemble uncertainty and entanglement with unobserved subsystems.",
+    "Every expectation value and measurement probability depends only on \\(\\rho\\) via \\(\\langle M\\rangle = \\mathrm{Tr}(\\rho M)\\), so distinct ensembles with the same density matrix are operationally indistinguishable.",
+    "The partial trace \\(\\rho_A = \\mathrm{Tr}_B(\\rho_{AB})\\) is the unique operation that reproduces all local measurement statistics on subsystem \\(A\\) alone."
+  ],
+  "06-quantum-operations": [
+    "Physical transformations of open quantum systems are completely positive trace-preserving (CPTP) linear maps—quantum channels \\(\\mathcal{E}(\\rho)\\).",
+    "By the Kraus and Stinespring theorems, every quantum channel can be written both as an operator sum \\(\\mathcal{E}(\\rho) = \\sum_k K_k \\rho K_k^\\dagger\\) with \\(\\sum_k K_k^\\dagger K_k = I\\) and as unitary coupling to an environment followed by partial trace.",
+    "Canonical qubit noise models—depolarizing, phase damping, and amplitude damping—contract the Bloch ball in characteristic ways and obey the data-processing inequality."
+  ],
+  "07-quantum-measurement": [
+    "The most general measurement statistics are described by a positive operator-valued measure (POVM) \\(\\{E_m\\}\\) with \\(E_m \\ge 0\\) and \\(\\sum_m E_m = I\\), where \\(p(m) = \\mathrm{Tr}(E_m\\rho)\\).",
+    "Naimark’s dilation theorem guarantees that any POVM on system \\(A\\) can be realized by coupling an ancilla \\(B\\) unitarily and performing an ordinary projective measurement on \\(AB\\).",
+    "When post-measurement states matter, measurement operators \\(M_m\\) satisfying \\(E_m = M_m^\\dagger M_m\\) update the state via \\(\\rho_m = M_m\\rho M_m^\\dagger / \\mathrm{Tr}(E_m\\rho)\\), trading information gain against state disturbance."
+  ],
+  "08-state-discrimination": [
+    "Non-orthogonal quantum states \\(\\langle\\psi_0|\\psi_1\\rangle \\neq 0\\) cannot be distinguished with zero error in a single copy.",
+    "Minimum-error discrimination between two states is solved by the Helstrom bound \\(p_{\\mathrm{succ}} = \\frac{1}{2}\\bigl(1 + \\|p_0\\rho_0 - p_1\\rho_1\\|_1\\bigr)\\), achieved by projecting onto the positive and negative eigenspaces of \\(p_0\\rho_0 - p_1\\rho_1\\).",
+    "Unambiguous state discrimination uses a three-outcome POVM to eliminate false identifications completely at the price of an inconclusive outcome occurring with probability at least \\(|\\langle\\psi_0|\\psi_1\\rangle|\\)."
+  ],
+  "09-information-constraints": [
+    "The no-cloning and no-broadcasting theorems forbid any unitary or channel from copying an arbitrary unknown state \\(|\\psi\\rangle \\mapsto |\\psi\\rangle\\otimes|\\psi\\rangle\\) because linearity and inner-product preservation conflict for non-orthogonal states.",
+    "The no-signaling theorem ensures that local measurements or channels applied on Bob’s share of an entangled state never alter Alice’s reduced density matrix \\(\\rho_A\\).",
+    "Monogamy of entanglement limits how strongly a single quantum system can be entangled with two different partners simultaneously."
+  ],
+  "10-entanglement-protocols": [
+    "Quantum teleportation consumes one shared ebit \\(|\\Phi^+\\rangle_{AB}\\) and two classical bits from Alice’s Bell measurement to transfer an unknown qubit state \\(|\\psi\\rangle\\) to Bob without sending a physical qubit across the channel.",
+    "Superdense coding reverses the resource trade-off: applying one of four local Pauli gates to half of a shared Bell pair lets a single transmitted qubit convey two bits of classical information.",
+    "Entanglement swapping applies a joint Bell measurement on two independent entangled pairs \\(AB\\) and \\(CD\\) to entangle remote terminals \\(A\\) and \\(D\\) that have never interacted directly."
+  ],
+  "11-quantum-entropy": [
+    "The von Neumann entropy \\(S(\\rho) = -\\mathrm{Tr}(\\rho\\log_2\\rho) = -\\sum_i \\lambda_i\\log_2\\lambda_i\\) equals zero for pure states and reaches \\(\\log_2 d\\) for the maximally mixed state \\(I/d\\).",
+    "Unlike classical conditional entropy, quantum conditional entropy \\(S(A|B) = S(AB) - S(B)\\) can be negative when \\(AB\\) is entangled, while quantum mutual information \\(I(A:B) = S(A)+S(B)-S(AB)\\) can reaches \\(2\\log_2 d\\).",
+    "Strong subadditivity \\(S(ABC) + S(B) \\le S(AB) + S(BC)\\) and monotonicity of relative entropy \\(D(\\rho\\|\\sigma)\\) under quantum channels anchor all fundamental quantum coding bounds."
+  ],
+  "12-quantum-compression": [
+    "Schumacher’s noiseless coding theorem proves that an i.i.d. quantum source emitting ensemble state \\(\\rho\\) can be compressed to \\(S(\\rho)\\) qubits per source symbol with asymptotically vanishing infidelity.",
+    "Compression works by projecting \\(\\rho^{\\otimes n}\\) onto its typical subspace of dimension \\(\\approx 2^{nS(\\rho)}\\), which captures nearly all probability weight as \\(n \\to \\infty\\).",
+    "Attempting to compress below \\(S(\\rho)\\) qubits per symbol forces the entanglement fidelity with a purifying reference system to decay toward zero."
+  ],
+  "13-entanglement-transformations": [
+    "Under local operations and classical communication (LOCC), entanglement is a resource that can never increase on average.",
+    "Nielsen’s theorem shows that a pure bipartite state \\(|\\psi\\rangle\\) transforms deterministically into \\(|\\phi\\rangle\\) by LOCC if and only if the Schmidt vector of \\(|\\psi\\rangle\\) is majorized by that of \\(|\\phi\\rangle\\).",
+    "Asymptotically, pure states convert reversibly at the entanglement-entropy rate \\(S(\\rho_A)\\), whereas mixed states exhibit an irreversibility gap between entanglement cost \\(E_C\\) and distillable entanglement \\(E_D\\), including bound entanglement."
+  ],
+  "14-quantum-error-correction": [
+    "Quantum error correction protects unknown superpositions by encoding \\(k\\) logical qubits into an entangled \\(n\\)-qubit subspace so local errors map the code space into mutually orthogonal syndrome subspaces.",
+    "Measuring stabilizer generators extracts a discrete classical error syndrome without collapsing the encoded logical superposition \\(\\alpha|0_L\\rangle + \\beta|1_L\\rangle\\).",
+    "By the Knill–Laflamme conditions \\(P E_a^\\dagger E_b P = c_{ab} P\\), discretizing continuous Pauli errors into \\(I, X, Z, Y\\) suffices to correct arbitrary single-qubit channels."
+  ],
+  "15-quantum-communication": [
+    "The Holevo bound \\(\\chi = S(\\sum_x p_x\\rho_x) - \\sum_x p_x S(\\rho_x)\\) caps the accessible classical mutual information extractable from an ensemble, and the Holevo–Schumacher–Westmoreland (HSW) theorem achieves this rate using collective measurements.",
+    "Entanglement-assisted classical capacity simplifies additively to a single-letter quantum mutual information formula.",
+    "The quantum capacity \\(Q(\\mathcal{N})\\) for transmitting intact qubits and entanglement is governed by the regularized coherent information \\(I_c(\\rho, \\mathcal{N}) = S(\\mathcal{N}(\\rho)) - S((\\mathcal{N}\\otimes I)(|\\Psi_\rho\\rangle))\\)."
+  ],
+  "16-quantum-cryptography": [
+    "Quantum key distribution protocols such as BB84 and E91 leverage non-orthogonal states or entanglement monogamy so any eavesdropping attempt by Eve introduces detectable disturbance in parameter estimation.",
+    "Converting raw sifted detections into a secure key requires classical information reconciliation (error correction) followed by privacy amplification using universal hash functions.",
+    "Finite-key composable security bounds the trace distance between the final shared key and an ideal uniform key that is completely decoupled from Eve’s quantum side information \\(E\\)."
+  ]
+}
+
