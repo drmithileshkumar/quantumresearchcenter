@@ -2,92 +2,92 @@
   "01-distinguishability": [
     {
       "kind": "Quick check",
-      "question": "Find the trace norm and operator norm of diag(3,−2).",
+      "question": "Find the trace norm and operator norm of \\(\\operatorname{diag}(3,-2)\\).",
       "hints": [
-        "Use absolute eigenvalues."
+        "Use the absolute values of the eigenvalues."
       ],
-      "answer": "The singular values are 3 and 2, giving trace norm 5 and operator norm 3.",
+      "answer": "The singular values are \\(3\\) and \\(2\\), giving trace norm \\(5\\) and operator norm \\(3\\).",
       "review": "section-1-1"
     },
     {
       "kind": "Quick check",
-      "question": "Find \\(T\\) between diag(0.7,0.3) and diag(0.2,0.8).",
+      "question": "Find \\(T(\\rho,\\sigma)\\) between \\(\\rho=\\operatorname{diag}(0.7,0.3)\\) and \\(\\sigma=\\operatorname{diag}(0.2,0.8)\\).",
       "hints": [
-        "Subtract before taking absolute values."
+        "Subtract the matrices before taking absolute eigenvalues."
       ],
-      "answer": "The difference has eigenvalues ±0.5. Its trace norm is 1, so \\(T=0.5\\). Equal-prior success is 0.75.",
+      "answer": "The difference \\(\\rho-\\sigma=\\operatorname{diag}(0.5,-0.5)\\) has eigenvalues \\(\\pm 0.5\\). Its trace norm is \\(1\\), so \\(T=0.5\\) and equal-prior success is \\(p_{\\mathrm{guess}}=0.75\\).",
       "review": "section-1-1"
     },
     {
       "kind": "Quick check",
-      "question": "If two candidate states coincide and their priors are 0.8 and 0.2, what is optimal?",
+      "question": "If two candidate states coincide (\\(\\rho=\\sigma\\)) and their priors are \\(0.8\\) and \\(0.2\\), what is the optimal success probability?",
       "hints": [
         "The system contains no distinguishing evidence."
       ],
-      "answer": "Always guess the more likely state; success is 0.8. The weighted difference formula gives the same result.",
+      "answer": "Always guess the more likely state (\\(M=I\\)); the success probability is \\(0.8\\). The Helstrom formula gives \\((1+\\|0.8\\rho-0.2\\rho\\|_1)/2=0.8\\).",
       "review": "section-1-1"
     },
     {
       "kind": "Worked problem",
-      "question": "Compute fidelity between |0⟩ and diag(0.6,0.4).",
+      "question": "Compute the fidelity \\(F(\\rho,\\sigma)\\) between \\(\\rho=\\ketbra{0}{0}\\) and \\(\\sigma=\\operatorname{diag}(0.6,0.4)\\).",
       "hints": [
-        "Use the pure-state formula."
+        "Use the pure-state overlap formula \\(F(\\ketbra{\\psi}{\\psi},\\sigma)=\\bra{\\psi}\\sigma\\ket{\\psi}\\)."
       ],
-      "answer": "\\(F=\\langle0|\\sigma|0\\rangle=0.6\\); root fidelity is \\(\\sqrt{0.6}\\).",
+      "answer": "\\(F=\\bra{0}\\sigma\\ket{0}=0.6\\); the root fidelity is \\(\\sqrt{F}=\\sqrt{0.6}\\).",
       "review": "section-1-2"
     },
     {
       "kind": "Worked problem",
-      "question": "Find \\(T\\) between two pure states with overlap magnitude 0.6.",
+      "question": "Find the trace distance \\(T\\) between two pure states with overlap magnitude \\(|\\braket{\\psi}{\\phi}|=0.6\\).",
       "hints": [
-        "Square the overlap for our fidelity convention."
+        "Square the overlap magnitude for our squared-fidelity convention."
       ],
-      "answer": "\\(F=0.36\\), \\(T=\\sqrt{0.64}=0.8\\), and equal-prior success is 0.9.",
+      "answer": "\\(F=|\\braket{\\psi}{\\phi}|^2=0.36\\), \\(T=\\sqrt{1-F}=\\sqrt{0.64}=0.8\\), and equal-prior guessing success is \\((1+0.8)/2=0.9\\).",
       "review": "section-1-2"
     },
     {
       "kind": "Worked problem",
-      "question": "Construct an optimal effect for diagonal states diag(0.7,0.3) and diag(0.2,0.8).",
+      "question": "Construct an optimal measurement effect \\(M\\) for equal-prior discrimination of \\(\\rho=\\operatorname{diag}(0.7,0.3)\\) and \\(\\sigma=\\operatorname{diag}(0.2,0.8)\\).",
       "hints": [
-        "Select the positive eigenspace of the difference."
+        "Project onto the positive eigenspace of \\(\\rho-\\sigma\\)."
       ],
-      "answer": "\\(M=|0\\rangle\\langle0|\\). Success is \\((0.7+0.8)/2=0.75\\).",
+      "answer": "Since \\(\\rho-\\sigma=\\operatorname{diag}(0.5,-0.5)\\), the projector onto the positive eigenspace is \\(M=\\ketbra{0}{0}\\), achieving \\(p_{\\mathrm{guess}}=(0.7+0.8)/2=0.75\\).",
       "review": "section-1-1"
     },
     {
       "kind": "Worked problem",
-      "question": "For the chapter’s asymmetric example, what happens when ε=0?",
+      "question": "For the asymmetric test in Section 1.3.2, what happens when the missed-signal tolerance is set to \\(\\epsilon=0\\)?",
       "hints": [
-        "Both outcomes have nonzero probability under the signal."
+        "Both outcomes \\(a\\) and \\(b\\) have nonzero probability under the signal \\(\\rho=\\operatorname{diag}(0.8,0.2)\\)."
       ],
-      "answer": "Acceptance must be certain on both outcomes, so M=I and β=1. Zero misses are expensive here.",
+      "answer": "Requiring \\(\\tr(M\\rho)=0.8m_a+0.2m_b=1\\) forces \\(m_a=m_b=1\\), so \\(M=I\\) and \\(\\beta_0=1\\). Guaranteeing zero misses on a full-rank state forces a \\(100\\%\\) false-alarm rate.",
       "review": "section-1-3"
     },
     {
       "kind": "Misconception",
-      "question": "Does fidelity zero imply identical states?",
+      "question": "Does \\(F(\\rho,\\sigma)=0\\) imply that \\(\\rho\\) and \\(\\sigma\\) are identical?",
       "hints": [
         "Compare orthogonal pure states."
       ],
-      "answer": "No. Fidelity zero means orthogonal supports; identical normalized states have fidelity one.",
+      "answer": "No. Fidelity \\(F=0\\) means \\(\\rho\\) and \\(\\sigma\\) have orthogonal supports (perfectly distinguishable, \\(T=1\\)); identical states have \\(F=1\\) and \\(T=0\\).",
       "review": "section-1-2"
     },
     {
       "kind": "Misconception",
-      "question": "Can trace distance increase after conditioning on a rare measurement outcome?",
+      "question": "Can the trace distance between two states increase after conditioning on a rare measurement outcome?",
       "hints": [
-        "Distinguish a channel from a normalized selected branch."
+        "Distinguish a deterministic trace-preserving channel from a renormalized postselected branch."
       ],
-      "answer": "Yes. Postselection is nonlinear after normalization; contraction applies to the full trace-preserving process, including its success and failure record.",
+      "answer": "Yes. Postselection followed by renormalization is nonlinear; contractivity \\(T(\\mathcal N(\\rho),\\mathcal N(\\sigma))\\le T(\\rho,\\sigma)\\) applies to the complete trace-preserving map, which includes the probability of obtaining each outcome.",
       "review": "section-1-2"
     },
     {
       "kind": "Extension",
-      "question": "Prove that mixing a fixed state into both candidates contracts their distance by exactly 1−t.",
+      "question": "Prove that mixing a fixed state \\(\\tau\\) into both candidates with weight \\(t\\in[0,1]\\) contracts their trace distance by exactly \\(1-t\\).",
       "hints": [
-        "Subtract the two mixtures."
+        "Subtract the two convex mixtures before taking the trace norm."
       ],
-      "answer": "For \\(\\rho_t=(1-t)\\rho+t\\tau\\) and \\(\\sigma_t=(1-t)\\sigma+t\\tau\\), their difference is \\((1-t)(\\rho-\\sigma)\\). Norm homogeneity gives \\(T(\\rho_t,\\sigma_t)=(1-t)T(\\rho,\\sigma)\\) for \\(0\\le t\\le1\\).",
+      "answer": "For \\(\\rho_t=(1-t)\\rho+t\\tau\\) and \\(\\sigma_t=(1-t)\\sigma+t\\tau\\), their difference is \\(\\rho_t-\\sigma_t=(1-t)(\\rho-\\sigma)\\). Positive homogeneity of the trace norm gives \\(T(\\rho_t,\\sigma_t)=(1-t)T(\\rho,\\sigma)\\) for \\(0\\le t\\le 1\\).",
       "review": "section-1-2"
     }
   ],

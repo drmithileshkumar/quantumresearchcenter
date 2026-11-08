@@ -1,0 +1,647 @@
+{
+  "slug": "beyond-the-qubit-count",
+  "article": "beyond-the-qubit-count",
+  "status": "draft",
+  "revisions": [
+    {
+      "date": "2026-11-07",
+      "notes": "First version, written from the article as published on 2026-11-07."
+    },
+    {
+      "date": "2026-11-07",
+      "notes": "Review run 1: voice slowed (length_scale 1.1); reveals added to scenes that held one picture for more than 12 s (compounding, classical, resources, status, scorecard, checklist)."
+    },
+    {
+      "date": "2026-11-07",
+      "notes": "Review run 2: tighter tables so footers clear the captions; scorecard cells revealed as each is narrated; longer pauses in the opening and closing."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "open",
+      "layout": "title",
+      "kicker": "Explainer",
+      "headline": "Beyond the qubit count",
+      "deck": {
+        "text": "How to judge whether a quantum computing announcement shows real progress",
+        "on": 1
+      },
+      "banner": {
+        "on": 2
+      },
+      "narration": [
+        "A processor with a thousand qubits makes a good headline.",
+        "But the qubit count tells you how big a machine is, not what it can do.",
+        "Here are six questions that separate real progress from a large number, applied to two recent results."
+      ],
+      "pause": 0.6
+    },
+    {
+      "id": "compounding",
+      "layout": "figure",
+      "section": "The problem",
+      "heading": "Errors compound",
+      "figure": "compounding.svg",
+      "source": "Our calculation of (1 − p)ᴺ for independent errors",
+      "steps": [
+        {
+          "series": [
+            0
+          ],
+          "on": 2
+        },
+        {
+          "series": [
+            1,
+            2
+          ],
+          "on": 3
+        },
+        {
+          "series": [
+            3,
+            4
+          ],
+          "on": 4
+        }
+      ],
+      "notes": [
+        {
+          "tex": "P(\\text{no error}) \\approx (1-p)^N",
+          "on": 1
+        },
+        {
+          "text": "1 in 100: a hundred steps run cleanly 37% of the time",
+          "key": "fig-2",
+          "on": 2
+        },
+        {
+          "text": "1 in 1,000: ten thousand steps, once in 22,000 tries",
+          "key": "fig-2",
+          "on": 3
+        },
+        {
+          "text": "1 in a million: the same steps, 99% of the time",
+          "key": "fig-1",
+          "on": 4
+        },
+        {
+          "text": "Useful algorithms: millions to billions of operations",
+          "on": 5
+        }
+      ],
+      "narration": [
+        "Every operation on today's quantum hardware has some chance of failing, and a computation is a long chain of operations.",
+        "If each operation fails with probability p, all N of them succeed with probability about one minus p, to the power N.",
+        "At one error in a hundred, the chance of a clean run collapses after about a hundred operations.",
+        "At one in a thousand, ten thousand steps run cleanly only about once in twenty-two thousand attempts.",
+        "At one error in a million, the same ten thousand steps succeed ninety-nine percent of the time.",
+        "Useful algorithms need millions to billions of operations, so adding qubits at a high error rate does not help: it gives errors more places to happen."
+      ]
+    },
+    {
+      "id": "target",
+      "layout": "stats",
+      "section": "The problem",
+      "heading": "How low must errors go?",
+      "source": "Microsoft Quantum (Troyer, Nayak, Martinis), 22 September 2026",
+      "stats": [
+        {
+          "value": "1 in 10¹⁰",
+          "label": "error rate for the simplest useful applications",
+          "on": 1
+        },
+        {
+          "value": "1 in 10¹⁵",
+          "label": "for the most demanding applications",
+          "on": 2
+        },
+        {
+          "value": "10⁻² to 10⁻⁴",
+          "label": "the best physical error rates today",
+          "on": 3
+        }
+      ],
+      "narration": [
+        "How low does the error rate need to go?",
+        "Microsoft's quantum team, writing with John Martinis in September 2026, puts it at about one in ten billion for the simplest useful applications.",
+        "For the most demanding, it is about one in a million billion.",
+        "No physical qubit comes close.",
+        "So the real question behind a headline is how close a machine gets to reliable operation, and at what cost."
+      ]
+    },
+    {
+      "id": "counting",
+      "layout": "points",
+      "section": "Question 1 of 6",
+      "heading": "What exactly is being counted?",
+      "source": "Google Quantum AI, Nature 638, 920 (2025)",
+      "items": [
+        {
+          "text": "Physical qubit: one device, such as an ion, an atom or a circuit",
+          "on": 1
+        },
+        {
+          "text": "Logical qubit: information spread over many, by a code",
+          "on": 2
+        },
+        {
+          "text": "Surface code of distance \\(d\\): about \\(2d^2\\) physical qubits",
+          "on": 3
+        },
+        {
+          "text": "Corrected over many rounds, or detected once and discarded?",
+          "on": 4
+        },
+        {
+          "text": "Better than its parts? Google 2024: distance 7 lasted 2.4× longer",
+          "on": 5
+        }
+      ],
+      "narration": [
+        "The first question is what exactly is being counted.",
+        "A physical qubit is one device: an ion, an atom or a superconducting circuit.",
+        "A logical qubit spreads information over many physical qubits with an error-correcting code, so that errors can be found and undone.",
+        "A surface code of distance d uses about two d squared physical qubits.",
+        "Check whether errors were corrected over many rounds, or only detected once, with the failed runs thrown away.",
+        "And check whether the logical qubit beats its own parts: in Google's 2024 experiment, the distance-seven logical memory outlived the best physical qubit by a factor of about 2.4."
+      ]
+    },
+    {
+      "id": "quality",
+      "layout": "points",
+      "section": "Question 2 of 6",
+      "heading": "How good is each operation?",
+      "items": [
+        {
+          "text": "Median two-qubit error across the device, not the best pair",
+          "on": 1
+        },
+        {
+          "text": "An average (randomized benchmarking) or the worst case?",
+          "on": 3
+        },
+        {
+          "text": "Measurement, idling, leakage and crosstalk included?",
+          "on": 4
+        },
+        {
+          "text": "Operations that fit in the coherence time, not coherence alone",
+          "on": 5
+        }
+      ],
+      "narration": [
+        "Second: how good is each operation?",
+        "Two-qubit gates are usually the weakest link, and a headline fidelity is often the best pair on the chip, so ask for the median across the whole device.",
+        "Ask how the figure was measured.",
+        "Randomized benchmarking reports an average, and small systematic over-rotations can look tiny on average yet add up over a long circuit.",
+        "Measurement errors, idling errors, leakage and crosstalk count too.",
+        "And long coherence times mean little on their own: what counts is how many operations fit inside them."
+      ]
+    },
+    {
+      "id": "scaling",
+      "layout": "figure",
+      "section": "Question 3 of 6",
+      "heading": "Does the error fall as the code grows?",
+      "figure": "suppression.svg",
+      "source": "Google Quantum AI, Nature 638 (2025); Lavasani et al., arXiv:2610.24077; extrapolation ours",
+      "steps": [
+        {
+          "series": [
+            1
+          ],
+          "on": 3
+        },
+        {
+          "series": [
+            4
+          ],
+          "on": 4
+        },
+        {
+          "series": [
+            0,
+            2,
+            5
+          ],
+          "on": 6
+        },
+        {
+          "series": [
+            3,
+            6
+          ],
+          "on": 6,
+          "delay": 2.5
+        }
+      ],
+      "notes": [
+        {
+          "tex": "\\Lambda = \\varepsilon_L(d)\\,/\\,\\varepsilon_L(d+2)",
+          "on": 2
+        },
+        {
+          "text": "Google 2024, surface code: Λ ≈ 2.1",
+          "key": "fig-1",
+          "on": 3
+        },
+        {
+          "text": "Quantinuum 2026, colour code: Λ ≈ 12 (preprint)",
+          "key": "fig-2",
+          "on": 4
+        },
+        {
+          "text": "Billionfold: d ≈ 59, about 7,000 qubits, against d ≈ 21, about 900",
+          "on": 7
+        },
+        {
+          "text": "Dashed lines are our extrapolation",
+          "on": 8
+        }
+      ],
+      "narration": [
+        "Third, and most informative: does the logical error fall as the code grows?",
+        "Error correction only helps below a threshold; above it, a bigger code just collects more errors.",
+        "The key number is the suppression factor, Λ: how much the logical error falls each time the distance grows by two.",
+        "Google's 2024 surface-code experiment measured about 2.1, across distances three, five and seven.",
+        "Quantinuum's 2026 colour-code preprint reports about twelve.",
+        "The two count errors differently, so compare their slopes, not their absolute values.",
+        "If each trend continued, a billionfold reduction would need distance about 59 at the first rate, but about 21 at the second.",
+        "That is roughly seven thousand physical qubits per logical qubit, against nine hundred.",
+        "This is our extrapolation, and rare correlated errors, from cosmic rays or leakage, are what could break it."
+      ]
+    },
+    {
+      "id": "classical",
+      "layout": "table",
+      "section": "Question 4 of 6",
+      "heading": "Could a classical computer do the same?",
+      "source": "Arute et al., Nature 574 (2019); IBM Research (2019); Pan, Chen and Zhang, PRL 129 (2022)",
+      "columns": [
+        "Year",
+        "Who",
+        "Classical cost of Google's 53-qubit sampling task"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "2019",
+            "Google",
+            "About 10,000 years on a supercomputer (200 s on the processor)"
+          ],
+          "on": 2
+        },
+        {
+          "cells": [
+            "2019",
+            "IBM",
+            "About 2.5 days for an ideal classical simulation"
+          ],
+          "on": 3
+        },
+        {
+          "cells": [
+            "2022",
+            "Pan, Chen and Zhang",
+            "About 15 hours on 512 GPUs, at the experiment's fidelity"
+          ],
+          "on": 4
+        }
+      ],
+      "narration": [
+        "Fourth: could a classical computer do the same?",
+        "Many beyond-classical demonstrations run tasks chosen because they are hard to simulate, and their classical cost is a moving target.",
+        "In 2019, Google estimated that its fifty-three-qubit sampling task, finished in two hundred seconds, would take a supercomputer about ten thousand years.",
+        "IBM answered that an ideal classical simulation would take about two and a half days.",
+        "By 2022, Pan, Chen and Zhang had done it in about fifteen hours on 512 GPUs, at the experiment's low fidelity.",
+        "So ask whether the comparison used the best known classical method, and whether the output can be checked at all."
+      ],
+      "column_on": [
+        1,
+        1,
+        1
+      ],
+      "footer": [
+        {
+          "text": "Ask: was it the best known classical method, and can the output be checked?",
+          "on": 5
+        }
+      ]
+    },
+    {
+      "id": "resources",
+      "layout": "table",
+      "section": "Question 5 of 6",
+      "heading": "What would a useful task need?",
+      "source": "Gidney, arXiv:2505.15917 (2025); Pappalardo et al., arXiv:2610.37839 (preprint)",
+      "columns": [
+        "Estimate for RSA-2048",
+        "Qubits",
+        "Run time",
+        "Key assumption"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "Gidney, 2025",
+            "under 1 million noisy qubits",
+            "under a week",
+            "0.1% gate error, 1 µs correction cycle"
+          ],
+          "on": 2
+        },
+        {
+          "cells": [
+            "Alice & Bob, 2026 (preprint)",
+            "22,593 cat qubits",
+            "about 3.14 days",
+            "bit flips rarer than once a century; seconds measured today"
+          ],
+          "on": 3
+        }
+      ],
+      "narration": [
+        "Fifth: what would a useful task actually need?",
+        "A resource estimate turns an algorithm into hardware, and its headline number always rests on assumptions.",
+        "Craig Gidney's 2025 estimate for breaking 2048-bit RSA needs fewer than a million noisy qubits for under a week, assuming a one-in-a-thousand gate error and a one-microsecond correction cycle.",
+        "A 2026 Alice and Bob preprint needs only 22,593 cat qubits, but assumes bit flips rarer than once a century per qubit, where seconds are measured today.",
+        "Lower qubit counts usually rest on stronger assumptions, so compare the assumptions, not the counts."
+      ],
+      "column_on": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "footer": [
+        {
+          "text": "Compare the assumptions, not the qubit counts",
+          "on": 4
+        }
+      ]
+    },
+    {
+      "id": "speed",
+      "layout": "statement",
+      "section": "Question 5 of 6",
+      "heading": "Speed matters as much as size",
+      "text": {
+        "text": "Correction cycles a thousand times slower turn a one-week computation into one of about two decades.",
+        "on": 1
+      },
+      "sub": {
+        "text": "A nearer milestone (Preskill): machines that run about a million operations reliably, “megaquop” machines",
+        "on": 2
+      },
+      "source": "J. Preskill, Beyond NISQ: The Megaquop Machine, arXiv:2502.17368 (2025)",
+      "narration": [
+        "Speed matters as much as size.",
+        "On hardware whose correction cycles are a thousand times slower, a one-week computation becomes one of about two decades.",
+        "John Preskill has proposed a nearer milestone: error-corrected machines running about a million operations reliably, which he calls megaquop machines."
+      ]
+    },
+    {
+      "id": "status",
+      "layout": "table",
+      "section": "Question 6 of 6",
+      "heading": "Result, plan or product?",
+      "source": "US Department of War, Quantum Benchmarking Initiative release (October 2026)",
+      "columns": [
+        "Kind of statement",
+        "What it establishes"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "Peer-reviewed paper",
+            "Referees checked the method and the claims"
+          ],
+          "on": 2
+        },
+        {
+          "cells": [
+            "Preprint",
+            "The authors' account, not yet reviewed"
+          ],
+          "on": 3
+        },
+        {
+          "cells": [
+            "Independent replication",
+            "Another group reproduced the result"
+          ],
+          "on": 4
+        },
+        {
+          "cells": [
+            "Roadmap",
+            "An intended machine and date"
+          ],
+          "on": 5
+        },
+        {
+          "cells": [
+            "Funding or contract",
+            "Money committed, not capability"
+          ],
+          "on": 6
+        },
+        {
+          "cells": [
+            "Cloud product",
+            "What users can run today, with published limits"
+          ],
+          "on": 7
+        }
+      ],
+      "narration": [
+        "Sixth: is it a result, a plan or a product?",
+        "Announcements mix statements of very different weight, and the wording rarely says which is which.",
+        "A peer-reviewed paper means referees checked the method.",
+        "A preprint is the authors' account, not yet reviewed.",
+        "An independent replication means another group reproduced the result.",
+        "A roadmap is an intended machine and date.",
+        "Funding is money committed, not capability.",
+        "And a cloud product is what users can run today.",
+        "Programmes that fund the field increasingly pay for verified performance: DARPA's Quantum Benchmarking Initiative verifies hardware in its final stage."
+      ],
+      "footer": [
+        {
+          "text": "DARPA's Quantum Benchmarking Initiative verifies hardware in its final stage",
+          "on": 8
+        }
+      ]
+    },
+    {
+      "id": "scorecard",
+      "layout": "table",
+      "section": "Worked example",
+      "heading": "Two real announcements, scored",
+      "source": "Quantinuum release, 19 October 2026; arXiv:2610.24077; The Quantum Insider, 31 July 2026",
+      "columns": [
+        "Question",
+        "Quantinuum, October 2026",
+        "IBM and UChicago, July 2026"
+      ],
+      "column_on": [
+        0,
+        1,
+        3
+      ],
+      "rows": [
+        {
+          "cells": [
+            "Counted",
+            "One logical qubit; colour codes of distance 3 to 7",
+            "70 logical qubits"
+          ],
+          "on": 0
+        },
+        {
+          "cells": [
+            "Scaling",
+            "About 12 times less error per distance step",
+            {
+              "text": "Not a code-size scaling experiment",
+              "on": 4
+            }
+          ],
+          "on": 0
+        },
+        {
+          "cells": [
+            "Classical",
+            {
+              "text": "A memory, not a computation",
+              "on": 2
+            },
+            "Sampling task said to exceed leading classical methods"
+          ],
+          "on": 0
+        },
+        {
+          "cells": [
+            "Status",
+            {
+              "text": "Preprint; the 2029 machine is a goal",
+              "on": 2
+            },
+            {
+              "text": "arXiv paper; review status not stated",
+              "on": 4
+            }
+          ],
+          "on": 0
+        }
+      ],
+      "narration": [
+        "Here are the questions applied to two recent results.",
+        "Quantinuum's October 2026 result counts one logical qubit, on colour codes of distance three to seven, with about twelve times less error per distance step.",
+        "It is a memory, not a computation, and it is a preprint; its 2029 machine is a goal.",
+        "IBM and the University of Chicago, in July 2026, reported seventy logical qubits running a sampling task said to exceed leading classical methods, with a statistical lower bound on fidelity.",
+        "That is not a code-size scaling experiment, and the coverage does not state its review status.",
+        "Neither answers every question, and neither claims to.",
+        "A headline about a thousand-qubit processor, by contrast, answers only one: how big the machine is."
+      ],
+      "footer": [
+        {
+          "text": "Neither answers every question. A 1,000-qubit headline answers only one: how big?",
+          "on": 5
+        }
+      ]
+    },
+    {
+      "id": "checklist",
+      "layout": "table",
+      "section": "Summary",
+      "heading": "The checklist",
+      "columns": [
+        "Question",
+        "Look for"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "What is counted",
+            "Logical qubits, with the code and distance stated"
+          ],
+          "on": 1
+        },
+        {
+          "cells": [
+            "Operation quality",
+            "Median two-qubit error across the device"
+          ],
+          "on": 1
+        },
+        {
+          "cells": [
+            "Scaling",
+            "Error falling across three or more code sizes"
+          ],
+          "on": 2
+        },
+        {
+          "cells": [
+            "Classical comparison",
+            "The best known method, and a verifiable output"
+          ],
+          "on": 3
+        },
+        {
+          "cells": [
+            "Resources",
+            "Assumptions close to measured values"
+          ],
+          "on": 3
+        },
+        {
+          "cells": [
+            "Status",
+            "Peer review or independent replication"
+          ],
+          "on": 4
+        }
+      ],
+      "narration": [
+        "To sum up, here is the checklist.",
+        "Look for logical qubits with the code and distance stated, and the median two-qubit error across the device.",
+        "Look for error falling across three or more code sizes, measured over repeated rounds with decoding in time.",
+        "Look for comparisons against the best known classical method, and resource estimates whose assumptions are close to measured values.",
+        "And look for peer review or independent replication, rather than roadmap dates and funding reported as results.",
+        "Few announcements answer all six questions, and that is normal.",
+        "The point is to know which ones a result answers, and which it leaves open."
+      ],
+      "footer": [
+        {
+          "text": "Know which questions a result answers, and which it leaves open",
+          "on": 5
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "layout": "sources",
+      "heading": "Sources",
+      "items": [
+        "Microsoft Quantum, scalable logical qubits, 22 September 2026",
+        "Google Quantum AI, Nature 638, 920 (2025); arXiv:2408.13687",
+        "Lavasani et al. (Quantinuum), arXiv:2610.24077",
+        "Arute et al., Nature 574, 505 (2019)",
+        "IBM Research, On “Quantum Supremacy”, 22 October 2019",
+        "Pan, Chen and Zhang, Phys. Rev. Lett. 129, 090502 (2022)",
+        "Gidney, arXiv:2505.15917 (2025)",
+        "Pappalardo et al. (Alice & Bob), arXiv:2610.37839",
+        "Preskill, arXiv:2502.17368 (2025)",
+        "US Department of War, Quantum Benchmarking Initiative release"
+      ],
+      "on": 1,
+      "narration": [
+        "Every number here comes from the sources on screen, and our own extrapolations are marked as ours.",
+        "The full article, with links to all of them, is on the Quantum Research Center website."
+      ],
+      "pause": 0.6
+    }
+  ]
+}

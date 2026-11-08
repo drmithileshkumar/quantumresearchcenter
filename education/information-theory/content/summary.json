@@ -2,9 +2,9 @@
   "01-distinguishability": [
     "A measurement strategy and a proof of optimality are separate achievements. For binary minimum-error discrimination, the positive eigenspace of \\(p\\rho-(1-p)\\sigma\\) gives both.",
     "With equal priors, \\(p_{\\mathrm{guess}}=(1+T)/2\\), where \\(T=\\|\\rho-\\sigma\\|_1/2\\). This gives trace distance its operational meaning.",
-    "For two pure states, \\(T=\\sqrt{1-F}\\). Mixed states require inequalities; throughout this course F denotes squared fidelity.",
-    "A deterministic channel cannot improve the best input test. Conditioning on a selected outcome changes the task and requires accounting for its success probability.",
-    "An asymmetric test minimizes false alarms subject to a miss constraint. Its optimal effect need not be a projector."
+    "For two pure states, \\(T=\\sqrt{1-F}\\). Mixed states obey the Fuchs–van de Graaf inequalities \\(1-\\sqrt{F}\\le T\\le\\sqrt{1-F}\\); throughout this course \\(F\\) denotes squared fidelity.",
+    "A deterministic channel cannot improve the best input test (\\(T(\\mathcal N(\\rho),\\mathcal N(\\sigma))\\le T(\\rho,\\sigma)\\)). Conditioning on a postselected outcome changes the task and requires accounting for its success probability.",
+    "An asymmetric test minimizes false alarms \\(\\beta=\\tr(M\\sigma)\\) subject to a missed-signal constraint \\(\\alpha=1-\\tr(M\\rho)\\le\\epsilon\\). Its optimal effect \\(M\\) need not be a projector."
   ],
   "02-quantum-channels": [
     "Complete positivity tests consistency with a reference system.",

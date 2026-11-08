@@ -9,3 +9,7 @@ Set every mathematical expression with the local MathJax bundle rather than a un
 Inside an SVG, HTML math cannot be nested in `<text>`, so put the TeX on the label as `data-tex` (math only) or `data-math` (prose around `\(...\)`) and let the config typeset it into the figure.
 
 Measured numbers and script-written readouts stay plain monospace text unless the script typesets them again with `MathJax.tex2svgPromise`; `tools/majorana.js` shows that pattern, including coalescing while a drag updates the value.
+
+# Course clarity and restraint
+
+Prioritize conceptual clarity over volume. Every paragraph, worked example, and SVG schematic must earn its place by making a concept easier to grasp than prose or equations alone. Do not add boilerplate diagrams, decorative widgets, or long-winded explanations to fill a quota; place a schematic or interactive figure only at the exact point where geometry, circuit structure, or a parameter trade-off directly clarifies the argument.

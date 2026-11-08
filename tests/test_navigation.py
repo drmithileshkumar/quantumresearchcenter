@@ -51,7 +51,7 @@ class NavigationTests(unittest.TestCase):
     def test_all_published_primary_menus_use_the_shared_component(self):
         checked = 0
         for path in ROOT.rglob('*.html'):
-            if {'.git', 'content', 'source', 'vendor', 'templates', 'tests'} & set(path.relative_to(ROOT).parts):
+            if {'.git', '_video', 'content', 'source', 'vendor', 'templates', 'tests'} & set(path.relative_to(ROOT).parts):
                 continue
             for nav in PrimaryNavigation(path.read_text()).navs:
                 checked += 1

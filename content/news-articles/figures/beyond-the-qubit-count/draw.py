@@ -75,10 +75,12 @@ def suppression():
         e = lambda d: -(d - 3) / 2 * math.log10(lam)
         dmax = min(dhi, 3 + 2 * 10 / math.log10(lam))
         measured = [(X(d), Y(e(d))) for d in (3, 5, 7)]
+        # each titled mark starts a group that the article videos reveal in turn: measured, extrapolated, target
         out.append(path(measured, cls, f'measured range, suppression factor {lam}'))
-        out.append(path([(X(d), Y(e(d))) for d in [7 + k * 0.5 for k in range(int((dmax - 7) * 2) + 1)]], 'fig-ref'))
         for x, y in measured:
             out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.5" class="{cls.replace("line", "fill")}"/>')
+        out.append(path([(X(d), Y(e(d))) for d in [7 + k * 0.5 for k in range(int((dmax - 7) * 2) + 1)]], 'fig-ref',
+                        f'extrapolation at suppression factor {lam}, assuming the trend continues'))
         need = 3 + 2 * math.ceil(9 / math.log10(lam))
         out.append(f'<circle cx="{X(need):.1f}" cy="{Y(e(need)):.1f}" r="4.5" class="fig-hollow"><title>about d = {need} for a billionfold reduction</title></circle>')
         out.append(text(X(need) + (10 if lam > 3 else -10), Y(-9) + (24 if lam > 3 else -12), f'{label}: d ≈ {need}', 'fig-label', 'start' if lam > 3 else 'end'))

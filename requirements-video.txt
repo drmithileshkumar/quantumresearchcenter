@@ -1,0 +1,4 @@
+# Only for scripts/videos.py (article videos); the site build does not need these.
+# Also needs Chrome or Chromium (set CHROME if it is not on PATH).
+piper-tts==1.8.0
+imageio-ffmpeg==0.8.1

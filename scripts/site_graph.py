@@ -6,7 +6,7 @@ import posixpath
 from html.parser import HTMLParser
 from urllib.parse import unquote, urlsplit
 
-EXCLUDED = {'.git', '_site', 'content', 'source', 'vendor', 'templates', 'tests', 'node_modules', '.codex', '.agents'}
+EXCLUDED = {'.git', '_site', '_video', 'content', 'source', 'vendor', 'templates', 'tests', 'node_modules', '.codex', '.agents'}
 
 
 class Page(HTMLParser):

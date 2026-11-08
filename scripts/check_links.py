@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_DIRS = {'.git', 'vendor', 'source', 'templates'}
+SKIP_DIRS = {'.git', '_video', 'vendor', 'source', 'templates'}
 # The site's own canonical URLs are checked locally by build.py; loopback links belong to the local editor.
 SKIP_HOSTS = {'quantumresearch.center', '127.0.0.1:8765', 'localhost'}
 AGENT = 'QRC-LinkCheck/1.0 (mailto:mail.qrc@gmail.com)'

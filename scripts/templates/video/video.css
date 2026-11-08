@@ -1,0 +1,118 @@
+/* Scene styles for article videos (scripts/videos.py). One 1920x1080 frame per page.
+   Plain site style: no shadows or decorative boxes; colour carries meaning only. */
+@font-face{font-family:"Source Serif 4";src:url("/fonts/source-serif-4-400.woff2") format("woff2");font-weight:400}
+:root{--paper:#fcfcfb;--surface:#f4f7fa;--ink:#30343b;--ink-soft:#4f5862;--heading:#1f252d;--muted:#646a71;
+  --line:#e3e6ea;--line-strong:#cdd5de;--blue:#246593;--warm:#934d36;--fig-1:#2a78d6;--fig-2:#eb6834;
+  --sans:Inter,"Noto Sans",system-ui,sans-serif;--serif:"Source Serif 4",Georgia,serif;
+  --safe-x:120px;--top:150px;--bottom:250px}
+:root[data-theme=dark]{--paper:#0b0d13;--surface:#151b28;--ink:#dce1eb;--ink-soft:#c3cad6;--heading:#f1f4fa;
+  --muted:#a2adbd;--line:#252c3b;--line-strong:#36405a;--blue:#79dce9;--warm:#f0a58a;--fig-1:#3f8ff0;--fig-2:#e8743e}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+body{position:relative}
+
+/* Persistent frame: brand and section label above, source line and progress below. */
+.frame-top{position:absolute;left:var(--safe-x);right:var(--safe-x);top:56px;display:flex;justify-content:space-between;
+  align-items:baseline;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.frame-top .section{color:var(--blue);letter-spacing:.08em}
+.frame-top::after{content:"";position:absolute;left:0;right:0;top:48px;border-top:2px solid var(--line)}
+.source{position:absolute;left:var(--safe-x);right:var(--safe-x);bottom:58px;font-size:26px;color:var(--muted);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.source b{font-weight:600;color:var(--ink-soft)}
+.progress{position:absolute;left:var(--safe-x);right:var(--safe-x);bottom:36px;display:flex;gap:8px}
+.progress i{flex:1;height:4px;background:var(--line)}
+.progress i.done{background:var(--line-strong)}
+.progress i.now{background:var(--blue)}
+
+/* Captions: two lines at most, inside the lower safe band. */
+.caption{position:absolute;left:var(--safe-x);right:var(--safe-x);bottom:118px;text-align:center;
+  font-size:38px;line-height:1.3;color:var(--heading);padding:6px 18px;visibility:hidden}
+.caption.on{visibility:visible}
+
+/* Content area between the frame lines. */
+.stage{position:absolute;left:var(--safe-x);right:var(--safe-x);top:var(--top);bottom:var(--bottom);display:flex;flex-direction:column}
+.stage h2{margin:0 0 28px;font-size:58px;line-height:1.15;font-weight:650;color:var(--heading);letter-spacing:-.01em}
+.reveal{opacity:0}
+.math{font-size:44px}
+
+/* title */
+.title .stage{justify-content:center}
+.title .kicker{font-size:30px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:22px}
+.title h1{margin:0;font-size:96px;line-height:1.05;font-weight:700;color:var(--heading);letter-spacing:-.02em;max-width:1500px}
+.title .deck{margin-top:30px;font:44px/1.35 var(--serif);color:var(--ink-soft);max-width:1450px}
+.title .banner{margin-top:44px;height:260px;overflow:hidden}
+.title .banner svg{width:100%;height:100%}
+
+/* statement and points */
+.statement .stage{justify-content:center}
+.statement .text{font:62px/1.3 var(--serif);color:var(--heading);max-width:1500px}
+.statement .sub{margin-top:30px;font-size:36px;color:var(--muted)}
+.points ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:30px}
+.points li{font:44px/1.3 var(--serif);color:var(--ink);padding-left:44px;position:relative;max-width:1560px}
+.points li::before{content:"";position:absolute;left:0;top:.52em;width:16px;height:16px;background:var(--blue)}
+
+/* stats */
+.stats .row{display:flex;gap:70px;margin-top:40px}
+.stats .stat{flex:1;border-top:4px solid var(--blue);padding-top:26px}
+.stats .value{font-size:96px;font-weight:700;color:var(--heading);line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.stats .label{margin-top:20px;font:38px/1.3 var(--serif);color:var(--ink-soft)}
+
+/* figure: chart on the left, notes on the right */
+.figure .body{display:flex;gap:64px;flex:1;min-height:0}
+.figure .chart{flex:0 0 auto;max-width:980px;height:100%;display:flex;align-items:flex-start}
+.figure .chart>div{height:100%}
+.figure .chart svg{height:100%;width:auto;max-width:980px;display:block}
+.figure .notes{flex:1;display:flex;flex-direction:column;gap:22px;padding-top:6px}
+.figure .note{font:34px/1.28 var(--serif);color:var(--ink)}
+.figure .note.math{font-size:38px}
+.figure .note .key{display:inline-block;width:34px;height:6px;margin:0 14px 10px 0;vertical-align:middle}
+
+/* equation */
+.equation .lines{display:flex;flex-direction:column;gap:38px;margin-top:10px}
+.equation .line{display:flex;align-items:baseline;gap:50px}
+.equation .line .tex{font-size:50px;min-width:900px}
+.equation .line .note{font:36px/1.3 var(--serif);color:var(--ink-soft)}
+
+/* table */
+.table table{border-collapse:collapse;width:100%;font-size:33px;line-height:1.25}
+.table th{text-align:left;font-weight:600;color:var(--muted);font-size:28px;letter-spacing:.06em;text-transform:uppercase;
+  padding:0 26px 12px 0;border-bottom:3px solid var(--line-strong)}
+.table td{padding:13px 26px 13px 0;border-bottom:2px solid var(--line);vertical-align:top;font-family:var(--serif);color:var(--ink)}
+.table td:first-child{font-family:var(--sans);font-weight:600;color:var(--heading)}
+.table .small table{font-size:30px}
+.table .foot{margin:24px 0 0;font:38px/1.3 var(--serif);color:var(--heading);padding-left:24px;border-left:5px solid var(--blue)}
+
+/* columns: shown / claimed / open */
+.columns .cols{display:flex;gap:56px;flex:1}
+.columns .col{flex:1;border-top:6px solid var(--line-strong);padding-top:22px}
+.columns .col h3{margin:0 0 22px;font-size:32px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.columns .col p{margin:0 0 22px;font:36px/1.3 var(--serif)}
+.columns .col.c0{border-color:var(--fig-1)} .columns .col.c1{border-color:var(--blue)} .columns .col.c2{border-color:var(--fig-2)}
+
+/* sources */
+.sources ol{margin:0;padding-left:40px;columns:2;column-gap:70px;font:27px/1.35 var(--serif);color:var(--ink-soft)}
+.sources li{margin-bottom:14px;break-inside:avoid}
+.sources .url{margin-top:34px;font-size:38px;color:var(--blue);font-weight:600}
+
+/* Figure marks, sized for 1080p (the article SVGs are drawn at about 400 units wide). */
+.fig-text{fill:var(--ink-soft);font-size:13px}
+.fig-label{fill:var(--ink);font-size:13px;font-weight:600}
+.fig-muted{fill:var(--muted);font-size:12px}
+.fig-axis{stroke:var(--line-strong);stroke-width:1;fill:none}
+.fig-grid{stroke:var(--line);stroke-width:.8;fill:none}
+.fig-ref{stroke:var(--muted);stroke-width:1.4;fill:none;stroke-dasharray:5 4}
+.fig-line-1{stroke:var(--fig-1);stroke-width:2.2;fill:none}
+.fig-line-2{stroke:var(--fig-2);stroke-width:2.2;fill:none}
+.fig-fill-1{fill:var(--fig-1)} .fig-fill-2{fill:var(--fig-2)}
+.fig-fill-muted{fill:var(--line-strong)}
+.fig-fill-muted-soft{fill:var(--line-strong);opacity:.35}
+.fig-box{fill:var(--surface);stroke:var(--line-strong);stroke-width:1}
+.fig-box-claimed{fill:var(--surface);stroke:var(--fig-1);stroke-width:2}
+.fig-box-open{fill:var(--surface);stroke:var(--fig-2);stroke-width:2;stroke-dasharray:5 4}
+.fig-node{fill:var(--paper);stroke:var(--ink-soft);stroke-width:1.5}
+.fig-hollow{fill:var(--paper);stroke:var(--fig-2);stroke-width:2.2}
+.fig-link{stroke:var(--ink-soft);stroke-width:1.5;fill:none}
+.fig-cross{stroke:var(--fig-2);stroke-width:1.5;fill:none}
+.fig-measure{stroke:var(--fig-1);stroke-width:1.5;fill:none;stroke-dasharray:4 3}
+.fig-bg{fill:var(--surface)}
+.fig-wash-1{fill:var(--fig-1);opacity:.14} .fig-wash-2{fill:var(--fig-2);opacity:.16}

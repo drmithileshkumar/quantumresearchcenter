@@ -48,7 +48,7 @@ class AppearanceAssets(unittest.TestCase):
     def test_all_site_and_course_readers_load_fresh_theme_assets(self):
         pages=[]
         for p in ROOT.rglob('*.html'):
-            if any(part in p.relative_to(ROOT).parts for part in ('content','source','vendor','templates')):continue
+            if any(part in p.relative_to(ROOT).parts for part in ('_video','content','source','vendor','templates')):continue
             doc=Assets(p.read_text())
             if doc.redirect or not any(urlsplit(a).path.endswith('styles.css') for a in doc.assets):continue
             pages.append(p)

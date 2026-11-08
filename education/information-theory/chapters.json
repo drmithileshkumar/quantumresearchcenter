@@ -4,7 +4,7 @@
     "title": "Distinguishability and Testing",
     "question": "Someone gives you one of two possible quantum states. How well can you tell which one it is?",
     "prerequisites": "Density operators, the measurement probability rule, and eigenvalues of Hermitian matrices. General measurement effects, operator norms, and constrained testing are developed in the chapter.",
-    "example": "An equally likely preparation of |0⟩ or |+⟩, tested once.",
+    "example": "An equally likely preparation of \\(\\ket{0}\\) or \\(\\ket{+}\\), tested once.",
     "method": "Optimize a measurement through the positive and negative parts of a Hermitian operator.",
     "pitfall": "A state distance is meaningful only after its normalization and operational task are fixed.",
     "sections": [

@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FINAL = 'scripts/build.py'  # Reads the pages the other builders wrote to refresh both site maps.
 # Files that build the site but are not part of it.
-PRIVATE_ROOT = {'.git', '.github', '.vscode', '_site', 'content', 'scripts', 'tests', '.gitignore', 'AGENTS.md', 'README.md', 'requirements.txt'}
+PRIVATE_ROOT = {'.git', '.github', '.vscode', '_site', '_video', 'requirements-video.txt', 'content', 'scripts', 'tests', '.gitignore', 'AGENTS.md', 'README.md', 'requirements.txt'}
 PRIVATE_ANYWHERE = {'__pycache__', 'content', 'templates', 'build.py'}
 
 

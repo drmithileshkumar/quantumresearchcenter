@@ -12,7 +12,6 @@ from asset_versions import version_pages
 from site_logo import COURSE_LOGO
 from site_navigation import COURSE_NAV
 import chapter_exercises
-import chapter_simulations
 import chapter_summary
 CHAPTERS=json.loads((ROOT/'chapters.json').read_text())
 LEARNING=json.loads((ROOT/'content/learning.json').read_text())
@@ -32,7 +31,7 @@ def navigation(current,data):
  return out+'<nav class="book-resources" aria-label="Related courses"><a href="../computing/index.html">Quantum Computing</a><a href="../algorithms/index.html">Quantum Algorithms</a></nav>'
 def shell(stem,title,body,data,styles=(),scripts=(),classes=()):
  css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['../computing/assets/source/slides.css','../computing/assets/source/classical.css','../computing/assets/source/math.css',*styles,*(['../computing/assets/topic-map.css'] if stem=='index' or stem in {c['stem'] for c in CHAPTERS} else []),'../computing/assets/book.css','../../styles.css','../computing/assets/learning.css','../course.css','assets/information.css']))
- js=''.join(f'<script defer src="{s}"></script>' for s in ['../computing/assets/source/mathjax-config.js','../computing/assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/search-index.js','assets/book.js','assets/experiments.js','../course_sims.js'])
+ js=''.join(f'<script defer src="{s}"></script>' for s in ['../computing/assets/source/mathjax-config.js','../computing/assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/search-index.js','assets/book.js','assets/experiments.js'])
  return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="An interactive introduction to quantum information by Mithilesh Kumar."><title>{esc(title)} · Quantum Information</title><link rel="icon" href="../../icons/icon.svg"><link rel="canonical" href="https://quantumresearch.center/education/information/{"" if stem=="index" else stem+".html"}"><script src="../computing/assets/theme.js"></script><script src="../../navigation.js"></script>{css}{js}</head>
 <body class="ebook {' '.join(classes)}" data-chapter="{stem}"><a class="skip-link" href="#main">Skip to content</a>
@@ -64,7 +63,7 @@ def main():
    body+='</ol></li>'
   body+='</ol></details>'
   body+=f'<details class="chapter-direction"><summary>Before you begin</summary><p><strong>Starting point:</strong> {esc(c["prerequisites"])}</p><p><strong>Keep in view:</strong> {esc(c["example"])}</p></details><aside class="prediction"><p><strong>Predict first.</strong> {guide["prediction"]}</p><details class="prediction-answer"><summary>Compare your reasoning</summary><p>{guide["explanation"]}</p></details></aside>'+manuscript
-  body+=chapter_simulations.render('information',stem,c['title'],c.get('question',''))+chapter_summary.render(SUMMARIES.get(stem))+chapter_exercises.render(stem,c['title'],EXERCISES.get(stem,[]),{el['id'] for el in soup.select('[id]')},search)
+  body+=chapter_summary.render(SUMMARIES.get(stem))+chapter_exercises.render(stem,c['title'],EXERCISES.get(stem,[]),{el['id'] for el in soup.select('[id]')},search)
   prev=CHAPTERS[i-2] if i>1 else None;nxt=CHAPTERS[i] if i<len(CHAPTERS) else None
   links=(f'<a rel="prev" href="{prev["stem"]}.html"><small>Previous chapter</small>{esc(prev["title"])} ←</a>' if prev else '<a href="index.html"><small>Course overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt["stem"]}.html"><small>Next chapter</small>{esc(nxt["title"])} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Course contents →</a>')
   body='<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">'+links+'</nav>'+body+'<nav class="chapter-pagination" aria-label="Chapter navigation">'+links+'</nav>'
