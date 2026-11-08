@@ -1,0 +1,149 @@
+{
+  "reviewed_on": "2026-11-08",
+  "problems": [
+    {
+      "id": "yang-mills",
+      "field": "Physics",
+      "problem": "Yang–Mills existence",
+      "question": "Can an interacting quantum Yang–Mills theory be constructed rigorously in four dimensions?",
+      "claimant": "OpenAI",
+      "status": "Partial resolution claimed",
+      "scope": "Existence only; the mass gap is not claimed. Materials are with an external working group.",
+      "source": "https://openai.com/index/building-scientific-understanding-with-academic-communities/#existence-of-quantum-chromodynamics-and-completions-of-the-standard-model",
+      "announced": "2026-10-26",
+      "article": "openai-yang-mills-existence",
+      "category": "claimed"
+    },
+    {
+      "id": "local-smoothing",
+      "field": "Mathematics",
+      "problem": "Local smoothing conjecture",
+      "question": "How much does averaging over time limit the concentration of waves?",
+      "claimant": "OpenAI",
+      "status": "Proof claimed",
+      "scope": "Claims a proof in all dimensions; a writeup and Lean artifacts are publicly released.",
+      "source": "https://openai.com/index/building-scientific-understanding-with-academic-communities/#local-smoothing-and-the-kakeya-conjecture",
+      "announced": "2026-10-26",
+      "article": null,
+      "category": "claimed"
+    },
+    {
+      "id": "kakeya",
+      "field": "Mathematics",
+      "problem": "Kakeya conjecture",
+      "question": "How small can a set containing a unit line segment in every direction be?",
+      "claimant": "OpenAI",
+      "status": "Consequence claimed",
+      "scope": "Claims the all-dimensional result as a consequence of its local-smoothing proof.",
+      "source": "https://openai.com/index/building-scientific-understanding-with-academic-communities/#local-smoothing-and-the-kakeya-conjecture",
+      "announced": "2026-10-26",
+      "article": null,
+      "category": "claimed"
+    },
+    {
+      "id": "restriction",
+      "field": "Mathematics",
+      "problem": "Stein’s restriction conjecture",
+      "question": "When can a Fourier transform be meaningfully restricted to a curved surface?",
+      "claimant": "OpenAI",
+      "status": "Consequence claimed",
+      "scope": "Also claimed as a consequence of the same local-smoothing result, not a separate AI discovery.",
+      "source": "https://openai.com/index/building-scientific-understanding-with-academic-communities/#local-smoothing-and-the-kakeya-conjecture",
+      "announced": "2026-10-26",
+      "article": null,
+      "category": "claimed"
+    },
+    {
+      "id": "eth",
+      "field": "Computer science",
+      "problem": "Exponential Time Hypothesis",
+      "question": "Must solving fixed-width SAT require exponential time in the worst case?",
+      "claimant": "OpenAI",
+      "status": "Refutation claimed",
+      "scope": "A proposed refutation is under external examination. This does not settle P versus NP.",
+      "source": "https://openai.com/index/building-scientific-understanding-with-academic-communities/#the-exponential-time-hypothesis-is-false",
+      "announced": "2026-10-26",
+      "article": "openai-exponential-time-hypothesis",
+      "category": "claimed"
+    },
+    {
+      "id": "aaronson-ambainis",
+      "field": "Quantum computing & information",
+      "problem": "Aaronson–Ambainis conjecture",
+      "question": "Does every bounded low-degree polynomial on the Boolean cube have an influential variable?",
+      "claimant": "Physical Superintelligence",
+      "status": "Proof claimed",
+      "scope": "PSI reports an AI-assisted proof with Lean artifacts, bearing on the structure needed for quantum query speedups.",
+      "source": "https://psi.inc/research/aaronson-ambainis/",
+      "announced": "2026-11-06",
+      "article": "psi-aaronson-ambainis-conjecture",
+      "category": "claimed"
+    },
+    {
+      "id": "p-vs-np",
+      "field": "Computer science",
+      "problem": "P versus NP",
+      "question": "Can every problem whose solutions can be checked efficiently also be solved efficiently?",
+      "scope": "A refutation of ETH would not answer this question.",
+      "category": "open",
+      "status": "Still open",
+      "source": "https://www.claymath.org/millennium-problems/",
+      "source_label": "Clay Mathematics Institute"
+    },
+    {
+      "id": "riemann",
+      "field": "Mathematics",
+      "problem": "Riemann hypothesis",
+      "question": "Do all nontrivial zeros of the Riemann zeta function lie on the critical line?",
+      "scope": "A central question about the distribution of prime numbers.",
+      "category": "open",
+      "status": "Still open",
+      "source": "https://www.claymath.org/millennium-problems/",
+      "source_label": "Clay Mathematics Institute"
+    },
+    {
+      "id": "hodge",
+      "field": "Mathematics",
+      "problem": "Hodge conjecture",
+      "question": "Which geometric features of a smooth projective complex variety come from algebraic cycles?",
+      "scope": "The general conjecture remains unresolved despite known special cases.",
+      "category": "open",
+      "status": "Still open",
+      "source": "https://www.claymath.org/millennium-problems/",
+      "source_label": "Clay Mathematics Institute"
+    },
+    {
+      "id": "birch-swinnerton-dyer",
+      "field": "Mathematics",
+      "problem": "Birch–Swinnerton-Dyer conjecture",
+      "question": "Does the behavior of an elliptic curve’s L-function determine the rank of its rational points?",
+      "scope": "The general conjecture remains open.",
+      "category": "open",
+      "status": "Still open",
+      "source": "https://www.claymath.org/millennium-problems/",
+      "source_label": "Clay Mathematics Institute"
+    },
+    {
+      "id": "yang-mills-mass-gap",
+      "field": "Physics",
+      "problem": "Yang–Mills mass gap",
+      "question": "Can one prove a positive energy gap above the vacuum in four-dimensional quantum Yang–Mills theory?",
+      "scope": "The existence claim above does not claim the mass gap required by the full Millennium Problem.",
+      "category": "open",
+      "status": "Still open",
+      "source": "https://www.claymath.org/millennium-problems/",
+      "source_label": "Clay Mathematics Institute"
+    },
+    {
+      "id": "quantum-pcp",
+      "field": "Quantum computing & information",
+      "problem": "Quantum PCP conjecture",
+      "question": "Is approximating the ground-state energy of a local quantum system with a constant error allowance per interaction still QMA-hard?",
+      "scope": "The Hamiltonian formulation remains an open target; progress on related formulations does not establish it.",
+      "category": "open",
+      "status": "Still open",
+      "source": "https://arxiv.org/abs/2403.04841",
+      "source_label": "Buhrman, Helsen & Weggemans (2025)"
+    }
+  ]
+}

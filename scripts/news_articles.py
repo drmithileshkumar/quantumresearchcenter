@@ -12,6 +12,7 @@ from companies import render_companies
 from paper_news import load_papers, long_date, paper_path, plain
 from site_navigation import site_navigation
 from tools import render_tools
+from ai_problem_claims import render_claims_home, render_claims_page
 
 TOPICS = {'discoveries': 'Discoveries', 'companies': 'Companies',
           'government': 'Government & Policy', 'projects': 'Projects & Infrastructure'}
@@ -80,6 +81,8 @@ def validate(articles, config, papers):
         for section in sections:
             if 'kicker' in section and (not isinstance(section['kicker'], str) or not section['kicker'].strip()):
                 raise ValueError('Section kicker must be plain text: ' + slug)
+            if 'card' in section and section['card'] is not True:
+                raise ValueError('Section card must be true when present: ' + slug)
             if 'asks' in section and (not strings(section['asks']) or not section['asks']):
                 raise ValueError('Section asks must be a nonempty list of strings: ' + slug)
             stats = section.get('stats')
@@ -221,6 +224,7 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
     render_conferences(root, shell)
     render_companies(root, shell)
     render_tools(root, shell)
+    render_claims_page(root, articles, shell)
 
     for source in ('index.html', 'news/index.html'):
         home = source == 'index.html'
@@ -230,8 +234,19 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
             body += lead_feature(root, featured, source)
         else:
             body += '<section class="empty-news"><h2>Quantum News</h2><p>Our first stories are on the way. Explore the research papers and courses below.</p></section>'
-        recent = [a for a in published if a != featured][:6]
-        body += '<section class="latest-stories"><div class="section-top"><div><p class="eyebrow">For curious minds</p><h2>News &amp; explainers</h2></div><a href="'+relative('news/articles/index.html', source)+'">All Quantum News ↗</a></div><div class="story-grid">'+''.join(card(a, source, thumbnail=first_figure(root, a)) for a in recent)+'</div></section>'
+        if home:
+            body += render_claims_home(root, articles)
+        for article_format, section_id, title, kicker in (
+            ('News', 'latest-news', 'News', 'Latest developments'),
+            ('Explainer', 'latest-explainers', 'Explainers', 'Understand the ideas'),
+        ):
+            selection = [a for a in published if a != featured and a['format'] == article_format][:3]
+            if not selection:
+                continue
+            body += (f'<section class="latest-stories" id="{section_id}" aria-labelledby="{section_id}-title">'
+                     f'<div class="section-top"><div><p class="eyebrow">{kicker}</p><h2 id="{section_id}-title">{title}</h2></div>'
+                     f'<a href="{relative("news/articles/index.html", source)}?format={article_format}">All {title.lower()} ↗</a></div>'
+                     '<div class="story-grid">' + ''.join(card(a, source, thumbnail=first_figure(root, a)) for a in selection) + '</div></section>')
         body += '<section class="explore-paths" aria-label="Explore quantum science"><div><p class="eyebrow">Build your understanding</p><h2>Start with a question.<br>Follow it further.</h2><p><a href="'+relative('conferences/index.html', source)+'">Find a quantum conference ↗</a></p></div><a href="'+relative('education/index.html', source)+'"><span>01 / Education</span><strong>Learn the foundations ↗</strong><p>Courses, worked examples, and interactive experiments.</p></a><a href="'+relative('research/index.html', source)+'"><span>02 / Research</span><strong>Explore open questions ↗</strong><p>Follow the ideas and mathematics behind our research.</p></a><a href="'+relative('map/index.html', source)+'"><span>03 / Maps</span><strong>See how ideas connect ↗</strong><p>An atlas of quantum topics, from foundations to technology.</p></a></section>'
         body += paper_preview(approved, source)
         shell(source, 'Quantum science, news & ideas' if home else 'News', 'Accessible quantum news and explainers, alongside technical research papers, courses, and open questions.', body)
@@ -289,7 +304,9 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
                 # Key numbers, set large, follow the first paragraph that introduces them.
                 stats = '<dl class="article-stats">'+''.join(f'<div><dt>{esc(x["label"])}</dt><dd>{esc(x["value"])}</dd></div>' for x in section['stats'])+'</dl>'
             parts = [p+'</p>' for p in paragraphs]
-            body += f'<section id="section-{i}"{" class=\"has-kicker\"" if kicker else ""}>{kicker}<h2>{esc(section["heading"])}</h2>'+parts[0]+stats+''.join(parts[1:])
+            # A run of "card" sections is a tutorial: one self-contained idea per card.
+            classes = ' '.join(c for c, on in (('has-kicker', kicker), ('concept-card', section.get('card'))) if on)
+            body += f'<section id="section-{i}"{f" class=\"{classes}\"" if classes else ""}>{kicker}<h2>{esc(section["heading"])}</h2>'+parts[0]+stats+''.join(parts[1:])
             table = section.get('table')
             if table:
                 head = ''.join(f'<th scope="col">{esc(c)}</th>' for c in table['columns'])

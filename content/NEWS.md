@@ -123,3 +123,28 @@ and sitemap. Unmanaged pages are never removed by this cleanup.
   the lead story falls back to the house illustration.
 - Body text uses the self-hosted Source Serif 4 (`fonts/`), with Georgia as
   the fallback.
+
+## AI problem claims register
+
+`content/ai-problem-claims.json` maintains the curated list at
+`/ai-problem-claims/`. The main homepage shows a compact introduction and link;
+the full list lives on the dedicated page. Each problem has a stable anchor
+based on its `id`, so links to individual problems survive future additions.
+Each entry records the problem, field, claimant, announcement date, primary-source
+URL, claim status, and scope. An optional `article` slug links to a published local
+explainer. Keep partial results and consequences explicit; do not label a claim
+an accepted solution solely because its authors report a formal proof. Update
+`reviewed_on` when checking the sources. The renderer validates dates, unique IDs,
+source URLs, and published explainer links.
+
+For new developments, update the relevant entry's status, scope, and source link
+and refresh `reviewed_on` after checking the sources. Keep its `id` and original
+`announced` date stable. Add new problems as new entries. Rebuild with
+`python3 scripts/build_all.py`, then run `python3 scripts/check_site.py`.
+
+Set `category` to `claimed` for the “Claimed by AI” section, or `open` for
+“Still open”. Claimed entries require `claimant` and `announced`; open entries
+require `source_label` and a source supporting the unresolved problem. Retain
+the stable `id` when moving an entry between sections. A partial claim and an
+unresolved remainder may have distinct entries, as with Yang–Mills existence
+and the mass gap; state the difference explicitly in their scope notes.

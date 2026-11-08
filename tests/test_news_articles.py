@@ -44,6 +44,23 @@ class NewsPublishingTests(unittest.TestCase):
         self.assertIn('<h1>Research Papers</h1>', output['news/papers/index.html'])
         self.assertIn('news/articles/index.html', output['index.html'])
 
+    def test_home_and_news_separate_news_from_explainers(self):
+        from bs4 import BeautifulSoup
+        output = self.render()
+        for source, archive in [('index.html', 'news/articles/index.html'),
+                                ('news/index.html', 'articles/index.html')]:
+            with self.subTest(source=source):
+                page = BeautifulSoup(output[source], 'html.parser')
+                for ident, label in [('latest-news', 'News'), ('latest-explainers', 'Explainer')]:
+                    section = page.find(id=ident)
+                    self.assertIsNotNone(section)
+                    cards = section.select('[data-article]')
+                    self.assertEqual(len(cards), 3)
+                    self.assertTrue(all(c['data-format'] == label for c in cards))
+                    self.assertIsNotNone(section.find('a', href=archive + '?format=' + label))
+                    self.assertFalse(section.select('.lead-story'))
+                self.assertNotIn('News & explainers', page.get_text())
+
     def test_draft_never_leaks_into_public_outputs(self):
         draft = copy.deepcopy(self.articles[0])
         draft.update(slug='private-draft', title='UNPUBLISHED SENTINEL', status='draft')

@@ -30,7 +30,7 @@ def ladder():
         ('1  Lattice in a finite box', 'Wilson 1974: well defined, computable', 'known'),
         ('2  Continuum limit, spacing → 0', 'short distances; asymptotic freedom', 'claimed'),
         ('3  Infinite volume, box → all space', 'long distances; no method was known', 'claimed'),
-        ('4  Axioms of a quantum field theory', 'reflection positivity → Minkowski QFT', 'unclear'),
+        ('4  Axioms of a quantum field theory', 'so a real-time quantum theory follows', 'unclear'),
         ('5  Mass gap Δ > 0', 'every excitation costs energy', 'not'),
     ]
     style = {
@@ -59,7 +59,7 @@ def ladder():
     bracket(1, 2, 'claimed', 'not yet public', 'fig-line-1')
     bracket(3, 3, 'not stated', 'publicly', 'fig-axis')
     bracket(4, 4, 'open', 'not claimed', 'fig-line-2')
-    out.append(text(20, H - 8, 'The Clay problem asks for steps 2–5 on ℝ⁴, for every gauge group', 'fig-muted'))
+    out.append(text(20, H - 8, 'Millennium problem: steps 2–5, every compact simple group', 'fig-muted'))
     return svg(W, H, ''.join(out))
 
 
@@ -84,7 +84,7 @@ def running():
     out.append(text((x0 + x1) / 2, H - 14, 'energy scale (log scale): higher energy = shorter distance', 'fig-muted', 'middle'))
     out.append(text(14, (y0 + y1) / 2, 'strength of the strong force', 'fig-muted', 'middle', f' transform="rotate(-90 14 {(y0 + y1) / 2:.1f})"'))
     es = [lo + i * (hi - lo) / 200 for i in range(201)]
-    out.append(path([(X(e), Y(alpha(10 ** e))) for e in es], 'fig-line-1', 'One-loop running coupling, five quark flavours, illustrative'))
+    out.append(path([(X(e), Y(alpha(10 ** e))) for e in es], 'fig-line-1', 'Leading-order coupling strength, illustrative'))
     mz = 91.19
     a_mz = alpha(mz)
     out.append(f'<circle cx="{X(math.log10(mz)):.1f}" cy="{Y(a_mz):.1f}" r="4.5" class="fig-fill-1"><title>About 0.118 at the Z boson mass, 91 GeV</title></circle>')
@@ -123,9 +123,73 @@ def blocking():
     return svg(W, H + 4, ''.join(out))
 
 
+def tex(x, y, plain, latex, cls='fig-label', anchor='start', width=None):
+    """A label typeset by MathJax on the page (data-tex); the plain text is the fallback and the accessible name."""
+    room = f' data-max-width="{width}"' if width else ''
+    return text(x, y, plain, cls, anchor, f' data-tex="{escape(latex)}"{room}')
+
+
+def arrow(x0, y0, x1, y1, cls):
+    """A straight link with a small arrowhead at its midpoint (drawn, not a marker: figures may not carry ids)."""
+    mx, my = (x0 + x1) / 2, (y0 + y1) / 2
+    dx, dy = (x1 - x0), (y1 - y0)
+    n = math.hypot(dx, dy)
+    ux, uy = dx / n, dy / n
+    tip = (mx + 5 * ux, my + 5 * uy)
+    left = (mx - 5 * ux - 4 * uy, my - 5 * uy + 4 * ux)
+    right = (mx - 5 * ux + 4 * uy, my - 5 * uy - 4 * ux)
+    head = f'<path d="M{left[0]:.1f},{left[1]:.1f} L{tip[0]:.1f},{tip[1]:.1f} L{right[0]:.1f},{right[1]:.1f}" class="{cls}"/>'
+    return f'<line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y1}" class="{cls}"/>' + head
+
+
+def plaquette():
+    """Wilson's lattice: a matrix on every link, and the product around one square."""
+    W, H = 400, 236
+    out = []
+    xs, ys, step = 40, 40, 64            # sites at xs + i*step, ys + j*step; y grows downwards
+    site = lambda i, j: (xs + i * step, ys + j * step)
+    for i in range(3):                    # the other links, faint
+        for j in range(3):
+            x, y = site(i, j)
+            if i < 2:
+                out.append(f'<line x1="{x}" y1="{y}" x2="{x + step}" y2="{y}" class="fig-grid"/>')
+            if j < 2:
+                out.append(f'<line x1="{x}" y1="{y}" x2="{x}" y2="{y + step}" class="fig-grid"/>')
+    A, B, C, D = site(0, 2), site(1, 2), site(1, 1), site(0, 1)   # the square, counter-clockwise from x
+    out.append(f'<rect x="{D[0]}" y="{D[1]}" width="{step}" height="{step}" class="fig-wash-1"/>')
+    # Links point in the +mu (right) and +nu (up) directions; the loop runs A -> B -> C -> D -> A.
+    out.append('<g><title>The four edges around one square</title>'
+               + arrow(*A, *B, 'fig-line-1') + arrow(*B, *C, 'fig-line-1')
+               + arrow(*D, *C, 'fig-line-1') + arrow(*A, *D, 'fig-line-1') + '</g>')
+    for i in range(3):
+        for j in range(3):
+            out.append(f'<circle cx="{site(i, j)[0]}" cy="{site(i, j)[1]}" r="3.2" class="fig-node"/>')
+    out.append(tex((A[0] + B[0]) / 2, A[1] + 22, 'U1', 'U_1', anchor='middle'))
+    out.append(tex(B[0] + 8, (B[1] + C[1]) / 2 + 4, 'U2', 'U_2'))
+    out.append(tex((D[0] + C[0]) / 2, D[1] - 9, 'U3', 'U_3', anchor='middle'))
+    out.append(tex(A[0] - 8, (A[1] + D[1]) / 2 + 4, 'U4', 'U_4', anchor='end'))
+    out.append(tex((D[0] + C[0]) / 2, (D[1] + A[1]) / 2 + 5, 'Up', 'U_p', 'fig-text', 'middle'))
+    out.append(tex(A[0] - 6, A[1] + 18, 'x', 'x', 'fig-muted', 'end'))
+    # spacing
+    sx, sy = site(1, 2), site(2, 2)
+    out.append(f'<path d="M{sx[0]},{sx[1] + 26} H{sy[0]}" class="fig-axis"/>')
+    out.append(tex((sx[0] + sy[0]) / 2, sx[1] + 42, 'a', 'a', 'fig-muted', 'middle'))
+    # the formulas
+    X = 214
+    out.append(text(X, 40, 'on each edge: a matrix in SU(N)', 'fig-muted', extra=f' data-math="{escape(r"on each edge: a matrix in \(\mathrm{SU}(N)\)")}"'))
+    out.append(tex(X, 62, 'U(x,mu) ≈ exp(a A_mu(x))', r'U_{x,\mu}\approx e^{\,a A_\mu(x)}', width=170))
+    out.append(text(X, 102, 'around a square', 'fig-muted'))
+    out.append(tex(X, 124, 'Up = U1 U2 U3^-1 U4^-1', r'U_p = U_1U_2U_3^{-1}U_4^{-1}', width=170))
+    out.append(tex(X, 150, '≈ exp(a² F_mu,nu(x))', r'\approx e^{\,a^2F_{\mu\nu}(x)}', width=170))
+    out.append(text(X, 190, 'Wilson action', 'fig-muted'))
+    out.append(tex(X, 212, 'beta Σ_p (1 − Re tr Up / N)', r'\beta\sum_p\bigl(1-\tfrac1N\operatorname{Re}\operatorname{tr}U_p\bigr)', width=176))
+    return svg(W, H, ''.join(out))
+
+
 if __name__ == '__main__':
     (HERE / 'ladder.svg').write_text(ladder())
     r, a_mz = running()
     (HERE / 'running.svg').write_text(r)
     (HERE / 'blocking.svg').write_text(blocking())
+    (HERE / 'plaquette.svg').write_text(plaquette())
     print(f'alpha_s(M_Z) one-loop illustrative: {a_mz:.4f}')
