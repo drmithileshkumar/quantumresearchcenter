@@ -1,0 +1,45 @@
+{
+  "id": "2611.07388",
+  "topic": "computing",
+  "title": "Certifying the Rydberg-exposure limit of a globally driven controlled-Z gate",
+  "authors": "Yusheng Zhao; Han Wang; Mingrui Jing; Zhongyi Ni; Xin Wang; Jie Wang; Jinguo Liu",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory and computer-assisted proof",
+  "problem": "Neutral-atom CZ gates excite atoms to Rydberg states, and decay from those states is a leading source of gate error and atom loss, with loss probability about \\(\\Gamma T_R\\) for average Rydberg time \\(T_R\\). Can pulse shaping and longer gates make the exposure \\(C=\\Omega_{\\max}T_R\\) arbitrarily small when one global laser drives both atoms, with perfect blockade? Numerical optimal control had reached \\(C\\approx2.936\\), but no lower bound valid for all pulses existed.",
+  "result": "No: for every exact globally driven CZ gate in the perfect-blockade model, of any duration, \\(2.9312\\le C_*<2.9359\\). The lower bound comes from a sum-of-squares certificate verified exactly over \\(\\mathbb Q(\\sqrt2)\\); the upper bound from an interval-arithmetic (Krawczyk) proof that an exact CZ pulse exists near a numerical candidate. The unrounded bounds differ by less than 0.16%.",
+  "significance": "It settles that the shared drive, which couples the one-excitation and two-excitation sectors with ratio \\(\\sqrt2\\), imposes an irreducible decay cost, and that published low-exposure pulses are already within about 0.2% of it. Further reductions require changing the physics: higher laser power, longer-lived states, individual addressing, or finite blockade. With independent controls per sector, the infimum would be zero.",
+  "limitations": "The bound holds for the idealised model: perfect blockade, a single global laser with bounded Rabi frequency and arbitrary phase, two atoms, and first-order decay \\(\\Gamma T_R\\). Whether site-resolved fields, auxiliary dressing or finite blockade can go lower is open. Exposure is one error source; duration-dependent technical errors favour shorter gates, and the trade-off is only illustrated for two pulses.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-08: Sections I–V and the statements of Appendices A, E and F. The exact certificate verification (Appendix C) was not rerun. An independent 48-segment phase-pulse optimisation reached \\(C\\approx2.9366\\) at \\(S\\approx7.745\\), consistent with the certified window; no AI-use statement was found.",
+  "verified_on": "2026-11-08",
+  "methods_source_section": "Sections II.2, III.1 and IV.1",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A global laser couples \\(|1\\rangle\\leftrightarrow|r\\rangle\\) on both atoms with envelope \\(\\Omega(t)\\le\\Omega_{\\max}\\) and phase \\(\\chi(t)\\). With perfect blockade, \\(|00\\rangle\\) is untouched, \\(|01\\rangle\\) and \\(|10\\rangle\\) are two-level systems driven at \\(\\Omega\\), and \\(|11\\rangle\\) couples to \\((|1r\\rangle+|r1\\rangle)/\\sqrt2\\) at \\(\\sqrt2\\Omega\\). The gate is a CZ, up to single-qubit \\(Z\\) rotations, when both sectors return to the ground manifold with phases satisfying \\(\\Phi_2-2\\Phi_1\\equiv\\pi\\). The cost is the input-averaged Rydberg population integrated over time, made dimensionless as \\(C=\\Omega_{\\max}T_R\\).",
+    "Throttling the laser never helps: reparameterising by accumulated pulse area shows that any pulse can be replaced by a full-amplitude, phase-only pulse with the same gate and no more exposure. For a single atom, exposure can be made arbitrarily small with long detuned pulses, and the same holds if the two sectors had independent controls. The floor therefore comes from one phase profile driving two sectors at different Rabi rates.",
+    "The lower bound uses a function \\(W\\) on the state space that never decreases faster than exposure accumulates and vanishes on the CZ target set; integrating gives \\(C\\ge W(\\mathbf x_0)\\) for every pulse. Searching over polynomial \\(W\\) with sum-of-squares positivity certificates is a semidefinite program, reduced by phase and reflection symmetries and sharpened by partitioning the cumulative exposure into intervals. The resulting dual certificate is checked exactly in \\(\\mathbb Q(\\sqrt2)\\) at order 7, and a slack argument from the shared-drive constraints lifts it to \\(2.9312\\).",
+    "For the upper bound, a 7.74-unit piecewise-constant phase pulse is refined, and interval arithmetic proves that an exact solution of the five closure equations exists within a small box of parameters and realises phase \\(\\pi\\), not 0. The exposure over the whole box is below \\(2.935875\\). The authors also prove that the hierarchy converges to \\(C_*\\) as the degree grows, though higher orders are costly. A near-optimal pulse shows a flat exposure minimum over durations 7.7 to 8.5, slightly longer than the time-optimal gate."
+  ],
+  "methods": [
+    {
+      "technique": "Exposure lower bounds from a value-function certificate",
+      "explanation": "To bound the cost of every possible pulse, one cannot optimise over pulses. Instead one finds a function of the state alone that underestimates the remaining cost from any point: if exposure always accrues at least as fast as this function falls, the function's value at the start is a lower bound for every trajectory, of any length.",
+      "math": [
+        "Require \\(W\\le0\\) on the CZ target set and \\(\\frac{dW}{ds}\\ge-c(\\mathbf x)\\) along every admissible motion, where \\(c=(2|r_1|^{2}+|r_2|^{2})/4\\). Then for any pulse of active duration \\(S\\), \\[C[u]=\\int_0^S c\\,ds\\ \\ge\\ W(\\mathbf x_0)-W(\\mathbf x(S))\\ \\ge\\ W(\\mathbf x_0).\\] With \\(W=-n-V\\) and polynomial \\(V\\), the two conditions become \\(c-\\nabla V\\cdot f(\\mathbf x,u)\\ge0\\) on the state–control set and \\(V+n\\ge0\\) on the target; requiring each to be a sum of squares of polynomials makes the search for \\((V,n)\\) a semidefinite program.",
+        "Editorial remark: the argument never fixes the duration \\(S\\), which is why it covers arbitrarily long gates. That matters because the cost vanishes on the ground manifold, so a naive time-bounded relaxation could miss pulses that linger there."
+      ],
+      "transfer": "For any infinite-horizon control question of the form \"can this cost be made arbitrarily small?\", a polynomial sub-solution of the Hamilton–Jacobi inequality, certified by sum-of-squares, gives a duration-independent lower bound that can be checked exactly in rational arithmetic."
+    },
+    {
+      "technique": "Interval-certified existence of an exact pulse",
+      "explanation": "A floating-point pulse with tiny residuals is not a proof that an exact gate exists nearby. The upper bound needs one: the Krawczyk test turns rigorous enclosures of the dynamics over a small parameter box into a proof that the closure equations have a root inside it.",
+      "math": [
+        "With five parameters (the duration and four segment phases) and five real conditions (real and imaginary parts of \\(r_1(S)\\), \\(r_2(S)\\), and \\(\\operatorname{Im}(g_2\\bar g_1^{2})=0\\)), the Krawczyk operator \\[K(X)=\\hat x-YF(\\hat x)+(I-YF'(X))(X-\\hat x),\\] with \\(Y\\) an approximate inverse Jacobian, satisfies \\(K(X)\\subset\\operatorname{int}X\\) only if \\(F\\) has a unique zero in \\(X\\). The authors also verify \\(\\operatorname{Re}(g_2\\bar g_1^{2})<0\\) on the box, which selects phase \\(\\pi\\), and enclose the exposure over the box below \\(2.935875\\).",
+        "Editorial check: an independent optimisation of 48 piecewise-constant phase segments reaches \\(C\\approx2.9366\\) at \\(S\\approx7.745\\) with closure residual \\(2\\times10^{-9}\\), and \\(2.9381\\) at \\(S\\approx8.39\\), consistent with the certified window and the reported flat minimum."
+      ],
+      "transfer": "Whenever an optimum is quoted from numerics, interval Newton or Krawczyk tests can certify that an exact feasible point exists next to the candidate, turning a numerical upper bound into a theorem at modest cost."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-08"
+}

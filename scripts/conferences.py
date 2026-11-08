@@ -54,8 +54,8 @@ def render_conferences(root, shell):
     def options(values):
         return ''.join(f'<option value="{e(str(v))}">{e(str(v))}</option>' for v in values)
     body = f'''
-<header class="editorial-intro conference-intro"><p class="eyebrow">The quantum community / Conferences</p><h1>Where quantum<br><span>ideas meet.</span></h1><p>A curated collection of quantum computing and quantum information conferences. Find your field, choose a destination, and plan your next conversation.</p></header>
-<p class="directory-note">Explore the wider community: <a href="../companies/index.html">Quantum companies by country ↗</a></p>
+<header class="editorial-intro conference-intro"><p class="eyebrow">Directory / Conferences</p><h1>Quantum computing and information conferences</h1><p>A checked list of conferences, with dates, location, selection process, and the reason each is listed.</p></header>
+<p class="directory-note">Also in this directory: <a href="../companies/index.html">quantum companies by country ↗</a></p>
 <div class="conference-stats" aria-label="Collection summary"><p><strong>{len(events):02}</strong> conferences</p><p><strong>{len(countries):02}</strong> countries</p><p><strong id="upcoming-count">{upcoming:02}</strong> upcoming / in progress</p><p class="verified">Sources checked<br><time datetime="{checked}">{date.fromisoformat(checked):%d %B %Y}</time></p></div>
 {render_map(root, events)}
 <form id="conference-filters" class="conference-filters" hidden aria-label="Filter conferences">
@@ -88,7 +88,7 @@ def render_conferences(root, shell):
 <div class="event-footer"><span class="quality-tag">{e(c['quality'])}</span><a href="{e(c['source'])}">Official source ↗</a><span>Checked {c['checked']}</span></div>
 <details class="quality-detail"><summary>Why this category?</summary><p>{e(c['quality_reason'])}</p></details></div></article>'''
     body += '''</div><div id="no-results" class="no-results" hidden><h3>No conferences match these filters.</h3><p>Try another country, broaden your dates, or reset the filters.</p><button id="clear-empty" type="button">Reset filters</button></div>
-<section class="quality-guide" aria-labelledby="quality-heading"><p class="eyebrow">A guide, not a league table</p><h2 id="quality-heading">How we describe quality</h2><p>Categories are editorial judgments based on the series’ track record, scientific focus, programme, and organizers. They are not official rankings, acceptance-rate estimates, or guarantees of an individual talk’s quality. Industry forums serve a different purpose from research conferences.</p><dl>'''
+<section class="quality-guide" aria-labelledby="quality-heading"><p class="eyebrow">Method</p><h2 id="quality-heading">How quality is described</h2><p>Categories are editorial judgments based on the series’ track record, scientific focus, programme, and organizers. They are not official rankings, acceptance-rate estimates, or guarantees of an individual talk’s quality. Industry forums serve a different purpose from research conferences.</p><dl>'''
     body += ''.join(f'<div><dt>{e(label)}</dt><dd>{e(description)}</dd></div>' for label, description in QUALITY.items())
     body += '</dl><p>This is a selective directory, not a complete global calendar. Each entry links to its organizer or institutional source. Dates pending means that an edition is announced but exact dates were not confirmed in the cited source.</p></section><noscript><p>All conferences are shown. Enable JavaScript to filter and sort the collection.</p></noscript>'
-    shell('conferences/index.html', 'Quantum conferences', 'Explore quantum computing and information conferences by country, date, quality category, and research focus.', body, assets='<link rel="stylesheet" href="conferences.css"><script defer src="conferences.js"></script>')
+    shell('conferences/index.html', 'Quantum conferences', 'Quantum computing and information conferences listed by country, date, quality category, and research focus.', body, assets='<link rel="stylesheet" href="conferences.css"><script defer src="conferences.js"></script>')

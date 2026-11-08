@@ -849,7 +849,7 @@ def render_two_qubit(root, shell):
                   '</div>')
     body = (
         '<header class="editorial-intro compact qubit-intro"><p class="eyebrow">Tools / Two-qubit state</p>'
-        '<h1>The state is<br><span>four arrows.</span></h1>'
+        '<h1>A two-qubit state in one plane</h1>'
         '<p>A two-qubit state is four complex numbers, and a complex number is a vector. So the whole state fits'
         ' in one ordinary plane: four arrows whose lengths are the magnitudes and whose angles are the phases.'
         ' Gates turn and add those arrows; the fifth, heavy arrow measures how entangled the pair is. Below the'
@@ -1065,7 +1065,7 @@ def render_three_qubit(root, shell):
     pairs = ''.join(f'<option value="{key}">{label}</option>' for key, label in THREE_TWO_QUBIT)
     body = (
         '<header class="editorial-intro compact qubit-intro"><p class="eyebrow">Tools / Three-qubit state</p>'
-        '<h1>One qubit as<br><span>the reference.</span></h1>'
+        '<h1>A three-qubit state with one reference qubit</h1>'
         '<p>A three-qubit pure state is eight complex numbers, so it is eight arrows in one plane. Choose'
         ' one qubit as the reference and the same state reads |0⟩|φ₀⟩ + |1⟩|φ₁⟩: two two-qubit states, one'
         ' for each value of that qubit. Each branch has its own Schmidt bases and contributes four endpoints;'
@@ -1311,7 +1311,8 @@ def tool_card(index, tool, source):
             f'<div class="tool-body"><p class="tool-status">{e(tool["kind"])}</p>'
             f'<h3><a href="{e(relative(tool["href"], source))}">{e(tool["title"])}</a></h3>'
             f'<p class="tool-summary">{e(tool["summary"])}</p>'
-            f'<ul class="tool-features">{features}</ul></div></li>')
+            f'<details class="tool-capabilities"><summary>Explore the controls</summary>'
+            f'<ul class="tool-features">{features}</ul></details></div></li>')
 
 
 def rotation_controls():
@@ -1636,7 +1637,7 @@ def render_majorana(root, shell):
                    '</div>')
     body = ('<header class="editorial-intro compact qubit-intro">'
             '<p class="eyebrow">Tools / Majorana constellation</p>'
-            '<h1>n spins, n points.</h1>'
+            '<h1>A symmetric state as n points</h1>'
             r'<p>A symmetric state of \(n\) qubits is not a list of \(2^n\) amplitudes: it is \(n\)'
             ' directions on one sphere. Drag a star, or prepare a known state, and the symmetric state — its Dicke'
             ' amplitudes, its collective spin and its distance from the nearest product state — follows. The'
@@ -1720,7 +1721,7 @@ def render_majorana(root, shell):
             ' cannot determine it; extending the picture to non-symmetric states needs more data than one point'
             ' per spin, and is the next step planned for this tool.</p></section>')
     shell('tools/majorana.html', 'Majorana constellation explorer',
-          'Draw a symmetric n-qubit state as n points on the Bloch sphere: drag the Majorana stars and read the state, the collective spin and the geometric measure of entanglement.',
+          'A symmetric n-qubit state drawn as one point per spin on the Bloch sphere: drag the stars and read the amplitudes, the collective spin and the geometric measure of entanglement.',
           body, assets='<link rel="stylesheet" href="tools.css"><script defer src="majorana.js"></script>')
 
 
@@ -1730,16 +1731,21 @@ def render_tools(root, shell):
     e = escape
     count = len(data['tools'])
     index_body = ('<header class="editorial-intro"><p class="eyebrow">Tools / Interactive models</p>'
-                  '<h1>Quantum states<br><span>you can move.</span></h1>'
+                  '<h1>Interactive models of quantum states</h1>'
                   f'<p>{e(data["intro"])}</p></header>'
+                  '<aside class="tool-start" aria-labelledby="tool-start-title">'
+                  '<h2 id="tool-start-title">Start with one qubit</h2>'
+                  '<p>Move a state on the Bloch sphere, apply a gate, and compare the amplitudes. '
+                  'Then explore how the picture changes for two or more qubits.</p>'
+                  '<a href="single-qubit.html">Open the single-qubit explorer ↗</a></aside>'
                   '<section class="tool-catalog" id="tools" aria-labelledby="tools-heading"><div class="section-top"><div>'
-                  '<p class="eyebrow">Available now</p><h2 id="tools-heading">The tools</h2></div>'
+                  '<p class="eyebrow">Available</p><h2 id="tools-heading">The models</h2></div>'
                   f'<span class="tool-count">{count:02} tool{"" if count == 1 else "s"}</span></div>'
                   f'<ol class="tool-list">{"".join(tool_card(n, tool, "tools/index.html") for n, tool in enumerate(data["tools"], 1))}</ol>'
                   '</section><section class="tool-planned" id="planned" aria-labelledby="planned-heading">'
-                  '<p class="eyebrow">In development</p><h2 id="planned-heading">Next on the bench</h2>'
-                  '<p class="tool-planned-intro">These follow the same rule as the single-qubit sphere: one idea,'
-                  ' every control exposed, and the mathematics visible next to the picture.</p><ul>'
+                  '<p class="eyebrow">Planned</p><h2 id="planned-heading">In preparation</h2>'
+                  '<p class="tool-planned-intro">Each will follow the rule used above: one idea, every parameter'
+                  ' exposed, and the mathematics beside the picture.</p><ul>'
                   + ''.join(f'<li><h3>{e(item["title"])}</h3><p>{e(item["summary"])}</p></li>'
                             for item in data['planned'])
                   + '</ul></section>'
@@ -1871,7 +1877,7 @@ def render_tools(root, shell):
                  ' provide. Measurements here use your browser\'s random number generator, so a short run of'
                  ' outcomes can look surprising: that is statistics, not a bias.</p></section>')
     shell('tools/single-qubit.html', 'Single-qubit state visualizer',
-          'Explore a single qubit on the Bloch sphere: drag the state vector, apply gates, and measure the resulting probabilities.',
+          'A single qubit on the Bloch sphere: drag the state, apply gates, and measure the resulting probabilities.',
           tool_body, assets='<link rel="stylesheet" href="tools.css"><script defer src="single-qubit.js"></script>')
     render_two_qubit(root, shell)
     render_three_qubit(root, shell)

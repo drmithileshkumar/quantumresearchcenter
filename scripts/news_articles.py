@@ -168,7 +168,7 @@ def card(article, source, featured=False, thumbnail=''):
             f'<{heading}><a href="{url}">{esc(article["title"])}</a></{heading}>'
             f'<p class="story-summary">{esc(article["summary"])}</p>'
             f'<p class="story-meta">{metadata(article)}</p>'
-            + (f'<a class="story-read" href="{url}">Read the story <span aria-hidden="true">↗</span></a>' if featured else '') + '</article>')
+            + (f'<a class="story-read" href="{url}">Read the article <span aria-hidden="true">↗</span></a>' if featured else '') + '</article>')
 
 
 def lead_feature(root, article, source):
@@ -191,7 +191,7 @@ def stream_nav(source, active=''):
 
 def paper_preview(papers, source):
     items = ''.join(f'<li><p class="story-label">Research paper · Selected {long_date(p["approved_on"])}</p><h3><a href="{relative(paper_path(p), source)}">{esc(p["title"])}</a></h3><p>{esc(plain(p["problem"]))}</p></li>' for p in papers[:3])
-    return '<section class="paper-digest" aria-labelledby="papers-heading"><div class="section-top"><div><p class="eyebrow">Go deeper</p><h2 id="papers-heading">Latest research papers</h2></div><a href="'+relative('news/papers/index.html', source)+'">Browse research papers ↗</a></div><p class="section-intro">Technical summaries, methods, and limitations for researchers and advanced readers.</p><ol>'+items+'</ol>'+('' if items else '<p>No research papers have been selected yet.</p>')+'</section>'
+    return '<section class="paper-digest" aria-labelledby="papers-heading"><div class="section-top"><div><p class="eyebrow">Papers</p><h2 id="papers-heading">Recently selected papers</h2></div><a href="'+relative('news/papers/index.html', source)+'">All selected papers ↗</a></div><p class="section-intro">Technical summaries, methods, and limitations for researchers and advanced readers.</p><ol>'+items+'</ol>'+('' if items else '<p>No research papers have been selected yet.</p>')+'</section>'
 
 
 def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
@@ -217,6 +217,7 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
                    f'<script defer src="{up}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>') if '\\(' in body or '\\[' in body else ''
         rss_news = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none"/><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/></svg>'
         rss_papers = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4M14 3l4 4v4M14 3v4h4"/><circle cx="14.5" cy="19.5" r="1.2" fill="currentColor" stroke="none"/><path d="M14 15.5a4.5 4.5 0 0 1 4.5 4.5M14 12a8 8 0 0 1 8 8"/></svg>'
+        assets += f'<link rel="stylesheet" href="{up}news/refinements.css">'
         outputs[source] = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} | Quantum Research Center</title><meta name="description" content="{esc(description)}"><link rel="canonical" href="{canonical}">{social_meta(title, description, canonical, 'article' if article else 'website')}{json_ld(structured)}<link rel="icon" href="{up}icons/icon.svg"><link rel="alternate" type="application/rss+xml" title="Quantum News" href="{up}news/articles/feed.xml"><link rel="alternate" type="application/rss+xml" title="Research Papers" href="{up}news/feed.xml"><script src="{up}education/computing/assets/theme.js"></script><script src="{up}navigation.js"></script><link rel="stylesheet" href="{up}styles.css"><link rel="stylesheet" href="{up}news/editorial.css"><script defer src="{up}news/articles.js"></script>{mathjax}{assets}</head>
 <body class="editorial"><a class="skip-link" href="#main">Skip to content</a><header class="toolbar editorial-header">{site_logo('editorial-brand',up+'index.html')}{nav}</header><main id="main" tabindex="-1" class="editorial-main">{body}</main><footer class="editorial-footer"><div><strong>Quantum Research Center</strong><p>News, learning, and inquiry into quantum science.</p></div><nav aria-label="Footer">{website_map}<a href="{up}conferences/index.html">Conferences</a><a href="{up}companies/index.html">Companies</a><a href="{up}references/index.html">Bibliography</a><a href="mailto:{book['email']}">Contact</a><a class="footer-icon" href="{up}news/articles/feed.xml" aria-label="Quantum News RSS" title="Quantum News RSS">{rss_news}</a><a class="footer-icon" href="{up}news/feed.xml" aria-label="Research Papers RSS" title="Research Papers RSS">{rss_papers}</a></nav></footer></body></html>'''
@@ -228,8 +229,20 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
 
     for source in ('index.html', 'news/index.html'):
         home = source == 'index.html'
-        body = '<header class="editorial-intro"><p class="eyebrow">Quantum Research Center / '+('The wider picture' if home else 'News desk')+'</p><h1>'+('Quantum science.<br><span>In perspective.</span>' if home else 'Follow the quantum world.')+'</h1><p>Discoveries, people, and projects shaping quantum technology. Clear explanations, with a path to the research behind them.</p></header>'
+        body = '<header class="editorial-intro"><p class="eyebrow">Quantum Research Center'+('' if home else ' / News')+'</p><h1>'+(
+            'Research, teaching, and reference material in quantum science'
+            if home else 'Quantum News')+'</h1><p>'+(
+            'News summaries with the paper or announcement behind them, course texts that work through the'
+            ' mathematics, interactive models of quantum states, and a bibliography.'
+            if home else
+            'Summaries of reported results in quantum science, each with the source it rests on and the'
+            ' scope the source states.')+'</p></header>'
         body += stream_nav(source, '' if home else 'all')
+        if home:
+            body += ('<nav class="start-paths" aria-label="Choose where to start">'
+                     '<a href="education/computing/index.html"><span>Learn</span>Follow the quantum computing course <span aria-hidden="true">↗</span></a>'
+                     '<a href="tools/index.html"><span>Experiment</span>Explore quantum states interactively <span aria-hidden="true">↗</span></a>'
+                     '<a href="research/index.html"><span>Investigate</span>Browse research questions <span aria-hidden="true">↗</span></a></nav>')
         if featured:
             body += lead_feature(root, featured, source)
         else:
@@ -237,8 +250,8 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
         if home:
             body += render_claims_home(root, articles)
         for article_format, section_id, title, kicker in (
-            ('News', 'latest-news', 'News', 'Latest developments'),
-            ('Explainer', 'latest-explainers', 'Explainers', 'Understand the ideas'),
+            ('News', 'latest-news', 'News', 'Latest'),
+            ('Explainer', 'latest-explainers', 'Explainers', 'Background'),
         ):
             selection = [a for a in published if a != featured and a['format'] == article_format][:3]
             if not selection:
@@ -247,19 +260,20 @@ def render_editorial(root, outputs, book, site_logo, social_meta, json_ld):
                      f'<div class="section-top"><div><p class="eyebrow">{kicker}</p><h2 id="{section_id}-title">{title}</h2></div>'
                      f'<a href="{relative("news/articles/index.html", source)}?format={article_format}">All {title.lower()} ↗</a></div>'
                      '<div class="story-grid">' + ''.join(card(a, source, thumbnail=first_figure(root, a)) for a in selection) + '</div></section>')
-        body += '<section class="explore-paths" aria-label="Explore quantum science"><div><p class="eyebrow">Build your understanding</p><h2>Start with a question.<br>Follow it further.</h2><p><a href="'+relative('conferences/index.html', source)+'">Find a quantum conference ↗</a></p></div><a href="'+relative('education/index.html', source)+'"><span>01 / Education</span><strong>Learn the foundations ↗</strong><p>Courses, worked examples, and interactive experiments.</p></a><a href="'+relative('research/index.html', source)+'"><span>02 / Research</span><strong>Explore open questions ↗</strong><p>Follow the ideas and mathematics behind our research.</p></a><a href="'+relative('map/index.html', source)+'"><span>03 / Maps</span><strong>See how ideas connect ↗</strong><p>An atlas of quantum topics, from foundations to technology.</p></a></section>'
+        body += '<section class="explore-paths" aria-label="Sections of the site"><div><p class="eyebrow">Sections</p><h2>Education, research, and topic maps</h2><p><a href="'+relative('conferences/index.html', source)+'">Quantum conferences ↗</a></p></div><a href="'+relative('education/index.html', source)+'"><span>01 / Education</span><strong>Courses and experiments ↗</strong><p>Course texts, worked examples, and interactive experiments.</p></a><a href="'+relative('research/index.html', source)+'"><span>02 / Research</span><strong>Research questions ↗</strong><p>Questions developed as models, calculations, and open problems.</p></a><a href="'+relative('map/index.html', source)+'"><span>03 / Maps</span><strong>Topic maps ↗</strong><p>Quantum topics arranged from broad areas to narrower ones.</p></a></section>'
         body += paper_preview(approved, source)
-        shell(source, 'Quantum science, news & ideas' if home else 'News', 'Accessible quantum news and explainers, alongside technical research papers, courses, and open questions.', body)
+        shell(source, 'Quantum science: news, courses, and reference' if home else 'News',
+              'Reported results in quantum science with their sources, alongside research papers, courses, and reference material.', body)
 
     source = 'news/articles/index.html'
-    body = '<header class="editorial-intro compact"><p class="eyebrow">For curious minds</p><h1>Quantum News</h1><p>Progress in quantum science, explained. Explore discoveries, companies, public programmes, and the ideas behind the headlines.</p></header>'+stream_nav(source, 'articles')
+    body = '<header class="editorial-intro compact"><p class="eyebrow">News</p><h1>Quantum News</h1><p>Summaries of reported results, appointments, and public programmes in quantum science, with the paper or announcement each one rests on.</p></header>'+stream_nav(source, 'articles')
     body += '<section class="article-filters" aria-label="Filter articles" hidden><label>Search articles<input id="article-search" type="search" placeholder="Search headlines and summaries…"></label><label>Topic<select id="article-topic"><option value="all">All topics</option>'+''.join(f'<option value="{key}">{esc(label)}</option>' for key, label in TOPICS.items())+'</select></label><label>Format<select id="article-format"><option value="all">All formats</option>'+''.join(f'<option>{label}</option>' for label in FORMATS)+'</select></label><p id="article-count" role="status"></p></section>'
     if featured:
         body += lead_feature(root, featured, source)
     body += '<section aria-label="Articles" class="story-grid article-list">'+''.join(card(a, source, thumbnail=first_figure(root, a)) for a in published if a != featured)+'</section>'
     if not published:
         body += '<p>Our first stories are on the way. <a href="../papers/index.html">Explore research papers →</a></p>'
-    shell(source, 'Quantum News', 'Quantum discoveries, companies, government programmes, and explainers for curious readers.', body)
+    shell(source, 'Quantum News', 'Reported results, companies, public programmes, and background articles in quantum science, each with its source.', body)
 
     by_slug = {a['slug']: a for a in published}
     by_id = {p['id']: p for p in approved}

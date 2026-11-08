@@ -60,6 +60,7 @@ def inline_figures(soup):
   img.replace_with(BeautifulSoup(svg,'html.parser'))
 def shell(stem,title,body,data,styles=(),scripts=(),classes=()):
  css=''.join(f'<link rel="stylesheet" href="{s}">' for s in dict.fromkeys(['assets/source/slides.css','assets/source/classical.css','assets/source/math.css',*styles,*(['assets/topic-map.css'] if stem=='index' or stem in {m[0] for m in META} else []),'assets/book.css','../../styles.css','assets/learning.css']))
+ css+='<link rel="stylesheet" href="assets/reader.css">'
  js=''.join(f'<script defer src="{s}"></script>' for s in ['assets/source/mathjax-config.js','assets/source/vendor/mathjax/tex-svg.js',*scripts,'assets/experiments.js','assets/search-index.js','assets/book.js','assets/learning.js'])
  return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Quantum computing from classical computation and logic to quantum states, circuits, and algorithms, by Mithilesh Kumar."><title>{esc(title)} · Quantum Computing</title><link rel="icon" href="../../icons/icon.svg"><link rel="canonical" href="https://quantumresearch.center/education/computing/{"" if stem=="index" else stem+".html"}"><script src="assets/theme.js"></script><script src="../../navigation.js"></script>{css}{js}</head>

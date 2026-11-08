@@ -1,0 +1,45 @@
+{
+  "id": "2611.07545",
+  "topic": "information",
+  "title": "Efficient Pauli truncation from operator stabilizer Rényi entropy",
+  "authors": "Haihui Wang; Yongming Li",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Classical simulation by Pauli propagation evolves an observable in the Heisenberg picture and keeps only its \\(\\chi\\) largest Pauli coefficients. The operator stabilizer Rényi entropy (OSE) \\(M^{(\\alpha)}\\), the Rényi entropy of the squared Pauli coefficients, measures how spread out those coefficients are. For which Rényi indices does slow OSE growth guarantee that polynomially many terms give accurate expectation values for every input state, and when does fast growth rule it out?",
+  "result": "Linear growth of \\(M^{(1)}\\), or power-law growth of \\(M^{(\\alpha)}\\) for \\(\\alpha>1\\), forces superpolynomially many terms for a fixed error over all states. Logarithmic growth for \\(0<\\alpha<1/2\\) guarantees polynomially many terms suffice for every state, and the range is sharp: the operator \\(I-2|0^N\\rangle\\langle0^N|\\) has bounded OSE for every \\(\\alpha\\ge1/2\\) but needs about \\(2^{N}\\) terms. Averaged over low-average state ensembles the sufficient range extends to \\(0<\\alpha<1\\). The paper also bounds cumulative error in iterative propagation and fixed-order OTOCs.",
+  "significance": "It separates two accuracy notions that the literature often conflates: small Hilbert–Schmidt truncation error (what Top-\\(\\chi\\) minimises) and small error on every state (the spectral norm). The \\(M^{(1)}\\) lower bound strengthens an earlier one: for \\(M^{(1)}=N\\) and error 1/2 it gives \\(\\chi\\ge2^{N/2-1}\\) instead of \\(\\chi\\ge1/2\\).",
+  "limitations": "The results are bounds in terms of OSE, which is itself hard to compute for large evolved operators; whether physical dynamics have logarithmic OSE at small \\(\\alpha\\) is not established. The cumulative bound for iterative propagation depends on the OSE of the intermediate truncated operators. The improved spectral-norm bounds for \\(0<\\alpha<1\\) assume independent random signs on the coefficients, which physical evolutions need not satisfy. There are no public data or code.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-08: Sections I–IV in full, the theorem statements of Sections V–VI, and the conclusion. The proofs of Theorems 5–7 were not checked. The counterexample of Remark 1 was checked numerically for six qubits; no AI-use statement was found.",
+  "verified_on": "2026-11-08",
+  "methods_source_section": "Section II (Lemma 1) and Section III (Theorems 1–3, Remark 1)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Write the evolved observable as \\(O_N=\\sum_ia_iP_i\\) with \\(\\sum a_i^{2}=1\\) and \\(|a_1|\\ge|a_2|\\ge\\dots\\). The OSE is \\(M^{(\\alpha)}=\\frac{1}{1-\\alpha}\\log\\sum_i|a_i|^{2\\alpha}\\), and Top-\\(\\chi\\) truncation keeps the first \\(\\chi\\) terms, which minimises the Hilbert–Schmidt error \\(\\delta_\\chi=\\sum_{i>\\chi}a_i^{2}\\). The error in an expectation value for an arbitrary state, however, is controlled by the spectral norm of the discarded part, which can be up to \\(2^{N/2}\\) times larger.",
+    "The lower bounds pick the state that maximises the error, an eigenvector of the discarded part, and use that the spectral norm is at least the normalised Hilbert–Schmidt norm. For \\(\\alpha=1\\), splitting the Shannon entropy of \\(\\{a_i^{2}\\}\\) into kept and discarded parts gives \\(M^{(1)}\\le1+\\log\\chi+2N\\delta_\\chi\\), hence \\(\\log\\chi\\ge M^{(1)}-2\\varepsilon^{2}N-1\\). For \\(\\alpha>1\\) a tail inequality gives \\(\\log\\chi\\ge M^{(\\alpha)}+\\tfrac{\\alpha}{\\alpha-1}\\log(1-\\varepsilon^{2})\\).",
+    "The upper bound uses the triangle inequality, \\(\\|\\sum_{i>\\chi}a_iP_i\\|_\\infty\\le\\sum_{i>\\chi}|a_i|\\), and controls this \\(\\ell_1\\) tail by the OSE. That only works when the coefficients decay faster than \\(i^{-1}\\), which is what \\(\\alpha<1/2\\) guarantees. The counterexample shows why: in \\(I-2|0^N\\rangle\\langle0^N|\\) all \\(2^{N}-1\\) nonidentity coefficients equal \\(-2^{1-N}\\), so the Hilbert–Schmidt error of a polynomial truncation is exponentially small, but every discarded string has eigenvalue \\(+1\\) on \\(|0^N\\rangle\\) and their errors add up to nearly 2.",
+    "For averages over ensembles whose mean state has spectral norm at most \\(b/2^{N}\\), such as random computational-basis states, Cauchy–Schwarz reduces the error to the Hilbert–Schmidt tail, extending the range to \\(\\alpha<1\\). Iterative propagation adds the truncation errors of each step, and under a random-sign model cancellations give spectral bounds for all \\(0<\\alpha<1\\). Whether physical dynamics show such cancellations, and OSE bounds along real truncated trajectories, are left open."
+  ],
+  "methods": [
+    {
+      "technique": "Rényi tails control the coefficient tail",
+      "explanation": "A bound on \\(\\sum_i|a_i|^{2\\alpha}\\) with \\(\\alpha<1\\) limits how slowly sorted coefficients can decay: if many were large, the sum would be large. That turns an entropy into a pointwise decay rate, and summing the rate bounds the truncation error.",
+      "math": [
+        "Since the \\(|a_i|\\) are sorted, \\(j|a_j|^{2\\alpha}\\le\\sum_i|a_i|^{2\\alpha}=2^{(1-\\alpha)M^{(\\alpha)}}\\), so \\(|a_j|\\le2^{\\frac{1-\\alpha}{2\\alpha}M^{(\\alpha)}}\\,j^{-1/(2\\alpha)}\\). For \\(\\alpha<1/2\\) the exponent exceeds 1 and the integral test gives \\[\\sum_{i>\\chi}|a_i|\\le\\frac{2\\alpha}{1-2\\alpha}\\,\\chi^{-\\frac{1-2\\alpha}{2\\alpha}}\\,2^{\\frac{1-\\alpha}{2\\alpha}M^{(\\alpha)}}.\\] If \\(M^{(\\alpha)}\\le c\\log N\\), the error is at most \\(\\varepsilon\\) once \\(\\chi\\ge\\bigl[\\tfrac{2\\alpha}{(1-2\\alpha)\\varepsilon}\\bigr]^{\\frac{2\\alpha}{1-2\\alpha}}N^{\\frac{c(1-\\alpha)}{1-2\\alpha}}\\), which is polynomial.",
+        "Editorial remark: the exponent of \\(N\\) diverges as \\(\\alpha\\to1/2\\), and at \\(\\alpha=1/2\\) the decay \\(j^{-1}\\) is no longer summable. The counterexample sits exactly there, with coefficients flat across \\(2^{N}\\) strings."
+      ],
+      "transfer": "Any sparse approximation of a vector of unit-norm operators (Pauli, Fourier, wavelet) has a uniform-error guarantee only through an \\(\\ell_1\\) tail; to get it from an entropy, use a Rényi index below 1/2, where the entropy forces summable decay."
+    },
+    {
+      "technique": "Coherent accumulation on a common eigenstate",
+      "explanation": "Hilbert–Schmidt error treats discarded terms as orthogonal, so small coefficients add in quadrature. On a single state, though, commuting Pauli strings can share an eigenvector and add linearly. The counterexample is built so every discarded term pushes the same way on \\(|0^N\\rangle\\).",
+      "math": [
+        "From \\(|0^N\\rangle\\langle0^N|=2^{-N}\\sum_SZ_S\\), the operator \\(O_N=I-2|0^N\\rangle\\langle0^N|\\) has identity coefficient \\(1-2^{1-N}\\) and \\(2^{N}-1\\) coefficients \\(-2^{1-N}\\). Its \\(M^{(1/2)}=2\\log(3-2^{2-N})<2\\log3\\), and since \\(M^{(\\alpha)}\\) decreases in \\(\\alpha\\), it is bounded for all \\(\\alpha\\ge1/2\\). Keeping \\(\\chi\\) terms, \\[\\|O_N-\\widetilde O_{N,\\chi}\\|_\\infty=\\langle0^N|\\textstyle\\sum_{\\text{dropped}}2^{1-N}Z_S|0^N\\rangle=2\\Bigl(1-\\frac{\\chi}{2^{N}}\\Bigr),\\] while the normalised Hilbert–Schmidt error is only \\(2^{1-N/2}\\sqrt{1-\\chi/2^{N}}\\).",
+        "Editorial check: for \\(N=6\\), building the operator explicitly and truncating gives spectral errors \\(1.969\\), \\(1.75\\), \\(1.0\\) and \\(0\\) at \\(\\chi=1,8,32,64\\), exactly \\(2(1-\\chi/64)\\)."
+      ],
+      "transfer": "Before trusting a Pauli-propagation estimate on a specific input (for example a product state), check whether the discarded strings commute and share that state as an eigenvector; random inputs average such errors away, but structured inputs can expose them fully."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-08"
+}

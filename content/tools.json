@@ -1,19 +1,19 @@
 {
-  "intro": "Small, self-contained models for building intuition about quantum states, one qubit at a time, then two, then three. Each tool runs entirely in your browser: nothing you set is sent anywhere, and every control has a keyboard equivalent.",
+  "intro": "Small models that run in the browser: one qubit, then two, then three, then any number of symmetric spins. Each exposes the parameters of one construction and shows the numbers beside the drawing. Nothing you set leaves the page, and every control has a keyboard equivalent.",
   "tools": [
     {
       "id": "single-qubit",
       "kind": "Visualizer",
       "title": "Single-qubit state visualizer",
       "href": "tools/single-qubit.html",
-      "summary": "Point a qubit state on the Bloch sphere by dragging or by setting its two angles. Aim the axis of any unitary with the green n̂ handle, apply the named gates or a gate you build from that axis, angle and phase, measure the qubit, and read the amplitudes behind the picture.",
+      "summary": "Point a qubit state on the Bloch sphere by dragging or by setting its two angles. Aim the axis of any unitary with the green axis handle, apply the named gates or a gate you build from that axis, angle and phase, measure the qubit, and read the amplitudes behind the picture.",
       "features": [
         "Bloch sphere",
         "Gates X, Y, Z, H, S, T",
-        "Draggable rotation axis n̂",
-        "Any unitary from n, θ and γ",
+        "Draggable rotation axis",
+        "Any unitary from an axis, angle and phase",
         "Measurement and collapse",
-        "Amplitudes α and β"
+        "The two amplitudes behind the picture"
       ]
     },
     {
@@ -39,7 +39,7 @@
       "kind": "Visualizer",
       "title": "Three-qubit state visualizer",
       "href": "tools/three-qubit.html",
-      "summary": "Eight amplitude arrows in one complex plane, plus the relative-state view: choose a reference qubit and the state splits into two two-qubit branches, |0⟩|φ₀⟩ + |1⟩|φ₁⟩. Each branch is drawn in its own Schmidt bases, so one Bloch sphere carries a plane per branch, and the branch probability sets its opacity. Where the planes cross they name one shared basis; drag the sphere to orbit it.",
+      "summary": "Eight amplitude arrows in one complex plane, plus the relative-state view: choose a reference qubit and the state splits into two two-qubit branches, one for each value of that qubit. Each branch is drawn in its own Schmidt bases, so one Bloch sphere carries a plane per branch, and the branch probability sets its opacity. Where the planes cross they name one shared basis; drag the sphere to orbit it.",
       "features": [
         "Eight amplitude vectors in one plot",
         "Any qubit as the reference",
@@ -57,13 +57,13 @@
       "kind": "Visualizer",
       "title": "Majorana constellation explorer",
       "href": "tools/majorana.html",
-      "summary": "A symmetric state of n qubits drawn as n points on one Bloch sphere. Drag the stars, or prepare a cat, coherent, Dicke or W state, and read the Dicke amplitudes, the collective spin and the geometric measure of entanglement. The page states exactly which states the picture can and cannot describe.",
+      "summary": "A symmetric state of many qubits drawn as one point per spin on one Bloch sphere. Drag the stars, or prepare a cat, coherent, Dicke or single-excitation state, and read the amplitudes, the collective spin and the geometric measure of entanglement. The page states exactly which states the picture can and cannot describe.",
       "features": [
-        "n stars for n symmetric spins",
+        "One star per symmetric spin",
         "Draggable stars on an orbitable sphere",
-        "Dicke amplitudes beside the picture",
+        "Amplitudes beside the picture",
         "Spin length and geometric measure",
-        "Cat, coherent, Dicke and W presets",
+        "Cat, coherent, Dicke and single-excitation presets",
         "Keyboard control of every star"
       ]
     }

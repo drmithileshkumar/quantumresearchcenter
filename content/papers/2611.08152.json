@@ -1,0 +1,45 @@
+{
+  "id": "2611.08152",
+  "topic": "foundations",
+  "title": "Non-unitary quantum butterfly effect: theory and experiment",
+  "authors": "Paul Argyle; Djamil Lakhdar-Hamina; Sarah H. Miller; Victor Galitski",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory and experiment",
+  "problem": "Out-of-time-order correlators (OTOCs) measure how a local perturbation spreads through a many-body system, and in random unitary circuits they show a ballistic front behind which the signal saturates. Mid-circuit measurements are now routine, but how far and for how long an unread measurement disturbs the rest of a register is poorly characterised. What does the OTOC do when the evolution itself is non-unitary?",
+  "result": "The authors define an OTOC for quantum channels that bounds how much a perturbation at site \\(y\\) can change a measured expectation value at \\(x\\). For brickwork Haar-random circuits of qudits measured at each site with probability \\(p\\) per layer, the circuit-averaged OTOC is a transfer-matrix contraction. It decays at late times as \\(\\lambda_*^{t}\\) with \\(\\lambda_*=1-\\tfrac{2(q-1)}{q}Np+O(p^{2})\\) for \\(Np\\ll1\\), and for sparse measurement in a large system the decay is Gaussian in time with variance \\(1/(\\kappa p)\\). Eight-qubit runs on Quantinuum's H2 resolve the light cone and the decay inside it.",
+  "significance": "Measurement keeps the causal front but erases the scrambled signal behind it: the OTOC rises as the front passes and then decays inside the light cone, instead of saturating. The decay rate is fixed analytically by \\(p\\), so a measured decay can be inverted into an effective measurement or dephasing strength, including crosstalk that per-qubit readout errors miss. The hardware protocol needs no ancillas or interferometry.",
+  "limitations": "The theory averages over measurement outcomes, so it describes an effective dephasing channel, not individual trajectories. The hardware runs use 8 qubits and 180 or 240 circuit realizations per depth. In the unitary case the hardware OTOC is attenuated inside the light cone, and the authors cannot separate finite sampling from device errors, so the agreement with theory is qualitative. The limits \\(N\\to\\infty\\) and \\(p\\to0\\) do not commute, which makes the late-time rate depend on the order of limits.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-08: Sections I–IV, Tables 1–2, and the statements of Appendices E and H. The appendix proofs (transfer-matrix derivation, spectrum, Gaussian limit) were not checked line by line. The identity \\(c+d=(a+b)^{2}\\), \\(\\gamma(p)\\), and the first-order \\(\\lambda_*\\) were checked numerically against exact diagonalisation for 8 and 10 qubits; no AI-use statement was found.",
+  "verified_on": "2026-11-08",
+  "methods_source_section": "Section II (Eqs. 21–45) and Section III",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "For a channel \\(\\varepsilon\\), probe \\(V_x\\) and perturbation channel \\(\\mathcal W_y\\), the authors define the response operator \\(\\Delta_{x,y}=\\mathcal W_y^\\dagger(\\varepsilon^\\dagger(V_x))-\\varepsilon^\\dagger(V_x)\\) and the OTOC \\(C_\\rho=\\operatorname{Tr}(\\rho\\Delta_{x,y}^{2})\\). By Cauchy–Schwarz it bounds the squared change in \\(\\langle V_x\\rangle\\) caused by inserting \\(\\mathcal W_y\\). For unitary evolution and perturbation it reduces to the usual squared commutator.",
+    "The circuit is a brickwork of Haar-random two-qudit gates, with each site measured in the clock basis with probability \\(p\\) between layers. Averaging over gates and outcomes maps the infinite-temperature OTOC onto a classical problem on bit strings, where each 1 marks a site the perturbed operator has reached. At \\(p=0\\) the local transfer matrix is stochastic: the occupied region is bounded by two domain walls that random-walk outward, and the front moves at the butterfly velocity \\(v_B=(q^{2}-1)/(q^{2}+1)\\).",
+    "Measurement makes the columns sum to \\(\\gamma(p)=1-\\tfrac{q-1}{q}p<1\\) and lets new domain-wall pairs nucleate, so the signal leaks away. The eigenvalues of the two-layer transfer matrix are real and in \\([0,1]\\), and the vacuum is the only one equal to 1. The largest contributing one, \\(\\lambda_*\\), sets the late-time decay, but in large systems with sparse measurement the relevant decay comes earlier and is Gaussian: \\(\\overline C\\approx2e^{-t^{2}\\kappa p}\\) with \\(\\kappa=(q^{2}-1)(q-1)/(q(q^{2}+1))\\). As \\(q\\to\\infty\\) the OTOC is exactly \\(2(1-p)^{t(t+1)}\\) inside the light cone.",
+    "On H2, the OTOC is estimated without ancillas by averaging random computational-basis inputs, which reproduces the infinite-temperature trace, and by comparing paired circuits with and without the perturbation. At \\(p=0\\) the light cone is clear and there is essentially no signal at causally disconnected sites, a null test for crosstalk. With measurement the signal peaks near \\(t=4\\) and then decays, as predicted. Trajectory-resolved OTOCs, links to entanglement transitions, and larger devices are left open."
+  ],
+  "methods": [
+    {
+      "technique": "Weighted random walk for the averaged OTOC",
+      "explanation": "Haar averaging turns the operator dynamics into a stochastic process on which sites are \"occupied\" by the perturbed operator. Measurement does not change where the occupation can go; it only charges a cost for each occupied site and layer. So the averaged OTOC is a walk weighted by its occupied space–time area.",
+      "math": [
+        "Normalising each column of the local transfer matrix by \\(\\gamma(p)=a(p)+b(p)\\) (and \\(\\gamma^{2}=c+d\\)) gives a stochastic matrix \\(\\widehat M\\), and \\[\\overline C(x,y,t)=C_0\\,\\mathbb E\\bigl[\\gamma^{A_t(\\mathbf z)}\\,z^{(t)}_y\\bigr],\\qquad A_t(\\mathbf z)=\\sum_{n<t}\\sum_j z^{(n)}_j,\\] an expectation over trajectories \\(\\mathbf z\\) of the normalised process, with \\(A_t\\) the occupied area. Each estimate lies in \\([0,C_0]\\), so its variance is at most \\(C_0^{2}/(4N_S)\\) with \\(N_S\\) samples.",
+        "Editorial derivation of the Gaussian rate: for small \\(p\\), \\(\\gamma^{A}\\approx e^{-\\frac{q-1}{q}pA}\\), and the occupied block grows by \\(v_B\\) on each side per layer, so \\(A_t\\approx\\sum_{n<t}2v_Bn\\approx v_Bt^{2}\\). The exponent is \\(\\tfrac{q-1}{q}v_B\\,p\\,t^{2}\\), and \\(\\tfrac{q-1}{q}\\cdot\\tfrac{q^{2}-1}{q^{2}+1}\\) is exactly the paper's \\(\\kappa\\). For \\(q\\to\\infty\\), \\(v_B=1\\) and the area is \\(t(t+1)\\), giving \\((1-p)^{t(t+1)}\\)."
+      ],
+      "transfer": "When noise acts uniformly on whatever region an operator occupies, the averaged signal is the noiseless spreading weighted by \\(e^{-\\text{rate}\\times\\text{area}}\\). Ballistic spreading in one dimension then gives Gaussian decay in time, a quick way to predict how scrambling experiments degrade under local noise."
+    },
+    {
+      "technique": "Perturbation theory for the gap of the transfer matrix",
+      "explanation": "At \\(p=0\\) the uniform all-occupied state is a second eigenvector with eigenvalue 1, and it carries the saturated OTOC. A small measurement rate splits it off from the vacuum, and first-order perturbation theory gives how fast it decays.",
+      "math": [
+        "The paper's Appendix F gives \\[\\lambda_*=1-\\frac{2(q-1)}{q}\\,\\frac{1}{1-q^{-2N}}\\,Np+O(p^{2}),\\qquad Np\\ll1.\\] Editorial check: exact diagonalisation of the \\(2^{N}\\)-dimensional two-layer matrix for \\(q=2\\) gives \\(\\lambda_*=0.999200\\) and \\(0.992031\\) at \\(N=8\\), \\(p=10^{-4}\\) and \\(10^{-3}\\), against \\(0.999200\\) and \\(0.992000\\) from the formula; at \\(N=10\\) the agreement is similar.",
+        "The rate grows with \\(N\\), so for fixed \\(p\\) the first-order formula fails once \\(Np\\) is of order one. In the opposite order of limits the paper proves \\(\\lim_{p\\to0^+}\\lim_{N\\to\\infty}\\lambda_*=(2q/(q^{2}+1))^{4}\\), which is \\((4/5)^{4}\\approx0.41\\) for qubits, while \\(\\lim_{N\\to\\infty}\\lim_{p\\to0^+}\\lambda_*=1\\). Even an arbitrarily rare measurement in an infinite system thus decays the late-time signal at a finite rate."
+      ],
+      "transfer": "Degenerate leading eigenvalues of a transfer matrix at a symmetric point are split by a weak symmetry-breaking perturbation at a rate proportional to system size; check the order of the limits \\(N\\to\\infty\\), \\(p\\to0\\) before quoting a decay rate."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-08"
+}

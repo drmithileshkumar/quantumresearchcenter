@@ -1,0 +1,45 @@
+{
+  "id": "2611.08313",
+  "topic": "foundations",
+  "title": "Testing gravitationally induced entanglement with massive particles and quantum clocks",
+  "authors": "Germain Tobar; Markus Aspelmeyer; Magdalena Zych",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Proposal",
+  "problem": "Proposed tests of whether gravity can entangle two masses can be explained by the Newtonian potential between fixed masses, which some argue admits a classical, non-local account. A test that needs a relativistic feature of gravity would close that loophole. The contribution of a clock's internal energy to gravitating mass is such a feature, but the entanglement it generates between two clocks takes about \\(10^{41}\\) s to appear.",
+  "result": "Replacing one clock by a delocalised levitated particle of about the Planck mass (\\(M\\sim10^{-8}\\) kg), and the other by an array of \\(N\\) clocks, shortens the time scale by the particle's mass and by \\(\\sqrt N\\). For \\(N=10^{23}\\) scandium-45 nuclear clocks in a centimetre-scale crystal, 450 µm from a particle delocalised by 0.1 µm, the authors estimate an entanglement (equivalently, dephasing) time of about \\(5\\times10^{6}\\) s, or 64 days (Eq. 9).",
+  "significance": "It moves gravity-induced entanglement involving internal energy from \\(10^{31}\\) s, the earlier many-clock estimate, to about \\(10^{6}\\) s. A positive result would contradict the non-relativistic Newtonian limit, in which internal energy does not gravitate and no entanglement arises here. The authors also note that such entanglement neither requires nor implies quantised gravitational degrees of freedom.",
+  "limitations": "This is a proposal with order-of-magnitude estimates, not a noise budget. The particle must stay delocalised for the interaction time, and the 0.1 µm delocalisation of a Planck-mass particle is described as aspirational. The signal is a dephasing of individual clocks at about \\(10^{-6}\\) Hz, which must be separated from every classical dephasing source; the authors require that other noise not scale with distance or clock number, and estimate that about \\(10^{10}\\) measurements would be needed. The headline numbers in the text (17 h, 2 h, 64 days) use slightly different masses and frequencies, so they agree only to within an order of magnitude.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-08: the main text (Eqs. 1–24, the protocol, master equation and interpretation) and Appendices A and B. Appendices C–E (crystal geometry details, NO-ON enhancement) were skimmed. Eqs. (7)–(9) and the slab factor \\(\\sqrt{2D/(\\pi n)}\\) were rechecked numerically; no AI-use statement was found.",
+  "verified_on": "2026-11-08",
+  "methods_source_section": "Main text Eqs. (3)–(9), (20)–(21); Appendices A, B and D",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Mass–energy equivalence makes a clock heavier when it is excited: its mass becomes \\(m+\\hat H/c^{2}\\). Two clocks in superpositions of ground and excited states, a distance \\(x\\) apart, then interact through \\(\\hat H_{\\rm int}=G\\hat H_A\\hat H_B/(c^{4}x)\\), which entangles them on a time scale \\(2c^{4}x/(\\hbar G\\omega^{2})\\). The factor \\((\\omega/c^{2})^{2}\\) makes this hopeless: about \\(10^{41}\\) s for optical clocks 1 µm apart.",
+    "The proposal keeps one clock-like side and makes the other heavy. A levitated particle of mass \\(M\\) shifts a nearby clock's frequency by gravitational redshift, \\(\\hat H_{\\rm int}=-GM\\hat H_{\\rm clock}/(c^{2}|\\hat x_c-\\hat x_p|)\\). If the particle is in a superposition of two positions, the clock ticks at two different rates, one per branch, and becomes entangled with the particle's position. With \\(N\\) clocks, each acquires the same which-path phase and the total overlap decays \\(\\sqrt N\\) times faster.",
+    "The experimentally relevant regime has a delocalisation \\(\\Delta x\\) much smaller than the distance \\(d\\), where the time is \\(2c^{2}d^{2}/(GM\\sqrt N\\omega_c\\Delta x)\\). Nuclear clocks matter here: the scandium-45 transition at about 12.4 keV has \\(\\omega_c\\approx1.8\\times10^{19}\\,\\mathrm{s^{-1}}\\), roughly \\(10^{4}\\) times an optical clock. Summing over a crystal slab of clocks with density \\(n\\), whose nearest face is a distance \\(D\\) away, replaces \\(d^{2}/\\sqrt N\\) by \\(\\sqrt{2D/(\\pi n)}\\). A full block-diagonalisation with Earth's gravity, the trap and second-order Doppler shifts confirms that the redshift term dominates, the next correction being 35 orders of magnitude smaller.",
+    "The authors argue that the effect probes active gravitational mass of quantised internal energy, which no experiment has tested, and that the result would falsify the Newtonian limit in which internal energy does not gravitate. Open are a noise model for the long-lived delocalised particle, the readout statistics, and how to exclude classical dephasing that mimics the signal."
+  ],
+  "methods": [
+    {
+      "technique": "Collective which-path dephasing",
+      "explanation": "Each clock records the particle's branch only faintly, but every clock records it the same way. The particle's coherence is the product of the per-clock overlaps, so a tiny phase per clock adds up in the exponent.",
+      "math": [
+        "For \\(\\Delta x\\ll d\\), the two branches give one clock the frequency difference \\(\\Delta\\omega=GM\\omega_c\\Delta x/(c^{2}d^{2})\\), so after time \\(\\tau\\) the overlap of its two states is \\(\\cos(\\Delta\\phi/2)\\) with \\(\\Delta\\phi=\\tau\\,\\Delta\\omega\\). For \\(N\\) clocks the particle's coherence is \\[|\\langle\\tau_L|\\tau_R\\rangle|^{N}=\\cos^{N}\\!\\Bigl(\\frac{\\Delta\\phi}{2}\\Bigr)\\approx\\exp\\Bigl(-\\frac{N\\Delta\\phi^{2}}{8}\\Bigr)=\\exp\\Bigl[-\\frac12\\Bigl(\\frac{\\sqrt N\\,\\tau GM\\omega_c\\Delta x}{2c^{2}d^{2}}\\Bigr)^{2}\\Bigr],\\] which falls to \\(e^{-1/2}\\) at \\(\\tau=2c^{2}d^{2}/(GM\\sqrt N\\omega_c\\Delta x)\\), the paper's Eq. (7).",
+        "Editorial remark: tracing out the other clocks gives one clock the same factor with \\(N-1\\) in place of \\(N\\), so the entanglement can be seen from either side, which is why the protocol reads out individual clocks. The decay is Gaussian in time, not exponential, because each clock's phase grows linearly while the overlap depends on its square."
+      ],
+      "transfer": "Whenever a weak coupling must be detected, many identical weak records of the same branch multiply into a strong one: the decoherence time scales as \\(1/\\sqrt N\\). The same argument sets the sensitivity of ensemble-based which-path or dark-matter detectors."
+    },
+    {
+      "technique": "Summing a slab of clocks",
+      "explanation": "Real clocks fill a crystal, not a single point at distance \\(d\\). Because the per-clock phase depends on the gradient of the particle's potential, distant clocks contribute little, and the sum over a half-space converges.",
+      "math": [
+        "The exponent adds the squared phases, \\(\\sum_i\\Delta\\phi_i^{2}\\propto\\sum_i(\\partial_x r_i^{-1})^{2}=\\sum_i z_i^{2}/r_i^{6}\\) for a delocalisation along the slab normal \\(z\\). Editorial derivation: replacing the sum by \\(n\\int d^{3}r\\) over the half-space \\(z\\ge D\\), \\[n\\int_D^\\infty dz\\int_0^\\infty\\frac{2\\pi\\rho\\,z^{2}}{(z^{2}+\\rho^{2})^{3}}\\,d\\rho=n\\int_D^\\infty\\frac{\\pi}{2z^{2}}\\,dz=\\frac{\\pi n}{2D},\\] so the point-cluster factor \\(N/d^{4}\\) becomes \\(\\pi n/(2D)\\), and \\(d^{2}/\\sqrt N\\) becomes \\(\\sqrt{2D/(\\pi n)}\\), exactly the paper's Eq. (8).",
+        "With \\(D=450\\) µm, \\(n=4\\times10^{28}\\,\\mathrm{m^{-3}}\\), \\(M_p=2.18\\times10^{-8}\\) kg, \\(\\omega_c=1.82\\times10^{19}\\,\\mathrm{s^{-1}}\\) and \\(\\Delta x=0.1\\) µm, the time is \\(5.8\\times10^{6}\\) s, about 67 days, consistent with the stated 64 days. Only clocks within a few \\(D\\) of the face matter, so a thicker crystal does not help."
+      ],
+      "transfer": "For any source coupling to an extended medium through a field gradient, integrate the squared coupling over the medium: for a \\(1/r\\) potential the sum is dominated by the nearest layer, of thickness comparable to the standoff distance, which fixes how sensor geometry should be optimised."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-08"
+}

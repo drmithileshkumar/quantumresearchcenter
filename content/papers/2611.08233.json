@@ -1,0 +1,45 @@
+{
+  "id": "2611.08233",
+  "topic": "information",
+  "title": "Optimal finite-copy readout of three-qubit entanglement with state retention",
+  "authors": "Yu-Xin Wu; Yuan-Hong Tao; Ji-Hui Mo; Peng-Fei Ma; Shu-Hui Wu",
+  "submitted": "2026-11-05",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Given \\(n\\) copies of an unknown three-qubit pure state, how likely can a fixed measurement be to certify, without false positives, that the state is in the GHZ class (nonzero three-tangle \\(\\tau\\))? How large can the coefficient be in an event whose probability is exactly proportional to \\(\\tau^{2}\\)? And can such a certificate leave a copy of the unknown state intact?",
+  "result": "Fewer than four copies give no certificate. Four copies give optimal probability \\(\\tau^{2}/48\\). Five copies give \\(5\\tau^{2}/72\\), a factor \\(10/3\\) more, and can return the unknown input on success; five is the minimum for that. At six copies certification and exact binary readout first differ: \\((39+2S)\\tau^{2}/296\\) against \\(\\tau^{2}/8\\), where \\(S\\) is the sum of single-party purities. Local spin measurements with classical communication attain all of these optima.",
+  "significance": "The optimal success effect for any certification against an algebraic null set is the projector orthogonal to the null states' tensor powers, and the best exact readout coefficient is the inverse top eigenvalue of a polynomial multiplication operator. A symmetry argument gives a universal gain from one extra copy, \\(d(m+1)/(d+m)\\) for an invariant of degree \\(m\\) on dimension \\(d\\), together with a success map that returns the input.",
+  "limitations": "Inputs are assumed identical and pure. The collective protocols are costly: the five-copy and six-copy filters compile to about 1,377 and 6,000 CNOTs, against five for the shallow four-copy circuit with probability \\(\\tau^{2}/256\\). For estimating \\(\\tau^{2}\\) to a given accuracy, local Pauli tomography still gives lower error in the authors' own comparison. The authors state that generative-AI tools were used for figure preparation and language refinement, and that they verified all mathematical results.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-08: Sections I–VII and the acknowledgements (AI statement). The appendix proofs (Schur multiplicities, conditional local discrimination) were not checked. \\(q_D=3\\), \\(B_5=\\tfrac{9}{10}I\\), \\(\\tau(\\mathrm{GHZ})=1\\) and \\(\\tau(W)=0\\) were recomputed from Cayley's hyperdeterminant, and the six-copy formula from the stated Gram eigenvalues.",
+  "verified_on": "2026-11-08",
+  "methods_source_section": "Sections III.1–III.3 and IV.3",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Three-qubit pure states split into SLOCC classes, and the GHZ class is exactly where Cayley's hyperdeterminant \\(D\\) is nonzero; the three-tangle is \\(\\tau=4|D|\\). Earlier constructions, including Sugita's four-copy local singlet projection, measure \\(\\tau^{2}\\) on four copies. The paper asks for the best possible success probability at each copy number, separating error-free certification, exact binary readout, and keeping the input.",
+    "Any success effect that never fires on null states must annihilate the span of their \\(n\\)-fold tensor powers, so it is bounded by the projector onto the orthogonal complement. That complement corresponds to degree-\\(n\\) polynomials vanishing on the null set; since \\(D\\) is irreducible of degree 4, these are \\(D\\) times polynomials of degree \\(n-4\\). The certification space therefore has dimension 1, 8 and 36 at four, five and six copies.",
+    "Multiplication by \\(D\\) defines an operator \\(V_n\\) with \\(V_n^\\dagger|z\\rangle^{\\otimes n}=D(z)|z\\rangle^{\\otimes(n-4)}\\). Its Gram operator \\(B_n=V_n^\\dagger V_n\\) gives both answers: certification succeeds with probability \\(|D|^{2}\\langle\\psi|^{\\otimes(n-4)}B_n^{-1}|\\psi\\rangle^{\\otimes(n-4)}\\), and the best exact readout coefficient is \\(1/\\lambda_{\\max}(B_n)\\). At five copies \\(B_5\\) is a multiple of the identity, so the two coincide and the success branch outputs \\(D(\\psi)|\\psi\\rangle\\) up to normalisation.",
+    "Locally, each party measures the total spin of its copies. Four copies accept all-singlet outcomes; five copies accept spin \\(1/2\\) on all three parties and keep the magnetic register, which carries the unknown state. At six copies the \\((1,1,1)\\) spin sector contains two multiplicity directions, only one in the certification space; accepting the whole sector would certify the W state with probability \\(37/810\\), so the parties distinguish the two by sequential local measurements. Higher copy numbers and retaining more than one copy are left open."
+  ],
+  "methods": [
+    {
+      "technique": "Multiplication operators fix the optimal effects",
+      "explanation": "Certification and readout both ask how well a measurement on \\(|\\psi\\rangle^{\\otimes n}\\) can respond to \\(|D(\\psi)|^{2}\\). Writing tensor powers in the symmetric occupation basis turns \"multiply a polynomial by \\(D\\)\" into a linear map between symmetric subspaces, and every optimal effect is built from that map.",
+      "math": [
+        "With \\(|z\\rangle^{\\otimes n}=\\sum_\\gamma\\sqrt{\\binom n\\gamma}z^\\gamma|\\gamma\\rangle\\) and \\(D=\\sum_\\alpha c_\\alpha z^\\alpha\\), the map \\(V_n:\\operatorname{Sym}^{n-4}\\to\\operatorname{Sym}^{n}\\) has entries \\(\\overline{c_\\alpha}\\sqrt{\\binom{n-4}{\\beta}/\\binom{n}{\\alpha+\\beta}}\\) and satisfies \\(V_n^\\dagger|z\\rangle^{\\otimes n}=D(z)|z\\rangle^{\\otimes(n-4)}\\). Hence \\(V_nV_n^\\dagger/\\lambda_{\\max}(B_n)\\) is an effect with probability \\(|D(\\psi)|^{2}/\\lambda_{\\max}(B_n)\\), and since a Hermitian operator is fixed by its expectations on all tensor powers, it is the only one with probability proportional to \\(|D|^{2}\\) and the largest such coefficient.",
+        "At four copies \\(B_4=q_D=\\sum_\\alpha|c_\\alpha|^{2}/\\binom4\\alpha\\). Editorial check: the hyperdeterminant has four squared terms (coefficient 1, multinomial 6), six cross terms (coefficient \\(-2\\), multinomial 24) and two quartic terms (coefficient 4, multinomial 24), so \\(q_D=\\tfrac46+6\\cdot\\tfrac{4}{24}+2\\cdot\\tfrac{16}{24}=3\\), and \\(p_4=|D|^{2}/3=\\tau^{2}/48\\)."
+      ],
+      "transfer": "To test whether a state lies off any algebraic variety with a principal ideal \\((f)\\), build the multiplication operator for \\(f\\): its range gives the optimal one-sided test, and its spectrum the best exact estimator of \\(|f|^{2}\\) from a fixed number of copies."
+    },
+    {
+      "technique": "Schur's lemma gives the extra-copy gain",
+      "explanation": "With one more copy than the degree of the invariant, \\(V_{m+1}\\) maps \\(\\mathcal H\\) into \\(\\operatorname{Sym}^{m+1}\\mathcal H\\) and commutes with the local unitary group up to a phase. Because \\(\\mathcal H\\) is irreducible under that group, \\(B_{m+1}\\) must be a multiple of the identity, which both raises the probability by a fixed factor and makes the success operation return the state.",
+      "math": [
+        "Under an irreducible unitary action on \\(\\mathbb C^{d}\\) with \\(f(Uz)=\\chi(U)f(z)\\), Schur's lemma gives \\(B_{m+1}=bI\\), and taking the trace gives \\[b=\\frac{d+m}{d(m+1)}\\,q_f,\\qquad\\frac{p_{m+1}}{p_m}=\\frac{d(m+1)}{d+m}.\\] For three qubits, \\(\\mathrm{SU}(2)^{\\otimes3}\\) acts irreducibly on \\(\\mathbb C^{8}\\) and \\(D\\) is invariant, so \\(b=\\tfrac{12}{40}\\cdot3=\\tfrac{9}{10}\\), \\(p_5=\\tfrac{10}{9}|D|^{2}=5\\tau^{2}/72\\), and the gain is \\(\\tfrac{8\\cdot5}{12}=\\tfrac{10}{3}\\). The Kraus operator \\(K=V_5^\\dagger/\\sqrt b\\) maps \\(|\\psi\\rangle^{\\otimes5}\\) to \\(D(\\psi)|\\psi\\rangle/\\sqrt b\\).",
+        "Editorial check: computing \\(B_5\\) entry by entry from the hyperdeterminant's coefficients gives \\(0.9\\) on every diagonal entry and zero off the diagonal. At six copies \\(B_6\\) has two eigenvalues, \\(\\tfrac{37}{90}\\) and \\(\\tfrac12\\); weighting the two sectors by \\(w_{111}=(1+S)/4\\) and \\(w_s=(3-S)/4\\) gives \\(\\tfrac{\\tau^{2}}{16}\\bigl(\\tfrac{90}{37}w_{111}+2w_s\\bigr)=\\tfrac{(39+2S)\\tau^{2}}{296}\\), as stated."
+      ],
+      "transfer": "For any invariant polynomial of a group acting irreducibly, one copy beyond the degree gives a measurement that both detects the invariant and returns the input unchanged on success, a template for non-destructive tests of entanglement or symmetry-protected properties."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-08"
+}

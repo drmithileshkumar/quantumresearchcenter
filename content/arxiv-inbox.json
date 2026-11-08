@@ -1,7 +1,7 @@
 {
-  "fetched_at": "2026-11-07T12:47:19.898193+00:00",
+  "fetched_at": "2026-11-08T14:43:58.346928+00:00",
   "query": {
-    "search_query": "cat:quant-ph AND submittedDate:[202611040000 TO 202611072359]",
+    "search_query": "cat:quant-ph AND submittedDate:[202611050000 TO 202611082359]",
     "start": 0,
     "max_results": 80,
     "sortBy": "submittedDate",
@@ -1111,83 +1111,6 @@
       "abstract": "Chen, Mele, Mele and Preskill proved a crossover for bosonic Gaussian tomography: cold states need $Θ(m^3/ε^2)$ copies under single-copy or few-copy measurements, warm ones $Θ(m^2/ε^2)$. The author proved $Ω(m^3/ε^2)$ for adaptive single-copy tomography of mixed fermionic Gaussian states. This note shows the crossover has no fermionic counterpart and extends the fermionic bound to blocks of $k$ copies. There is no warm regime: on the quadratic Gibbs balls $β\\|h\\|_F\\leβ_0$ of unknown Hamiltonian $h$, the single-copy rate is $Θ(m^3/ε^2)$ for every fixed $β_0>0$, at accuracies that resolve the ball, with a lower-bound constant independent of $β_0$. At the maximally mixed state a replicated-parameter Fisher budget gives $N>m^3/(8{,}553{,}600\\,k\\,ε^2)$ for blocks of at most $k$ copies and all $ε\\le1/3600$; an exact formula for the maximal block Fisher information, via spinor tensor powers of $\\mathfrak{so}(2m)$, shows that the budget $mt^2$ behind it is asymptotically attained for every fixed block size; whether $1/k$ is the true rate is open. Near the vacuum, block protocols need $Ω(m^3/(ε^2\\min\\{\\sqrt k,m\\}))$ copies, with no logarithm, via an exterior-power embedding of qudit tomography; parity superselection changes no rate, and number superselection costs nothing on number-conserving inputs. The embedding also carries upper bounds: a particle-number measurement followed by the $k$-copy qudit protocol of Nayak and Zhou attains the lower bound for every $k$ on number-conserving fermionic Gaussian states with bounded fugacity trace and on passive bosonic Gaussian states with bounded photon number, and a heterodyne stage that undoes displacement and squeezing extends this to all cold bosonic Gaussian states. This closes their $k$-entangled gap on the cold class; intermediate temperatures remain open.",
       "url": "https://arxiv.org/abs/2611.07271v1",
       "categories": [
-        "quant-ph"
-      ],
-      "status": "unreviewed"
-    },
-    {
-      "id": "2611.07187",
-      "version": "v1",
-      "title": "Thermally-driven quantum reservoir computing",
-      "authors": "Thiago Werlang; Daniel Valente",
-      "submitted": "2026-11-04",
-      "updated": "2026-11-04",
-      "abstract": "Heat generation limits computation, classical and quantum, from single logic gates to entire data centers. However, an in principle limiting physical factor can sometimes be turned into a resource. In reservoir computing, energy dissipation is what gives a reservoir its fading memory. Here, we introduce a paradigm where the data injection itself is encoded on the time-dependent temperature of a thermal bath. We derive an exact expression for the nonlinear response of any fixed readout, and prove a rigorous memory-nonlinearity trade-off which turns out to be a structural necessity, rather than a tunable dynamical regime, since the same coupling that injects data also enforces equilibration. We illustrate both results with a driven qubit, using a single free parameter, and with a pair of coupled qubits, where the breaking of a discrete symmetry opens a fifteen-dimensional space to a single observable, yet that observable alone recovers just over half of it. This refutes the misconception that large Hilbert spaces guarantee computational power. Our results relocate the memory-nonlinearity trade-off from the reservoir's dynamics to its measurement channel, pointing to observable choice and bath engineering (instead of Hamiltonian control) as the physical levers for a thermally-native quantum reservoir computer.",
-      "url": "https://arxiv.org/abs/2611.07187v1",
-      "categories": [
-        "quant-ph",
-        "cond-mat.stat-mech"
-      ],
-      "status": "unreviewed"
-    },
-    {
-      "id": "2611.07175",
-      "version": "v1",
-      "title": "Scalable Transpilation for Overcoming Restricted Connectivity in Distributed Superconducting Quantum Architectures",
-      "authors": "Afonso Azenha; Ilia Polian; Sebastian Brandhofer",
-      "submitted": "2026-11-04",
-      "updated": "2026-11-04",
-      "abstract": "Distributed Quantum Computing (DQC) offers a promising pathway to scale superconducting quantum hardware, but restricted inter- and intra-module connectivity creates a major transpilation bottleneck. Current DQC transpilation methods often assume idealized hardware connectivity, ignore subsequent intra-module routing, or suffer from substantial computational overheads that limit their applicability at scale. To address this, we introduce a scalable transpilation method tailored for the restricted connectivity of distributed superconducting quantum architectures. Specifically, our quantum interaction graph (QIG) approach couples a graph-partitioning mapping step with a fast SABRE-inspired routing heuristic. On a 48-qubit (3 QPUs $\\times$ 16 qubits) architecture with all-to-all inter-core connectivity, our method reduces average aggregated costs by up to 24.72% (unstructured) and 24.01% (structured), while delivering >250$\\times$ speed-ups for structured workloads compared to the state-of-the-art DMapS algorithm. On the 399-qubit (3$\\times$133) IBM Flamingo, where DMapS times out on dense circuits, our approach maintains practical runtimes. Against a DQC-adapted SABRE baseline, it reduces structured circuit routing costs by up to 51.94% (all-to-all inter-core topology) and 51.96% (restricted line topology). Ultimately, this work delivers a practical transpilation method for DQC at scale.",
-      "url": "https://arxiv.org/abs/2611.07175v1",
-      "categories": [
-        "quant-ph",
-        "cs.ET"
-      ],
-      "status": "unreviewed"
-    },
-    {
-      "id": "2611.07153",
-      "version": "v1",
-      "title": "Improving Gravitationally Induced Entanglement in Interferometric Configurations",
-      "authors": "Alireza Maleki",
-      "submitted": "2026-11-04",
-      "updated": "2026-11-04",
-      "abstract": "Proposals to detect gravitationally induced entanglement between massive particles offer a promising pathway toward probing the quantum nature of gravity. We perform a systematic geometric optimization and comparative analysis of Stern--Gerlach (SG) and Mach--Zehnder (MZ) matter-wave interferometers for this purpose, deriving exact analytical expressions for the gravitational phase of each configuration. Our first key result is that geometric optimization is indispensable. For commonly assumed experimental parameters, neglecting the optimization of geometric ratios can suppress the accumulated phase, and hence the detectability of entanglement, by up to several orders of magnitude. Second, we provide a complete comparative analysis of two SG orientations (linear and parallel) and three MZ orientations (translation-symmetric, mirror-symmetric, and parallel-arms). The parallel-arms SG and MZ configurations tend to yield the largest phase accumulations and are nearly equivalent in performance, whereas the translation-symmetric MZ setup exhibits destructive-interference nulls that act as blind operating points where detection becomes ineffective. These observations highlight the importance of geometry-aware design. A Monte Carlo error analysis of realistic fabrication tolerances indicates that the parallel-arms configurations are generally more robust, maintaining low relative phase uncertainty over broad parameter intervals. Furthermore, an evaluation of Bell violations assesses the feasibility and signal-to-noise ratio of each configuration. Our results identify geometric optimization, particularly through parallel-arms designs, as an important consideration for near-term experiments targeting gravitationally induced entanglement.",
-      "url": "https://arxiv.org/abs/2611.07153v1",
-      "categories": [
-        "quant-ph",
-        "gr-qc",
-        "hep-th"
-      ],
-      "status": "unreviewed"
-    },
-    {
-      "id": "2611.07144",
-      "version": "v1",
-      "title": "Dithered Belief Propagation for Real-Time Quantum Memory Decoding",
-      "authors": "Zhengyu Cai; Mohamad Ali Jarkas; Bokun Zhao; Warren J. Gross",
-      "submitted": "2026-11-04",
-      "updated": "2026-11-04",
-      "abstract": "We introduce dithered belief-propagation decoding for circuit-level quantum memory to mitigate the oscillations and trapping behavior that limit standard belief-propagation (BP) decoders for qLDPC codes. Our approach combines a quantum-adapted sign-flip mechanism with chained randomized prior perturbation. Evaluated under circuit-level noise on the distance-11 rotated surface code and the distance-12 bivariate-bicycle code, the proposed dithered decoder significantly outperforms BP and BP+OSD+CS-10. The proposed decoder achieves accuracy comparable to or better than state-of-the-art Relay-BP, especially at higher physical error rates, while trading a moderate increase in additions for about 98% fewer multiplications on average and eliminating node-level RNGs. These results suggest that dithering is a promising approach toward real-time decoding of quantum memories.",
-      "url": "https://arxiv.org/abs/2611.07144v1",
-      "categories": [
-        "quant-ph",
-        "cs.IT"
-      ],
-      "status": "unreviewed"
-    },
-    {
-      "id": "2611.07115",
-      "version": "v1",
-      "title": "Nonequilibrium Spin-Glass Order in a Long-Range Quantum Ising Glass and Its Sensitivity to Noise",
-      "authors": "Giuseppe D'Auria; Alessandro Silva",
-      "submitted": "2026-11-04",
-      "updated": "2026-11-04",
-      "abstract": "We study spin-glass order after a transverse-field quench in a long-range quantum Ising glass. The diagonal-ensemble Edwards-Anderson order coincides at the no-quench and zero-field endpoints, yet in between cold shells overshoot it and hot shells undershoot it. This stems from a competition in correlation space between the rigidity of populated eigenstates and the spread of their pair patterns. Under weak longitudinal dephasing the zero-field endpoint is exactly pinned while the characteristic finite-quench response fades, giving a self-referenced noise probe for quantum spin simulators.",
-      "url": "https://arxiv.org/abs/2611.07115v1",
-      "categories": [
-        "cond-mat.dis-nn",
-        "cond-mat.stat-mech",
         "quant-ph"
       ],
       "status": "unreviewed"

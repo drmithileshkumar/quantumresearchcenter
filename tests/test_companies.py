@@ -51,5 +51,5 @@ class CompanyTests(unittest.TestCase):
         countries = {c['country'] for c in self.data['companies']}
         self.assertEqual(audit.buttons, countries)
         self.assertEqual(audit.markers, countries)
-        self.assertIn('A world of quantum companies', markup)
+        self.assertIn('<h2 id="world-map-heading">Companies by country</h2>', markup)
         self.assertNotIn('conferences across', markup)

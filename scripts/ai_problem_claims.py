@@ -47,8 +47,8 @@ def render_claims(root, articles, prefix='../'):
         claimed = item['category'] == 'claimed'
         attribution = (f'{esc(item["claimant"])} · <time datetime="{item["announced"]}">{date.fromisoformat(item["announced"]).strftime("%d %b %Y")}</time>'
                        if claimed else esc(item['source_label']))
-        link_label = 'Read the claim' if claimed else 'Read about the problem'
-        explainer = (f'<a href="{prefix}news/articles/{esc(item["article"])}/index.html">Read our explainer</a>'
+        link_label = 'The claim' if claimed else 'The problem statement'
+        explainer = (f'<a href="{prefix}news/articles/{esc(item["article"])}/index.html">Background article</a>'
                      if item.get('article') else '')
         cards[item['category']].append(f'''<li class="problem-claim" id="{esc(item['id'])}">
 <p class="problem-field">{esc(item['field'])}</p>
@@ -58,14 +58,14 @@ def render_claims(root, articles, prefix='../'):
 <div class="problem-links"><a href="{esc(item['source'])}">{link_label}<span class="visually-hidden">: {esc(item['problem'])}</span> ↗</a>{explainer}</div>
 </li>''')
     return f'''<div id="ai-problem-claims">
-<nav class="problem-links" aria-label="Problem categories"><a href="#claimed-by-ai">Claimed by AI ({len(cards['claimed'])})</a><a href="#still-open">Still open ({len(cards['open'])})</a></nav>
+<nav class="problem-links" aria-label="Problem categories"><a href="#claimed-by-ai">Claims ({len(cards['claimed'])})</a><a href="#still-open">Unresolved ({len(cards['open'])})</a></nav>
 <section class="problem-claims" id="claimed-by-ai" aria-labelledby="claimed-title">
-<div class="section-top"><h2 id="claimed-title">Claimed by AI</h2></div>
+<div class="section-top"><h2 id="claimed-title">Claims attributed to AI</h2></div>
 <p class="problem-intro">AI-assisted proofs, refutations, and partial results reported by the named teams. These are attributed claims, not a list of independently confirmed solutions. A claim here does not by itself establish that a problem is closed.</p>
 <ul class="problem-claims-grid">{''.join(cards['claimed'])}</ul>
 </section>
 <section class="problem-claims" id="still-open" aria-labelledby="open-title">
-<div class="section-top"><h2 id="open-title">Still open</h2></div>
+<div class="section-top"><h2 id="open-title">Unresolved problems</h2></div>
 <p class="problem-intro">Selected unresolved problems, with links to their statements and research context. This is a curated list, not a claim that no proposed solutions exist. Where only part of a problem has an AI resolution claim, its unresolved part is listed separately.</p>
 <ul class="problem-claims-grid">{''.join(cards['open'])}</ul>
 </section>
@@ -80,9 +80,9 @@ def render_claims_home(root, articles):
     if not data['problems']:
         return ''
     return f'''<section class="problem-claims problem-claims-preview" aria-labelledby="claims-preview-title">
-<div class="section-top"><div><p class="eyebrow">Major questions / AI research</p><h2 id="claims-preview-title">Famous problems. New claims.</h2></div></div>
-<p class="problem-intro">Explore two sections: Claimed by AI and Still open. Follow reported results and unresolved questions in physics, mathematics, computer science, and quantum information, with scope notes and sources.</p>
-<p class="problem-links"><a href="{PAGE}">Explore the problems and developments ↗</a></p>
+<div class="section-top"><div><p class="eyebrow">Register / AI-assisted research</p><h2 id="claims-preview-title">Claims and open problems</h2></div></div>
+<p class="problem-intro">Resolution claims attributed to named groups, and problems that remain open, in physics, mathematics, computer science, and quantum information, with scope notes and sources.</p>
+<p class="problem-links"><a href="{PAGE}">The full register ↗</a></p>
 <p class="problem-review">{len(data['problems'])} problems tracked · Sources reviewed <time datetime="{data['reviewed_on']}">{date.fromisoformat(data['reviewed_on']).strftime('%d %B %Y')}</time></p>
 </section>'''
 
@@ -91,8 +91,9 @@ def render_claims_page(root, articles, shell):
     register = render_claims(root, articles)
     if not register:
         return
-    header = '''<header class="editorial-intro compact"><p class="eyebrow">Research watch</p>
-<h1>AI and famous problems</h1><p>An evolving register of AI-assisted resolution claims and problems that remain open. We will update this page as new claims, reviews, corrections, and explanations appear.</p>
+    header = '''<header class="editorial-intro compact"><p class="eyebrow">Register</p>
+<h1>AI-assisted claims about open problems</h1><p>Resolution claims attributed to AI-assisted work, and problems that remain open. The register is updated as claims, reviews, corrections, and explanations appear.</p>
 <p><a href="../index.html">← Back to the homepage</a></p></header>'''
-    shell(PAGE, 'AI and famous problems',
-          'Track AI-assisted resolution claims in physics, mathematics, computer science, and quantum information, with sources and scope notes.', header + register)
+    shell(PAGE, 'AI-assisted claims about open problems',
+          'Resolution claims attributed to AI-assisted work in physics, mathematics, computer science, and'
+          ' quantum information, each with its source and a note on what the claim covers.', header + register)
