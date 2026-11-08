@@ -99,3 +99,12 @@
 .ebook .keywords {margin:-.2rem 0 .7rem;padding:0;font-family:var(--sans);font-size:.8em;line-height:1.45;font-variant-caps:small-caps;letter-spacing:.03em;color:var(--muted);}
 .ebook .keywords .keyword-sep {font-variant:normal;}
 .ebook .keywords a.glossary-term {color:inherit;}
+
+/* Tiny paragraph concept aside: marginalia on wide screens, compact corner tag on narrower screens. */
+.ebook .concept-aside {float:right;clear:right;max-width:10.5rem;margin:.15em 0 .35em .85em;padding:2px 8px;border-left:2px solid var(--section-heading,var(--accent));background:var(--surface,var(--sidebar));border-radius:0 3px 3px 0;font:600 11px/1.35 var(--sans);letter-spacing:.025em;color:var(--section-heading,var(--ink-soft));}
+@media screen and (min-width:1320px){
+ .ebook .concept-aside {width:132px;max-width:132px;margin:.22em -150px .45em 0;padding:2px 0 2px 9px;background:transparent;border-radius:0;}
+}
+@media print{
+ .ebook .concept-aside {max-width:9.5rem;margin:.1em 0 .25em .75em;padding:1px 0 1px 6px;border-left:1.5px solid var(--muted);background:transparent;font:600 8.5pt/1.25 var(--sans);color:var(--ink-soft);}
+}

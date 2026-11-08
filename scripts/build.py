@@ -127,20 +127,20 @@ def render(book):
             sidebar_contents+=f'<a class="intro-link" '+('aria-current="page" ' if source=='research/students/index.html' else '')+f'href="{relative("research/students/index.html",source)}">Students and Contributions</a>'
         intro_target='index.html'  if source=='index.html' else ('education/index.html' if source=='education/index.html' else 'research/index.html')
         intro_label='Home' if source=='index.html' else ('Course catalog' if source=='education/index.html' else 'Research introduction')
-        toolbar_title='Quantum Research Center' if source=='index.html' else ('Education' if source=='education/index.html' else 'Quantum Research')
-        toolbar_link=site_logo('toolbar-logo','index.html') if source=='index.html' else f'<a href="{prefix}{intro_target}">{toolbar_title}</a>'
-        landing_nav=site_nav  # Home / Education / Research sit in the top bar on every page
-        font_toggle = '' if source in {'education/index.html', 'research/index.html'} else '<button id="font-toggle" type="button" aria-label="Increase text size" aria-pressed="false" hidden>Aa</button>'
         section_home = source in {'education/index.html', 'research/index.html'}
+        toolbar_title='Quantum Research Center' if source=='index.html' else ('Education' if source=='education/index.html' else 'Quantum Research')
+        toolbar_link=site_logo('toolbar-logo','index.html') if source=='index.html' else (site_logo('editorial-brand',prefix+'index.html') if section_home else f'<a href="{prefix}{intro_target}">{toolbar_title}</a>')
+        landing_nav=site_navigation(source, 'editorial-nav') if section_home else site_nav  # Home / Education / Research sit in the top bar on every page
+        font_toggle = '' if section_home else '<button id="font-toggle" type="button" aria-label="Increase text size" aria-pressed="false" hidden>Aa</button>'
         mathjax=(f'<script defer src="{prefix}education/computing/assets/source/mathjax-config.js"></script><script defer src="{prefix}education/computing/assets/source/vendor/mathjax/tex-svg.js"></script>' if '\\(' in body or '\\[' in body else '')
         outputs[source]=fill(TEMPLATES/'reader.html.in',dict(
             TITLE='Quantum Research Center: quantum science courses, research questions and papers' if source=='index.html' else esc(title)+' | Quantum Research Center',
             DESCRIPTION=esc(description),CANONICAL=canonical,SOCIAL=social_meta(title,description,canonical,'website'),SITE_DATA=site_data(book['url']) if source=='index.html' else '',
-            PREFIX=prefix,MATHJAX=mathjax,LOGO=site_logo('book-brand',prefix+'index.html'),EMAIL=book['email'],
+            PREFIX=prefix,MATHJAX=mathjax,LOGO='' if section_home else site_logo('book-brand',prefix+'index.html'),EMAIL=book['email'],
             BODY_CLASS=('landing' if source=='index.html' else 'reader')+(' section-home' if section_home else '')+(' research-question' if current and current.get('manuscript') or source.startswith('research/theorem-of-the-day/') and source!=THEOREM_HOME else ''),
             INTRO_CURRENT='aria-current="page"' if source==intro_target else '',INTRO_TARGET=intro_target,INTRO_LABEL=intro_label,SIDEBAR=sidebar_contents,
             OUTER_BODY='' if section_home else '<div class="book-body">',INNER_BODY='<div class="book-body">' if section_home else '',
-            TOOLBAR_LINK=toolbar_link,NAVIGATION=landing_nav,FONT_TOGGLE=font_toggle,BODY=body,PAGER=pager,LOCAL=local))
+            TOOLBAR_CLASS=' editorial-header' if section_home else '',TOOLBAR_LINK=toolbar_link,NAVIGATION=landing_nav,FONT_TOGGLE=font_toggle,BODY=body,PAGER=pager,LOCAL=local))
     theorem_book=json.loads((ROOT/'content/theorems.json').read_text())
     theorem_list=theorem_entries(theorem_book)
     latest=theorem_list[0]

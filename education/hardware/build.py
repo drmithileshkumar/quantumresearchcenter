@@ -27,7 +27,7 @@ COURSE = Course(
     about=COURSE_ABOUT,
     prerequisites=COURSE_PREREQUISITES,
     extra=COURSE_EXTRA,
-    description='An interactive introduction to quantum hardware by Mithilesh Kumar.',
+    description='Quantum hardware: physical qubits, control, coupling, readout, decoherence, and processor architecture, by Mithilesh Kumar.',
     resources='<nav class="book-resources" aria-label="Related courses"><a href="../computing/index.html">Quantum Computing</a><a href="../algorithms/index.html">Quantum Algorithms</a><a href="../programming/index.html">Quantum Programming</a><a href="../information/index.html">Quantum Information</a></nav>',
     search_example='transmon, Rabi, or readout',
     guide=BASIC_GUIDE,

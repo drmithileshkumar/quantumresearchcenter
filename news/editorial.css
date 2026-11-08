@@ -57,7 +57,10 @@
 .editorial .editorial-footer{padding-block:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:28px;font-size:12px;color:var(--muted)}
 .editorial-footer strong{font-weight:500;color:var(--heading)}
 .editorial-footer p{margin:6px 0 0}
-.editorial-footer nav{display:flex;flex-wrap:wrap;gap:12px 22px;align-content:start;max-width:440px}
+.editorial-footer nav{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;align-content:start;max-width:440px}
+.editorial-footer .footer-icon{display:inline-flex;align-items:center;justify-content:center;color:var(--muted);transition:color .15s}
+.editorial-footer .footer-icon:hover{color:var(--blue-strong);text-decoration:none}
+.editorial-footer .footer-icon svg{display:block;width:15px;height:15px}
 .article-filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px;margin:32px 0}
 .article-filters label{font-size:12px;color:var(--ink-soft)}
 .article-filters :is(input,select){display:block;width:100%;min-width:0;margin:8px 0 0;padding:12px;background:var(--paper);color:var(--ink);border:1px solid var(--field-border);border-radius:3px;font:14px var(--sans)}

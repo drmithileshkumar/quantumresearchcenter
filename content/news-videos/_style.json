@@ -20,6 +20,9 @@
     "min_font_px": 26,
     "lufs": -16
   },
+  "tex": {
+    "(1-p)^N": "one minus p, all to the power N"
+  },
   "lexicon": {
     "Λ": "lambda",
     "µs": "microseconds",

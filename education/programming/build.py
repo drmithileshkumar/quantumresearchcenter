@@ -21,7 +21,7 @@ COURSE = Course(
     about=COURSE_ABOUT,
     prerequisites=COURSE_PREREQUISITES,
     extra=COURSE_EXTRA,
-    description='An interactive introduction to quantum programming with Qiskit by Mithilesh Kumar.',
+    description='Quantum programming with Qiskit: circuit construction, simulation, compilation, and execution, by Mithilesh Kumar.',
     resources='<nav class="book-resources" aria-label="Prerequisite courses"><a href="../computing/index.html">Quantum Computing</a><a href="../algorithms/index.html">Quantum Algorithms</a></nav>',
     search_example='Qiskit, measurement, or transpilation',
     guide=BASIC_GUIDE,

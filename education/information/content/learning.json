@@ -1,66 +1,66 @@
 {
   "01-information-and-distinguishability": {
-    "prediction": "Alice chooses card A three times as often as B. Her detector lights red on one fifth of A trials and four fifths of B trials. Bob sees red. Which card should he guess?",
-    "explanation": "Guess B. In 100 trials with the model’s proportions, A contributes 15 red reports and B contributes 20. Among the 35 red reports, B accounts for 20, giving probability 4/7."
+    "prediction": "The chapter figure models two hypotheses \\(A\\) and \\(B\\) with unequal priors (\\(3:1\\)) and asymmetric detector likelihoods (\\(1/5\\) vs. \\(4/5\\) for a red report). Trace the expected trial counts out of 100 runs to compare prior weight against likelihood when the detector reports red.",
+    "explanation": "Out of 100 trials, \\(A\\) occurs 75 times and produces \\(75\\times(1/5)=15\\) red reports, while \\(B\\) occurs 25 times and produces \\(25\\times(4/5)=20\\) red reports. Among the 35 red reports, \\(B\\) accounts for \\(20/35=4/7\\), so the maximum-posterior rule guesses \\(B\\)."
   },
   "02-classical-information": {
-    "prediction": "Can a source of biased bits be compressed just by deleting its frequent zeros?",
-    "explanation": "No. Their positions are part of the message. An encoder must retain enough information to reconstruct the entire string, using a specified code."
+    "prediction": "The chapter diagrams compare fixed-length block coding, typical-set pruning, and prefix-free variable-length trees for biased bit sources. Trace how an encoder assigns short codewords to high-probability blocks while preserving unique decodability.",
+    "explanation": "Deleting frequent zeros without recording their positions destroys the message structure. Prefix-free and typical-set encoders compress a biased source by assigning shorter binary descriptions to the most probable strings while remaining uniquely decodable."
   },
   "03-quantum-states": {
-    "prediction": "A relative phase changes no original 0/1 probabilities. Can it change a later experiment?",
-    "explanation": "Yes. H combines amplitudes from the two configurations. Their relative phase changes the sum before its magnitude is squared."
+    "prediction": "The interactive phase-and-interference figure compares \\(\\ket{+}=(\\ket{0}+\\ket{1})/\\sqrt{2}\\) and \\(\\ket{-}=(\\ket{0}-\\ket{1})/\\sqrt{2}\\) under computational-basis readout and after a Hadamard gate \\(H\\). Toggle the relative sign and apply \\(H\\) to see how invisible phase differences become deterministic readout differences.",
+    "explanation": "In the computational basis, both \\(\\ket{+}\\) and \\(\\ket{-}\\) yield \\(0\\) and \\(1\\) with probability \\(1/2\\). Applying \\(H\\) recombines the two amplitudes so that \\(\\ket{+}\\) maps to \\(\\ket{0}\\) and \\(\\ket{-}\\) maps to \\(\\ket{1}\\), converting the relative sign into opposite outcomes."
   },
   "04-composite-systems": {
-    "prediction": "Alice and Bob always get equal 0/1 results on their two qubits. Does that prove the pair was prepared in (|00⟩+|11⟩)/√2?",
-    "explanation": "No. A source that randomly prepares 00 or 11 gives the same results. A measurement in a second basis, or the full joint state, tells them apart."
+    "prediction": "The correlation comparison figure contrasts the entangled Bell state \\((\\ket{00}+\\ket{11})/\\sqrt{2}\\) with a classical \\(50/50\\) mixture of \\(\\ket{00}\\) and \\(\\ket{11}\\). Compare joint outcome bars in the \\(Z\\otimes Z\\) basis and in the rotated \\(X\\otimes X\\) basis to distinguish coherent entanglement from classical pre-agreement.",
+    "explanation": "Both preparations produce identical correlated outcomes \\(00\\) and \\(11\\) in the computational basis \\(Z\\otimes Z\\). Rotating both analyzers to \\(X\\otimes X\\) preserves perfect correlation for \\((\\ket{00}+\\ket{11})/\\sqrt{2}\\) while randomizing the classical mixture across all four outcomes."
   },
   "05-mixed-states": {
-    "prediction": "Can a local mixed state tell you whether a coin was tossed during preparation?",
-    "explanation": "No. The same matrix can arise from several ensembles or from discarding part of an entangled pure state."
+    "prediction": "The ensemble-equivalence diagram builds the same density matrix \\(\\rho=I/2\\) from a fair \\(\\{\\ket{0},\\ket{1}\\}\\) mixture, a fair \\(\\{\\ket{+},\\ket{-}\\}\\) mixture, and one half of a Bell pair. Compare the local measurement statistics of all three preparations along any Bloch axis.",
+    "explanation": "Every local measurement probability is given by \\(\\tr(\\rho E_k)\\) and therefore depends only on \\(\\rho=I/2\\). No local experiment can distinguish whether the mixed state arose from a classical coin toss or from tracing out an entangled partner."
   },
   "06-quantum-operations": {
-    "prediction": "Does a noise probability of one always mean a maximally mixed output?",
-    "explanation": "No. A phase flip applied with certainty is a known unitary. Randomness in the applied operation, and which operation is used, matter."
+    "prediction": "The channel figure tracks how Kraus operators update a qubit under probabilistic bit flips, phase flips, and amplitude damping. Compare applying a Pauli phase flip \\(Z\\) with probability \\(p=1/2\\) versus \\(p=1\\) to see when channel action reduces purity.",
+    "explanation": "At \\(p=1\\), the phase flip \\(Z\\) is applied with certainty, which is a reversible unitary rotation that preserves purity. Uncertainty is maximal at \\(p=1/2\\), where averaging the unflipped and flipped branches eliminates the off-diagonal coherence."
   },
   "07-quantum-measurement": {
-    "prediction": "If two apparatuses have the same outcome probabilities for every input, must their outputs agree?",
-    "explanation": "No. Equal POVMs specify equal statistics for the first record, but the branch state updates may differ."
+    "prediction": "The measurement-model diagram separates outcome statistics (POVM effects \\(E_k=M_k^\\dagger M_k\\)) from the post-measurement instrument update (\\(M_k\\rho M_k^\\dagger/\\tr(\\rho E_k)\\)). Compare two instruments that share the same POVM effects \\(E_k\\) but differ by a unitary rotation on the output branch.",
+    "explanation": "Because outcome probabilities depend only on \\(E_k=M_k^\\dagger M_k\\), both apparatuses produce identical classical outcome distributions on the first measurement. Their post-measurement quantum states differ whenever \\(M_k\\) and \\(U_k M_k\\) differ, which changes subsequent measurements."
   },
   "08-state-discrimination": {
-    "prediction": "Should a receiver always use the ordinary 0/1 basis to distinguish zero from plus?",
-    "explanation": "No. That basis succeeds with probability 3/4; a rotated basis reaches approximately 0.8536 under equal priors."
+    "prediction": "The state-discrimination figure compares computational-basis readout, Helstrom minimum-error projection, and unambiguous three-outcome POVMs for \\(\\ket{0}\\) and \\(\\ket{+}\\). Rotate the measurement axis between \\(\\ket{0}\\) and \\(\\ket{+}\\) to compare the minimum-error bound against the inconclusive rate.",
+    "explanation": "Measuring in the \\(\\{\\ket{0},\\ket{1}\\}\\) basis succeeds with probability \\(3/4\\). Symmetrically tilting the projective basis to the eigenbasis of \\(\\ketbra{0}{0}-\\ketbra{+}{+}\\) achieves the Helstrom optimum \\((1+1/\\sqrt{2})/2\\approx 0.8536\\)."
   },
   "09-information-constraints": {
-    "prediction": "Can Alice use her choice of Bell-pair measurement basis to send Bob a bit without a classical message?",
-    "explanation": "No. Both choices give Bob I/2 when her outcome is not announced."
+    "prediction": "The protocol-constraint diagrams trace cloning attempts, local basis choices on a shared Bell pair, and the Holevo accessible-information bound. Compare Bob’s marginal density matrix when Alice measures her Bell-pair qubit in the \\(Z\\) basis versus the \\(X\\) basis without sending her classical outcome.",
+    "explanation": "Whether Alice measures in \\(Z\\) or \\(X\\), averaging over her two equally likely outcomes leaves Bob’s reduced state at \\(I/2\\). Without the classical message identifying which branch occurred, Alice’s basis choice cannot signal a bit to Bob."
   },
   "10-entanglement-protocols": {
-    "prediction": "Can Bob learn a teleportation input before Alice’s two-bit record arrives?",
-    "explanation": "No. Averaging its four equally likely Pauli branches gives I/2 on Bob for every input."
+    "prediction": "The teleportation and superdense-coding circuit diagrams track how one shared Bell pair and two classical bits move quantum or classical information between Alice and Bob. Follow the four Bell-measurement branches in teleportation before and after Alice’s two-bit record reaches Bob.",
+    "explanation": "Before Alice’s two-bit record arrives, Bob’s qubit is an equal mixture of \\(\\ket{\\psi}\\), \\(X\\ket{\\psi}\\), \\(Z\\ket{\\psi}\\), and \\(XZ\\ket{\\psi}\\), which averages to \\(I/2\\) for every input. Conditional on the two classical bits, Bob applies the matching Pauli correction to recover \\(\\ket{\\psi}\\)."
   },
   "11-quantum-entropy": {
-    "prediction": "Is the entropy of a pure plus state one bit because its Z record is fair?",
-    "explanation": "Its state entropy is zero. The chosen measurement generates a record with entropy one; these refer to different objects."
+    "prediction": "The entropy diagrams compare the von Neumann entropy \\(S(\\rho)\\) of a quantum state with the Shannon entropy \\(H(X)\\) of a measurement record. Compare \\(S(\\ketbra{+}{+})\\) against the Shannon entropy of measuring \\(\\ket{+}\\) in the \\(Z\\) basis versus the \\(X\\) basis.",
+    "explanation": "Because \\(\\ket{+}\\) is a pure state, its von Neumann entropy is \\(S(\\ketbra{+}{+})=0\\). Measuring \\(\\ket{+}\\) in the \\(Z\\) basis creates a fair classical bit with Shannon entropy \\(1\\), whereas measuring in its eigenbasis \\(X\\) yields a deterministic outcome with entropy \\(0\\)."
   },
   "12-quantum-compression": {
-    "prediction": "Does measuring and preserving the average source matrix guarantee faithful compression?",
-    "explanation": "No. Measuring can leave the average matrix unchanged while disturbing each nonorthogonal source signal or its reference correlations."
+    "prediction": "The Schumacher compression diagram projects an \\(n\\)-copy source ensemble onto its high-probability typical subspace while tracking fidelity with a purifying reference system. Compare coherent projection onto the typical subspace against measuring each signal and re-preparing its average matrix.",
+    "explanation": "Coherent typical-subspace projection preserves the relative phases and reference entanglement of the source signals with vanishing disturbance as \\(n\\to\\infty\\). Measuring and re-preparing disturbs nonorthogonal signals even when it preserves the average density matrix."
   },
   "13-entanglement-transformations": {
-    "prediction": "Can postselection produce a Bell pair from a weakly entangled pair on some trials?",
-    "explanation": "Yes, with declared failures. The success probability and failed branches are essential parts of the resource account."
+    "prediction": "The LOCC conversion diagram compares deterministic majorization conditions between Schmidt coefficient vectors with heralded single-copy Procrustean filtering. Trace how a weak local filter equalizes the two Schmidt weights on its success branch while declaring failure on the complementary branch.",
+    "explanation": "Deterministic single-copy LOCC cannot increase the larger Schmidt weight, so a weakly entangled state cannot be converted to a Bell pair with probability \\(1\\). A heralded filter succeeds with probability \\(2p_{\\min}\\) by attenuating the dominant branch and declaring failure otherwise."
   },
   "14-quantum-error-correction": {
-    "prediction": "Can reading every data qubit and taking a majority correct an unknown superposition?",
-    "explanation": "That reads the logical value and destroys coherence. Read only parity syndromes to identify an error without measuring the logical amplitudes."
+    "prediction": "The three-qubit repetition and parity-check diagrams compare direct data readout against ancilla-assisted syndrome extraction \\(Z_1 Z_2\\) and \\(Z_2 Z_3\\). Trace a single bit-flip error on \\(\\alpha\\ket{000}+\\beta\\ket{111}\\) through both parity checks to see how the faulty wire is identified without collapsing \\(\\alpha\\) and \\(\\beta\\).",
+    "explanation": "Measuring the data qubits directly reveals whether the bit string is \\(000\\) or \\(111\\) and destroys the superposition \\(\\alpha\\ket{000}+\\beta\\ket{111}\\). Measuring the two parity checks \\(Z_1 Z_2\\) and \\(Z_2 Z_3\\) reveals only the error location while leaving the encoded logical state intact."
   },
   "15-quantum-communication": {
-    "prediction": "If a quarter of qubits are flagged as erased, is the unassisted quantum capacity three quarters?",
-    "explanation": "No. The unassisted qubit erasure capacity is one half in that case. Preserving unknown quantum correlations is a stronger task than recovering classical labels."
+    "prediction": "The channel-capacity diagrams compare classical Holevo capacity, entanglement-assisted capacity, and unassisted quantum capacity \\(Q\\) for erasure and depolarizing channels. Trace the no-cloning bipartite splitting argument for a qubit erasure channel at erasure probability \\(\\epsilon=1/4\\).",
+    "explanation": "For a qubit erasure channel with erasure rate \\(\\epsilon\\), the unassisted quantum capacity is \\(\\max(0,1-2\\epsilon)\\). At \\(\\epsilon=1/4\\), the quantum capacity is \\(1-2(1/4)=1/2\\) qubits per channel use, strictly below the classical capacity \\(1-\\epsilon=3/4\\)."
   },
   "16-quantum-cryptography": {
-    "prediction": "Do zero observed test errors prove that a finite raw key is secret?",
-    "explanation": "No. A sample supports a statistical bound under a specified protocol model. Authentication, reconciliation leakage, and privacy amplification remain necessary."
+    "prediction": "The QKD pipeline diagram traces raw transmission, basis sifting, parameter estimation, error reconciliation, and privacy amplification on a finite sample of \\(N\\) signals. Follow the entropy accounting from the observed test-bit error rate through reconciliation leakage to the final hashed key length.",
+    "explanation": "Zero errors on a finite test subset bound the eavesdropper’s information only up to finite-sample confidence intervals. Producing a composable secret key still requires authenticated classical channels, syndrome reconciliation accounting, and universal-hash privacy amplification."
   }
 }

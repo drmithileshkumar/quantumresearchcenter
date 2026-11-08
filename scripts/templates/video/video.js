@@ -36,7 +36,8 @@
   }
   document.querySelectorAll('.chart[id]').forEach(prepareChart);
 
-  const caption = document.querySelector('.caption');
+  // Captions are written into the page (so MathJax typesets their formulas); one is shown at a time.
+  const captions = [...document.querySelectorAll('.caption')];
   window.__seek = t => {
     const sig = [];
     for (const cue of S.cues) {
@@ -52,10 +53,7 @@
       }
     }
     const k = S.captions.findIndex(c => t >= c.t0 && t < c.t1);
-    if (caption) {
-      caption.textContent = k < 0 ? '' : S.captions[k].text;
-      caption.classList.toggle('on', k >= 0);
-    }
+    captions.forEach((c, i) => c.classList.toggle('on', i === k));
     sig.push(k);
     return sig.join(',');
   };
@@ -90,13 +88,9 @@
     }
     for (const el of document.querySelectorAll('[data-mjx-error], mjx-merror'))
       issues.push('MathJax error: ' + (el.getAttribute('data-mjx-error') || el.textContent).slice(0, 80));
-    if (caption) {
-      const line = parseFloat(getComputedStyle(caption).lineHeight);
-      for (const c of S.captions) {
-        caption.textContent = c.text; caption.classList.add('on');
-        if (caption.getBoundingClientRect().height > 2 * line + 16) issues.push(`caption runs to three lines: "${c.text.slice(0, 50)}"`);
-      }
-      window.__seek(S.duration);
+    for (const c of captions) {
+      const line = parseFloat(getComputedStyle(c).lineHeight);
+      if (c.getBoundingClientRect().height > 2 * line + 16) issues.push(`caption runs to three lines: "${c.textContent.slice(0, 50)}"`);
     }
     return issues;
   };

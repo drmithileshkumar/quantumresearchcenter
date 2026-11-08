@@ -1,8 +1,10 @@
 # Article videos
 
-`scripts/videos.py` turns a news article into a narrated 1080p video: a script
-of scenes, spoken by a voice, drawn as HTML in the site's style, recorded frame
-by frame in headless Chrome and encoded with ffmpeg. Everything it makes goes to
+`scripts/videos.py` turns a news article into a narrated 1080p video. The
+narration is the article itself, read in full and in order: the headline, the
+standfirst, then each section's kicker and heading and its paragraphs. The
+script adds only the pictures: scenes drawn as HTML in the site's style,
+recorded frame by frame in headless Chrome and encoded with ffmpeg. Everything it makes goes to
 `_video/<slug>/`, which git ignores and the site never publishes. Videos are not
 yet linked from the site; that waits for a hosting decision (see the end).
 
@@ -44,20 +46,36 @@ A script is `content/news-videos/<slug>.json`; shared settings (voice, pace,
 pauses, targets, pronunciation lexicon) are in `content/news-videos/_style.json`.
 `beyond-the-qubit-count.json` is the worked example.
 
-The rules for content are the article rules: every number and claim must be in
-the article or its sources, attributed on screen through the scene's `source`
-line, and our own calculations or extrapolations must say so. Write the
-narration first, as spoken sentences, then the visuals.
+The words are the article's, so accuracy and sourcing are settled there: to
+change what is said, edit the article. The script decides what is on screen
+while each part is read, and the pictures follow the article's rules: every
+number shown is in the article or its sources, attributed through the scene's
+`source` line, and our own calculations or extrapolations say so. Prefer the
+article's own figures, stats, tables and questions to new material.
 
-- `narration`: a list of sentences (or one string, split at full stops). It is
-  spoken and captioned exactly as written, so write maths and symbols in
-  words; use `{"text": shown, "say": spoken}` or the lexicon when the two must differ.
-- `"on": k` on any visual element makes it appear when sentence `k` (counting
-  from 0) starts; `"delay"` adds seconds. Every sentence should change the
-  picture or deliberately hold it; the review flags long holds.
-- Every scene takes `id`, `layout`, `narration`, and optionally `section`
-  (top-right label), `heading`, `source`, `pause` (between sentences) and `hold`
-  (extra seconds at the end).
+- `from`: a phrase from the sentence where the scene starts. Each scene runs
+  until the next one starts, so the scenes always cover the whole article once,
+  in order; `check` reports a phrase that is missing or out of order, and an
+  article whose opening is not narrated. A scene without `from` is silent and
+  needs `hold` (the sources card at the end).
+- `"on"` on any visual element makes it appear when a phrase of the scene's
+  narration is spoken, for example `"on": "suppression factor"`. The time is
+  placed by the phrase's position in its sentence (there are no word timings
+  yet); a number `k` means the start of sentence `k` of the scene, and
+  `"delay"` adds seconds. The phrase must occur in exactly one sentence of the
+  scene. Every sentence should change the picture or deliberately hold it; the
+  review flags long holds.
+- Every scene takes `id`, `layout`, `from`, and optionally `section`
+  (top-right label), `heading`, `source`, `pause` (between sentences), `hold`
+  (seconds of reading time at the end, not counted as a stalled picture) and
+  `rate` (speaking speed for the scene, for example 0.92 to slow down; the
+  words cannot change, so this is how a dense passage gets more time).
+- Formulas in the article (`\(...\)`) are read aloud by a small TeX reader
+  (`2^{n/2}` becomes "2 to the power n over 2") and typeset in the captions.
+  When a reading is wrong or the reader does not know a command, `check` says
+  so; add the formula to `tex` in `_style.json` with how it should be said.
+  Words the voice mispronounces go in `lexicon` (or the script's own
+  `lexicon`, for one article).
 
 | Layout | Fields |
 |---|---|
@@ -67,7 +85,7 @@ narration first, as spoken sentences, then the visuals.
 | `stats` | `stats`: `{"value","label","on"}` |
 | `figure` | `figure` (an SVG in the article's figures folder), `steps`, `notes` |
 | `equation` | `lines`: `{"tex","note","on"}` |
-| `table` | `columns`, `rows` (`{"cells","on"}`; a cell may be `{"text","on"}`), `column_on`, `footer`, `small` |
+| `table` | `columns`, `rows` (`{"cells","on"}`; a cell may be `{"text","on"}`), `column_on` (one cue per column), `footer`, `small` |
 | `columns` | `columns`: `{"title","items"}` (for shown / claimed / open) |
 | `sources` | `items` (defaults to the article's sources), `url` |
 
@@ -88,8 +106,8 @@ figure's `draw.py`; titles also make the article figure more accessible.
    The command prints how flags and length moved since the last run.
 4. When the video scores at least 4 on every rubric item, set `status` to `ready`.
 
-Fix problems where they start: a mispronounced word goes in the lexicon, not
-in a one-off `say`; a layout that overflows for every article is a CSS fix,
+Fix problems where they start: a mispronounced word goes in the lexicon, a
+passage that listens badly is rewritten in the article, and a layout that overflows for every article is a CSS fix,
 not a shorter sentence in one script.
 
 ### Automatic checks (targets in `_style.json`)
@@ -106,16 +124,17 @@ not a shorter sentence in one script.
 
 ### Human rubric (score 1 to 5)
 
-1. **Accuracy**: every spoken and shown claim matches the article and its
-   sources; estimates and extrapolations are labelled.
+1. **Accuracy**: everything shown matches the article and its sources;
+   estimates and extrapolations are labelled. (The spoken words are the article.)
 2. **Sourcing**: the source of each claim is on screen while it is made.
 3. **Explanation**: at least one idea is shown being derived or built, not
    just stated; a newcomer could follow it.
-4. **Picture and words agree**: each element appears as it is mentioned;
-   nothing on screen is unexplained.
+4. **Picture and words agree**: each element appears as it is read; nothing
+   on screen is unexplained. Watch for article wording that points at the page
+   ("the table below", "the numbers above"): the thing it names must be on screen.
 5. **Voice**: names, numbers and terms pronounced correctly; natural pauses.
-6. **Pace and length**: no stretch drags or rushes; the opening says the point
-   within 15 seconds.
+6. **Pace and length**: no stretch drags or rushes; tables and charts stay up
+   long enough to read.
 7. **Legibility**: readable on a phone; captions never cover content.
 8. **Status is clear**: shown, claimed and still open are distinguishable.
 
@@ -126,8 +145,12 @@ not a shorter sentence in one script.
   `synth`); a cloud voice or a recorded human voice (`--voice recorded`, one
   file per scene in `content/news-videos/<slug>/<scene>.wav`) is the biggest
   single improvement.
-- **Word-level timing.** Reveals and captions are timed per sentence; a forced
-  aligner would allow cues on a word.
+- **Word-level timing.** Phrase cues and caption chunks are placed by their
+  position in the sentence; a forced aligner (or Piper's phoneme timings) would
+  put them on the spoken word.
+- **Writing for the ear.** The narration is the article, so a passage that
+  reads well but listens badly is fixed in the article; note such passages
+  while reviewing.
 - **Richer motion.** Equations built term by term; highlighting a table cell or
   chart point as it is discussed; transitions between scenes.
 - **Vertical cut.** A 1080×1920 layout set for social platforms from the same script.

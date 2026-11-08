@@ -37,7 +37,7 @@ TEMPLATE = ROOT / 'scripts/templates/video'
 OUT = ROOT / '_video'
 W, H, RATE = 1920, 1080, 22050
 SLUG = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
-# Layout -> fields it requires. Every layout also takes heading, section, source and narration.
+# Layout -> fields it requires. Every layout also takes from, heading, section, source, pause and hold.
 LAYOUTS = {'title': {'headline'}, 'statement': {'text'}, 'points': {'items'}, 'stats': {'stats'},
            'figure': {'figure'}, 'equation': {'lines'}, 'table': {'columns', 'rows'}, 'columns': {'columns'},
            'sources': set()}
@@ -73,11 +73,135 @@ def sentences(narration):
     return [{'text': p} for p in parts if p]
 
 
-def spoken(sentence, lexicon):
-    """The text sent to the voice: an explicit "say", else the shown text with the lexicon applied."""
+MATH = re.compile(r'\\\((.+?)\\\)')
+GREEK = {'alpha': 'α', 'beta': 'β', 'gamma': 'γ', 'delta': 'δ', 'Delta': 'Δ', 'epsilon': 'ε', 'varepsilon': 'ε',
+         'theta': 'θ', 'lambda': 'λ', 'Lambda': 'Λ', 'mu': 'μ', 'nu': 'ν', 'pi': 'π', 'sigma': 'σ', 'phi': 'φ',
+         'psi': 'ψ', 'Psi': 'Ψ', 'omega': 'ω', 'Omega': 'Ω', 'rho': 'ρ', 'tau': 'τ', 'chi': 'χ', 'eta': 'η'}
+SAID = {'approx': 'is about', 'le': 'is at most', 'leq': 'is at most', 'ge': 'is at least', 'geq': 'is at least',
+        'neq': 'is not', 'cdot': 'times', 'times': 'times', 'dots': 'and so on', 'ldots': 'and so on',
+        'log': 'log', 'ln': 'log', 'exp': 'exp', 'infty': 'infinity', 'in': 'in', 'to': 'to', 'pm': 'plus or minus',
+        'sum': 'the sum of', 'prod': 'the product of', 'mid': 'given', 'propto': 'proportional to',
+        'mapsto': 'maps to', 'star': 'star', 'prime': 'prime', '{': 'the set', '}': ''}
+SILENT = {'left', 'right', 'bigl', 'bigr', 'Bigl', 'Bigr', 'big', 'Big', 'displaystyle', 'quad', 'qquad', ',', ';', '!', ' '}
+SYMBOL = {'+': 'plus', '-': 'minus', '=': 'equals', '>': 'is greater than', '<': 'is less than', '/': 'over',
+          ',': ',', '!': 'factorial', '*': 'times', "'": 'prime'}
+
+
+def say_tex(tex, lexicon=None):
+    """Read an inline formula aloud: "2^{n/2}" -> "2 to the power n over 2". Raises ValueError on
+    commands it does not know; add those formulas to the "tex" lexicon in _style.json."""
+    tex = ' '.join(tex.split())
+    if lexicon and tex in lexicon:
+        return lexicon[tex]
+    tokens = re.findall(r'\\[A-Za-z]+|\\.|\d+(?:\.\d+)?|\S', re.sub(r'(\d)\\,(?=\d)', r'\1', tex))
+    pos = 0
+
+    def group():
+        nonlocal pos
+        if pos < len(tokens) and tokens[pos] == '{':
+            depth, start = 0, pos
+            while pos < len(tokens):
+                depth += {'{': 1, '}': -1}.get(tokens[pos], 0)
+                pos += 1
+                if depth == 0:
+                    return tokens[start + 1:pos - 1]
+            raise ValueError('unbalanced braces')
+        pos += 1
+        return tokens[pos - 1:pos]
+
+    def read(toks):
+        nonlocal tokens, pos
+        saved, tokens, pos, words, bars = (tokens, pos), toks, 0, [], 0
+        while pos < len(tokens):
+            t, prev = tokens[pos], tokens[pos - 1] if pos else ''
+            pos += 1
+            if t == '^':
+                sup = group()
+                words.append({'2': 'squared', '3': 'cubed'}.get(''.join(sup)) or 'to the power ' + read(sup))
+            elif t == '_':
+                words.append(('base ' if prev == '\\log' else 'sub ') + read(group()))
+            elif t == '\\sqrt':
+                words.append('the square root of ' + read(group()))
+            elif t in ('\\frac', '\\tfrac', '\\dfrac'):
+                a = read(group())
+                words.append(f'{a} over {read(group())}')
+            elif t in ('\\text', '\\mathrm', '\\textrm', '\\operatorname', '\\mathsf', '\\mathit'):
+                words.append(''.join(group()).replace('~', ' '))
+            elif t in ('\\mathbb', '\\mathcal', '\\mathbf'):
+                words.append(read(group()))
+            elif t == '|':
+                if '\\rangle' in tokens[pos:pos + 6]:
+                    words.append('ket')
+                elif bars % 2 == 0:
+                    words.append('the absolute value of')
+                bars += 1 if '\\rangle' not in tokens[pos:pos + 6] else 0
+            elif t == '\\rangle':
+                continue
+            elif t == '\\langle':
+                words.append('bra')
+            elif t in ('(', ')', '[', ']'):
+                if t == '(' and re.fullmatch(r'[A-Za-z]|\\[A-Za-z]+', prev or '') and prev not in ('\\cdot', '\\approx'):
+                    words.append('of')
+            elif t in ('{', '}'):
+                continue
+            elif t.startswith('\\'):
+                name = t[1:]
+                if name in SILENT:
+                    continue
+                if name in GREEK:
+                    words.append(name.replace('var', '').lower())
+                elif name in SAID:
+                    words.append(SAID[name])
+                else:
+                    raise ValueError(f'no spoken form for {t}')
+            elif t in SYMBOL:
+                words.append(SYMBOL[t])
+            else:
+                words.append(t)
+        tokens, pos = saved
+        return ' '.join(w for w in words if w).replace(' ,', ',')
+
+    return read(tokens)
+
+
+SUP = str.maketrans('0123456789+-=()nNikT', '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿᴺⁱᵏᵀ')
+
+
+def plain_tex(tex):
+    """A plain-text rendering of an inline formula, for subtitles and transcripts."""
+    t = re.sub(r'(\d)\\,(?=\d)', r'\1,', ' '.join(tex.split()))
+    t = re.sub(r'\\(?:text|mathrm|operatorname)\{([^}]*)\}', r'\1', t)
+    t = re.sub(r'\\mathbb\s*\{?([A-Z])\}?', lambda m: {'R': 'ℝ', 'N': 'ℕ', 'Z': 'ℤ', 'C': 'ℂ', 'Q': 'ℚ'}.get(m.group(1), m.group(1)), t)
+    t = re.sub(r'\\sqrt\s*\{([^}]*)\}', r'√(\1)', t)
+    t = re.sub(r'\\sqrt\s*(\\?\w)', r'√\1', t)
+    t = re.sub(r'\\frac\{([^}]*)\}\{([^}]*)\}', r'(\1)/(\2)', t)
+
+    marks = {'approx': '≈', 'le': '≤', 'leq': '≤', 'ge': '≥', 'geq': '≥', 'neq': '≠', 'cdot': '·', 'times': '×',
+             'dots': '…', 'ldots': '…', 'rangle': '⟩', 'langle': '⟨', 'infty': '∞', 'pm': '±', 'in': '∈', 'to': '→',
+             'mapsto': '↦', 'star': '⋆', 'sum': '∑', 'prod': '∏', 'log': 'log ', 'mathsf': '', 'mathit': '',
+             'tfrac': '', 'dfrac': '', '{': '⦃', '}': '⦄'}
+    t = re.sub(r'\\([A-Za-z]+|[{}])', lambda m: GREEK.get(m.group(1)) or marks.get(m.group(1), m.group(1))
+               if m.group(1) not in SILENT else '', t)
+
+    def sup(m):
+        body = m.group(1) or m.group(2)
+        return body.translate(SUP) if all(c in '0123456789+-=()nNikT' for c in body) else '^' + (f'({body})' if len(body) > 1 else body)
+    t = re.sub(r'\^(?:\{([^{}]*)\}|(\w))', sup, t)
+    t = re.sub(r'_(?:\{([^{}]*)\}|(\w))', lambda m: m.group(1) or m.group(2), t)
+    t = t.replace('{', '').replace('}', '').replace('⦃', '{').replace('⦄', '}')
+    return ' '.join(re.sub(r'\\[,;! ]', ' ', t).split())
+
+
+def visible(text):
+    """The text as a viewer reads it, with each formula in plain form."""
+    return MATH.sub(lambda m: plain_tex(m.group(1)), text)
+
+
+def spoken(sentence, lexicon, tex_lexicon=None):
+    """The text sent to the voice: an explicit "say", else the text with formulas read out and the lexicon applied."""
     if 'say' in sentence:
         return sentence['say']
-    text = sentence['text']
+    text = MATH.sub(lambda m: say_tex(m.group(1), tex_lexicon), sentence['text'])
     for written, said in sorted(lexicon.items(), key=lambda kv: -len(kv[0])):
         if re.fullmatch(r'\w[\w\s.-]*\w|\w', written):
             text = re.sub(rf'(?<![\w-]){re.escape(written)}(?![\w-])', said, text)
@@ -86,9 +210,58 @@ def spoken(sentence, lexicon):
     return text
 
 
+def stream(art):
+    """The article as it is read aloud: headline, standfirst, then each section's kicker and heading
+    followed by its paragraphs. Every video narrates all of it, in this order."""
+    said = [{'text': art['title'], 'part': 'headline'}]
+    said += [dict(x, part='summary') for x in sentences(art['summary'])]
+    for i, sec in enumerate(art.get('sections', [])):
+        head = sec.get('heading', '')
+        if sec.get('kicker'):
+            head = f"{sec['kicker']}. {head}" if head else f"{sec['kicker']}."
+        if head:
+            said.append({'text': head if head[-1] in '.?!' else head + '.', 'part': f's{i}'})
+        for j, para in enumerate(sec.get('paragraphs', [])):
+            said += [dict(x, part=f's{i}p{j}') for x in sentences(para)]
+    return said
+
+
+def find(phrase, said, start=0):
+    """Indices of the sentences, from start on, that contain the phrase (case-insensitive)."""
+    p = ' '.join(phrase.split()).lower()
+    return [i for i in range(start, len(said)) if p in said[i]['text'].lower()]
+
+
+def plan(spec, art):
+    """Each scene's sentences of the article, and any errors. A scene starts at the sentence containing
+    its "from" phrase and runs until the next scene starts; a scene without "from" is silent."""
+    said, errors, starts, last = stream(art), [], [], -1
+    for scene in spec['scenes']:
+        anchor = scene.get('from')
+        if anchor is None:
+            starts.append(None)
+            continue
+        hits = find(anchor, said, last + 1)
+        if not hits:
+            errors.append(f"scene {scene.get('id')}: \"from\" {anchor!r} is not in the article after the previous scene's start")
+            starts.append(None)
+            continue
+        last = hits[0]
+        starts.append(last)
+    marked = [k for k in starts if k is not None]
+    if marked and marked[0] != 0:
+        errors.append(f'the article\'s first {marked[0]} sentence(s) are not narrated: the first scene must start at "{said[0]["text"][:40]}"')
+    bounds = marked + [len(said)]
+    out = []
+    for k in starts:
+        out.append([] if k is None else said[k:bounds[bounds.index(k) + 1]])
+    return out, errors
+
+
 def caption_chunks(text, limit=84):
     """Break a sentence into captions of at most two short lines, preferring breaks after punctuation."""
-    spaces = [m.start() for m in re.finditer(' ', text)]
+    inside = {i for m in MATH.finditer(text) for i in range(m.start(), m.end())}
+    spaces = [m.start() for m in re.finditer(' ', text) if m.start() not in inside]
     n = math.ceil(len(text) / limit)
     while True:
         cuts, prev = [], -1
@@ -120,7 +293,7 @@ def cue_refs(node):
         if 'on' in node:
             yield node['on']
         for key, value in node.items():
-            if key not in ('on', 'narration'):
+            if key not in ('on', 'from'):
                 yield from cue_refs(value)
     elif isinstance(node, list):
         for value in node:
@@ -136,6 +309,16 @@ def validate(spec):
         return errors
     if not (ARTICLES / f"{spec['article']}.json").exists():
         return [f"no article {spec['article']}"]
+    art = json.loads((ARTICLES / f"{spec['article']}.json").read_text())
+    narrated, errors = plan(spec, art)
+    settings = style()
+    for said in narrated:
+        for x in said:
+            for m in MATH.finditer(x['text']):
+                try:
+                    say_tex(m.group(1), settings.get('tex', {}))
+                except ValueError as e:
+                    errors.append(f'cannot read \\({m.group(1)}\\) aloud ({e}): add it to "tex" in _style.json')
     if spec['status'] not in ('draft', 'ready'):
         errors.append('status must be draft or ready')
     ids = [s.get('id') for s in spec['scenes']]
@@ -151,15 +334,24 @@ def validate(spec):
             continue
         for key in LAYOUTS[layout] - set(scene):
             errors.append(f'{where}: {layout} needs {key}')
-        said = sentences(scene.get('narration') or [])
-        if not said:
-            errors.append(f'{where}: no narration')
-        for s in said:
-            if '\\' in s['text'] or '$' in s['text']:
-                errors.append(f'{where}: narration is spoken and captioned, so write maths in words: {s["text"][:40]}')
-        for on in cue_refs({k: v for k, v in scene.items() if k != 'narration'}):
-            if not (isinstance(on, int) and 0 <= on < len(said)):
-                errors.append(f'{where}: "on" {on!r} is not a sentence number 0 to {len(said) - 1}')
+        if 'narration' in scene:
+            errors.append(f'{where}: the narration is the article; mark where the scene starts with "from"')
+        said = narrated[spec['scenes'].index(scene)]
+        refs = list(cue_refs(scene)) + list(scene.get('column_on', []))
+        if not said and (refs or not scene.get('hold')):
+            errors.append(f'{where}: a silent scene (no "from") needs a "hold" in seconds and no "on" cues')
+        for on in refs:
+            if on is None or not said:
+                continue
+            if isinstance(on, int) and not isinstance(on, bool):
+                if not 0 <= on < len(said):
+                    errors.append(f'{where}: "on" {on} is not a sentence number 0 to {len(said) - 1}')
+            elif isinstance(on, str):
+                hits = find(on, said)
+                if len(hits) != 1:
+                    errors.append(f'{where}: "on" {on!r} is in {len(hits)} of the scene\'s sentences; it must be in exactly one')
+            else:
+                errors.append(f'{where}: "on" must be a phrase of the narration or a sentence number')
         if layout == 'figure':
             path = figure_path(spec, scene['figure'])
             if not path.exists():
@@ -175,7 +367,7 @@ def validate(spec):
                 cells = row['cells'] if isinstance(row, dict) else row
                 if len(cells) != width:
                     errors.append(f'{where}: a row has {len(cells)} cells for {width} columns')
-            if 'column_on' in scene and len(scene['column_on']) != width:
+            if len(scene.get('column_on', [None] * width)) != width:
                 errors.append(f'{where}: column_on needs one entry per column')
     return errors
 
@@ -240,8 +432,8 @@ class Silent:
         self.wpm = settings.get('silent_wpm', 160)
         self.key = f'silent:{self.wpm}'
 
-    def synth(self, text, path):
-        write_wav(path, silence(max(0.6, len(text.split()) * 60 / self.wpm)))
+    def synth(self, text, path, rate=1.0):
+        write_wav(path, silence(max(0.6, len(text.split()) * 60 / self.wpm / rate)))
 
 
 class Piper:
@@ -251,7 +443,7 @@ class Piper:
         self.key = f'piper:{name}:{self.length_scale}'
         self.voice = None
 
-    def synth(self, text, path):
+    def synth(self, text, path, rate=1.0):
         from piper import PiperVoice, SynthesisConfig
         if self.voice is None:
             model = OUT / 'voices' / f'{self.name}.onnx'
@@ -261,7 +453,7 @@ class Piper:
             self.voice = PiperVoice.load(str(model))
         raw = path.with_suffix('.raw.wav')
         with wave.open(str(raw), 'wb') as w:
-            self.voice.synthesize_wav(text, w, syn_config=SynthesisConfig(length_scale=self.length_scale))
+            self.voice.synthesize_wav(text, w, syn_config=SynthesisConfig(length_scale=self.length_scale / rate))
         conform(raw, path)
         raw.unlink()
 
@@ -276,14 +468,15 @@ def voice(name, settings):
     sys.exit(f'unknown voice {name}')
 
 
-def scene_audio(spec, scene, backend, settings, fps):
+def scene_audio(spec, scene, said, backend, settings, fps):
     """Speech for one scene: (pcm, sentence times, duration). The duration is a whole number of frames."""
-    said = sentences(scene['narration'])
     lead, pause = settings['lead_in'], scene.get('pause', settings['sentence_pause'])
     tail = settings['tail'] + scene.get('hold', 0)
     cache = OUT / 'cache' / 'speech'
     cache.mkdir(parents=True, exist_ok=True)
-    if backend is None:   # recorded: one file per scene, sentence times shared out by length
+    if not said:   # a silent scene: a held picture
+        pcm, times, end = silence(lead), [], lead
+    elif backend is None:   # recorded: one file per scene, sentence times shared out by length
         found = sorted((SPECS / spec['slug']).glob(f"{scene['id']}.*"))
         if not found:
             sys.exit(f"recorded voice: no {SPECS.relative_to(ROOT)}/{spec['slug']}/{scene['id']}.wav (or .mp3, .m4a)")
@@ -291,7 +484,7 @@ def scene_audio(spec, scene, backend, settings, fps):
         if not wav.exists():
             conform(found[0], wav)
         speech = read_pcm(wav)
-        total, weights = len(speech) / 2 / RATE, [len(s['text']) for s in said]
+        total, weights = len(speech) / 2 / RATE, [len(visible(s['text'])) for s in said]
         times, t = [], lead
         for w_ in weights:
             times.append((t, t + total * w_ / sum(weights)))
@@ -300,10 +493,11 @@ def scene_audio(spec, scene, backend, settings, fps):
     else:
         pieces, times, t = [silence(lead)], [], lead
         for i, s in enumerate(said):
-            text = spoken(s, settings.get('lexicon', {}))
-            wav = cache / f'{sha(backend.key, text)}.wav'
+            text = spoken(s, {**settings.get('lexicon', {}), **spec.get('lexicon', {})}, settings.get('tex', {}))
+            rate = scene.get('rate', 1.0)   # per-scene speaking speed: the words are the article's, the pace is ours
+            wav = cache / f'{sha(backend.key, text, rate) if rate != 1.0 else sha(backend.key, text)}.wav'
             if not wav.exists():
-                backend.synth(text, wav)
+                backend.synth(text, wav, rate)
             clip = read_pcm(wav)
             times.append((t, t + len(clip) / 2 / RATE))
             pieces.append(clip)
@@ -324,10 +518,10 @@ def captions(said, times):
     """Caption cues for spoken sentences: each sentence's time is shared among its chunks by length."""
     for s, (start, end) in zip(said, times):
         chunks = caption_chunks(s['text'])
-        total, done = sum(len(c) for c in chunks), 0
+        total, done = sum(len(visible(c)) for c in chunks), 0
         for c in chunks:
             t0 = start + (end - start) * done / total
-            done += len(c)
+            done += len(visible(c))
             cues.append({'t0': round(t0, 3), 't1': round(start + (end - start) * done / total, 3), 'text': c})
     return cues
 
@@ -347,17 +541,27 @@ def rich(item):
 
 class Page:
     """Collects revealable elements and their cue times while a layout is written."""
-    def __init__(self, times, settings):
-        self.times, self.cues, self.n, self.fade = times, [], 0, settings['fade']
+    def __init__(self, said, times, settings):
+        self.said, self.times, self.cues, self.n, self.fade = said, times, [], 0, settings['fade']
+
+    def at(self, on):
+        """Seconds into the scene at which a cue fires. A sentence number fires as the sentence starts; a
+        phrase fires as it is spoken, placed by its position in the sentence (no word timings yet)."""
+        if on is None or not self.times:
+            return 0.0
+        if isinstance(on, int):
+            return self.times[on][0]
+        k = find(on, self.said)[0]
+        text, (t0, t1) = self.said[k]['text'], self.times[k]
+        offset = len(visible(text[:text.lower().index(' '.join(on.split()).lower())]))
+        return t0 + (t1 - t0) * offset / max(len(visible(text)), 1)
 
     def time(self, item, default):
         on = item.get('on', default) if isinstance(item, dict) else default
-        if on is None:
-            return 0.0
-        return self.times[on][0] + (item.get('delay', 0) if isinstance(item, dict) else 0)
+        return self.at(on) + (item.get('delay', 0) if isinstance(item, dict) and on is not None else 0)
 
     def spread(self, i, n):
-        return min(len(self.times) - 1, (i + 1) * len(self.times) // (n + 1))
+        return min(len(self.times) - 1, (i + 1) * len(self.times) // (n + 1)) if self.times else None
 
     def el(self, tag, cls, inner, t, attrs=''):
         name = f'e{self.n}'
@@ -384,7 +588,7 @@ def layout_title(p, scene, spec, art):
 def layout_statement(p, scene, spec, art):
     out = p.el('div', 'text', rich(scene['text']), p.time(scene['text'], 0))
     if scene.get('sub'):
-        out += p.el('div', 'sub', rich(scene['sub']), p.time(scene['sub'], len(p.times) - 1))
+        out += p.el('div', 'sub', rich(scene['sub']), p.time(scene['sub'], len(p.times) - 1 if p.times else None))
     return p.heading(scene) + out
 
 
@@ -429,7 +633,7 @@ def layout_equation(p, scene, spec, art):
 
 
 def layout_table(p, scene, spec, art):
-    col_t = [0.0 if on is None else p.times[on][0] for on in scene.get('column_on', [None] * len(scene['columns']))]
+    col_t = [p.at(on) for on in scene.get('column_on', [None] * len(scene['columns']))]
     head = ''.join(p.el('th', '', esc(c), col_t[j]) for j, c in enumerate(scene['columns']))
     rows = ''
     for i, row in enumerate(scene['rows']):
@@ -438,7 +642,7 @@ def layout_table(p, scene, spec, art):
         # a cell given as {"text", "on"} keeps its own time; others wait for their row and column
         rows += '<tr>' + ''.join(p.el('td', '', rich(c), p.time(c, None) if isinstance(c, dict) and 'on' in c else max(rt, col_t[j]))
                                  for j, c in enumerate(cells)) + '</tr>'
-    foot = ''.join(p.el('p', 'foot', rich(it), p.time(it, len(p.times) - 1)) for it in scene.get('footer', []))
+    foot = ''.join(p.el('p', 'foot', rich(it), p.time(it, len(p.times) - 1 if p.times else None)) for it in scene.get('footer', []))
     size = 'small' if scene.get('small') else ''
     return p.heading(scene) + f'<div class="{size}"><table><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table>{foot}</div>'
 
@@ -456,14 +660,15 @@ def layout_sources(p, scene, spec, art):
     lis = ''.join(f'<li>{esc(s)}</li>' for s in items)
     url = scene.get('url', f"quantumresearch.center/news/articles/{art['slug']}/")
     return (p.heading(scene) + p.el('ol', '', lis, 0.3)
-            + p.el('div', 'url', esc(url), p.time(scene, len(p.times) - 1)))
+            + p.el('div', 'url', esc(url), p.time(scene, len(p.times) - 1 if p.times else None) or 1.0))
 
 
-def scene_html(spec, art, scene, index, times, duration, settings, theme):
-    p = Page(times, settings)
+def scene_html(spec, art, scene, said, index, times, duration, settings, theme):
+    p = Page(said, times, settings)
     stage = globals()[f"layout_{scene['layout']}"](p, scene, spec, art)
-    said = sentences(scene['narration'])
-    data = {'duration': duration, 'cues': p.cues, 'captions': captions(said, times) if settings['captions'] else []}
+    caps = captions(said, times) if settings['captions'] else []
+    data = {'duration': duration, 'cues': p.cues, 'captions': [{k: c[k] for k in ('t0', 't1')} for c in caps]}
+    caption_html = ''.join(f'<div class="caption" id="c{k}">{esc(c["text"])}</div>' for k, c in enumerate(caps))
     progress = ''.join(f'<i class="{"now" if k == index else "done" if k < index else ""}"></i>'
                        for k in range(len(spec['scenes'])))
     source = f'<div class="source"><b>Source</b> · {esc(scene["source"])}</div>' if scene.get('source') else ''
@@ -472,7 +677,7 @@ def scene_html(spec, art, scene, index, times, duration, settings, theme):
 <script src="/education/computing/assets/source/mathjax-config.js"></script>
 <script src="/education/computing/assets/source/vendor/mathjax/tex-svg.js"></script></head>
 <body class="{scene['layout']}"><div class="frame-top"><span>Quantum Research Center</span><span class="section">{esc(scene.get('section', ''))}</span></div>
-<div class="stage">{stage}</div><div class="caption"></div>{source}<div class="progress">{progress}</div>
+<div class="stage">{stage}</div>{caption_html}{source}<div class="progress">{progress}</div>
 <script>window.SCENE = {json.dumps(data)};</script><script src="/scripts/templates/video/video.js"></script></body></html>'''
 
 
@@ -582,15 +787,15 @@ def prepare(slug, voice_name, fps, theme, only=None):
     folder = OUT / slug
     (folder / 'scenes').mkdir(parents=True, exist_ok=True)
     records = []
-    for index, scene in enumerate(spec['scenes']):
+    narrated = plan(spec, art)[0]
+    for index, (scene, said) in enumerate(zip(spec['scenes'], narrated)):
         if only and scene['id'] not in only:
             continue
         print(f"  speech  {scene['id']}", flush=True)
-        pcm, times, duration = scene_audio(spec, scene, backend, settings, fps)
+        pcm, times, duration = scene_audio(spec, scene, said, backend, settings, fps)
         page = folder / 'scenes' / f"{scene['id']}.html"
-        page.write_text(scene_html(spec, art, scene, index, times, duration, settings, theme))
-        records.append({'scene': scene, 'pcm': pcm, 'times': times, 'duration': duration, 'page': page,
-                        'sentences': sentences(scene['narration'])})
+        page.write_text(scene_html(spec, art, scene, said, index, times, duration, settings, theme))
+        records.append({'scene': scene, 'pcm': pcm, 'times': times, 'duration': duration, 'page': page, 'sentences': said})
     return spec, settings, records
 
 
@@ -609,18 +814,19 @@ def metrics(records, settings):
     t, rows, flags = settings['targets'], [], 0
     for r in records:
         said, times = r['sentences'], r['times']
-        words = sum(len(s['text'].split()) for s in said)
-        speech = times[-1][1] - times[0][0]
+        words = sum(len(spoken(s, {}, settings.get('tex', {})).split()) for s in said)
+        speech = times[-1][1] - times[0][0] if times else 0
         caps = captions(said, times)
-        cps = max(len(c['text']) / max(c['t1'] - c['t0'], 0.01) for c in caps)
-        events = sorted({0.0, r['duration']} | {c['t'] for c in json.loads(
+        cps = max((len(visible(c['text'])) / max(c['t1'] - c['t0'], 0.01) for c in caps), default=0)
+        # a deliberate "hold" at the end is reading time, not a stalled picture
+        events = sorted({0.0, r['duration'] - r['scene'].get('hold', 0)} | {c['t'] for c in json.loads(
             re.search(r'window\.SCENE = (.*?);</script>', r['page'].read_text()).group(1))['cues']})
         hold = max(b - a for a, b in zip(events, events[1:]))
         row = {'id': r['scene']['id'], 'duration': round(r['duration'], 1), 'words': words,
-               'wpm': round(words / speech * 60), 'max_cps': round(cps, 1), 'longest_hold': round(hold, 1),
+               'wpm': round(words / speech * 60) if speech else 0, 'max_cps': round(cps, 1), 'longest_hold': round(hold, 1),
                'issues': list(r.get('issues', []))}
         lo, hi = t['wpm']
-        if not lo <= row['wpm'] <= hi:
+        if said and not lo <= row['wpm'] <= hi:
             row['issues'].append(f"pace {row['wpm']} words a minute (target {lo} to {hi})")
         if cps > t['caption_cps_max']:
             row['issues'].append(f"captions reach {cps:.0f} characters a second (target at most {t['caption_cps_max']})")
@@ -660,7 +866,7 @@ def review(folder, slug, spec, settings, records, rows, flags, voice_name, fps, 
         f.write(json.dumps(entry) + '\n')
     trs = ''
     for r, row in zip(records, rows):
-        lines = ''.join(f'<li><span class="t">{t0:.1f}s</span> {esc(s["text"])}</li>' for s, (t0, _) in zip(r['sentences'], r['times']))
+        lines = ''.join(f'<li><span class="t">{t0:.1f}s</span> {esc(visible(s["text"]))}</li>' for s, (t0, _) in zip(r['sentences'], r['times']))
         issues = ''.join(f'<li>{esc(i)}</li>' for i in row['issues']) or '<li class="ok">No automatic issues</li>'
         trs += (f'<tr><td><img src="{row["id"]}.png" alt=""><div class="id">{esc(row["id"])} · {row["duration"]} s · '
                 f'{row["wpm"]} wpm · captions ≤ {row["max_cps"]} cps · longest hold {row["longest_hold"]} s</div></td>'
@@ -692,14 +898,14 @@ def vtt(records):
     out, offset = ['WEBVTT', ''], 0.0
     for r in records:
         for c in captions(r['sentences'], r['times']):
-            out += [f"{stamp(offset + c['t0'])} --> {stamp(offset + c['t1'])}", c['text'], '']
+            out += [f"{stamp(offset + c['t0'])} --> {stamp(offset + c['t1'])}", visible(c['text']), '']
         offset += r['duration']
     return '\n'.join(out)
 
 
 def transcript(spec, records):
-    return '\n\n'.join(f"[{r['scene'].get('section') or r['scene']['id']}]\n" + ' '.join(s['text'] for s in r['sentences'])
-                       for r in records) + '\n'
+    return '\n\n'.join(f"[{r['scene'].get('section') or r['scene']['id']}]\n" + ' '.join(visible(s['text']) for s in r['sentences'])
+                       for r in records if r['sentences']) + '\n'
 
 
 def run(args):

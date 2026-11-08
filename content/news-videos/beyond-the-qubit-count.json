@@ -14,196 +14,231 @@
     {
       "date": "2026-11-07",
       "notes": "Review run 2: tighter tables so footers clear the captions; scorecard cells revealed as each is narrated; longer pauses in the opening and closing."
+    },
+    {
+      "date": "2026-11-08",
+      "notes": "Narration is now the article itself, read in full; scenes mark where they start with \"from\" and cue visuals by phrase. Visuals rebuilt from the article's own figures, stats, tables and questions. Review run 1 (article narration): reveals added where the picture held for more than 12 s (open, compounding, speed, funders, scorecard). Speaking rate set per scene where the fixed text read too fast (status, 0.92) or too slowly (funders, 1.1); the deliberate end hold on table scenes no longer counts as a stalled picture."
     }
   ],
   "scenes": [
     {
       "id": "open",
       "layout": "title",
+      "from": "Beyond the qubit count",
       "kicker": "Explainer",
       "headline": "Beyond the qubit count",
       "deck": {
-        "text": "How to judge whether a quantum computing announcement shows real progress",
-        "on": 1
+        "text": "Six questions that separate genuine progress from headline figures",
+        "on": "Six questions"
       },
       "banner": {
-        "on": 2
+        "on": "Qubit counts say little"
       },
-      "narration": [
-        "A processor with a thousand qubits makes a good headline.",
-        "But the qubit count tells you how big a machine is, not what it can do.",
-        "Here are six questions that separate real progress from a large number, applied to two recent results."
-      ],
       "pause": 0.6
     },
     {
       "id": "compounding",
       "layout": "figure",
+      "from": "The problem.",
       "section": "The problem",
-      "heading": "Errors compound",
+      "heading": "Size is not capability",
       "figure": "compounding.svg",
-      "source": "Our calculation of (1 − p)ᴺ for independent errors",
+      "source": "Our calculation, from the error rate per operation",
       "steps": [
         {
           "series": [
             0
           ],
-          "on": 2
+          "on": "Every operation"
         },
         {
           "series": [
             1,
             2
           ],
-          "on": 3
+          "on": "The numbers above"
         },
         {
           "series": [
             3,
             4
           ],
-          "on": 4
+          "on": "Useful algorithms"
         }
       ],
       "notes": [
         {
           "tex": "P(\\text{no error}) \\approx (1-p)^N",
-          "on": 1
+          "on": "succeed with probability"
         },
         {
           "text": "1 in 100: a hundred steps run cleanly 37% of the time",
           "key": "fig-2",
-          "on": 2
+          "on": "The numbers above",
+          "delay": 0.6
         },
         {
           "text": "1 in 1,000: ten thousand steps, once in 22,000 tries",
           "key": "fig-2",
-          "on": 3
+          "on": "Adding qubits"
         },
         {
           "text": "1 in a million: the same steps, 99% of the time",
           "key": "fig-1",
-          "on": 4
+          "on": "more places to happen"
         },
         {
           "text": "Useful algorithms: millions to billions of operations",
-          "on": 5
+          "on": "need millions"
         }
-      ],
-      "narration": [
-        "Every operation on today's quantum hardware has some chance of failing, and a computation is a long chain of operations.",
-        "If each operation fails with probability p, all N of them succeed with probability about one minus p, to the power N.",
-        "At one error in a hundred, the chance of a clean run collapses after about a hundred operations.",
-        "At one in a thousand, ten thousand steps run cleanly only about once in twenty-two thousand attempts.",
-        "At one error in a million, the same ten thousand steps succeed ninety-nine percent of the time.",
-        "Useful algorithms need millions to billions of operations, so adding qubits at a high error rate does not help: it gives errors more places to happen."
       ]
     },
     {
       "id": "target",
       "layout": "stats",
+      "from": "Microsoft's quantum team",
       "section": "The problem",
       "heading": "How low must errors go?",
       "source": "Microsoft Quantum (Troyer, Nayak, Martinis), 22 September 2026",
       "stats": [
         {
-          "value": "1 in 10¹⁰",
+          "value": "1 in \\(10^{10}\\)",
           "label": "error rate for the simplest useful applications",
-          "on": 1
+          "on": "one in ten billion"
         },
         {
-          "value": "1 in 10¹⁵",
+          "value": "1 in \\(10^{15}\\)",
           "label": "for the most demanding applications",
-          "on": 2
+          "on": "one in a million billion"
         },
         {
-          "value": "10⁻² to 10⁻⁴",
+          "value": "\\(10^{-2}\\) to \\(10^{-4}\\)",
           "label": "the best physical error rates today",
-          "on": 3
+          "on": "No physical qubit"
         }
-      ],
-      "narration": [
-        "How low does the error rate need to go?",
-        "Microsoft's quantum team, writing with John Martinis in September 2026, puts it at about one in ten billion for the simplest useful applications.",
-        "For the most demanding, it is about one in a million billion.",
-        "No physical qubit comes close.",
-        "So the real question behind a headline is how close a machine gets to reliable operation, and at what cost."
       ]
     },
     {
       "id": "counting",
       "layout": "points",
+      "from": "Question 1.",
       "section": "Question 1 of 6",
       "heading": "What exactly is being counted?",
       "source": "Google Quantum AI, Nature 638, 920 (2025)",
       "items": [
         {
           "text": "Physical qubit: one device, such as an ion, an atom or a circuit",
-          "on": 1
+          "on": "A physical qubit"
         },
         {
           "text": "Logical qubit: information spread over many, by a code",
-          "on": 2
+          "on": "A logical qubit"
+        },
+        {
+          "text": "Errors found and undone without disturbing it",
+          "on": "errors can be found"
+        },
+        {
+          "text": "Distance \\(d\\): physical errors needed for an undetected logical one",
+          "on": "The code's distance"
         },
         {
           "text": "Surface code of distance \\(d\\): about \\(2d^2\\) physical qubits",
-          "on": 3
-        },
-        {
-          "text": "Corrected over many rounds, or detected once and discarded?",
-          "on": 4
-        },
-        {
-          "text": "Better than its parts? Google 2024: distance 7 lasted 2.4× longer",
-          "on": 5
+          "on": "a surface code of distance"
         }
-      ],
-      "narration": [
-        "The first question is what exactly is being counted.",
-        "A physical qubit is one device: an ion, an atom or a superconducting circuit.",
-        "A logical qubit spreads information over many physical qubits with an error-correcting code, so that errors can be found and undone.",
-        "A surface code of distance d uses about two d squared physical qubits.",
-        "Check whether errors were corrected over many rounds, or only detected once, with the failed runs thrown away.",
-        "And check whether the logical qubit beats its own parts: in Google's 2024 experiment, the distance-seven logical memory outlived the best physical qubit by a factor of about 2.4."
+      ]
+    },
+    {
+      "id": "loosely",
+      "layout": "points",
+      "from": "is used loosely",
+      "section": "Question 1 of 6",
+      "heading": "“Logical qubit” is used loosely",
+      "source": "Google Quantum AI, Nature 638, 920 (2025)",
+      "items": [
+        {
+          "text": "Corrected over many rounds, or prepared and measured once?",
+          "on": "Some demonstrations run correction"
+        },
+        {
+          "text": "Errors corrected, or only detected and the failed runs discarded?",
+          "on": "Some correct errors"
+        },
+        {
+          "text": "Discarding wastes a fraction of runs that grows with the computation",
+          "on": "but wastes a fraction"
+        },
+        {
+          "text": "Does it beat its parts? Google 2024: distance 7 outlived the best physical qubit by about 2.4×",
+          "on": "in Google's 2024 experiment"
+        }
       ]
     },
     {
       "id": "quality",
       "layout": "points",
+      "from": "Question 2.",
       "section": "Question 2 of 6",
       "heading": "How good is each operation?",
       "items": [
         {
-          "text": "Median two-qubit error across the device, not the best pair",
-          "on": 1
+          "text": "Two-qubit gates: usually the weakest link",
+          "on": "Two-qubit gates"
         },
         {
-          "text": "An average (randomized benchmarking) or the worst case?",
-          "on": 3
+          "text": "Measurement, idling, leakage and crosstalk errors count too",
+          "on": "Measurement errors"
         },
         {
-          "text": "Measurement, idling, leakage and crosstalk included?",
-          "on": 4
+          "text": "A headline fidelity is often the best pair on the chip",
+          "on": "A headline fidelity"
         },
         {
-          "text": "Operations that fit in the coherence time, not coherence alone",
-          "on": 5
+          "text": "Randomized benchmarking: an average over many inputs",
+          "on": "Randomized benchmarking"
+        },
+        {
+          "text": "Coherent errors add up in step: the worst case can be far worse",
+          "on": "add up in step"
+        },
+        {
+          "text": "What counts: how many operations fit in the coherence time",
+          "on": "what counts is"
         }
-      ],
-      "narration": [
-        "Second: how good is each operation?",
-        "Two-qubit gates are usually the weakest link, and a headline fidelity is often the best pair on the chip, so ask for the median across the whole device.",
-        "Ask how the figure was measured.",
-        "Randomized benchmarking reports an average, and small systematic over-rotations can look tiny on average yet add up over a long circuit.",
-        "Measurement errors, idling errors, leakage and crosstalk count too.",
-        "And long coherence times mean little on their own: what counts is how many operations fit inside them."
+      ]
+    },
+    {
+      "id": "threshold",
+      "layout": "points",
+      "from": "Question 3.",
+      "section": "Question 3 of 6",
+      "heading": "Does the error fall as the code grows?",
+      "items": [
+        {
+          "text": "Below the threshold error rate: a larger code is more reliable",
+          "on": "Below it"
+        },
+        {
+          "text": "Above it: a larger code just collects more errors",
+          "on": "above it"
+        },
+        {
+          "text": "Suppression factor \\(\\Lambda\\): how much the logical error falls each time \\(d\\) grows by 2",
+          "on": "suppression factor"
+        },
+        {
+          "tex": "\\Lambda = \\varepsilon_L(d)\\,/\\,\\varepsilon_L(d+2)",
+          "on": "each time the distance grows",
+          "delay": 0.8
+        }
       ]
     },
     {
       "id": "scaling",
       "layout": "figure",
+      "from": "The two results below",
       "section": "Question 3 of 6",
-      "heading": "Does the error fall as the code grows?",
+      "heading": "Compare slopes, not absolute values",
       "figure": "suppression.svg",
       "source": "Google Quantum AI, Nature 638 (2025); Lavasani et al., arXiv:2610.24077; extrapolation ours",
       "steps": [
@@ -211,86 +246,107 @@
           "series": [
             1
           ],
-          "on": 3
+          "on": "use different codes"
         },
         {
           "series": [
             4
           ],
-          "on": 4
+          "on": "per operation"
         },
         {
           "series": [
-            0,
             2,
             5
           ],
-          "on": 6
+          "on": "If each trend continued"
         },
         {
           "series": [
-            3,
+            0
+          ],
+          "on": "a billionfold reduction"
+        },
+        {
+          "series": [
+            3
+          ],
+          "on": "distance about 59"
+        },
+        {
+          "series": [
             6
           ],
-          "on": 6,
-          "delay": 2.5
+          "on": "but about 21"
         }
       ],
       "notes": [
         {
-          "tex": "\\Lambda = \\varepsilon_L(d)\\,/\\,\\varepsilon_L(d+2)",
-          "on": 2
-        },
-        {
-          "text": "Google 2024, surface code: Λ ≈ 2.1",
+          "text": "Google 2024, surface code: \\(\\Lambda\\approx2.1\\), error per round",
           "key": "fig-1",
-          "on": 3
+          "on": "use different codes"
         },
         {
-          "text": "Quantinuum 2026, colour code: Λ ≈ 12 (preprint)",
+          "text": "Quantinuum 2026, colour code: \\(\\Lambda\\approx12\\), error per operation (preprint)",
           "key": "fig-2",
-          "on": 4
+          "on": "per operation"
         },
         {
-          "text": "Billionfold: d ≈ 59, about 7,000 qubits, against d ≈ 21, about 900",
-          "on": 7
+          "text": "Billionfold: about 7,000 physical qubits per logical qubit, against about 900",
+          "on": "roughly seven thousand"
         },
         {
-          "text": "Dashed lines are our extrapolation",
-          "on": 8
+          "text": "Dashed lines are our extrapolation; correlated errors could break it",
+          "on": "That is our extrapolation"
         }
-      ],
-      "narration": [
-        "Third, and most informative: does the logical error fall as the code grows?",
-        "Error correction only helps below a threshold; above it, a bigger code just collects more errors.",
-        "The key number is the suppression factor, Λ: how much the logical error falls each time the distance grows by two.",
-        "Google's 2024 surface-code experiment measured about 2.1, across distances three, five and seven.",
-        "Quantinuum's 2026 colour-code preprint reports about twelve.",
-        "The two count errors differently, so compare their slopes, not their absolute values.",
-        "If each trend continued, a billionfold reduction would need distance about 59 at the first rate, but about 21 at the second.",
-        "That is roughly seven thousand physical qubits per logical qubit, against nine hundred.",
-        "This is our extrapolation, and rare correlated errors, from cosmic rays or leakage, are what could break it."
+      ]
+    },
+    {
+      "id": "computing",
+      "layout": "points",
+      "from": "Protecting memory is not computing",
+      "section": "Question 3 of 6",
+      "heading": "Protecting memory is not computing",
+      "items": [
+        {
+          "text": "Logical gates between logical qubits",
+          "on": "runs logical gates"
+        },
+        {
+          "text": "Including costly non-Clifford gates, usually supplied as magic states",
+          "on": "non-Clifford"
+        },
+        {
+          "text": "Decoding fast enough to keep up during a long run",
+          "on": "decodes fast enough"
+        }
       ]
     },
     {
       "id": "classical",
       "layout": "table",
+      "from": "Question 4.",
       "section": "Question 4 of 6",
       "heading": "Could a classical computer do the same?",
       "source": "Arute et al., Nature 574 (2019); IBM Research (2019); Pan, Chen and Zhang, PRL 129 (2022)",
       "columns": [
         "Year",
         "Who",
-        "Classical cost of Google's 53-qubit sampling task"
+        "Estimate for Google's 53-qubit sampling task"
+      ],
+      "column_on": [
+        "sampling the outputs",
+        "sampling the outputs",
+        "sampling the outputs"
       ],
       "rows": [
         {
           "cells": [
             "2019",
             "Google",
-            "About 10,000 years on a supercomputer (200 s on the processor)"
+            "200 seconds on the processor; about 10,000 years on a supercomputer (their estimate)"
           ],
-          "on": 2
+          "on": "their classical cost"
         },
         {
           "cells": [
@@ -298,115 +354,151 @@
             "IBM",
             "About 2.5 days for an ideal classical simulation"
           ],
-          "on": 3
+          "on": "moving target"
         },
         {
           "cells": [
             "2022",
             "Pan, Chen and Zhang",
-            "About 15 hours on 512 GPUs, at the experiment's fidelity"
+            "About 15 hours on 512 GPUs, at the experiment's low fidelity"
           ],
-          "on": 4
+          "on": "the revisions"
         }
       ],
-      "narration": [
-        "Fourth: could a classical computer do the same?",
-        "Many beyond-classical demonstrations run tasks chosen because they are hard to simulate, and their classical cost is a moving target.",
-        "In 2019, Google estimated that its fifty-three-qubit sampling task, finished in two hundred seconds, would take a supercomputer about ten thousand years.",
-        "IBM answered that an ideal classical simulation would take about two and a half days.",
-        "By 2022, Pan, Chen and Zhang had done it in about fifteen hours on 512 GPUs, at the experiment's low fidelity.",
-        "So ask whether the comparison used the best known classical method, and whether the output can be checked at all."
-      ],
-      "column_on": [
-        1,
-        1,
-        1
-      ],
-      "footer": [
+      "hold": 2
+    },
+    {
+      "id": "verify",
+      "layout": "points",
+      "from": "So ask whether the comparison",
+      "section": "Question 4 of 6",
+      "heading": "Questions to ask",
+      "source": "Cross et al., Phys. Rev. A 100, 032328 (2019): quantum volume",
+      "items": [
         {
-          "text": "Ask: was it the best known classical method, and can the output be checked?",
-          "on": 5
+          "text": "Was the classical baseline the best known method, and who proposed it?",
+          "on": "best known classical method"
+        },
+        {
+          "text": "Can the output be checked at all?",
+          "on": "whether the output can be checked"
+        },
+        {
+          "text": "A verifiable answer or a statistical certificate carries more weight",
+          "on": "Results with a verifiable"
+        },
+        {
+          "text": "Quantum volume compares machines, but does not measure usefulness",
+          "on": "Composite benchmarks"
         }
       ]
     },
     {
       "id": "resources",
       "layout": "table",
+      "from": "Question 5.",
       "section": "Question 5 of 6",
       "heading": "What would a useful task need?",
       "source": "Gidney, arXiv:2505.15917 (2025); Pappalardo et al., arXiv:2610.37839 (preprint)",
       "columns": [
-        "Estimate for RSA-2048",
+        "Estimate",
         "Qubits",
         "Run time",
-        "Key assumption"
+        "Key assumptions"
+      ],
+      "column_on": [
+        "A resource estimate",
+        "A resource estimate",
+        "A resource estimate",
+        "A resource estimate"
       ],
       "rows": [
         {
           "cells": [
             "Gidney, 2025",
-            "under 1 million noisy qubits",
-            "under a week",
-            "0.1% gate error, 1 µs correction cycle"
+            "fewer than 1 million noisy qubits",
+            "less than a week",
+            "0.1% gate error, 1 µs correction cycle, 10 µs reaction time"
           ],
-          "on": 2
+          "on": "logical qubits, non-Clifford"
         },
         {
           "cells": [
             "Alice & Bob, 2026 (preprint)",
             "22,593 cat qubits",
             "about 3.14 days",
-            "bit flips rarer than once a century; seconds measured today"
+            "bit flips rarer than once a century per qubit; seconds are measured today"
           ],
-          "on": 3
+          "on": "always rests on assumptions"
         }
-      ],
-      "narration": [
-        "Fifth: what would a useful task actually need?",
-        "A resource estimate turns an algorithm into hardware, and its headline number always rests on assumptions.",
-        "Craig Gidney's 2025 estimate for breaking 2048-bit RSA needs fewer than a million noisy qubits for under a week, assuming a one-in-a-thousand gate error and a one-microsecond correction cycle.",
-        "A 2026 Alice and Bob preprint needs only 22,593 cat qubits, but assumes bit flips rarer than once a century per qubit, where seconds are measured today.",
-        "Lower qubit counts usually rest on stronger assumptions, so compare the assumptions, not the counts."
-      ],
-      "column_on": [
-        1,
-        1,
-        1,
-        1
       ],
       "footer": [
         {
-          "text": "Compare the assumptions, not the qubit counts",
-          "on": 4
+          "text": "Lower qubit counts usually rest on stronger assumptions",
+          "on": "lower qubit counts"
+        }
+      ],
+      "hold": 2
+    },
+    {
+      "id": "speed",
+      "layout": "points",
+      "from": "Speed matters as much as size",
+      "section": "Question 5 of 6",
+      "heading": "Speed matters as much as size",
+      "source": "J. Preskill, Beyond NISQ: The Megaquop Machine, arXiv:2502.17368 (2025)",
+      "items": [
+        {
+          "text": "Correction cycles a thousand times slower: one week becomes about two decades",
+          "on": "a thousand times slower"
+        },
+        {
+          "text": "A nearer milestone (Preskill): about a million operations run reliably",
+          "on": "John Preskill"
+        },
+        {
+          "text": "“Megaquop” machines: where correction starts to pay off, well before factoring",
+          "on": "which he calls megaquop"
         }
       ]
     },
     {
-      "id": "speed",
-      "layout": "statement",
-      "section": "Question 5 of 6",
-      "heading": "Speed matters as much as size",
-      "text": {
-        "text": "Correction cycles a thousand times slower turn a one-week computation into one of about two decades.",
-        "on": 1
-      },
-      "sub": {
-        "text": "A nearer milestone (Preskill): machines that run about a million operations reliably, “megaquop” machines",
-        "on": 2
-      },
-      "source": "J. Preskill, Beyond NISQ: The Megaquop Machine, arXiv:2502.17368 (2025)",
-      "narration": [
-        "Speed matters as much as size.",
-        "On hardware whose correction cycles are a thousand times slower, a one-week computation becomes one of about two decades.",
-        "John Preskill has proposed a nearer milestone: error-corrected machines running about a million operations reliably, which he calls megaquop machines."
-      ]
+      "id": "funders",
+      "layout": "points",
+      "from": "Question 6.",
+      "section": "Question 6 of 6",
+      "heading": "Result, plan or product?",
+      "source": "US Department of War (Quantum Benchmarking Initiative); US Department of Energy; Microsoft Quantum",
+      "items": [
+        {
+          "text": "Funders increasingly pay for verified performance",
+          "on": "Programmes that fund"
+        },
+        {
+          "text": "DARPA's Quantum Benchmarking Initiative: can any approach reach utility scale by 2033?",
+          "on": "DARPA's Quantum Benchmarking"
+        },
+        {
+          "text": "Utility: computational value above the machine's cost; hardware verified in the final stage",
+          "on": "meaning computational value"
+        },
+        {
+          "text": "Department of Energy Q Competition: payments for lab-verified demonstrations of at least 100 logical qubits",
+          "on": "Q Competition"
+        },
+        {
+          "text": "Microsoft: judge reliability, scale, capability and performance together",
+          "on": "Microsoft's post"
+        }
+      ],
+      "rate": 1.1
     },
     {
       "id": "status",
       "layout": "table",
+      "from": "Announcements mix statements",
       "section": "Question 6 of 6",
-      "heading": "Result, plan or product?",
-      "source": "US Department of War, Quantum Benchmarking Initiative release (October 2026)",
+      "heading": "What kind of statement is it?",
       "columns": [
         "Kind of statement",
         "What it establishes"
@@ -417,77 +509,70 @@
             "Peer-reviewed paper",
             "Referees checked the method and the claims"
           ],
-          "on": 2
+          "on": "statements of very different weight",
+          "delay": 0.0
         },
         {
           "cells": [
             "Preprint",
             "The authors' account, not yet reviewed"
           ],
-          "on": 3
+          "on": "statements of very different weight",
+          "delay": 0.9
         },
         {
           "cells": [
             "Independent replication",
             "Another group reproduced the result"
           ],
-          "on": 4
+          "on": "statements of very different weight",
+          "delay": 1.8
         },
         {
           "cells": [
             "Roadmap",
             "An intended machine and date"
           ],
-          "on": 5
+          "on": "statements of very different weight",
+          "delay": 2.7
         },
         {
           "cells": [
             "Funding or contract",
             "Money committed, not capability"
           ],
-          "on": 6
+          "on": "statements of very different weight",
+          "delay": 3.6
         },
         {
           "cells": [
             "Cloud product",
-            "What users can run today, with published limits"
+            "What users can run today, with published error rates and limits"
           ],
-          "on": 7
+          "on": "statements of very different weight",
+          "delay": 4.5
         }
       ],
-      "narration": [
-        "Sixth: is it a result, a plan or a product?",
-        "Announcements mix statements of very different weight, and the wording rarely says which is which.",
-        "A peer-reviewed paper means referees checked the method.",
-        "A preprint is the authors' account, not yet reviewed.",
-        "An independent replication means another group reproduced the result.",
-        "A roadmap is an intended machine and date.",
-        "Funding is money committed, not capability.",
-        "And a cloud product is what users can run today.",
-        "Programmes that fund the field increasingly pay for verified performance: DARPA's Quantum Benchmarking Initiative verifies hardware in its final stage."
-      ],
-      "footer": [
-        {
-          "text": "DARPA's Quantum Benchmarking Initiative verifies hardware in its final stage",
-          "on": 8
-        }
-      ]
+      "hold": 5,
+      "rate": 0.92
     },
     {
       "id": "scorecard",
       "layout": "table",
+      "from": "Worked example.",
       "section": "Worked example",
       "heading": "Two real announcements, scored",
+      "small": true,
       "source": "Quantinuum release, 19 October 2026; arXiv:2610.24077; The Quantum Insider, 31 July 2026",
       "columns": [
         "Question",
         "Quantinuum, October 2026",
-        "IBM and UChicago, July 2026"
+        "IBM and University of Chicago, July 2026"
       ],
       "column_on": [
-        0,
-        1,
-        3
+        null,
+        "Neither result below",
+        "Neither result below"
       ],
       "rows": [
         {
@@ -496,129 +581,131 @@
             "One logical qubit; colour codes of distance 3 to 7",
             "70 logical qubits"
           ],
-          "on": 0
+          "on": "The scorecard shows",
+          "delay": 0.0
+        },
+        {
+          "cells": [
+            "Quality",
+            "Leakage removal part of the result",
+            "Logical errors about ten times below physical, per IBM"
+          ],
+          "on": "The scorecard shows",
+          "delay": 1.1
         },
         {
           "cells": [
             "Scaling",
-            "About 12 times less error per distance step",
-            {
-              "text": "Not a code-size scaling experiment",
-              "on": 4
-            }
+            "About twelvefold less error per distance step",
+            "Not a code-size scaling experiment"
           ],
-          "on": 0
+          "on": "The scorecard shows",
+          "delay": 2.2
         },
         {
           "cells": [
             "Classical",
-            {
-              "text": "A memory, not a computation",
-              "on": 2
-            },
+            "A memory, not a computation",
             "Sampling task said to exceed leading classical methods"
           ],
-          "on": 0
+          "on": "The scorecard shows",
+          "delay": 3.3000000000000003
+        },
+        {
+          "cells": [
+            "Resources",
+            "Accuracy in the range targeted for a 2029 machine",
+            "2,415 logical two-qubit operations, 468 logical T gates"
+          ],
+          "on": "The scorecard shows",
+          "delay": 4.4
         },
         {
           "cells": [
             "Status",
-            {
-              "text": "Preprint; the 2029 machine is a goal",
-              "on": 2
-            },
-            {
-              "text": "arXiv paper; review status not stated",
-              "on": 4
-            }
+            "Preprint; the 2029 machine is a goal",
+            "arXiv paper; review status not stated"
           ],
-          "on": 0
+          "on": "The scorecard shows",
+          "delay": 5.5
         }
       ],
-      "narration": [
-        "Here are the questions applied to two recent results.",
-        "Quantinuum's October 2026 result counts one logical qubit, on colour codes of distance three to seven, with about twelve times less error per distance step.",
-        "It is a memory, not a computation, and it is a preprint; its 2029 machine is a goal.",
-        "IBM and the University of Chicago, in July 2026, reported seventy logical qubits running a sampling task said to exceed leading classical methods, with a statistical lower bound on fidelity.",
-        "That is not a code-size scaling experiment, and the coverage does not state its review status.",
-        "Neither answers every question, and neither claims to.",
-        "A headline about a thousand-qubit processor, by contrast, answers only one: how big the machine is."
-      ],
-      "footer": [
-        {
-          "text": "Neither answers every question. A 1,000-qubit headline answers only one: how big?",
-          "on": 5
-        }
-      ]
+      "hold": 6
     },
     {
       "id": "checklist",
       "layout": "table",
+      "from": "Summary.",
       "section": "Summary",
       "heading": "The checklist",
+      "small": true,
       "columns": [
         "Question",
-        "Look for"
+        "Look for",
+        "Be wary of"
+      ],
+      "column_on": [
+        null,
+        null,
+        "which it leaves open"
       ],
       "rows": [
         {
           "cells": [
             "What is counted",
-            "Logical qubits, with the code and distance stated"
+            "Logical qubits, code and distance stated",
+            "Physical counts presented as capability"
           ],
-          "on": 1
+          "on": "Few announcements",
+          "delay": 0.0
         },
         {
           "cells": [
             "Operation quality",
-            "Median two-qubit error across the device"
+            "Median two-qubit error across the device",
+            "Best-pair or average-only figures"
           ],
-          "on": 1
+          "on": "Few announcements",
+          "delay": 0.9
         },
         {
           "cells": [
             "Scaling",
-            "Error falling across three or more code sizes"
+            "Error falling across three or more code sizes",
+            "One code size, or one round of correction"
           ],
-          "on": 2
+          "on": "Few announcements",
+          "delay": 1.8
         },
         {
           "cells": [
             "Classical comparison",
-            "The best known method, and a verifiable output"
+            "Best known method, verifiable output",
+            "Outdated simulation methods"
           ],
-          "on": 3
+          "on": "Few announcements",
+          "delay": 2.7
         },
         {
           "cells": [
             "Resources",
-            "Assumptions close to measured values"
+            "Assumptions close to measured values",
+            "Qubit counts without error rates or speeds"
           ],
-          "on": 3
+          "on": "Few announcements",
+          "delay": 3.6
         },
         {
           "cells": [
             "Status",
-            "Peer review or independent replication"
+            "Peer review or independent replication",
+            "Roadmaps and funding reported as results"
           ],
-          "on": 4
+          "on": "Few announcements",
+          "delay": 4.5
         }
       ],
-      "narration": [
-        "To sum up, here is the checklist.",
-        "Look for logical qubits with the code and distance stated, and the median two-qubit error across the device.",
-        "Look for error falling across three or more code sizes, measured over repeated rounds with decoding in time.",
-        "Look for comparisons against the best known classical method, and resource estimates whose assumptions are close to measured values.",
-        "And look for peer review or independent replication, rather than roadmap dates and funding reported as results.",
-        "Few announcements answer all six questions, and that is normal.",
-        "The point is to know which ones a result answers, and which it leaves open."
-      ],
-      "footer": [
-        {
-          "text": "Know which questions a result answers, and which it leaves open",
-          "on": 5
-        }
-      ]
+      "hold": 6
     },
     {
       "id": "sources",
@@ -636,12 +723,7 @@
         "Preskill, arXiv:2502.17368 (2025)",
         "US Department of War, Quantum Benchmarking Initiative release"
       ],
-      "on": 1,
-      "narration": [
-        "Every number here comes from the sources on screen, and our own extrapolations are marked as ours.",
-        "The full article, with links to all of them, is on the Quantum Research Center website."
-      ],
-      "pause": 0.6
+      "hold": 7
     }
   ]
 }
