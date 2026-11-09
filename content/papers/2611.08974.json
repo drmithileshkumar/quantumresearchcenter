@@ -1,0 +1,45 @@
+{
+  "id": "2611.08974",
+  "topic": "information",
+  "title": "Optimal asymptotic pure-state conversion under thermal operations",
+  "authors": "Tatsuya Yamanouchi; Naoto Shiraishi",
+  "submitted": "2026-11-06",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Thermal operations, an energy-conserving interaction with a heat bath, are the standard model of what thermodynamics allows a quantum system. Two separate constraints are known: they preserve the thermal (Gibbs) state, which limits free energy, and they commute with time evolution, which limits coherence between energy levels. Each alone has a known asymptotic conversion rate between pure states, but whether thermal operations achieve the smaller of the two had remained open.",
+  "result": "They do. For pure states \\(\\psi,\\phi\\) of a system whose energy gaps are integer multiples of a common unit, the optimal rate of converting many copies of \\(\\psi\\) into copies of \\(\\phi\\) is \\[R=\\min\\Bigl\\{\\frac{D(\\psi\\|\\gamma)}{D(\\phi\\|\\gamma)},\\ \\frac{V(\\psi)}{V(\\phi)}\\Bigr\\}\\] if every period of \\(\\psi\\)'s time evolution is also a period of \\(\\phi\\)'s, and zero otherwise. Here \\(D(\\cdot\\|\\gamma)\\) is the relative entropy to the thermal state (free energy) and \\(V\\) is the energy variance.",
+  "significance": "It is the first complete characterisation of asymptotic pure-state conversion under thermal operations with coherence in both input and output, and needs no borrowed coherence or energy. It shows that the extra restrictions thermal operations have in single-shot conversions, beyond those of Gibbs-preserving covariant maps, vanish asymptotically for pure states. Coherence makes the theory irreversible: a round trip loses resources except at one temperature.",
+  "limitations": "The result covers pure states only; the authors say their energy-distribution matching does not extend to mixed states, which need a different approach. It assumes commensurate energy gaps, excluding Hamiltonians with irrationally related gaps. The construction uses bath systems of size \\(n^{3/2}\\) and an engineered auxiliary system whose energies grow with \\(n\\), so it is an existence proof rather than a practical protocol. The acknowledgements state that ChatGPT (GPT-5.4, 5.5 and 5.6 Sol) was used to verify and simplify the conversion protocol, and that the authors independently verified all proofs.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-09: the main text, Supplemental Sections I.3, II and III, and the overview of Section IV. The detailed achievability proof (Sections IV.1.2–IV.2 and V) was skimmed. The qubit example's ratios and its crossover temperature were recomputed.",
+  "verified_on": "2026-11-09",
+  "methods_source_section": "Main text (Theorem 1, proof sketch); Supplemental Sections I.3 and IV.1",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A thermal operation lets a system interact with a bath in its Gibbs state through a unitary that conserves total energy, then discards part of the whole. Two consequences constrain it. Since the Gibbs state is preserved, free energy cannot increase, and asymptotically the best conversion rate under all Gibbs-preserving maps is the free-energy ratio. Since energy is conserved, the map commutes with time evolution, so it cannot create superpositions of energy levels, and asymptotically the best rate under all such covariant maps is the energy-variance ratio (Marvian's result, via the quantum Fisher information of pure states).",
+    "Thermal operations satisfy both constraints, so their rate is at most the minimum of the two ratios. The difficulty is the converse: in single-shot problems there are conversions allowed by each constraint separately but not by thermal operations, and the class of maps satisfying both constraints is strictly larger than thermal operations. The paper shows that for many copies of pure states none of these gaps survive.",
+    "The protocol rests on one fact: two pure states can be mapped into each other by an energy-conserving unitary, up to small error, if their energy distributions are close. For \\(n\\) copies of a pure state the energy distribution is, asymptotically, a translated Poisson distribution fixed by its mean and variance. So the authors add two auxiliary systems: a large bath of copies of the system, whose typical states absorb the mean-energy difference between \\(\\psi^{\\otimes n}\\) and \\(\\phi^{\\otimes Rn}\\), and an engineered system nearly in its ground state, prepared in an output superposition whose variance absorbs the variance difference. The free-energy condition guarantees enough distinct bath outputs to make the map injective, and the variance condition guarantees that the needed variance is positive.",
+    "A qubit with gap \\(\\varepsilon\\) shows how the two constraints trade places. Converting \\(|+\\rangle\\) into \\(\\sqrt{2/3}|0\\rangle+\\sqrt{1/3}|1\\rangle\\) has variance ratio \\(9/8\\) at every temperature, while the free-energy ratio rises from 1 at high temperature to \\(3/2\\) at low temperature; free energy limits the rate when \\(\\beta\\varepsilon<0.48\\) and coherence limits it above. Open are mixed states, incommensurate spectra, and second-order (finite-\\(n\\)) corrections."
+  ],
+  "methods": [
+    {
+      "technique": "Matching energy distributions, then rotating within energy shells",
+      "explanation": "An energy-conserving unitary can do anything inside a fixed-energy subspace but cannot move weight between energies. So the only obstruction to mapping one pure state onto another is a mismatch of energy distributions, and the protocol's whole job is to make those distributions agree.",
+      "math": [
+        "Write \\(|\\Psi\\rangle=\\sum_E\\sqrt{p(E)}|\\Psi_E\\rangle\\) and \\(|\\Phi\\rangle=\\sum_E\\sqrt{q(E)}|\\Phi_E\\rangle\\) with normalised components in each energy subspace. A unitary \\(V=\\bigoplus_EV_E\\) with \\(V_E|\\Psi_E\\rangle=|\\Phi_E\\rangle\\) conserves energy and gives \\[\\langle\\Phi|V|\\Psi\\rangle=\\sum_E\\sqrt{p(E)q(E)}\\ge1-d_{\\rm TV}(p,q).\\] To do this for every typical bath state \\(|\\lambda\\rangle\\) at once, the targets for different \\(\\lambda\\) must be orthogonal, which is where the free-energy condition enters.",
+        "Editorial remark: the inequality is the Bhattacharyya coefficient bounded by total variation, \\(\\sum\\sqrt{pq}\\ge\\sum\\min(p,q)=1-d_{\\rm TV}\\). For \\(n\\) copies, \\(p\\) and \\(q\\) both tend to translated Poisson laws, so matching mean to \\(O(1)\\) and variance to \\(O(1)\\) on an \\(O(n)\\) scale is enough to send \\(d_{\\rm TV}\\to0\\)."
+      ],
+      "transfer": "Any conversion under a conserved quantity with commensurate spectrum (energy, particle number, angular momentum about one axis) can be planned the same way: match the charge distributions with free auxiliary systems, then rotate within each charge sector."
+    },
+    {
+      "technique": "Two constraints, two ratios",
+      "explanation": "Free energy and energy variance are both additive over copies, and each is monotone under the respective class of maps; asymptotic rates are therefore ratios. A worked qubit shows that neither ratio dominates in general.",
+      "math": [
+        "For a pure state, \\(D(\\psi\\|\\gamma)=\\beta\\langle H\\rangle_\\psi+\\log Z\\). With \\(H=\\varepsilon|1\\rangle\\langle1|\\), \\(|\\psi\\rangle=|+\\rangle\\) and \\(|\\phi\\rangle=\\sqrt{2/3}|0\\rangle+\\sqrt{1/3}|1\\rangle\\), \\[\\frac{D(\\psi\\|\\gamma)}{D(\\phi\\|\\gamma)}=\\frac{\\log Z+\\beta\\varepsilon/2}{\\log Z+\\beta\\varepsilon/3},\\qquad\\frac{V(\\psi)}{V(\\phi)}=\\frac{1/4}{2/9}=\\frac98.\\] The first tends to 1 as \\(\\beta\\varepsilon\\to0\\) and to \\(3/2\\) as \\(\\beta\\varepsilon\\to\\infty\\).",
+        "Editorial check: the two ratios cross at \\(\\beta\\varepsilon\\approx0.481\\), so the round-trip product \\(R(\\psi\\to\\phi)R(\\phi\\to\\psi)\\) equals 1 only at that temperature, as the paper states, and the identity \\(D=\\beta\\langle H\\rangle+\\log Z\\) agrees with a direct matrix computation."
+      ],
+      "transfer": "When a process obeys several conservation-type constraints, compute each one's asymptotic rate separately; the minimum is always an upper bound, and showing it is attained reduces to matching the relevant statistics with free resources."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-09"
+}

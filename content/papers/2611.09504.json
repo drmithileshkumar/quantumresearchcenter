@@ -1,0 +1,45 @@
+{
+  "id": "2611.09504",
+  "topic": "information",
+  "title": "Sharp error tolerance of the monogamy-of-entanglement game",
+  "authors": "Llorenç Escolà-Farràs; Florian Speelman",
+  "submitted": "2026-11-06",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "In the BB84 monogamy-of-entanglement game, two cooperating players who cannot communicate must both guess a referee's measurement outcome on a qubit they prepared, after learning the basis. Security proofs for position verification and related protocols need the noisy version, where the players may be wrong on a fraction \\(\\gamma\\) of \\(n\\) rounds; the known bound guaranteed exponential decay only for \\(\\gamma\\) below about 3.7%, far from the 14.6% that a simple strategy achieves.",
+  "result": "The players' winning probability with identical answers and at most \\(\\gamma n\\) errors is at most \\(2^{-nD(\\gamma\\|\\gamma_*)}\\) for every \\(\\gamma<\\gamma_*=\\frac12-\\frac{1}{2\\sqrt2}\\approx14.64\\%\\), where \\(D\\) is the binary relative entropy. The product Breidbart strategy shows both the threshold and the exponent are optimal. If the players need not agree and have tolerances \\(\\gamma_B,\\gamma_C\\), the probability decays whenever \\(\\gamma_B+\\gamma_C<\\gamma_*\\).",
+  "significance": "Every security reduction that runs through this game inherits the improvement. The authors list position verification in the random-oracle model and in parallel versions (tolerance from 3.7% to any value below 14.64%), spacetime-constrained oblivious transfer (1.5% to 7.32%), relativistic bit commitment, and the guessing bound in one-sided device-independent key distribution.",
+  "limitations": "For players with unequal tolerances, the corollary gives decay below \\(\\gamma_*/2\\) per player when the tolerances are equal, and is not claimed to be sharp. The 14.64% is a bound on this game, not a key-rate threshold: the protocols' other terms (parameter estimation, error correction, privacy amplification, oracle queries) are unchanged. The argument applies only to games that already have a strong parallel-repetition bound; coset-state games have different winning conditions. The paper states that the main proof idea was provided by ChatGPT, which also helped draft the text.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-09, which is short: all five sections and the AI-use statement. The thresholds 3.70% and 1.53% of the old bounds, the Chernoff identity, and the Breidbart winning probabilities were recomputed numerically.",
+  "verified_on": "2026-11-09",
+  "methods_source_section": "Section 2 (Lemmas 1–2, Theorem 3) and Section 3",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The referee holds \\(n\\) qubits prepared by the players and measures each in the computational or Hadamard basis, chosen at random. After hearing the basis string, two separated players each output an \\(n\\)-bit guess. Without noise, the best probability of being right on all rounds is \\(\\lambda^{n}\\) with \\(\\lambda=\\cos^{2}(\\pi/8)\\approx0.854\\) (strong parallel repetition, Tomamichel, Fehr, Kaniewski and Wehner). The players cannot do better because two parties cannot both be perfectly correlated with one qubit in two complementary bases: entanglement is monogamous.",
+    "The noisy game allows at most \\(\\gamma n\\) errors. The old bound simply took a union over all ways to place the errors, multiplying \\(\\lambda^{n}\\) by \\(\\binom{n}{\\gamma n}\\approx2^{nh(\\gamma)}\\), which beats \\(\\lambda^{n}\\) only for \\(\\gamma<3.7\\%\\). Yet the Breidbart strategy, where the players prepare each qubit halfway between \\(|0\\rangle\\) and \\(|+\\rangle\\) and always answer 0, errs independently with probability \\(1-\\lambda\\approx14.6\\%\\) per round, so no bound can extend past that.",
+    "The new proof treats the rounds where both players are right as a sum of indicators \\(J_i\\). They need not be independent, since the players' strategy may correlate the rounds, but fixing the bases outside any subset \\(S\\) gives a valid noiseless game on \\(S\\), so the probability that all of \\(S\\) is won is at most \\(\\lambda^{|S|}\\). That is exactly the hypothesis of a generalised Chernoff bound, which then gives the same tail as for independent rounds: \\(2^{-nD(1-\\gamma\\|\\lambda)}=2^{-nD(\\gamma\\|\\gamma_*)}\\). The Breidbart strategy has binomial errors, whose tail has the same exponent, so the bound is tight up to a factor \\(n+1\\).",
+    "Dropping agreement changes only the counting: a round fails if either player errs, so at most \\((\\gamma_B+\\gamma_C)n\\) rounds fail. The same argument extends to any game with a strong parallel-repetition bound \\(p^{s}\\), giving threshold \\(1-p\\). Whether the unequal-tolerance threshold \\(\\gamma_B+\\gamma_C<\\gamma_*\\) is sharp, and what holds for coset-state games, are left open."
+  ],
+  "methods": [
+    {
+      "technique": "Chernoff bounds from subset conjunctions",
+      "explanation": "A concentration bound normally needs independence, which an adversarial strategy does not provide. What the noiseless game does provide is a bound on the probability of winning every round in any fixed subset. The moment generating function of a sum of 0/1 variables is a sum over subsets of exactly these probabilities, so the subset bound is enough.",
+      "math": [
+        "For \\(W=\\sum_iJ_i\\) with \\(J_i\\in\\{0,1\\}\\), the identity \\(e^{tJ_i}=1+(e^{t}-1)J_i\\) gives \\[\\mathbb E[e^{tW}]=\\sum_{S\\subseteq[n]}(e^{t}-1)^{|S|}\\,\\mathbb E\\Bigl[\\prod_{i\\in S}J_i\\Bigr]\\le(1-p+pe^{t})^{n}\\] when every subset term is at most \\(p^{|S|}\\), since all coefficients are nonnegative for \\(t\\ge0\\). Markov's inequality with the optimal \\(t=\\ln\\frac{a(1-p)}{p(1-a)}\\) gives \\(\\Pr[W\\ge an]\\le2^{-nD(a\\|p)}\\) for \\(a>p\\).",
+        "Editorial check: at \\(p=\\lambda\\), \\(a=0.95\\), the optimised Markov bound \\(e^{-ta}(1-p+pe^{t})\\) equals \\(2^{-D(a\\|p)}=0.9532\\) to machine precision. With \\(n=200\\) the Breidbart strategy wins with probability \\(1.2\\times10^{-5}\\) at \\(\\gamma=5\\%\\) and \\(0.035\\) at \\(\\gamma=10\\%\\), below the bounds \\(6.8\\times10^{-5}\\) and \\(0.148\\)."
+      ],
+      "transfer": "Whenever a direct-product theorem bounds the probability of winning all of any \\(s\\) rounds by \\(p^{s}\\), this argument upgrades it to a threshold theorem with the binary-entropy exponent; it applies to parallel repetition of any game with such a bound."
+    },
+    {
+      "technique": "Why the union bound loses a factor four",
+      "explanation": "The earlier 3.7% came from counting error patterns. Comparing the exponents shows what the counting wastes: it charges the full entropy of the error positions, while the true tail charges only the divergence from the typical error rate.",
+      "math": [
+        "The union bound gives exponent \\(-\\bigl(h(\\gamma)+\\log_2\\lambda\\bigr)\\), positive only when \\(2^{h(\\gamma)}\\lambda<1\\), that is \\(\\gamma<0.0370\\). The new exponent is \\[D(\\gamma\\|\\gamma_*)=-h(\\gamma)-\\gamma\\log_2\\gamma_*-(1-\\gamma)\\log_2\\lambda,\\] which is the old one plus \\(-\\gamma\\log_2(\\gamma_*/\\lambda)>0\\) and is positive for all \\(\\gamma<\\gamma_*\\).",
+        "Editorial check: at \\(\\gamma=5\\%\\) the exponents are \\(0.069\\) (new) against \\(-0.058\\) (old, no decay). For the two-recipient oblivious-transfer bound \\((2^{2h(\\gamma)}\\lambda)^{n}\\), the old threshold solves \\(2^{2h(\\gamma)}\\lambda=1\\) at \\(\\gamma=1.53\\%\\), the 1.5% quoted in the paper; the new one is \\(\\gamma_*/2=7.32\\%\\)."
+      ],
+      "transfer": "In any error-tolerant security proof that multiplies a perfect-game bound by \\(\\binom{n}{\\gamma n}\\), check whether a subset bound holds; if it does, the threshold moves from where \\(h(\\gamma)\\) cancels the per-round loss to the strategy's own error rate."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-09"
+}

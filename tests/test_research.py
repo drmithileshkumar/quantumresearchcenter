@@ -29,7 +29,7 @@ class ResearchPages(unittest.TestCase):
         cls.output=builder.render(cls.book)
     def test_every_question_has_an_argument_and_sources(self):
         questions=[i for i in builder.records(self.book) if i.get('manuscript')]
-        self.assertEqual(len(questions),14)
+        self.assertEqual(len(questions),15)
         for item in questions:
             manuscript=(ROOT/item['manuscript']).read_text();doc=Source(manuscript)
             self.assertEqual(doc.sections,['perspective','mathematics','known','frontier','investigation'])
@@ -181,5 +181,16 @@ class WorkedMathematics(unittest.TestCase):
             prod=lambda t:n*total*t*math.exp(-2*gamma*t)
             self.assertAlmostEqual(ent(1/(2*n*gamma)),prod(1/(2*gamma)))
             self.assertGreater(ent(1/(2*n*gamma)),ent(.8/(2*n*gamma)))
+    def test_real_vs_complex_tomography(self):
+        k_real = lambda d: d*(d+1)//2
+        self.assertEqual(k_real(2)*k_real(2), 9)
+        self.assertEqual(k_real(4), 10)
+        k_complex = lambda d: d*d
+        for da, db in [(2,2), (2,3), (3,3), (4,4)]:
+            self.assertEqual(k_complex(da*db), k_complex(da)*k_complex(db))
+        k_quat = lambda d: d*(2*d-1)
+        self.assertEqual(k_quat(2), 6)
+        self.assertEqual(k_quat(4), 28)
+        self.assertNotEqual(k_quat(2)*k_quat(2), k_quat(4))
 
 if __name__=='__main__':unittest.main()

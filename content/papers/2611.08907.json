@@ -1,0 +1,45 @@
+{
+  "id": "2611.08907",
+  "topic": "computing",
+  "title": "Shared lookups and lazy residues: fewer Toffoli gates for factoring RSA-2048",
+  "authors": "Monit Sharma; Hoong Chuin Lau",
+  "submitted": "2026-11-06",
+  "version": "v1",
+  "kind": "Resource estimate",
+  "problem": "Gidney's 2025 circuit for factoring RSA-2048 with about 1,400 logical qubits computes the modular exponentiation separately modulo some 21,000 small primes. Most of its Toffoli gates go to two places: table lookups of discrete logarithms (55%) and the cleanup of a multiplication loop (30%). The question is whether either can be made cheaper without changing what the circuit computes.",
+  "result": "Three changes do it: one table lookup serves several primes at once, because they all use the same address; intermediate residues are kept instead of recomputed during cleanup; and with them kept, residues no longer need reducing modulo \\(p\\) after each step. Against the best setting of the original circuit at the same logical-qubit count, the authors report 15% fewer Toffolis at 1,461 qubits (\\(5.08\\times10^{9}\\) per factoring) and 46% fewer at 1,806 qubits (\\(2.55\\times10^{9}\\)). On surface-code timing, the 1,806-qubit circuit takes 1.38 days against 3.44 for the best-tuned original.",
+  "significance": "It is an arithmetic improvement that leaves the architecture alone, so it can be combined with the QLDPC and neutral-atom layouts that cut physical-qubit estimates. The comparison is careful: it is made against the frontier of 534,240 original settings, not one configuration, and uses the original cost model, which slightly favours the original circuit. The open benchmark also closes accounting loopholes in the original simulator.",
+  "limitations": "All counts are logical and come from simulation with sampled primes; the authors stress that runtime and physical-qubit numbers are conditional projections, and that wide shared lookups slow a space-efficient neutral-atom processor (+37% runtime). Correctness rests on a proof sketch (Appendix A) plus finite tests on instances up to 330 bits, not a gate-level simulation at full size. The best configurations need more than the 1,480-qubit memory of the neutral-atom design they are compared with. The acknowledgements state that the benchmark, circuits and analysis were developed with the help of Claude (Anthropic) in an AI-assisted workflow.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-09: Sections 1–7 and 9–10, and the Appendix A outline; Appendices B–D were skimmed. The register widths, qubit counts (1,458 and 1,461), the factoring repetition factor and the headline percentages were recomputed from the stated formulas.",
+  "verified_on": "2026-11-09",
+  "methods_source_section": "Sections 2–3 (Eq. 1) and Section 4",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Shor's algorithm needs \\(g^{e}\\bmod N\\) for a 1,280-qubit superposed exponent \\(e\\). Gidney's construction avoids holding 2,048-bit numbers by working modulo many 21-bit primes \\(p\\), and for each one runs four loops: build the discrete logarithm of \\(g^{e}\\bmod p\\) by adding table entries addressed by windows of \\(e\\) (loop 1), reduce it modulo \\(p-1\\) (loop 2), turn it back into the residue by repeated table-driven multiplication (loop 3), and add the residue's share of the Chinese-remainder sum into a 33-qubit approximate accumulator (loop 4). Everything is then uncomputed.",
+    "Shared lookups attack loop 1. A table lookup with \\(2^{w}\\) entries costs about \\(2^{w}\\) Toffolis regardless of how many output bits each entry has, and every prime uses the same exponent window as the address. So \\(k\\) primes can share one lookup returning a packed word, at the price of holding \\(k\\) discrete-log registers. Cheaper lookups make a larger window worthwhile, which also reduces the number of primes needed. A side observation trims each register: a sum of \\(\\lceil1280/w\\rceil\\) logarithms below \\(2^{21}\\) fits in 29 bits rather than 32.",
+    "Checkpoints and lazy residues attack loop 3's cleanup. To save qubits, the original circuit erases each intermediate residue and later rebuilds it by multiplying by an inverse, which works only if every residue is in canonical form, so each step needs a modular correction. Keeping the intermediate residues (Bennett's time–space trade) lets cleanup subtract the table values directly; and once nothing is rebuilt, residues can be summed as plain integers in a 24-bit register with one reduction at the end. Together with sharing at \\(k=6\\) to \\(8\\), these give the 41–46% reductions at 1,699–1,806 qubits.",
+    "The authors score every candidate against an open benchmark that rejects disguised costs (for example, Toffolis charged as CNOTs), checks outputs on complete instances, and projects full RSA-2048 costs from sampled primes to within 1%. Runtime depends on the hardware: on Gidney's surface-code layout the best circuit is 60% faster, on a balanced neutral-atom design about 50%, but on a space-efficient neutral-atom processor with ten working logical qubits the wide lookup words make it 37% slower. Native compilation for those architectures, and joint tuning with the Ekerå–Håstad parameter, are left open."
+  ],
+  "methods": [
+    {
+      "technique": "Amortising a lookup over shared addresses",
+      "explanation": "A quantum table lookup's cost is set by the number of addresses it must distinguish, not by the width of the word it returns. When many independent computations read tables at the same address, packing their entries into one word buys them all for the price of one lookup.",
+      "math": [
+        "In loop 1, each window of \\(w_1\\) exponent bits is an address into a table with \\(2^{w_1}\\) entries, costing about \\(2^{w_1}\\) Toffolis. With \\(k\\) primes per lookup the loop-1 cost per prime falls by about \\(k\\), while the qubit count of loop 1 grows as \\[Q_{\\rm loop1}=m+(f+1)+2kL+(L-1),\\] with \\(m=1280\\), \\(f=33\\) and \\(L\\) the discrete-log width. For \\(k=2\\), \\(L=29\\) this is 1,458, and loop 4, at \\(1280+2\\cdot29+21+3\\cdot33+3=1{,}461\\), sets the peak.",
+        "Editorial check: \\(L=\\mathrm{len}\\bigl(\\lceil1280/w_1\\rceil(2^{21}-1)\\bigr)\\) gives 30 bits for \\(w_1=4\\) and 29 for \\(w_1=6,7,8\\), as stated, against 32 in the original. The reported per-factoring counts follow from per-shot counts times \\(9/0.9875=9.11\\) executions: \\(2.80\\times10^{8}\\to2.55\\times10^{9}\\), and the ratios \\(5.08/5.98\\) and \\(2.55/4.74\\) give the quoted \\(-15.0\\%\\) and \\(-46.2\\%\\)."
+      ],
+      "transfer": "Any batched quantum arithmetic in a residue number system, or any set of oracles queried with a common index, can share lookups; the cost to watch is the extra output register per batch member, which is what limits \\(k\\)."
+    },
+    {
+      "technique": "Lazy reduction once recomputation is gone",
+      "explanation": "Modular reductions inside loop 3 exist only so that cleanup can rebuild each erased residue by an inverse multiplication, which needs canonical values. Keeping the residues removes that reason, and with it the per-step comparisons and borrow measurements.",
+      "math": [
+        "With checkpoints, step \\(j\\) computes \\[r_j=\\sum_{u=0}^{W_3-1}\\mathsf{Tab}_j[u]\\bigl(a_j,\\mathrm{win}_u(r_{j-1})\\bigr)\\equiv M_{j,a_j}r_{j-1}\\pmod p,\\] a sum of \\(W_3=\\lceil R/w_3\\rceil\\) table values each below \\(p\\), so \\(r_j<W_3\\,p\\). With \\(R=24\\), \\(w_3=3\\) and \\(p<2^{21}\\), \\(W_3=8=2^{R-21}\\), so \\(r_j<2^{24}\\) fits the register and the next step's windows can address it. A three-step long division before loop 4 restores \\([0,p)\\) and is undone afterwards.",
+        "The paper reports the per-step, per-prime forward cost falling from about 679 to 632 Toffolis and the deletion cost from about 1,005 to 696. Editorial remark: the bound \\(W_3\\le2^{R-\\ell}\\) is what makes the scheme closed; with a narrower register the unreduced sum would overflow after one step."
+      ],
+      "transfer": "In reversible or quantum arithmetic, every intermediate reduction should be traced to the operation that needs canonical form; if that operation can be removed by storing intermediates, a single final reduction with a few guard bits is usually cheaper."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-09"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "2611.09814",
+  "topic": "foundations",
+  "title": "Arrival-time problem in the quantum information era: observation of a Zeno crossover in monitored arrival-time distributions",
+  "authors": "Yousef Mafi; K. G. S. H. Gunawardana; Kim Pöyhönen; Teemu Ojanen",
+  "submitted": "2026-11-06",
+  "version": "v1",
+  "kind": "Theory and experiment",
+  "problem": "Quantum mechanics has no time operator, so \"when does a particle reach the detector?\" has no unique answer; any arrival-time distribution depends on how the detector looks. If the detector looks repeatedly, looking too often freezes the particle (the Zeno effect) and looking too rarely misses it, but these regimes had not been resolved in a transport experiment.",
+  "result": "On IBM superconducting processors with mid-circuit measurements, the authors measure full first-arrival distributions of one, two and three particles (up spins) hopping along a 7–9-site chain to a site measured every \\(\\Delta t\\), and of one particle on a \\(4\\times4\\) lattice. The data show a Zeno regime, where arrival rises with \\(\\Delta t\\), and a low-monitoring regime with non-monotonic arrival, separated near \\(\\Delta t\\approx3\\) in units of the inverse coupling. The one-dimensional data match quantum-trajectory theory, with about 1% statistical uncertainty for a single particle.",
+  "significance": "It turns a long-standing conceptual problem into a measured curve: the arrival statistics of a repeatedly watched detector, including back-action, on a platform where the same hardware could also run the unmonitored protocol. A short operator bound, \\(p_\\uparrow\\le J^{2}\\Delta t^{2}/4\\) per measurement, explains the Zeno side for any number of particles and in any dimension.",
+  "limitations": "The circuits are Trotterised with a coarse step \\(\\delta t=1\\), so the experiment probes the brickwork circuit, not the continuous chain. Noise that breaks particle-number conservation is removed by post-selection, which costs many shots at late times and does not remove noise that preserves particle number; two- and three-particle and two-dimensional data deviate more from theory. The optimal period \\(\\pi/J\\) is an estimate from the bandwidth, not a derived optimum. By our calculation, the mean detection times quoted in Appendix A (10.6 rising to 12.8 for one particle) match the \\(\\delta t=0.5\\) circuit; the continuous chain gives 10.9 and 13.2.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-09: the main text and Appendices A and B; Appendix C (comparison with unmonitored distributions) was skimmed. The Zeno bound, the free-fermion mean detection times and the many-body circuit values were recomputed; no AI-use statement was found.",
+  "verified_on": "2026-11-09",
+  "methods_source_section": "Section II and Appendix A (Eqs. 8–19)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The protocol follows the stroboscopic first-detection idea for lattices. A chain of \\(L\\) spins evolves under the XXZ Hamiltonian, which hops up spins (particles) between neighbours with amplitude \\(J/2\\) and gives neighbouring particles an interaction \\(J\\Delta\\). The particles start at one end; the last site is measured every \\(\\Delta t\\), and the arrival time is the first measurement that finds it occupied. Its probability is the product of earlier no-click probabilities times the click probability now, computed along the trajectory in which every earlier outcome was empty.",
+    "Two regimes appear. When \\(\\Delta t\\) is short, each measurement resets the detector site to empty, and amplitude has only time to build up linearly, so the click probability per measurement is quadratic in \\(\\Delta t\\) and arrival is slow. When \\(\\Delta t\\) is long, the detector samples the wave packet at instants that can miss it, and some states never show up at the detector: if two single-particle energies differ by a multiple of \\(2\\pi/\\Delta t\\), a combination of the two eigenmodes cancels on the detector at every measurement. On a finite chain this first happens at \\(\\Delta t=2\\pi/W_L\\), where \\(W_L\\) is the band's width, about 3.4 for seven sites.",
+    "Experimentally, each monitoring time is a separate circuit run on ibm_kingston (heavy-hex) or ibm_berlin (square lattice), with dynamical decoupling during the 2.2 µs mid-circuit measurements and post-selection on the conserved particle number. For one particle on seven sites the cumulative arrival rises as \\(\\Delta t\\) goes from 1 to 3 and falls from 3 to 6, and the plateaus from the wave packet's round trips are reproduced. With two or three particles the same \\(\\Delta t\\approx3\\) remains best, late arrival is faster because any particle can trigger the detector, and the plateaus wash out.",
+    "The paper positions the result in the arrival-time debate: Mielnik's objection that repeated measurement freezes arrival is the Zeno regime seen here, while protocols that measure each copy once avoid it and could be run on the same hardware. Open are a derivation of the optimum beyond the bandwidth estimate, a treatment of many-body dark states with interactions, and lower-noise experiments with more particles."
+  ],
+  "methods": [
+    {
+      "technique": "A uniform Zeno bound from one commutator",
+      "explanation": "To show that frequent monitoring suppresses arrival for every state, interaction strength and particle number, the authors need a bound that does not depend on the dynamics in detail. Only the bond into the detector site can change its occupation, and that single commutator controls the click probability.",
+      "math": [
+        "Let \\(P\\) project onto an occupied detector and let \\(P|\\psi\\rangle=0\\) after a no-click outcome. Then \\(PU(\\Delta t)|\\psi\\rangle=U(\\Delta t)[P(\\Delta t)-P]|\\psi\\rangle\\) with \\(P(s)=e^{iHs}Pe^{-iHs}\\), and \\(\\|P(\\Delta t)-P\\|\\le\\Delta t\\,\\|[H,P]\\|\\). The interaction term commutes with \\(P\\), and the last bond's hopping gives \\(\\|[H,P]\\|=J/2\\), so \\[p_\\uparrow\\le\\frac{J^{2}\\Delta t^{2}}{4},\\qquad\\langle t\\rangle\\ge\\frac{4}{J^{2}\\Delta t}.\\]",
+        "The second inequality follows because the survival probability after \\(n\\) measurements is at least \\((1-J^{2}\\Delta t^{2}/4)^{n}\\) and \\(\\langle t\\rangle=\\Delta t\\sum_{n\\ge0}P_s(t_n)\\). Editorial check: for one particle on seven sites with \\(\\Delta t=0.3\\), the largest click probability along the trajectory is 0.0203, below the bound 0.0225."
+      ],
+      "transfer": "For any repeatedly measured projector, \\(\\|[H,P]\\|\\) bounds the leak rate out of the measured subspace; it gives Zeno time scales for monitored qubits, leakage detection and measurement-based state confinement without solving the dynamics."
+    },
+    {
+      "technique": "Free-fermion reduction of monitored dynamics",
+      "explanation": "Simulating many particles with mid-circuit measurements usually means tracking a many-body state. Without interactions, the no-click record keeps the state a single Slater determinant, so the many-body survival probability becomes a determinant of small matrices; this is how the theory curves and the optimal period are computed.",
+      "math": [
+        "With single-particle evolution \\(u(\\Delta t)=e^{-ih\\Delta t}\\) and \\(\\Pi=1-|L\\rangle\\langle L|\\), the no-click orbitals after \\(n\\) measurements are \\(A_n=(\\Pi u)^{n}A_0\\), where \\(A_0\\) holds the \\(k\\) initially occupied orbitals. The survival probability is the Gram determinant, \\[P_s(t_n)=\\det(A_n^{\\dagger}A_n),\\] and at late times it decays as \\(\\prod_{j\\le k}|\\mu_j|^{2n}\\) with \\(\\mu_j\\) the \\(k\\) largest eigenvalues of \\(\\Pi u\\), so each added particle adds a decay channel.",
+        "Editorial check: for one particle on seven sites the mean detection time \\(\\Delta t\\sum_nP_s(t_n)\\) is smallest at \\(\\Delta t\\approx3.40\\), equal to \\(2\\pi/W_L\\) with \\(W_L=2J\\cos(\\pi/8)\\). At \\(\\Delta t=3\\) we obtain 10.88 for the continuous chain and 10.61 for the \\(\\delta t=0.5\\) circuit; the latter matches the 10.6 quoted in the paper, as do its interacting values (12.8, 12.8, 11.5 in our circuit runs)."
+      ],
+      "transfer": "Any monitored or post-selected free-fermion circuit whose measurements are occupation projectors stays Gaussian along a fixed record; survival and first-passage statistics then reduce to determinants of \\(L\\times k\\) matrices."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-09"
+}

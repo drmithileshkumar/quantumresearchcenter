@@ -1,3 +1,16 @@
+# Structural principles for website content
+
+The following principles guide all future content creation and revision across the website, including courses, research explanations, news, and interactive learning material. Apply them at a depth appropriate to the page's purpose; they are quality standards, not a mandatory six-part page template. Existing content will be updated in subsequent work.
+
+## What makes a book “best-written”?
+
+1. **Clarity of exposition** – Concepts are introduced gradually, with each new idea building on previously established intuition.
+2. **Narrative flow** – The author treats the subject as a story, using analogies, real-world motivations, and purposeful examples rather than isolated definitions.
+3. **Pedagogical design** – Thoughtful exercises, summaries, and “what-if” explorations encourage active learning and deeper comprehension.
+4. **Concise, precise language** – No superfluous jargon; terminology is defined the first time it appears and reused consistently.
+5. **Balanced rigor and accessibility** – Formal proofs are presented with intuition-boosting explanations, so readers can follow the logical structure without feeling lost.
+6. **Aesthetic presentation** – Clean typography, well-chosen diagrams, and consistent formatting let the reader focus on the content rather than on visual clutter.
+
 # Site maps
 
 Public pages, `website-map/` and `sitemap.xml` are build output and are not committed. Whenever adding, renaming, or removing a public page, run `python3 scripts/build_all.py`, then `python3 scripts/check_site.py` to ensure every link resolves and every page is reachable. The shared inventory automatically discovers public HTML pages, including standalone pages and nested directories; redirects, noindex pages, and build inputs are excluded.

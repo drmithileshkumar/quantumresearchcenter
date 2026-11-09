@@ -633,6 +633,33 @@
       "url": "https://arxiv.org/abs/0811.2803",
       "note": "Surveys witnesses, positive maps and moment criteria for detecting entanglement, including the multipartite case where the partial transpose is no longer sufficient.",
       "checked": "2026-11-06"
+    },
+    "quant-ph/0101012": {
+      "title": "Quantum Theory From Five Reasonable Axioms",
+      "authors": "Lucien Hardy",
+      "year": 2001,
+      "kind": "Preprint",
+      "url": "https://arxiv.org/abs/quant-ph/0101012",
+      "note": "Reconstructs quantum theory from five operational postulates, demonstrating that continuous reversibility and local tomography isolate the tensor product rule.",
+      "checked": "2026-11-09"
+    },
+    "1011.6451": {
+      "title": "Informational derivation of Quantum Theory",
+      "authors": "Giulio Chiribella, Giacomo Mauro D'Ariano, Paolo Perinotti",
+      "year": 2010,
+      "kind": "Paper",
+      "url": "https://arxiv.org/abs/1011.6451",
+      "note": "Derives the mathematical formalism of quantum mechanics from operational axioms, proving that causality and local tomography uniquely specify the tensor product.",
+      "checked": "2026-11-09"
+    },
+    "2001.04383": {
+      "title": "MIP* = RE",
+      "authors": "Zhengfeng Ji, Anand Natarajan, Thomas Vidick, John Wright, Henry Yuen",
+      "year": 2020,
+      "kind": "Paper",
+      "url": "https://arxiv.org/abs/2001.04383",
+      "note": "Resolves Tsirelson's problem and Connes' embedding conjecture, proving that commuting-operator correlations strictly exceed tensor-product correlations in infinite dimensions.",
+      "checked": "2026-11-09"
     }
   },
   "categories": [
@@ -713,6 +740,23 @@
           ],
           "children": [],
           "manuscript": "content/research/gravity-and-quantum-theory.html"
+        },
+        {
+          "id": "composite-quantum-systems",
+          "title": "Why are composite systems described by tensor products?",
+          "keyword": "Why are composite systems described by tensor products?",
+          "summary": "Local tomography and causality uniquely force the tensor product in finite dimensions, while infinite dimensions admit richer commuting-operator models.",
+          "paragraphs": [
+            "Local tomography and causality uniquely force the tensor product in finite dimensions, while infinite dimensions admit richer commuting-operator models."
+          ],
+          "questions": [],
+          "papers": [
+            "quant-ph/0101012",
+            "1011.6451",
+            "2001.04383"
+          ],
+          "children": [],
+          "manuscript": "content/research/composite-quantum-systems.html"
         }
       ]
     },
