@@ -1,0 +1,45 @@
+{
+  "id": "2611.11333",
+  "topic": "information",
+  "title": "Unbounded advantage of adaptivity in entanglement-assisted communication",
+  "authors": "Armin Tavakoli",
+  "submitted": "2026-11-08",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Shared entanglement can reduce the classical communication a distributed task needs. The receiver can use it in two ways: measure first and decode classically (non-adaptive), or choose the measurement after reading the message (adaptive). Adaptive protocols are known to help sometimes, and Frenkel and Weiner conjectured that \\(d\\) entanglement-assisted messages can always be simulated by \\(d^{2}\\) classical ones. How large can the gap between the two kinds of protocol be?",
+  "result": "Unbounded. For every \\(M\\) there is a task, an exclusion game in which the receiver has no input, that an adaptive protocol solves with a three-valued message and a maximally entangled state of dimension \\(M^{2}+1\\), while every non-adaptive protocol, and hence every classical protocol with shared randomness, needs more than \\(M\\) messages. The \\(d^{2}\\) conjecture fails at \\(d=3\\). Two limits are proved: with the receiver's share of bounded dimension \\(R\\), a finite non-adaptive simulation exists (at most \\(dR\\) messages when the receiver has no input), and to error \\(\\varepsilon\\) any adaptive \\(d\\)-message protocol is simulated with \\(1+\\lceil\\ln(1/\\varepsilon)/\\ln\\tfrac{d}{d-1}\\rceil\\) messages.",
+  "significance": "The result shows that the signalling dimension of an entanglement-assisted trit is infinite: no finite classical channel reproduces all its correlations. The two limitations say what an experiment would need to see a large gap: entanglement of growing dimension and near-exact statistics, since the bounded-error cost grows only logarithmically in \\(1/\\varepsilon\\) (36 messages for a trit at error \\(10^{-6}\\)) and any input-independent noise makes it finite.",
+  "limitations": "The separation is exact and asymptotic: it needs zero-error exclusion and entanglement dimension \\(M^{2}+1\\) for an \\(M\\)-message gap, and it disappears under any fixed noise or tolerated error. Whether the logarithmic bounded-error bound is tight is open, and the simulation for bounded dimension with receiver inputs is far from optimal. The task has no receiver input, so the separation from non-adaptive protocols coincides with one from classical protocols. The author states that all technical results were obtained from ChatGPT-6 Astra and that the author checked them.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-10: the whole main text and the AI statement; the supplementary simulation for bounded dimension with receiver inputs was not checked. The adaptive protocol was constructed numerically with three mutually unbiased bases for \\(M=2,4,6\\) (\\(R=5,17,37\\)), and the bounded-error count was recomputed.",
+  "verified_on": "2026-11-10",
+  "methods_source_section": "Main text Eqs. (3)–(11)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Alice receives an input \\(x\\) and sends a message from \\(d\\) values to Bob, who outputs \\(b\\); they share entanglement and randomness. In a non-adaptive protocol Bob measures that share of the state before the message arrives and combines outcome and message classically. In an adaptive one Bob picks the measurement \\(\\{B_{b|a}\\}\\) after reading the message \\(a\\). When Bob has no input, non-adaptive protocols are just classical communication with shared randomness, because the outcomes of a fixed measurement have a local hidden-variable description.",
+    "The question is how much communication a non-adaptive protocol needs to reproduce an adaptive one exactly, and whether that cost can be unbounded at a fixed adaptive message size.",
+    "The task: Alice gets a set \\(S\\) of \\(M\\) pairs \\((j,a)\\), with \\(a\\in\\{1,2,3\\}\\) and \\(j\\le R=M^{2}+1\\), and Bob must output a pair not in \\(S\\), with certainty. Classically, Bob's outputs over \\(M\\) messages form at most \\(M\\) pairs, and some \\(S\\) contains all of them, so \\(M\\) messages never suffice. Adaptively, the parties share a maximally entangled state of dimension \\(R\\) and fix three mutually unbiased bases \\(\\{\\ket{u_{j|a}}\\}\\). Alice measures a POVM \\(\\{A_{a|S}\\}\\) that annihilates every basis vector named in \\(S\\) in its own basis, sends \\(a\\), and Bob measures basis \\(a\\): the outcome \\(j\\) cannot be in \\(S\\). Such POVMs exist because vectors from different unbiased bases are nearly orthogonal when \\(R>M^{2}\\).",
+    "The two simulations show the gap is fragile. With bounded dimension, Alice's message and Bob's state combine into one prepared state of dimension \\(dR\\), which a classical message of the same size simulates. With error \\(\\varepsilon\\), Bob guesses the message on many copies and Alice reports the first correct guess. The open questions are whether the logarithmic cost is tight and whether network scenarios, where this guessing may fail, allow advantages under realistic conditions."
+  ],
+  "methods": [
+    {
+      "technique": "An exclusion POVM from a split Gram matrix",
+      "explanation": "Alice needs, for any \\(M\\) vectors drawn from three bases, a three-outcome measurement whose outcome \\(a\\) never prepares a state overlapping the chosen vectors of basis \\(a\\). Splitting the Gram matrix of those vectors into three positive parts, each blind to one basis, builds it directly.",
+      "math": [
+        "Collect the chosen vectors into \\(T=[V_1,V_2,V_3]\\) and let \\(G=T^{\\dagger}T\\), with identity diagonal blocks and off-diagonal blocks \\(G_{kl}=V_k^{\\dagger}V_l\\). Let \\(C_a\\) keep the two blocks other than \\(a\\), with diagonal \\(\\tfrac12 I\\) and the original off-diagonal block. Then \\(C_1+C_2+C_3=G\\), and each \\(C_a\\succeq0\\) because mutual unbiasedness gives \\[\\|G_{kl}\\|_\\infty\\le\\|G_{kl}\\|_2=\\sqrt{\\frac{s_ks_l}{R}}\\le\\frac{M}{2\\sqrt R}<\\frac12.\\]",
+        "With \\(P=TG^{-1}T^{\\dagger}\\), set \\(A_a=TG^{-1}C_aG^{-1}T^{\\dagger}+(I-P)/3\\). These are positive, sum to \\(TG^{-1}GG^{-1}T^{\\dagger}+I-P=I\\), and annihilate each chosen vector \\(Te_k\\) of basis \\(a\\), since \\(C_aG^{-1}T^{\\dagger}Te_k=C_ae_k=0\\). Editorial check: with the computational, Fourier and quadratic-phase bases in prime dimension \\(R=5,17,37\\) and random sets \\(S\\), the smallest eigenvalue, the deviation from \\(\\sum_aA_a=I\\) and \\(\\|A_au\\|\\) are all below \\(10^{-15}\\)."
+      ],
+      "transfer": "To build a measurement that excludes prescribed vectors from several nearly orthogonal families, split their Gram matrix into positive pieces, each zero on one family; the block-norm bound is the only estimate needed."
+    },
+    {
+      "technique": "Guess the message, then report the first correct guess",
+      "explanation": "A non-adaptive Bob cannot wait for the message, but shared randomness lets Bob guess it on many copies of the entangled state in parallel. Alice's message then only needs to say which copy was guessed correctly, which costs a number of values logarithmic in the error.",
+      "math": [
+        "On copy \\(i\\), Bob measures \\(\\{B_{b|y,g_i}\\}\\) for a uniformly random guess \\(g_i\\) and Alice measures \\(\\{A_{a|x}\\}\\), getting \\(a_i\\). Alice sends the first \\(i\\) with \\(a_i=g_i\\), or a failure symbol. Each copy fails with probability \\(1-1/d\\) independently of the inputs, so conditioned on success Bob's output on copy \\(m\\) has exactly the adaptive law, and the total variation error is at most \\((1-1/d)^{N}\\). Hence \\[M_\\varepsilon\\ \\le\\ 1+\\left\\lceil\\frac{\\ln(1/\\varepsilon)}{\\ln d-\\ln(d-1)}\\right\\rceil.\\]",
+        "Editorial check: for \\(d=3\\) and \\(\\varepsilon=10^{-6}\\) this is \\(1+\\lceil34.07\\rceil=36\\), as stated; the simpler form \\(1+\\lceil d\\ln(1/\\varepsilon)\\rceil\\) gives 43. If the adaptive correlation already contains a fraction \\(t\\) of input-independent noise, choosing \\((1-1/d)^{N}\\le t\\) and adding the remaining noise makes the simulation exact."
+      ],
+      "transfer": "Any protocol in which a party's choice depends on a short message can be made non-adaptive by guessing that message over independent copies and post-selecting through a short index; the cost is logarithmic in the target error and linear in the message alphabet."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-10"
+}

@@ -365,7 +365,41 @@ def aaronson_ambainis():
     return svg(''.join(out))
 
 
+def mip_re():
+    """A verifier questioning two entangled provers, and a chain of ever smaller games feeding back on itself."""
+    out = [grid(0, 0, W, H, 40)]
+    out.append(rect(40, 40, 460, 320, 'fig-wash-1', 18))
+    pa, pb, v = (130, 110), (130, 290), (390, 200)
+    # entanglement between the provers: a wave joining them, no line to the verifier
+    wave = [(pa[0] - 30 + 14 * math.sin(k / 3), pa[1] + 24 + k * (pb[1] - pa[1] - 48) / 24) for k in range(25)]
+    out.append(path(wave, 'fig-line-2'))
+    for p in (pa, pb):
+        out.append(arrow(v[0] - 46, v[1] + (p[1] - v[1]) * .25 - 8, p[0] + 34, p[1] - 8, 'fig-link', 12))
+        out.append(arrow(p[0] + 34, p[1] + 8, v[0] - 46, v[1] + (p[1] - v[1]) * .25 + 8, 'fig-line-1', 12))
+        out.append(circle(*p, 26, 'fig-fill-1'))
+    out.append(rect(v[0] - 40, v[1] - 40, 80, 80, 'fig-box', 8))
+    # compression: each game simulated by an exponentially smaller one
+    x, size, boxes = 560, 210, []
+    while size > 14:
+        boxes.append((x, 200, size))
+        x += size + 40
+        size *= .55
+    for i, (bx, by, s) in enumerate(boxes):
+        out.append(rect(bx, by - s / 2, s, s, 'fig-wash-2' if i else 'fig-box', 6))
+        out.append(grid(bx + s / 4, by - s / 4, bx + 3 * s / 4, by + s / 4, max(4, int(s / 6)), 'fig-grid'))
+        if i + 1 < len(boxes):
+            nx = boxes[i + 1][0]
+            out.append(arrow(bx + s + 6, by, nx - 8, by, 'fig-line-1', 10))
+    # self-reference: the smallest game hands back to the first
+    lx, _, ls = boxes[-1]
+    fx = boxes[0][0] + boxes[0][2] / 2
+    out.append(path([(lx + ls / 2, 200 + ls / 2 + 6), (lx + ls / 2, 345), (fx, 345)], 'fig-line-2'))
+    out.append(arrow(fx, 345, fx, 200 + boxes[0][2] / 2 + 6, 'fig-line-2', 12))
+    return svg(''.join(out))
+
+
 BANNERS = {
+    'mip-star-equals-re-verified': mip_re,
     'alice-bob-rsa-2048-cat-qubits': cat_qubits,
     'psi-aaronson-ambainis-conjecture': aaronson_ambainis,
     'beyond-the-qubit-count': qubit_count,

@@ -1,0 +1,45 @@
+{
+  "id": "2611.10481",
+  "topic": "foundations",
+  "title": "A trace costs one quantifier: the exact complexity of perfect play in nonlocal games",
+  "authors": "Seth Douglas; Nidhal Mghirbi",
+  "submitted": "2026-11-07",
+  "version": "v1",
+  "kind": "Theory with formal verification",
+  "problem": "\\(\\mathsf{MIP}^{*}=\\mathsf{RE}\\) concerns the value of a nonlocal game, a supremum. A sharper question is whether players can win with certainty, and the answer depends on what a quantum strategy is allowed to be. Perfect play with finite-dimensional strategies is \\(\\Sigma^0_1\\)-complete and with commuting operators \\(\\Pi^0_1\\)-complete; for the spatial model (normal states on infinite tensor products) and for commuting models with a given von Neumann algebra, the exact difficulty was unknown.",
+  "result": "Deciding whether a finite game has a perfect spatial strategy is \\(\\Sigma^0_2\\)-complete, even for games of value one and even when finite entanglement entropy is required: it cannot be decided with an oracle for the halting problem. With a finite or semifinite von Neumann host the problem is also \\(\\Sigma^0_2\\)-complete, whereas for every type \\(\\mathrm{III}_\\lambda\\) factor it equals unrestricted commuting perfection, \\(\\Pi^0_1\\)-complete. The same \\(\\Sigma^0_2\\) level governs one-shot zero-error communication with entanglement, and the authors give a finite channel whose \\(m\\)-message zero-error codes all need infinite entanglement entropy. Theorem A is formally verified in Lean.",
+  "significance": "The answers are not monotone in the model: the spatial correlation set lies between the finite-dimensional and commuting ones, yet deciding perfect spatial play is strictly harder than both. The paper identifies why, in one sentence of its title: a trace provides a finite corner of the algebra, and the existence of that corner adds one existential quantifier to the problem. It also completes the classification of perfect play across six models and their differences.",
+  "limitations": "The paper is days old and not refereed, and its hardness constructions are long chains of compilers and gadgets. Lean checks Theorem A completely but only selected lemmas of Theorems B–D, and the four-bridge compiler only at \\(n=4\\). Completeness results are about decision problems; the games are huge and say nothing about small examples. The authors state that Opus 5.5, GPT-6.1 Sol and GPT-6 assisted with derivations, checking, programming and writing, and that several parts were derived with one developer's models and checked by another's.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-10: Section 1 (Table 1 and Theorems A–D), Sections 3.1–3.3, 6.1–6.3, the opening of Section 7, \"How this work was done\" and Appendix F. The compiler of Sections 4 and A–B and the type-classification proofs were not checked. Lemma 6.1, the determinant identity and the vectorization formula were checked numerically.",
+  "verified_on": "2026-11-10",
+  "methods_source_section": "Sections 3.1–3.2 (upper bound), Section 6 (clock), Appendix F",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A nonlocal game is won perfectly if some strategy loses with probability exactly zero. Whether one exists depends on the model: finite-dimensional tensor products, the spatial model (a normal, possibly infinite-dimensional state on a tensor product), or commuting operators on one Hilbert space, which can be further sorted by the type of von Neumann algebra that hosts Alice's measurements. Approaching certainty and attaining it differ: the supremum can be one while no strategy reaches it.",
+    "The question is where each model's perfect-play problem sits in the arithmetical hierarchy. A \\(\\Sigma^0_1\\) problem asks whether some finite witness exists (search over dimensions); a \\(\\Pi^0_1\\) problem asks whether every finite test passes (the commuting value is one, checked by a convergent hierarchy that refutes failure in finitely many steps). A \\(\\Sigma^0_2\\) problem asks whether some integer passes infinitely many tests, and no algorithm decides such problems even with an oracle for halting.",
+    "The spatial upper bound normalises the largest Schmidt coefficient: if it is at least \\(1/\\kappa\\), the strategies form a compact family in which \"loses with probability zero\" survives limits, so perfection becomes \\(\\exists\\kappa\\,\\forall d\\,F(G,\\kappa,d)\\) with \\(F\\) decidable. The lower bound makes the integer unavoidable. In the spatial model, Weyl unitaries in the game commute with the trace-class density and therefore act on its finite-dimensional eigenspaces, where a determinant forces the clock phase to be a root of unity; the strategy must choose a finite period. In diffuse semifinite algebras a trace instead forces a critical binary tree to stop at finite depth. Type III factors have no finite corner, and their language collapses to the commuting one.",
+    "Open questions include the complexity of perfect play under fixed entropy budgets, whether prescribed correlation tables can be decided at the same level, and the corresponding questions for zero-error capacities, where the paper's channel shows that infinite entanglement entropy can be necessary for a single use."
+  ],
+  "methods": [
+    {
+      "technique": "One Schmidt coefficient buys compactness",
+      "explanation": "Commuting perfection is \\(\\Pi^0_1\\) because the commuting state space is compact. Spatial states are not: Schmidt mass can leak into ever smaller coefficients, and limits of perfect strategies need not be strategies. Fixing a lower bound on the largest Schmidt probability restores compactness at the cost of one existential quantifier over that bound.",
+      "math": [
+        "Write \\(\\psi=\\sum_i s_i\\ket{i,i}\\) and \\(D=\\mathrm{diag}(s_i/s_1)\\), so \\(d_1=1\\), \\(d_i\\downarrow0\\) and \\(\\tr D^{2}\\le\\kappa\\). By vectorization, \\[p(E,F)=\\frac{\\|\\sqrt E\\,D\\sqrt{F^{\\mathsf T}}\\|_{\\mathrm{HS}}^{2}}{\\tr D^{2}},\\qquad p(E,F)=0\\iff EDF^{\\mathsf T}=0,\\] and monotonicity gives the uniform tail bound \\(d_{k+1}\\le\\sqrt{\\kappa/(k+1)}\\), so the family of such \\(D\\) is norm-compact.",
+        "Losing events become homogeneous equations \\(EDF^{\\mathsf T}=0\\), which pass to weak limits when \\(D\\) converges in norm. Truncating to \\(k\\) coordinates gives a semialgebraic test \\(F(G,\\kappa,k)\\) with error \\(\\kappa/(k+1)\\), and \\(G\\) has a perfect strategy with \\(s_1^{2}\\ge1/\\kappa\\) iff \\(F(G,\\kappa,k)\\) holds for all \\(k\\). Editorial check: the vectorization identity was verified for a random four-dimensional state and random effects."
+      ],
+      "transfer": "In infinite-dimensional optimisation over states, normalising the largest eigenvalue or Schmidt coefficient often turns a non-compact problem into a union of compact ones; the price is an outer search over the normalisation, which shows up as one extra quantifier."
+    },
+    {
+      "technique": "A determinant forces a finite clock period",
+      "explanation": "For hardness the authors need every perfect strategy to commit to an integer that no computable function of the game bounds. A Weyl pair of unitaries with a central commutator phase does this whenever the unitaries preserve finite-dimensional subspaces, because determinants are multiplicative.",
+      "math": [
+        "Let \\(JK=ZKJ\\) with \\(Z\\) central, and suppose all three commute with a trace-class density \\(\\rho\\). Each positive eigenspace of \\(\\rho\\) is finite-dimensional and invariant; on a \\(Z\\)-eigenspace of dimension \\(d\\) with phase \\(\\zeta\\), taking determinants gives \\[\\det(JK)=\\zeta^{d}\\det(KJ),\\qquad\\text{so}\\qquad\\zeta^{d}=1.\\] Thus the phase is a root of unity, and its order is the finite witness. A diffuse algebra with a trace has no such determinant, which is why the semifinite case needs a different selector.",
+        "To read the period without dividing by small numbers, Lemma 6.1 picks, for each prime \\(p\\), a primitive root \\(\\zeta\\) with \\(|\\zeta^{t}-1|\\ge2^{-t-1}\\) whenever \\(p\\nmid t\\). Editorial check: such a root exists for every prime up to 43 (all nontrivial roots work for \\(p\\le23\\)), and the Weyl pair in dimension 5 gives \\(\\det(JK)/\\det(KJ)=1\\)."
+      ],
+      "transfer": "When a problem's solutions live in a trace-class or finite-corner setting, a group relation with a central phase forces that phase into a finite set through determinants; this is a general way to make an infinite-dimensional object choose a finite integer."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-10"
+}

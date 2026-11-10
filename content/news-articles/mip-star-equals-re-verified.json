@@ -1,0 +1,231 @@
+{
+ "slug": "mip-star-equals-re-verified",
+ "title": "MIP* = RE, refereed and machine-checked",
+ "summary": "The 2020 proof that entangled provers can certify the halting problem, refuting Connes' embedding conjecture, now has a final version accepted by the Annals of Mathematics and a Lean 4 formalisation of its main theorem, registered on 9 October and built with heavy use of Claude. Its consequences for operator algebras remain non-constructive.",
+ "banner": {
+  "file": "banner.svg",
+  "alt": "Illustration: a verifier box exchanging question and answer arrows with two separated provers, who are joined by a wavy line for entanglement; to the right, a chain of ever smaller boxes, each feeding the next, with an arrow looping from the smallest back to the first."
+ },
+ "key_points": [
+  "MIP* = RE proves that a classical verifier questioning two entangled provers can be convinced that any halting program halts. Its final version, posted on 16 October 2026, is accepted by the Annals of Mathematics.",
+  "A Lean 4 proof of the main theorem was registered in the Palomar registry on 9 October, using no axioms beyond Lean's standard three. Claude models are credited as co-authors on 93 of the project's 100 most recent commits.",
+  "The core is a compression theorem that a verifier applies to itself: if the program never halts, beating probability 1/2 would need unbounded entanglement.",
+  "Consequences: the entangled value of a game cannot be computed, Tsirelson's problem has a negative answer, and Connes' 1976 embedding conjecture is false.",
+  "No explicit non-embeddable algebra follows, and the Tsirelson and Connes consequences are not among the formally registered theorems."
+ ],
+ "author": "Quantum Research Center",
+ "published": "2026-11-10",
+ "status": "published",
+ "topic": "discoveries",
+ "format": "Explainer",
+ "sections": [
+  {
+   "kicker": "The news",
+   "heading": "A refereed and machine-checked MIP* = RE",
+   "source_refs": [
+    1,
+    2,
+    3,
+    8,
+    9
+   ],
+   "paragraphs": [
+    "On 16 October 2026 Zhengfeng Ji, Anand Natarajan, Thomas Vidick, John Wright and Henry Yuen posted the fourth and final version of their paper MIP* = RE, which has been accepted by the Annals of Mathematics. First posted in January 2020, the 250-page paper proves that a classical verifier questioning two provers who share entanglement can be convinced of any claim that a program halts. Its consequences reach physics, where it answers Tsirelson's problem about two models of quantum correlations, and pure mathematics, where it refutes Connes' embedding conjecture of 1976.",
+    "A week earlier, on 9 October, a Lean 4 proof of the paper's main theorem, with Vidick as author, was registered in Palomar, a registry of Lean-verified mathematics, after an independent rebuild. The paper says the authors used general large-language-model methods for the formalisation; the project's commit messages credit Claude models as co-authors on 93 of its 100 most recent commits. The same development proves that the Aldous–Lyons conjecture in group theory is false, a result of Bowen, Chapman and Vidick."
+   ]
+  },
+  {
+   "card": true,
+   "heading": "What can a verifier learn by asking questions?",
+   "paragraphs": [
+    "Suppose an untrusted prover with unlimited computing power claims that a hard statement is true, and we, the verifier, may only compute for polynomial time. We cannot redo the prover's work, but we can ask questions and check the answers. Two requirements make this a proof: if the statement is true, an honest prover convinces us (completeness); if it is false, no prover convinces us with probability above some fixed bound, say 1/2 (soundness). Now hold two provers in separate rooms. Each answer can be checked against the other's, and a lie told to one cannot be coordinated with the other, which is why police interview suspects separately. Babai, Fortnow and Lund showed in 1991 that two such provers can convince a polynomial-time verifier of exactly the problems in \\(\\mathsf{NEXP}\\): those solvable in exponential time given a guessed certificate."
+   ],
+   "source_refs": [
+    1,
+    6
+   ]
+  },
+  {
+   "card": true,
+   "heading": "What does one round of questioning look like?",
+   "paragraphs": [
+    "Such protocols can be reduced to a single round, and a single round is a game. The verifier draws a pair of questions \\((x,y)\\) from a distribution \\(\\mu\\), sends \\(x\\) to the first prover and \\(y\\) to the second, receives answers \\(a\\) and \\(b\\), and accepts if a rule \\(D(x,y,a,b)\\) is satisfied. If the provers answer with probabilities \\(p(a,b\\mid x,y)\\), they win with probability \\[\\sum_{x,y}\\mu(x,y)\\sum_{a,b}D(x,y,a,b)\\,p(a,b\\mid x,y).\\] Provers who cannot communicate can only agree on answer rules in advance, perhaps using shared random bits; the best winning probability they can reach is the game's classical value. A protocol decides a problem if every yes-instance becomes a game of value 1 and every no-instance a game of value at most 1/2."
+   ],
+   "source_refs": [
+    1
+   ]
+  },
+  {
+   "card": true,
+   "heading": "What changes if the provers share entanglement?",
+   "paragraphs": [
+    "Entanglement does not let the provers communicate, but it correlates their answers in ways shared randomness cannot. In the CHSH game the questions are bits \\(x,y\\) and the provers win if \\(a\\oplus b=x\\wedge y\\). Every classical strategy wins at most 3/4 of the time; measuring a shared pair of entangled qubits wins with probability \\[\\tfrac12+\\tfrac{1}{2\\sqrt2}\\approx0.854.\\] For the verifier this cuts both ways. A protocol that is sound against classical provers can be broken by entangled ones. But a game like CHSH also tests the provers: playing it almost optimally essentially forces them to hold entangled pairs and to measure them in prescribed ways, so a classical verifier can check quantum behaviour from classical answers alone. The class \\(\\mathsf{MIP}^*\\) contains the problems a verifier can decide when the provers may share any amount of entanglement."
+   ],
+   "source_refs": [
+    1
+   ]
+  },
+  {
+   "card": true,
+   "heading": "How well can entangled provers play?",
+   "paragraphs": [
+    "The entangled value \\(\\mathrm{val}^*\\) of a game is the supremum of the winning probability over strategies using entangled states of every finite dimension. Nothing bounds the dimension, and that is the difficulty. From below we can search: list finite-dimensional strategies one by one and compute how often each wins. If the value is 1, the search eventually finds a strategy winning with probability above 1/2. So yes-instances can always be confirmed, which places \\(\\mathsf{MIP}^*\\) inside \\(\\mathsf{RE}\\), the problems whose yes-instances some program confirms in finite time even if it runs forever on no-instances. The hardest problem in \\(\\mathsf{RE}\\) is the halting problem: does a given program ever stop? What the search can never do is confirm that a value is at most 1/2, because a better strategy might always exist in a higher dimension. Before 2020 the best lower bound was \\(\\mathsf{NEEXP}\\subseteq\\mathsf{MIP}^*\\), proved by Natarajan and Wright in 2019."
+   ],
+   "source_refs": [
+    1,
+    6
+   ]
+  },
+  {
+   "card": true,
+   "heading": "How can a game for a huge problem be made small?",
+   "paragraphs": [
+    "Natarajan and Wright's argument contains the key move. Start from a game for an enormous problem, whose verifier needs questions and answers of length \\(N\\), exponentially longer than the input. Rather than send long questions, the verifier can ask the provers to generate them from shared entangled pairs and check that they did so honestly, a step the authors call introspection; long answers are replaced by a short probabilistically checkable proof that they would have passed. MIP* = RE turns this into a compression theorem for any verifier in a standard form. From games \\(\\mathcal V_N\\) it produces games \\(\\mathcal V'_n\\) of size polynomial in \\(n\\) that simulate \\(\\mathcal V_{2^n}\\): value 1 is preserved, value at most 1/2 is preserved, and \\[\\mathscr E\\bigl(\\mathcal V'_n,\\tfrac12\\bigr)\\ \\ge\\ \\max\\Bigl\\{\\mathscr E\\bigl(\\mathcal V_{2^n},\\tfrac12\\bigr),\\ 2^{2^{\\Omega(n)}}\\Bigr\\},\\] where \\(\\mathscr E(\\mathfrak G,\\tfrac12)\\) is the smallest local dimension of an entangled state that wins \\(\\mathfrak G\\) with probability at least 1/2."
+   ],
+   "source_refs": [
+    1,
+    6
+   ]
+  },
+  {
+   "card": true,
+   "heading": "What happens when a verifier compresses itself?",
+   "paragraphs": [
+    "Applying compression once gains one exponential; it is not obvious how to apply it infinitely often. The answer is self-reference. Given a program \\(M\\), build a verifier whose \\(n\\)-th game runs \\(M\\) for \\(n\\) steps and accepts if it has halted, and otherwise plays the \\(n\\)-th game of its own compressed version; a standard fixed-point construction from computability theory lets a verifier refer to itself this way. Suppose \\(M\\) halts at step \\(T\\). Every game with \\(n\\ge T\\) then has value 1, and compression carries value 1 from index \\(2^n\\) back to index \\(n\\); repeated doubling passes \\(T\\), so every game has value 1. Suppose instead \\(M\\) never halts. Winning game \\(n\\) with probability 1/2 then needs at least as much entanglement as game \\(2^n\\), which needs as much as game \\(2^{2^n}\\), and so on, while each step demands dimension at least \\(2^{2^{\\Omega(\\cdot)}}\\). No finite dimension suffices, so the value is at most 1/2. Whether a program halts has become a question about one game's value."
+   ],
+   "source_refs": [
+    1
+   ]
+  },
+  {
+   "card": true,
+   "heading": "Do the two quantum models of separated parties agree?",
+   "paragraphs": [
+    "Quantum mechanics offers two ways to describe separated parties. In one, each has its own Hilbert space and the joint system is their tensor product; the closure of the correlations this gives over all finite dimensions is \\(C_{qa}\\). In the other, there is a single Hilbert space and the parties' measurement operators are only required to commute; this gives \\(C_{qc}\\), which contains \\(C_{qa}\\). Tsirelson's problem asks whether they are equal. The two can be approached from opposite sides: the search above gives lower bounds converging to \\(\\mathrm{val}^*\\), and the semidefinite hierarchy of Navascués, Pironio and Acín gives upper bounds converging to the commuting-operator value \\(\\mathrm{val}^{\\mathrm{co}}\\). If the sets were equal the two limits would coincide, and running both until they were within 1/4 of each other would decide the halting problem. So the sets differ. The paper even builds a game with \\(\\mathrm{val}^{\\mathrm{co}}=1\\) and \\(\\mathrm{val}^*\\le\\tfrac12\\), by letting the game's own program run the hierarchy on that game, although it exhibits no commuting strategy that wins."
+   ],
+   "source_refs": [
+    1,
+    7
+   ]
+  },
+  {
+   "card": true,
+   "heading": "Why does a conjecture about operator algebras fall?",
+   "paragraphs": [
+    "Commuting families of operators belong to von Neumann algebras, algebras of operators on a Hilbert space that are closed under limits. Those of type \\(\\mathrm{II}_1\\) carry a trace, an analogue of the normalised trace of matrices. In 1976 Alain Connes asked whether every such algebra can be approximated by matrices, in the precise sense of embedding in an ultrapower of the hyperfinite \\(\\mathrm{II}_1\\) factor. Work of Tobias Fritz and of Marius Junge and coauthors showed that a positive answer would make every commuting-operator correlation a limit of finite-dimensional ones, answering Tsirelson's problem positively. Since Tsirelson's problem has a negative answer, Connes' conjecture is false: some \\(\\mathrm{II}_1\\) factors cannot be approximated by matrices. The argument proves that such algebras exist without describing one."
+   ],
+   "source_refs": [
+    1,
+    9
+   ]
+  },
+  {
+   "card": true,
+   "heading": "Why did the proof take years to settle?",
+   "paragraphs": [
+    "Because it is long and chains many earlier results, each with its own quantitative bounds. In September 2020 the authors reported that one ingredient, the quantum soundness of a classical low-degree test claimed in a 2013 paper, rested on a mistake. They proved soundness of a different test, the low individual degree test, and rebuilt the argument on it. The final version also corrects a proof in Natarajan and Wright's paper and thanks the Annals referees for \"innumerable corrections\". The theorem survived each repair. For a proof of this size, though, a referee report leaves residual doubt, which is what a machine-checked proof removes."
+   ],
+   "source_refs": [
+    1,
+    5
+   ]
+  },
+  {
+   "card": true,
+   "heading": "What exactly did Lean check?",
+   "paragraphs": [
+    "Lean is a proof assistant: a small program, its kernel, accepts a proof only if every step follows from the rules of its logic. Trust then rests on the kernel and on the statement. The project states its main theorem in a file that uses only Mathlib, Lean's standard mathematics library: a computable map from Turing machines to nonlocal games that sends halting machines to games of synchronous value 1 and the others to games of value at most 1/2. The proof leaves no step unfinished and uses no axioms beyond Lean's three standard ones. The registered theorems also state that the synchronous and quantum values are uncomputable and that \\(\\mathsf{MIP}^*=\\mathsf{RE}\\) for a formal model of polynomial-time verifiers. Palomar rebuilt the project at commit 7798a80 in a fresh environment, compared the statements with the proofs, and replayed the proofs through Lean's kernel and two independent checkers. What a reader still has to check is that these definitions mean what the paper means."
+   ],
+   "source_refs": [
+    2,
+    3
+   ]
+  },
+  {
+   "kicker": "Where it stands",
+   "heading": "How the formalisation was built",
+   "source_refs": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "paragraphs": [
+    "The development rests on three earlier formalisations. The soundness of the low individual degree test was formalised by Sirui Lu, Ruixuan Deng, Yanqiao Zhu and Zhengfeng Ji with FormalFlow, a system that coordinates AI proving agents under human supervision: 126,367 lines of Lean, all generated by agents, in 63 days. That work corrected side conditions and intermediate error bounds in the published proof and improved the error exponent of its main theorem. The parallel repetition theorem for entangled strategies comes from a formalisation by OpenAI, and the paper lists its use among the minor departures of the Lean proof from the written one. A third formalisation, of parallel repetition for commuting-operator strategies, is included with its provenance recorded. Vidick's repository was created on 22 July 2026; the complete theorem was registered eleven weeks later."
+   ]
+  },
+  {
+   "kicker": "Where it stands",
+   "heading": "What remains open",
+   "source_refs": [
+    1,
+    3,
+    10,
+    11,
+    12
+   ],
+   "paragraphs": [
+    "The registered theorems are the halting reduction, the uncomputability of the two values and \\(\\mathsf{MIP}^*=\\mathsf{RE}\\). The consequences for Tsirelson's problem and Connes' conjecture follow from them by published arguments that are not among the registered statements. The open questions the authors list concern explicitness: a concrete \\(\\mathrm{II}_1\\) factor that does not embed, perhaps arising from a group that is not hyperlinear, and the exact power of the commuting-operator class \\(\\mathsf{MIP}^{\\mathrm{co}}\\), which lies in \\(\\mathsf{coRE}\\) and plausibly equals it.",
+    "Recent, heavily AI-assisted preprints claim more concrete counterexamples: a linear system game separating the two correlation models, by Gao, Yu and Zhi, and the existence of non-hyperlinear groups, by Alekseev, Liu and Thom. The final version of MIP* = RE cites them without surveying them, and neither has yet been refereed. A preprint of 7 November by Douglas and Mghirbi takes the question from values to certainty, classifying for each model how hard it is to decide whether a game can be won with probability exactly 1."
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "Zhengfeng Ji, Anand Natarajan, Thomas Vidick, John Wright and Henry Yuen: MIP* = RE (arXiv, final version 4, 16 October 2026)",
+   "url": "https://arxiv.org/abs/2001.04383"
+  },
+  {
+   "title": "Thomas Vidick: MIP* = RE Lean formalization project (GitHub)",
+   "url": "https://github.com/vidick/MIPRE-formalization"
+  },
+  {
+   "title": "Palomar registry: entry PALOMAR-2026-10-09-000012, MIP* = RE",
+   "url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-09-000012&version=1"
+  },
+  {
+   "title": "Sirui Lu, Ruixuan Deng, Yanqiao Zhu and Zhengfeng Ji: Long-horizon autoformalization of a core theorem underlying MIP* = RE",
+   "url": "https://arxiv.org/abs/2609.19814"
+  },
+  {
+   "title": "Ji, Natarajan, Vidick, Wright and Yuen: Quantum soundness of the classical low individual degree test",
+   "url": "https://arxiv.org/abs/2009.12982"
+  },
+  {
+   "title": "Anand Natarajan and John Wright: NEEXP in MIP*",
+   "url": "https://arxiv.org/abs/1904.05870"
+  },
+  {
+   "title": "Miguel Navascués, Stefano Pironio and Antonio Acín: A convergent hierarchy of semidefinite programs characterizing the set of quantum correlations",
+   "url": "https://arxiv.org/abs/0803.4290"
+  },
+  {
+   "title": "Lewis Bowen, Michael Chapman and Thomas Vidick: The Aldous–Lyons Conjecture II: Undecidability",
+   "url": "https://arxiv.org/abs/2501.00173"
+  },
+  {
+   "title": "Quanta Magazine: Landmark Computer Science Proof Cascades Through Physics and Math (4 March 2020)",
+   "url": "https://www.quantamagazine.org/landmark-computer-science-proof-cascades-through-physics-and-math-20200304/"
+  },
+  {
+   "title": "Minbo Gao, Tianshi Yu and Lihong Zhi: An Explicit Counterexample to Tsirelson's Problem via a Linear System Game",
+   "url": "https://arxiv.org/abs/2610.10248"
+  },
+  {
+   "title": "Vadim Alekseev, Jihao Liu and Andreas Thom: Spectral gap, internality of relative commutants, and non-hyperlinear groups",
+   "url": "https://arxiv.org/abs/2609.37761"
+  },
+  {
+   "title": "Seth Douglas and Nidhal Mghirbi: A trace costs one quantifier: the exact complexity of perfect play in nonlocal games",
+   "url": "https://arxiv.org/abs/2611.10481"
+  }
+ ],
+ "related_articles": [
+  "psi-aaronson-ambainis-conjecture",
+  "openai-yang-mills-existence"
+ ],
+ "related_papers": [
+  "2001.04383",
+  "2611.10481"
+ ]
+}

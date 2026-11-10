@@ -1,0 +1,45 @@
+{
+  "id": "2611.10615",
+  "topic": "foundations",
+  "title": "Simulating the quantum switch with quantum circuits is impossible",
+  "authors": "Caisheng Cheng",
+  "submitted": "2026-11-07",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "The quantum switch sends a target through two unknown channels in an order controlled coherently by a qubit, using each channel once. Circuits with a definite, classically chosen order can mimic it with more calls in special cases: one extra call suffices for unitary inputs, and for general channels Bavaresco et al. showed that if one input is called only once the other needs exponentially many calls. Whether some finite number of calls to both channels allows an exact simulation was open.",
+  "result": "No. For every target dimension \\(d\\ge2\\) and all finite call counts \\(M,N\\), no deterministic quantum circuit with classical control of causal order (QC–CC) reproduces the switch channel exactly for all pairs of input channels. The same holds for the complete \\(r\\)-switch, which coherently controls all \\(r!\\) orders of \\(r\\) channels, with any finite total number of calls.",
+  "significance": "The result turns the earlier exponential separation into an infinite one for exact, deterministic, universal simulation: coherent control uses each channel once, while causally ordered circuits cannot succeed with any budget. It isolates what indefinite causal order supplies, since the obstruction appears only when interference between the two orders must hold for every input channel, including non-unitary ones.",
+  "limitations": "The impossibility is for exact deterministic simulation of arbitrary channels; it says nothing about approximate simulation (where Goldin's concurrent work extends the exponential bound to repeated access), probabilistic or postselected schemes, or restricted channel families such as unitaries, where simulation is possible. The paper is a single-author first version, and the author notes a fuller manuscript is in preparation. ChatGPT 6 Astra was used to check derivations, search literature and polish the summary of results.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-10: the introduction and \"Our results\" section with the proof sketches of Theorems 1 and 2, and the definitions of Section S1. The detailed proofs of Sections S2 and S3 were read for structure, not checked line by line. The averaging identity (Corollary S2.2) was checked numerically for random qubit channels.",
+  "verified_on": "2026-11-10",
+  "methods_source_section": "\"Our results\" proof sketch; Corollary S2.2, Lemma S2.3, Section S2 D",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "For channels \\(\\mathcal A,\\mathcal B\\) with Kraus operators \\(A_i,B_j\\), the switch outputs the channel with Kraus operators \\(S_{ij}=\\ketbra{0}{0}\\otimes B_jA_i+\\ketbra{1}{1}\\otimes A_iB_j\\). Its off-diagonal control blocks carry interference between the orders \\(BA\\) and \\(AB\\). A causally ordered circuit can call each channel repeatedly, keep quantum memory, and choose which channel to call next from earlier measurement outcomes, but the order of any single run is definite.",
+    "The question is whether such a circuit, fixed in advance and making \\(M\\) calls to \\(\\mathcal A\\) and \\(N\\) to \\(\\mathcal B\\), can output exactly the switch channel for every input pair. Tomography would work with unlimited calls, and postselection works if failed runs may be discarded; the question excludes both.",
+    "The proof isolates the part of a would-be simulator that uses each channel once. Feeding in the mixtures \\((\\mathcal I+t\\mathcal A)/(1+t)\\) and \\((\\mathcal I+s\\mathcal B)/(1+s)\\) and comparing the coefficient of \\(ts\\) shows that averaging over which single call of each channel is kept, with the rest replaced by the identity, gives a circuit that reproduces a specific mixture containing the switch with weight \\(1/(MN)\\). For unitary inputs, positivity forces each of that circuit's Kraus amplitudes into the span of four ordered products, and the difference of the two control blocks leaves only the switch term. Causal normalisation, the requirement that tracing out the last channel's output leaves an identity, then forces the total switch weight to vanish: \\(0=\\sum|e_{o\\alpha}|^{2}=1/(MN)\\).",
+    "Larger dimensions follow by embedding a qubit channel in a \\(d\\)-dimensional one with a single call, and the \\(r\\)-switch reduces to the two-channel case by encoding the control qubit in two permutations differing by one swap. What remains open is the cost of approximate simulation, and which other processes with indefinite causal order share this infinite separation."
+  ],
+  "methods": [
+    {
+      "technique": "Extracting the single-call part by polynomial coefficients",
+      "explanation": "A simulator with many calls depends on the unknown channels to high degree, while the switch is bilinear. Replacing each channel by a mixture with the identity and reading off the bilinear coefficient extracts, from the exact simulation equality, a statement about a circuit that calls each channel once.",
+      "math": [
+        "Insert \\(\\mathcal A_t=(\\mathcal I+t\\mathcal A)/(1+t)\\) and \\(\\mathcal B_s=(\\mathcal I+s\\mathcal B)/(1+s)\\) and multiply by \\((1+t)^{M}(1+s)^{N}\\). On the circuit side the coefficient of \\(ts\\) sums the \\(MN\\) circuits that keep one call of each channel and fill the rest with \\(\\mathcal I\\). On the switch side, bilinearity gives \\[(M-1)(N-1)S(\\mathcal I,\\mathcal I)+(N-1)S(\\mathcal A,\\mathcal I)+(M-1)S(\\mathcal I,\\mathcal B)+S(\\mathcal A,\\mathcal B).\\] Dividing by \\(MN\\), \\[\\overline{\\mathcal C}[\\mathcal A,\\mathcal B]=\\mathsf S\\Bigl(\\bigl(1-\\tfrac1M\\bigr)\\mathcal I+\\tfrac{\\mathcal A}{M},\\ \\bigl(1-\\tfrac1N\\bigr)\\mathcal I+\\tfrac{\\mathcal B}{N}\\Bigr).\\]",
+        "Editorial check: for random qubit channels with three Kraus operators and \\((M,N)=(2,3),(3,3),(5,2)\\), the left and right sides agree on a random control–target state to machine precision. The useful structure is that the three terms involving \\(\\mathcal I\\) act identically in both control sectors, so only the switch term distinguishes them."
+      ],
+      "transfer": "To bound any multi-query simulation of a multilinear target, substitute mixtures with a known channel and compare the coefficient of the lowest mixed monomial; this reduces the problem to a single-query circuit with a known, positive weight on the target."
+    },
+    {
+      "technique": "Causal normalisation against the switch weight",
+      "explanation": "The single-call circuit must reproduce the switch with weight \\(1/(MN)>0\\), but a causally ordered process has a normalisation condition at its last call. The proof chooses test operators that this condition annihilates and that also isolate the squared switch coefficients, so the two requirements collide.",
+      "math": [
+        "With unitary inputs \\(U,V\\), each Kraus amplitude of the single-call circuit has the form \\(G_{o\\alpha}(X,Y)=e_{o\\alpha}w(X,Y)+\\mathbb I_C\\otimes H_{o\\alpha}(X,Y)\\), with \\(w(X,Y)=\\ketbra{0}{0}\\otimes YX+\\ketbra{1}{1}\\otimes XY\\), where \\(o\\) is the order and \\(e_{o\\alpha}\\) fixed scalars. The difference of the two diagonal control blocks removes \\(H_{o\\alpha}\\) and leaves \\(e_{o\\alpha}(UV-VU)\\), so matching the target forces \\[\\sum_{o,\\alpha}|e_{o\\alpha}|^{2}=\\frac{1}{MN}\\] for noncommuting \\(U,V\\).",
+        "Trace preservation of the circuit's final operation leaves an identity on the output of the last-called channel, so contracting each ordered process with a Hermitian operator whose partial trace there vanishes gives zero. Choosing these operators to compare the control sectors, and using the vanishing of the residual interference terms, adds up to \\(\\sum|e_{o\\alpha}|^{2}=0\\), a contradiction for every finite \\(M,N\\)."
+      ],
+      "transfer": "Impossibility results for higher-order maps often combine two linear conditions on the same Kraus amplitudes: one from the target (here a positive weight on an interference term) and one from causal structure (a vanishing partial trace); finding test operators that see both is the main work."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-10"
+}
