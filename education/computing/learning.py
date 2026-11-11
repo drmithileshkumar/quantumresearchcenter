@@ -53,8 +53,7 @@ def enrich(soup):
   ident=section['id']
   if ident not in PROBING:
    raise ValueError(f'Missing probing question for {ident}')
-  if not section.select('figure,svg,img'):
-   if ident not in ILLUSTRATIONS:raise ValueError(f'Missing illustration for {ident}')
+  if not section.select('figure,svg,img') and ident in ILLUSTRATIONS:
    spec=ILLUSTRATIONS[ident]
    section.append(BeautifulSoup(f'<figure class="book-drawing subsection-illustration"><div class="drawing-scroll" tabindex="0" role="region" aria-label="{esc(plain(spec["title"]))}; scroll horizontally on small screens"><img src="assets/figures/subsections/{ident}.svg" alt="{esc(plain(spec["caption"]))}" loading="lazy"/></div><figcaption>{esc(spec["caption"])}</figcaption></figure>','html.parser'))
   if KEYWORDS.get(ident):

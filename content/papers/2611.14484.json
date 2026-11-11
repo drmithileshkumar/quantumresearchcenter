@@ -1,0 +1,45 @@
+{
+  "id": "2611.14484",
+  "topic": "computing",
+  "title": "Nonperturbative string dynamics in a (2+1)D lattice gauge theory on a superconducting quantum processor",
+  "authors": "Sânziana Stelea; Anthony Gandon; Francesco Tacchino; Jad C. Halimeh; Ivano Tavernelli",
+  "submitted": "2026-11-10",
+  "version": "v1",
+  "kind": "Experiment",
+  "problem": "Confinement shows up as a string of electric flux between charges. In two spatial dimensions the string can also bend and widen, which needs a magnetic plaquette term, and with dynamical matter it can break by creating charge pairs. Classical simulations of these dynamics stall because entanglement grows quickly. Earlier two-dimensional experiments either omitted the plaquette term or removed the matter by gauge fixing, which also removes the Gauss-law operators that could flag errors.",
+  "result": "On 63 qubits of IBM's ibm_phoenix (a \\(5\\times4\\) lattice of matter sites, its 31 links, and 12 ancillas for the plaquettes), the authors evolve a \\(\\mathbb Z_2\\) gauge theory with Ising matter and a plaquette term for up to 15 second-order Trotter steps across confined and deconfined regimes. They see fast spreading of charge and flux when deconfined, matter created inside the string near the pair-creation resonance \\(h_z=2J_v\\), slow endpoint-dominated dynamics when strongly confined, and transfer between equal-length string paths. Mitigated data match converged tensor-network references up to 7 Trotter steps.",
+  "significance": "It is a 2D gauge-theory simulation that keeps both matter and the plaquette interaction, the ingredients for genuine transverse string dynamics. Keeping gauge redundancy turns the 20 Gauss-law operators, plus 12 ancilla checks, into free error-detection stabilizers measured from the same samples, and the post-selection rate is found to be largely independent of the quench parameters.",
+  "limitations": "Late-time hardware data approach a nearly mixed state and mitigation leaves large error bars; classical references (PEPS) converge only up to about 7 Trotter steps, so the later dynamics are not independently checked. Only diagonal, local or string-projector observables are used, to keep post-selection overhead bounded. The rescaling method relies on Clifford perturbation theory and suits small non-Clifford angles. The lattice is small and open. The authors used ChatGPT and Claude to improve readability.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-11: the introduction, Section II (model, string states, quench setup, post-selection and rescaling), Section III and Section IV. The appendices on circuit compilation and PEPS convergence were not read in detail. Gauss's law, the pair-creation energy and the qubit count were checked on a small lattice.",
+  "verified_on": "2026-11-11",
+  "methods_source_section": "Section II (Eqs. 1–4, Table 1), Section III.1",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The model places matter qubits \\(\\tau_i\\) on sites and gauge qubits \\(\\sigma_{ij}\\) on links: \\[H=-J_p\\sum_pB_p-h_z\\sum_{\\langle ij\\rangle}\\sigma^{z}_{ij}-h_x\\sum_{\\langle ij\\rangle}\\tau^{x}_i\\sigma^{x}_{ij}\\tau^{x}_j-J_v\\sum_i\\tau^{z}_i.\\] The plaquette term \\(B_p=\\prod\\sigma^{x}\\) flips flux around a square and bends strings; \\(h_z\\) charges energy for flux; the hopping term moves charges and creates pairs; \\(J_v\\) is a mass. Gauss's law, \\(G_i=\\tau^{z}_i\\prod_j\\sigma^{z}_{ij}\\), commutes with \\(H\\).",
+    "The question is how a string of flux evolves across the phase diagram when it can break, bend and widen, a regime where perturbation theory fails and tensor networks lose accuracy quickly.",
+    "Two initial strings were used: one between static charges (a gauge-variant string that isolates pair creation) and one ending on dynamical charges. With static ends, matter along the string grows monotonically in every regime, fastest when deconfined. With dynamical ends, deconfinement lets the end charges wander off across the lattice, while near \\(h_z=2J_v\\) matter appears in the string's interior, and deep in the confined regime the string stays put with small oscillations among the five equal-length paths. Post-selection on Gauss-law and ancilla checks, followed by rescaling with noise factors learned from Clifford versions of the circuits, gives the mitigated values.",
+    "The outlook includes mid-circuit syndrome extraction using the already-encoded Gauss operators, gauge protection by measurement or energy penalties, and larger lattices where the classical references no longer exist."
+  ],
+  "methods": [
+    {
+      "technique": "Energy bookkeeping for string breaking",
+      "explanation": "Which processes dominate depends on their energy cost relative to the hopping strength. Reading costs off the diagonal terms explains the resonance the experiment probes and why confined strings change mainly at their ends.",
+      "math": [
+        "A qubit in \\(\\ket1\\) marks flux on a link or a charge on a site. Flux costs \\(2h_z\\) per link and a charge \\(2J_v\\) per site. Creating a pair on an occupied link removes one unit of flux and adds two charges: \\[\\Delta E_{\\mathrm{split}}=4J_v-2h_z,\\qquad\\Delta E_{\\mathrm{empty}}=4J_v+2h_z,\\] so splitting is resonant at \\(h_z=2J_v\\), whereas pairs on empty links become more expensive with \\(h_z\\).",
+        "Editorial check: on a single plaquette (4 sites, 4 links) with generic couplings, every \\(G_i\\) commutes with \\(H\\), and the diagonal energy difference for creating a pair on the occupied link equals \\(4J_v-2h_z\\). The qubit count also checks: a \\(5\\times4\\) open lattice has \\(20\\) sites, \\(4\\cdot4+5\\cdot3=31\\) links and \\(4\\cdot3=12\\) plaquettes, and \\(20+31+12=63\\); 15 steps of \\(0.3\\) reach \\(t=4.5\\)."
+      ],
+      "transfer": "Before a quench experiment in a lattice gauge theory, list each elementary process's diagonal energy change; resonances where it vanishes mark where nonperturbative dynamics, and the largest signals, should appear."
+    },
+    {
+      "technique": "Gauss's law as free error detection",
+      "explanation": "Gauge fixing saves qubits but removes the local symmetry from the device. Keeping matter and links separate makes every \\(G_i\\) a product of \\(Z\\) operators, measured in the same basis as the observables, so violated constraints flag errors at no extra circuit cost.",
+      "math": [
+        "Each shot gives all \\(\\tau^{z}_i\\) and \\(\\sigma^{z}_{ij}\\), so each \\(G_i=\\tau^{z}_i\\prod_j\\sigma^{z}_{ij}\\) is evaluated classically and compared with its sector value \\(q_i\\). A gauge theory is a distance-1 code: a single error can be detected but not corrected. Post-selecting on all 32 checks would cost exponentially many shots, so the analysis post-selects only on checks near each local observable.",
+        "Remaining bias is rescaled: running the circuits with non-Clifford angles set to zero gives circuits whose ideal outputs are known, and their observed damping supplies noise factors, with sampling overhead set by \\(\\|A^{-1}\\|_1\\) of the learned noise matrix. Editorial note: the two steps are complementary, detection being cheap for local checks and rescaling unbiased but costly in depth."
+      ],
+      "transfer": "In any simulation with local conserved quantities that are diagonal in the measurement basis, encode them redundantly and post-select locally around each observable; this trades a bounded sampling overhead for removal of symmetry-violating errors."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-11"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "2611.13428",
+  "topic": "information",
+  "title": "Sample complexity of learning fermionic and bosonic Gaussian states with single-copy and entangled measurements",
+  "authors": "Ron Rubin",
+  "submitted": "2026-11-10",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Gaussian states (free-particle ground and thermal states, coherent and squeezed light, mean-field states) have about \\(2m^{2}\\) parameters on \\(m\\) modes, and measuring all copies jointly learns them from \\(\\Theta(m^{2}/\\epsilon^{2})\\) copies to trace distance \\(\\epsilon\\). Measuring one copy at a time should cost an extra factor \\(m\\), because the quadratic observables do not commute, but for mixed fermionic states the best single-copy upper bound was \\(m^{4}\\log/\\epsilon^{2}\\), or \\(m^{3}/(c\\epsilon^{2})\\) away from the pure boundary; a matching \\(m^{3}\\) bound had been conjectured.",
+  "result": "Every fermionic Gaussian state on \\(m\\) modes, pure modes included, is learned with single-copy measurements from \\(O(m^{3}/\\epsilon^{2})\\) copies with no logarithmic factor, which with the known lower bound settles the single-copy rate at \\(\\Theta(m^{3}/\\epsilon^{2})\\) (Conjecture 10.1 of arXiv:2609.23189). With blocks of \\(k\\) entangled copies, a covariant measurement gives \\(\\Theta(\\max\\{m^{3}/k,m^{2}\\}/\\epsilon^{2})\\) at a fixed distance from the pure boundary, a gain of \\(k\\), against \\(\\sqrt k\\) on cold classes. For bosons the paper gives single-copy bounds for arbitrary temperature profiles, and non-Gaussian measurements that avoid the energy dependence of Gaussian ones.",
+  "significance": "The paper fills most open entries of the table of sample complexities for Gaussian state learning, by state class (fermionic or bosonic, cold or warm, pure or mixed) and by measurement resource (single copy, \\(k\\)-copy blocks, collective). The key idea is to match a measurement's noise to the trace-distance metric at every occupation scale, which removes the \\(1/c\\) penalty that classical shadows pay near pure states.",
+  "limitations": "This is a long single-author paper from a private company, not yet refereed. The lower bound used to claim optimality holds only for \\(\\epsilon\\le1/3600\\), and the constants are large (the cited lower bound is \\(m^{3}/(8\\,553\\,600\\,\\epsilon^{2})\\)). Several cells of the table remain open, notably \\(k\\)-copy rates when the gap to the pure boundary shrinks with \\(m\\), and pairing terms near the vacuum. The author states that the results are the author's own and that LLM systems were used to check work, help with calculations, prepare the text and check references.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-11: the abstract, Section 1 with Table 1 and Figures 1–2, the statements of Lemma 3.2 and Theorem 5.1 with the outline after it, and the AI statement. The proofs in Sections 4–9 and the appendices were not checked. Lemma 3.2 was checked numerically on random two-mode Gaussian states.",
+  "verified_on": "2026-11-11",
+  "methods_source_section": "Lemma 3.2; Theorem 5.1 and Stage 1; Section 1 (Fisher-information argument)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Learning a state means producing an estimate within trace distance \\(\\epsilon\\), the largest difference in any measurement's outcome probabilities. A Gaussian state is fixed by its covariance matrix, so learning it means estimating that matrix accurately in the metric the trace distance induces. With all copies measured together the cost is \\(\\Theta(m^{2}/\\epsilon^{2})\\) for fermions and bosons alike.",
+    "The question is the cost with weaker measurements: one copy at a time, or blocks of \\(k\\) copies, and for which classes of states the cost changes.",
+    "Single copies lose a factor \\(m\\) because a copy's Fisher information is of order \\(m\\) while the quantum Fisher information is of order \\(m^{2}\\): the \\(m(2m-1)\\) quadratic observables cannot be measured together. For fermions the paper's pair-rotation measurement pairs modes at random, rotates each pair by \\(\\pm\\pi/4\\) and reads occupations. Its noise on a pair with occupations \\(p_k,p_l\\) scales like \\(p_k+p_l\\), and so does the trace distance's sensitivity to rotating that pair, so the measurement is matched to the metric at every scale and the \\(1/c\\) penalty disappears. Blocks of \\(k\\) copies, read out through an exactly unbiased estimator, recover a factor \\(k\\) of the lost information away from the pure boundary.",
+    "Open entries include the \\(k\\)-copy rate when the gap to the pure boundary closes with \\(m\\), cold fermionic classes with pairing terms, and tight constants."
+  ],
+  "methods": [
+    {
+      "technique": "A Mandelstam–Tamm bound for fermionic rotations",
+      "explanation": "The learning analysis repeatedly absorbs estimation errors into small Gaussian rotations, so it needs to know how far a rotation moves a state in trace distance. The answer should be dimension-free and depend on occupations in the same way as the measurement noise.",
+      "math": [
+        "For a real antisymmetric \\(A\\) and the quadratic generator \\(K_A=\\tfrac{i}{4}\\sum_{ab}A_{ab}c_ac_b\\) in Majorana operators, a state with covariance \\(\\Gamma\\) satisfies \\[T\\bigl(\\rho_\\Gamma,e^{-iK_A}\\rho_\\Gamma e^{iK_A}\\bigr)\\le\\sqrt{\\mathrm{Var}(K_A)}=\\tfrac{1}{\\sqrt8}\\bigl(\\|A\\|_F^{2}-\\mathrm{tr}(A\\Gamma A\\Gamma)\\bigr)^{1/2}\\le\\tfrac12\\|A\\|_F.\\] The middle expression vanishes when the rotation preserves \\(\\Gamma\\), and for a pair of modes with eigenvalues \\(\\lambda=1-2p\\) it carries the weight \\(1-\\lambda_k\\lambda_l\\approx2(p_k+p_l)\\).",
+        "Editorial check: for random two-mode Gaussian states (four Majoranas, Jordan–Wigner) and random rotations, the computed variance of \\(K_A\\) agrees with the formula to six digits, and the trace distance lies below \\(\\sqrt{\\mathrm{Var}}\\), which lies below \\(\\tfrac12\\|A\\|_F\\). For \\(p_k=0.03\\), \\(p_l=0.01\\), the weight is \\(0.0788\\) against \\(2(p_k+p_l)=0.08\\)."
+      ],
+      "transfer": "When analysing estimation errors on structured states, convert each error into a generator of the state's symmetry group and bound its effect by the generator's variance; for Gaussian families the variance is an explicit quadratic form in the covariance."
+    },
+    {
+      "technique": "Matching measurement noise to the metric",
+      "explanation": "An unbiased estimator wastes copies if its noise is spread uniformly while the trace distance cares very unequally about different entries. Making the noise on each covariance entry scale with the same occupation weight as the metric turns a variance bound directly into a trace-distance bound, at every scale at once.",
+      "math": [
+        "Near the pure boundary, the trace distance weights the covariance entry coupling modes \\(k,l\\) by roughly \\(p_k+p_l\\). The pair-rotation readout of that pair has variance proportional to \\(\\max(p_k,1/m)+\\max(p_l,1/m)\\) in a suitable frame. With \\(N\\) copies spread over \\(O(m^{2})\\) pairs, each pair is measured about \\(N/m\\) times, and summing the matched errors gives \\[\\epsilon^{2}\\lesssim\\frac{m\\cdot m^{2}}{N}\\quad\\Longrightarrow\\quad N=O\\Bigl(\\frac{m^{3}}{\\epsilon^{2}}\\Bigr)\\] without the \\(1/c\\) factor of uniform-noise estimators (editorial heuristic of the scaling).",
+        "The proof sorts modes into dyadic occupation bands and a cold group with \\(p\\le1/m\\); errors between distant bands mainly rotate the eigenbasis and are charged through Lemma 3.2, while errors within or between neighbouring bands are controlled directly. A first frame-building stage uses \\(O(m^{3})\\) copies, independent of \\(\\epsilon\\)."
+      ],
+      "transfer": "For tomography of any family whose distance weights parameters unequally, design the measurement so its per-parameter variance follows the same weights; then a plain mean-squared-error analysis gives the optimal distance bound."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-11"
+}

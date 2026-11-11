@@ -1,0 +1,45 @@
+{
+  "id": "2611.12773",
+  "topic": "computing",
+  "title": "An efficient classical algorithm for OTOCs in chaotic quantum dynamics",
+  "authors": "Yunchao Liu; Yihui Quek; Shreya Vardhan; Tianci Zhou",
+  "submitted": "2026-11-09",
+  "version": "v1",
+  "kind": "Theory and numerical analysis",
+  "problem": "Google's 2025 experiment measured out-of-time-ordered correlators (OTOCs) of individual random circuits on a two-dimensional processor and proposed them as a verifiable quantum advantage: unlike sampling tasks, an OTOC is an expectation value that another quantum computer could check. Tensor networks, Monte Carlo, Pauli propagation and Clifford expansions had all failed to compute the higher-order OTOCs at the experiment's depths. Is chaos really a barrier to classical simulation of these quantities?",
+  "result": "For one-dimensional random circuits the authors give a classical algorithm, the membrane cluster expansion, that estimates the four-point \\(\\mathrm{OTOC}^{(1)}\\) and the eight-point \\(\\mathrm{OTOC}^{(2)}\\) of typical individual circuits in the regime where they fluctuate from circuit to circuit, to any inverse-polynomial accuracy in polynomial time. It rests on one assumption, bubble suppression, supported analytically and numerically. In practice it reaches signal-to-noise ratios that grow with the cutoff, up to about 6 for \\(\\mathrm{OTOC}^{(2)}\\) at depth 24, against about 2–3 in Google's 2D experiment at depth 23.",
+  "significance": "The algorithm turns chaos from an obstacle into a resource: the fast scrambling that defeats tensor networks also dephases the contributions that would make the OTOC hard, leaving a few domain-wall configurations that dominate. It shows that average-case OTOC estimation in 1D is classically tractable, even though the worst case is \\(\\mathsf{DQC1}\\)-complete, and it gives a method that can at least benchmark 2D experiments. Any OTOC-based advantage claim now has to rest on two dimensions specifically.",
+  "limitations": "The algorithm is efficient in 1D only; in 2D the number of few-wall configurations grows faster than any polynomial, and whether Google's 2D advantage claim survives is explicitly left open. Efficiency rests on the bubble-suppression condition, which is argued in a large-\\(q\\) limit and tested numerically rather than proved for qubits. The \\(\\mathrm{OTOC}^{(2)}\\) truncation biases the mean, and the reported data are recalibrated with a separately computed ensemble average. Results are for Haar-random brickwork circuits; Hamiltonian dynamics with conservation laws are not covered. The authors state that all key ideas and the theory were developed by hand and that OpenAI's Codex helped with coding.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-11: Sections I–III, the statement of the bubble suppression condition and error bound in Section IV, Section V with Fig. 4, Section VI and the AI disclosure. Appendix B's error analysis was not checked. The two-site Haar average behind the domain-wall picture and the conversion between SNR and correlation were recomputed.",
+  "verified_on": "2026-11-11",
+  "methods_source_section": "Sections III–IV (Eqs. 2–3, 14–15), Section V",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "An OTOC measures how a local perturbation spreads under chaotic dynamics: with \\(B(t)=U^{\\dagger}BU\\), \\(\\mathrm{OTOC}^{(k)}=2^{-n}\\mathrm{Tr}\\bigl[(B_0(t)M_x)^{2k}\\bigr]\\). Averaged over random circuits it is easy to compute, and it changes from 1 to 0 across a butterfly front moving at \\(v_B\\approx0.6\\). Individual circuits fluctuate around the average only in a window of width about \\(\\sqrt t\\) around the front, and only there can an experiment measure useful signal. The task is to reproduce those circuit-to-circuit fluctuations.",
+    "The question is whether a classical computer can estimate \\(\\mathrm{OTOC}^{(1)}\\) and \\(\\mathrm{OTOC}^{(2)}\\) for a given circuit, in that sensitive window, in time polynomial in the depth. Pauli-path methods fail because the evolved operator has exponentially many significant coefficients, and Monte Carlo fails because of fluctuating signs.",
+    "The OTOC is a transition amplitude for \\(2k\\) forward and \\(2k\\) backward copies of the circuit. Under random gates, the important states pair forward copies with backward ones, and for \\(k=1\\) there are two pairings, \\(\\ket{+}\\) and \\(\\ket{-}\\). The average is a sum over one domain wall between them moving through the circuit. For a single circuit, the authors write the exact amplitude as that domain-wall history plus excursions, called bubbles, outside the pairing subspace. They argue that chaos makes the weight of a bubble decay exponentially with its duration. Truncating bubbles at duration \\(\\Delta\\) then gives error \\(\\mathrm{poly}(T)e^{-\\lambda\\Delta}\\), and in 1D the few-wall states number only polynomially many per time slice.",
+    "The authors expect the same suppression in 2D but cannot resum the super-polynomially many wall configurations there, so the status of the 2D experiment is open. They suggest hybrid uses, computing bubble contributions on a small quantum device, and applications to other multi-copy quantities such as subsystem purity."
+  ],
+  "methods": [
+    {
+      "technique": "Domain walls between replica pairings",
+      "explanation": "Averaging over random gates collapses four copies of a circuit onto two pairing states per site, so the averaged OTOC becomes the motion of a single domain wall. This is the backbone the expansion perturbs around, and it explains why only a polynomial number of configurations matter in 1D.",
+      "math": [
+        "On one qubit and four copies \\((1,1',2,2')\\), with \\(\\ket{\\Phi}\\) the unnormalised maximally entangled pair, set \\(\\ket{+}=\\ket{\\Phi}_{11'}\\ket{\\Phi}_{22'}\\) and \\(\\ket{-}=\\ket{\\Phi}_{12'}\\ket{\\Phi}_{21'}\\). A Haar-random two-qubit gate averages to the orthogonal projector onto \\(\\mathrm{span}\\{\\ket{++},\\ket{--}\\}\\) on the two sites, so a wall \\(\\ket{+-}\\) becomes \\[\\mathbb E\\bigl[(U\\otimes U^{*})^{\\otimes2}\\bigr]\\ket{+-}=\\frac{q}{q^{2}+1}\\bigl(\\ket{++}+\\ket{--}\\bigr),\\qquad q=2,\\] and the wall hops left or right with weight \\(2/5\\).",
+        "Editorial check: projecting \\(\\ket{+-}\\) onto that span numerically gives coefficients \\(0.4\\) and \\(0.4\\). For a single circuit, the bubble weights \\(W\\) relative to the wall weights \\(Z\\) are assumed to obey \\(|W/Z|\\le Ce^{-\\lambda(t_2-t_1)}\\); the authors check this numerically for walls moving near \\(v_B\\)."
+      ],
+      "transfer": "For any multi-replica quantity of a chaotic circuit (purities, frame potentials, higher moments), first find the dominant pairing states of the average, then expand individual instances around their domain walls; if excursions decay with duration, a truncated sum over walls gives a classical estimator."
+    },
+    {
+      "technique": "Accuracy measured as a signal-to-noise ratio",
+      "explanation": "Because the mean OTOC is easy, the test of an algorithm is whether it tracks the fluctuations between circuits. The paper uses the same signal-to-noise ratio as Google's experiment, so the classical and quantum numbers can be compared directly.",
+      "math": [
+        "If \\(\\rho\\) is the correlation over circuits between exact and estimated OTOCs, the signal-to-noise ratio is \\[\\mathrm{SNR}=\\frac{1}{\\sqrt{2(1-\\rho)}},\\] which equals \\(1/\\sqrt2\\) for uncorrelated estimates. The experiment's \\(\\mathrm{SNR}\\approx3.5\\) for \\(\\mathrm{OTOC}^{(1)}\\) corresponds to \\(\\rho\\approx0.959\\); the classical \\(\\mathrm{SNR}\\approx6\\) for \\(\\mathrm{OTOC}^{(2)}\\) corresponds to \\(\\rho\\approx0.986\\) (editorial conversion).",
+        "Runtime is \\(\\mathrm{poly}(T)e^{O(k\\Delta)}\\) and the error bound \\(\\mathrm{poly}(T)e^{-\\lambda\\Delta}\\), so \\(\\Delta=O(\\log T+\\log1/\\epsilon)\\) gives inverse-polynomial error, matching the \\(1/\\mathrm{poly}(T)\\) size of the fluctuations, in polynomial time. The comparison is between 1D classical simulation and 2D experiment, so it bears on the method, not directly on the 2D claim."
+      ],
+      "transfer": "When a proposed advantage is an expectation value whose ensemble mean is easy, judge classical competitors by their correlation with instance-level deviations from the mean, not by absolute error, and use the same statistic as the experiment."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-11"
+}

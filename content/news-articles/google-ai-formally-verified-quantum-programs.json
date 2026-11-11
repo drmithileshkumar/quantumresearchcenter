@@ -1,0 +1,148 @@
+{
+ "slug": "google-ai-formally-verified-quantum-programs",
+ "title": "Google AI agents design quantum programs and prove them correct",
+ "summary": "Google DeepMind and Google Quantum AI report Gemini-based agents that design quantum circuits and prove them correct in the Lean theorem prover, cutting estimated costs by 290 times for an arcsin routine and 2.5 to 11 times for fusion, photochemistry and drug-metabolism simulations. The figures are resource estimates against partly author-adjusted baselines, and the Lean library is not yet public.",
+ "banner": {
+  "file": "banner.svg",
+  "alt": "Illustration: five quantum circuit wires with single-qubit gate boxes and controlled gates on the left, an arrow, and on the right a binary proof tree whose leaves feed up to a root marked with a check."
+ },
+ "key_points": [
+  "A preprint from Google DeepMind and Google Quantum AI, posted on 6 November and revised on 9 November, describes Gemini 4 agent teams that write quantum programs and prove their correctness and cost in Lean.",
+  "Reported cost reductions: more than 290 times for a fixed-point arcsin routine, 10.9 times (fusion), 8.08 times (photochemistry) and 2.49 times (drug metabolism), and up to 2.55 times fewer rounds for parallel Grover search.",
+  "Proofs replace testing because the circuits, on hundreds to thousands of logical qubits, cannot be simulated classically or run on current hardware.",
+  "The numbers are logical resource estimates, several baselines were constructed or adjusted by the authors, and the Lean library has not yet been released."
+ ],
+ "author": "Quantum Research Center",
+ "published": "2026-11-11",
+ "status": "published",
+ "topic": "discoveries",
+ "format": "News",
+ "sections": [
+  {
+   "heading": "What Google reported",
+   "source_refs": [
+    1,
+    2
+   ],
+   "paragraphs": [
+    "On 6 November 2026 a team of 25 researchers from Google DeepMind and Google Quantum AI posted a preprint describing teams of AI agents, built on Gemini 4 models, that design quantum programs and prove them correct in the Lean theorem prover. A revised version followed on 9 November, and Quantum Computing Report covered the work on 10 November. The paper reports cheaper programs for five problems: a 290-fold reduction in estimated cost for a fixed-point arcsin routine, reductions of 10.9, 8.08 and 2.49 times for simulations relevant to fusion, photochemistry and drug metabolism, and up to 2.55 times fewer query rounds for a parallel form of Grover search.",
+    "The results are resource estimates for future error-corrected machines, not runs on quantum hardware. Every program comes with a machine-checked proof that it does what its specification says, at the cost it claims."
+   ]
+  },
+  {
+   "heading": "Why proofs instead of tests",
+   "source_refs": [
+    1
+   ],
+   "paragraphs": [
+    "AI systems that search for better classical algorithms check each candidate by running it. Quantum programs for useful problems cannot be checked that way: the circuits in this paper act on 333 to 6,057 logical qubits, far beyond what any classical computer can simulate, and no quantum computer can yet run them. Earlier AI searches for quantum circuits were therefore confined to small or classically simulable cases.",
+    "The team instead built a Lean library combining a language for quantum programs (with measurement, reset, loops and classical control) with quantum Hoare logic, which proves statements of the form \"every run starting in a state satisfying this condition ends in a state satisfying that one\", together with proofs of qubit and \\(T\\)-gate counts. Researchers write a problem as a Lean file whose correctness and cost theorems are stated but left unproved; agents must fill in a program and the proofs. The cost measure for error-corrected circuits is \\(Q\\cdot\\mathcal T\\), the peak number of logical qubits times the number of \\(T\\) gates, the expensive operation in standard error-correction schemes."
+   ]
+  },
+  {
+   "heading": "How the agents work",
+   "source_refs": [
+    1,
+    2
+   ],
+   "paragraphs": [
+    "Researchers launch independent teams of agents with general optimisation prompts rather than problem-specific ideas. Teams post verified solutions, reusable lemmas and notes on dead ends to a shared wiki, and meet at scheduled virtual conferences to critique proposals; claims count only once verified. Because agents can edit files in their workspace, they could in principle weaken a theorem, change a definition or add an axiom. An external checker, the Lean Comparator, compares every submission against the frozen specification, so the researchers need to review only the specification, not the agents' work."
+   ]
+  },
+  {
+   "heading": "The results",
+   "source_refs": [
+    1
+   ],
+   "table": {
+    "columns": [
+     "Problem",
+     "Baseline",
+     "This work",
+     "Reduction"
+    ],
+    "rows": [
+     [
+      "Fixed-point arcsin, 25-bit input (arithmetic)",
+      "more than \\(1.08\\times10^{8}\\)",
+      "\\(3.70\\times10^{5}\\) (100 qubits, 3,698 \\(T\\) gates)",
+      "more than 290 times"
+     ],
+     [
+      "Alpha-particle stopping power in hydrogen (fusion)",
+      "\\(5.42\\times10^{15}\\)",
+      "\\(4.98\\times10^{14}\\) (4,374 qubits)",
+      "10.9 times"
+     ],
+     [
+      "Non-Born–Oppenheimer dynamics of \\(\\mathrm{C_{23}H_{20}N_{3}O}\\) (photochemistry)",
+      "\\(4.98\\times10^{15}\\)",
+      "\\(6.16\\times10^{14}\\) (6,057 qubits)",
+      "8.08 times"
+     ],
+     [
+      "Cytochrome P450 Compound I energies (drug metabolism)",
+      "\\(1.09\\times10^{12}\\) (481 qubits)",
+      "\\(4.37\\times10^{11}\\) (333 qubits)",
+      "2.49 times"
+     ],
+     [
+      "Parallel Grover search, up to 1,024 targets and queries",
+      "best published protocols",
+      "expected query rounds",
+      "1.22 times (find one), 2.55 times (find all)"
+     ]
+    ],
+    "caption": "Spacetime cost \\(Q\\cdot\\mathcal T\\) (logical qubits times \\(T\\) gates) for the four circuit problems, and expected oracle rounds for search, as reported in the paper."
+   },
+   "paragraphs": [
+    "Each reduction is measured against the strongest prior construction the authors identified for the same specification. For arcsin, the agents first searched within a restricted gate set whose circuits can be simulated classically in seconds, reaching \\(4.15\\times10^{5}\\); Lean then let them leave that set, and a cheaper coefficient lookup brought the cost down another 11 per cent."
+   ]
+  },
+  {
+   "heading": "Where the savings come from",
+   "source_refs": [
+    1,
+    4
+   ],
+   "paragraphs": [
+    "In the fusion problem, an alpha particle and 218 electrons move among 216 fixed protons, and the circuit must simulate their evolution to within 1 per cent error. Its cost is set by the number of walk steps, which grows with the total weight of the Hamiltonian's terms, and more than 90 per cent of that weight comes from Coulomb interactions. The agents' circuit moves the electrons onto a real-space grid to apply those interactions, where the Pauli exclusion principle allows at most two electrons on a grid point; configurations that violate it no longer inflate the weight. That cuts the walk steps by 12.8 times at 1.52 times the \\(T\\) gates per step. Keeping the total electron momentum in a 42-qubit register between steps saves another 10 per cent of \\(T\\) gates per step, and the qubit count falls from 5,650 to 4,374.",
+    "For cytochrome P450, over 95 per cent of the \\(T\\)-gate saving comes from storing which Hamiltonian term to apply in a one-hot register, one qubit per term, instead of a binary number used to address a table; the rotation angles can then be read with cheap Clifford gates. Earlier work had judged this encoding narrowly worse because it needs more qubits. In photochemistry, the gains come from loading interacting coordinates into ancillas that are cleared by measurement, computing \\(1/r\\) in expectation from a randomly sampled polynomial, and assigning nuclear charges with reversible logic. For search, the largest gain uses a quantum walk over sets of candidates that steers amplitude towards sets containing every target."
+   ]
+  },
+  {
+   "heading": "What the numbers do and do not show",
+   "source_refs": [
+    1,
+    2
+   ],
+   "paragraphs": [
+    "The figure of merit is a proxy. \\(Q\\cdot\\mathcal T\\) approximates the size of an error-corrected computation at the logical level, but routing, layout, the error-correcting code and how many \\(T\\) gates can run in parallel are not part of the specifications, and the authors note that early machines may be limited more by qubits than by gates. Even after these reductions, the scientific simulations need far more operations than the roughly one million projected for early fault-tolerant processors.",
+    "Baselines matter as much as the new circuits. For photochemistry the baseline combines a published estimate with its authors' later improvements, and for P450 the authors halved the best published cost for newer compilation methods and adjusted it to cover all low-lying states, before comparing. Specifications also constrain what agents can find: the photochemistry task demands correctness even on unphysical states, and the P450 task fixes a Hamiltonian factorisation that excludes the representations behind recent gains. Quantum Computing Report's headline of \"order-of-magnitude\" gains holds for two of the five problems.",
+    "A proof guarantees that a program meets its specification, not that the specification captures the scientific task. The Lean library, specifications and solutions are to be released \"shortly\", so outside checking is not yet possible. The paper is a preprint, and its first version, of 6 November, gave the search speedup as \"up to 1.4×\" before the revision separated finding one target from finding all of them."
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "Shirobokov, Jaderberg et al. (Google DeepMind and Google Quantum AI): Discovering formally verified quantum programs with AI (arXiv, version 2, 9 November 2026)",
+   "url": "https://arxiv.org/abs/2611.09822"
+  },
+  {
+   "title": "Quantum Computing Report: Google DeepMind and Google Quantum AI Use Lean 4 to Discover Formally Verified Quantum Algorithms (10 November 2026)",
+   "url": "https://quantumcomputingreport.com/google-deepmind-and-google-quantum-ai-use-lean-4-to-discover-formally-verified-quantum-algorithms/"
+  },
+  {
+   "title": "Quantum Zeitgeist: Google Quantum AI: Discovering Quantum Programs with AI and verified by mathematical proof",
+   "url": "https://quantumzeitgeist.com/google-quantum-ai-designs-quantum-verified/"
+  },
+  {
+   "title": "Nicholas Rubin et al.: Quantum computation of stopping power for inertial fusion target design (PNAS, 2024)",
+   "url": "https://doi.org/10.1073/pnas.2317772121"
+  }
+ ],
+ "related_articles": [
+  "mip-star-equals-re-verified",
+  "psi-aaronson-ambainis-conjecture"
+ ]
+}

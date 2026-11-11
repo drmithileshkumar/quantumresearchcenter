@@ -1,0 +1,45 @@
+{
+  "id": "2611.14295",
+  "topic": "foundations",
+  "title": "Reading long-range information from a separable quantum record requires entangled measurements",
+  "authors": "Qingtian Miao",
+  "submitted": "2026-11-10",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "A state with no entanglement can still hide information from measurements made piece by piece: data hiding and \"nonlocality without entanglement\" show that separable states sometimes need joint measurements to be distinguished. Those examples are built for the purpose. Can such a record arise naturally, from local interactions recording a physical system, and can the gap between local and joint readout persist over arbitrarily long distances?",
+  "result": "Yes. Probe qubits on the bonds of a square lattice record, by local controlled-Z interactions, whether neighbouring Ising spins agree; each probe's two states have overlap \\(1-p\\), and the resulting record is fully separable. To predict whether two distant spins agree, every readout whose effects stay positive under all partial transposes (which includes LOCC and separable measurements) loses all advantage at large distance for \\(p\\le p_0=1-1/\\sqrt2\\approx0.2929\\), while a joint measurement keeps a distance-independent advantage for \\(p\\ge p_*=0.29181\\). In the window \\([p_*,p_0]\\) long-range information can be read only with entangled measurement effects.",
+  "significance": "It gives a natural, spatially extended example in which entanglement is absent from the state but required in the measurement, with a sharp long-range separation rather than a constant-size gap. Both bounds reduce to percolation: restricted readouts are limited by paths of revealed bond labels, the joint readout is guaranteed by paths of hidden auxiliary bits, and closed loops in the lattice are what create the separation.",
+  "limitations": "The certified window is narrow, about 0.001 wide, and comes from a four-edge comparison argument; a statistical-mechanics mapping to the random-bond Ising model on the Nishimori line suggests the joint readout keeps its advantage down to \\(p_G\\approx0.218\\), but that relies on published numerics and is not proved. The setting is idealised (perfect controlled-Z couplings, one copy of the record, uncorrelated initial spins). The author used GPT-6 Astra to explore proof strategies and states having directed the work and verified the arguments.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-11: the main text (record and task, Theorems 1 and 2, both bounds, discussion) and the AI statement; the supplementary proofs in Sections S1–S3 were not checked. The probe overlap, the threshold \\(p_0\\), the tree formula, a four-spin loop example and the Nishimori correspondence were checked numerically.",
+  "verified_on": "2026-11-11",
+  "methods_source_section": "Theorem 2 and Eqs. (11)–(14); Eqs. (15)–(21)",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "Spins start in \\(\\ket{+}\\), so every configuration \\(z\\) is equally likely. On each bond \\(uv\\) a probe qubit in \\(\\sqrt{1-p/2}\\ket0+\\sqrt{p/2}\\ket1\\) picks up a phase flip if \\(z_u\\ne z_v\\), so it ends in one of two states \\(\\ket{a_\\pm}\\) with overlap \\(1-p\\). Tracing out the spins leaves the probes in a mixture of product states: fully separable, with no entanglement anywhere.",
+    "A receiver holding one copy of the record must guess \\(T=z_iz_j\\) for two spins a distance \\(r\\) apart. With a measurement class \\(\\mathcal M\\), the advantage over random guessing is \\(\\sup\\sum_y|\\mathrm{Tr}\\,BF_y|\\), with \\(B\\) half the difference of the two conditional records. The question is how this behaves as \\(r\\to\\infty\\) for local, separable or fully PPT measurements, compared with arbitrary joint ones.",
+    "For the restricted classes, the author compares the quantum record with a classical one that reveals each bond label with probability \\(s=p(2-p)\\). If revealed bonds connect \\(i\\) and \\(j\\), multiplying the labels gives \\(T\\); if not, flipping the cluster around \\(i\\) shows \\(T\\) is completely hidden. The fully PPT condition lets every quantum readout be represented on this classical record, giving advantage\\(^2\\le\\mathbb P_s(i\\leftrightarrow j)\\), which vanishes at long range when \\(s\\le1/2\\), the percolation threshold of the square lattice. For the joint readout, the advantage equals a fidelity, which maps to inferring a parity from noisy bits subject to loop constraints. Hidden paths in that problem certify a lower bound, and comparing four bits at a vertex at once pushes the hidden-edge probability just above \\(1/2\\).",
+    "On a tree, measuring each probe separately is already optimal, so loops are necessary for any separation. The open question is the true extent of the window, which the Nishimori-line mapping suggests is much wider than proved."
+  ],
+  "methods": [
+    {
+      "technique": "Percolation bound for PPT readouts",
+      "explanation": "To show that a huge class of measurements fails, the author needs a classical object that every such measurement can be simulated on. A record that reveals bond labels at random is such an object, and its information about \\(T\\) is all-or-nothing, depending only on connectivity.",
+      "math": [
+        "For revealed record \\(\\mathcal R\\), \\(\\mathbb E[T\\mid\\mathcal R]^{2}=\\mathbf 1\\{i\\leftrightarrow j\\}\\). Averaging a two-outcome readout \\(H=2F-I\\) over partial transposes on all subsets of probes removes every Pauli string containing a \\(Y\\) (the records are real) and keeps \\(-I\\le K\\le I\\) by the PPT condition, so \\(K\\) has a classical representative \\(k(\\mathcal R)\\) with \\(\\mathbb E[Tk]=\\mathcal A\\) and \\(\\mathbb E[k^{2}]\\le1\\). Cauchy–Schwarz gives \\[\\mathcal A^{2}\\le\\mathbb E\\bigl[\\mathbb E[T\\mid\\mathcal R]^{2}\\bigr]\\,\\mathbb E[k^{2}]\\le\\mathbb P_s(i\\leftrightarrow j),\\qquad s=p(2-p).\\]",
+        "Square-lattice bond percolation has no infinite cluster at \\(s\\le1/2\\), and \\(s=1/2\\) exactly at \\(p_0=1-1/\\sqrt2\\). Editorial checks: \\(\\langle a_+|a_-\\rangle=1-p\\); on a path of \\(d\\) bonds the joint optimum \\(\\|B\\|_1\\) equals \\(s^{d/2}\\) for \\(d=1,2,3\\) at \\(p=0.4\\), reached by measuring each probe in the \\(X\\) basis. On a single square with \\(i,j\\) opposite, at \\(p=0.4\\), \\(\\|B\\|_1=0.828\\) exceeds the PPT bound \\(\\sqrt{1-(1-s^{2})^{2}}=0.807\\), so one loop already separates the classes."
+      ],
+      "transfer": "To bound all PPT or separable measurements on a real, separable record, average the measurement over partial transposes to obtain a classical observable on a simpler comparison record; Cauchy–Schwarz then reduces the problem to the comparison record's information."
+    },
+    {
+      "technique": "Hidden paths certify the joint readout",
+      "explanation": "A lower bound on the best joint measurement needs a quantity that is computable. The optimal advantage is a fidelity between two spin states, which maps to a classical parity-inference problem; showing that problem is hard enough, via hidden paths, shows the quantum readout keeps information.",
+      "math": [
+        "The joint advantage is \\(\\mathcal O_{\\mathrm G}=F(\\rho_S,Z_iZ_j\\rho_SZ_iZ_j)\\), and in the auxiliary problem with posterior bias \\(m(y)\\), \\[\\mathcal O_{\\mathrm G}=\\mathbb E_y\\sqrt{1-m(y)^{2}}\\ \\ge\\ 1-\\mathbb E_y[m(y)^{2}].\\] Revealing each auxiliary bit exactly with probability \\(c^{2}\\), \\(c=1-p\\), can only increase \\(\\mathbb E m^{2}\\); if hidden edges join \\(i\\) and \\(j\\), flipping the bits along that path leaves everything revealed unchanged and flips the parity, so \\(m=0\\). Hence \\(\\mathcal O_{\\mathrm G}\\ge\\mathbb P_{1-c^{2}}(\\text{hidden path})\\).",
+        "Edge-by-edge comparison meets the restricted bound exactly at \\(p_0\\), giving no window. Comparing the four edges at a vertex, whose bits have even parity, lowers the needed reveal rate to \\(\\tfrac12-10^{-7}\\), so hidden edges percolate at \\(p_*=0.29181\\). Editorial check: the conjectured joint transition \\(p_G\\approx0.21844\\) gives dephasing probability \\(q=p_G/2\\approx0.1092\\), the Nishimori point of the 2D random-bond Ising model, consistent with the stated mapping."
+      ],
+      "transfer": "Lower bounds on optimal discrimination of structured mixed states can come from a fidelity identity plus a degraded classical side problem; if a gauge-like flip along hidden paths leaves the observations invariant, connectivity of the hidden set bounds the information from below."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-11"
+}

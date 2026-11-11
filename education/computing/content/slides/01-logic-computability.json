@@ -85,9 +85,7 @@
    {
     "p": "If checking is mechanical, a second question follows: can a procedure decide whether a given statement has any proof at all?"
    }
-  ],
-  "figure": "logic-hilbert-program.svg",
-  "figure_side": "right"
+  ]
  },
  {
   "kind": "content",
@@ -110,9 +108,7 @@
    {
     "p": "Search is not a decision procedure. To ask whether any method decides, we need a precise definition of “method”."
    }
-  ],
-  "figure": "logic-proof-search.svg",
-  "figure_side": "right"
+  ]
  },
  {
   "kind": "section",
@@ -198,9 +194,7 @@
    {
     "p": "A deterministic rule fixes the next configuration. It need not fix the previous one: \\((48,18)\\) and \\((30,18)\\) both lead to \\((18,12)\\)."
    }
-  ],
-  "figure": "logic-configurations.svg",
-  "figure_side": "right"
+  ]
  },
  {
   "kind": "content",
@@ -277,9 +271,7 @@
    {
     "p": "It is a thesis because “effective method” is informal. Its use: if no Turing machine solves a problem, no algorithm does."
    }
-  ],
-  "figure": "logic-church-turing.svg",
-  "figure_side": "right"
+  ]
  },
  {
   "kind": "content",
@@ -387,9 +379,7 @@
    {
     "p": "The two limits are linked: if a suitable theory of arithmetic were complete, we could decide halting. Since halting is undecidable, such theories must be incomplete."
    }
-  ],
-  "figure": "logic-limitations.svg",
-  "figure_side": "right"
+  ]
  },
  {
   "kind": "content",
@@ -463,9 +453,7 @@
    {
     "note": "Compare an invertible matrix. Quantum steps will be invertible maps that also preserve length."
    }
-  ],
-  "figure": "logic-reversible-transitions.svg",
-  "figure_side": "right"
+  ]
  },
  {
   "kind": "content",

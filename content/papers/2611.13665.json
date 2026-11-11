@@ -1,0 +1,45 @@
+{
+  "id": "2611.13665",
+  "topic": "foundations",
+  "title": "Observation of strong electric dipole-dipole interactions between two atoms",
+  "authors": "Yu-Kun Lu; Jiahao Lyu; Wolfgang Ketterle",
+  "submitted": "2026-11-10",
+  "version": "v1",
+  "kind": "Experiment",
+  "problem": "Two atoms closer than the reduced optical wavelength \\(\\bar\\lambda=\\lambda/2\\pi\\) should interact through light much more strongly than they decay: the near-field dipole-dipole coupling grows as \\(\\hbar\\Gamma/(r/\\bar\\lambda)^{3}\\). Seeing this needs densities above \\(10^{15}\\,\\mathrm{cm^{-3}}\\), where inelastic collisions usually destroy the gas, so light-induced dipolar effects in cold atoms had been seen only in the weak far-field regime, summed over many atoms.",
+  "result": "With exactly two dysprosium atoms per site of a deep optical lattice, squeezed to an rms size of about 20 nm (peak density \\(2\\times10^{16}\\,\\mathrm{cm^{-3}}\\), \\(n\\bar\\lambda^{3}>10\\)), the authors observe: single-photon emission giving median momentum transfers near \\(8\\hbar k\\), with about 30% of atoms above \\(10\\hbar k\\); a coherent force between laser-dressed dipoles of about 1 debye; and a \"two-body Lamb shift\" of the resonance, \\(8.6\\pm2.5\\) MHz or \\(0.27(8)\\Gamma\\), when the pair wavefunction is flattened. Simulations without free parameters reproduce the momentum data.",
+  "significance": "The authors report the first observation of strong light-induced dipolar interaction between two atoms in well-defined states, the minimal system for near-field optical dipole physics, which earlier experiments saw only as a collective, essentially classical effect of thousands of atoms. It opens driven two-body systems with coherent dipolar coupling to study, and sheds light on photoassociation.",
+  "limitations": "The shift was observed only for one aspect ratio: lattice power did not allow the opposite shape, which should give a blue shift. The measured shift agrees with the model semi-quantitatively (prediction \\(0.38\\Gamma\\) for the doublon-singlon mixture). Some observations, such as the absent extra incoherent scattering and asymmetric losses, are explained by motional dynamics or left as possibilities. Doublon signals are obtained by subtracting a singlon-only measurement. No AI-use statement was found.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-11: the main text through the two-body Lamb shift section and the acknowledgements; the Methods were not read in detail. The densities, the size of the near-field shift, the ratio of shift to linewidth and the angular average of the dipolar interaction were recomputed.",
+  "verified_on": "2026-11-11",
+  "methods_source_section": "Main text: atom pairs at high density; large momentum transfer; two-body Lamb shift",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A single atom coupled to the vacuum gets a Lamb shift and a decay rate \\(\\Gamma\\). Two atoms sharing the vacuum exchange virtual photons, giving a dipole-dipole interaction with a coherent part and a dissipative part. Far apart (\\(kr\\gg1\\)) the interaction is weak and has been seen only as a sum over many atoms, in shifts of dense clouds and in the lensing of a condensate. Close together (\\(kr\\ll1\\)) the coherent part dominates and scales as \\(1/(kr)^{3}\\).",
+    "The question is what two atoms do in that strong near-field regime, where a single excitation shared between them feels a force much larger than a photon recoil.",
+    "The authors load a dysprosium condensate into a deep 3D lattice, forming a core of doubly occupied sites in the lowest spin state, where two-body and three-body losses are absent. Exciting both atoms with a fast pulse on the narrow 626 nm line and letting one photon escape leaves the pair in a symmetric single-excitation state, which pushes the atoms apart before the second decay: momenta reach several photon recoils, shrinking as the wavepackets are expanded. Driving off resonance on the 421 nm line dresses each atom with an oscillating dipole of about 1 debye; the pair then exerts a coherent force with little photon scattering. In the fluorescence spectrum, the dipolar shift averages almost to zero for a spherical pair, but flattening the pair so the atoms sit side by side gives a measurable red shift.",
+    "Open points are the blue shift for the opposite aspect ratio, the low and asymmetric photoassociation losses, and driven many-body systems with strong coherent dipolar coupling, now accessible at these densities."
+  ],
+  "methods": [
+    {
+      "technique": "Densities in units of the optical wavelength",
+      "explanation": "Whether the near field dominates is set by the dimensionless density \\(n\\bar\\lambda^{3}\\), not by the density alone. Converting the paper's numbers checks that two atoms in a 20 nm wavepacket are deep in the regime where coherent coupling beats spontaneous emission.",
+      "math": [
+        "For two atoms with Gaussian wavepackets of rms size \\(\\sigma\\), the peak density seen by one atom is about \\(2/((2\\pi)^{3/2}\\sigma^{3})\\). At \\(\\sigma=20\\) nm this is \\(1.6\\times10^{16}\\,\\mathrm{cm^{-3}}\\), the stated \\(2\\times10^{16}\\). With \\(\\bar\\lambda=\\lambda/2\\pi\\), \\[n\\bar\\lambda^{3}\\approx6\\ (421\\ \\mathrm{nm}),\\qquad n\\bar\\lambda^{3}\\approx20\\ (626\\ \\mathrm{nm}),\\] so the paper's \\(n\\bar\\lambda^{3}>10\\) refers to the 626 nm line (editorial check).",
+        "The coherent coupling exceeds \\(\\Gamma\\) when \\(r<\\bar\\lambda\\approx100\\) nm, a density of \\(1/(100\\ \\mathrm{nm})^{3}=10^{15}\\,\\mathrm{cm^{-3}}\\), the threshold quoted. The near-field shift scale \\(\\Gamma/(k\\sqrt2\\sigma)^{3}\\) at \\(\\sigma=22\\) nm and 421 nm is \\(10\\Gamma\\), as stated, so the much smaller measured shift reflects angular cancellation, not weak coupling."
+      ],
+      "transfer": "For any light-matter platform, express separations in units of \\(\\bar\\lambda\\) and couplings in units of \\(\\Gamma\\) before comparing regimes; the same atoms can be in the weak collective regime on one transition and the strong pairwise regime on another."
+    },
+    {
+      "technique": "Shaping the pair to reveal an averaged-out shift",
+      "explanation": "The dipolar interaction is anisotropic, so in a spherical pair it averages to almost nothing even though it is ten linewidths strong locally. Changing the aspect ratio of the pair wavefunction, without changing the cloud as a whole, exposes the shift and separates it from collective effects of the dense cloud.",
+      "math": [
+        "The near-field interaction is \\(V_{\\mathrm{dd}}\\propto(3\\cos^{2}\\theta-1)/r^{3}\\), with \\(\\theta\\) the angle between the quantisation axis and the interatomic axis. Over a sphere \\[\\tfrac12\\int_0^{\\pi}(3\\cos^{2}\\theta-1)\\sin\\theta\\,d\\theta=0,\\] so only the convolution with the Lorentzian line leaves a small shift. Squeezing the pair vertically makes side-by-side configurations (\\(\\theta\\approx\\pi/2\\), attractive) more likely and shifts the line to the red.",
+        "Measured: no shift for \\((\\sigma_h,\\sigma_z)=(22,26)\\) nm and \\(8.6\\pm2.5\\) MHz for \\((22,16)\\) nm; with \\(\\Gamma_{421}=2\\pi\\times32\\) MHz this is \\(0.27\\Gamma\\) (editorial ratio). Lattice light shifts, optical-density effects and detuning-dependent losses were each ruled out by separate tests, since the cloud's overall shape was unchanged."
+      ],
+      "transfer": "When an interaction cancels under isotropic averaging, measure a differential signal while deforming only the relative wavefunction; this isolates pairwise physics from bulk effects of the same sample."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-11"
+}

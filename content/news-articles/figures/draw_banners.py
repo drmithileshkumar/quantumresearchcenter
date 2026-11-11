@@ -398,7 +398,47 @@ def mip_re():
     return svg(''.join(out))
 
 
+def verified_programs():
+    """Quantum circuit wires with gates on the left, feeding a proof tree whose root is checked."""
+    out = [grid(0, 0, W, H, 40)]
+    out.append(rect(40, 60, 560, 280, 'fig-wash-1', 18))
+    rnd = random.Random(2611)
+    ys = [100 + 50 * k for k in range(5)]
+    for y in ys:
+        out.append(line(70, y, 570, y, 'fig-link'))
+    for x in range(110, 560, 62):
+        a = rnd.randrange(5)
+        if rnd.random() < .45 and a < 4:  # two-qubit gate: control dot and target box
+            b = a + 1 + rnd.randrange(4 - a)
+            out.append(line(x, ys[a], x, ys[b], 'fig-line-1'))
+            out.append(circle(x, ys[a], 6, 'fig-fill-1'))
+            out.append(rect(x - 13, ys[b] - 13, 26, 26, 'fig-box', 4))
+        else:
+            out.append(rect(x - 14, ys[a] - 14, 28, 28, 'fig-fill-2' if rnd.random() < .3 else 'fig-box', 4))
+    out.append(arrow(615, 200, 690, 200, 'fig-line-2', 14))
+    # proof tree: leaves at the bottom, root at the top right
+    leaves = [(740 + 60 * k, 320) for k in range(8)]
+    level = leaves
+    for p in leaves:
+        out.append(rect(p[0] - 10, p[1] - 10, 20, 20, 'fig-fill-muted', 3))
+    while len(level) > 1:
+        nxt = []
+        for k in range(0, len(level), 2):
+            (x1, y1), (x2, y2) = level[k], level[k + 1]
+            px, py = (x1 + x2) / 2, y1 - 70
+            out.append(line(x1, y1 - 10, px, py + 10, 'fig-link'))
+            out.append(line(x2, y2 - 10, px, py + 10, 'fig-link'))
+            nxt.append((px, py))
+        for q in nxt:
+            out.append(circle(*q, 11 if len(nxt) > 1 else 22, 'fig-node' if len(nxt) > 1 else 'fig-fill-1'))
+        level = nxt
+    rx, ry = level[0]
+    out.append(path([(rx - 10, ry), (rx - 3, ry + 8), (rx + 11, ry - 9)], 'fig-line-2'))
+    return svg(''.join(out))
+
+
 BANNERS = {
+    'google-ai-formally-verified-quantum-programs': verified_programs,
     'mip-star-equals-re-verified': mip_re,
     'alice-bob-rsa-2048-cat-qubits': cat_qubits,
     'psi-aaronson-ambainis-conjecture': aaronson_ambainis,
