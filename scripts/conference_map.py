@@ -16,10 +16,12 @@ def render_map(root, events, *, collection="conferences"):
         return ''
     data = json.loads((root / 'conferences/world-map.json').read_text())
     positions = {f['name']: f['point'] for f in data['features']}
-    # Singapore is smaller than the 1:110m dataset's minimum polygon size.
+    shaped = set(positions)
+    # Singapore is smaller than the 1:110m dataset's minimum polygon size, so it is drawn as a point.
     positions['Singapore'] = [(103.82 + 180) * 1000 / 360, (85 - 1.35) * 1000 / 360]
     # Move crowded markers out into the sea, with leader lines to the country.
-    offsets = {'Ireland': (-33, -12), 'Netherlands': (-5, 27), 'Denmark': (18, -18), 'South Korea': (-9, -17), 'Japan': (17, 8)}
+    offsets = {'Ireland': (-33, -12), 'Netherlands': (-5, 27), 'Denmark': (18, -18), 'South Korea': (-9, -17),
+               'Japan': (17, 8), 'Singapore': (30, 16)}
     if company_map:
         offsets.update({'United Kingdom': (-32, -28), 'France': (-38, 4), 'Netherlands': (-8, -35),
                         'Germany': (18, -20), 'Switzerland': (-22, 32), 'Austria': (19, 23),
@@ -29,6 +31,13 @@ def render_map(root, events, *, collection="conferences"):
         name = feature['name']
         attrs = f' class="map-land map-host" data-map-country="{escape(name)}"' if name in counts else ' class="map-land"'
         paths.append(f'<path{attrs} d="{feature["path"]}"><title>{escape(name)}</title></path>')
+    # A state too small for the basemap still needs something to select and to highlight.
+    for name in sorted(set(counts) - shaped):
+        if name not in positions:
+            continue
+        x, y = positions[name]
+        paths.append(f'<circle class="map-land map-host map-point" data-map-country="{escape(name)}"'
+                     f' cx="{x:.1f}" cy="{y:.1f}" r="5"><title>{escape(name)}</title></circle>')
     markers = []
     for name, count in sorted(counts.items()):
         if name not in positions:
@@ -38,6 +47,6 @@ def render_map(root, events, *, collection="conferences"):
         mx, my = x + dx, y + dy
         markers.append(f'<g class="map-marker" data-map-country="{escape(name)}"><title>{escape(name)}: {count} {collection}</title><line x1="{x:.1f}" y1="{y:.1f}" x2="{mx:.1f}" y2="{my:.1f}"/><circle class="map-anchor" cx="{x:.1f}" cy="{y:.1f}" r="2.5"/><circle class="map-bubble" cx="{mx:.1f}" cy="{my:.1f}" r="12"/><text x="{mx:.1f}" y="{my:.1f}" dy=".35em" text-anchor="middle">{count}</text></g>')
     controls = ''.join(f'<button type="button" data-map-country="{escape(name)}" aria-pressed="false" disabled>{escape(name)} <span class="map-country-count">{count}</span></button>' for name, count in sorted(counts.items()))
-    return f'''<section class="conference-map" aria-labelledby="world-map-heading"><div class="map-section-heading"><div><p class="eyebrow">Locations</p><h2 id="world-map-heading">{heading}</h2></div><button type="button" id="map-clear" hidden>Show all countries</button></div><p class="map-instructions">Select a highlighted country or use the country buttons below. {instructions}</p>
+    return f'''<section class="conference-map" aria-labelledby="world-map-heading"><div class="map-section-heading"><div><p class="eyebrow">Locations</p><h2 id="world-map-heading">{heading}</h2></div><button type="button" id="map-clear" hidden>Show all countries</button></div><p class="map-instructions">Select a country on the map or use the country buttons below. {instructions}</p>
 <div class="world-map-frame"><svg class="conference-world-map" viewBox="0 0 1000 435" aria-hidden="true" focusable="false"><g class="map-grid" fill="none">{''.join(f'<path d="M0 {y}H1000"/>' for y in (97,180,263,347))}</g>{''.join(paths)}{''.join(markers)}</svg></div>
 <div class="map-caption"><p id="map-status" role="status">{len(events)} {collection} across {len(counts)} countries.</p><p>Map: <a href="https://www.naturalearthdata.com/about/terms-of-use/">Natural Earth</a> · Country-level locations</p></div><p class="map-count-note">Boundary view: India’s claimed extent of Jammu and Kashmir, including areas administered by Pakistan and China; not administrative control.</p><div class="map-country-buttons" aria-label="Choose a {country_label} country">{controls}</div><p class="map-count-note">{filter_note} Selecting a country narrows the list below.</p></section>'''

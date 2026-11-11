@@ -5,6 +5,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import re
+import ssl
 import sys
 import time
 from urllib.error import HTTPError, URLError
@@ -18,6 +19,10 @@ SKIP_HOSTS = {'quantumresearch.center', '127.0.0.1:8765', 'localhost'}
 AGENT = 'QRC-LinkCheck/1.0 (mailto:mail.qrc@gmail.com)'
 # Servers that refuse automated requests but are known to work in a browser.
 BLOCKS_BOTS = {401, 403, 405, 429}
+# A server that omits its intermediate certificate still opens in browsers, which fetch the missing
+# link themselves. Those codes are warned about; an expired or mismatched certificate stays broken.
+CERTIFICATE = 'certificate chain incomplete'
+CHAIN_INCOMPLETE = {20, 21}
 
 def site_links():
     found = defaultdict(set)
@@ -39,7 +44,10 @@ def status(url):
                 continue
             return error.code
         except (URLError, TimeoutError, OSError) as error:
-            return f'unreachable ({getattr(error, "reason", error)})'
+            reason = getattr(error, 'reason', error)
+            if isinstance(reason, ssl.SSLCertVerificationError) and getattr(reason, 'verify_code', 0) in CHAIN_INCOMPLETE:
+                return CERTIFICATE
+            return f'unreachable ({reason})'
     return 'unreachable'
 
 def check_host(urls):
@@ -64,12 +72,17 @@ def main():
     with ThreadPoolExecutor(max_workers=8) as pool:
         for part in pool.map(check_host, by_host.values()):
             results.update(part)
-    broken = {u: s for u, s in results.items() if not (isinstance(s, int) and (s < 400 or s in BLOCKS_BOTS))}
+    broken = {u: s for u, s in results.items() if not (isinstance(s, int) and (s < 400 or s in BLOCKS_BOTS))
+              and s != CERTIFICATE}
     blocked = {u: s for u, s in results.items() if s in BLOCKS_BOTS}
-    print(f'{len(results)} external links checked; {len(broken)} broken; {len(blocked)} refused automated requests (not counted).')
+    certificate = {u for u, s in results.items() if s == CERTIFICATE}
+    print(f'{len(results)} external links checked; {len(broken)} broken; {len(blocked)} refused automated requests'
+          f' (not counted); {len(certificate)} with an incomplete certificate chain (warning).')
     for url, code in sorted(broken.items()):
         pages = sorted(links[url])
         print(f'  {code}  {url}\n        on {pages[0]}' + (f' and {len(pages) - 1} more' if len(pages) > 1 else ''))
+    for url in sorted(certificate):
+        print(f'  {CERTIFICATE}  {url}\n        on {sorted(links[url])[0]}')
     return 1 if broken else 0
 
 if __name__ == '__main__':

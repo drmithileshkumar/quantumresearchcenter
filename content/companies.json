@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-30",
+  "checked": "2026-11-11",
   "companies": [
     {
       "id": "q-ctrl",
@@ -16,7 +16,7 @@
         "https://q-ctrl.com/",
         "https://q-ctrl.com/blog/q-ctrl-breaks-ground-on-new-global-headquarters-in-sydney-first-commercial-facility-in-australia-dedicated-to-quantum-tech"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "aqt",
@@ -31,7 +31,7 @@
       "sources": [
         "https://www.aqt.eu/"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "xanadu",
@@ -48,7 +48,7 @@
         "https://xanadu.ai/",
         "https://www.xanadu.ai/press/xanadu-becomes-first-pure-play-photonic-quantum-computing-company-to-go-public"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "origin-quantum",
@@ -62,10 +62,10 @@
       "description": "Quantum computers, control systems, programming tools, and a quantum cloud platform.",
       "url": "https://originqc.com.cn/en/",
       "sources": [
-        "https://originqc.com.cn/en/about",
-        "https://originqc.com.cn/en/product"
+        "https://originqc.com.cn/en/",
+        "https://originqc.com.cn/en/about"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "iqm",
@@ -81,7 +81,7 @@
         "https://iqm.tech/",
         "https://iqm.tech/investors/"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "pasqal",
@@ -97,7 +97,7 @@
       "sources": [
         "https://www.pasqal.com/about-us/"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "eleqtron",
@@ -113,7 +113,7 @@
         "https://eleqtron.com/unternehmen/",
         "https://eleqtron.com/wp-content/uploads/2025/04/20240325_ERU-eleqtron_pm_Juelich_final.pdf"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "qnu-labs",
@@ -130,7 +130,7 @@
         "https://www.qnulabs.com/news/hybrid-quantum-network-to-secure-ai-ecosystems-india-ai-impact-summit-2026",
         "https://www.qnulabs.com/contact-us"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "qpiai",
@@ -147,7 +147,7 @@
         "https://www.qpiai.tech/",
         "https://www.qpiai.tech/pressreleases/2026-02-12-qpiai-qvidya-alliance-university-strategic-partnership"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "quantum-machines",
@@ -162,7 +162,7 @@
       "sources": [
         "https://www.quantum-machines.co/about/"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "qunasys",
@@ -177,7 +177,7 @@
       "sources": [
         "https://qunasys.com/en/about/"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "qblox",
@@ -193,7 +193,7 @@
         "https://qblox.com/about",
         "https://careers.qblox.com/"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "speqtral",
@@ -209,7 +209,7 @@
         "https://speqtralquantum.com/technology",
         "https://speqtralquantum.com/newsroom/speqtral-takes-operational-control-of-speqtre-satellite-as-quantum-experimentation-phase-begins"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "id-quantique",
@@ -219,12 +219,13 @@
       "focus": [
         "Communication & security"
       ],
-      "description": "Quantum key distribution, quantum random-number generation, and single-photon detection technologies.",
+      "description": "Quantum key distribution, quantum random-number generation, and single-photon detection; now majority-owned by IonQ, which bought a controlling stake in 2025.",
       "url": "https://www.idquantique.com/",
       "sources": [
-        "https://www.idquantique.com/about-idq/company-profile/"
+        "https://www.idquantique.com/",
+        "https://ionq.com/news/ionq-completes-acquisition-of-id-quantique-cementing-leadership-in-quantum"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "oqc",
@@ -240,7 +241,7 @@
         "https://oqc.tech/",
         "https://oqc.tech/get-in-touch/"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "ionq",
@@ -256,7 +257,7 @@
       "sources": [
         "https://ionq.com/company"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
     },
     {
       "id": "quera",
@@ -271,7 +272,234 @@
       "sources": [
         "https://www.quera.com/about"
       ],
-      "checked": "2026-10-30"
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "psiquantum",
+      "name": "PsiQuantum",
+      "country": "United States",
+      "city": "Palo Alto",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Silicon-photonic quantum processors fabricated in a commercial semiconductor foundry, with a utility-scale system under construction in Brisbane and a US system planned at the Illinois Quantum and Microelectronics Park.",
+      "url": "https://www.psiquantum.com/",
+      "sources": [
+        "https://www.psiquantum.com/",
+        "https://www.psiquantum.com/about"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "atom-computing",
+      "name": "Atom Computing",
+      "country": "United States",
+      "city": "Boulder",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Gate-based quantum computers built from arrays of optically trapped neutral atoms; the company reports more than 1,000 qubits and a logical-qubit system installed with Microsoft.",
+      "url": "https://atom-computing.com/",
+      "sources": [
+        "https://atom-computing.com/",
+        "https://atom-computing.com/atom-computing-raises-more-than-300-million-to-accelerate-deployment-of-fault-tolerant-neutral-atom-quantum-computers/"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "rigetti",
+      "name": "Rigetti Computing",
+      "country": "United States",
+      "city": "Berkeley",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Superconducting quantum processors, including the Novera QPU sold for laboratory use, with larger systems available over its own cloud service and other providers.",
+      "url": "https://www.rigetti.com/",
+      "sources": [
+        "https://www.rigetti.com/",
+        "https://www.rigetti.com/novera"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "infleqtion",
+      "name": "Infleqtion",
+      "country": "United States",
+      "city": "Louisville",
+      "focus": [
+        "Computing hardware",
+        "Software & applications"
+      ],
+      "description": "Neutral-atom quantum computers and quantum sensors from one platform: the Sqale computer, optical atomic clocks, radio-frequency and inertial sensors, and supporting software.",
+      "url": "https://infleqtion.com/",
+      "sources": [
+        "https://infleqtion.com/",
+        "https://infleqtion.com/newsroom/"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "dwave",
+      "name": "D-Wave Quantum",
+      "country": "Canada",
+      "city": "Burnaby",
+      "focus": [
+        "Computing hardware",
+        "Software & applications"
+      ],
+      "description": "Annealing quantum systems built for optimisation, a gate-model programme using dual-rail qubits, the Leap cloud service, and the open-source Ocean tool suite.",
+      "url": "https://www.dwavequantum.com/",
+      "sources": [
+        "https://www.dwavequantum.com/",
+        "https://www.dwavequantum.com/careers/"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "photonic",
+      "name": "Photonic",
+      "country": "Canada",
+      "city": "Vancouver",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Silicon spin qubits with native photonic interconnects, intended to link modules into a distributed quantum computer rather than one large processor.",
+      "url": "https://photonic.com/",
+      "sources": [
+        "https://photonic.com/",
+        "https://photonic.com/careers/"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "riverlane",
+      "name": "Riverlane",
+      "country": "United Kingdom",
+      "city": "Cambridge",
+      "focus": [
+        "Control & infrastructure"
+      ],
+      "description": "Quantum error-correction hardware, decoders, and software, sold to computer manufacturers, control-electronics makers, and high-performance computing centres.",
+      "url": "https://www.riverlane.com/",
+      "sources": [
+        "https://www.riverlane.com/",
+        "https://www.riverlane.com/privacy-policy"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "alice-bob",
+      "name": "Alice & Bob",
+      "country": "France",
+      "city": "Paris",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Superconducting processors built on cat qubits, whose structure suppresses bit-flip errors, and the Helium platform around them.",
+      "url": "https://alice-bob.com/",
+      "sources": [
+        "https://alice-bob.com/",
+        "https://alice-bob.com/technology/"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "quandela",
+      "name": "Quandela",
+      "country": "France",
+      "city": "Massy",
+      "focus": [
+        "Computing hardware",
+        "Software & applications"
+      ],
+      "description": "Photonic quantum computers and single-photon sources built on quantum dots, with cloud and on-premises access to its processors.",
+      "url": "https://www.quandela.com/",
+      "sources": [
+        "https://www.quandela.com/",
+        "https://www.quandela.com/contact/"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "planqc",
+      "name": "planqc",
+      "country": "Germany",
+      "city": "Garching",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Neutral-atom processors that hold atoms in optical lattices, packaged as a full-stack system with a multicore architecture.",
+      "url": "https://planqc.eu/",
+      "sources": [
+        "https://planqc.eu/",
+        "https://planqc.eu/imprint/"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "quantware",
+      "name": "QuantWare",
+      "country": "Netherlands",
+      "city": "Delft",
+      "focus": [
+        "Computing hardware"
+      ],
+      "description": "Superconducting quantum processor units sold to system builders, with peripheral components, foundry, and packaging services around its VIO scaling architecture.",
+      "url": "https://quantware.com/",
+      "sources": [
+        "https://quantware.com/",
+        "https://quantware.com/contact"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "horizon-quantum",
+      "name": "Horizon Quantum Computing",
+      "country": "Singapore",
+      "city": "Singapore",
+      "focus": [
+        "Software & applications"
+      ],
+      "description": "Programming tools and a compiler intended to turn ordinary programs into quantum circuits, with execution across several processors and simulators.",
+      "url": "https://www.horizonquantum.com/",
+      "sources": [
+        "https://www.horizonquantum.com/",
+        "https://www.horizonquantum.com/about"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "multiverse",
+      "name": "Multiverse Computing",
+      "country": "Spain",
+      "city": "San Sebastián",
+      "focus": [
+        "Software & applications"
+      ],
+      "description": "Quantum-inspired optimisation software and AI model compression, sold as enterprise tools rather than as access to quantum hardware.",
+      "url": "https://multiversecomputing.com/",
+      "sources": [
+        "https://multiversecomputing.com/",
+        "https://multiversecomputing.com/contact"
+      ],
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "bluefors",
+      "name": "Bluefors",
+      "country": "Finland",
+      "city": "Helsinki",
+      "focus": [
+        "Control & infrastructure"
+      ],
+      "description": "Cryogenic systems and measurement infrastructure that cool and house superconducting quantum processors.",
+      "url": "https://bluefors.com/",
+      "sources": [
+        "https://bluefors.com/",
+        "https://bluefors.com/products/"
+      ],
+      "checked": "2026-11-11"
     }
   ]
 }

@@ -42,15 +42,20 @@ class ConferenceTests(unittest.TestCase):
         class MapAudit(HTMLParser):
             def __init__(self):
                 super().__init__()
-                self.buttons, self.markers = set(), set()
+                self.buttons, self.markers, self.hosts = set(), set(), set()
             def handle_starttag(self, tag, attributes):
                 attributes = dict(attributes)
                 if 'data-map-country' in attributes:
                     if tag == 'button': self.buttons.add(attributes['data-map-country'])
                     if tag == 'g': self.markers.add(attributes['data-map-country'])
+                    # A country that can be clicked on the map: a land shape, or a point for a
+                    # state too small for the 1:110m basemap.
+                    if 'map-host' in attributes.get('class', '').split(): self.hosts.add(attributes['data-map-country'])
         audit = MapAudit()
         audit.feed(render_map(ROOT, self.data['conferences']))
         countries = {event['country'] for event in self.data['conferences']}
         self.assertEqual(audit.buttons, countries)
         self.assertEqual(audit.markers, countries)
         self.assertIn('Singapore', audit.markers)
+        # Every country with an entry must be selectable on the map itself, not only by its button.
+        self.assertEqual(audit.hosts, countries)
