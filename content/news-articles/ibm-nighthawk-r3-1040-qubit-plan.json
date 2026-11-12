@@ -1,0 +1,93 @@
+{
+  "slug": "ibm-nighthawk-r3-1040-qubit-plan",
+  "title": "IBM plans a 520-qubit Nighthawk for 2027 and a two-chip, 1,040-qubit system",
+  "summary": "At its developer conference IBM reported results from its 120-qubit Nighthawk r2 and announced Nighthawk r3, a 520-qubit processor designed for 10,000 operations, two of which it plans to link into one 1,040-qubit system in 2027. The new chip and the linked system are plans; the delivered results are speedups over IBM's own earlier hardware.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: two large square-lattice processors joined edge to edge by a row of couplers, with a smaller lattice processor beside them."
+  },
+  "key_points": [
+    "On 11 November 2026 IBM announced Nighthawk r3, designed to run 10,000 quantum operations on 520 programmable qubits, and a plan to link two of them into a single 1,040-qubit system in 2027.",
+    "The current Nighthawk r2, introduced in September, runs circuits of more than 7,500 operations on 120 qubits at up to 100,000 samples per second; partners report speedups of up to 19 times over IBM's earlier Heron processors.",
+    "A link of four chip-to-chip couplers between two earlier Nighthawk processors reached 99 percent average state-transfer fidelity, against a stated target of 99.9 percent.",
+    "IBM does not define how it counts 'quantum operations', and the speedups compare Nighthawk with IBM's own earlier runs rather than with the best classical methods."
+  ],
+  "author": "Quantum Research Center",
+  "published": "2026-11-12",
+  "status": "published",
+  "topic": "companies",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What was announced",
+      "paragraphs": [
+        "IBM used its Quantum Developer Conference on 11 November 2026 to describe the next revision of Nighthawk, its superconducting processor family whose qubits sit in a square lattice with each qubit coupled to its four neighbours. According to IBM's press release, Nighthawk r3 is designed to support 10,000 quantum operations on 520 programmable qubits, with 2,034 physical qubits in total and ten chip-to-chip interconnects that IBM calls l-couplers.",
+        "IBM says it plans to connect two Nighthawk r3 processors into a single 1,040-qubit system in 2027. The release's headline frames this as scaling beyond 1,000 qubits next year. Neither the release nor IBM's conference blog gives error rates, a delivery quarter, or a gate count for the linked system as a whole."
+      ],
+      "source_refs": [1, 2]
+    },
+    {
+      "heading": "What the current chip has shown",
+      "paragraphs": [
+        "The delivered hardware is Nighthawk r2, introduced in September. IBM says it runs circuits with more than 7,500 quantum operations on 120 qubits and produces up to 100,000 samples per second; Quantum Computing Report puts that at 25 times the sampling rate of IBM's Heron processors. IBM says clients and partners have run 34 billion circuits on it so far.",
+        "The release collects speedups reported by partners, all measured against earlier runs of the same workloads on Heron: up to 19 times overall, 15 times for E.ON's quantum machine-learning experiments on grid optimization, 12 times for an IBM and Oak Ridge simulation of a magnetic material, and 8 times for an Algorithmiq materials-dynamics circuit. Algorithmiq also estimates that leading tensor-network methods would need 240 times more memory to reach comparable accuracy on its new circuits, which is the only comparison in the announcement against classical simulation.",
+        "On scaling hardware, IBM reports linking two earlier Nighthawk r1 processors with four l-couplers. Its blog gives 99 percent average state-transfer fidelity with a best result of 99.3 percent; the release states a target of 99.9 percent. IBM also says two cryogenic modules were connected and cooled below 15 millikelvin in under five days."
+      ],
+      "stats": [
+        {"value": "120", "label": "qubits on Nighthawk r2, delivered"},
+        {"value": "520", "label": "programmable qubits planned for r3"},
+        {"value": "1,040", "label": "qubits in the planned two-chip system"}
+      ],
+      "source_refs": [1, 2, 3]
+    },
+    {
+      "heading": "How it compares with IBM's own roadmap",
+      "paragraphs": [
+        "IBM's public roadmap page, which still shows the earlier plan, says Nighthawk will run circuits of 7,500 gates in up to three 120-qubit modules in 2026, and that by 2028 its performance will allow circuits of up to 15,000 gates on up to 1,080 qubits. The new announcement moves a qubit count of that size, 1,040, to 2027, but with r3's 10,000-operation figure rather than 15,000. The 2026 roadmap's three linked modules have not been reported as running; the coupler result in the release joins two processors.",
+        "The fault-tolerant target is unchanged. IBM's conference blog says Starling, the error-corrected machine IBM plans for 2029, remains the goal; the roadmap describes it as 200 logical qubits running 100 million gates. Nighthawk is IBM's line for near-term, uncorrected computation, and its numbers count physical operations, not error-corrected ones."
+      ],
+      "table": {
+        "columns": ["System", "Status", "Qubits", "Operations"],
+        "rows": [
+          ["Nighthawk r2", "Delivered September 2026", "120", "more than 7,500"],
+          ["Nighthawk r3", "Planned for 2027", "520 programmable", "10,000"],
+          ["Two linked r3 chips", "Planned for 2027", "1,040", "not stated"],
+          ["Roadmap target", "2028", "up to 1,080", "up to 15,000"]
+        ],
+        "caption": "IBM's figures as stated in its 11 November release, conference blog and roadmap page. Operations are IBM's stated circuit sizes in 'quantum operations', which IBM does not define; Quantum Computing Report describes them as accurate two-qubit operations."
+      },
+      "source_refs": [1, 2, 4]
+    },
+    {
+      "heading": "How to read it",
+      "paragraphs": [
+        "Three cautions apply. First, r3 and the 1,040-qubit system are design targets; nothing about them has been measured. Second, IBM does not define how it counts the 7,500 or 10,000 'quantum operations', nor what error rate makes an operation count, so the figures cannot be compared directly with other companies' gate counts. Third, the gap between 520 programmable and 2,034 physical qubits is not explained in the release or blog; Quantum Computing Report lists r2 in the same way, as 120 programmable and 458 physical qubits.",
+        "The speedups are real improvements over IBM's previous generation, and the sampling rate matters for methods that need billions of shots. They are not claims of quantum advantage: apart from Algorithmiq's memory estimate, no result in the announcement is compared with the best classical algorithm. The test of the linked system will be whether a computation runs across the coupler with fidelity close to that of on-chip gates."
+      ],
+      "source_refs": [1, 2, 3]
+    }
+  ],
+  "sources": [
+    {
+      "title": "IBM Newsroom: IBM Quantum Nighthawk demonstrates new levels of speed and quality, with plans to scale beyond 1,000 qubits in 2027, 11 November 2026",
+      "url": "https://newsroom.ibm.com/2026-11-11-ibm-quantum-nighthawk-demonstrates-new-levels-of-speed-and-quality,-with-plans-to-scale-beyond-1,000-qubits-in-2027"
+    },
+    {
+      "title": "IBM Quantum blog: QDC 2026, 11 November 2026",
+      "url": "https://www.ibm.com/quantum/blog/qdc-2026"
+    },
+    {
+      "title": "Quantum Computing Report, IBM Unveils 520-Qubit Nighthawk r3 Processor, 1,040-Qubit Linked Roadmap, and Managed Hybrid Workflows at QDC 2026, 11 November 2026",
+      "url": "https://quantumcomputingreport.com/ibm-unveils-520-qubit-nighthawk-r3-processor-1040-qubit-linked-roadmap-and-managed-hybrid-workflows-at-qdc-2026/"
+    },
+    {
+      "title": "IBM Quantum roadmap",
+      "url": "https://www.ibm.com/roadmaps/quantum"
+    }
+  ],
+  "related_articles": [
+    "ibm-ornl-amd-error-correction-platform",
+    "beyond-the-qubit-count"
+  ],
+  "related_papers": []
+}

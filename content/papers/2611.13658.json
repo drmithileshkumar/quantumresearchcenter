@@ -1,0 +1,45 @@
+{
+  "id": "2611.13658",
+  "topic": "computing",
+  "title": "An efficient quantum algorithm for preparing uniform superpositions over arbitrary integer intervals",
+  "authors": "Alok Shukla; Prakash Vedula",
+  "submitted": "2026-11-10",
+  "version": "v1",
+  "kind": "Theory",
+  "verified_on": "2026-11-12",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "status": "approved",
+  "problem": "Many algorithms start from an equal superposition over a range of integers, \\(\\ket{\\psi_{a,M}}=M^{-1/2}\\sum_{x=a}^{a+M-1}\\ket x\\). The authors' earlier algorithm, used in Qiskit and Cirq, prepares ranges that start at zero; a general offset has needed a prefix state followed by a quantum adder, which costs on the order of \\(n^2\\) gates.",
+  "result": "An ancilla-free circuit of one-qubit and singly controlled one-qubit gates prepares \\(\\ket{\\psi_{a,M}}\\) exactly for every interval in an \\(n\\)-qubit register, with worst-case count exactly \\(5n-9\\) for \\(n\\ge3\\) in the paper's logical gate model, and at most \\(4\\lfloor\\log_2M\\rfloor+\\epsilon(a,M)\\), where \\(\\epsilon\\) counts set bits in the interval's high-order prefix and in two correction masks. A reflected variant and a chooser for the cheaper circuit are also given.",
+  "significance": "It removes the adder from interval state preparation, giving a linear worst case with explicit constants and a cost that is logarithmic in the interval length for well-placed intervals. The same circuits give XOR images of intervals and arithmetic progressions with power-of-two spacing.",
+  "limitations": "Each singly controlled rotation counts as one gate, with arbitrary real angles; CNOT counts and the cost of synthesizing rotations over a discrete gate set are not included, so fault-tolerant cost is not given. The \\(\\Omega(n)\\) lower bound only says every qubit must be touched, so optimality is up to a constant factor. The authors used generative AI tools to assist with language.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-12: the introduction and related work, Section 3 (endpoint split, common dyadic partition, paired-angle identity, XOR masks, aligned cases) and Section 7 (gate count and depth). Correctness proofs in Section 4, the reflected construction, the XOR-image extensions and the appendices were read at the level of their statements. The generic-case construction was reimplemented and checked by statevector simulation for all intervals with n = 3 to 8.",
+  "methods_source_section": "Sections 3.3–3.6 and 7",
+  "description": [
+    "In an \\(n\\)-qubit register with little-endian bits, the target is the uniform superposition over \\([a,a+M)\\). Starting from zero is easy when \\(M\\) is a power of two (Hadamards) and was solved in general by the authors' earlier prefix algorithm, which handles each set bit of \\(M\\) with one rotation and a cascade of controlled Hadamards.",
+    "The question is how to handle an arbitrary offset without arithmetic. The construction splits the interval at the midpoint \\(D\\) of the smallest aligned dyadic block containing it, giving a lower branch of length \\(L\\) that ends at \\(D\\) and an upper branch of length \\(R\\) that starts there; the qubit \\(q_k\\) that distinguishes them becomes a branch selector, rotated to weights \\(L/M\\) and \\(R/M\\).",
+    "Both branches are then prepared together on the lower \\(k\\) qubits using one shared set of dyadic blocks, read off the bits of \\(S=L\\vee R\\), with branch-dependent rotation angles. Final bit-flip masks, conditioned on the selector where they differ, move each branch to its place and mirror the lower one. On the interval \\([1,2^{n-1}+1)\\) every stage needs the full correction, and the count reaches \\(5n-9\\).",
+    "The paper's count is in logical gates with continuous angles; translating to CNOTs or to a fault-tolerant gate set, and lowering depth below the linear schedule given, are left open."
+  ],
+  "methods": [
+    {
+      "technique": "Common dyadic partition for two branches",
+      "explanation": "Preparing the two branches with separate prefix circuits would need different gate positions. Taking the bitwise OR of the branch lengths gives one set of block sizes that contains both, so the same rotations and Hadamard cascades serve both branches, with only the angles depending on the branch.",
+      "math": [
+        "Write \\(S=L\\vee R=\\sum_{j<h}2^{\\lambda_j}\\) with \\(\\lambda_0>\\dots>\\lambda_{h-1}\\). The blocks \\(B_j=[A_j,A_j+2^{\\lambda_j})\\), \\(A_j=\\sum_{i<j}2^{\\lambda_i}\\), partition \\([0,S)\\), and each branch length \\(m\\) selects those blocks whose bit is set in \\(m\\). With residual \\(r_j(m)\\), the rotation at stage \\(j\\) has angle \\(\\pi\\) if the block is skipped (all amplitude moves on) and otherwise \\[\\theta_j(m)=2\\arccos\\sqrt{2^{\\lambda_j}/r_j(m)},\\] which keeps a fraction \\(2^{\\lambda_j}/r_j\\) in the current block. Controlled Hadamards on the qubits below \\(\\lambda_j\\) then spread each selected block uniformly.",
+        "The result is uniform over the selected blocks, but they sit in the \"common\" coordinates. XOR masks fix this: \\(\\sigma_m=(S\\oplus m)\\wedge(2^k-2^{v_m+1})\\), where \\(v_m\\) is the number of trailing zeros of \\(m\\), maps the selected blocks onto \\([0,m)\\), and complementing all \\(k\\) bits mirrors the lower branch into \\([2^k-L,2^k)\\). Bits below \\(v_m\\) are already in \\(\\ket+\\) and can be dropped. Editorial check: for \\([3,11)\\), \\(L=5\\), \\(R=3\\), \\(S=7\\), blocks \\([0,4)\\), \\([4,6)\\), \\([6,7)\\); the simulation reproduces the target exactly."
+      ],
+      "transfer": "When two or more branches of a superposition need structurally similar but different circuits, merge their parameters (here by bitwise OR) into one gate skeleton, let only angles vary by branch, and correct coordinates afterwards with cheap Pauli masks."
+    },
+    {
+      "technique": "Three-gate paired rotations on a known-zero target",
+      "explanation": "Applying different angles in the two branches would normally need a rotation controlled on both the selector and the previous stage, a doubly controlled gate. Because the target qubit is still in \\(\\ket0\\) when its rotation is applied, a controlled-\\(Z\\) can flip the sign of a rotation angle instead.",
+      "math": [
+        "Use \\(Z R_y(\\alpha)\\ket0=R_y(-\\alpha)\\ket0\\). With \\(\\Delta=\\theta_1-\\theta_0\\) and \\(\\bar\\theta=(\\theta_0+\\theta_1)/2\\), apply \\(R_y(-\\Delta/2)\\) controlled on \\(d=1\\), then \\(Z\\) controlled on the selector \\(c=1\\), then \\(R_y(\\bar\\theta)\\) controlled on \\(d=1\\). For \\(c=0,d=1\\) the target gets \\(R_y(\\bar\\theta-\\Delta/2)\\ket0=R_y(\\theta_0)\\ket0\\); for \\(c=1,d=1\\) it gets \\[R_y(\\bar\\theta)\\,Z\\,R_y(-\\Delta/2)\\ket0=R_y(\\bar\\theta+\\Delta/2)\\ket0=R_y(\\theta_1)\\ket0;\\] for \\(d=0\\) the \\(Z\\) acts on \\(\\ket0\\) and does nothing.",
+        "Counting: the selector rotation, \\(v\\) Hadamards, at most two gates at the first stage, at most three at each of up to \\(k-2\\) later stages, \\(\\lambda_0-v\\le k-1\\) controlled Hadamards, at most \\(k\\) mask gates and at most \\(n-k-1\\) prefix flips give \\(4k+n-5\\le5n-9\\). Editorial check: over all intervals of the generic type, the maximum count found in simulation is \\(6,11,16,21,26,31\\) for \\(n=3,\\dots,8\\), exactly \\(5n-9\\)."
+      ],
+      "transfer": "In state preparation, track which qubits are still in \\(\\ket0\\): on such targets, branch-dependent rotations can be built from singly controlled gates plus a controlled \\(Z\\), avoiding multi-controlled rotations entirely."
+    }
+  ],
+  "approved_on": "2026-11-12"
+}

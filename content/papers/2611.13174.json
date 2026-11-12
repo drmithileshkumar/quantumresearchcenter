@@ -1,0 +1,45 @@
+{
+  "id": "2611.13174",
+  "topic": "information",
+  "title": "How wide must an eavesdropper be? Leakage of a toric-code logical bit to a strip and the Nishimori point",
+  "authors": "Konstantinos Karagiannis",
+  "submitted": "2026-11-09",
+  "version": "v1",
+  "kind": "Theory and experiment",
+  "verified_on": "2026-11-12",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "status": "approved",
+  "problem": "Fault-tolerant machines hand pieces of each logical qubit to separate decoder modules and share readout lines whose crosstalk can expose other qubits' outcomes. Without noise, a region of a topological code learns the logical bit completely or not at all, depending on whether it contains a logical operator. With noise, nobody had quantified how much a region learns.",
+  "result": "For any region \\(A\\) and any Pauli noise, including correlated noise, the optimal advantage in distinguishing the two logical states from \\(A\\) is exactly \\(\\epsilon_A=1-2P^{\\mathrm{ML}}_{\\mathrm{fail}}(A)\\), the performance of maximum-likelihood decoding confined to \\(A\\). A region missing one column learns nothing at any noise level; one and two rows both give \\((1-2q)^d\\); below threshold a strip needs width only of order \\(\\ln d\\) to learn the bit, and the strip's threshold is the Nishimori point of the random-bond Ising model.",
+  "significance": "It turns a security question about partitioned decoding and shared readout into a decoding problem, with simple design rules: every decoder window, feedline group or colluding union must miss a full column (and row for the other basis). Noise is a weak defence: at a flip rate of \\(10^{-3}\\), one spanning row still gives half the maximal advantage at \\(d\\approx350\\).",
+  "limitations": "The threat model is passive: the observer sees data-qubit outcomes in a region at one readout. Threshold numerics place the strip transition at \\(0.105\\)–\\(0.108\\), a few thousandths below \\(p_N=0.1094\\), attributed to finite-width effects. The IBM Heron runs emulate the adversary offline on measured data; they are not a physical side-channel attack. The work was carried out with extensive assistance from Claude, which derived the main identity and strip results under the author's direction, wrote the code and drafted the text; the author ran the hardware experiments and reviewed all results.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-12: Sections 1–6 (setting, threat model, Theorem 1, strip results, width scaling, design rules) and the AI-use statement. The depolarizing analysis (Section 7) and the hardware section (Section 8) were read at the level of their conclusions. Corollary 3 and the jump at width three were checked by brute-force decoding on a distance-3 torus, and the d ≈ 346 figure from the one-row formula.",
+  "methods_source_section": "Sections 3–4 and 6",
+  "description": [
+    "Take the toric code on a \\(d\\times d\\) torus with qubits on edges; the stored bit is the eigenvalue of \\(Z_0\\), a product of \\(Z\\) along a horizontal row. Noise acts as a Pauli channel, and an observer holds the qubits of a region \\(A\\). Their best guess of the bit succeeds with probability \\((1+\\epsilon_A)/2\\), where \\(\\epsilon_A\\) is the trace distance between the two reduced states.",
+    "The question is how \\(\\epsilon_A\\) depends on the region's shape and the noise, in particular for a strip of \\(w\\) rows that wraps around the torus and so contains \\(Z_0\\).",
+    "Theorem 1 gives \\(\\epsilon_A\\) as the advantage of the optimal decoder that measures the stabilizers and the logical string inside \\(A\\). Consequences: regions without a logical representative learn nothing for any Pauli noise; a strip is a cylinder surface code of distance \\(w\\) against logical-flipping errors, so \\(1-\\epsilon=\\Theta(d\\,p^{\\lceil w/2\\rceil})\\); and \\(\\epsilon\\) decays like \\(e^{-d\\varphi(w,p)}\\), with transfer matrices up to \\(w=16\\) locating the transition. On two IBM Heron processors (\\(d=3,5\\)) the predicted jump at \\(w=3\\) appears, and non-uniform qubit errors let a trained attacker gain from a second row that uniform noise makes useless.",
+    "Open are adversaries that act on the state, leakage accumulated over the roughly \\(d\\) repeated seam measurements of lattice surgery (for \\(k\\) independent exposures the advantage grows toward one), and other code families."
+  ],
+  "methods": [
+    {
+      "technique": "Regional leakage equals local maximum-likelihood decoding",
+      "explanation": "Trace distance between reduced states is in general a quantum optimization. For stabilizer states under Pauli noise, all relevant operators inside the region commute, so the problem becomes classical: measure them and decode.",
+      "math": [
+        "A Pauli channel multiplies each stabilizer element \\(g\\) by its average character \\(c(g)=\\sum_EP(E)(-1)^{[E,g]}\\). The reduced state on \\(A\\) is \\[\\rho_A(b)=2^{-|A|}\\sum_{g\\in G_A}c(g)(-1)^{b[g,X_0]}g,\\] where \\(G_A\\) are stabilizer elements (including the logical \\(L\\)) supported in \\(A\\). They commute, so both states are diagonal in their joint eigenbasis; the trace distance is the total-variation distance of the outcome distributions of the generators and \\(L\\), and the optimal guess from those outcomes is exactly maximum-likelihood decoding: \\(\\epsilon_A=1-2P^{\\mathrm{ML}}_{\\mathrm{fail}}(A)\\). Without a representative of \\(Z_0\\) in \\(A\\), no term depends on \\(b\\) and \\(\\epsilon_A=0\\).",
+        "A region missing every horizontal edge of one column contains no \\(Z_0\\) representative, because \\(X_0\\) times stars can be moved onto that column and every \\(Z_0\\) representative must anticommute with it, so it must touch the column."
+      ],
+      "transfer": "To bound what a subset of qubits reveals about encoded data under Pauli noise, compute the decoding failure rate of a decoder restricted to that subset; for security engineering, place boundaries so that no allowed coalition of regions contains a logical representative."
+    },
+    {
+      "technique": "Two rows learn no more than one",
+      "explanation": "Adding a second row adds plaquette checks, which looks like useful redundancy. Under i.i.d. noise it is useless, because a flip in row 0 and a flip in row 1 of the same column trigger the same check, and only the row-0 flip affects the logical.",
+      "math": [
+        "A single row holds only \\(Z_0\\), so \\(\\epsilon_1=|c(Z_0)|=(1-2q)^d\\) by the piling-up lemma. For two rows, let \\(f_j=e_{h(0,j)}\\oplus e_{h(1,j)}\\). If any \\(f_j=1\\), the row-0 parity is uniformly random given the syndrome; if all \\(f_j=0\\) its bias is \\(\\prod_j\\frac{(1-q)^2-q^2}{(1-q)^2+q^2}\\). Averaging, \\[\\epsilon_2=\\big((1-q)^2+q^2\\big)^d\\Big(\\frac{1-2q}{(1-q)^2+q^2}\\Big)^d=(1-2q)^d.\\]",
+        "Editorial check: brute-force maximum-likelihood decoding of strips on a \\(d=3\\) torus gives \\(\\epsilon=0.729,0.729,0.900\\) for \\(w=1,2,3\\) at \\(q=0.05\\), matching \\((1-2q)^3=0.729\\) for the first two and showing the jump at \\(w=3\\). With \\(\\epsilon_1=(1-2p)^d\\), half advantage at \\(p=10^{-3}\\) needs \\(d=\\ln2/(-\\ln0.998)\\approx346\\)."
+      ],
+      "transfer": "Before adding checks to strengthen a decoder or an attacker, ask whether the new checks distinguish errors that act differently on the logical; checks that fire identically for logically different errors carry no information about the encoded bit."
+    }
+  ],
+  "approved_on": "2026-11-12"
+}

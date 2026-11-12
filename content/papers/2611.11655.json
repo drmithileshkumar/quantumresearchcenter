@@ -1,0 +1,47 @@
+{
+  "id": "2611.11655",
+  "topic": "foundations",
+  "title": "Lieb-Robinson bound for one-dimensional continuum fermions",
+  "authors": "Marius Lemm; Hailun Lu; Harman Preet Singh",
+  "submitted": "2026-11-08",
+  "version": "v1",
+  "kind": "Theory",
+  "verified_on": "2026-11-12",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "status": "approved",
+  "problem": "Lieb–Robinson bounds limit how fast a local disturbance spreads, and they underpin results on gapped phases, adiabatic theorems, information transfer and efficient simulation. They have been proved for spins, lattice fermions and, recently, Bose–Hubbard models, but never for a standard continuum Hamiltonian of particles with kinetic energy \\(-\\partial^2\\) and a pair interaction, because a single continuum particle has unbounded group velocity.",
+  "result": "For fermions on a ring of length \\(L\\) with a smooth, nonnegative, finite-range repulsion, the anticommutator of an evolved field operator near \\(x\\) with one near \\(y\\), weighted by the initial state, is at most \\(C\\,e^{c|t|}\\) times any inverse power of the distance \\(|x-y|\\), provided the state has finite local moments of particle number and energy. The constants do not depend on \\(L\\), \\(t\\) or \\(\\rho\\), and the result extends to polynomial observables.",
+  "significance": "It is the first Lieb–Robinson bound for a realistic continuum many-body system, answering a gap Bratteli and Robinson flagged in 1997. The proof builds a general bridge: chop space into overlapping \"pseudosites\", each an infinite-dimensional Fock space, and then run the lattice-boson strategy of controlling local occupation before truncating. Thermal states and smooth Slater determinants satisfy the moment condition.",
+  "limitations": "The light cone is exponentially bent (effective velocity growing like \\(e^{ct}\\)) and the spatial decay is polynomial of any fixed order, not exponential. The bound holds in a state-dependent norm, not operator norm. The argument is one-dimensional because it uses a strong form of Pauli exclusion; in higher dimensions, or for bosons, the moment estimates do not close. Applications are deferred. The authors acknowledge help from ChatGPT (6 Astra) in finding and checking arguments and in writing.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-12: the introduction and statement of results (Section 1), the MALO definitions and key propositions (Section 2), and the exclusion lemma of Section 4.1. The detailed propagation estimates (Sections 3–4), the initial comparison (Section 5) and the pseudolattice truncation (Section 6) were not read line by line. The mode count and averaging inequality in the exclusion lemma were checked numerically.",
+  "methods_source_section": "Sections 1.5, 2.1–2.2 and 4.1",
+  "description": [
+    "The system is spinless fermions on the circle \\(\\mathbb T_L\\) with Hamiltonian \\[H=\\mathrm d\\Gamma(-\\partial^2)+\\tfrac12\\int W(x-y)\\,a^*_ya^*_xa_xa_y,\\] where \\(W\\) is smooth, even, nonnegative and vanishes beyond a fixed range \\(r_0\\). On a lattice the hopping term moves a particle at most at a bounded speed; here a particle of momentum \\(k\\) moves at speed \\(2k\\), with no upper limit, so no uniform light cone can hold for arbitrary states.",
+    "The question is whether a light cone still holds for physically reasonable initial states, with constants independent of system size. The authors measure reasonableness by \\[M_p(\\rho)=1+\\max_j\\mathrm{Tr}\\,\\rho\\big(\\mathcal E_j^p+\\mathcal N_{B_j}^p\\big),\\] the largest \\(p\\)-th moment of local energy and local particle number over unit-spaced windows. Smooth quasi-free states, including free thermal states and Fermi seas, have bounded moments of all orders uniformly in \\(L\\).",
+    "The main theorem states that for smooth test functions supported near \\(x\\) and \\(y\\), and every \\(k\\), \\[\\big\\|\\{\\tau_t(a^\\sigma(f_x)),a^\\nu(f_y)\\}\\rho^{1/2}\\big\\|_2\\le C_kM_{2k+6}(\\rho)^{1/2}\\frac{e^{c_k|t|}}{\\langle x-y\\rangle^k},\\] with \\(C_k,c_k\\) independent of \\(L\\), \\(t\\) and \\(\\rho\\). The argument has three parts: a family of observables (MALOs) that grows at most exponentially in time, a comparison showing the initial moments control them, and a truncation of the pseudosite modes to a lattice-fermion system where standard locality arguments apply.",
+    "Open are higher dimensions, bosons, exponential spatial decay, and the applications that motivate the work: stability of gapped phases, adiabatic theorems and simulation algorithms for continuum systems."
+  ],
+  "methods": [
+    {
+      "technique": "Pseudosite localization and momentum-adapted weights",
+      "explanation": "To use lattice tools, space is cut into overlapping intervals, each carrying its own Fock space; the price is infinitely many modes per site. A weighted count of mode energies (the MALO) is then designed to control all energies near a reference site and only high energies far away, so that it both bounds the truncation error and closes under time evolution.",
+      "math": [
+        "A smooth partition with \\(\\sum_j\\chi_j^2=1\\) defines the isometry \\(\\psi\\mapsto(\\chi_j\\psi)_j\\) into \\(\\bigoplus_jL^2(I_j)\\), with \\(I_j=B_2(j)\\); its second quantization \\(\\mathcal L\\) maps the true Fock space into a \"pseudolattice\" Fock space. Because \\(\\mathcal L^*\\mathcal L=1\\) and \\(\\mathcal L^*a(\\mathcal L_1f)\\mathcal L=a(f)\\), field operators transfer exactly; the kinetic term becomes on-site Laplacians plus nearest-neighbour boundary couplings (via the IMS formula), and the interaction couples sites within range \\(r_0\\).",
+        "On each interval the periodic Laplacian \\(T_j\\) has eigenvalues \\((\\pi n/2)^2\\). The MALO centred at \\(j_0\\) is \\[A_{s,j_0}=\\mathcal L^*\\,\\mathrm d\\Gamma\\Big(\\bigoplus_jg_{s,j-j_0}(T_j)\\Big)\\mathcal L,\\qquad g_{s,j}(\\lambda)=\\frac{(1+\\lambda)^{s+1}}{\\langle j\\rangle^2+\\lambda}.\\] Near \\(j_0\\) this behaves like \\((1+\\lambda)^s\\), controlling all derivatives up to order \\(s\\); far away, at fixed \\(\\lambda\\), it decays like \\(\\langle j-j_0\\rangle^{-2}(1+\\lambda)^{s+1}\\), so its sum over sites converges at the cost of one derivative. The authors prove \\(e^{itH}A_{s,j_0}e^{-itH}\\le e^{C_s|t|}A_{s,j_0}\\) and \\(\\max_j\\mathrm{Tr}\\,\\rho A_{s,j}\\le C_sM_p(\\rho)\\) for the smallest even \\(p\\ge s+1\\).",
+        "Editorial reading: the weight links scales the way the physics requires. Energy can pile up near \\(j_0\\) only if many or fast particles arrive from far away, and the weight charges distant sites only for high momenta, which is exactly what fast arrivals need."
+      ],
+      "transfer": "For locality questions in continuum or unbounded-boson systems, map to overlapping local Fock spaces and look for a single positive observable whose weight trades spatial distance against energy; if its Heisenberg evolution satisfies a Gronwall inequality, mode truncation and lattice Lieb–Robinson machinery become available."
+    },
+    {
+      "technique": "Pauli exclusion as a moment inequality",
+      "explanation": "Closing the Gronwall inequality requires controlling powers of the local particle number by powers of local kinetic energy. For fermions in one dimension, exclusion forces \\(n\\) particles in a window to occupy \\(n\\) distinct modes, whose energies grow fast enough to pay for any power of \\(n\\).",
+      "math": [
+        "On a set \\(\\mathcal C\\) of intervals of length 4, the number of modes with energy at most \\(\\Lambda\\) is \\[N(\\Lambda)=|\\mathcal C|\\big(1+2\\lfloor2\\sqrt\\Lambda/\\pi\\rfloor\\big)\\le C(1+\\Lambda)^{1/2}.\\] List the energies of \\(n\\) occupied modes as \\(\\lambda_1\\le\\dots\\le\\lambda_n\\); since no mode repeats, \\(i\\le N(\\lambda_i)\\), so \\((1+\\lambda_i)^{\\alpha/2}\\ge c\\,i^\\alpha\\) and the average of \\((1+\\lambda_i)^{\\alpha/2}\\) is at least \\(c'n^\\alpha\\).",
+        "For nondecreasing sequences, Chebyshev's sum inequality reads \\[n\\sum_ia_ib_i-\\sum_ia_i\\sum_ib_i=\\sum_{i<j}(a_j-a_i)(b_j-b_i)\\ge0.\\] With \\(a_i=(1+\\lambda_i)^{\\alpha/2}\\) and \\(b_i=f(\\lambda_i)\\) for any nondecreasing \\(f\\ge0\\), this gives \\[\\mathcal N_{\\mathcal C}^{\\alpha}\\,\\mathrm d\\Gamma(f(T))\\le C\\,\\mathrm d\\Gamma\\big((1+T)^{\\alpha/2}f(T)\\big).\\]",
+        "Editorial note on dimension: in \\(d\\) dimensions the mode count grows like \\(\\Lambda^{d/2}\\), so the same argument needs \\((1+T)^{\\alpha d/2}\\), losing a factor \\(d\\) in the derivative order; that loss is what stops the differential inequality from closing when \\(d>1\\), as the authors explain."
+      ],
+      "transfer": "Whenever fermion number must be traded for energy, count modes below an energy cutoff and combine with Chebyshev's sum inequality; the resulting operator inequality gives clean, dimension-dependent exchange rates between particle-number moments and kinetic moments."
+    }
+  ],
+  "approved_on": "2026-11-12"
+}

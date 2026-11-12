@@ -437,7 +437,32 @@ def verified_programs():
     return svg(''.join(out))
 
 
+def nighthawk_link():
+    """Two large square-lattice chips joined by a row of couplers, beside a smaller chip."""
+    out = [grid(0, 0, W, H, 40)]
+    def chip(x0, y0, nx, ny, s, cls_a, cls_b):
+        parts = [rect(x0 - 22, y0 - 22, (nx - 1) * s + 44, (ny - 1) * s + 44, 'fig-box', 10)]
+        for i in range(nx):
+            for j in range(ny):
+                x, y = x0 + i * s, y0 + j * s
+                if i < nx - 1: parts.append(line(x, y, x + s, y, 'fig-link'))
+                if j < ny - 1: parts.append(line(x, y, x, y + s, 'fig-link'))
+        for i in range(nx):
+            for j in range(ny):
+                parts.append(circle(x0 + i * s, y0 + j * s, 6, cls_a if (i + j) % 2 else cls_b))
+        return parts
+    out += chip(70, 130, 5, 5, 34, 'fig-fill-muted', 'fig-node')
+    out += chip(330, 70, 9, 9, 33, 'fig-fill-1', 'fig-node')
+    out += chip(800, 70, 9, 9, 33, 'fig-fill-1', 'fig-node')
+    out.append(rect(640, 60, 140, 285, 'fig-wash-2', 6))
+    for k in range(10):
+        y = 82 + k * 27
+        out.append(path([(612, y), (650, y), (672, y - 8), (748, y - 8), (770, y), (808, y)], 'fig-line-2'))
+    return svg(''.join(out))
+
+
 BANNERS = {
+    'ibm-nighthawk-r3-1040-qubit-plan': nighthawk_link,
     'google-ai-formally-verified-quantum-programs': verified_programs,
     'mip-star-equals-re-verified': mip_re,
     'alice-bob-rsa-2048-cat-qubits': cat_qubits,

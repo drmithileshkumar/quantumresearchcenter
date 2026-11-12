@@ -1,0 +1,45 @@
+{
+  "id": "2611.12746",
+  "topic": "computing",
+  "title": "EQP ⊆ IP Does Not Relativize",
+  "authors": "Sinan Oral; Supartha Podder",
+  "submitted": "2026-11-09",
+  "version": "v1",
+  "kind": "Theory",
+  "verified_on": "2026-11-12",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "status": "approved",
+  "problem": "Every efficient quantum computation can be checked by a classical verifier talking to an all-powerful prover, because \\(\\mathsf{BQP}\\subseteq\\mathsf{PSPACE}=\\mathsf{IP}\\). Bouland, Huang, Natarajan, Shalit and Tal recently showed that this containment fails relative to some oracle. The question here is whether even exact quantum computation, which never errs, already escapes interactive proofs relative to an oracle.",
+  "result": "There is a recursive oracle \\(O\\) and a unary language \\(L\\) with \\[L\\in\\mathsf{EQP}^O,\\qquad L\\notin\\mathsf{IP}^O,\\qquad L\\notin\\mathsf{PH}^O.\\] The quantum algorithm makes three oracle queries and is exact over the gate set Hadamard, \\(T\\), CNOT. The hard problem is Forrelation with the promise that the correlation is exactly \\(+1/2\\) or \\(-1/2\\).",
+  "significance": "It shows that the non-relativizing step needed to put quantum computation inside \\(\\mathsf{IP}\\) is needed even for zero-error algorithms with only three queries; any proof that \\(\\mathsf{EQP}\\subseteq\\mathsf{IP}\\) must use techniques such as arithmetization. The technical tool, repairing a hard distribution so it lands exactly on promised values without becoming detectable, is reusable for other exact-promise lower bounds.",
+  "limitations": "This is an oracle result: unrelativized, \\(\\mathsf{EQP}\\subseteq\\mathsf{IP}\\) is true. The indistinguishability bound decays like \\(2^{-n/12}\\) and holds only for sufficiently large input lengths, which are restricted to multiples of four. The authors state that AI assistance (ChatGPT 6 Astra and 6.1 Sol) contributed substantially; ChatGPT 6.1 Sol generated the count-repair construction and its proof, which the authors verified, simplified and developed.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-12: the introduction and technical overview, Sections 2–3 (promise, test families, the exact three-query algorithm) and the AI disclosure. The constructions and estimates of Sections 4–8 and the oracle diagonalization of Section 9 were read only at the level of their statements. The exact quantum algorithm was simulated on promised inputs with n = 4.",
+  "methods_source_section": "Sections 1.1–1.2, 3.1 and 4.4–5",
+  "description": [
+    "For Boolean functions \\(f,g:\\{0,1\\}^n\\to\\{\\pm1\\}\\) with \\(D=2^n\\), the Forrelation \\(\\mathrm{forr}(f,g)=D^{-1}f^THg\\) measures how well \\(g\\) correlates with the Fourier transform of \\(f\\). A quantum computer estimates it with one query; classical machines need many. The paper fixes the promise \\(\\mathrm{forr}(f,g)\\in\\{+1/2,-1/2\\}\\) and encodes \\(f\\) and \\(g\\) as oracle bits.",
+    "The question is whether a polynomial-time classical verifier interacting with an unbounded prover, or a polynomial-hierarchy predicate, can decide which promise holds when both only query the oracle.",
+    "The answer is no. For each sign the authors construct a distribution on inputs satisfying the promise exactly, and show that the two are indistinguishable to verifiers with polynomial resources (represented as convex average–maximum functions) and to constant-depth circuits of quasi-polynomial size, with advantage \\(O(q(n)^2n^{1/4}2^{-n/12})\\). A diagonalization over all verifiers and predicates, using exhaustive search over the decidable promise sets, then fixes the oracle bit by bit.",
+    "Open problems include separating \\(\\mathsf{EQP}\\) from \\(\\mathsf{IP}\\) with fewer queries or with a single query, and finding other natural exact promises for which the same repair works."
+  ],
+  "methods": [
+    {
+      "technique": "Exact amplitude amplification at promised values",
+      "explanation": "A standard interference test accepts with probability \\((1+\\mathrm{forr})/2\\), which is \\(3/4\\) or \\(1/4\\) under the promise, not 0 or 1. Choosing the promise \\(\\pm1/2\\) makes one amplitude-amplification step rotate these to certainty.",
+      "math": [
+        "Prepare \\((\\ket0\\ket{u_f}+\\ket1H\\ket{u_g})/\\sqrt2\\) with one query tagged by the branch qubit, where \\(\\ket{u_h}=D^{-1/2}\\sum_xh(x)\\ket x\\), and apply a Hadamard to the branch qubit. Outcome 0 has probability \\(\\tfrac14\\|\\ket{u_f}+H\\ket{u_g}\\|^2=p=(1+\\mathrm{forr})/2\\).",
+        "Write \\(p=\\sin^2\\theta\\). One amplification iterate uses the test and its inverse once each (two more queries) and maps \\(\\theta\\) to \\(3\\theta\\), so the good outcome now has probability \\[p_{\\mathrm{final}}=\\sin^23\\theta=p(3-4p)^2.\\] For \\(p=3/4\\), \\(\\theta=\\pi/3\\) and \\(p_{\\mathrm{final}}=0\\); for \\(p=1/4\\), \\(\\theta=\\pi/6\\) and \\(p_{\\mathrm{final}}=1\\). Editorial check: simulating the circuit on promised inputs with \\(n=4\\) gives these two values to machine precision."
+      ],
+      "transfer": "When a decision problem has two promised acceptance probabilities, pick the promise values so that a fixed number of amplification rounds maps them to 0 and 1; this converts bounded-error algorithms into exact ones without changing the query order."
+    },
+    {
+      "technique": "Count repair with a shared random ordering",
+      "explanation": "Lower bounds need hard distributions supported exactly on \\(\\mathrm{forr}=\\pm1/2\\); conditioning a Gaussian-type hard distribution on an exact value can destroy indistinguishability. The authors instead fix the number of positive signs in groups of coordinates with equal weight, keeping their positions uniformly random, and show this repair cannot be detected.",
+      "math": [
+        "Fix \\(f\\) and let \\(u=\\sqrt D\\,Hf\\), an integer vector. The positive promise is the integer equation \\(\\sum_iu_ig_i=D^{3/2}/2\\). Coordinates with the same value \\(u_i=w\\) form a bin; if a bin of size \\(N\\) has \\(K\\) positive signs it contributes \\(w(2K-N)\\) regardless of which coordinates they are. In the reference law \\(g=\\mathrm{sgn}(aHf+bZ)\\), conditional on \\(f\\), signs in a bin are independent and identically distributed, so given \\(K\\) their positions are uniform. Prescribing the counts \\(K\\) in a few bins enforces the equation exactly while leaving positions random.",
+        "To compare with the unrepaired law, order each bin randomly once and let the reference sample mark the first \\(\\ell\\) positions positive (\\(\\ell\\) binomial) and the repaired sample the first \\(K\\). The positive sets are nested and differ in \\(|\\ell-K|\\) positions spread uniformly. For convex tests, conditional Jensen plus a Lipschitz bound in the infinity norm controls the difference; for Boolean circuits, leaving a narrow window around each threshold undecided gives a random restriction that both samples extend with high probability, so circuits that collapse under random restrictions cannot tell them apart."
+      ],
+      "transfer": "To build hard distributions on an exact level set of a linear statistic, group coordinates by coefficient, fix counts per group and randomize positions; couple to the unconstrained distribution through a shared ordering (the product-to-slice coupling), which turns the repair into a small, uniformly spread perturbation."
+    }
+  ],
+  "approved_on": "2026-11-12"
+}

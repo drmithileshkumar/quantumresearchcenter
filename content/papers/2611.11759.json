@@ -1,0 +1,46 @@
+{
+  "id": "2611.11759",
+  "topic": "foundations",
+  "title": "An optimal quantum strategy for the 2-hat game",
+  "authors": "Georgios Baziotis; Sang-Jun Park; Sang-Gyun Youn",
+  "submitted": "2026-11-09",
+  "version": "v1",
+  "kind": "Theory and computer-assisted proof",
+  "verified_on": "2026-11-12",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "status": "approved",
+  "problem": "In the two-player hat game each player sees the other's random hat colour and must guess their own colour or pass; the team wins if someone guesses and nobody guesses wrong. Classically the best is \\(1/2\\). A strategy built for the stricter Feige game already showed that entanglement helps, reaching \\(109/192\\approx0.5677\\), but the true quantum optimum, and whether infinite-dimensional commuting-operator strategies could beat finite-dimensional ones, were unknown.",
+  "result": "The quantum and commuting-operator values coincide: \\[\\omega_{\\mathrm q}(H_2)=\\omega_{\\mathrm{qc}}(H_2)=\\frac{15+\\sqrt{33}}{36}\\approx0.5762.\\] The value is attained by a non-maximally entangled pair of qutrits with rank-one projective measurements, and a matching upper bound comes from an exact sum-of-squares certificate. The no-signalling value is \\(2/3\\), and for \\(n\\) players no-signalling strategies win with probability at most \\(n/(n+1)\\), so for \\(n=2^m-1\\) nothing beats the classical Hamming-code strategy.",
+  "significance": "It is one of few nonlocal games whose quantum value is known in closed form with an irrational optimum, and the proof shows how a symmetry group shrinks the certificate search enough to make it exact. It also settles the hat game's place in the hierarchy \\(1/2<0.5762<2/3\\) and rules out any advantage, quantum or even no-signalling, for the infinitely many player numbers where perfect Hamming codes exist.",
+  "limitations": "The upper bound rests on a numerically found certificate (five positive semidefinite blocks) that the authors verify by exact calculation; it is specific to two players. Whether four or more players gain anything from entanglement is left open; for \\(n=4\\) the bounds are only \\(3/4\\le\\omega_{\\mathrm q}\\le4/5\\). The authors used OpenAI's GPT-6 Astra to find candidate strategy parameters and candidate certificate blocks, which they then simplified and verified.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-12: the introduction and AI disclosure, Sections 2–5 (strategy, Bell operator, D8 symmetry reduction, certificate statement, no-signalling bound). The appendices with the explicit certificate blocks were not checked entry by entry. The strategy's value, the no-signalling and classical values, and the upper bound (by an independent level-1+AB NPA computation) were checked numerically.",
+  "methods_source_section": "Sections 3, 4.1–4.3 and 5",
+  "description": [
+    "Alice and Bob each wear a hat whose colour is an independent fair bit; Alice sees Bob's colour \\(y\\), Bob sees Alice's colour \\(x\\), and each answers \\(0\\), \\(1\\) or pass. With no communication, the team wins on the outputs \\((x,\\text{pass})\\), \\((\\text{pass},y)\\) and \\((x,y)\\). Any fixed strategy loses half the time: one player always guessing gets exactly \\(1/2\\), and nothing classical does better.",
+    "The question is the exact value of this two-input, three-output game when the players share entanglement, both in the finite-dimensional tensor-product model and in the commuting-operator model, where the two could in principle differ.",
+    "The optimal strategy shares \\(\\ket\\Omega=\\alpha(\\ket{00}+\\ket{11}+t\\ket{22})\\) with \\(t=\\sqrt{(7-\\sqrt{33})/2}\\approx0.785\\), and each player measures in one of two real orthonormal bases of \\(\\mathbb C^3\\). On every hat configuration, the two single-guess events each occur with probability \\((55+9\\sqrt{33})/396\\approx0.269\\) and the double correct guess with \\((55-7\\sqrt{33})/396\\approx0.037\\); summed, they give \\((15+\\sqrt{33})/36\\). For the upper bound the authors write \\(\\lambda I-\\Phi\\), where \\(\\Phi\\) is the game's Bell operator, as \\(\\mathbf w^*Z\\mathbf w\\) with \\(Z\\succeq0\\) over 25 operator words (the identity, single projectors, and Alice–Bob products), which shows no commuting-operator strategy exceeds \\(\\lambda\\).",
+    "A simple counting argument gives the no-signalling bound \\(n/(n+1)\\) for \\(n\\) players, and an explicit correlation reaches \\(2/3\\) for two. Open questions are whether entanglement helps at \\(n=4\\), the first player number between Hamming-code cases, and how the gap between quantum and no-signalling values behaves for larger \\(n\\)."
+  ],
+  "methods": [
+    {
+      "technique": "Symmetry-reduced sum-of-squares certificates",
+      "explanation": "Proving that no strategy, of any dimension, beats a value needs an operator inequality \\(\\Phi\\le\\lambda I\\) valid in the universal algebra of commuting measurements. The authors search for it as a positive semidefinite Gram matrix and use the game's symmetries to make the search small enough to solve exactly.",
+      "math": [
+        "Eliminate the pass projectors with \\(\\sum_aM^y_a=I\\), so the Bell operator involves only the guess projectors \\(M^y_a,N^x_b\\). If \\[\\lambda I-\\Phi=\\sum_{i,j}z_{ij}\\,w_i^*w_j,\\qquad Z=(z_{ij})\\succeq0,\\] then factoring \\(Z=R^TR\\) writes \\(\\lambda I-\\Phi\\) as a sum of squares \\(\\sum_kc_k^*c_k\\), whose expectation in any state is nonnegative. Matching coefficients of each reduced word turns this into linear equations on \\(Z\\).",
+        "Swapping colours for one player, swapping the players, and their compositions are automorphisms that fix \\(\\Phi\\) and permute the 25 words; they generate the dihedral group \\(D_8\\). Averaging any certificate over the group gives another certificate, so \\(Z\\) can be taken invariant, and Schur's lemma then block-diagonalizes it into blocks of sizes 5, 2, 4, 2 and 6 (the last twice). That cuts the unknowns from 325 to 52, few enough to guess closed forms from numerics and verify them exactly.",
+        "Editorial check: the moment-matrix relaxation dual to this certificate (NPA level 1+AB over the same 25 words) solved numerically gives \\(0.576238\\), equal to \\((15+\\sqrt{33})/36\\) to solver precision."
+      ],
+      "transfer": "For any nonlocal game with a symmetry group acting on questions and answers, average the SDP certificate over the group and block-diagonalize by irreducible representations before trying to make it exact; the reduction often turns a numerical bound into a provable one."
+    },
+    {
+      "technique": "Union bound with flipped configurations for no-signalling games",
+      "explanation": "The \\(n/(n+1)\\) bound holds for every strategy that cannot signal, so it bounds quantum strategies without any operator algebra. It uses only the fact that a player's own output cannot depend on their own hat, which they do not see.",
+      "math": [
+        "Let \\(s(x)\\) be the winning probability on configuration \\(x\\in\\{0,1\\}^n\\) and \\(x^{(i)}\\) the configuration with bit \\(i\\) flipped. A win needs a correct guess, so \\(s(x)\\le\\sum_ip_i(x_i)\\). Player \\(i\\) sees the same input on \\(x\\) and \\(x^{(i)}\\), so guessing \\(x_i\\) has the same probability on both, and on \\(x^{(i)}\\) that guess is wrong: \\(p_i(x_i)\\le1-s(x^{(i)})\\). Hence \\[s(x)+\\sum_{i=1}^ns(x^{(i)})\\le n.\\]",
+        "Each flip \\(x\\mapsto x^{(i)}\\) is a bijection, so summing over all \\(x\\) gives \\((n+1)\\sum_xs(x)\\le n2^n\\), i.e. an average winning probability at most \\(n/(n+1)\\). For two players the correlation that outputs \\((x,\\text{pass})\\), \\((\\text{pass},y)\\) or \\((1-x,1-y)\\) with probability \\(1/3\\) each has uniform marginals, so it is no-signalling, and it wins with probability \\(2/3\\). Editorial check: a linear program over all no-signalling correlations returns \\(2/3\\)."
+      ],
+      "transfer": "In guessing games where a player's input omits exactly the variable they must guess, pair each configuration with its flips; the no-signalling constraint converts every correct guess into a forced loss elsewhere, which gives quick upper bounds valid for all physical theories."
+    }
+  ],
+  "approved_on": "2026-11-12"
+}

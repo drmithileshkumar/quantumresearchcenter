@@ -1,0 +1,45 @@
+{
+  "id": "2611.12993",
+  "topic": "information",
+  "title": "Second-level termination of the PPT entanglement-cost hierarchy for two qutrits",
+  "authors": "Wei Song; Xiao-Lan Zong; Ming Yang",
+  "submitted": "2026-11-08",
+  "version": "v1",
+  "kind": "Theory and computer-assisted proof",
+  "verified_on": "2026-11-12",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "status": "approved",
+  "problem": "The exact entanglement cost under PPT operations, the rate of ebits needed to prepare copies of a state with zero error, is the common limit of SDP hierarchies found by Lami, Mele and Regula. They conjectured that the second level of the lower hierarchy is always exact; Brinster and coauthors refuted this with states whose local dimension grows with the level. Whether a fixed level suffices once the dimension is fixed was open.",
+  "result": "For every two-qutrit state, all levels of the lower-bound hierarchy from the second onward coincide, so the exact PPT entanglement cost equals \\(\\log_2\\chi_2(\\rho)\\): the logarithm of an SDP in three \\(9\\times9\\) Hermitian variables. The proof shortens any feasible third-level dual chain to a second-level one with the same objective.",
+  "significance": "It makes the zero-error PPT entanglement cost of two qutrits exactly computable by one fixed SDP, and shows that the counterexamples to the general conjecture need larger local dimension: the smallest dimension that separates levels two and three lies between 4 and 16.",
+  "limitations": "Away from the boundary of the parameter domain the proof relies on 126 groups of rational certificates verified by exact arithmetic in supplementary code; near the boundary it is analytic. The argument uses qutrit-specific facts and does not extend to \\(3\\times d\\). Whether the first level already suffices for all two-qutrit states is open. The paper carries no AI-use statement.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-12: Sections I–III (hierarchy, main theorem, dual-chain reduction), the statement of Lemma 2 and the structure of Section IV, the last step of Lemma 3, and Sections VI–VII. The rational certificates were not rerun. The hierarchy was computed numerically for the maximally entangled state, the antisymmetric state and 40 random rank-2 states.",
+  "methods_source_section": "Sections II–III",
+  "description": [
+    "Exact preparation asks for a PPT operation mapping \\(\\lfloor Rn\\rfloor\\) ebits to exactly \\(\\rho^{\\otimes n}\\); the cost is the smallest achievable \\(R\\). Lami, Mele and Regula bound it below by \\(\\log_2\\chi_p\\) and above by \\(\\log_2\\kappa_q\\), with \\[\\chi_p(\\rho)=\\min\\{\\mathrm{Tr}\\,S_p:\\ S_i\\succeq\\pm S_{i-1}^\\Gamma,\\ 0\\le i\\le p\\},\\quad S_{-1}=\\rho,\\] where \\(\\Gamma\\) is the partial transpose. Level zero is the trace norm of \\(\\rho^\\Gamma\\), the log-negativity.",
+    "The question is whether, for two qutrits, the lower hierarchy stops increasing at a fixed level for every state.",
+    "It stops at level two. If \\(\\chi_m=\\chi_{m-1}\\), an optimal level-\\(m\\) chain must end with \\(S_m=S_{m-1}^\\Gamma\\succeq0\\) (a positive semidefinite difference with zero trace vanishes), so the chain is feasible for the upper bound \\(\\kappa_m\\) and all levels collapse to the cost. The work is in proving \\(\\chi_3\\le\\chi_2\\) for every two-qutrit state, which gives \\[E^{\\mathrm{exact}}_{c,\\mathrm{PPT}}(\\rho)=\\log_2\\min\\big\\{\\mathrm{Tr}\\,S_2:\\ S_0\\succeq\\pm\\rho^\\Gamma,\\ S_1\\succeq\\pm S_0^\\Gamma,\\ S_2\\succeq\\pm S_1^\\Gamma\\big\\}.\\] For example, the maximally entangled qutrit state has \\(\\chi_p=3\\), cost \\(\\log_23\\), and PPT states have cost zero.",
+    "Open: the smallest local dimension in which levels two and three differ (between 4 and 16), whether level one suffices for qutrits, and an analytic replacement for the certificates."
+  ],
+  "methods": [
+    {
+      "technique": "Shortening the dual chain",
+      "explanation": "To show a higher level adds nothing for every state at once, the authors work with the dual SDP, whose objective \\(\\mathrm{Tr}(\\rho D_0^\\Gamma)\\) depends only on the first operator. Any feasible length-4 dual chain is converted to a feasible length-3 chain with the same \\(D_0\\), which gives \\(\\chi_3\\le\\chi_2\\) regardless of \\(\\rho\\).",
+      "math": [
+        "The dual is \\[\\chi_p=\\sup\\big\\{\\mathrm{Tr}(\\rho D_0^\\Gamma):\\ I\\succeq\\pm D_p,\\ D_{j+1}^\\Gamma\\succeq\\pm D_j\\big\\},\\] with strong duality from strictly feasible points. From a third-level chain set \\(C=D_3^\\Gamma-D_2\\succeq0\\) and \\(H=D_1^\\Gamma\\succeq\\pm D_0\\), so that \\(I-(C+H)^\\Gamma\\succeq0\\). If a matrix \\(X\\) satisfies \\[0\\preceq X\\preceq C,\\qquad X\\preceq2I,\\qquad I+(C+H-2X)^\\Gamma\\succeq0,\\] then with \\(Y=C+H-X\\) the triple \\((D_0,Y^\\Gamma,I-X)\\) is a feasible second-level chain.",
+        "If \\(\\|C\\|\\le2\\), \\(X=C\\) works. Otherwise split off the top eigenvector, \\(C=c\\ket v\\bra v+E\\), write \\(\\sqrt c\\,v\\) in Schmidt form with coefficients \\(x\\ge y\\ge t\\), and try \\(X=sC_0+\\alpha E\\). Testing \\(C+H\\) on product vectors forces \\(2<c\\le2+t^2\\le3\\), so the hard case is narrow; it is split at \\(t=1/640\\) into a certificate region and an analytic boundary region."
+      ],
+      "transfer": "To prove that an SDP hierarchy terminates uniformly over inputs, look for a map on dual-feasible chains that shortens them while keeping the objective-bearing variable fixed; this reduces an infinite family of optimization problems to one matrix-construction problem."
+    },
+    {
+      "technique": "Exact rational certificates over a parameter cover",
+      "explanation": "The remaining positivity condition depends on continuous parameters. The authors cover the parameter domain by finitely many regions and, for each, write the matrix as a sum of positive semidefinite pieces with rational Gram factors plus a remainder bounded over the whole region, so verification needs no floating-point eigenvalues or solver output.",
+      "math": [
+        "Each certificate stores integer Gram factors \\(G\\), scaled by \\(10^{-8}\\) or \\(10^{-10}\\); a matrix \\(G^TG\\) with rational entries is positive semidefinite by construction. Coefficient residuals are recomputed in rational arithmetic and bounded across the region, which proves positivity on all of it rather than at sample points. Near \\(t=0\\), a Schur-complement argument with explicit estimates ends in a scalar bounded below by \\(\\tfrac{11}{1280}t>0\\).",
+        "Editorial check: solving the level-0 to level-3 SDPs gives \\(\\chi_p=3\\) at every level for the maximally entangled qutrit state, as stated; among 40 random real rank-2 states several have \\(\\chi_0<\\chi_1\\), and in every case \\(\\chi_1=\\chi_2=\\chi_3\\) to solver precision, consistent with the theorem though not a test of its hard cases."
+      ],
+      "transfer": "For computer-assisted matrix inequalities over a parameter range, store certificates as integer Gram factors, verify identities in exact arithmetic, and handle degenerate boundaries analytically; the result is a proof that can be rechecked independently of any numerical solver."
+    }
+  ],
+  "approved_on": "2026-11-12"
+}
