@@ -1,13 +1,13 @@
 {
   "topic-1-1-1": {
-    "foundation": "From the axioms \\(P\\), “\\(P\\) implies \\(Q\\),” and “\\(Q\\) implies \\(R\\),” with modus ponens as the only rule of inference, write a proof of \\(R\\). Give the justification of each line.",
+    "foundation": "From the axioms \\(P\\), \u201c\\(P\\) implies \\(Q\\),\u201d and \u201c\\(Q\\) implies \\(R\\),\u201d with modus ponens as the only rule of inference, write a proof of \\(R\\). Give the justification of each line.",
     "application": "Prove that the sum of an even integer and an odd integer is odd, giving the justification for each step.",
     "challenge": "A checker accepts every line of a proof. Show by an example that the conclusion can still be false, and say exactly what the accepted proof establishes."
   },
   "topic-1-1-2": {
-    "foundation": "A system has the axioms \\(P\\) and “\\(P\\) implies not \\(P\\),” and the rule modus ponens. Is it consistent?",
-    "application": "Suppose a system also has the rule “from \\(A\\) and not \\(A\\), infer any statement \\(B\\).” Show that if the system is inconsistent, it proves every statement.",
-    "challenge": "Hilbert hoped to prove that systems are consistent. Show that a consistency proof carried out inside the same system \\(S\\) could not settle the doubt, by showing that an inconsistent \\(S\\) of the kind in the previous problem proves the statement “\\(S\\) is consistent.”"
+    "foundation": "A system has the axioms \\(P\\) and \u201c\\(P\\) implies not \\(P\\),\u201d and the rule modus ponens. Is it consistent?",
+    "application": "Suppose a system also has the rule \u201cfrom \\(A\\) and not \\(A\\), infer any statement \\(B\\).\u201d Show that if the system is inconsistent, it proves every statement.",
+    "challenge": "Hilbert hoped to prove that systems are consistent. Show that a consistency proof carried out inside the same system \\(S\\) could not settle the doubt, by showing that an inconsistent \\(S\\) of the kind in the previous problem proves the statement \u201c\\(S\\) is consistent.\u201d"
   },
   "topic-1-1-3": {
     "foundation": "Strings over the alphabet \\(\\{a,b\\}\\) are listed by length, starting with the empty string, and alphabetically within each length. Write the first seven strings, and give the position of \\(ab\\).",
@@ -15,28 +15,28 @@
     "challenge": "Suppose a theory is consistent, its axioms can be listed by an algorithm, and it is complete: for every sentence \\(P\\), it proves \\(P\\) or it proves not \\(P\\). Show that searching for a proof of \\(P\\) and a proof of not \\(P\\) in alternation is a decision procedure for provability."
   },
   "topic-1-2-1": {
-    "foundation": "Run Euclid’s algorithm on \\((91,35)\\), writing each division and each pair.",
-    "application": "Run Euclid’s algorithm on \\((21,13)\\). How many divisions does it take, and why does this pair make the second entry decrease slowly?",
-    "challenge": "Give a procedure on pairs of positive integers that keeps the greatest common divisor unchanged at every step but never stops, and another that always stops but can return a wrong answer. What does this show about the two arguments for Euclid’s algorithm?"
+    "foundation": "Run Euclid\u2019s algorithm on \\((91,35)\\), writing each division and each pair.",
+    "application": "Run Euclid\u2019s algorithm on \\((21,13)\\). How many divisions does it take, and why does this pair make the second entry decrease slowly?",
+    "challenge": "Give a procedure on pairs of positive integers that keeps the greatest common divisor unchanged at every step but never stops, and another that always stops but can return a wrong answer. What does this show about the two arguments for Euclid\u2019s algorithm?"
   },
   "topic-1-2-2": {
-    "foundation": "Euclid’s algorithm divides by repeated subtraction. It is paused in the middle of dividing \\(48\\) by \\(18\\), after one subtraction has given \\(30\\). What must the configuration record so that the computation can resume?",
-    "application": "Write the run of Euclid’s algorithm from \\((30,18)\\) as a sequence of configurations. Find two other pairs whose runs reach \\((18,12)\\) after one step.",
-    "challenge": "Describe all pairs from which Euclid’s algorithm reaches \\((18,12)\\) in one step. What does the answer imply about running the algorithm backward?"
+    "foundation": "Euclid\u2019s algorithm divides by repeated subtraction. It is paused in the middle of dividing \\(48\\) by \\(18\\), after one subtraction has given \\(30\\). What must the configuration record so that the computation can resume?",
+    "application": "Write the run of Euclid\u2019s algorithm from \\((30,18)\\) as a sequence of configurations. Find two other pairs whose runs reach \\((18,12)\\) after one step.",
+    "challenge": "Describe all pairs from which Euclid\u2019s algorithm reaches \\((18,12)\\) in one step. What does the answer imply about running the algorithm backward?"
   },
   "topic-1-2-3": {
     "foundation": "A machine has a running state \\(q\\) and a halting state \\(h\\). In \\(q\\), reading \\(1\\), it writes \\(1\\), moves right, and stays in \\(q\\); reading a blank, it halts. Started on the leftmost \\(1\\) of a tape holding \\(111\\), list its configurations until it halts.",
     "application": "Change the machine so that, reading a blank in state \\(q\\), it writes \\(1\\) and halts. What does the new machine compute on a block of \\(n\\) ones, and how many steps does it take?",
-    "challenge": "Design a machine that, started on the leftmost symbol of a block of ones, halts in a state marked “even” if the block has an even number of ones and “odd” otherwise. Give its rule table and trace it on \\(111\\)."
+    "challenge": "Design a machine that, started on the leftmost symbol of a block of ones, halts in a state marked \u201ceven\u201d if the block has an even number of ones and \u201codd\u201d otherwise. Give its rule table and trace it on \\(111\\)."
   },
   "topic-1-3-1": {
-    "foundation": "A programming language \\(L\\) can simulate every Turing machine, and a Turing machine can simulate every program of \\(L\\). Which functions does \\(L\\) compute? Is this conclusion a theorem or an instance of the Church–Turing thesis?",
-    "application": "Classify each statement as a theorem or as the Church–Turing thesis: (a) lambda calculus and Turing machines compute the same functions; (b) every function computable by an effective mechanical method is Turing-computable; (c) every recursive function is Turing-computable.",
+    "foundation": "A programming language \\(L\\) can simulate every Turing machine, and a Turing machine can simulate every program of \\(L\\). Which functions does \\(L\\) compute? Is this conclusion a theorem or an instance of the Church\u2013Turing thesis?",
+    "application": "Classify each statement as a theorem or as the Church\u2013Turing thesis: (a) lambda calculus and Turing machines compute the same functions; (b) every function computable by an effective mechanical method is Turing-computable; (c) every recursive function is Turing-computable.",
     "challenge": "Show that some functions from nonnegative integers to \\(\\{0,1\\}\\) are computed by no Turing machine. Turing machines can be listed as \\(M_0,M_1,M_2,\\dots\\), since each has a finite description."
   },
   "topic-1-3-2": {
     "foundation": "Decide, by inspecting each program, whether it halts on the input \\(x=5\\): (a) while \\(x\\gt 0\\), set \\(x:=x-1\\); (b) while \\(x\\neq0\\), set \\(x:=x-2\\); (c) repeat forever: do nothing.",
-    "application": "A proposed halting test runs a program for a million steps. It answers “halts” if the program stops and “never halts” otherwise. Give a program on which this test is wrong. Would replacing a million by a larger fixed number repair it?",
+    "application": "A proposed halting test runs a program for a million steps. It answers \u201chalts\u201d if the program stops and \u201cnever halts\u201d otherwise. Give a program on which this test is wrong. Would replacing a million by a larger fixed number repair it?",
     "challenge": "Show that no algorithm decides, for every program \\(P\\), whether \\(P\\) halts when given the input \\(0\\). Use the undecidability of the halting problem: from a pair \\((P,x)\\), construct a program that ignores its own input."
   },
   "topic-1-3-3": {
@@ -86,12 +86,12 @@
   },
   "topic-2-3-1": {
     "foundation": "Compute \\(k_{\\mathrm B}T\\ln2\\) at \\(T=300\\) K, with \\(k_{\\mathrm B}=1.38\\times10^{-23}\\) J/K.",
-    "application": "A processor erases \\(10^{18}\\) bits per second at \\(300\\) K. What minimum power does Landauer’s principle require? Compare it with a processor that uses \\(50\\) W.",
+    "application": "A processor erases \\(10^{18}\\) bits per second at \\(300\\) K. What minimum power does Landauer\u2019s principle require? Compare it with a processor that uses \\(50\\) W.",
     "challenge": "Erasing a bit that is \\(0\\) with probability \\(p\\) and \\(1\\) with probability \\(1-p\\) has the minimum cost \\(H\\,k_{\\mathrm B}T\\ln2\\), where \\(H=-p\\log_2p-(1-p)\\log_2(1-p)\\). Compute \\(H\\) for \\(p=0.9\\), and compare the cost with that of an unbiased bit and a known bit."
   },
   "topic-2-3-2": {
     "foundation": "Which of these are logically reversible: NOT; AND; \\((x,y)\\mapsto(x,x\\oplus y)\\); a reset to \\(0\\)?",
-    "application": "A device implements NOT but dissipates \\(10^{-18}\\) J per operation, while the Landauer bound at \\(300\\) K is about \\(2.9\\times10^{-21}\\) J. Does the dissipation contradict the reversibility of NOT? Does Landauer’s principle require any dissipation for NOT?",
+    "application": "A device implements NOT but dissipates \\(10^{-18}\\) J per operation, while the Landauer bound at \\(300\\) K is about \\(2.9\\times10^{-21}\\) J. Does the dissipation contradict the reversibility of NOT? Does Landauer\u2019s principle require any dissipation for NOT?",
     "challenge": "Show that a reversible map on \\(n\\)-bit strings is a permutation of the \\(2^n\\) strings. For \\(n=2\\), count the reversible maps and compare with the number of all maps from two bits to two bits."
   },
   "topic-2-3-3": {
@@ -137,7 +137,7 @@
   "topic-3-1-5": {
     "foundation": "A step keeps the bit with probability \\(2/3\\) and flips it with probability \\(1/3\\). Starting from \\(0\\), compute \\(P(c_2=0)\\) by listing the paths that end at \\(0\\).",
     "application": "For the same rule, compute \\(P(c_3=0)\\) from \\(0\\). Check your answer against the formula \\(P(c_t=0)=\\tfrac12+\\tfrac12\\left(\\tfrac13\\right)^t\\).",
-    "challenge": "Prove the formula \\(P(c_t=0)=\\tfrac12+\\tfrac12\\left(\\tfrac13\\right)^t\\) for the rule above, and describe what happens to the run’s memory of its starting configuration as \\(t\\) grows."
+    "challenge": "Prove the formula \\(P(c_t=0)=\\tfrac12+\\tfrac12\\left(\\tfrac13\\right)^t\\) for the rule above, and describe what happens to the run\u2019s memory of its starting configuration as \\(t\\) grows."
   },
   "topic-3-2-1": {
     "foundation": "Under the rule that keeps the bit with probability \\(2/3\\) and flips it with probability \\(1/3\\), what is the weight of the path \\(0\\to0\\to1\\to1\\)?",
@@ -256,53 +256,53 @@
   },
   "topic-6-3-3": {
     "foundation": "Alice and Bob share \\(\\ket{\\Phi^+}\\). Alice measures her qubit and does not report the result. What is the probability that Bob obtains \\(0\\) in a computational-basis measurement?",
-    "application": "Alice applies \\(X\\) to her qubit of \\(\\ket{\\Phi^+}\\), without measuring. Find the new joint state and Bob’s computational-basis probabilities.",
-    "challenge": "Alice measures her half of \\(\\ket{\\Phi^+}\\) in either the computational basis or the \\(\\pm\\) basis, without reporting her result. Bob tests for any normalized state \\(\\ket v=a\\ket0+b\\ket1\\). Show that his probability of success is \\(1/2\\) for either choice. Why is this stronger than checking only Bob’s computational-basis outcomes?"
+    "application": "Alice applies \\(X\\) to her qubit of \\(\\ket{\\Phi^+}\\), without measuring. Find the new joint state and Bob\u2019s computational-basis probabilities.",
+    "challenge": "Alice measures her half of \\(\\ket{\\Phi^+}\\) in either the computational basis or the \\(\\pm\\) basis, without reporting her result. Bob tests for any normalized state \\(\\ket v=a\\ket0+b\\ket1\\). Show that his probability of success is \\(1/2\\) for either choice. Why is this stronger than checking only Bob\u2019s computational-basis outcomes?"
   },
   "topic-6-4-1": {
     "foundation": "In teleportation, how many qubits does each party hold at the start? Write the initial three-qubit state for \\(\\ket\\psi=\\ket1\\).",
-    "application": "For \\(\\ket\\psi=\\ket1\\), apply Alice’s CNOT and \\(H\\), and group the result by the configuration of Alice’s two qubits.",
+    "application": "For \\(\\ket\\psi=\\ket1\\), apply Alice\u2019s CNOT and \\(H\\), and group the result by the configuration of Alice\u2019s two qubits.",
     "challenge": "Suppose Alice sends Bob only the bit \\(m\\), and Bob applies \\(Z^m\\). Show that for \\(\\ket\\psi=\\ket0\\) his qubit is wrong with probability \\(1/2\\)."
   },
   "topic-6-4-2": {
     "foundation": "Alice obtains \\((m,n)=(1,0)\\). Which state does Bob hold, and which correction does he apply?",
-    "application": "For \\(\\ket\\psi=\\ket+\\) and Alice’s result \\((1,1)\\), write Bob’s state before correction, and check that the correction restores \\(\\ket+\\).",
+    "application": "For \\(\\ket\\psi=\\ket+\\) and Alice\u2019s result \\((1,1)\\), write Bob\u2019s state before correction, and check that the correction restores \\(\\ket+\\).",
     "challenge": "Bob applies his corrections in the wrong order: \\(Z^m\\) first, then \\(X^n\\). Show that he still obtains \\(\\ket\\psi\\), up to a global phase."
   },
   "topic-6-4-3": {
     "foundation": "Before the classical bits arrive, what is the probability that Bob obtains \\(0\\) when measuring his qubit, for \\(\\ket\\psi=\\ket0\\)?",
     "application": "Show that, before the bits arrive, Bob obtains \\(0\\) with probability \\(1/2\\) for every input \\(\\ket\\psi=\\alpha\\ket0+\\beta\\ket1\\).",
-    "challenge": "After Bob’s correction, write the three-qubit state for a particular measurement result \\((m,n)\\). Do Alice’s qubits retain a second copy? Explain the scope of your conclusion."
+    "challenge": "After Bob\u2019s correction, write the three-qubit state for a particular measurement result \\((m,n)\\). Do Alice\u2019s qubits retain a second copy? Explain the scope of your conclusion."
   },
   "topic-7-1-1": {
+    "foundation": "What is a global property of a Boolean function, and how does extracting it differ from learning individual entries of the truth table?",
+    "application": "For two input qubits initialized in \\(\\ket{00}\\) and a target qubit in \\(\\ket{0}\\), verify that applying \\(H\\otimes H\\otimes I\\) prepares the state \\(\\frac{1}{2}\\sum_{x\\in\\{0,1\\}^2}\\ket{x}\\ket{0}\\). What is the amplitude of each basis component?",
+    "challenge": "Using \\((H\\otimes H)\\ket{x} = \\frac{1}{2}\\sum_{z\\in\\{0,1\\}^2}(-1)^{x\\cdot z}\\ket{z}\\), show that every computational basis state \\(\\ket{x}\\) contributes a transition amplitude of \\(+1/2\\) toward the readout \\(\\ket{z}=\\ket{00}\\). Deduce why each branch in \\(\\ket{\\psi_2}\\) contributes an amplitude of \\((1/2)\\times(1/2)=1/4\\) toward \\(\\ket{00}\\)."
+  },
+  "topic-7-1-2": {
+    "foundation": "For a constant function \\(f(x)=c\\) on two bits, write down the state \\(\\ket{\\psi_2}\\) and explain why the target qubit factors out of the superposition.",
+    "application": "Calculate the total amplitude of the joint configuration \\(\\ket{00}\\ket{c}\\) in \\(\\ket{\\psi_3}\\) by summing the amplitudes contributed from all four input branches.",
+    "challenge": "Explain why the probability of observing input readout \\(00\\) is \\(1\\), and why this constructive interference occurs regardless of whether \\(c=0\\) or \\(c=1\\)."
+  },
+  "topic-7-1-3": {
+    "foundation": "For the two-bit AND function \\(f(x_1,x_2)=x_1\\land x_2\\), express the state \\(\\ket{\\psi_2}\\) after oracle evaluation, grouping terms according to the target qubit value.",
+    "application": "After applying \\(H\\otimes H\\) to the inputs of the AND state, what is the amplitude in \\(\\ket{00}\\ket{0}\\) and what is the amplitude in \\(\\ket{00}\\ket{1}\\)? Compute the total probability of observing input readout \\(00\\).",
+    "challenge": "Why do the amplitudes in \\(\\ket{00}\\ket{0}\\) and \\(\\ket{00}\\ket{1}\\) add as probabilities (\\(|3/4|^2+|1/4|^2=5/8\\)) rather than interfering coherently? Explain how the target qubit acts as a which-path record and what must change for interference to occur."
+  },
+  "topic-7-2-1": {
     "foundation": "List the four functions \\(f:\\{0,1\\}\\to\\{0,1\\}\\) as pairs \\((f(0),f(1))\\), and classify each as constant or balanced.",
     "application": "Among the functions \\(f:\\{0,1\\}^2\\to\\{0,1\\}\\), how many are constant, how many are balanced (output \\(1\\) on exactly half the inputs), and how many are neither?",
     "challenge": "For \\(f\\) on \\(n\\)-bit inputs, promised to be constant or balanced, show that a deterministic classical algorithm can decide which with \\(2^{n-1}+1\\) queries, and that \\(2^{n-1}\\) queries do not always suffice."
   },
-  "topic-7-1-2": {
+  "topic-7-2-2": {
     "foundation": "A classical algorithm queries \\(f(1)\\) and receives \\(1\\). Which of the four functions remain possible?",
-    "application": "For \\(f\\) on two-bit inputs, promised constant or balanced, an algorithm queries \\(f(00)\\) and \\(f(01)\\). If they differ it answers “balanced”; otherwise it makes one more query. Complete the algorithm, and give its number of queries in the worst case.",
+    "application": "For \\(f\\) on two-bit inputs, promised constant or balanced, an algorithm queries \\(f(00)\\) and \\(f(01)\\). If they differ it answers \u201cbalanced\u201d; otherwise it makes one more query. Complete the algorithm, and give its number of queries in the worst case.",
     "challenge": "Show that no one-query classical algorithm for \\(f:\\{0,1\\}\\to\\{0,1\\}\\), even one that chooses its query at random, is correct with probability greater than \\(1/2\\) on every function."
   },
-  "topic-7-1-3": {
+  "topic-7-2-3": {
     "foundation": "Write the action of \\(U_f\\) on the four basis states for \\(f=(1,0)\\), that is, \\(f(0)=1\\) and \\(f(1)=0\\).",
     "application": "Write the matrix of \\(U_f\\) for \\(f=(0,1)\\) in the order \\(00,01,10,11\\), and check that it is unitary.",
     "challenge": "Show that the map \\(\\ket{x,y}\\mapsto\\ket{x,f(x)}\\), which overwrites the target, is not unitary for any \\(f\\), and that \\(\\ket x\\mapsto\\ket{f(x)}\\) is not unitary when \\(f\\) is constant."
-  },
-  "topic-7-2-1": {
-    "foundation": "Apply \\(U_f\\) for \\(f=(1,1)\\) to \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\).",
-    "application": "For each of the four functions, write \\(U_f\\bigl(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\bigr)\\), and say which results are entangled.",
-    "challenge": "With \\(n\\) input qubits in the uniform superposition and a clean target, \\(U_f\\) produces \\(2^{-n/2}\\sum_x\\ket x\\ket{f(x)}\\). Measuring both registers gives a uniformly random \\(x\\) with \\(f(x)\\). About how many runs are needed, on average, before every value \\(f(x)\\) has been seen?"
-  },
-  "topic-7-2-2": {
-    "foundation": "Measure both registers of \\((\\ket{00}+\\ket{11})/\\sqrt2\\). What are the possible results and their probabilities? How many function values does one run reveal?",
-    "application": "To decide constant or balanced, we repeatedly prepare \\((\\ket{0,f(0)}+\\ket{1,f(1)})/\\sqrt2\\) and measure both registers until both inputs have been seen. How many runs does this take on average?",
-    "challenge": "Show that measuring only the input register of \\((\\ket{0,f(0)}+\\ket{1,f(1)})/\\sqrt2\\) gives \\(0\\) and \\(1\\) with probability \\(1/2\\) each for all four functions."
-  },
-  "topic-7-2-3": {
-    "foundation": "For \\(f=(0,1)\\), apply \\(H\\) to the input of \\((\\ket{00}+\\ket{11})/\\sqrt2\\), and find the probability of each input outcome.",
-    "application": "For the constant function \\(f=(0,0)\\), repeat the calculation: start from \\(\\tfrac{\\ket0+\\ket1}{\\sqrt2}\\otimes\\ket0\\), apply \\(U_f\\), then \\(H\\) to the input.",
-    "challenge": "Combining the two previous problems, design a one-query procedure with a clean target that never wrongly answers “balanced.” With what probability does it detect a balanced function?"
   },
   "topic-7-3-1": {
     "foundation": "Compute \\(X(\\ket0+i\\ket1)/\\sqrt2\\). Is \\((\\ket0+i\\ket1)/\\sqrt2\\) an eigenvector of \\(X\\)?",
@@ -325,12 +325,12 @@
     "challenge": "Show that if the final \\(H\\) is omitted, or replaced by \\(X\\), the measurement gives \\(0\\) and \\(1\\) with probability \\(1/2\\) each, for every function."
   },
   "topic-7-4-2": {
-    "foundation": "Count the queries and the other operations in Deutsch’s algorithm, starting from \\(\\ket{00}\\).",
-    "application": "Run Deutsch’s algorithm for \\(f=(1,0)\\), giving the state after each step.",
+    "foundation": "Count the queries and the other operations in Deutsch\u2019s algorithm, starting from \\(\\ket{00}\\).",
+    "application": "Run Deutsch\u2019s algorithm for \\(f=(1,0)\\), giving the state after each step.",
     "challenge": "With \\(n\\) input qubits, after the query and \\(H\\) applied to each input qubit, show that the amplitude of the input configuration \\(0^n\\) is \\(2^{-n}\\sum_x(-1)^{f(x)}\\). Deduce that one query distinguishes constant from balanced functions with certainty."
   },
   "topic-7-4-3": {
-    "foundation": "Name the four stages of Deutsch’s algorithm and the operations used in each.",
+    "foundation": "Name the four stages of Deutsch\u2019s algorithm and the operations used in each.",
     "application": "Replace the target \\(\\ket-\\) by \\(\\ket+\\), and run the algorithm for \\(f=(0,1)\\). What does the measurement give?",
     "challenge": "Leave out the first \\(H\\) on the input, so that the input stays \\(\\ket0\\). Show that the algorithm then gives each outcome with probability \\(1/2\\) for every function."
   },
@@ -401,13 +401,13 @@
   },
   "topic-8-1-2": {
     "foundation": "In the four-item search circuit, how many oracle uses and how many Hadamard gates does one Grover iteration contain, and how many Hadamard gates prepare the start?",
-    "application": "List the gates of Deutsch’s algorithm in time order, starting from \\(\\ket{00}\\), with the qubits each acts on.",
+    "application": "List the gates of Deutsch\u2019s algorithm in time order, starting from \\(\\ket{00}\\), with the qubits each acts on.",
     "challenge": "An oracle box \\(O_f\\) on \\(n\\) qubits marks one fixed string. It is built from \\(X\\) gates and a phase flip controlled on all \\(n\\) qubits, which in turn uses Toffoli gates and \\(n-2\\) workspace qubits. Count the gates in such a construction."
   },
   "topic-8-1-3": {
     "foundation": "Bob receives a bit \\(b\\) and applies \\(X\\) only if \\(b=1\\). Write his operation for each value of \\(b\\).",
     "application": "For the input \\((\\alpha\\ket0+\\beta\\ket1)\\ket0\\), compare (a) CNOT followed by measuring the control with (b) measuring the control first and then applying \\(X\\) to the target if the result is \\(1\\). Show that the outcomes and final states agree.",
-    "challenge": "Now the control is not measured at the end. Compare CNOT with “measure the control, then apply \\(X\\) if \\(1\\)” on the input \\(\\ket+\\ket-\\), by applying \\(H\\) to the control afterward and measuring it."
+    "challenge": "Now the control is not measured at the end. Compare CNOT with \u201cmeasure the control, then apply \\(X\\) if \\(1\\)\u201d on the input \\(\\ket+\\ket-\\), by applying \\(H\\) to the control afterward and measuring it."
   },
   "topic-8-2-1": {
     "foundation": "Compute \\(R_X(\\pi)\\) and \\(R_Z(\\pi)\\), and compare them with \\(X\\) and \\(Z\\).",
@@ -445,7 +445,7 @@
     "challenge": "Compute the AND of the same \\(8\\) bits with a balanced tree instead: combine bits in pairs, then pairs of results, and so on. Compare gate count, depth, and workspace with the chain."
   },
   "topic-8-4-2": {
-    "foundation": "Three qubits sit on a line, \\(1\\)–\\(2\\)–\\(3\\), and only neighbours can interact. How many SWAP gates are needed to apply a CNOT between qubits 1 and 3 and restore the original placement?",
+    "foundation": "Three qubits sit on a line, \\(1\\)\u2013\\(2\\)\u2013\\(3\\), and only neighbours can interact. How many SWAP gates are needed to apply a CNOT between qubits 1 and 3 and restore the original placement?",
     "application": "A SWAP gate costs three CNOT gates. Count the CNOT gates in the construction above, and for a CNOT between the two ends of a line of \\(n\\) qubits.",
     "challenge": "A data set of \\(N=2^n\\) numbers is loaded into amplitudes using one gate per number, and then searched with about \\(\\sqrt N\\) queries. When does the quadratic query speedup survive in the total cost?"
   },
@@ -471,17 +471,17 @@
   },
   "topic-10-2-1": {
     "foundation": "Which of these are decision problems: (a) is \\(N\\) prime? (b) find a factor of \\(N\\); (c) does a graph \\(G\\) contain a path from \\(u\\) to \\(v\\)?",
-    "application": "For the problem “does \\(N\\) have a factor \\(d\\) with \\(1\\lt d\\lt k\\)?”, give a witness for \\(N=91\\) and \\(k=10\\), and explain how a witness is checked in polynomial time.",
+    "application": "For the problem \u201cdoes \\(N\\) have a factor \\(d\\) with \\(1\\lt d\\lt k\\)?\u201d, give a witness for \\(N=91\\) and \\(k=10\\), and explain how a witness is checked in polynomial time.",
     "challenge": "Prove that if \\(A\\) reduces to \\(B\\) in polynomial time and \\(B\\) is in P, then \\(A\\) is in P. Why must the reduction itself run in polynomial time?"
   },
   "topic-10-2-2": {
     "foundation": "An algorithm errs with probability at most \\(1/3\\). Run it three times independently and take the majority answer. What is the error probability?",
     "application": "How many independent runs, with a majority vote, bring the error below \\(0.01\\) when each run errs with probability \\(1/3\\)?",
-    "challenge": "Show that an algorithm that ignores its input and answers by flipping a fair coin has error \\(1/2\\) on every input, and that majority voting over repeated runs never improves it. Why is the condition “error at most \\(1/3\\)” essential?"
+    "challenge": "Show that an algorithm that ignores its input and answers by flipping a fair coin has error \\(1/2\\) on every input, and that majority voting over repeated runs never improves it. Why is the condition \u201cerror at most \\(1/3\\)\u201d essential?"
   },
   "topic-10-2-3": {
     "foundation": "Trial division of a \\(2048\\)-bit number may test up to \\(\\sqrt N\\approx2^{1024}\\) divisors. Write this roughly as a power of ten.",
-    "application": "A rough estimate for Shor’s factoring algorithm is \\(n^3\\) operations for an \\(n\\)-bit number. Compare \\(n^3\\) with \\(2^{n/2}\\) for \\(n=2048\\).",
+    "application": "A rough estimate for Shor\u2019s factoring algorithm is \\(n^3\\) operations for an \\(n\\)-bit number. Compare \\(n^3\\) with \\(2^{n/2}\\) for \\(n=2048\\).",
     "challenge": "The best known classical factoring method, the number field sieve, takes time roughly \\(\\exp\\bigl(1.92(\\ln N)^{1/3}(\\ln\\ln N)^{2/3}\\bigr)\\). Evaluate it for a \\(2048\\)-bit \\(N\\), and explain why this comparison does not prove that quantum computers are exponentially more powerful."
   },
   "topic-10-3-1": {
@@ -490,7 +490,7 @@
     "challenge": "In the query model, an algorithm may compute without limit between queries. Explain why a query lower bound still applies to algorithms with limited computation, but a query upper bound need not give a fast algorithm."
   },
   "topic-10-3-2": {
-    "foundation": "For \\(N=10^6\\), compare Grover’s query count, about \\((\\pi/4)\\sqrt N\\), with the classical average \\(N/2\\).",
+    "foundation": "For \\(N=10^6\\), compare Grover\u2019s query count, about \\((\\pi/4)\\sqrt N\\), with the classical average \\(N/2\\).",
     "application": "If some quantum algorithm searched with only \\(N^{1/3}\\) queries, how many would it use for \\(N=10^6\\)? Which result rules this out?",
     "challenge": "Use the lower bound to show that no quantum algorithm finds a marked item among \\(N=2^n\\) with a number of queries polynomial in \\(n\\). What does this imply for solving NP problems by unstructured search?"
   },
@@ -500,7 +500,7 @@
     "challenge": "Show that the exact degree of OR on \\(N\\) bits is \\(N\\), by writing \\(\\mathrm{OR}(z)=1-\\prod_i(1-z_i)\\). What does this imply for algorithms that must be correct with certainty?"
   },
   "topic-10-4-1": {
-    "foundation": "For Deutsch’s algorithm and for Grover search, name the property that is encoded in phases, and the operation that turns it into probability.",
+    "foundation": "For Deutsch\u2019s algorithm and for Grover search, name the property that is encoded in phases, and the operation that turns it into probability.",
     "application": "For each of the two algorithms, list costs that its query count does not include.",
     "challenge": "An algorithm prepares the uniform superposition of \\(n\\) qubits, applies an oracle once, and measures immediately. Show that it does no better than one classical query, whether the oracle is a phase oracle or the reversible \\(U_f\\)."
   },
@@ -517,7 +517,7 @@
   "appendix-a": {
     "foundation": "Design a two-state finite automaton that accepts the binary strings with an even number of \\(1\\)s, and trace it on \\(1011\\).",
     "application": "Run the stack procedure on \\(aaabbb\\) and on \\(aabbb\\), giving the stack height after each symbol.",
-    "challenge": "Show that no finite automaton recognizes the strings over \\(\\{a,b\\}\\) with equal numbers of \\(a\\)’s and \\(b\\)’s, in any order."
+    "challenge": "Show that no finite automaton recognizes the strings over \\(\\{a,b\\}\\) with equal numbers of \\(a\\)\u2019s and \\(b\\)\u2019s, in any order."
   },
   "appendix-b": {
     "foundation": "Derive \\(aaabbb\\) from \\(S\\) with the rules \\(S\\to aSb\\) and \\(S\\to\\epsilon\\), writing each step.",
@@ -560,7 +560,7 @@
     "challenge": "Why does drawing the whole evolution as one block not make it a one-step computation?"
   },
   "topic-5-1-2": {
-    "foundation": "In the product U₃U₂U₁, which operation acts first?",
+    "foundation": "In the product U\u2083U\u2082U\u2081, which operation acts first?",
     "application": "Compare \\(HH\\) and \\(HZH\\) on input \\(\\ket0\\).",
     "challenge": "Why can a phase change matter even when it leaves the immediate basis probabilities unchanged?"
   },
@@ -608,10 +608,5 @@
     "foundation": "After the parallel evaluation of AND, every qubit is measured. List the possible results with their probabilities. What is the state of the register after the result \\((10,0)\\)?",
     "application": "Measure only the target after the parallel evaluation of XOR. Give both outcome probabilities and the conditional state of the inputs in each case. What have you learned about \\(f\\)?",
     "challenge": "Each run of the parallel evaluation of a two-input function, followed by measuring every qubit, reveals one random pair \\((x,f(x))\\). What is the expected number of runs before all four values are known? Compare with evaluating \\(f\\) on each input in turn."
-  },
-  "topic-6-5-3": {
-    "foundation": "For a constant function \\(f(x)=c\\) on two inputs, show that applying \\(H\\otimes H\\) to the inputs after the parallel evaluation gives the readout \\(00\\) with certainty.",
-    "application": "Repeat the calculation for \\(f(x)=x_1\\), the first input bit. Find the probability of the readout \\(00\\).",
-    "challenge": "Why can contributions that end with different target values not cancel? Use this to explain why the readout \\(00\\) does not reliably separate a constant \\(f\\) from AND, and say what the target would need to do instead."
   }
 }

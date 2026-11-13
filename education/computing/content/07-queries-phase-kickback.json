@@ -7,98 +7,98 @@
   "sections": [
     {
       "id": "topic-7-1-1",
-      "title": "Constant and balanced Boolean functions",
+      "title": "Global properties and superposition interference",
       "number": "7.1.1",
-      "group": "7.1 · Function Queries",
+      "group": "7.1 \u00b7 Global Properties through Interference",
       "part_id": "section-7-1"
     },
     {
       "id": "topic-7-1-2",
-      "title": "Classical query access",
+      "title": "Constructive interference for constant functions",
       "number": "7.1.2",
-      "group": "7.1 · Function Queries",
+      "group": "7.1 \u00b7 Global Properties through Interference",
       "part_id": "section-7-1"
     },
     {
       "id": "topic-7-1-3",
-      "title": "Reversible quantum oracles",
+      "title": "Target entanglement and the interference barrier",
       "number": "7.1.3",
-      "group": "7.1 · Function Queries",
+      "group": "7.1 \u00b7 Global Properties through Interference",
       "part_id": "section-7-1"
     },
     {
       "id": "topic-7-2-1",
-      "title": "Oracle action on superpositions",
+      "title": "Constant and balanced Boolean functions",
       "number": "7.2.1",
-      "group": "7.2 · Coherent Function Evaluation",
+      "group": "7.2 \u00b7 Function Queries",
       "part_id": "section-7-2"
     },
     {
       "id": "topic-7-2-2",
-      "title": "Register measurement",
+      "title": "Classical query access",
       "number": "7.2.2",
-      "group": "7.2 · Coherent Function Evaluation",
+      "group": "7.2 \u00b7 Function Queries",
       "part_id": "section-7-2"
     },
     {
       "id": "topic-7-2-3",
-      "title": "Workspace entanglement",
+      "title": "Reversible quantum oracles",
       "number": "7.2.3",
-      "group": "7.2 · Coherent Function Evaluation",
+      "group": "7.2 \u00b7 Function Queries",
       "part_id": "section-7-2"
     },
     {
       "id": "topic-7-3-1",
       "title": "Bit-flip eigenstates",
       "number": "7.3.1",
-      "group": "7.3 · Phase Kickback",
+      "group": "7.3 \u00b7 Phase Kickback",
       "part_id": "section-7-3"
     },
     {
       "id": "topic-7-3-2",
       "title": "Phase-oracle construction",
       "number": "7.3.2",
-      "group": "7.3 · Phase Kickback",
+      "group": "7.3 \u00b7 Phase Kickback",
       "part_id": "section-7-3"
     },
     {
       "id": "topic-7-3-3",
       "title": "Coherent uncomputation",
       "number": "7.3.3",
-      "group": "7.3 · Phase Kickback",
+      "group": "7.3 \u00b7 Phase Kickback",
       "part_id": "section-7-3"
     },
     {
       "id": "topic-7-4-1",
       "title": "Interference and readout",
       "number": "7.4.1",
-      "group": "7.4 · Deutsch’s Algorithm",
+      "group": "7.4 \u00b7 Deutsch\u2019s Algorithm",
       "part_id": "section-7-4"
     },
     {
       "id": "topic-7-4-2",
       "title": "Quantum and classical query counts",
       "number": "7.4.2",
-      "group": "7.4 · Deutsch’s Algorithm",
+      "group": "7.4 \u00b7 Deutsch\u2019s Algorithm",
       "part_id": "section-7-4"
     },
     {
       "id": "topic-7-4-3",
       "title": "Preparation, oracle evaluation, and measurement",
       "number": "7.4.3",
-      "group": "7.4 · Deutsch’s Algorithm",
+      "group": "7.4 \u00b7 Deutsch\u2019s Algorithm",
       "part_id": "section-7-4"
     }
   ],
   "parts": [
     {
       "id": "section-7-1",
-      "title": "Function Queries",
+      "title": "Global Properties through Interference",
       "number": "7.1"
     },
     {
       "id": "section-7-2",
-      "title": "Coherent Function Evaluation",
+      "title": "Function Queries",
       "number": "7.2"
     },
     {
@@ -108,11 +108,11 @@
     },
     {
       "id": "section-7-4",
-      "title": "Deutsch’s Algorithm",
+      "title": "Deutsch\u2019s Algorithm",
       "number": "7.4"
     }
   ],
-  "opening": "In Chapter 6, we saw that applying a reversible circuit \\(U_f\\) to a superposition of inputs evaluates \\(f(x)\\) on every input at once, yet measuring the register reveals only one random pair \\((x, f(x))\\). Moreover, because the target qubit retains \\(f(x)\\), branches with different outputs cannot interfere.",
-  "opening_continuation": "We first introduce a model in which a function is accessed through queries and pose a problem that asks for a relation between function values. We then show how to record function values in the phases of amplitudes rather than in the target register, leading to our first quantum algorithm.",
-  "intro_continuation": "Classically, finding out whether \\(f(0) = f(1)\\) requires evaluating \\(f\\) twice—once on \\(0\\) and once on \\(1\\)—because knowing \\(f(0)\\) alone leaves both possibilities open. Can a quantum computation answer this question using only a single evaluation of \\(U_f\\)?"
+  "opening": "In Chapter 6, we saw that applying a reversible circuit \\(U_f\\) to a superposition of inputs evaluates \\(f(x)\\) on every input at once, yet measuring the register reveals only one random pair \\((x, f(x))\\). To extract information about the function as a whole, the computational branches must interfere before measurement.",
+  "opening_continuation": "We first examine how Hadamard gates can recombine branches to extract global properties and diagnose why target entanglement destroys interference for non-constant functions. We then formalize query access and show how phase kickback records function values in relative phases without entangling the target register, yielding our first quantum algorithm.",
+  "intro_continuation": "Classically, finding out whether \\(f(0) = f(1)\\) requires evaluating \\(f\\) twice\u2014once on \\(0\\) and once on \\(1\\)\u2014because knowing \\(f(0)\\) alone leaves both possibilities open. Can a quantum computation answer this question using only a single evaluation of \\(U_f\\)?"
 }

@@ -4,12 +4,12 @@
  const fmt=n=>clean(n).toFixed(3);
  const percent=p=>(100*p).toFixed(2)+'%';
  // Set text containing TeX, then typeset it once MathJax has started.
- const math=(el,text)=>{el.textContent=text;const mj=window.MathJax;if(mj?.startup?.promise&&mj.typesetPromise)mj.startup.promise=mj.startup.promise.then(()=>{mj.typesetClear([el]);return mj.typesetPromise([el])}).catch(()=>{})};
+ const math=(el,text)=>{if(/<[a-z][\s\S]*>/i.test(text)){el.innerHTML=text}else{el.textContent=text}const mj=window.MathJax;if(mj?.startup?.promise&&mj.typesetPromise)mj.startup.promise=mj.startup.promise.then(()=>{mj.typesetClear([el]);return mj.typesetPromise([el])}).catch(()=>{})};
  function chart(lab,labels){const box=lab.querySelector('[data-bars]');labels.forEach(label=>{const row=document.createElement('div');row.className='lab-bar-row';const name=document.createElement('span');math(name,`\\(\\ket{${label}}\\)`);const track=document.createElement('div');track.className='lab-track';const fill=document.createElement('div');fill.className='lab-fill';track.append(fill);const out=document.createElement('output');row.append(name,track,out);box.append(row)});return values=>{[...box.children].forEach((row,i)=>{const a=clean(values[i]);row.querySelector('.lab-fill').style.width=percent(a*a);row.querySelector('.lab-fill').classList.toggle('negative',a<0);row.querySelector('output').textContent=percent(a*a);row.setAttribute('aria-label',`${labels[i]}: amplitude ${fmt(a)}, probability ${percent(a*a)}`)})}}
  document.querySelectorAll('[data-lab="gates"]').forEach(lab=>{let v=[1,0],history=[];const bars=chart(lab,['0','1']);function draw(){bars(v);math(lab.querySelector('[data-state]'),`State: \\(${fmt(v[0])}\\ket0 ${v[1]<0?'-':'+'} ${fmt(Math.abs(v[1]))}\\ket1\\)`);lab.querySelector('[data-status]').textContent=history.length?'Operations, in order: '+history.join(' → '):'Choose a gate to change the state.';lab.dataset.amplitudes=JSON.stringify(v)}lab.querySelectorAll('[data-gate]').forEach(b=>b.onclick=()=>{const [a,c]=v,g=b.dataset.gate;v=g==='H'?[(a+c)/Math.SQRT2,(a-c)/Math.SQRT2]:g==='X'?[c,a]:[a,-c];history.push(g);draw()});lab.querySelector('[data-reset]').onclick=()=>{v=[1,0];history=[];draw()};draw()});
- document.querySelectorAll('[data-lab="bell"]').forEach(lab=>{let step=0;const bars=chart(lab,['00','01','10','11']),next=lab.querySelector('[data-next]');function draw(){const v=step===0?[1,0,0,0]:step===1?[1/Math.SQRT2,0,1/Math.SQRT2,0]:[1/Math.SQRT2,0,0,1/Math.SQRT2];bars(v);math(lab.querySelector('[data-state]'),['State: \\(\\ket{00}\\)','State: \\((\\ket{00}+\\ket{10})/\\sqrt2\\)','State: \\((\\ket{00}+\\ket{11})/\\sqrt2\\)'][step]);lab.querySelector('[data-status]').textContent=['Both qubits start in 0.','The first qubit is in a superposition; the second is still 0. This state is a product.','CNOT changes the 10 component into 11. This pure state is entangled; a Z-basis measurement gives 00 or 11 with equal probability.'][step];next.textContent=['Apply H to the first qubit','Apply CNOT','Bell state prepared'][step];next.disabled=step===2;lab.dataset.amplitudes=JSON.stringify(v)}next.onclick=()=>{step=Math.min(2,step+1);draw()};lab.querySelector('[data-reset]').onclick=()=>{step=0;draw()};draw()});
- document.querySelectorAll('[data-lab="grover"]').forEach(lab=>{let k=0,timer=null;const n=lab.querySelector('[data-size]'),slider=lab.querySelector('[data-slider]'),play=lab.querySelector('[data-play]');function pause(){clearInterval(timer);timer=null;play.textContent='Play';play.setAttribute('aria-pressed','false')}function draw(){const theta=Math.asin(1/Math.sqrt(Number(n.value))),angle=(2*k+1)*theta,p=Math.sin(angle)**2;slider.value=k;lab.querySelector('[data-iteration]').value=k;lab.querySelector('[data-repetitions]').textContent=`(D O_f) × ${k}`;lab.querySelector('[data-state]').textContent=`Probability of finding the marked item: ${percent(p)}.`;lab.querySelector('[data-status]').textContent=`Iteration ${k}. The marked amplitude is ${fmt(Math.sin(angle))}; its squared magnitude gives the success probability.`;lab.dataset.probability=p;lab.querySelector('[data-next]').disabled=k===30;if(k===30)pause()}lab.querySelector('[data-next]').onclick=()=>{pause();k=Math.min(30,k+1);draw()};play.onclick=()=>{if(timer){pause();return}if(k===30)k=0;play.textContent='Pause';play.setAttribute('aria-pressed','true');timer=setInterval(()=>{k=Math.min(30,k+1);draw()},matchMedia('(prefers-reduced-motion: reduce)').matches?1800:900)};slider.oninput=()=>{pause();k=Number(slider.value);draw()};n.onchange=lab.querySelector('[data-reset]').onclick=()=>{pause();k=0;draw()};lab.closest('.book-section')?.addEventListener('slideleave',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});draw()});
- document.querySelectorAll('[data-lab="phase"]').forEach(lab=>{let stage=0;const select=lab.querySelector('[data-function]'),next=lab.querySelector('[data-next]');function draw(){const f=select.value.split(',').map(Number),signs=stage===0?[1,1]:f.map(v=>v?-1:1),out=[(signs[0]+signs[1])/2,(signs[0]-signs[1])/2];signs.forEach((s,i)=>{lab.querySelector(`[data-path="${i}"]`).classList.toggle('negative',s<0);lab.querySelector(`[data-sign="${i}"]`).textContent=(s<0?'−':'+')+'1/√2'});math(lab.querySelector('[data-state]'),stage<2?(stage===0?'Before oracle: both amplitudes are \\(+1/\\sqrt2\\).':`After oracle: \\(${signs[0]<0?'-':'+'}\\ket0/\\sqrt2 ${signs[1]<0?'-':'+'}\\ket1/\\sqrt2\\).`):`After \\(H\\): probability of 0 is ${percent(out[0]**2)}; probability of 1 is ${percent(out[1]**2)}.`);lab.querySelector('[data-status]').textContent=['Choose a function, then apply its oracle.','The branches show the phase after the oracle. Apply H to combine them.','Equal signs interfere into 0; opposite signs interfere into 1. The paths above show the oracle stage.'][stage];next.textContent=['Apply oracle','Apply final H','Experiment complete'][stage];next.disabled=stage===2;lab.dataset.result=stage===2?String(out[1]**2):''}next.onclick=()=>{stage=Math.min(2,stage+1);draw()};select.onchange=lab.querySelector('[data-reset]').onclick=()=>{stage=0;draw()};draw()});
+ document.querySelectorAll('[data-lab="bell"]').forEach(lab=>{let step=0;const bars=chart(lab,['00','01','10','11']),next=lab.querySelector('[data-next]');function draw(){const v=step===0?[1,0,0,0]:step===1?[1/Math.SQRT2,0,1/Math.SQRT2,0]:[1/Math.SQRT2,0,0,1/Math.SQRT2];bars(v);math(lab.querySelector('[data-state]'),['State: \\(\\ket{00}\\)','State: \\((\\ket{00}+\\ket{10})/\\sqrt2\\)','State: \\((\\ket{00}+\\ket{11})/\\sqrt2\\)'][step]);math(lab.querySelector('[data-status]'),['Both qubits start in \\(\\ket{00}\\).','The first qubit is in a superposition; the second is still \\(\\ket0\\). This state is a product.','CNOT changes the \\(\\ket{10}\\) component into \\(\\ket{11}\\). This pure state is entangled; a \\(Z\\)-basis measurement gives \\(00\\) or \\(11\\) with equal probability.'][step]);next.textContent=['Apply H to the first qubit','Apply CNOT','Bell state prepared'][step];next.disabled=step===2;lab.dataset.amplitudes=JSON.stringify(v)}next.onclick=()=>{step=Math.min(2,step+1);draw()};lab.querySelector('[data-reset]').onclick=()=>{step=0;draw()};draw()});
+ document.querySelectorAll('[data-lab="grover"]').forEach(lab=>{let k=0,timer=null;const n=lab.querySelector('[data-size]'),slider=lab.querySelector('[data-slider]'),play=lab.querySelector('[data-play]');function pause(){clearInterval(timer);timer=null;play.textContent='Play';play.setAttribute('aria-pressed','false')}function draw(){const theta=Math.asin(1/Math.sqrt(Number(n.value))),angle=(2*k+1)*theta,p=Math.sin(angle)**2;slider.value=k;lab.querySelector('[data-iteration]').value=k;math(lab.querySelector('[data-repetitions]'),`\\((D\\,O_f)^{${k}}\\)`);math(lab.querySelector('[data-state]'),`Probability of finding the marked item: \\(P = \\sin^2((2k+1)\\theta) = ${percent(p)}\\).`);math(lab.querySelector('[data-status]'),`Iteration \\(k = ${k}\\). The marked amplitude is \\(\\sin((2k+1)\\theta) = ${fmt(Math.sin(angle))}\\); its squared magnitude gives the success probability.`);lab.dataset.probability=p;lab.querySelector('[data-next]').disabled=k===30;if(k===30)pause()}lab.querySelector('[data-next]').onclick=()=>{pause();k=Math.min(30,k+1);draw()};play.onclick=()=>{if(timer){pause();return}if(k===30)k=0;play.textContent='Pause';play.setAttribute('aria-pressed','true');timer=setInterval(()=>{k=Math.min(30,k+1);draw()},matchMedia('(prefers-reduced-motion: reduce)').matches?1800:900)};slider.oninput=()=>{pause();k=Number(slider.value);draw()};n.onchange=lab.querySelector('[data-reset]').onclick=()=>{pause();k=0;draw()};lab.closest('.book-section')?.addEventListener('slideleave',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});draw()});
+ document.querySelectorAll('[data-lab="phase"]').forEach(lab=>{let stage=0;const select=lab.querySelector('[data-function]'),next=lab.querySelector('[data-next]');function draw(){const f=select.value.split(',').map(Number),signs=stage===0?[1,1]:f.map(v=>v?-1:1),out=[(signs[0]+signs[1])/2,(signs[0]-signs[1])/2];signs.forEach((s,i)=>{lab.querySelector(`[data-path="${i}"]`).classList.toggle('negative',s<0);lab.querySelector(`[data-sign="${i}"]`).textContent=(s<0?'−':'+')+'1/√2'});math(lab.querySelector('[data-state]'),stage<2?(stage===0?'Before oracle: both amplitudes are \\(+1/\\sqrt2\\).':`After oracle: \\(${signs[0]<0?'-':'+'}\\ket0/\\sqrt2 ${signs[1]<0?'-':'+'}\\ket1/\\sqrt2\\).`):`After \\(H\\): probability of 0 is ${percent(out[0]**2)}; probability of 1 is ${percent(out[1]**2)}.`);math(lab.querySelector('[data-status]'),['Choose a function \\(f\\), then apply its oracle \\(U_f\\).','The branches show the phase after the oracle: \\((-1)^{f(x)}\\ket{x}\\). Apply \\(H\\) to combine them.','Equal signs interfere into \\(\\ket0\\); opposite signs interfere into \\(\\ket1\\). The paths above show the oracle stage.'][stage]);next.textContent=['Apply oracle','Apply final H','Experiment complete'][stage];next.disabled=stage===2;lab.dataset.result=stage===2?String(out[1]**2):''}next.onclick=()=>{stage=Math.min(2,stage+1);draw()};select.onchange=lab.querySelector('[data-reset]').onclick=()=>{stage=0;draw()};draw()});
  /* Animated figures. Each replaces a static drawing that stays in the page, hidden,
     for readers without scripting. Every frame is redrawn from the figure's state. */
  const NS='http://www.w3.org/2000/svg',DEG=Math.PI/180;
@@ -17,6 +17,38 @@
  const still=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
  function node(parent,tag,attrs={},text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent.append(e);return e}
  function label(parent,x,y,text,attrs={}){return node(parent,'text',{x,y,'text-anchor':'middle',...attrs},text)}
+ const mathCache=new Map();
+ function typesetSvg(svg){
+  const mj=window.MathJax;
+  if(!mj?.tex2svgPromise)return;
+  const ready=mj.startup?.promise?mj.startup.promise:Promise.resolve();
+  ready.then(async ()=>{
+   for(const l of [...svg.querySelectorAll('text[data-tex]')]){
+    const tex=l.dataset.tex;
+    if(!tex||!l.parentNode)continue;
+    try{
+     let eq;
+     if(mathCache.has(tex)){eq=mathCache.get(tex).cloneNode(true)}
+     else{const r=await mj.tex2svgPromise(tex,{display:false});eq=r.querySelector('svg');if(eq)mathCache.set(tex,eq.cloneNode(true))}
+     if(!eq||!l.parentNode)continue;
+     const [,,width]=eq.getAttribute('viewBox').split(/\s+/).map(Number);
+     const style=getComputedStyle(l),limit=Number(l.dataset.maxWidth),fontSize=parseFloat(style.fontSize||'14');
+     const scale=Math.min(fontSize/1000,limit?limit/width:Infinity);
+     const x=Number(l.getAttribute('x')||0),y=Number(l.getAttribute('y')||0),anchor=l.getAttribute('text-anchor');
+     const offset=anchor==='middle'?width*scale/2:anchor==='end'?width*scale:0;
+     const g=document.createElementNS(NS,'g'),cls=l.getAttribute('class'),st=l.getAttribute('style');
+     g.setAttribute('class',cls?`${cls} diagram-math`:'diagram-math');
+     if(st)g.setAttribute('style',st);
+     g.style.color=style.fill||'currentColor';
+     g.setAttribute('transform',`translate(${x-offset} ${y}) scale(${scale})`);
+     g.setAttribute('role','img');g.setAttribute('aria-label',l.textContent||tex);g.dataset.tex=tex;
+     const title=document.createElementNS(NS,'title');title.textContent=l.textContent||tex;
+     g.append(title,...eq.childNodes);
+     l.replaceWith(g);
+    }catch(_){}
+   }
+  });
+ }
  function arrow(parent,x1,y1,x2,y2,tint,width=2.5){const g=node(parent,'g',{class:tint}),dx=x2-x1,dy=y2-y1,l=Math.hypot(dx,dy);if(l<1)return g;const ux=dx/l,uy=dy/l,h=Math.min(11,l*.5);node(g,'path',{d:`M${x1} ${y1}L${x2-ux*h*.7} ${y2-uy*h*.7}`,class:'lf-line',style:`stroke-width:${width}`});node(g,'path',{d:`M${x2} ${y2}L${x2-h*ux+h*.42*uy} ${y2-h*uy-h*.42*ux}L${x2-h*ux-h*.42*uy} ${y2-h*uy+h*.42*ux}Z`,class:'lf-head'});return g}
  // Ease from 0 to 1 over ms, calling step(t); jump to the end when motion is reduced.
  function tween(ms,step,done){if(still()){step(1);done?.();return()=>{}}let start,id;const frame=now=>{start??=now;const t=Math.min(1,(now-start)/ms);step(t*t*(3-2*t));if(t<1)id=requestAnimationFrame(frame);else done?.()};id=requestAnimationFrame(frame);return()=>cancelAnimationFrame(id)}
@@ -240,11 +272,12 @@
    node(svg,'path',{d:`M${pt(-1.25*Math.cos(b),-1.25*Math.sin(b))}L${pt(1.25*Math.cos(b),1.25*Math.sin(b))}`,class:'lf-thin lf-dash c-teal'});
    node(svg,'path',{d:`M${pt(Math.cos(a),Math.sin(a))}L${pt(...foot)}`,class:'lf-thin lf-dash c-axis'});
    arrow(svg,cx,cy,...pt(Math.cos(b),Math.sin(b)),'c-teal');arrow(svg,cx,cy,...pt(Math.cos(a),Math.sin(a)),'c-state',3);arrow(svg,cx,cy,...pt(...foot),'c-neg',5);
-   label(svg,...pt(1.17*Math.cos(a),1.17*Math.sin(a)+.04),'|ψ⟩',{class:'tint c-state'});label(svg,...pt(1.17*Math.cos(b),1.17*Math.sin(b)+.04),'|φ⟩',{class:'tint c-teal'});
-   [[`angle between: ${theta}°`,60],[`⟨φ|ψ⟩ = cos θ = ${minus(fmt(amp))}`,100],[`|⟨φ|ψ⟩|² = ${fmt(amp*amp)}`,140]].forEach(([t,y])=>node(svg,'text',{x:320,y},t));
+   label(svg,...pt(1.17*Math.cos(a),1.17*Math.sin(a)+.04),'|ψ⟩',{'data-tex':'\\ket{\\psi}',class:'tint c-state'});label(svg,...pt(1.17*Math.cos(b),1.17*Math.sin(b)+.04),'|φ⟩',{'data-tex':'\\ket{\\phi}',class:'tint c-teal'});
+   [[`angle between: ${theta}°`,60,null],[`⟨φ|ψ⟩ = cos θ = ${minus(fmt(amp))}`,100,`\\braket{\\phi}{\\psi} = \\cos \\theta = ${minus(fmt(amp))}`],[`|⟨φ|ψ⟩|² = ${fmt(amp*amp)}`,140,`|\\braket{\\phi}{\\psi}|^2 = ${fmt(amp*amp)}`]].forEach(([t,y,tex])=>{const l=label(svg,320,y,t,{'text-anchor':'start'});if(tex)l.dataset.tex=tex});
    bar(svg,320,156,180,amp*amp);node(svg,'text',{x:320,y:200,class:'lf-caption'},'squared length of the component');
    math(lab.querySelector('[data-state]'),`\\(\\braket\\phi\\psi=${fmt(amp)}\\) and \\(|\\braket\\phi\\psi|^2=${fmt(amp*amp)}\\).`);
-   lab.querySelector('[data-status]').textContent=Math.abs(amp)<1e-9?'The states are orthogonal: the component along |φ⟩ is zero, and so is its square.':amp<0?'The amplitude is negative: the component points against |φ⟩, but its square is still nonnegative.':Math.abs(amp-1)<1e-9?'The states coincide: the component is the whole vector.':'The orange component is the part of |ψ⟩ along |φ⟩; the dashed segment is the orthogonal remainder.';
+   math(lab.querySelector('[data-status]'),Math.abs(amp)<1e-9?'The states are orthogonal: the component along \\(\\ket{\\phi}\\) is zero, and so is its square.':amp<0?'The amplitude is negative: the component points against \\(\\ket{\\phi}\\), but its square is still nonnegative.':Math.abs(amp-1)<1e-9?'The states coincide: the component is the whole vector.':'The orange component is the part of \\(\\ket{\\psi}\\) along \\(\\ket{\\phi}\\); the dashed segment is the orthogonal remainder.');
+   typesetSvg(svg);
    lab.dataset.amplitude=String(amp);
   }
   psiIn.oninput=phiIn.oninput=draw;lab.querySelector('[data-reset]').onclick=()=>{psiIn.value=30;phiIn.value=0;draw()};draw();
@@ -565,7 +598,7 @@
    const eq=[['a² + bc',0,0],['ab + bd',0,1],['ca + dc',1,0],['cb + d²',1,1]].map(([f,i,k])=>`${f} = ${show(T[i][k])}   (B from ${i} to ${k}: ${show(B[i][k])})`);
    const p0=abs2(w(0,0))+abs2(w(0,1)),p1=abs2(w(1,0))+abs2(w(1,1)),cross=add(mul(conj(w(0,0)),w(1,0)),mul(conj(w(0,1)),w(1,1)));
    lab.querySelector('[data-equations]').textContent=eq.join('\n');
-   lab.querySelector('[data-status]').textContent=`Square root ${list.indexOf(A)+1} of ${list.length}. All four two-step sums equal the weights of B, so A² = B. A is a valid step: |a|² + |b|² = ${num(p0)}, |c|² + |d|² = ${num(p1)}, and the cross-sum a*c + b*d = ${show(cross)}.`+(list.length<4?' This B does nothing up to a common phase, so it has infinitely many square roots; for example, NOT, Hadamard, and the sign flip all square to doing nothing. The construction finds only two.':'');
+   math(lab.querySelector('[data-status]'),`Square root ${list.indexOf(A)+1} of ${list.length}. All four two-step sums equal the weights of \\(B\\), so \\(A^2 = B\\). \\(A\\) is a valid step: \\(|a|^2 + |b|^2 = ${num(p0)}\\), \\(|c|^2 + |d|^2 = ${num(p1)}\\), and the cross-sum \\(a^* c + b^* d = ${show(cross)}\\).`+(list.length<4?' This \\(B\\) does nothing up to a common phase, so it has infinitely many square roots; for example, NOT, Hadamard, and the sign flip all square to doing nothing. The construction finds only two.':''));
    const [p,b,g,f]=sliders.map(s=>Number(s.value));lab.querySelector('[data-switch-out]').textContent=p.toFixed(2);['stay-phase','switch-phase','one-phase'].forEach((k,i)=>lab.querySelector(`[data-${k}-out]`).textContent=`${[b,g,f][i]}°`);
    lab.dataset.ok=String(list.every(R=>gap(two(R),B)<1e-12&&[0,1].every(r=>Math.abs(abs2(R[r][0])+abs2(R[r][1])-1)<1e-9)));lab.dataset.roots=String(list.length);lab.dataset.weights=JSON.stringify(A.flat().flat().map(num));
   }
@@ -615,37 +648,495 @@
   [...entries,angle].forEach(e=>e.oninput=()=>{cancel();t=2;draw()});
   draw();
  });
+ document.querySelectorAll('[data-lab="parallelism"]').forEach(lab=>{
+  const svg=stage(lab,640,280,'Action of U_f on a superposition of inputs');
+  const dropdown=lab.querySelector('[data-function-menu]');
+  const fnToggle=lab.querySelector('[data-fn-toggle]');
+  const fnCurrent=lab.querySelector('[data-fn-current]');
+  const fnList=lab.querySelector('[data-fn-list]');
+  const select=lab.querySelector('[data-function]');
+  const forwardBtn=lab.querySelector('[data-forward]');
+  const parallelBtn=lab.querySelector('[data-parallel]');
+  const resetBtn=lab.querySelector('[data-reset]');
+  const stateEl=lab.querySelector('[data-state]');
+  const statusEl=lab.querySelector('[data-status]');
+
+  const tables={
+   and: [0,0,0,1],
+   xor: [0,1,1,0],
+   or:  [0,1,1,1],
+   nand:[1,1,1,0],
+   first:[0,0,1,1],
+   zero:[0,0,0,0],
+   one: [1,1,1,1]
+  };
+  const fnDefs={
+   and: 'f(x_1, x_2) = x_1 \\land x_2',
+   xor: 'f(x_1, x_2) = x_1 \\oplus x_2',
+   or:  'f(x_1, x_2) = x_1 \\lor x_2',
+   nand:'f(x_1, x_2) = \\neg(x_1 \\land x_2)',
+   first:'f(x_1, x_2) = x_1',
+   zero:'f(x) = 0',
+   one: 'f(x) = 1'
+  };
+  const fnNames={
+   and: 'AND',
+   xor: 'XOR',
+   or:  'OR',
+   nand:'NAND',
+   first:'First bit',
+   zero:'Constant 0',
+   one: 'Constant 1'
+  };
+  const bits=['00','01','10','11'];
+  let fName=select?.value||'and';
+  let f=tables[fName]||tables.and;
+  let termDone=[false,false,false,false];
+  let termPos=[0,0,0,0];
+  let activeTerm=null;
+  let isParallel=false;
+  let cancel=()=>{};
+
+  // Typeset menu items if MathJax is available
+  if(fnList && window.MathJax?.typesetPromise){
+   const mj=window.MathJax;
+   (mj.startup?.promise||Promise.resolve()).then(()=>{
+    mj.typesetPromise([fnList]);
+   }).catch(()=>{});
+  }
+
+  function selectFunction(val){
+   cancel();
+   fName=val;
+   f=tables[fName]||tables.and;
+   if(select) select.value=val;
+   if(fnCurrent) math(fnCurrent, `\\(\\text{${fnNames[val]||val}: } ${fnDefs[val]||val}\\)`);
+   if(fnList){
+    fnList.querySelectorAll('li').forEach(li=>{
+     const isSel=li.querySelector('button')?.dataset.val===val;
+     li.setAttribute('aria-selected', isSel?'true':'false');
+    });
+   }
+   if(dropdown){
+    dropdown.classList.remove('open');
+    fnToggle?.setAttribute('aria-expanded','false');
+   }
+   termPos=[0,0,0,0];
+   termDone=[false,false,false,false];
+   activeTerm=null;
+   isParallel=false;
+   draw();
+   updateButtons();
+   updateState();
+   updateStatus(`Selected function <strong>${fnNames[val]||val}</strong>: \\(${fnDefs[val]}\\). Upper qubits in superposition \\(\\frac{1}{2}\\sum_{x}\\ket{x}\\), target in \\(\\ket{0}\\).`);
+  }
+
+  if(fnToggle && dropdown){
+   fnToggle.onclick=(e)=>{
+    e.stopPropagation();
+    const isOpen=dropdown.classList.toggle('open');
+    fnToggle.setAttribute('aria-expanded', isOpen?'true':'false');
+   };
+   document.addEventListener('click', (e)=>{
+    if(!dropdown.contains(e.target)){
+     dropdown.classList.remove('open');
+     fnToggle.setAttribute('aria-expanded','false');
+    }
+   });
+   document.addEventListener('keydown', (e)=>{
+    if(e.key==='Escape' && dropdown.classList.contains('open')){
+     dropdown.classList.remove('open');
+     fnToggle.setAttribute('aria-expanded','false');
+     fnToggle.focus();
+    }
+   });
+  }
+
+  if(fnList){
+   fnList.querySelectorAll('button[data-val]').forEach(btn=>{
+    btn.onclick=(e)=>{
+     e.stopPropagation();
+     selectFunction(btn.dataset.val);
+    };
+   });
+  }
+
+  function updateStatus(text){if(statusEl)math(statusEl,text)}
+  function updateState(){
+   if(!stateEl)return;
+   const doneCount=termDone.filter(Boolean).length;
+   if(doneCount===0 && activeTerm===null && !isParallel){
+    math(stateEl,`State: \\(\\ket{\\psi} = \\left(\\frac{\\ket{00}+\\ket{01}+\\ket{10}+\\ket{11}}{2}\\right)\\ket{0} = \\frac{1}{2}\\sum_{x\\in\\{0,1\\}^2}\\ket{x}\\ket{0}\\)`);
+   } else if(doneCount===4){
+    math(stateEl,`State: \\(\\ket{\\psi} = \\frac{1}{2}\\bigl(\\ket{00}\\ket{${f[0]}} + \\ket{01}\\ket{${f[1]}} + \\ket{10}\\ket{${f[2]}} + \\ket{11}\\ket{${f[3]}}\\bigr) = \\frac{1}{2}\\sum_{x\\in\\{0,1\\}^2}\\ket{x}\\ket{f(x)}\\)`);
+   } else {
+    const terms=bits.map((b,i)=>`\\ket{${b}}\\ket{${termDone[i]?f[i]:'0'}}`);
+    math(stateEl,`State: \\(\\ket{\\psi} = \\frac{1}{2}\\bigl(${terms.join(' + ')}\\bigr)\\)`);
+   }
+  }
+
+  function updateButtons(){
+   const doneCount=termDone.filter(Boolean).length;
+   const busy=activeTerm!==null || isParallel;
+   if(forwardBtn){
+    forwardBtn.disabled=busy || doneCount===4;
+    if(doneCount===4) forwardBtn.textContent='All 4 terms evaluated';
+    else forwardBtn.textContent=`Forward term ${doneCount+1} of 4 (|${bits[doneCount]}⟩)`;
+   }
+   if(parallelBtn){
+    parallelBtn.disabled=busy || doneCount===4;
+    if(doneCount===4) parallelBtn.textContent='Parallel evaluation complete';
+    else parallelBtn.textContent='Pass all terms in parallel';
+   }
+  }
+
+  function draw(){
+   svg.setAttribute('viewBox','0 0 640 280');
+   svg.replaceChildren();
+
+   const isBusy=activeTerm!==null || isParallel;
+   const allDone=termDone.every(Boolean);
+
+   // Wire coordinates
+   const y0=75, y1=115, y2=185;
+
+   // 1. Background Zones
+   // Input superposition zone on upper qubits
+   node(svg,'rect',{x:98,y:48,width:172,height:80,rx:6,class:'lf-tag',style:'fill:#f3f7f5;stroke:#cde0d7;stroke-dasharray:4 3'});
+   label(svg,184,42,'Superposition on upper qubits',{'data-tex':'\\text{Superposition on upper qubits: } \\tfrac{1}{2}\\sum_x\\ket{x}',class:'lf-caption tint c-state',style:'font-size:11px;font-weight:600'});
+
+   // Output zone on right
+   node(svg,'rect',{x:388,y:48,width:224,height:156,rx:6,class:'lf-tag',style:'fill:#f5f8fa;stroke:#d0dee5;stroke-dasharray:4 3'});
+   label(svg,500,42,'Output Superposition',{'data-tex':'\\text{Output Superposition: } \\tfrac{1}{2}\\sum_x\\ket{x}\\ket{f(x)}',class:'lf-caption tint c-state',style:'font-size:11px;font-weight:600'});
+
+   // 2. Quantum Circuit Wires
+   // Wire labels on left
+   label(svg,18,y0+4,'|0⟩',{'data-tex':'\\ket{0}',class:'lf-caption',style:'font-weight:600'});
+   label(svg,18,y1+4,'|0⟩',{'data-tex':'\\ket{0}',class:'lf-caption',style:'font-weight:600'});
+   label(svg,18,y2+4,'|0⟩',{'data-tex':'\\ket{0}',class:'lf-caption',style:'font-weight:600'});
+
+   // Wires
+   node(svg,'path',{d:`M28 ${y0}H620 M28 ${y1}H620 M28 ${y2}H620`,class:'lf-wire'});
+
+   // Wire names / register annotations
+   label(svg,28,y0-14,'x₁',{'data-tex':'x_1',class:'lf-caption',style:'font-size:11px'});
+   label(svg,28,y1-14,'x₂',{'data-tex':'x_2',class:'lf-caption',style:'font-size:11px'});
+   label(svg,28,y2-14,'target y',{'data-tex':'y',class:'lf-caption tint c-teal',style:'font-size:11px'});
+
+   // Hadamard Gates on upper wires
+   node(svg,'rect',{x:52,y:y0-12,width:28,height:24,rx:3,class:'lf-node derived'});
+   label(svg,66,y0+5,'H',{'data-tex':'H',style:'font-size:12px;font-weight:bold'});
+   node(svg,'rect',{x:52,y:y1-12,width:28,height:24,rx:3,class:'lf-node derived'});
+   label(svg,66,y1+5,'H',{'data-tex':'H',style:'font-size:12px;font-weight:bold'});
+
+   // 3. Oracle U_f Block
+   const ufLeft=295, ufWidth=75, ufTop=55, ufHeight=145;
+   const ufMidX=ufLeft+ufWidth/2;
+   const ufClass='lf-node'+(isBusy?' checking':allDone?' derived':'');
+   node(svg,'rect',{x:ufLeft,y:ufTop,width:ufWidth,height:ufHeight,rx:6,class:ufClass});
+   label(svg,ufMidX,y0-4,'U_f',{'data-tex':'U_f',style:'font-size:18px;font-weight:bold'});
+
+   // Internal controls and target connection inside U_f
+   node(svg,'path',{d:`M${ufMidX} ${y0}V${y2}`,class:'lf-thin c-state'});
+   node(svg,'circle',{cx:ufMidX,cy:y0,r:3.5,class:'lf-dot'});
+   node(svg,'circle',{cx:ufMidX,cy:y1,r:3.5,class:'lf-dot'});
+   // XOR symbol on wire 2 inside U_f
+   node(svg,'circle',{cx:ufMidX,cy:y2,r:8,class:'lf-thin c-state',style:'fill:white'});
+   node(svg,'path',{d:`M${ufMidX-8} ${y2}H${ufMidX+8} M${ufMidX} ${y2-8}V${y2+8}`,class:'lf-thin c-state'});
+
+   // Readout inside U_f when active
+   if(activeTerm!==null){
+    const actX=bits[activeTerm], actF=f[activeTerm];
+    label(svg,ufMidX,150,`f(${actX})=${actF}`,{'data-tex':`f(${actX})=${actF}`,class:actF===1?'tint c-neg':'tint c-teal',style:'font-size:11px;font-weight:bold'});
+   }
+
+   // 4. Term Packets / Tokens
+   for(let i=0;i<4;i++){
+    const p=termPos[i];
+    const xIn=118+i*38;
+    const xGate=ufMidX;
+    const xOut=415+i*48;
+
+    let curX;
+    if(p<=0.5) curX=xIn+(xGate-xIn)*(p/0.5);
+    else curX=xGate+(xOut-xGate)*((p-0.5)/0.5);
+
+    const isCurrentActive=activeTerm===i;
+    const isDone=termDone[i];
+    const inGate=p>0.35 && p<0.65;
+
+    // Token Card
+    const cardW=32;
+    const cardTop=y0-14;
+    const cardH=(p>0.45||isDone)?(y2-cardTop+14):(y1-cardTop+14);
+
+    let cardClass='lf-cell';
+    if(isCurrentActive || (isParallel && inGate)) cardClass+=' checking';
+    else if(isDone) cardClass+=' visited';
+
+    node(svg,'rect',{x:curX-cardW/2,y:cardTop,width:cardW,height:cardH,rx:5,class:cardClass});
+
+    // Bit labels on upper wires
+    label(svg,curX,y0+4,bits[i][0],{class:'lf-caption',style:'font-weight:bold;font-size:12px'});
+    label(svg,curX,y1+4,bits[i][1],{class:'lf-caption',style:'font-weight:bold;font-size:12px'});
+
+    // Amplitude above token
+    if(p<0.3 || isDone){
+     label(svg,curX,cardTop-6,'+½',{'data-tex':'+\\tfrac{1}{2}',class:'lf-caption',style:'font-size:10px'});
+    }
+
+    // Target bit on wire 2 once inside or past U_f
+    if(p>0.45 || isDone){
+     const targetBit=isDone || p>0.5 ? f[i] : (inGate ? f[i] : 0);
+     const targetClass=targetBit===1?'tint c-neg':'tint c-teal';
+     node(svg,'circle',{cx:curX,cy:y2,r:6,class:targetBit===1?'lf-tag used':'lf-tag'});
+     label(svg,curX,y2+4,String(targetBit),{class:targetClass,style:'font-size:11px;font-weight:bold'});
+
+     // Ket label below token
+     const ketTex=`\\ket{${bits[i]}}\\ket{${targetBit}}`;
+     label(svg,curX,cardTop+cardH+14,`|${bits[i]}⟩|${targetBit}⟩`,{'data-tex':ketTex,class:targetClass,style:'font-size:11px;font-weight:bold'});
+    } else {
+     // Ket label below upper-qubit token
+     label(svg,curX,cardTop+cardH+14,`|${bits[i]}⟩`,{'data-tex':`\\ket{${bits[i]}}`,class:'lf-caption',style:'font-size:11px;font-weight:bold'});
+    }
+   }
+
+   // 5. Bottom pedagogical banner
+   node(svg,'rect',{x:28,y:248,width:584,height:24,rx:4,class:'lf-tag'});
+   label(svg,320,264,'Forwarding term-by-term visualizes linearity. The physical gate U_f evaluates all 4 terms in parallel.',{class:'lf-caption tint c-state',style:'font-size:10.5px;font-style:italic;text-anchor:middle'});
+
+   typesetSvg(svg);
+  }
+
+  function forwardOneTerm(){
+   cancel();
+   const idx=termDone.indexOf(false);
+   if(idx===-1)return;
+   activeTerm=idx;
+   updateButtons();
+   updateState();
+   updateStatus(`Term \\(\\ket{${bits[idx]}}\\) on the upper qubits enters \\(U_f\\) with target \\(\\ket{0}\\). Computing \\(f(${bits[idx]}) = ${f[idx]}\\)...`);
+
+   cancel=tween(900,t=>{
+    termPos[idx]=t;
+    draw();
+   },()=>{
+    termPos[idx]=1;
+    termDone[idx]=true;
+    activeTerm=null;
+    draw();
+    updateButtons();
+    updateState();
+    const count=termDone.filter(Boolean).length;
+    if(count===4){
+     updateStatus(`<strong>All 4 terms evaluated.</strong> Every input \\(x\\) on the upper qubits is now paired with its output \\(f(x)\\) on the target qubit in the parallel state \\(\\frac{1}{2}\\sum_{x}\\ket{x}\\ket{f(x)}\\).`);
+    } else {
+     updateStatus(`Term \\(\\ket{${bits[idx]}}\\) emerged from \\(U_f\\) as \\(\\ket{${bits[idx]}}\\ket{${f[idx]}}\\). ${f[idx]===1?'The target qubit flipped from \\(\\ket{0}\\) to \\(\\ket{1}\\) because \\(f('+bits[idx]+')=1\\).':'The target qubit remained \\(\\ket{0}\\) because \\(f('+bits[idx]+')=0\\).'}`);
+    }
+   });
+  }
+
+  function applyAllParallel(){
+   cancel();
+   isParallel=true;
+   activeTerm=null;
+   updateButtons();
+   updateState();
+   updateStatus(`<strong>Quantum parallelism:</strong> All 4 terms of the superposition pass through \\(U_f\\) simultaneously in a single unitary execution!`);
+
+   const initialPos=[...termPos];
+   cancel=tween(1000,t=>{
+    for(let i=0;i<4;i++){
+     if(!termDone[i]){
+      termPos[i]=initialPos[i]+(1-initialPos[i])*t;
+     }
+    }
+    draw();
+   },()=>{
+    termPos=[1,1,1,1];
+    termDone=[true,true,true,true];
+    isParallel=false;
+    draw();
+    updateButtons();
+    updateState();
+    updateStatus(`<strong>Quantum parallelism in a single step:</strong> The oracle \\(U_f\\) transformed the entire input superposition \\(\\frac{1}{2}\\sum_{x}\\ket{x}\\ket{0}\\) on the upper qubits into \\(\\frac{1}{2}\\sum_{x}\\ket{x}\\ket{f(x)}\\) simultaneously.`);
+   });
+  }
+
+  function resetAll(){
+   cancel();
+   activeTerm=null;
+   isParallel=false;
+   const initialPos=[...termPos];
+   cancel=tween(350,t=>{
+    for(let i=0;i<4;i++) termPos[i]=initialPos[i]*(1-t);
+    draw();
+   },()=>{
+    termPos=[0,0,0,0];
+    termDone=[false,false,false,false];
+    draw();
+    updateButtons();
+    updateState();
+    updateStatus(`The upper two qubits are in the equal superposition \\(\\frac{1}{2}\\sum_x\\ket{x}\\), while the lower qubit is the target \\(\\ket{0}\\). Click <strong>Forward term through \\(U_f\\)</strong> to watch each basis term pass through the oracle one by one, or <strong>Pass all terms in parallel</strong> to evaluate the entire superposition simultaneously.`);
+   });
+  }
+
+  if(forwardBtn) forwardBtn.onclick=forwardOneTerm;
+  if(parallelBtn) parallelBtn.onclick=applyAllParallel;
+  if(resetBtn) resetBtn.onclick=resetAll;
+  if(select) select.onchange=()=>{
+   selectFunction(select.value);
+  };
+
+  // Initial setup
+  draw();
+  updateButtons();
+  updateState();
+  updateStatus(`The upper two qubits are in the equal superposition \\(\\frac{1}{2}\\sum_x\\ket{x}\\), while the lower qubit is the target \\(\\ket{0}\\). Click <strong>Forward term through \\(U_f\\)</strong> to watch each basis term pass through the oracle one by one, or <strong>Pass all terms in parallel</strong> to evaluate the entire superposition simultaneously.`);
+ });
  document.querySelectorAll('[data-lab="parallel"]').forEach(lab=>{
   const svg=stage(lab,600,300,'Amplitudes of input and target configurations during a parallel evaluation'),choice=lab.querySelector('[data-function]'),next=lab.querySelector('[data-next]');
   const bits=(v,n)=>v.toString(2).padStart(n,'0'),int=(lo,hi)=>lo+Math.floor(Math.random()*(hi-lo+1));
   const tables={and:[0,0,0,1],xor:[0,1,1,0],zero:[0,0,0,0],first:[0,0,1,1]};
-  let f,n,stage2,amp,known,runs,note='',last=null;
-  // amp[x][y] is the amplitude of |x>|y>; stages: 0 start, 1 after H on the inputs, 2 after U_f.
-  function prepare(s){const N=2**n;amp=[...Array(N)].map((_,x)=>[s===0?(x===0?1:0):s===1?1/Math.sqrt(N):(f[x]?0:1/Math.sqrt(N)),s===2&&f[x]?1/Math.sqrt(N):0]);stage2=s;last=null}
+  let f,n,stage2,amp,ampDisp=null,known,runs,note='',last=null,targetVal=null,pos=0,cancel=()=>{};
+  function computeAmps(s){const N=2**n;return[...Array(N)].map((_,x)=>[s===0?(x===0?1:0):s===1?1/Math.sqrt(N):(f[x]?0:1/Math.sqrt(N)),s===2&&f[x]?1/Math.sqrt(N):0])}
+  function prepare(s){stage2=s;amp=computeAmps(s);last=null;targetVal=null}
   function sample(){let r=Math.random();for(let x=0;x<amp.length;x++)for(const y of [0,1]){r-=amp[x][y]**2;if(r<=0)return[x,y]}return[amp.length-1,f[amp.length-1]]}
+  function transitionTo(targetPos,targetAmp,ms,onDone){
+   cancel();
+   const fromPos=pos,fromAmp=ampDisp?ampDisp.map(r=>[...r]):amp.map(r=>[...r]);
+   cancel=tween(ms||450,t=>{
+    pos=fromPos+(targetPos-fromPos)*t;
+    ampDisp=fromAmp.map((r,x)=>r.map((val,k)=>val+(targetAmp[x][k]-val)*t));
+    draw();
+   },()=>{
+    pos=targetPos;
+    ampDisp=targetAmp.map(r=>[...r]);
+    onDone?.();
+    draw();
+   });
+  }
   function draw(){
-   const N=2**n,row=30,top=56,H=top+N*row+20;svg.setAttribute('viewBox',`0 0 600 ${H}`);svg.replaceChildren();
-   label(svg,70,top-24,'input x',{class:'lf-caption'});label(svg,175,top-24,'target 0',{class:'lf-caption'});label(svg,295,top-24,'target 1',{class:'lf-caption'});
-   label(svg,470,top-38,'values learned from runs',{class:'lf-caption'});label(svg,430,top-18,'x',{class:'lf-caption'});label(svg,510,top-18,'f(x)',{class:'lf-caption'});
-   for(let x=0;x<N;x++){const y=top+x*row;label(svg,70,y+19,`|${bits(x,n)}⟩`);
-    [0,1].forEach(t=>{const a=amp[x][t],p=a*a,cx=120+t*120,hit=last&&last[0]===x&&last[1]===t;node(svg,'rect',{x:cx,y:y+3,width:110,height:row-6,rx:3,class:'lf-track'});node(svg,'rect',{x:cx,y:y+3,width:110*p**.5*(p>0?1:0),height:row-6,rx:3,class:'lf-bar'+(hit?' c-neg':''),style:hit?'fill:currentColor':''});if(a)label(svg,cx+55,y+20,(Math.round(a*1000)/1000).toString(),{style:'font-size:12px'+(Math.abs(a)>.6?';fill:white':'')})});
-    label(svg,430,y+19,bits(x,n),{class:'lf-caption'});label(svg,510,y+19,known[x]==null?'?':String(known[x]),known[x]==null?{class:'lf-caption'}:{class:'tint c-state'})}
+   const N=2**n,wireSpace=n>2?22:26,wireY=Array.from({length:n+1},(_,i)=>22+i*wireSpace);
+   const divY=wireY[n]+16,top=divY+36,row=n>2?24:28,H=top+N*row+16;
+   svg.setAttribute('viewBox',`0 0 600 ${H}`);svg.replaceChildren();
+   const stageX=[46,116,204,275];
+   const s0=Math.min(2,Math.floor(pos)),s1=Math.min(3,Math.ceil(pos)),frac=pos-s0;
+   const curX=stageX[s0]+(stageX[s1]-stageX[s0])*frac;
+   const sub=k=>['₁','₂','₃'][k-1]||String(k);
+   const ufTop=wireY[0]-11,ufH=wireY[n]-wireY[0]+22;
+   const ufAct=pos>=1.3&&pos<2,ufDone=pos>=2;
+   const A=ampDisp||amp;
+   // Circuit wires and gates
+   for(let i=0;i<=n;i++){
+    const y=wireY[i],isInput=i<n,isTarget=i===n,isMeasured=last!=null||(isTarget&&targetVal!=null);
+    label(svg,18,y+4,'|0⟩',{'data-tex':'\\ket{0}',class:'lf-caption',style:'font-weight:600'});
+    node(svg,'path',{d:`M28 ${y}H219`,class:'lf-wire'});
+    const actEnd=Math.min(curX,219);
+    if(actEnd>28)node(svg,'path',{d:`M28 ${y}H${actEnd}`,class:'lf-wire one'});
+    if(isInput){
+     const hAct=pos>=0.3&&pos<1,hDone=pos>=1;
+     node(svg,'rect',{x:63,y:y-9,width:26,height:18,rx:3,class:'lf-node'+(hAct?' checking':hDone?' derived':'')});
+     label(svg,76,y+4,'H',{'data-tex':'H',style:'font-size:11px;font-weight:bold'});
+    }
+    node(svg,'rect',{x:219,y:y-9,width:26,height:18,rx:3,class:'lf-node'+(pos>=2.4&&isMeasured?' checking':'')});
+    node(svg,'path',{d:`M225 ${y+4}A6 6 0 0 1 237 ${y+4}M231 ${y+3}L236 ${y-4}`,class:'lf-thin c-state'});
+    if(pos>2.2){
+     const cEnd=Math.min(curX,275);
+     if(cEnd>245)node(svg,'path',{d:`M245 ${y-2}H${cEnd} M245 ${y+2}H${cEnd}`,class:'lf-wire'+(pos>=2.8&&isMeasured?' one':'')});
+    }
+    let outTxt=isInput?`x${sub(i+1)}`:'f(x)',outTex=isInput?`x_{${i+1}}`:'f(x)',outClass='lf-caption';
+    if(pos>=2.5&&last){outTxt=isInput?`x${sub(i+1)}=${bits(last[0],n)[i]}`:`f(x)=${last[1]}`;outTex=isInput?`x_{${i+1}}=${bits(last[0],n)[i]}`:`f(x)=${last[1]}`;outClass='tint c-neg'}
+    else if(pos>=2.5&&isTarget&&targetVal!=null){outTxt=`f(x)=${targetVal}`;outTex=`f(x)=${targetVal}`;outClass='tint c-teal'}
+    label(svg,282,y+4,outTxt,{'data-tex':outTex,'text-anchor':'start',class:outClass,style:'font-size:11px'+(isMeasured&&pos>=2.5?';font-weight:bold':'')});
+   }
+   node(svg,'rect',{x:138,y:ufTop,width:44,height:ufH,rx:4,class:'lf-node'+(ufAct?' checking':ufDone?' derived':'')});
+   label(svg,160,(wireY[0]+wireY[n])/2+5,'U_f',{'data-tex':'U_f',style:'font-size:14px;font-weight:bold'});
+   node(svg,'path',{d:`M${curX} ${ufTop}V${ufTop+ufH}`,class:'lf-thin lf-dash c-neg'});
+   // Circuit stage readout card
+   node(svg,'rect',{x:360,y:ufTop,width:225,height:ufH,rx:5,class:'lf-track'});
+   label(svg,472,ufTop+13,'Circuit State',{class:'lf-caption'});
+   let stName='',stTex='',stSub='',stClass='tint c-state';
+   if(pos>=2.5&&last){stName=`Collapsed: |${bits(last[0],n)}⟩|${last[1]}⟩`;stTex=`\\ket{${bits(last[0],n)}}\\ket{${last[1]}}`;stSub=`Observed x=${bits(last[0],n)}, f(x)=${last[1]}`;stClass='tint c-neg'}
+   else if(pos>=2.5&&targetVal!=null){stName=`Target: |${targetVal}⟩`;stTex=`\\text{target } \\ket{${targetVal}}`;stSub=`Superposition with f(x)=${targetVal}`;stClass='tint c-teal'}
+   else if(pos<0.6){stName='|0...0⟩ |0⟩';stTex=`\\ket{${'0'.repeat(n)}}\\ket{0}`;stSub='Inputs and target initialized to |0⟩'}
+   else if(pos<1.6){stName=`(1/√${N}) ∑ |x⟩ |0⟩`;stTex=`\\tfrac{1}{\\sqrt{${N}}}\\sum_x \\ket{x}\\ket{0}`;stSub='Superposition of all inputs'}
+   else{stName=`(1/√${N}) ∑ |x⟩ |f(x)⟩`;stTex=`\\tfrac{1}{\\sqrt{${N}}}\\sum_x \\ket{x}\\ket{f(x)}`;stSub='Parallel evaluation state'}
+   label(svg,472,ufTop+(ufH>55?30:26),stName,{'data-tex':stTex,'data-max-width':210,class:stClass,style:'font-weight:bold;font-size:13px'});
+   if(ufH>55)label(svg,472,ufTop+46,stSub,{class:'lf-caption',style:'font-size:10.5px'});
+   // Divider between circuit and amplitudes
+   node(svg,'path',{d:`M18 ${divY}H582`,class:'lf-thin lf-dash c-faint'});
+   // Lower section: amplitudes and truth table
+   label(svg,65,top-14,'register |x⟩',{'data-tex':'\\ket{x}',class:'lf-caption'});
+   label(svg,175,top-14,'target 0',{'data-tex':'\\text{target } \\ket{0}',class:'lf-caption'});
+   label(svg,295,top-14,'target 1',{'data-tex':'\\text{target } \\ket{1}',class:'lf-caption'});
+   label(svg,485,top-24,'truth table learned',{class:'lf-caption'});
+   label(svg,440,top-10,'x',{'data-tex':'x',class:'lf-caption'});
+   label(svg,530,top-10,'f(x)',{'data-tex':'f(x)',class:'lf-caption'});
+   for(let x=0;x<N;x++){const y=top+x*row;label(svg,65,y+17,`|${bits(x,n)}⟩`,{'data-tex':`\\ket{${bits(x,n)}}`});
+    [0,1].forEach(t=>{const a=A[x][t],p=a*a,cx=120+t*120,hit=pos>=2.7&&last&&last[0]===x&&last[1]===t;
+     node(svg,'rect',{x:cx,y:y+2,width:110,height:row-5,rx:3,class:'lf-track'});
+     node(svg,'rect',{x:cx,y:y+2,width:Math.max(0,Math.min(110,110*Math.sqrt(p))),height:row-5,rx:3,class:'lf-bar'+(hit?' c-neg':''),style:hit?'fill:currentColor':''});
+     if(Math.abs(a)>0.01)label(svg,cx+55,y+17,(Math.round(a*1000)/1000).toString(),{style:'font-size:12px'+(Math.abs(a)>.6?';fill:white':'')})});
+    label(svg,440,y+17,bits(x,n),{class:'lf-caption'});label(svg,530,y+17,known[x]==null?'?':String(known[x]),known[x]==null?{class:'lf-caption'}:{class:'tint c-state',style:'font-weight:bold'})}
    const learned=known.filter(v=>v!=null).length,status=lab.querySelector('[data-status]');
-   lab.querySelector('[data-state]').textContent=`Runs so far: ${runs}. Values learned: ${learned} of ${N}. Evaluating f one input at a time would take exactly ${N} evaluations.`;
-   status.textContent=note||['All qubits start in 0. Apply H to each input qubit.',`Every input string now has amplitude 1/√${N}; the target is still 0. Apply U_f.`,'Each input now sits beside its own value. Measure every qubit, or only the target.'][stage2];
+   let mathState='';
+   if(pos>=2.5&&last){mathState=`\\text{State collapsed to } \\ket{${bits(last[0],n)}}\\ket{${last[1]}} \\quad \\bigl(x = ${bits(last[0],n)},\\; f(x) = ${last[1]}\\bigr)`}
+   else if(pos>=2.5&&targetVal!=null){
+    const left=amp.filter(r=>r[targetVal]>0).length;
+    mathState=`\\text{Target } y = ${targetVal} \\implies \\tfrac{1}{\\sqrt{${left}}}\\sum_{x:\\,f(x)=${targetVal}} \\ket{x}\\ket{${targetVal}}`;
+   }
+   else if(pos<0.6){mathState=`\\ket{\\psi_0} = \\ket{${'0'.repeat(n)}}\\ket{0}`}
+   else if(pos<1.6){mathState=`\\ket{\\psi_1} = \\tfrac{1}{\\sqrt{${N}}}\\sum_{x\\in\\{0,1\\}^${n}} \\ket{x}\\ket{0}`}
+   else{mathState=`\\ket{\\psi_f} = \\tfrac{1}{\\sqrt{${N}}}\\sum_{x\\in\\{0,1\\}^${n}} \\ket{x}\\ket{f(x)}`}
+   math(lab.querySelector('[data-state]'),`Runs so far: ${runs}. Values learned: ${learned} of ${N}. Current state: \\(${mathState}\\). Classical deterministic evaluation requires exactly \\(${N}\\) queries.`);
+   const defaultNotes=[
+    'All qubits start in \\(\\ket{0}\\). Click "Apply H to the inputs" to prepare the uniform superposition.',
+    `Every input configuration \\(\\ket{x}\\) now has amplitude \\(1/\\sqrt{${N}}\\); the target is still \\(\\ket{0}\\). Click "Apply \\(U_f\\)" to evaluate all inputs in parallel.`,
+    `Parallel evaluation complete: \\(\\ket{\\psi_f} = \\tfrac{1}{\\sqrt{${N}}}\\sum_x \\ket{x}\\ket{f(x)}\\). Each input sits entangled with its function value. Measure every qubit, or only the target.`
+   ];
+   math(status,note||defaultNotes[stage2]);
    next.disabled=stage2===2;next.textContent=['Apply H to the inputs','Apply U_f','Applied'][stage2];
+   typesetSvg(svg);
    lab.dataset.runs=String(runs);lab.dataset.learned=String(learned);lab.dataset.table=JSON.stringify(f);lab.dataset.amps=JSON.stringify(amp);
   }
-  function measureAll(){if(stage2<2)prepare(2);const [x,y]=sample();runs++;known[x]=y;amp=amp.map((r,i)=>r.map((_,t)=>i===x&&t===y?1:0));last=[x,y];note=`This run returned the input ${bits(x,n)} with value ${y}. The other pairs are gone; learning another value needs a fresh preparation.`;draw();return[x,y]}
-  function measureTarget(){if(stage2<2)prepare(2);const p1=amp.reduce((s,r)=>s+r[1]**2,0),y=Math.random()<p1?1:0,p=y?p1:1-p1,keep=amp.map(r=>r[y]).map(a=>a/Math.sqrt(p));runs++;amp=keep.map(a=>y?[0,a]:[a,0]);last=null;
-   const inputs=keep.map((a,x)=>a?bits(x,n):null).filter(Boolean);note=`The target gave ${y}, with probability ${(Math.round(p*1000)/1000)}. The inputs left are exactly the strings with value ${y}: ${inputs.join(', ')}. We learn that f takes the value ${y}, but not at which input unless only one remains.`;
-   if(inputs.length===1)known[parseInt(inputs[0],2)]=y;draw()}
-  function load(table){f=table;n=Math.log2(table.length);known=Array(table.length).fill(null);runs=0;note='';prepare(0);draw()}
-  next.onclick=()=>{note='';prepare(stage2+1);draw()};
+  function measureAll(){
+   cancel();
+   if(stage2<2)prepare(2);
+   const [x,y]=sample();
+   runs++;known[x]=y;last=[x,y];targetVal=null;stage2=2;
+   note=`This run returned input \\(x = ${bits(x,n)}\\) with value \\(f(x) = ${y}\\), collapsing the register to \\(\\ket{${bits(x,n)}}\\ket{${y}}\\). The other \\(${2**n}-1\\) pairs vanish; learning another value requires a fresh preparation.`;
+   const targetAmp=amp.map((r,i)=>r.map((_,t)=>i===x&&t===y?1:0));
+   amp=targetAmp;
+   transitionTo(3,targetAmp,450);
+   return[x,y];
+  }
+  function measureTarget(){
+   cancel();
+   if(stage2<2)prepare(2);
+   const p1=amp.reduce((s,r)=>s+r[1]**2,0),y=Math.random()<p1?1:0,p=y?p1:1-p1,keep=amp.map(r=>r[y]).map(a=>a/Math.sqrt(p));
+   runs++;
+   const targetAmp=keep.map(a=>y?[0,a]:[a,0]);
+   amp=targetAmp;last=null;targetVal=y;stage2=2;
+   const inputs=keep.map((a,x)=>a?bits(x,n):null).filter(Boolean);
+   note=`The target gave \\(y = ${y}\\) (probability \\(p = ${(Math.round(p*1000)/1000)}\\)), projecting the register onto pre-images \\(\\{x \\mid f(x) = ${y}\\}\\): \\(${inputs.map(s=>`\\ket{${s}}`).join(',\\;')}\\). We learn that \\(f\\) takes value \\(${y}\\), but individual inputs remain unread.`;
+   if(inputs.length===1)known[parseInt(inputs[0],2)]=y;
+   transitionTo(3,targetAmp,450);
+  }
+  function load(table){cancel();f=table;n=Math.log2(table.length);known=Array(table.length).fill(null);runs=0;note='';pos=0;ampDisp=null;prepare(0);draw()}
+  next.onclick=()=>{note='';const nextStage=stage2+1;prepare(nextStage);transitionTo(nextStage,amp,450)};
   lab.querySelector('[data-all]').onclick=measureAll;lab.querySelector('[data-target]').onclick=measureTarget;
-  lab.querySelector('[data-again]').onclick=()=>{note='A fresh preparation: the same parallel state as before the last measurement.';prepare(2);draw()};
-  lab.querySelector('[data-collect]').onclick=()=>{const start=runs;while(known.some(v=>v==null)){prepare(2);measureAll()}note=`Every value is now known after ${runs-start} more runs, ${runs} in all, compared with ${f.length} one-at-a-time evaluations. Random sampling repeats inputs, so it usually needs more runs than there are values.`;draw()};
-  choice.onchange=()=>load(choice.value==='random'?Array.from({length:2**int(2,3)},()=>int(0,1)):tables[choice.value]);
+  lab.querySelector('[data-again]').onclick=()=>{cancel();note='A fresh preparation: restored the coherent parallel superposition \\(\\ket{\\psi_f} = \\tfrac{1}{\\sqrt{' + (2**n) + '}}\\sum_x \\ket{x}\\ket{f(x)}\\).';prepare(2);transitionTo(2,amp,450)};
+  lab.querySelector('[data-reset]').onclick=()=>{cancel();known=Array(2**n).fill(null);runs=0;note='';last=null;targetVal=null;prepare(0);transitionTo(0,amp,400)};
+  lab.querySelector('[data-collect]').onclick=()=>{
+   cancel();const start=runs;
+   while(known.some(v=>v==null)){prepare(2);const [x,y]=sample();runs++;known[x]=y;last=[x,y];targetVal=null}
+   note=`Every value is now known after ${runs-start} more runs (${runs} in all) via coupon-collector sampling, compared with exactly \\(${f.length}\\) queries for deterministic classical evaluation.`;
+   const targetAmp=amp.map((r,i)=>r.map((_,t)=>i===last[0]&&t===last[1]?1:0));
+   amp=targetAmp;
+   transitionTo(3,targetAmp,450);
+  };
+  choice.onchange=()=>{cancel();pos=0;ampDisp=null;load(choice.value==='random'?Array.from({length:2**int(2,3)},()=>int(0,1)):tables[choice.value])};
   load(tables.and);
  });
  document.querySelectorAll('[data-lab="teleportation"]').forEach(lab=>{
@@ -694,13 +1185,13 @@
     const activeEnd=Math.min(curX,wireEnd[w]);
     if(activeEnd>56)node(svg,'path',{d:`M56 ${y}H${activeEnd}`,class:'lf-wire one'});
    });
-   label(svg,32,wireY[0]+5,'|ψ⟩',{class:'tint c-state'});
-   label(svg,32,wireY[1]+5,'|0⟩');
-   label(svg,32,wireY[2]+5,'|0⟩');
+   label(svg,32,wireY[0]+5,'|ψ⟩',{'data-tex':'\\ket{\\psi}',class:'tint c-state'});
+   label(svg,32,wireY[1]+5,'|0⟩',{'data-tex':'\\ket{0}'});
+   label(svg,32,wireY[2]+5,'|0⟩',{'data-tex':'\\ket{0}'});
    // Entanglement link indicator once Bell pair is prepared (pos >= 1, before measurement collapse pos < 4).
    if(pos>=.6&&pos<4){
     node(svg,'path',{d:`M194 ${wireY[1]+6}Q208 ${(wireY[1]+wireY[2])/2} 194 ${wireY[2]-6}`,class:'lf-thin lf-dash c-teal'});
-    label(svg,195,22,'shared |Φ⁺⟩',{class:'lf-caption tint c-teal'});
+    label(svg,195,22,'shared |Φ⁺⟩',{'data-tex':'\\text{shared } \\ket{\\Phi^+}',class:'lf-caption tint c-teal'});
    }
    // Time cursor bar.
    node(svg,'path',{d:`M${curX} 34V218`,class:'lf-thin lf-dash c-neg'});
@@ -746,7 +1237,7 @@
    // Stage 5 & 6: Bob's conditional gates X^n (x=495) and Z^m (x=565).
    gateBox(495,wireY[2],pos>=4?`X^${n}`:'Xⁿ',s1===5&&f>0||stepIndex===5&&f===0,pos>=5);
    gateBox(565,wireY[2],pos>=4?`Z^${m}`:'Zᵐ',s1===6&&f>0||stepIndex===6&&f===0,pos>=6);
-   label(svg,614,wireY[2]+5,pos>=6?'|ψ⟩':pos>=5?(m?'Z|ψ⟩':'|ψ⟩'):pos>=4?`${n?'X':''}${m?'Z':''}|ψ⟩`:'?',{'text-anchor':'start',class:'tint '+(pos>=6?'c-state':'c-teal')});
+   label(svg,614,wireY[2]+5,pos>=6?'|ψ⟩':pos>=5?(m?'Z|ψ⟩':'|ψ⟩'):pos>=4?`${n?'X':''}${m?'Z':''}|ψ⟩`:'?',{'data-tex':pos>=6?'\\ket{\\psi}':pos>=5?(m?'Z\\ket{\\psi}':'\\ket{\\psi}'):pos>=4?`${n?'X':''}${m?'Z':''}\\ket{\\psi}`:'?','text-anchor':'start',class:'tint '+(pos>=6?'c-state':'c-teal')});
    // Bottom panel (y = 232..418): Left = Alice input |ψ⟩ circle, Center = 8 basis amplitudes grouped by mn, Right = Bob's state circle.
    node(svg,'path',{d:'M18 232H662',class:'lf-thin c-faint'});
    const drawDial=(cx,cy,vec,title,tint)=>{
@@ -754,8 +1245,8 @@
     label(svg,cx,254,title,{class:'lf-caption'});
     node(svg,'circle',{cx,cy,r:R,class:'lf-ring'});
     node(svg,'path',{d:`M${cx-R-5} ${cy}H${cx+R+5}M${cx} ${cy+R+5}V${cy-R-5}`,class:'lf-thin c-axis'});
-    label(svg,cx+R+8,cy+4,'|0⟩',{'text-anchor':'start',class:'lf-caption'});
-    label(svg,cx,cy-R-9,'|1⟩',{class:'lf-caption'});
+    label(svg,cx+R+8,cy+4,'|0⟩',{'data-tex':'\\ket{0}','text-anchor':'start',class:'lf-caption'});
+    label(svg,cx,cy-R-9,'|1⟩',{'data-tex':'\\ket{1}',class:'lf-caption'});
     if(vec){
      arrow(svg,cx,cy,cx+R*vec[0],cy-R*vec[1],tint,2.8);
     }else{
@@ -774,7 +1265,7 @@
     label(svg,gx+44,286,`mn = ${pair}`,{class:'lf-caption'+(chosen?' tint c-neg':'')});
     [0,1].forEach(bit=>{
      const idx=g*2+bit,val=amps[idx],y=302+bit*52,w=Math.min(44,Math.abs(val)*44);
-     label(svg,gx+18,y+13,`|${bit}⟩`,{class:'lf-caption'});
+     label(svg,gx+18,y+13,`|${bit}⟩`,{'data-tex':`\\ket{${bit}}`,class:'lf-caption'});
      node(svg,'rect',{x:gx+34,y,width:46,height:15,rx:2,class:'lf-track'});
      if(w>.5)node(svg,'rect',{x:gx+34,y,width:w,height:15,rx:2,class:val<0?'c-neg':'c-teal',style:'fill:currentColor'});
      label(svg,gx+57,y+30,(val<0?'−':'')+fmt(Math.abs(val)),{class:'lf-caption',style:'font-size:12px'});
@@ -791,15 +1282,16 @@
    ];
    if(states[stepIndex]!==lastMath){lastMath=states[stepIndex];math(lab.querySelector('[data-state]'),states[stepIndex])}
    const notes=[
-    'Start: Alice holds the unknown state |ψ⟩ on wire 1; wires 2 and 3 start in |00⟩.',
-    'Bell pair ready: Alice and Bob now share |Φ⁺⟩ = (|00⟩ + |11⟩)/√2 across laboratories.',
+    'Start: Alice holds the unknown state \\(\\ket{\\psi}\\) on wire 1; wires 2 and 3 start in \\(\\ket{00}\\).',
+    'Bell pair ready: Alice and Bob now share \\(\\ket{\\Phi^+} = \\tfrac{1}{\\sqrt2}(\\ket{00} + \\ket{11})\\) across laboratories.',
     'Alice’s CNOT entangles her input qubit with the shared Bell pair.',
-    'Alice’s Hadamard creates four equally likely branches mn ∈ {00, 01, 10, 11}, each holding a Pauli-rotated copy of |ψ⟩ on Bob’s wire.',
-    `Alice measures m = ${m}, n = ${n}. Her input state is destroyed (respecting no-cloning), and the two classical bits travel along the dashed lines to Bob.`,
-    `Bob receives n = ${n} and applies X^${n}. Next, bit m = ${m} selects Z^${m}.`,
-    'Teleportation complete! Bob’s wire now holds the exact state |ψ⟩ without any quantum state ever crossing the laboratory boundary during the protocol.'
+    'Alice’s Hadamard creates four equally likely branches \\(mn \\in \\{00, 01, 10, 11\\}\\), each holding a Pauli-rotated copy of \\(\\ket{\\psi}\\) on Bob’s wire.',
+    `Alice measures \\((m,n) = (${m},${n})\\). Her input state is destroyed (respecting no-cloning), and the two classical bits travel along the dashed lines to Bob.`,
+    `Bob receives \\(n = ${n}\\) and applies \\(X^{${n}}\\). Next, bit \\(m = ${m}\\) selects \\(Z^{${m}}\\).`,
+    'Teleportation complete! Bob’s wire now holds the exact state \\(\\ket{\\psi}\\) without any quantum state ever crossing the laboratory boundary.'
    ];
-   lab.querySelector('[data-status]').textContent=notes[stepIndex];
+   math(lab.querySelector('[data-status]'),notes[stepIndex]);
+   typesetSvg(svg);
    lab.querySelector('[data-angle-out]').value=`${angleIn.value}°`;
    nextBtn.disabled=stepIndex===6;
    lab.dataset.step=String(stepIndex);lab.dataset.outcome=mn;
