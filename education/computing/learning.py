@@ -16,6 +16,8 @@ def esc(value): return html.escape(str(value),quote=True)
 def guide(stem):
  if stem == 'assignments':
   return '<aside class="learning-guide"><h2>Using the assignments</h2><p>These comprehensive problem sets bring together concepts across multiple chapters. Work through each problem by hand before reviewing the complete worked solutions.</p></aside>'
+ if stem == 'exams':
+  return '<aside class="learning-guide"><h2>Oral Examination Guide</h2><p>These conceptual problems probe understanding, intuition, and architectural vision rather than rote symbolic calculation. Designed for a 30-minute oral defense covering Chapters 1 through 6.</p></aside>'
  if stem not in LEARNING:
   return '<aside class="learning-guide"><h2>Using the appendices</h2><p>These are supporting references. Read them when a chapter points here; completing them in advance is not required.</p></aside>'
  d=LEARNING[stem]

@@ -1,0 +1,79 @@
+{
+  "slug": "q-ctrl-290-million-series-c",
+  "title": "Q-CTRL raises $290 million for quantum control software",
+  "summary": "The Sydney company Q-CTRL has closed a US$290 million Series C led by Salesforce Ventures, which values it at more than US$1 billion. It is a large bet on the software that makes noisy quantum hardware and quantum sensors usable, not a new technical result.",
+  "banner": {
+    "file": "banner.svg",
+    "alt": "Illustration: a noisy drive signal passing through a control layer and leaving as smooth shaped pulses on a row of qubits."
+  },
+  "key_points": [
+    "Q-CTRL announced a US$290 million (A$415 million) Series C on 12 November 2026, led by Salesforce Ventures.",
+    "The round values the company at more than US$1 billion; neither Q-CTRL nor its investors disclosed the exact valuation or the company’s revenue.",
+    "Australia’s National Reconstruction Fund Corporation put in A$70 million, the federal government’s largest direct quantum investment so far.",
+    "This is funding, not a demonstration: the performance claims quoted around it are Q-CTRL’s own and are not independently verified in the announcement."
+  ],
+  "author": "Quantum Research Center",
+  "published": "2026-11-14",
+  "status": "published",
+  "topic": "companies",
+  "format": "News",
+  "sections": [
+    {
+      "heading": "What was announced",
+      "paragraphs": [
+        "On 12 November 2026 Q-CTRL, a quantum technology company founded in Sydney in 2017 by Michael J. Biercuk, announced that it had closed a Series C funding round of US$290 million (A$415 million). Salesforce Ventures led the round, with significant participation from Bullhound Capital and Affinity Partners. Q-CTRL says the round was oversubscribed and expanded twice.",
+        "New investors include AMD Ventures, the defence group EDGE, MPower Partners, SPARX Asset Management and Australia’s National Reconstruction Fund Corporation, a federal investment body. Returning investors include DCVC, In-Q-Tel, Lockheed Martin Ventures, Main Sequence and Square Peg.",
+        "The company calls itself the newest quantum unicorn but gave no valuation. The National Reconstruction Fund Corporation said the round valued Q-CTRL at more than US$1 billion and that its own A$70 million stake is the federal government’s largest direct quantum investment so far. Quantum Computing Report describes the round as the largest private raise for a software-focused quantum company; Q-CTRL makes the same claim."
+      ],
+      "source_refs": [1, 2, 3, 4]
+    },
+    {
+      "heading": "What Q-CTRL sells",
+      "paragraphs": [
+        "Q-CTRL does not build quantum computers. Its products sit between hardware and users. Fire Opal and Boulder Opal design the control pulses and error-suppression steps that make a given processor behave closer to its ideal, and are offered on IBM’s and other companies’ machines. Black Opal is a training product. In the same week Q-CTRL reported automated calibration of a 21-qubit processor from QuantWare and new Fire Opal functions in IBM’s catalogue.",
+        "The second line of business is sensing. Ironstone Opal is a navigation system that uses quantum magnetometers to locate a vehicle against the Earth’s magnetic field when GPS is unavailable or jammed. Q-CTRL has flight-tested it with Airbus and Lockheed Martin, and on 11 November announced that it had passed RTCA DO-160, the standard environmental qualification for airborne equipment."
+      ],
+      "source_refs": [1, 2, 5]
+    },
+    {
+      "heading": "What the money is for",
+      "paragraphs": [
+        "Q-CTRL says it will expand its software products and scale globally across finance, energy, defence, aerospace and government customers, and continue its autonomy and aerospace programmes. Quantum Computing Report adds that the company plans to grow in Japan’s industrial and high-performance computing sectors, where two of the new investors are based. No breakdown between the computing and sensing businesses was given."
+      ],
+      "source_refs": [1, 2]
+    },
+    {
+      "heading": "How to read it",
+      "paragraphs": [
+        "This is a financing event. It shows that investors, including a national fund and several defence-linked backers, will pay unicorn prices for control software and quantum sensing; it does not by itself show new technical capability. The announcement and investor quotes repeat Q-CTRL’s performance claims, such as a materials simulation on IBM hardware said to run more than 3,000 times faster than a leading classical method and navigation said to be 100 times better than the best alternative, but the release does not give the methods behind them, and they have not been independently checked here.",
+        "The round fits a pattern seen this autumn, with Intel agreeing to buy the software company Classiq: much of the money in quantum computing is now going to the layers that make imperfect hardware usable, while the hardware itself is still being scaled."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Q-CTRL press release: Q-CTRL Secures US$290 Million Series C Funding Led by Salesforce Ventures to Accelerate the Convergence of Quantum and AI, 12 November 2026",
+      "url": "https://q-ctrl.com/blog/q-ctrl-secures-us-290-million-series-c-funding-led-by-salesforce-ventures-to-accelerate-the-convergence-of-quantum-and-ai"
+    },
+    {
+      "title": "Quantum Computing Report, Q-CTRL raises $290 million in Series C funding led by Salesforce Ventures, 13 November 2026",
+      "url": "https://quantumcomputingreport.com/q-ctrl-raises-290-million-in-series-c-funding-led-by-salesforce-ventures-to-scale-quantum-infrastructure-software/"
+    },
+    {
+      "title": "The Quantum Insider, Q-CTRL Secures US$290 Million Series C Funding Led by Salesforce Ventures, 12 November 2026",
+      "url": "https://thequantuminsider.com/2026/11/12/q-ctrl-secures-us290-million-series-c-funding-led-by-salesforce-ventures/"
+    },
+    {
+      "title": "Bushletter, Q-CTRL becomes Australia’s first quantum unicorn, 13 November 2026",
+      "url": "https://www.bushletter.com/sydney-quantum-start-up-q-ctrl-joins-the-us-1bn-club/"
+    },
+    {
+      "title": "Quantum Computing Report, Q-CTRL achieves RTCA DO-160 airworthiness qualification for Ironstone Opal quantum navigation, 11 November 2026",
+      "url": "https://quantumcomputingreport.com/q-ctrl-achieves-rtca-do-160-airworthiness-qualification-for-ironstone-opal-quantum-navigation/"
+    }
+  ],
+  "related_articles": [
+    "intel-to-acquire-classiq"
+  ],
+  "related_papers": []
+}

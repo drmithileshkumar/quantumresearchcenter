@@ -18,592 +18,492 @@
 </section>
 
 <article class="assignment-problem" id="question-1">
-  <h2>Question 1: Reversible Embedding and Workspace Cleaning <a class="heading-link" href="#question-1">§</a></h2>
+  <h2>Question 1: Configuration Trajectories, Reversible Embedding, and Workspace Cleaning <a class="heading-link" href="#question-1">§</a></h2>
   <div class="problem-statement">
-    <p>Ordinary digital gates frequently merge multiple distinct inputs into identical outputs. Consider the 3-input Boolean majority function \(\operatorname{Maj}(x_1, x_2, x_3)\), which outputs \(1\) if two or more of its inputs are \(1\), and \(0\) otherwise:</p>
+    <p>In Chapter 1, computation is formulated as a sequence of discrete updates between configurations: \(c_t \to c_{t+1}\). A computational rule \(\tau: \mathcal{C} \to \mathcal{C}\) is deterministic if every configuration has at most one successor, and reversible if every configuration has at most one predecessor.</p>
+    <p>Consider the 3-input Boolean majority function \(\operatorname{Maj}(x_1, x_2, x_3)\), which outputs \(1\) if two or more inputs are \(1\), and \(0\) otherwise:</p>
     <p>\[\operatorname{Maj}(x_1, x_2, x_3) = (x_1 \land x_2) \lor (x_2 \land x_3) \lor (x_3 \land x_1).\]</p>
-    <p><strong>(a) Colliding Trajectories and Information Loss:</strong> Construct the complete truth table for \(\operatorname{Maj}(x_1, x_2, x_3)\). How many input combinations map to output \(0\), and how many map to output \(1\)? Given only the output bit, can you deduce the initial input values? Explain what makes this transition logically irreversible in terms of configuration trajectories.</p>
-    <p><strong>(b) Polynomial over the Binary Field:</strong> Express \(\operatorname{Maj}(x_1, x_2, x_3)\) as a polynomial over the binary field \(\mathbb{F}_2\) using only addition modulo \(2\) (\(\oplus\)) and multiplication (AND). Verify that your polynomial evaluates correctly on all eight input combinations.</p>
-    <p><strong>(c) Standard Reversible Embedding:</strong> Embed \(\operatorname{Maj}\) into the standard 4-bit reversible mapping:</p>
+    <p><strong>(a) Colliding Trajectories and Information Loss:</strong> View the evaluation of \(\operatorname{Maj}\) as an update from 3-bit input configurations to 1-bit output configurations. Construct its truth table. How many distinct input trajectories merge into output \(0\), and how many into output \(1\)? Given only the final output configuration, can the predecessor be recovered? Explain why trajectory collisions physically necessitate thermodynamic heat dissipation of at least \(k_B T \ln 2\) per discarded bit according to Landauer’s principle.</p>
+    <p><strong>(b) Algebraic Normal Form:</strong> Express \(\operatorname{Maj}(x_1, x_2, x_3)\) as a polynomial over the binary field \(\mathbb{F}_2\) using only addition modulo \(2\) (\(\oplus\)) and multiplication (\(\land\)). Verify that your polynomial correctly computes the function for all eight configurations.</p>
+    <p><strong>(c) Reversible Function Embedding:</strong> To eliminate trajectory collisions, embed \(\operatorname{Maj}\) into a bijective mapping on a 4-bit configuration space:</p>
     <p>\[(x_1, x_2, x_3, y) \mapsto (x_1, x_2, x_3, y \oplus \operatorname{Maj}(x_1, x_2, x_3)).\]</p>
-    <p>Show how to synthesize this operation on four wires using a sequence of elementary Toffoli gates targeting the output wire \(y\).</p>
-    <p><strong>(d) The Compute–Copy–Uncompute Procedure:</strong> Suppose an algorithm evaluates a function with the help of an auxiliary workspace bit \(w\) initialized to \(0\), producing \((x, 0_w, 0_y) \mapsto (x, g(x)_w, f(x)_y)\). Explain step by step how Bennett’s compute–copy–uncompute procedure cleans the workspace bit \(w\) back to \(0\) without destroying the output bit \(f(x)\).</p>
+    <p>Prove that this mapping is a permutation of the 16 configurations. Synthesize it using an explicit cascade of elementary Toffoli gates targeting the output wire \(y\).</p>
+    <p><strong>(d) Uncomputing Workspace Footprints:</strong> Suppose an algorithm evaluates a complex function with the aid of an auxiliary workspace bit \(w\) initialized to \(0\), yielding \((x, 0_w, 0_y) \xrightarrow{U} (x, g(x)_w, f(x)_y)\). Explain why resetting \(w\) to \(0\) by an irreversible reset dissipates energy. Derive Bennett’s compute–copy–uncompute procedure from the invertibility of reversible circuits (\(U^{-1}U = I\)), showing how it restores the workspace configuration to \(0\) without destroying the computed result \(f(x)\).</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Truth Table and Irreversibility:</strong></p>
-      <p>Evaluating \(\operatorname{Maj}(x_1, x_2, x_3)\) on all \(2^3 = 8\) inputs:</p>
+      <p><strong>(a) Colliding Trajectories and Landauer’s Principle:</strong></p>
+      <p>Evaluating \(\operatorname{Maj}(x_1, x_2, x_3)\) on all \(2^3 = 8\) input configurations:</p>
       <ul>
-        <li>Inputs mapping to \(0\): \((0,0,0) \to 0\), \((0,0,1) \to 0\), \((0,1,0) \to 0\), \((1,0,0) \to 0\) (\(4\) inputs).</li>
-        <li>Inputs mapping to \(1\): \((0,1,1) \to 1\), \((1,0,1) \to 1\), \((1,1,0) \to 1\), \((1,1,1) \to 1\) (\(4\) inputs).</li>
+        <li>Configurations mapping to \(0\): \((0,0,0)\), \((0,0,1)\), \((0,1,0)\), \((1,0,0)\) (\(4\) configurations).</li>
+        <li>Configurations mapping to \(1\): \((0,1,1)\), \((1,0,1)\), \((1,1,0)\), \((1,1,1)\) (\(4\) configurations).</li>
       </ul>
-      <p>Given only the output, it is impossible to reconstruct the original inputs: an output of \(0\) could have originated from any of \(4\) distinct inputs, and an output of \(1\) could have originated from any of the other \(4\). In terms of state configurations, the operation merges four distinct trajectories into a single state, losing the predecessor configuration and making backward reconstruction impossible.</p>
+      <p>The operation maps an 8-element configuration space to a 2-element space. Because 4 distinct input configurations collapse into each output configuration, the mapping is many-to-one (non-injective). Given only the output bit, the predecessor configuration cannot be uniquely reconstructed: 2 bits of configuration entropy are destroyed. By Landauer's principle, any physical process that merges logical trajectories reduces the information entropy of the computational degrees of freedom, transferring at least \(\Delta S = k_B \ln 4 = 2 k_B \ln 2\) of entropy to the thermal environment as heat dissipation \(Q \ge 2 k_B T \ln 2\).</p>
 
-      <p><strong>(b) Binary-Field Polynomial:</strong></p>
-      <p>Notice that no two product terms \(x_1 x_2\), \(x_2 x_3\), or \(x_3 x_1\) can simultaneously equal \(1\) unless at least two inputs are \(1\). If exactly two inputs are \(1\), exactly one product is \(1\) and the others are \(0\), giving sum \(1\). If all three inputs are \(1\), all three products are \(1\), giving \(1 \oplus 1 \oplus 1 = 1\). If fewer than two inputs are \(1\), all products are \(0\), giving \(0\). Thus, over \(\mathbb{F}_2\):</p>
+      <p><strong>(b) Polynomial over the Binary Field:</strong></p>
+      <p>Over \(\mathbb{F}_2\), the disjunction \(a \lor b = a \oplus b \oplus ab\). For the majority function, no two products \(x_1 x_2\), \(x_2 x_3\), and \(x_3 x_1\) can simultaneously equal \(1\) unless at least two variables are \(1\). If exactly two inputs are \(1\), exactly one product is \(1\) and the others are \(0\), giving sum \(1\). If all three inputs are \(1\), all three products are \(1\), giving \(1 \oplus 1 \oplus 1 = 1\). If fewer than two inputs are \(1\), all products are \(0\), giving \(0\). Thus, over \(\mathbb{F}_2\):</p>
       <p>\[\operatorname{Maj}(x_1, x_2, x_3) = x_1 x_2 \oplus x_2 x_3 \oplus x_3 x_1.\]</p>
-      <p>Checking the values:<br/>
+      <p>Verification across all eight configurations:<br/>
       - On \(000\): \(0 \oplus 0 \oplus 0 = 0\).<br/>
-      - On \(001, 010, 100\): exactly one variable is \(1\), so every product is \(0\), giving \(0\).<br/>
-      - On \(011\): \(0 \oplus 1 \oplus 0 = 1\); on \(101\): \(0 \oplus 0 \oplus 1 = 1\); on \(110\): \(1 \oplus 0 \oplus 0 = 1\).<br/>
-      - On \(111\): \(1 \oplus 1 \oplus 1 = 1\).<br/>
-      The polynomial matches the truth table on all eight inputs.</p>
+      - On \(001, 010, 100\): exactly one variable is \(1\), all pairwise products are \(0\), yielding \(0\).<br/>
+      - On \(011, 101, 110\): exactly one pair is \(1\), yielding \(1\).<br/>
+      - On \(111\): all three pairs are \(1\), yielding \(1 \oplus 1 \oplus 1 = 1\).<br/>
+      The algebraic normal form matches the truth table identically.</p>
 
-      <p><strong>(c) Reversible Toffoli Construction:</strong></p>
-      <p>A Toffoli gate with control wires \((a, b)\) and target wire \(c\) maps \((a, b, c) \mapsto (a, b, c \oplus ab)\). To implement \(y \oplus \operatorname{Maj}(x_1, x_2, x_3)\), initialize the target wire to \(y\) and apply three successive Toffoli gates targeting \(y\):</p>
+      <p><strong>(c) Reversible Embedding and Toffoli Cascade:</strong></p>
+      <p>The mapping \(\tau_{\text{rev}}: (x_1, x_2, x_3, y) \mapsto (x_1, x_2, x_3, y \oplus \operatorname{Maj}(x))\) is an involution: applying \(\tau_{\text{rev}}\) twice yields \((x_1, x_2, x_3, (y \oplus \operatorname{Maj}(x)) \oplus \operatorname{Maj}(x)) = (x_1, x_2, x_3, y)\), the identity mapping. Because \(\tau_{\text{rev}}^2 = I\), it is a bijection (a permutation of order 2) on the 16 configurations, ensuring no trajectories collide.</p>
+      <p>An elementary Toffoli gate \(\text{CCNOT}(a, b; c)\) maps \((a, b, c) \mapsto (a, b, c \oplus ab)\). Since \(\operatorname{Maj}(x) = x_1 x_2 \oplus x_2 x_3 \oplus x_3 x_1\), we apply three successive Toffoli gates all targeting the output wire \(y\):</p>
       <ol>
-        <li>Toffoli with controls \((x_1, x_2)\) and target \(y\): target becomes \(y \oplus x_1 x_2\).</li>
-        <li>Toffoli with controls \((x_2, x_3)\) and target \(y\): target becomes \(y \oplus x_1 x_2 \oplus x_2 x_3\).</li>
-        <li>Toffoli with controls \((x_3, x_1)\) and target \(y\): target becomes \(y \oplus x_1 x_2 \oplus x_2 x_3 \oplus x_3 x_1 = y \oplus \operatorname{Maj}(x_1, x_2, x_3)\).</li>
+        <li>\(\text{CCNOT}(x_1, x_2; y)\): updates target to \(y \oplus x_1 x_2\).</li>
+        <li>\(\text{CCNOT}(x_2, x_3; y)\): updates target to \(y \oplus x_1 x_2 \oplus x_2 x_3\).</li>
+        <li>\(\text{CCNOT}(x_3, x_1; y)\): updates target to \(y \oplus x_1 x_2 \oplus x_2 x_3 \oplus x_3 x_1 = y \oplus \operatorname{Maj}(x)\).</li>
       </ol>
-      <p>The input wires \(x_1, x_2, x_3\) serve only as controls and emerge completely unchanged, while the target wire computes the majority function reversibly.</p>
+      <p>The control configurations \(x_1, x_2, x_3\) are strictly preserved, preventing any trajectory collision.</p>
 
-      <p><strong>(d) The Compute–Copy–Uncompute Procedure:</strong></p>
-      <p>If intermediate calculations leave residual data in auxiliary workspace wires, those wires become entangled with the computation, preventing interference and leaking information. Bennett’s procedure resolves this in three stages:</p>
+      <p><strong>(d) Uncomputing Workspace Footprints:</strong></p>
+      <p>Resetting the workspace wire \(w\) by an irreversible reset operation (\(w \mapsto 0\)) merges the trajectories \(w = 0\) and \(w = 1\), dissipating Landauer heat. In quantum computing, retaining garbage in \(w\) is even more consequential: the entangled workspace configuration \(\sum_x \ket{x}\ket{g(x)}_w\ket{f(x)}_y\) prevents destructive interference between different \(x\) computational paths.</p>
+      <p>Bennett’s compute–copy–uncompute protocol resolves this in three reversible stages:</p>
       <ol>
-        <li><em>Compute:</em> Run a reversible circuit \(U\) using clean ancilla wires: \((x, 0_w, 0_t) \xrightarrow{U} (x, g(x)_w, f(x)_t)\), where \(w\) holds workspace garbage and \(t\) holds the answer.</li>
-        <li><em>Copy:</em> Use a CNOT gate with wire \(t\) as control and a fresh output wire \(y\) initialized to \(0\) as target: \((x, g(x)_w, f(x)_t, 0_y) \xrightarrow{\text{CNOT}} (x, g(x)_w, f(x)_t, f(x)_y)\).</li>
-        <li><em>Uncompute:</em> Apply the inverse circuit \(U^{-1}\) (running the gates of \(U\) in reverse order) to the input, workspace, and intermediate answer wires: \((x, g(x)_w, f(x)_t, f(x)_y) \xrightarrow{U^{-1}} (x, 0_w, 0_t, f(x)_y)\).</li>
+        <li><em>Compute:</em> Apply reversible circuit \(U\): \((x, 0_w, 0_t) \xrightarrow{U} (x, g(x)_w, f(x)_t)\), where \(w\) holds workspace garbage and \(t\) holds the answer.</li>
+        <li><em>Copy:</em> Apply a CNOT gate from target wire \(t\) to a fresh output wire \(y\) initialized to \(0\): \((x, g(x)_w, f(x)_t, 0_y) \xrightarrow{\text{CNOT}} (x, g(x)_w, f(x)_t, f(x)_y)\).</li>
+        <li><em>Uncompute:</em> Apply the inverse circuit \(U^{-1}\) to the input, workspace, and intermediate wires: \((x, g(x)_w, f(x)_t, f(x)_y) \xrightarrow{U^{-1}} (x, 0_w, 0_t, f(x)_y)\).</li>
       </ol>
-      <p>Because \(U^{-1}U = I\), the workspace wire \(w\) and intermediate wire \(t\) are returned deterministically to their clean initial state \(0\), leaving only the inputs \(x\) and the desired answer \(f(x)\).</p>
+      <p>Because \(U^{-1}U = I\), the workspace configuration returns deterministically to \(0_w\) and intermediate wire to \(0_t\) without any information erasure or heat dissipation.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-2">
-  <h2>Question 2: Invariants, Termination Variants, and the Halting Problem <a class="heading-link" href="#question-2">§</a></h2>
+  <h2>Question 2: Invariants, Variants, and the Halting Problem <a class="heading-link" href="#question-2">§</a></h2>
   <div class="problem-statement">
-    <p>Formal computational models trace execution through precise state transitions, using invariants to verify correctness and variants to prove termination.</p>
-    <p><strong>(a) Euclid’s Transition Rule:</strong> Consider Euclid’s subtraction algorithm acting on state configurations \((a, b) \in \mathbb{N}^+ \times \mathbb{N}^+\):</p>
+    <p>A formal computational process is specified by a set of configurations \(\mathcal{C}\) and a step function \(\tau: \mathcal{C} \to \mathcal{C}\). We reason about execution trajectories using invariants (quantities preserved along every step) and variants (well-founded quantities strictly decreasing at every step to guarantee termination).</p>
+    <p><strong>(a) Invariants and Termination in Euclid’s Algorithm:</strong> Consider Euclid’s subtraction algorithm on pairs \((a, b) \in \mathbb{N}^+ \times \mathbb{N}^+\):</p>
     <p>\[\tau(a, b) = \begin{cases} (a - b, b) & \text{if } a > b, \\ (a, b - a) & \text{if } b > a.\end{cases}\]</p>
-    <p>The transition halts when \(a = b\).<br/>
-    (i) Prove from first principles that \(I(a, b) = \gcd(a, b)\) is an invariant of the transition: \(I(\tau(a, b)) = I(a, b)\).<br/>
-    (ii) Define the variant function \(V(a, b) = a + b\). Prove that \(V\) strictly decreases by at least \(1\) at every non-halting step, and deduce an upper bound on the maximum number of steps before halting.</p>
-    <p><strong>(b) The Diagonal Halting Argument:</strong> Suppose there existed a total deterministic Turing machine decider \(H\) that decides the halting problem:</p>
-    <p>\[H(\langle M, w \rangle) = \begin{cases} 1 & \text{if machine } M \text{ halts on input } w, \\ 0 & \text{if machine } M \text{ loops forever on input } w.\end{cases}\]</p>
-    <p>(i) Describe the construction of Turing’s diagonal machine \(D\) that takes an encoding \(\langle M \rangle\) as input and invokes \(H(\langle M, \langle M \rangle \rangle)\).<br/>
-    (ii) Trace what happens when \(D\) runs on its own description \(\langle D \rangle\) and deduce the resulting contradiction.</p>
-    <p><strong>(c) Reversibility and Finite State Trajectories:</strong> Consider a deterministic computing machine operating on a finite set of \(S\) configurations.<br/>
-    (i) Explain why every infinite trajectory on a finite configuration space must eventually revisit an earlier configuration.<br/>
-    (ii) If the machine is both deterministic and reversible, prove that any cycle must return directly to the initial configuration \(C_0\), so that no "lasso-shaped" trajectory (a transient tail entering a loop) is possible.</p>
+    <p>The process halts when \(a = b\).<br/>
+    (i) Prove from first principles that \(I(a, b) = \gcd(a, b)\) is a strict invariant: \(I(\tau(a, b)) = I(a, b)\).<br/>
+    (ii) Define the variant function \(V(a, b) = a + b\). Prove that \(V\) strictly decreases by at least \(1\) under every non-halting step, and derive an exact upper bound on the number of steps before halting.</p>
+    <p><strong>(b) Trajectory Topology on Finite State Spaces:</strong> Suppose a deterministic machine operates on a finite configuration space containing \(S\) total configurations.<br/>
+    (i) Prove by the pigeonhole principle that any trajectory of length \(\ge S + 1\) must revisit a previously encountered configuration.<br/>
+    (ii) Prove that if the step rule is reversible (bijective), any repeating trajectory must return directly to the initial configuration \(c_0\). Explain why transient tails ("lasso-shaped" trajectories where a path enters a loop from outside) are strictly impossible in reversible systems.</p>
+    <p><strong>(c) Undecidability of Halting:</strong> Suppose there existed a total deterministic Turing machine decider \(H\) that accepts an encoding \(\langle M, w \rangle\) and determines whether machine \(M\) starting on input \(w\) terminates in a halting configuration.<br/>
+    (i) Construct Turing’s diagonal machine \(D\) that takes an encoding \(\langle M \rangle\) as input and queries \(H(\langle M, \langle M \rangle \rangle)\).<br/>
+    (ii) Trace the behavior of \(D\) when executed on its own encoding \(\langle D \rangle\), and deduce why the halting of computational trajectories is undecidable.</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Invariants and Variants of Euclid’s Transition:</strong></p>
-      <p>(i) <em>Invariance of \(\gcd(a, b)\):</em> Suppose \(a > b\). Let \(g\) be any common divisor of \(a\) and \(b\). Then \(g \mid a\) and \(g \mid b\), which implies \(g \mid (a - b)\). Thus \(g\) is a common divisor of \(a - b\) and \(b\). Conversely, let \(d\) be any common divisor of \(a - b\) and \(b\). Then \(d \mid (a - b)\) and \(d \mid b\), so \(d \mid ((a - b) + b) = a\). Thus \(d\) is also a common divisor of \(a\) and \(b\). Because the set of common divisors of \((a, b)\) is identical to the set of common divisors of \((a - b, b)\), their greatest common divisors must be identical: \(\gcd(a - b, b) = \gcd(a, b)\). By symmetry, when \(b > a\), \(\gcd(a, b - a) = \gcd(a, b)\). Thus \(I(\tau(a, b)) = I(a, b)\) on every transition.</p>
-      <p>(ii) <em>Strict Variant:</em> Define \(V(a, b) = a + b\). Since \(a, b \in \mathbb{N}^+\), \(V(a, b) \ge 2\). At any non-halting step with \(a > b\), \(V(\tau(a, b)) = (a - b) + b = a\). Because \(b \ge 1\), \(a \le (a + b) - 1 = V(a, b) - 1\). Similarly, if \(b > a\), \(V(\tau(a, b)) = a + (b - a) = b \le V(a, b) - 1\). Thus \(V\) strictly decreases by at least \(1\) at every step. Because \(V\) is an integer bounded below by \(2\) (with halting occurring when \(a = b \ge 1\), so \(V \ge 2\)), the algorithm must halt in at most \(V(a, b) - 2 = a + b - 2\) transitions.</p>
+      <p><strong>(a) Invariants and Variants of Euclid’s Algorithm:</strong></p>
+      <p>(i) <em>Invariance of \(\gcd(a, b)\):</em> Suppose \(a > b\). Let \(g\) divide both \(a\) and \(b\) (\(g \mid a\) and \(g \mid b\)). Then \(a = k_1 g\) and \(b = k_2 g\), so \(a - b = (k_1 - k_2)g\), meaning \(g \mid (a - b)\). Thus any common divisor of \((a, b)\) also divides \((a - b, b)\). Conversely, let \(d\) divide both \((a - b)\) and \(b\). Then \(a = (a - b) + b\) is a multiple of \(d\), so \(d\) divides both \(a\) and \(b\). Because the set of common divisors of \((a, b)\) is identical to the set of common divisors of \((a - b, b)\), their greatest common divisors must be identical: \(\gcd(a - b, b) = \gcd(a, b)\). By symmetry, when \(b > a\), \(\gcd(a, b - a) = \gcd(a, b)\). Thus \(I(\tau(a, b)) = I(a, b)\) across every step.</p>
+      <p>(ii) <em>Strict Variant:</em> Define \(V(a, b) = a + b\). Since \(a, b \in \mathbb{N}^+\), \(V \ge 2\). When \(a > b\), \(\tau(a, b) = (a - b, b)\), giving \(V(\tau(a, b)) = (a - b) + b = a\). Since \(b \ge 1\), \(a \le a + b - 1 = V(a, b) - 1\). Symmetrically, if \(b > a\), \(V(\tau(a, b)) = b \le V(a, b) - 1\). Thus \(V\) strictly decreases by at least \(1\) on each step. Halting occurs when \(a = b \ge 1\), where \(V \ge 2\). Therefore, starting from \((a_0, b_0)\), the algorithm must halt within at most \(a_0 + b_0 - 2\) steps.</p>
 
-      <p><strong>(b) Turing’s Diagonal Halting Argument:</strong></p>
-      <p>(i) Define machine \(D\) with input \(\langle M \rangle\):<br/>
-      1. Run the decider \(H\) on input \(\langle M, \langle M \rangle \rangle\).<br/>
-      2. If \(H\) returns \(1\) (signaling that \(M\) halts on \(\langle M \rangle\)), enter a deliberate infinite loop (for example, stepping right on the tape indefinitely).<br/>
-      3. If \(H\) returns \(0\) (signaling that \(M\) loops forever on \(\langle M \rangle\)), halt immediately.</p>
-      <p>(ii) Run \(D\) on its own description \(\langle D \rangle\):<br/>
-      - Case 1: Suppose \(D\) halts on \(\langle D \rangle\). Then by definition of \(H\), \(H(\langle D, \langle D \rangle \rangle) = 1\). But according to step 2 of \(D\)’s construction, when \(H\) returns \(1\), \(D\) enters an infinite loop. This contradicts the assumption that \(D\) halts.<br/>
-      - Case 2: Suppose \(D\) loops forever on \(\langle D \rangle\). Then by definition of \(H\), \(H(\langle D, \langle D \rangle \rangle) = 0\). But according to step 3 of \(D\)’s construction, when \(H\) returns \(0\), \(D\) halts immediately. This contradicts the assumption that \(D\) loops.<br/>
-      Because both cases produce a contradiction, no such total decider \(H\) can exist.</p>
+      <p><strong>(b) Trajectory Topology and Reversible Cycles:</strong></p>
+      <p>(i) Consider a deterministic sequence of \(S + 1\) configurations: \(c_0, c_1, \dots, c_S\). Since there are only \(S\) distinct configurations in \(\mathcal{C}\), by the pigeonhole principle there must exist indices \(0 \le j < k \le S\) such that \(c_j = c_k\). Thus the trajectory revisits an earlier configuration and enters a periodic loop.</p>
+      <p>(ii) In a reversible system, \(\tau\) is a bijection: every configuration has a unique successor and a unique predecessor. Suppose for contradiction that the trajectory forms a "lasso": a transient tail \(c_0, c_1, \dots, c_{j-1}\) that enters a cycle at \(c_j\) from outside, where \(c_k = c_j\) for some \(k > j > 0\). Then configuration \(c_j\) has two distinct predecessors: \(c_{j-1}\) (from the transient tail) and \(c_{k-1}\) (from inside the cycle). Since \(c_{j-1} \notin \{c_j, \dots, c_{k-1}\}\), \(c_{j-1} \ne c_{k-1}\). But this means \(\tau(c_{j-1}) = c_j = \tau(c_{k-1})\), which violates reversibility (injectivity). Therefore, no transient tail can exist: every repeating trajectory must return directly to \(c_0\) (\(j = 0\)). The entire configuration space of any finite reversible system partitions into disjoint, closed periodic cycles.</p>
 
-      <p><strong>(c) Reversible State Trajectories:</strong></p>
-      <p>(i) By the Pigeonhole Principle, an infinite sequence of configurations \(C_0, C_1, C_2, \dots\) drawn from a finite set of \(S\) configurations must contain at least one repeated state: \(C_k = C_j\) for some \(k > j\). Because the machine is deterministic, the subsequent trajectory from \(C_k\) must reproduce the trajectory from \(C_j\), creating a closed cycle.</p>
-      <p>(ii) In a reversible machine, every configuration has a <em>unique predecessor</em> as well as a unique successor. In a lasso-shaped trajectory, a configuration \(C_j\) inside the cycle would have two distinct predecessors: the transient predecessor \(C_{j-1}\) from outside the loop, and the preceding configuration on the cycle \(C_{k-1}\). But having two predecessors violates reversibility. Therefore, no transient tail can feed into a cycle from outside: the loop must close directly onto the initial configuration \(C_0\).</p>
+      <p><strong>(c) Undecidability of Halting:</strong></p>
+      <p>(i) Define machine \(D\) taking description \(\langle M \rangle\):<br/>
+      1. Run decider \(H\) on input \(\langle M, \langle M \rangle \rangle\).<br/>
+      2. If \(H\) accepts (meaning \(M\) halts on \(\langle M \rangle\)), \(D\) intentionally enters an infinite loop.<br/>
+      3. If \(H\) rejects (meaning \(M\) loops forever on \(\langle M \rangle\)), \(D\) halts immediately.</p>
+      <p>(ii) Now feed \(\langle D \rangle\) into \(D\):<br/>
+      - If \(D\) halts on \(\langle D \rangle\), then by construction \(H(\langle D, \langle D \rangle \rangle)\) must output \(1\), which triggers \(D\) to enter an infinite loop (a contradiction).<br/>
+      - If \(D\) loops forever on \(\langle D \rangle\), then \(H(\langle D, \langle D \rangle \rangle)\) outputs \(0\), which triggers \(D\) to halt immediately (a contradiction).<br/>
+      Since both possibilities lead to logical contradiction, the assumption that there exists a total deterministic decider for halting must be false.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-3">
-  <h2>Question 3: Probability Amplitudes, Path Sums, and Destructive Interference <a class="heading-link" href="#question-3">§</a></h2>
+  <h2>Question 3: Conserving Norms: From Stochastic Matrices to Unitary Operators <a class="heading-link" href="#question-3">§</a></h2>
   <div class="problem-statement">
-    <p>A central discovery of quantum computation is that alternative computational paths combine by adding probability amplitudes rather than probabilities.</p>
-    <p><strong>(a) Path Rules in Classical vs. Quantum Walks:</strong> Consider a system that can transition from an initial state \(\ket{\text{start}}\) to a final state \(\ket{\text{end}}\) via two alternative intermediate states, \(A\) and \(B\).
-    <ul>
-      <li>In a classical probabilistic process, the transition probabilities are \(P(\text{start} \to A) = 1/2\), \(P(A \to \text{end}) = 1/4\), \(P(\text{start} \to B) = 1/2\), and \(P(B \to \text{end}) = p\).</li>
-      <li>In a quantum process, the transition amplitudes are \(a(\text{start} \to A) = 1/\sqrt{2}\), \(a(A \to \text{end}) = 1/2\), \(a(\text{start} \to B) = 1/\sqrt{2}\), and \(a(B \to \text{end}) = c\), where \(c\) is a complex amplitude with \(|c|^2 = p\).</li>
-    </ul>
-    (i) Compute the total classical probability of reaching \(\ket{\text{end}}\). Can opening or increasing the transition probability of the second path ever <em>decrease</em> the overall probability of reaching \(\ket{\text{end}}\) classically?<br/>
-    (ii) Apply the product rule along each path and the sum rule across paths to derive the total quantum probability \(P_{\text{quantum}}(\text{end})\) as a function of \(c\).<br/>
-    (iii) Find a value of \(c\) with \(|c| = 1/2\) (corresponding to \(p = 1/4\)) that results in complete destructive interference, making \(P_{\text{quantum}}(\text{end}) = 0\).</p>
-
-    <p><strong>(b) Two Consecutive Hadamard Steps:</strong> The Hadamard gate transforms the computational basis states as:</p>
-    <p>\[H\ket{0} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}, \qquad H\ket{1} = \frac{\ket{0}-\ket{1}}{\sqrt{2}}.\]</p>
-    <p>Trace the two-step sequence \(\ket{0} \xrightarrow{H} \ket{\psi} \xrightarrow{H} \ket{\phi}\):<br/>
-    (i) List all four two-step paths from the initial state \(\ket{0}\) to the possible final states \(\ket{0}\) and \(\ket{1}\).<br/>
-    (ii) Calculate the amplitude of each path.<br/>
-    (iii) Show explicitly how the two paths leading to final state \(\ket{1}\) interfere destructively to give zero, while the two paths leading to \(\ket{0}\) interfere constructively to give one.</p>
-
-    <p><strong>(c) The Effect of Path Information:</strong> Suppose an experimenter places a detector on intermediate state \(B\) that registers a distinct record whenever the particle passes through \(B\). Explain why acquiring which-path information destroys the interference at \(\ket{\text{end}}\).</p>
+    <p>Chapters 3 and 4 reveal how transitioning from classical probabilistic models to quantum mechanics corresponds to changing the norm conserved by the evolution matrix.</p>
+    <p><strong>(a) Stochastic Evolution and the \(\ell_1\) Norm:</strong> In classical probabilistic computation, a state is a probability distribution \(\mathbf{p} = (p_1, \dots, p_N)^T\) where \(p_i \ge 0\) and \(\sum_i p_i = 1\). A state step is represented by an \(N \times N\) stochastic matrix \(M\) where \(M_{ij} = P(i \leftarrow j)\).<br/>
+    (i) State the mathematical conditions on the matrix elements \(M_{ij}\) that ensure \(\mathbf{p}' = M \mathbf{p}\) is a valid probability distribution for every valid \(\mathbf{p}\).<br/>
+    (ii) Prove that \(M\) strictly preserves the \(\ell_1\) norm \(\|\mathbf{p}\|_1 = \sum_i |p_i|\) for any non-negative probability vector.</p>
+    <p><strong>(b) Path Multiplication and Summation:</strong> Consider a two-step stochastic evolution from configuration \(j\) to \(i\) via intermediate configurations \(k\): \(P(i \leftarrow j) = \sum_k M_{ik} M_{kj}\).<br/>
+    Explain why, in any classical stochastic network, the total transition probability can never be strictly less than the probability contributed by any single computational path: \(P(i \leftarrow j) \ge M_{ik} M_{kj}\). Why does this rule out destructive interference?</p>
+    <p><strong>(c) Unitary Evolution and the \(\ell_2\) Norm:</strong> In quantum mechanics, a state is a complex vector \(\ket{\psi} = \sum_i \alpha_i \ket{i}\), where the probability of configuration \(i\) is given by the Born rule \(P(i) = |\alpha_i|^2\). The total probability is conserved if and only if the \(\ell_2\) Euclidean norm \(\|\ket{\psi}\|_2^2 = \sum_i |\alpha_i|^2 = 1\).<br/>
+    (i) Let \(U\) be an \(N \times N\) complex matrix representing state evolution: \(\ket{\psi'} = U \ket{\psi}\). Prove from first principles that \(\|U \ket{\psi}\|_2 = \|\ket{\psi}\|_2\) for all \(\ket{\psi}\) if and only if \(U\) is unitary (\(U^\dagger U = I\)).<br/>
+    (ii) Deduce that every unitary operator preserves inner products: \(\braket{U\phi}{U\psi} = \braket{\phi}{\psi}\).</p>
+    <p><strong>(d) Reversibility of Evolution:</strong> Contrast the reversibility of stochastic matrices versus unitary operators. Prove that every unitary matrix is unconditionally invertible and its inverse \(U^{-1} = U^\dagger\) is also a valid unitary operator, whereas an arbitrary stochastic matrix is generally non-invertible or its inverse contains unphysical negative elements.</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Classical vs. Quantum Path Sums:</strong></p>
-      <p>(i) By the classical product rule along paths and sum rule across paths:</p>
-      <p>\[P_{\text{classical}}(\text{end}) = P(\text{start} \to A)P(A \to \text{end}) + P(\text{start} \to B)P(B \to \text{end}) = \frac{1}{2}\cdot\frac{1}{4} + \frac{1}{2}p = \frac{1}{8} + \frac{1}{2}p.\]</p>
-      <p>Because probabilities are non-negative (\(p \ge 0\)), adding or increasing the probability of path \(2\) can only increase the total probability (it can never drop below \(1/8\)). Classical probabilities never cancel.</p>
-      <p>(ii) In the quantum walk, amplitudes multiply along each path and add across paths:</p>
-      <p>\[a_{\text{path 1}} = a(\text{start} \to A) a(A \to \text{end}) = \frac{1}{\sqrt{2}}\cdot\frac{1}{2} = \frac{1}{2\sqrt{2}}.\]</p>
-      <p>\[a_{\text{path 2}} = a(\text{start} \to B) a(B \to \text{end}) = \frac{1}{\sqrt{2}}\cdot c = \frac{c}{\sqrt{2}}.\]</p>
-      <p>The total amplitude is</p>
-      <p>\[a_{\text{total}} = a_{\text{path 1}} + a_{\text{path 2}} = \frac{1}{2\sqrt{2}} + \frac{c}{\sqrt{2}} = \frac{1 + 2c}{2\sqrt{2}}.\]</p>
-      <p>The quantum probability is the magnitude squared:</p>
-      <p>\[P_{\text{quantum}}(\text{end}) = |a_{\text{total}}|^2 = \frac{|1 + 2c|^2}{8}.\]</p>
-      <p>(iii) For complete destructive interference, we require \(a_{\text{total}} = 0 \iff 1 + 2c = 0 \iff c = -1/2\). Checking the magnitude: \(|c| = |-1/2| = 1/2\), so \(p = |c|^2 = 1/4\). When \(c = -1/2\), the probability of reaching \(\ket{\text{end}}\) becomes exactly \(0\), even though both individual paths have non-zero probability (\(1/8\) each).</p>
+      <p><strong>(a) Stochastic Evolution and \(\ell_1\) Conservation:</strong></p>
+      <p>(i) For \(\mathbf{p}' = M\mathbf{p}\) to be a valid distribution for all \(\mathbf{p}\):<br/>
+      - Each entry must be non-negative: \(M_{ij} \ge 0\) for all \(i, j\).<br/>
+      - The columns must sum to 1: \(\sum_{i=1}^N M_{ij} = 1\) for every column \(j\).</p>
+      <p>(ii) For any non-negative probability vector \(\mathbf{p}\) (where \(p_j \ge 0\)):</p>
+      <p>\[\|\mathbf{p}'\|_1 = \sum_{i=1}^N p'_i = \sum_{i=1}^N \sum_{j=1}^N M_{ij} p_j = \sum_{j=1}^N p_j \left( \sum_{i=1}^N M_{ij} \right) = \sum_{j=1}^N p_j (1) = \sum_{j=1}^N p_j = \|\mathbf{p}\|_1 = 1.\]</p>
+      <p>Thus stochastic matrices are isometries with respect to the \(\ell_1\) norm on the probability simplex.</p>
 
-      <p><strong>(b) Two Hadamard Steps Traced by Paths:</strong></p>
-      <p>(i) Starting from \(\ket{0}\), the four two-step paths are:<br/>
-      1. Path \(\ket{0} \to \ket{0} \to \ket{0}\)<br/>
-      2. Path \(\ket{0} \to \ket{1} \to \ket{0}\)<br/>
-      3. Path \(\ket{0} \to \ket{0} \to \ket{1}\)<br/>
-      4. Path \(\ket{0} \to \ket{1} \to \ket{1}\)</p>
-      <p>(ii) Using the transition amplitudes \(\braket{0}{H|0} = 1/\sqrt{2}\), \(\braket{1}{H|0} = 1/\sqrt{2}\), \(\braket{0}{H|1} = 1/\sqrt{2}\), and \(\braket{1}{H|1} = -1/\sqrt{2}\):<br/>
-      - Amplitude of Path 1: \(\frac{1}{\sqrt{2}} \times \frac{1}{\sqrt{2}} = \frac{1}{2}\).<br/>
-      - Amplitude of Path 2: \(\frac{1}{\sqrt{2}} \times \frac{1}{\sqrt{2}} = \frac{1}{2}\).<br/>
-      - Amplitude of Path 3: \(\frac{1}{\sqrt{2}} \times \frac{1}{\sqrt{2}} = \frac{1}{2}\).<br/>
-      - Amplitude of Path 4: \(\frac{1}{\sqrt{2}} \times \left(-\frac{1}{\sqrt{2}}\right) = -\frac{1}{2}\).</p>
-      <p>(iii) Summing amplitudes for each final state:<br/>
-      - For outcome \(\ket{0}\): \(a_1 + a_2 = \frac{1}{2} + \frac{1}{2} = 1 \implies P(0) = |1|^2 = 1\).<br/>
-      - For outcome \(\ket{1}\): \(a_3 + a_4 = \frac{1}{2} + \left(-\frac{1}{2}\right) = 0 \implies P(1) = |0|^2 = 0\).<br/>
-      The negative amplitude along the path through \(\ket{1}\) precisely cancels the positive amplitude along the path through \(\ket{0}\), yielding deterministic return to \(\ket{0}\).</p>
+      <p><strong>(b) Impossibility of Destructive Cancellation in Stochastic Networks:</strong></p>
+      <p>In a stochastic network, the total transition probability from \(j\) to \(i\) is a sum of products of non-negative real numbers: \(P(i \leftarrow j) = \sum_k M_{ik} M_{kj}\). Since every product \(M_{ik} M_{kj} \ge 0\), every term in the sum is non-negative. For any specific path through configuration \(k^*\):</p>
+      <p>\[P(i \leftarrow j) = M_{ik^*} M_{k^*j} + \sum_{k \ne k^*} M_{ik} M_{kj} \ge M_{ik^*} M_{k^*j}.\]</p>
+      <p>Adding alternative paths can only increase or keep constant the transition probability; alternative paths can never cancel out each other’s contributions. Destructive interference is mathematically impossible in any \(\ell_1\) stochastic model.</p>
 
-      <p><strong>(c) Which-Path Detection and Decoherence:</strong></p>
-      <p>Interference occurs only when the alternative paths are indistinguishable histories of the same system. If a detector records whether intermediate state \(B\) was traversed, the composite state becomes entangled with the detector: \(\frac{1}{2\sqrt{2}}\ket{\text{end}}\ket{\text{detector: no}} + \frac{c}{\sqrt{2}}\ket{\text{end}}\ket{\text{detector: yes}}\). Because the two detector states are orthogonal, their inner product is zero, eliminating the cross-terms in the squared norm. The total probability reduces to the classical sum of individual path probabilities: \(|1/2\sqrt{2}|^2 + |c/\sqrt{2}|^2 = 1/8 + p/2\). Information left in the environment destroys quantum interference.</p>
+      <p><strong>(c) Unitary Operators and \(\ell_2\) Norm Conservation:</strong></p>
+      <p>(i) Using the definition of the Euclidean norm via the conjugate transpose inner product: \(\|U \ket{\psi}\|_2^2 = (U \ket{\psi})^\dagger (U \ket{\psi}) = \bra{\psi} U^\dagger U \ket{\psi}\). We require \(\|U \ket{\psi}\|_2^2 = \|\ket{\psi}\|_2^2 = \bra{\psi} I \ket{\psi}\) for all \(\ket{\psi} \in \mathbb{C}^N\). Thus:</p>
+      <p>\[\bra{\psi} (U^\dagger U - I) \ket{\psi} = 0 \quad \forall \ket{\psi}.\]</p>
+      <p>Let \(A = U^\dagger U - I\). The operator \(A\) is Hermitian (\(A^\dagger = A\)). For any Hermitian matrix \(A\), if \(\bra{\psi} A \ket{\psi} = 0\) for all \(\ket{\psi}\), all its eigenvalues must be zero, which implies \(A = 0\). Therefore, \(U^\dagger U = I\), meaning \(U\) is unitary. Conversely, if \(U^\dagger U = I\), \(\|U\ket{\psi}\|_2^2 = \bra{\psi}U^\dagger U \ket{\psi} = \bra{\psi}\ket{\psi} = \|\ket{\psi}\|_2^2\).</p>
+      <p>(ii) By the polarization identity for complex inner products, \(\braket{\phi}{\psi} = \frac{1}{4} \sum_{k=0}^3 i^{-k} \|\ket{\phi} + i^k \ket{\psi}\|_2^2\). Since \(U\) preserves the \(\ell_2\) norm of all vectors, it preserves each term in the sum, and therefore \(\braket{U\phi}{U\psi} = \braket{\phi}{\psi}\). Unitary operators are isometries that preserve all geometric lengths and angles.</p>
+
+      <p><strong>(d) Invertibility of Evolution:</strong></p>
+      <p>Because \(U^\dagger U = I\), the matrix \(U\) is always full rank and invertible with two-sided inverse \(U^{-1} = U^\dagger\). Furthermore, \((U^\dagger)^\dagger (U^\dagger) = U U^\dagger = I\), so \(U^\dagger\) is itself a valid unitary operator. Quantum evolution is always a reversible physical process.<br/>
+      In contrast, an arbitrary stochastic matrix \(M\) need not be invertible (e.g., the reset matrix with all rows equal to \((1, 0)\) has determinant \(0\)). Even when invertible, \(M^{-1}\) generally contains negative entries and is therefore not a valid stochastic matrix.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-4">
-  <h2>Question 4: Inner Products, State Geometry, and Distinguishability <a class="heading-link" href="#question-4">§</a></h2>
+  <h2>Question 4: Multi-Path Superposition, Interference, and Which-Path Information <a class="heading-link" href="#question-4">§</a></h2>
   <div class="problem-statement">
-    <p>The geometry of state vectors and their inner products determines whether two quantum states can be distinguished by measurement. Consider two pure states prepared with equal prior probability (\(1/2\) each):</p>
-    <p>\[\ket{\psi_0} = \cos\theta\ket{0} + \sin\theta\ket{1}, \qquad \ket{\psi_1} = \cos\theta\ket{0} - \sin\theta\ket{1},\]</p>
-    <p>where \(\theta \in (0, \pi/4)\) is a known fixed angle.</p>
-    <p><strong>(a) Overlap and Orthogonality:</strong><br/>
-    (i) Compute the inner product \(\braket{\psi_1}{\psi_0}\) as a function of \(\theta\). For what angle \(\theta \in [0, \pi/4]\) are the two states orthogonal?<br/>
-    (ii) According to the Born rule, what is the probability that a system prepared in state \(\ket{\psi_0}\) is measured to be in state \(\ket{\psi_1}\)?</p>
-
-    <p><strong>(b) Measurement in the Computational Basis:</strong><br/>
-    Suppose an observer attempts to determine whether the state is \(\ket{\psi_0}\) or \(\ket{\psi_1}\) by measuring in the standard computational basis \(\{\ket{0}, \ket{1}\}\).<br/>
-    (i) Compute the outcome probabilities \(P(0 \mid \psi_0)\) and \(P(1 \mid \psi_0)\) for state \(\ket{\psi_0}\).<br/>
-    (ii) Compute the outcome probabilities \(P(0 \mid \psi_1)\) and \(P(1 \mid \psi_1)\) for state \(\ket{\psi_1}\).<br/>
-    (iii) Can measuring in the computational basis provide any information whatsoever to help distinguish \(\ket{\psi_0}\) from \(\ket{\psi_1}\)? Explain why or why not.</p>
-
-    <p><strong>(c) Measurement in the Diagonal Basis:</strong><br/>
-    Now suppose the observer measures in the diagonal basis \(\{\ket{+}, \ket{-}\}\), where \(\ket{\pm} = \frac{\ket{0}\pm\ket{1}}{\sqrt{2}}\), guessing \(\ket{\psi_0}\) upon observing \(+\) and guessing \(\ket{\psi_1}\) upon observing \(-\).<br/>
-    (i) Calculate the transition amplitudes \(\braket{+}{\psi_0}\) and \(\braket{-}{\psi_1}\).<br/>
-    (ii) Calculate the conditional probabilities \(P(+ \mid \psi_0)\) and \(P(- \mid \psi_1)\).<br/>
-    (iii) Deduce the average probability of a correct guess: \(P_{\text{correct}} = \frac{1}{2}P(+ \mid \psi_0) + \frac{1}{2}P(- \mid \psi_1)\).<br/>
-    (iv) Why is \(P_{\text{correct}} < 1\) for all \(\theta \in (0, \pi/4)\)? Prove from the measurement postulate that two non-orthogonal states can never be distinguished with certainty by any measurement.</p>
+    <p>When multiple computational paths lead from the same initial configuration to the same final configuration, their amplitudes add, giving rise to quantum interference.</p>
+    <p><strong>(a) The Feynman Path Sum:</strong> Consider a two-step quantum computation: an initial configuration \(\ket{x}\) evolves under unitary operator \(U_1\) to an intermediate state, followed by unitary operator \(U_2\) to produce the final state. Show that the net amplitude to reach configuration \(\ket{y}\) is given by:</p>
+    <p>\[A(x \to y) = \bra{y} U_2 U_1 \ket{x} = \sum_{z} \bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x},\]</p>
+    <p>where the sum runs over all possible intermediate configurations \(z\). Contrast this with the classical probabilistic sum of transition probabilities.</p>
+    <p><strong>(b) Engineering Destructive Cancellation:</strong> Consider a 3-configuration system with orthonormal basis \(\{\ket{0}, \ket{1}, \ket{2}\}\). Let the first step \(U_1\) prepare the equal superposition from \(\ket{0}\):</p>
+    <p>\[\ket{\psi} = U_1 \ket{0} = \frac{1}{\sqrt{3}}\ket{0} + \frac{1}{\sqrt{3}}\ket{1} + \frac{1}{\sqrt{3}}\ket{2}.\]</p>
+    <p>Construct a unitary matrix \(U_2\) such that the computational paths from \(\ket{\psi}\) back to \(\ket{0}\) interfere completely destructively, yielding amplitude \(A(\text{start} \to \ket{0}) = 0\), while the probability is distributed equally between \(\ket{1}\) and \(\ket{2}\) (\(P(\ket{1}) = P(\ket{2}) = 1/2\)).</p>
+    <p><strong>(c) Which-Path Information:</strong> Suppose that during the evolution through intermediate states, an ancilla register records which path was taken:</p>
+    <p>\[\ket{\Psi_{\text{joint}}} = \sum_z \bra{z} U_1 \ket{x} \ket{z}_{\text{sys}} \otimes \ket{e_z}_{\text{anc}},\]</p>
+    <p>where \(\{\ket{e_z}\}\) are normalized states of the ancilla. The system then undergoes the second evolution \(U_2 \otimes I\).<br/>
+    (i) Show that the total probability of reaching final configuration \(\ket{y}\) is:</p>
+    <p>\[P(x \to y) = \sum_{z} |\bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x}|^2 + \sum_{z \ne z'} \bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x} (\bra{z'} U_1 \ket{x})^* (\bra{y} U_2 \ket{z'})^* \braket{e_{z'}}{e_z}_{\text{anc}}.\]</p>
+    <p>(ii) Deduce that if the ancilla states are mutually orthogonal (\(\braket{e_{z'}}{e_z} = \delta_{z, z'}\), providing perfect which-path information), all interference cross-terms vanish identically, reducing the quantum probability to the classical sum of individual path probabilities.</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Overlap and Transition Probability:</strong></p>
-      <p>(i) Computing the inner product:</p>
-      <p>\[\braket{\psi_1}{\psi_0} = (\cos\theta\bra{0} - \sin\theta\bra{1})(\cos\theta\ket{0} + \sin\theta\ket{1}) = \cos^2\theta - \sin^2\theta = \cos(2\theta).\]</p>
-      <p>The states are orthogonal when \(\braket{\psi_1}{\psi_0} = 0 \iff \cos(2\theta) = 0 \iff 2\theta = \pi/2 \iff \theta = \pi/4\). For any \(\theta \in (0, \pi/4)\), \(\braket{\psi_1}{\psi_0} = \cos(2\theta) > 0\), so the states are not orthogonal.</p>
-      <p>(ii) The transition probability is the squared magnitude of the inner product:</p>
-      <p>\[P(\psi_0 \to \psi_1) = |\braket{\psi_1}{\psi_0}|^2 = \cos^2(2\theta).\]</p>
+      <p><strong>(a) The Path Sum:</strong></p>
+      <p>Inserting the resolution of the identity \(I = \sum_z \ket{z}\bra{z}\) in the computational basis:</p>
+      <p>\[A(x \to y) = \bra{y} U_2 U_1 \ket{x} = \bra{y} U_2 \left( \sum_z \ket{z}\bra{z} \right) U_1 \ket{x} = \sum_z \bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x}.\]</p>
+      <p>Each term \(A_z = \bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x}\) is the complex amplitude along the specific computational path \(x \to z \to y\). The net transition probability is:</p>
+      <p>\[P(x \to y) = |A(x \to y)|^2 = \left| \sum_z A_z \right|^2 = \sum_z |A_z|^2 + \sum_{z \ne z'} A_z A_{z'}^*.\]</p>
+      <p>In contrast, classical probability theory prescribes \(P_{\text{class}}(x \to y) = \sum_z P(x \to z \to y) = \sum_z |A_z|^2\). The cross-terms \(\sum_{z \ne z'} 2 \operatorname{Re}(A_z A_{z'}^*)\) are the quantum interference terms.</p>
 
-      <p><strong>(b) Testing in the Computational Basis:</strong></p>
-      <p>(i) For \(\ket{\psi_0} = \cos\theta\ket{0} + \sin\theta\ket{1}\):</p>
-      <p>\[P(0 \mid \psi_0) = |\cos\theta|^2 = \cos^2\theta, \qquad P(1 \mid \psi_0) = |\sin\theta|^2 = \sin^2\theta.\]</p>
-      <p>(ii) For \(\ket{\psi_1} = \cos\theta\ket{0} - \sin\theta\ket{1}\):</p>
-      <p>\[P(0 \mid \psi_1) = |\cos\theta|^2 = \cos^2\theta, \qquad P(1 \mid \psi_1) = |-\sin\theta|^2 = \sin^2\theta.\]</p>
-      <p>(iii) The outcome probabilities for \(\ket{\psi_0}\) and \(\ket{\psi_1}\) are identical: \(P(0) = \cos^2\theta\) and \(P(1) = \sin^2\theta\) on both states. Observing a \(0\) or a \(1\) yields identical likelihoods for both hypotheses. Therefore, measuring in the computational basis reveals zero information about which state was prepared.</p>
+      <p><strong>(b) Constructing Destructive Interference:</strong></p>
+      <p>We require the first row of \(U_2\), denoted \(\bra{u_0}\), to satisfy \(\braket{u_0}{\psi} = 0\), so that \(\bra{0} U_2 \ket{\psi} = 0\). Since \(\ket{\psi} = \frac{1}{\sqrt{3}}(\ket{0} + \ket{1} + \ket{2})\), the inner product with \(\bra{u_0} = (u_{00}^*, u_{01}^*, u_{02}^*)\) is \(\frac{1}{\sqrt{3}}(u_{00} + u_{01} + u_{02}) = 0\).<br/>
+      Choose the first row of \(U_2\) as \(\bra{u_0} = \frac{1}{\sqrt{2}}(0, 1, -1)\). Then \(\braket{u_0}{\psi} = \frac{1}{\sqrt{6}}(0 + 1 - 1) = 0\), yielding amplitude \(0\) and probability \(P(\ket{0}) = 0\).<br/>
+      To distribute the remaining probability equally, choose the second and third rows of \(U_2\) to form an orthonormal basis containing \(\bra{u_0}\). For instance, set:</p>
+      <p>\[\bra{u_1} = \left(\frac{2}{\sqrt{6}}, -\frac{1}{\sqrt{6}}, -\frac{1}{\sqrt{6}}\right), \quad \bra{u_2} = \left(\frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}\right).\]</p>
+      <p>Then \(\bra{u_2} = \bra{\psi}\), so \(\bra{2}U_2\ket{\psi} = \braket{\psi}{\psi} = 1\), or rotating the \(\ket{1}\) and \(\ket{2}\) subspace by \(\frac{1}{\sqrt{2}}\begin{pmatrix}1 & 1 \\ 1 & -1\end{pmatrix}\), we obtain amplitudes \(\bra{1}U_2\ket{\psi} = 1/\sqrt{2}\) and \(\bra{2}U_2\ket{\psi} = 1/\sqrt{2}\). Thus \(P(\ket{1}) = 1/2\) and \(P(\ket{2}) = 1/2\). Destructive interference completely extinguishes the transition into configuration \(\ket{0}\).</p>
 
-      <p><strong>(c) Testing in the Diagonal Basis:</strong></p>
-      <p>(i) Computing the projection amplitudes:</p>
-      <p>\[\braket{+}{\psi_0} = \frac{\bra{0}+\bra{1}}{\sqrt{2}}(\cos\theta\ket{0}+\sin\theta\ket{1}) = \frac{\cos\theta + \sin\theta}{\sqrt{2}}.\]</p>
-      <p>\[\braket{-}{\psi_1} = \frac{\bra{0}-\bra{1}}{\sqrt{2}}(\cos\theta\ket{0}-\sin\theta\ket{1}) = \frac{\cos\theta - (-\sin\theta)}{\sqrt{2}} = \frac{\cos\theta + \sin\theta}{\sqrt{2}}.\]</p>
-      <p>(ii) Squaring the amplitudes to find the probabilities:</p>
-      <p>\[P(+ \mid \psi_0) = \left|\frac{\cos\theta + \sin\theta}{\sqrt{2}}\right|^2 = \frac{\cos^2\theta + \sin^2\theta + 2\cos\theta\sin\theta}{2} = \frac{1 + \sin(2\theta)}{2}.\]</p>
-      <p>Similarly, \(P(- \mid \psi_1) = \frac{1 + \sin(2\theta)}{2}\).</p>
-      <p>(iii) The average success probability is</p>
-      <p>\[P_{\text{correct}} = \frac{1}{2} P(+ \mid \psi_0) + \frac{1}{2} P(- \mid \psi_1) = \frac{1 + \sin(2\theta)}{2}.\]</p>
-      <p>(iv) Because \(\theta < \pi/4\), \(2\theta < \pi/2\), which means \(\sin(2\theta) < 1\), so \(P_{\text{correct}} < 1\).<br/>
-      <em>General proof from the measurement postulate:</em> Any projective measurement that distinguishes two states with certainty would require two orthogonal measurement subspaces, \(M_0\) and \(M_1\) (with \(M_0 \perp M_1\)), such that \(\ket{\psi_0} \in M_0\) and \(\ket{\psi_1} \in M_1\). But if \(\ket{\psi_0} \in M_0\) and \(\ket{\psi_1} \in M_1\), then because the subspaces are orthogonal, their vectors must have inner product zero: \(\braket{\psi_1}{\psi_0} = 0\). If \(\braket{\psi_1}{\psi_0} \ne 0\), the states cannot lie in orthogonal subspaces, and therefore no measurement can separate them with certainty.</p>
+      <p><strong>(c) Which-Path Information and Erasure of Interference:</strong></p>
+      <p>(i) Applying \(U_2 \otimes I\) gives \(\ket{\Psi_{\text{final}}} = \sum_z \sum_w \bra{z} U_1 \ket{x} \bra{w} U_2 \ket{z} \ket{w}_{\text{sys}} \otimes \ket{e_z}_{\text{anc}}\). The probability of finding the system in configuration \(\ket{y}\) is obtained by projecting onto \(\ket{y}\bra{y} \otimes I\):</p>
+      <p>\[P(x \to y) = \sum_z \sum_{z'} \bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x} (\bra{y} U_2 \ket{z'})^* (\bra{z'} U_1 \ket{x})^* \braket{e_{z'}}{e_z}_{\text{anc}}.\]</p>
+      <p>Separating diagonal terms (\(z = z'\)) where \(\braket{e_z}{e_z} = 1\) from off-diagonal terms (\(z \ne z'\)) yields the stated equation.</p>
+      <p>(ii) When the ancilla states are orthogonal (\(\braket{e_{z'}}{e_z} = 0\) for \(z \ne z'\)), every cross-term vanishes: \(\sum_{z \ne z'} (\dots) \cdot 0 = 0\). Therefore:</p>
+      <p>\[P(x \to y) = \sum_z |\bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x}|^2 = \sum_z P(x \to z \to y).\]</p>
+      <p>The quantum probability reduces exactly to the classical probability sum. Entangling the computational degrees of freedom with an ancillary environment destroys quantum interference without needing any active disturbance.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-5">
-  <h2>Question 5: Pauli Operators, Basis Expansions, and Conjugate Readouts <a class="heading-link" href="#question-5">§</a></h2>
+  <h2>Question 5: Inner Products, State Geometry, and Projective Measurement <a class="heading-link" href="#question-5">§</a></h2>
   <div class="problem-statement">
-    <p>The single-qubit Pauli matrices form the fundamental operator basis for quantum states and transformations:</p>
-    <p>\[X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \qquad Y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \qquad Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}.\]</p>
-
-    <p><strong>(a) Eigenvalues and Eigenvectors:</strong><br/>
-    (i) For each of the three Pauli matrices, determine its eigenvalues and write down its normalized eigenvectors in the computational basis \(\{\ket{0}, \ket{1}\}\).<br/>
-    (ii) Prove that the eigenvectors of \(X\) form an orthonormal basis, and show that each eigenvector is an equal superposition of \(\ket{0}\) and \(\ket{1}\).</p>
-
-    <p><strong>(b) The Pauli Algebraic Basis:</strong><br/>
-    (i) Verify that \(X^2 = Y^2 = Z^2 = I\).<br/>
-    (ii) Compute the matrix products \(XY\) and \(YX\), and verify that \(XY = -YX = iZ\).<br/>
-    (iii) Prove that any arbitrary \(2 \times 2\) matrix \(M = \begin{pmatrix} a & b \\ c & d \end{pmatrix}\) can be expanded uniquely as:</p>
-    <p>\[M = c_0 I + c_x X + c_y Y + c_z Z.\]</p>
-    <p>Find explicit formulas for the coefficients \(c_0, c_x, c_y, c_z\) in terms of \(a, b, c, d\).</p>
-
-    <p><strong>(c) Complementary Observables:</strong><br/>
-    Consider the single-qubit state \(\ket{\psi} = \frac{\sqrt{3}}{2}\ket{0} + \frac{1}{2}\ket{1}\).<br/>
-    (i) Compute the expectation value \(\langle Z \rangle = \bra{\psi}Z\ket{\psi}\) and the probabilities of outcomes \(+1\) and \(-1\) when measuring \(Z\).<br/>
-    (ii) Compute the expectation value \(\langle X \rangle = \bra{\psi}X\ket{\psi}\) and the probabilities of outcomes \(+1\) and \(-1\) when measuring \(X\).<br/>
-    (iii) Suppose we measure \(Z\) and observe outcome \(+1\). What is the state of the qubit immediately after the measurement? If we subsequently measure \(X\) on that post-measurement state, what are the outcome probabilities?</p>
+    <p>In Chapter 4, quantum states are represented as unit vectors in a complex vector space with inner product, and projective measurement is formulated as an irreversible projection onto an orthonormal basis.</p>
+    <p><strong>(a) Inner Products and Transition Amplitudes:</strong> Let \(\ket{\psi}\) and \(\ket{\phi}\) be two normalized state vectors.<br/>
+    (i) Show that when a system prepared in \(\ket{\psi}\) is measured in an orthonormal basis containing \(\ket{\phi}\), the probability of observing outcome \(\ket{\phi}\) is \(p(\phi) = |\braket{\phi}{\psi}|^2\).<br/>
+    (ii) Explain the geometric and physical meaning of orthogonality: \(\braket{\phi}{\psi} = 0\).</p>
+    <p><strong>(b) Real State Plane and Non-Orthogonal Discrimination:</strong> Consider the real state plane of Chapter 4, where states are unit vectors \(\ket{\psi(\theta)} = \cos\theta\ket{0} + \sin\theta\ket{1}\).<br/>
+    (i) Compute the inner product \(\braket{\psi(\theta_0)}{\psi(\theta_1)}\) between two states at angles \(\theta_0\) and \(\theta_1\).<br/>
+    (ii) Suppose a system is prepared in either \(\ket{\psi_0} = \ket{0}\) (angle \(0\)) or \(\ket{\psi_1} = \cos\delta\ket{0} + \sin\delta\ket{1}\) (angle \(\delta \in (0, \pi/2)\)) with equal prior probability \(1/2\). An experimenter measures in an orthonormal basis \(\{\ket{b_0}, \ket{b_1}\}\) rotated by angle \(\beta\). Prove that whenever \(\delta \ne \pi/2\) (the states are not orthogonal), no choice of measurement basis can discriminate between \(\ket{\psi_0}\) and \(\ket{\psi_1}\) with zero probability of error.</p>
+    <p><strong>(c) Projective Measurement and Collapse:</strong> Express the measurement postulate using outer-product projectors \(P_j = \ketbra{b_j}{b_j}\). Show that the state after observing outcome \(j\) is \(\ket{b_j}\). Why does this operation irreversibly erase all superposition components orthogonal to \(\ket{b_j}\)?</p>
+    <p><strong>(d) Sequential Incompatible Measurements:</strong> A qubit is initialized in \(\ket{0}\). It undergoes an \(X\)-basis measurement (\(\{\ket{+}, \ket{-}\}\)), followed immediately by a second measurement in the computational \(Z\)-basis (\(\{\ket{0}, \ket{1}\}\)).<br/>
+    (i) Calculate the probability of obtaining outcome \(\ket{1}\) on the final measurement.<br/>
+    (ii) How does this demonstrate that intermediate measurements in an incompatible basis erase all prior configuration history?</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Pauli Eigenvalues and Eigenvectors:</strong></p>
-      <p>(i) For \(Z\):</p>
-      <p>\[Z\ket{0} = +1\ket{0}, \qquad Z\ket{1} = -1\ket{1}.\]</p>
-      <p>Eigenvalues are \(+1\) with eigenvector \(\ket{0}\), and \(-1\) with eigenvector \(\ket{1}\).<br/>
-      For \(X\): Characteristic equation \(\det(X - \lambda I) = \lambda^2 - 1 = 0 \implies \lambda = \pm 1\).<br/>
-      - For \(\lambda = +1\): \(\begin{pmatrix} -1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} u \\ v \end{pmatrix} = 0 \implies u = v\). Normalized: \(\ket{+} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}\).<br/>
-      - For \(\lambda = -1\): \(\begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}\begin{pmatrix} u \\ v \end{pmatrix} = 0 \implies u = -v\). Normalized: \(\ket{-} = \frac{\ket{0}-\ket{1}}{\sqrt{2}}\).<br/>
-      For \(Y\): Characteristic equation \(\det(Y - \lambda I) = \lambda^2 - 1 = 0 \implies \lambda = \pm 1\).<br/>
-      - For \(\lambda = +1\): \(\begin{pmatrix} -1 & -i \\ i & -1 \end{pmatrix}\begin{pmatrix} u \\ v \end{pmatrix} = 0 \implies v = iu\). Normalized: \(\ket{+i} = \frac{\ket{0}+i\ket{1}}{\sqrt{2}}\).<br/>
-      - For \(\lambda = -1\): \(\begin{pmatrix} 1 & -i \\ i & 1 \end{pmatrix}\begin{pmatrix} u \\ v \end{pmatrix} = 0 \implies v = -iu\). Normalized: \(\ket{-i} = \frac{\ket{0}-i\ket{1}}{\sqrt{2}}\).</p>
-      <p>(ii) Checking orthonormality of \(\{\ket{+}, \ket{-}\}\):</p>
-      <p>\[\braket{+}{+} = \frac{1}{2}(1 + 1) = 1, \qquad \braket{-}{-} = \frac{1}{2}(1 + 1) = 1, \qquad \braket{+}{-} = \frac{1}{2}(1 - 1) = 0.\]</p>
-      <p>Each state has \(|\braket{0}{\pm}|^2 = |1/\sqrt{2}|^2 = 1/2\) and \(|\braket{1}{\pm}|^2 = |\pm 1/\sqrt{2}|^2 = 1/2\), confirming equal superposition probabilities.</p>
+      <p><strong>(a) Inner Products and Transition Amplitudes:</strong></p>
+      <p>(i) By the measurement postulate (Section 4.2.2), when \(\ket{\psi} = \sum_j c_j \ket{b_j}\) is measured in the orthonormal basis \(\{\ket{b_j}\}\), the probability of outcome \(j\) is \(p(j) = |\braket{b_j}{\psi}|^2 = |c_j|^2\). If \(\ket{\phi}\) is one of the basis elements, say \(\ket{b_k}\), the probability of observing outcome \(\ket{\phi}\) is \(p(\phi) = |\braket{\phi}{\psi}|^2\).</p>
+      <p>(ii) If \(\braket{\phi}{\psi} = 0\), the detection probability is strictly zero. Geometrically, \(\ket{\psi}\) and \(\ket{\phi}\) are perpendicular in the Hilbert space. Physically, the two states represent mutually exclusive alternatives: a system prepared in \(\ket{\psi}\) will never trigger detector \(\phi\), allowing perfect, error-free discrimination.</p>
 
-      <p><strong>(b) Pauli Matrix Algebra and Basis Expansion:</strong></p>
-      <p>(i) Direct multiplication:</p>
-      <p>\[X^2 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I.\]</p>
-      <p>\[Y^2 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}\begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} = \begin{pmatrix} -i^2 & 0 \\ 0 & -i^2 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I.\]</p>
-      <p>\[Z^2 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I.\]</p>
-      <p>(ii) Off-diagonal products:</p>
-      <p>\[XY = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} = \begin{pmatrix} i & 0 \\ 0 & -i \end{pmatrix} = i\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} = iZ.\]</p>
-      <p>\[YX = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} -i & 0 \\ 0 & i \end{pmatrix} = -iZ.\]</p>
-      <p>Thus \(XY = -YX = iZ\).</p>
-      <p>(iii) Linear combination:</p>
-      <p>\[c_0 I + c_x X + c_y Y + c_z Z = \begin{pmatrix} c_0 + c_z & c_x - i c_y \\ c_x + i c_y & c_0 - c_z \end{pmatrix}.\]</p>
-      <p>Setting this equal to \(\begin{pmatrix} a & b \\ c & d \end{pmatrix}\) gives the linear system:<br/>
-      \(c_0 + c_z = a\) and \(c_0 - c_z = d \implies c_0 = \frac{a+d}{2}, \quad c_z = \frac{a-d}{2}\).<br/>
-      \(c_x - i c_y = b\) and \(c_x + i c_y = c \implies c_x = \frac{b+c}{2}, \quad c_y = \frac{i(b-c)}{2}\).<br/>
-      Because the solution is unique for any entries \(a,b,c,d\), the four matrices \(\{I, X, Y, Z\}\) form a complete basis for all \(2 \times 2\) complex matrices.</p>
+      <p><strong>(b) Real State Plane and Non-Orthogonal Discrimination:</strong></p>
+      <p>(i) Using standard trigonometric angle-subtraction:<br/>
+      \[\braket{\psi(\theta_0)}{\psi(\theta_1)} = (\cos\theta_0\bra{0} + \sin\theta_0\bra{1})(\cos\theta_1\ket{0} + \sin\theta_1\ket{1}) = \cos\theta_0\cos\theta_1 + \sin\theta_0\sin\theta_1 = \cos(\theta_1 - \theta_0).\]</p>
+      <p>(ii) Let the measurement basis be \(\ket{b_0} = \cos\beta\ket{0} + \sin\beta\ket{1}\) and \(\ket{b_1} = -\sin\beta\ket{0} + \cos\beta\ket{1}\).<br/>
+      If state \(\ket{\psi_0} = \ket{0}\) was prepared, the probability of obtaining outcome \(b_1\) is \(|\braket{b_1}{\psi_0}|^2 = \sin^2\beta\). To ensure zero error on input \(\ket{\psi_0}\), we must set \(\sin^2\beta = 0\), forcing \(\beta = 0\) (so the basis is \(\{\ket{0}, \ket{1}\}\)).<br/>
+      Now evaluate this basis on state \(\ket{\psi_1} = \cos\delta\ket{0} + \sin\delta\ket{1}\): the probability of obtaining outcome \(0\) (which falsely identifies the state as \(\ket{\psi_0}\)) is \(|\braket{0}{\psi_1}|^2 = \cos^2\delta\). Since \(\delta \in (0, \pi/2)\), \(\cos^2\delta > 0\), so an error occurs with non-zero probability. Symmetrically, any basis that never misidentifies \(\ket{\psi_1}\) will misidentify \(\ket{\psi_0}\). Error-free discrimination is impossible unless \(\delta = \pi/2\) (\(\cos\delta = 0\), orthogonal states).</p>
 
-      <p><strong>(c) Measurements on \(\ket{\psi} = \frac{\sqrt{3}}{2}\ket{0} + \frac{1}{2}\ket{1}\):</strong></p>
-      <p>(i) For \(Z\) measurement: Outcomes are eigenvalues \(+1\) (for \(\ket{0}\)) and \(-1\) (for \(\ket{1}\)):</p>
-      <p>\[P(+1) = |\sqrt{3}/2|^2 = 3/4, \qquad P(-1) = |1/2|^2 = 1/4.\]</p>
-      <p>\[\langle Z \rangle = (+1) P(+1) + (-1) P(-1) = \frac{3}{4} - \frac{1}{4} = \frac{1}{2}.\]</p>
-      <p>(ii) For \(X\) measurement: Outcomes are eigenvalues \(+1\) (for \(\ket{+}\)) and \(-1\) (for \(\ket{-}\)):</p>
-      <p>\[\braket{+}{\psi} = \frac{\bra{0}+\bra{1}}{\sqrt{2}}\left(\frac{\sqrt{3}}{2}\ket{0} + \frac{1}{2}\ket{1}\right) = \frac{\sqrt{3}+1}{2\sqrt{2}}.\]</p>
-      <p>\[P(+1) = |\braket{+}{\psi}|^2 = \frac{(\sqrt{3}+1)^2}{8} = \frac{3 + 1 + 2\sqrt{3}}{8} = \frac{4 + 2\sqrt{3}}{8} = \frac{1}{2} + \frac{\sqrt{3}}{4} \approx 0.933.\]</p>
-      <p>\[P(-1) = 1 - P(+1) = \frac{1}{2} - \frac{\sqrt{3}}{4} \approx 0.067.\]</p>
-      <p>\[\langle X \rangle = (+1)P(+1) + (-1)P(-1) = 2\left(\frac{\sqrt{3}}{4}\right) = \frac{\sqrt{3}}{2} \approx 0.866.\]</p>
-      <p>(iii) When measuring \(Z\) yields outcome \(+1\), the measurement postulate states that the state collapses to the corresponding eigenvector: \(\ket{0}\).<br/>
-      Measuring \(X\) on state \(\ket{0}\):</p>
-      <p>\[P(+1) = |\braket{+}{0}|^2 = |1/\sqrt{2}|^2 = 1/2, \qquad P(-1) = |\braket{-}{0}|^2 = |1/\sqrt{2}|^2 = 1/2.\]</p>
-      <p>The earlier certainty of getting outcome \(+1\) with \(93.3\%\) probability is completely erased: measuring \(Z\) destroys the relative phase coherence needed for \(X\).</p>
+      <p><strong>(c) Projective Measurement and Collapse:</strong></p>
+      <p>The projector onto \(\ket{b_j}\) is \(P_j = \ketbra{b_j}{b_j}\). Acting on \(\ket{\psi} = \sum_k c_k \ket{b_k}\):<br/>
+      \[P_j\ket{\psi} = \ket{b_j}\braket{b_j}{\psi} = c_j \ket{b_j}.\]<br/>
+      Normalizing the non-zero result yields \(\frac{P_j\ket{\psi}}{\|P_j\ket{\psi}\|} = \frac{c_j}{|c_j|}\ket{b_j} = \ket{b_j}\) (up to an unobservable global phase). All components \(c_k \ket{b_k}\) for \(k \ne j\) are multiplied by \(\braket{b_j}{b_k} = 0\) and permanently erased. Because the projection operator has rank 1, it has a non-trivial null space and cannot be inverted.</p>
+
+      <p><strong>(d) Sequential Incompatible Measurements:</strong></p>
+      <p>(i) Starting in \(\ket{0}\), the \(X\)-basis measurement projects onto \(\ket{+}\) with probability \(|\braket{+}{0}|^2 = |1/\sqrt{2}|^2 = 1/2\) and \(\ket{-}\) with probability \(|\braket{-}{0}|^2 = |-1/\sqrt{2}|^2 = 1/2\).<br/>
+      If the outcome was \(\ket{+}\), the subsequent \(Z\)-measurement yields \(\ket{1}\) with probability \(|\braket{1}{+}|^2 = 1/2\).<br/>
+      If the outcome was \(\ket{-}\), the subsequent \(Z\)-measurement yields \(\ket{1}\) with probability \(|\braket{1}{-}|^2 = 1/2\).<br/>
+      By the law of total probability, the final probability of observing \(\ket{1}\) is \(\frac{1}{2}(1/2) + \frac{1}{2}(1/2) = 1/2\).</p>
+      <p>(ii) Without the intermediate \(X\)-measurement, measuring \(\ket{0}\) in the \(Z\)-basis would yield \(\ket{1}\) with probability \(0\). The intermediate measurement along the incompatible \(X\)-basis completely randomized the qubit, destroying all memory that it was initialized in \(\ket{0}\).</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-6">
-  <h2>Question 6: Single-Qubit Circuits, Relative Phase, and Gate Identities <a class="heading-link" href="#question-6">§</a></h2>
+  <h2>Question 6: Single-Qubit Circuits, Relative Phase, and Pauli Operator Decompositions <a class="heading-link" href="#question-6">§</a></h2>
   <div class="problem-statement">
-    <p>Single-qubit quantum algorithms manipulate amplitudes by composing rotation gates with Hadamard interference. Let the phase gate be defined by \(R_\phi = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\phi} \end{pmatrix}\), and let \(H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\).</p>
-
-    <p><strong>(a) Gate Actions and Transformations:</strong><br/>
-    (i) Write the action of \(R_\phi\) on the computational basis states \(\ket{0}\) and \(\ket{1}\). What gate is obtained when \(\phi = \pi\)?<br/>
-    (ii) Prove the operator identity \(H Z H = X\). Explain its operational meaning: how does a Hadamard gate convert a phase flip into a bit flip?<br/>
-    (iii) Prove the companion identity \(H X H = Z\).</p>
-
-    <p><strong>(b) A Single-Qubit Phase Interferometer:</strong><br/>
-    Consider the circuit sequence applied to input \(\ket{0}\):</p>
-    <p>\[\ket{0} \xrightarrow{H} \ket{\psi_1} \xrightarrow{R_\phi} \ket{\psi_2} \xrightarrow{H} \ket{\psi_3}.\]</p>
-    <p>(i) Compute the state vectors \(\ket{\psi_1}\), \(\ket{\psi_2}\), and \(\ket{\psi_3}\) step by step.<br/>
-    (ii) Prove that the final measurement probabilities are:</p>
-    <p>\[P(0) = \cos^2\left(\frac{\phi}{2}\right), \qquad P(1) = \sin^2\left(\frac{\phi}{2}\right).\]</p>
-    <p>(iii) Which values of \(\phi \in [0, 2\pi)\) produce outcome \(0\) with certainty? Outcome \(1\) with certainty? Both outcomes with equal probability \(1/2\)?</p>
-
-    <p><strong>(c) Relative Phase vs. Global Phase:</strong><br/>
-    Suppose the phase gate were replaced by \(S_\phi = e^{i\alpha} R_\phi\), where \(\alpha\) is an arbitrary real angle. Show that the final measurement probabilities \(P(0)\) and \(P(1)\) remain completely unchanged.</p>
+    <p>Chapter 5 establishes the single-qubit computational model: gate compositions, relative phase shifts, and the algebraic decomposition of operators into the Pauli basis.</p>
+    <p><strong>(a) The Pauli Operators:</strong> The Pauli matrices are defined as:</p>
+    <p>\[X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad Y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}.\]</p>
+    <p>(i) Compute the products \(XZ\) and \(ZX\). Verify that \(X\) and \(Z\) anti-commute: \(XZ = -ZX\).<br/>
+    (ii) Show that \(XY = iZ\), \(YZ = iX\), \(ZX = iY\), and that \(X^2 = Y^2 = Z^2 = I\).</p>
+    <p><strong>(b) Decomposing Any Operator into the Pauli Basis:</strong> In Section 5.3.2, it is shown that \(\{I, X, Y, Z\}\) forms a complete basis for all \(2 \times 2\) complex matrices.<br/>
+    (i) For any matrix \(A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}\), prove that \(A\) can be written uniquely as \(A = c_0 I + c_1 X + c_2 Y + c_3 Z\).<br/>
+    (ii) Using the trace properties of the Pauli matrices, prove the trace formulas:</p>
+    <p>\[c_0 = \frac{1}{2}\operatorname{tr}(A), \quad c_1 = \frac{1}{2}\operatorname{tr}(AX), \quad c_2 = \frac{1}{2}\operatorname{tr}(AY), \quad c_3 = \frac{1}{2}\operatorname{tr}(AZ).\]</p>
+    <p>(iii) Apply these formulas to decompose the Hadamard gate \(H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\).</p>
+    <p><strong>(c) Relative Phase and Output Probabilities:</strong> Consider the single-qubit circuit of Section 5.2.2:</p>
+    <p>\[\ket{0} \xrightarrow{H} \ket{+} \xrightarrow{P(\phi)} \ket{\psi_\phi} \xrightarrow{H} \ket{\text{out}},\]</p>
+    <p>where \(P(\phi) = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\phi} \end{pmatrix}\).<br/>
+    (i) Compute the intermediate state \(\ket{\psi_\phi}\) and the final state \(\ket{\text{out}}\).<br/>
+    (ii) Show that the probabilities of measuring \(\ket{0}\) and \(\ket{1}\) are \(P(0) = \cos^2(\phi/2)\) and \(P(1) = \sin^2(\phi/2)\).<br/>
+    (iii) Explain how the second Hadamard gate converts an invisible relative phase \(\phi\) into a measurable probability difference.</p>
+    <p><strong>(d) Global Phase Invariance:</strong> Prove that multiplying any state vector by a global phase \(e^{i\alpha}\) has zero effect on measurement probabilities in any orthonormal basis.</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Phase Gate Actions and Hadamard Conjugation:</strong></p>
-      <p>(i) Applying \(R_\phi\) to basis states:</p>
-      <p>\[R_\phi\ket{0} = \ket{0}, \qquad R_\phi\ket{1} = e^{i\phi}\ket{1}.\]</p>
-      <p>When \(\phi = \pi\), \(e^{i\pi} = -1\), so \(R_\pi\ket{0} = \ket{0}\) and \(R_\pi\ket{1} = -\ket{1}\). This is precisely the Pauli \(Z\) gate: \(R_\pi = Z\).</p>
-      <p>(ii) To prove \(HZH = X\), evaluate the product directly:</p>
-      <p>\[ZH = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix} = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix}.\]</p>
-      <p>\[H(ZH) = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix} = \frac{1}{2}\begin{pmatrix} 1-1 & 1+1 \\ 1+1 & 1-1 \end{pmatrix} = \frac{1}{2}\begin{pmatrix} 0 & 2 \\ 2 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = X.\]</p>
-      <p><em>Operational meaning:</em> \(Z\) acts as a phase flip in the computational basis, leaving \(\ket{0}\) unchanged and sending \(\ket{1} \to -\ket{1}\). The Hadamard gate maps computational states to diagonal superposition states (\(\ket{0} \to \ket{+}\), \(\ket{1} \to \ket{-}\)). Because \(Z\ket{+} = \ket{-}\) and \(Z\ket{-} = \ket{+}\), sandwiching \(Z\) between Hadamards turns a phase flip on \(\ket{1}\) into a bit swap between \(\ket{0}\) and \(\ket{1}\).</p>
-      <p>(iii) Because \(H = H^{-1}\) (since \(H^2 = I\)), multiplying \(HZH = X\) by \(H\) on the left and right yields:</p>
-      <p>\[H(HZH)H = HXH \implies I Z I = HXH \implies HXH = Z.\]</p>
+      <p><strong>(a) Pauli Algebra:</strong></p>
+      <p>(i) Multiplying matrices explicitly:<br/>
+      \[XZ = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}.\]<br/>
+      \[ZX = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix} = -XZ.\]<br/>
+      Thus \(XZ = -ZX\): the operators anti-commute.</p>
+      <p>(ii) Evaluating the remaining products:<br/>
+      \[XY = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} = \begin{pmatrix} i & 0 \\ 0 & -i \end{pmatrix} = i \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} = iZ.\]<br/>
+      Similarly, \(YZ = iX\) and \(ZX = iY\). Squaring each matrix: \(X^2 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I\), \(Y^2 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I\), and \(Z^2 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I\).</p>
 
-      <p><strong>(b) Step-by-Step Circuit Evolution:</strong></p>
-      <p>(i) Tracing through each stage:<br/>
-      - After first \(H\): \(\ket{\psi_1} = H\ket{0} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}\).<br/>
-      - After \(R_\phi\): \(\ket{\psi_2} = R_\phi\ket{\psi_1} = \frac{\ket{0} + e^{i\phi}\ket{1}}{\sqrt{2}}\).<br/>
-      - After second \(H\):</p>
-      <p>\[\ket{\psi_3} = H\ket{\psi_2} = \frac{1}{\sqrt{2}}\left( \frac{\ket{0}+\ket{1}}{\sqrt{2}} + e^{i\phi}\frac{\ket{0}-\ket{1}}{\sqrt{2}} \right) = \frac{1+e^{i\phi}}{2}\ket{0} + \frac{1-e^{i\phi}}{2}\ket{1}.\]</p>
-      <p>(ii) Using Euler's formula, factor out \(e^{i\phi/2}\):</p>
-      <p>\[\frac{1+e^{i\phi}}{2} = e^{i\phi/2} \left( \frac{e^{-i\phi/2} + e^{i\phi/2}}{2} \right) = e^{i\phi/2} \cos\left(\frac{\phi}{2}\right).\]</p>
-      <p>\[\frac{1-e^{i\phi}}{2} = e^{i\phi/2} \left( \frac{e^{-i\phi/2} - e^{i\phi/2}}{2} \right) = -i e^{i\phi/2} \sin\left(\frac{\phi}{2}\right).\]</p>
-      <p>The measurement probabilities are the squared magnitudes:</p>
-      <p>\[P(0) = \left|e^{i\phi/2}\cos(\phi/2)\right|^2 = \cos^2\left(\frac{\phi}{2}\right).\]</p>
-      <p>\[P(1) = \left|-i e^{i\phi/2}\sin(\phi/2)\right|^2 = \sin^2\left(\frac{\phi}{2}\right).\]</p>
-      <p>(iii) Specific phase angles:<br/>
-      - Deterministically \(0\): \(\cos^2(\phi/2) = 1 \implies \phi/2 = 0 \implies \phi = 0\).<br/>
-      - Deterministically \(1\): \(\sin^2(\phi/2) = 1 \implies \phi/2 = \pi/2 \implies \phi = \pi\).<br/>
-      - Equal probabilities (\(1/2\) each): \(\cos^2(\phi/2) = 1/2 \implies \phi/2 = \pi/4 \text{ or } 3\pi/4 \implies \phi = \pi/2 \text{ or } 3\pi/2\).</p>
+      <p><strong>(b) Pauli Basis Decomposition:</strong></p>
+      <p>(i) Notice that \(I + Z = \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix}\), \(I - Z = \begin{pmatrix} 0 & 0 \\ 0 & 2 \end{pmatrix}\), \(X + iY = \begin{pmatrix} 0 & 2 \\ 0 & 0 \end{pmatrix}\), and \(X - iY = \begin{pmatrix} 0 & 0 \\ 2 & 0 \end{pmatrix}\). Every elementary matrix unit can therefore be expressed as a linear combination of \(\{I, X, Y, Z\}\). For an arbitrary matrix \(A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}\):</p>
+      <p>\[A = \frac{a+d}{2} I + \frac{b+c}{2} X + \frac{i(b-c)}{2} Y + \frac{a-d}{2} Z.\]</p>
+      <p>(ii) Notice that \(\operatorname{tr}(I) = 2\) while \(\operatorname{tr}(X) = \operatorname{tr}(Y) = \operatorname{tr}(Z) = 0\). Using the product identities from part (a): \(\operatorname{tr}(X^2) = \operatorname{tr}(I) = 2\), and \(\operatorname{tr}(XY) = \operatorname{tr}(iZ) = 0\), etc. For \(\sigma_j \in \{I, X, Y, Z\}\), \(\operatorname{tr}(\sigma_j \sigma_k) = 2\delta_{jk}\). Therefore, taking the trace of \(A \sigma_k\):</p>
+      <p>\[\operatorname{tr}(A \sigma_k) = \operatorname{tr}\left( \sum_{j=0}^3 c_j \sigma_j \sigma_k \right) = \sum_{j=0}^3 c_j \operatorname{tr}(\sigma_j \sigma_k) = \sum_{j=0}^3 c_j (2\delta_{jk}) = 2 c_k \implies c_k = \frac{1}{2}\operatorname{tr}(A \sigma_k).\]</p>
+      <p>(iii) For \(H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\):<br/>
+      \(c_0 = \frac{1}{2}\operatorname{tr}(H) = \frac{1}{2\sqrt{2}}(1 - 1) = 0\).<br/>
+      \(c_1 = \frac{1}{2}\operatorname{tr}(HX) = \frac{1}{2\sqrt{2}}\operatorname{tr}\begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix} = \frac{1}{2\sqrt{2}}(2) = \frac{1}{\sqrt{2}}\).<br/>
+      \(c_2 = \frac{1}{2}\operatorname{tr}(HY) = \frac{1}{2\sqrt{2}}\operatorname{tr}\begin{pmatrix} i & -i \\ -i & -i \end{pmatrix} = 0\).<br/>
+      \(c_3 = \frac{1}{2}\operatorname{tr}(HZ) = \frac{1}{2\sqrt{2}}\operatorname{tr}\begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} = \frac{1}{2\sqrt{2}}(2) = \frac{1}{\sqrt{2}}\).<br/>
+      Thus \(H = \frac{1}{\sqrt{2}}(X + Z)\).</p>
 
-      <p><strong>(c) Invariance under Global Phase:</strong></p>
-      <p>If \(R_\phi\) is replaced by \(S_\phi = e^{i\alpha} R_\phi\), the final state becomes \(\ket{\psi_3^\prime} = e^{i\alpha}\ket{\psi_3}\). The amplitude for outcome \(0\) is \(e^{i\alpha} \frac{1+e^{i\phi}}{2}\), and its probability is</p>
-      <p>\[P^\prime(0) = \left|e^{i\alpha} \frac{1+e^{i\phi}}{2}\right|^2 = |e^{i\alpha}|^2 \left|\frac{1+e^{i\phi}}{2}\right|^2 = 1 \cdot P(0) = P(0).\]</p>
-      <p>The global phase factor \(e^{i\alpha}\) multiplies both amplitudes equally, leaving all physical probabilities invariant.</p>
+      <p><strong>(c) Relative Phase and Output Probabilities:</strong></p>
+      <p>(i) Tracing the circuit step by step:<br/>
+      1. Initial state: \(\ket{0}\).<br/>
+      2. After \(H\): \(\ket{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\).<br/>
+      3. After \(P(\phi)\): \(\ket{\psi_\phi} = \frac{1}{\sqrt{2}}(\ket{0} + e^{i\phi}\ket{1})\).<br/>
+      4. After second \(H\):</p>
+      <p>\[\ket{\text{out}} = H\ket{\psi_\phi} = \frac{1}{2}(\ket{0} + \ket{1}) + \frac{e^{i\phi}}{2}(\ket{0} - \ket{1}) = \left(\frac{1+e^{i\phi}}{2}\right)\ket{0} + \left(\frac{1-e^{i\phi}}{2}\right)\ket{1}.\]</p>
+      <p>(ii) Factoring out \(e^{i\phi/2}\):<br/>
+      \(\frac{1+e^{i\phi}}{2} = e^{i\phi/2}\left(\frac{e^{-i\phi/2}+e^{i\phi/2}}{2}\right) = e^{i\phi/2}\cos(\phi/2)\).<br/>
+      \(\frac{1-e^{i\phi}}{2} = e^{i\phi/2}\left(\frac{e^{-i\phi/2}-e^{i\phi/2}}{2}\right) = -i e^{i\phi/2}\sin(\phi/2)\).<br/>
+      The probabilities are:<br/>
+      \(P(0) = |e^{i\phi/2}\cos(\phi/2)|^2 = \cos^2(\phi/2)\).<br/>
+      \(P(1) = |-i e^{i\phi/2}\sin(\phi/2)|^2 = \sin^2(\phi/2)\).</p>
+      <p>(iii) Before the second Hadamard gate, the probability of measuring \(\ket{0}\) or \(\ket{1}\) in the state \(\ket{\psi_\phi}\) is \(|1/\sqrt{2}|^2 = 1/2\) and \(|e^{i\phi}/\sqrt{2}|^2 = 1/2\), completely independent of \(\phi\). The second Hadamard gate brings the \(\ket{0}\) and \(\ket{1}\) paths together, causing them to interfere constructively and destructively, translating the phase angle \(\phi\) into a population difference.</p>
+
+      <p><strong>(d) Global Phase Invariance:</strong></p>
+      <p>Let \(\ket{\psi'} = e^{i\alpha}\ket{\psi}\). For any basis state \(\ket{b_j}\):<br/>
+      \[p'(j) = |\braket{b_j}{\psi'}|^2 = |\braket{b_j}{e^{i\alpha}\psi}|^2 = |e^{i\alpha}\braket{b_j}{\psi}|^2 = |e^{i\alpha}|^2 |\braket{b_j}{\psi}|^2 = (1) |\braket{b_j}{\psi}|^2 = p(j).\]<br/>
+      All measurement probabilities are identical, so two state vectors differing only by a global phase represent the exact same physical state.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-7">
-  <h2>Question 7: Composite Systems, Product States, and Bell Entanglement <a class="heading-link" href="#question-7">§</a></h2>
+  <h2>Question 7: Composite Systems: Product States, Bell Entanglement, and Non-Factorization <a class="heading-link" href="#question-7">§</a></h2>
   <div class="problem-statement">
-    <p>When multiple qubits are combined, their composite state space is built from tensor products of individual state spaces.</p>
-    <p><strong>(a) Factoring Candidate States:</strong> Consider two two-qubit states:</p>
-    <p>\[\ket{\psi} = \frac{1}{2}\ket{00} + \frac{1}{2}\ket{01} + \frac{1}{2}\ket{10} + \frac{1}{2}\ket{11},\]</p>
-    <p>\[\ket{\phi} = \frac{1}{\sqrt{2}}\ket{00} + \frac{1}{\sqrt{2}}\ket{11}.\]</p>
-    <p>(i) Show that \(\ket{\psi}\) can be factored as a product state \(\ket{\psi_A} \otimes \ket{\psi_B}\). Identify the single-qubit states \(\ket{\psi_A}\) and \(\ket{\psi_B}\).<br/>
-    (ii) Prove by contradiction from first principles that \(\ket{\phi}\) cannot be written as a product state \((a_0\ket{0}+a_1\ket{1})\otimes(b_0\ket{0}+b_1\ket{1})\) for any complex coefficients \(a_0, a_1, b_0, b_1\).</p>
-
-    <p><strong>(b) Measurement Statistics on Entangled Pairs:</strong> For the entangled state \(\ket{\phi} = \frac{\ket{00}+\ket{11}}{\sqrt{2}}\):<br/>
-    (i) Compute the joint measurement probability \(P(x_1, x_2)\) for each of the four possible outcomes in \(\{0, 1\}^2\).<br/>
-    (ii) Compute Alice’s marginal probability of measuring \(0\) on the first qubit: \(P(x_1 = 0) = \sum_{x_2} P(0, x_2)\).<br/>
-    (iii) If Alice measures the first qubit and obtains outcome \(0\), what is the conditional post-measurement state of Bob’s qubit? If Alice obtains outcome \(1\), what is the state of Bob’s qubit?</p>
-
-    <p><strong>(c) Generating the Bell Basis:</strong> The four standard Bell states are:</p>
-    <p>\[\ket{\Phi^\pm} = \frac{\ket{00}\pm\ket{11}}{\sqrt{2}}, \qquad \ket{\Psi^\pm} = \frac{\ket{01}\pm\ket{10}}{\sqrt{2}}.\]</p>
-    <p>Show that a circuit consisting of a Hadamard gate on the first qubit followed by a CNOT gate (with qubit 1 as control and qubit 2 as target) transforms the four standard computational basis states \(\{\ket{00}, \ket{01}, \ket{10}, \ket{11}\}\) into the four Bell states.</p>
+    <p>Chapter 6 introduces composite quantum systems, distinguishing local independent operations from entangling gates that create non-factorizable correlations.</p>
+    <p><strong>(a) Local Operations and Factorization:</strong> A local operation on a 2-qubit register is represented by the tensor product \(U_A \otimes U_B\).<br/>
+    (i) Prove that if the initial state is a product state \(\ket{\psi} = \ket{\psi_A} \otimes \ket{\psi_B}\), the evolved state \((U_A \otimes U_B)\ket{\psi}\) remains strictly a product state.<br/>
+    (ii) Conclude that local operations can never create entanglement from an unentangled initial state.</p>
+    <p><strong>(b) Entangling Gates and Bell State Synthesis:</strong> The Controlled-NOT gate is defined by \(\text{CNOT}\ket{x}\ket{y} = \ket{x}\ket{y \oplus x}\) for \(x, y \in \{0, 1\}\).<br/>
+    (i) Trace the action of the circuit \(\text{CNOT}_{1 \to 2} (H \otimes I)\) acting on the standard configuration \(\ket{00}\).<br/>
+    (ii) Show that the output is the Bell state \(\ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})\).<br/>
+    (iii) Prove from first principles that \(\ket{\Phi^+}\) cannot be factored into any product state \((\alpha \ket{0} + \beta \ket{1}) \otimes (\gamma \ket{0} + \delta \ket{1})\).</p>
+    <p><strong>(c) The Bell Basis:</strong> Define the four Bell states:</p>
+    <p>\[\ket{\Phi^\pm} = \frac{\ket{00} \pm \ket{11}}{\sqrt{2}}, \quad \ket{\Psi^\pm} = \frac{\ket{01} \pm \ket{10}}{\sqrt{2}}.\]</p>
+    <p>(i) Verify that the Bell states form an orthonormal basis of \(\mathbb{C}^4\): \(\braket{B_i}{B_j} = \delta_{ij}\).<br/>
+    (ii) Construct the circuit that maps the four computational basis configurations \(\{\ket{00}, \ket{01}, \ket{10}, \ket{11}\}\) bijectively to \(\{\ket{\Phi^+}, \ket{\Psi^+}, \ket{\Phi^-}, \ket{\Psi^-}\}\).</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Product States vs. Entanglement:</strong></p>
-      <p>(i) Factoring \(\ket{\psi}\):</p>
-      <p>\[\ket{\psi} = \frac{1}{2}\ket{00} + \frac{1}{2}\ket{01} + \frac{1}{2}\ket{10} + \frac{1}{2}\ket{11} = \frac{1}{\sqrt{2}}(\ket{0}+\ket{1}) \otimes \frac{1}{\sqrt{2}}(\ket{0}+\ket{1}) = \ket{+} \otimes \ket{+}.\]</p>
-      <p>Both qubits are independently in the state \(\ket{+} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}\). Thus \(\ket{\psi}\) is a product state.</p>
-      <p>(ii) <em>Proof by contradiction for \(\ket{\phi}\):</em> Suppose \(\ket{\phi} = (a_0\ket{0}+a_1\ket{1})\otimes(b_0\ket{0}+b_1\ket{1})\). Expanding the tensor product:</p>
-      <p>\[\ket{\phi} = a_0 b_0\ket{00} + a_0 b_1\ket{01} + a_1 b_0\ket{10} + a_1 b_1\ket{11}.\]</p>
-      <p>Equating coefficients with \(\ket{\phi} = \frac{1}{\sqrt{2}}\ket{00} + 0\ket{01} + 0\ket{10} + \frac{1}{\sqrt{2}}\ket{11}\):<br/>
-      1. \(a_0 b_0 = 1/\sqrt{2}\)<br/>
-      2. \(a_0 b_1 = 0\)<br/>
-      3. \(a_1 b_0 = 0\)<br/>
-      4. \(a_1 b_1 = 1/\sqrt{2}\)<br/>
-      From equation (2), either \(a_0 = 0\) or \(b_1 = 0\).<br/>
-      - If \(a_0 = 0\), then equation (1) requires \(0 \cdot b_0 = 1/\sqrt{2}\), which is impossible.<br/>
-      - If \(b_1 = 0\), then equation (4) requires \(a_1 \cdot 0 = 1/\sqrt{2}\), which is impossible.<br/>
-      Because no choice of coefficients can satisfy these equations, \(\ket{\phi}\) cannot be factored: the two qubits are entangled.</p>
+      <p><strong>(a) Local Operations Preserve Product Structure:</strong></p>
+      <p>(i) By the definition of the tensor product of linear operators: \((U_A \otimes U_B)(\ket{\psi_A} \otimes \ket{\psi_B}) = (U_A \ket{\psi_A}) \otimes (U_B \ket{\psi_B})\). Let \(\ket{\phi_A} = U_A \ket{\psi_A} \in \mathcal{H}_A\) and \(\ket{\phi_B} = U_B \ket{\psi_B} \in \mathcal{H}_B\). Both \(\ket{\phi_A}\) and \(\ket{\phi_B}\) are normalized state vectors. Therefore, the resulting state is \(\ket{\phi_A} \otimes \ket{\phi_B}\), which is a product state by definition.</p>
+      <p>(ii) Since a product state has entanglement zero, and local operations map product states to product states, local operations alone cannot generate entanglement from an initially unentangled state.</p>
 
-      <p><strong>(b) Probabilities and Conditional Collapse:</strong></p>
-      <p>(i) In \(\ket{\phi} = \frac{1}{\sqrt{2}}\ket{00} + \frac{1}{\sqrt{2}}\ket{11}\), the amplitudes are \(c_{00} = 1/\sqrt{2}\), \(c_{01} = 0\), \(c_{10} = 0\), and \(c_{11} = 1/\sqrt{2}\). The joint probabilities are:</p>
-      <p>\[P(0, 0) = |1/\sqrt{2}|^2 = 1/2, \qquad P(0, 1) = 0, \qquad P(1, 0) = 0, \qquad P(1, 1) = |1/\sqrt{2}|^2 = 1/2.\]</p>
-      <p>(ii) Alice's marginal probability of measuring \(0\) is</p>
-      <p>\[P(x_1 = 0) = P(0, 0) + P(0, 1) = 1/2 + 0 = 1/2.\]</p>
-      <p>(iii) According to the projection postulate:<br/>
-      - If Alice measures \(0\), the joint state collapses onto the \(\ket{0}\) subspace of the first qubit, yielding \(\ket{00} = \ket{0}_A \ket{0}_B\). Bob’s qubit is deterministically \(\ket{0}\).<br/>
-      - If Alice measures \(1\), the joint state collapses to \(\ket{11} = \ket{1}_A \ket{1}_B\). Bob’s qubit is deterministically \(\ket{1}\).<br/>
-      The outcomes are perfectly correlated despite each individual qubit having a purely random readout.</p>
+      <p><strong>(b) Bell State Synthesis and Non-Factorization:</strong></p>
+      <p>(i) Tracing the circuit:<br/>
+      1. Initial state: \(\ket{00}\).<br/>
+      2. Applying \(H \otimes I\): \(\ket{00} \mapsto \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) \otimes \ket{0} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{10})\).<br/>
+      3. Applying \(\text{CNOT}_{1 \to 2}\): By linearity, \(\frac{1}{\sqrt{2}}(\text{CNOT}\ket{00} + \text{CNOT}\ket{10}) = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) = \ket{\Phi^+}\).</p>
+      <p>(ii) To prove \(\ket{\Phi^+}\) does not factor, suppose there exist complex numbers \(\alpha, \beta, \gamma, \delta\) such that:</p>
+      <p>\[(\alpha\ket{0} + \beta\ket{1}) \otimes (\gamma\ket{0} + \delta\ket{1}) = \alpha\gamma\ket{00} + \alpha\delta\ket{01} + \beta\gamma\ket{10} + \beta\delta\ket{11} = \frac{1}{\sqrt{2}}\ket{00} + \frac{1}{\sqrt{2}}\ket{11}.\]</p>
+      <p>Equating coefficients:<br/>
+      1. \(\alpha\gamma = 1/\sqrt{2}\) (\(\alpha \ne 0\), \(\gamma \ne 0\)).<br/>
+      2. \(\beta\delta = 1/\sqrt{2}\) (\(\beta \ne 0\), \(\delta \ne 0\)).<br/>
+      3. \(\alpha\delta = 0\). But since \(\alpha \ne 0\) and \(\delta \ne 0\), their product cannot be zero! Contradiction.<br/>
+      Therefore, \(\ket{\Phi^+}\) cannot be factored: its probability amplitudes cannot be localized to individual qubits.</p>
 
-      <p><strong>(c) Bell State Circuit Generation:</strong></p>
-      <p>Let \(U_{\text{Bell}} = \text{CNOT} (H \otimes I)\). Tracing the four computational basis inputs:<br/>
-      1. Input \(\ket{00}\):<br/>
-      \(\ket{00} \xrightarrow{H \otimes I} \frac{\ket{0}+\ket{1}}{\sqrt{2}}\ket{0} = \frac{\ket{00}+\ket{10}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \frac{\ket{00}+\ket{11}}{\sqrt{2}} = \ket{\Phi^+}\).<br/>
-      2. Input \(\ket{01}\):<br/>
-      \(\ket{01} \xrightarrow{H \otimes I} \frac{\ket{0}+\ket{1}}{\sqrt{2}}\ket{1} = \frac{\ket{01}+\ket{11}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \frac{\ket{01}+\ket{10}}{\sqrt{2}} = \ket{\Psi^+}\).<br/>
-      3. Input \(\ket{10}\):<br/>
-      \(\ket{10} \xrightarrow{H \otimes I} \frac{\ket{0}-\ket{1}}{\sqrt{2}}\ket{0} = \frac{\ket{00}-\ket{10}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \frac{\ket{00}-\ket{11}}{\sqrt{2}} = \ket{\Phi^-}\).<br/>
-      4. Input \(\ket{11}\):<br/>
-      \(\ket{11} \xrightarrow{H \otimes I} \frac{\ket{0}-\ket{1}}{\sqrt{2}}\ket{1} = \frac{\ket{01}-\ket{11}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \frac{\ket{01}-\ket{10}}{\sqrt{2}} = \ket{\Psi^-}\).<br/>
-      The circuit maps the computational basis one-to-one onto the Bell basis.</p>
+      <p><strong>(c) The Bell Basis:</strong></p>
+      <p>(i) Computing inner products:<br/>
+      \(\braket{\Phi^+}{\Phi^-} = \frac{1}{2}(\bra{00}+\bra{11})(\ket{00}-\ket{11}) = \frac{1}{2}(1 - 1) = 0\).<br/>
+      \(\braket{\Phi^\pm}{\Psi^\pm} = 0\) identically because the \(\Phi\) states have support exclusively on \(\{\ket{00}, \ket{11}\}\) while the \(\Psi\) states have support exclusively on \(\{\ket{01}, \ket{10}\}\), and these two subspaces are orthogonal.<br/>
+      \(\braket{\Phi^+}{\Phi^+} = \frac{1}{2}(1 + 1) = 1\). Symmetrically for all four states. Hence they form an orthonormal basis.</p>
+      <p>(ii) The circuit consisting of \(H\) on qubit 1 followed by \(\text{CNOT}_{1 \to 2}\) maps:<br/>
+      - \(\ket{00} \xrightarrow{H \otimes I} \frac{\ket{00}+\ket{10}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \ket{\Phi^+}\).<br/>
+      - \(\ket{01} \xrightarrow{H \otimes I} \frac{\ket{01}+\ket{11}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \ket{\Psi^+}\).<br/>
+      - \(\ket{10} \xrightarrow{H \otimes I} \frac{\ket{00}-\ket{10}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \ket{\Phi^-}\).<br/>
+      - \(\ket{11} \xrightarrow{H \otimes I} \frac{\ket{01}-\ket{11}}{\sqrt{2}} \xrightarrow{\text{CNOT}} \ket{\Psi^-}\).<br/>
+      The unitary circuit \(U_{\text{Bell}} = \text{CNOT}_{1 \to 2} (H \otimes I)\) maps the computational basis bijectively to the Bell basis.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-8">
-  <h2>Question 8: The No-Cloning Theorem from First Principles <a class="heading-link" href="#question-8">§</a></h2>
+  <h2>Question 8: Universal Limits: The No-Cloning Theorem from First Principles <a class="heading-link" href="#question-8">§</a></h2>
   <div class="problem-statement">
-    <p>Classical information can be copied freely by fan-out. Quantum mechanics forbids copying an unknown quantum state. This problem derives that restriction from first principles.</p>
-    <p><strong>(a) Basis-State Copying:</strong><br/>
-    Show that a CNOT gate with target wire initialized to \(\ket{0}\) acts as a copier on standard basis states: \(\ket{x}\ket{0} \mapsto \ket{x}\ket{x}\) for \(x \in \{0, 1\}\). Does this make CNOT a universal quantum copier?</p>
-
-    <p><strong>(b) Applying CNOT to a Superposition:</strong><br/>
-    Suppose the control qubit is prepared in the diagonal superposition \(\ket{+} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}\), with target in \(\ket{0}\).<br/>
-    (i) By linearity of quantum evolution, calculate the actual state produced when CNOT acts on \(\ket{+}\ket{0} = \frac{\ket{00}+\ket{10}}{\sqrt{2}}\).<br/>
-    (ii) If the CNOT gate had successfully cloned \(\ket{+}\), what state should have been produced? (Write \(\ket{+}\ket{+}\) explicitly in the computational basis.)<br/>
-    (iii) Compare the actual output with the desired output. Did the CNOT copy the superposition, or did it produce an entangled pair?</p>
-
-    <p><strong>(c) The General No-Cloning Proof:</strong><br/>
-    Suppose there existed a unitary operator \(U\) that could duplicate any arbitrary single-qubit pure state onto a blank target qubit \(\ket{0}\):</p>
-    <p>\[U(\ket{\psi}\ket{0}) = \ket{\psi}\ket{\psi}, \qquad U(\ket{\phi}\ket{0}) = \ket{\phi}\ket{\phi},\]</p>
-    <p>for two distinct states \(\ket{\psi}\) and \(\ket{\phi}\).<br/>
-    (i) Compute the inner product of the initial states: \(\bra{\phi}\bra{0} \ket{\psi}\ket{0}\).<br/>
-    (ii) Compute the inner product of the final states: \(\bra{\phi}\bra{\phi} \ket{\psi}\ket{\psi}\).<br/>
-    (iii) Because \(U\) is unitary, it preserves inner products. Equate the two expressions to deduce the relation:</p>
-    <p>\[\braket{\phi}{\psi} = (\braket{\phi}{\psi})^2.\]</p>
-    <p>(iv) What are the only complex numbers that satisfy \(z = z^2\)? Conclude that a unitary machine can clone two states if and only if they are identical or mutually orthogonal.</p>
+    <p>A central question in computational models is whether information can be duplicated. Classical computation duplicates bit configurations readily (\(x \mapsto (x, x)\)). Chapter 6 proves that linear, norm-preserving quantum mechanics strictly forbids universal cloning.</p>
+    <p><strong>(a) The Universal Cloning Machine:</strong> Suppose there existed a unitary operator \(U\) that clones an arbitrary unknown quantum state \(\ket{\psi}\) onto a blank ancilla initialized in \(\ket{0}\):</p>
+    <p>\[U(\ket{\psi} \otimes \ket{0}) = \ket{\psi} \otimes \ket{\psi} \quad \text{for all } \ket{\psi} \in \mathcal{H}.\]</p>
+    <p><strong>(b) Proof via Inner Product Preservation:</strong> Let \(\ket{\psi}\) and \(\ket{\phi}\) be two distinct states in \(\mathcal{H}\).<br/>
+    (i) Compute the inner product between the input states \(\ket{\psi}\ket{0}\) and \(\ket{\phi}\ket{0}\).<br/>
+    (ii) Compute the inner product between the hypothetical output states \(U(\ket{\psi}\ket{0})\) and \(U(\ket{\phi}\ket{0})\).<br/>
+    (iii) Using the fact that unitary evolution preserves inner products, derive the algebraic relation:</p>
+    <p>\[\braket{\psi}{\phi} = (\braket{\psi}{\phi})^2.\]</p>
+    <p>(iv) What are the only two numerical solutions to \(z = z^2\) for \(z \in \mathbb{C}\)? Conclude that a single unitary operator can clone \(\ket{\psi}\) and \(\ket{\phi}\) if and only if they are identical (\(|\braket{\psi}{\phi}| = 1\)) or mutually orthogonal (\(\braket{\psi}{\phi} = 0\)).</p>
+    <p><strong>(c) Proof via Linearity:</strong> Suppose \(U\) correctly clones the orthogonal basis states \(\ket{0}\) and \(\ket{1}\):</p>
+    <p>\[U(\ket{0}\ket{0}) = \ket{0}\ket{0}, \quad U(\ket{1}\ket{0}) = \ket{1}\ket{1}.\]</p>
+    <p>Now consider the superposition \(\ket{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\).<br/>
+    (i) Using the fundamental linearity of quantum mechanics, calculate \(U(\ket{+}\ket{0})\).<br/>
+    (ii) Write down the target cloned state \(\ket{+}\ket{+}\).<br/>
+    (iii) Show that the two expressions differ by an entangled cross-term, proving that linearity alone prevents cloning superpositions.</p>
+    <p><strong>(d) Classical vs. Quantum Copying:</strong> Why does the classical CNOT gate successfully execute \(\ket{x}\ket{0} \to \ket{x}\ket{x}\) for computational basis configurations \(x \in \{0, 1\}\) without violating the no-cloning theorem?</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Basis-State Copying:</strong></p>
-      <p>The CNOT gate flips the target bit if and only if the control bit is \(1\):<br/>
-      - On input \(\ket{0}\ket{0}\): control is \(0\), target stays \(0 \implies \ket{00}\).<br/>
-      - On input \(\ket{1}\ket{0}\): control is \(1\), target flips to \(1 \implies \ket{11}\).<br/>
-      Thus \(\text{CNOT}\ket{x}\ket{0} = \ket{x}\ket{x}\) for each computational basis state \(x \in \{0, 1\}\). However, this does not make CNOT a universal copier because a general quantum state is a superposition, not just a basis state.</p>
+      <p><strong>(a) The Hypothetical Cloning Machine:</strong></p>
+      <p>A universal cloning machine must execute the unitary mapping \(U(\ket{\psi}\ket{0}) = \ket{\psi}\ket{\psi}\) for any arbitrary state \(\ket{\psi} \in \mathcal{H}\).</p>
 
-      <p><strong>(b) Action on a Superposition:</strong></p>
-      <p>(i) By linearity of unitary gates:</p>
-      <p>\[\text{CNOT}(\ket{+}\ket{0}) = \text{CNOT}\left(\frac{\ket{0}+\ket{1}}{\sqrt{2}}\ket{0}\right) = \frac{1}{\sqrt{2}}\text{CNOT}\ket{00} + \frac{1}{\sqrt{2}}\text{CNOT}\ket{10} = \frac{\ket{00}+\ket{11}}{\sqrt{2}}.\]</p>
-      <p>(ii) If the gate had cloned \(\ket{+}\), the target qubit would also be in \(\ket{+}\), yielding the product state:</p>
-      <p>\[\ket{+}\ket{+} = \left(\frac{\ket{0}+\ket{1}}{\sqrt{2}}\right)\otimes\left(\frac{\ket{0}+\ket{1}}{\sqrt{2}}\right) = \frac{\ket{00} + \ket{01} + \ket{10} + \ket{11}}{2}.\]</p>
-      <p>(iii) The actual state is the maximally entangled Bell pair \(\frac{\ket{00}+\ket{11}}{\sqrt{2}}\), which contains only two terms and zero amplitude for \(\ket{01}\) and \(\ket{10}\). The CNOT gate does not copy the superposition; it entangles the target with the control.</p>
+      <p><strong>(b) Proof by Inner Product Preservation:</strong></p>
+      <p>(i) For input states \(\ket{\psi}\ket{0}\) and \(\ket{\phi}\ket{0}\):</p>
+      <p>\[\braket{\psi\otimes 0}{\phi\otimes 0} = (\braket{\psi}{\phi})(\braket{0}{0}) = \braket{\psi}{\phi}.\]</p>
+      <p>(ii) For the cloned output states \(\ket{\psi}\ket{\psi}\) and \(\ket{\phi}\ket{\phi}\):</p>
+      <p>\[\braket{\psi\otimes \psi}{\phi\otimes \phi} = (\braket{\psi}{\phi})(\braket{\psi}{\phi}) = (\braket{\psi}{\phi})^2.\]</p>
+      <p>(iii) Since \(U\) is unitary, it preserves all inner products: \(\braket{U(\psi\otimes 0)}{U(\phi\otimes 0)} = \braket{\psi\otimes 0}{\phi\otimes 0}\). Therefore:</p>
+      <p>\[\braket{\psi}{\phi} = (\braket{\psi}{\phi})^2.\]</p>
+      <p>(iv) The equation \(z = z^2\) has only two roots: \(z = 0\) or \(z = 1\). This means \(\braket{\psi}{\phi} = 0\) (the states are orthogonal) or \(|\braket{\psi}{\phi}| = 1\) (the states are identical up to a global phase). A cloning machine can only clone sets of mutually orthogonal states; it cannot clone a general unknown quantum state.</p>
 
-      <p><strong>(c) Derivation of the No-Cloning Theorem:</strong></p>
-      <p>(i) The inner product between the two initial states is</p>
-      <p>\[\braket{\phi, 0}{\psi, 0} = \braket{\phi}{\psi} \braket{0}{0} = \braket{\phi}{\psi} \cdot 1 = \braket{\phi}{\psi}.\]</p>
-      <p>(ii) The inner product between the two final states is</p>
-      <p>\[\braket{\phi, \phi}{\psi, \psi} = \braket{\phi}{\psi} \braket{\phi}{\psi} = (\braket{\phi}{\psi})^2.\]</p>
-      <p>(iii) Because unitary evolution preserves all inner products (\(\bra{\phi}U^\dagger U\ket{\psi} = \braket{\phi}{\psi}\)):</p>
-      <p>\[\braket{\phi}{\psi} = (\braket{\phi}{\psi})^2.\]</p>
-      <p>(iv) The equation \(z = z^2\) rearranges to \(z(1 - z) = 0\), whose only solutions are \(z = 0\) or \(z = 1\).<br/>
-      - If \(\braket{\phi}{\psi} = 0\), the states are mutually orthogonal.<br/>
-      - If \(\braket{\phi}{\psi} = 1\), the states are identical (up to a global phase).<br/>
-      Therefore, no unitary machine can copy two non-orthogonal states. Because an unknown quantum state could be any superposition, no universal quantum cloning machine can exist.</p>
+      <p><strong>(c) Proof by Linearity:</strong></p>
+      <p>(i) By linearity of unitary operator \(U\):</p>
+      <p>\[U(\ket{+}\ket{0}) = U\left( \frac{\ket{0} + \ket{1}}{\sqrt{2}} \otimes \ket{0} \right) = \frac{1}{\sqrt{2}} U(\ket{0}\ket{0}) + \frac{1}{\sqrt{2}} U(\ket{1}\ket{0}) = \frac{1}{\sqrt{2}}\ket{00} + \frac{1}{\sqrt{2}}\ket{11} = \ket{\Phi^+}.\]</p>
+      <p>(ii) The desired cloned state is:</p>
+      <p>\[\ket{+}\ket{+} = \left(\frac{\ket{0}+\ket{1}}{\sqrt{2}}\right) \otimes \left(\frac{\ket{0}+\ket{1}}{\sqrt{2}}\right) = \frac{1}{2}\ket{00} + \frac{1}{2}\ket{01} + \frac{1}{2}\ket{10} + \frac{1}{2}\ket{11}.\]</p>
+      <p>(iii) The actual evolved state is the entangled Bell state \(\ket{\Phi^+}\), which completely lacks the product terms \(\ket{01}\) and \(\ket{10}\). Since \(\ket{\Phi^+} \ne \ket{+}\ket{+}\), the cloning operation fails. Linearity dictates that the machine entangles the target with the source rather than copying the superposition.</p>
+
+      <p><strong>(d) Classical vs. Quantum Copying:</strong></p>
+      <p>The CNOT gate acts on the computational basis as \(\ket{00} \to \ket{00}\) and \(\ket{10} \to \ket{11}\). These two configurations are mutually orthogonal (\(\braket{0}{1} = 0\)). Since \(\braket{0}{1} = 0\) satisfies \(z = z^2\) (\(0 = 0^2\)), copying orthogonal basis states does not violate the no-cloning theorem. Classical computers only ever store and copy orthogonal bit states (\(0\) or \(1\)). Quantum cloning becomes impossible only when trying to clone an unknown state with non-trivial superposition amplitudes.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-9">
-  <h2>Question 9: Quantum Teleportation and Local Operations <a class="heading-link" href="#question-9">§</a></h2>
+  <h2>Question 9: Quantum Teleportation and the No-Signaling Theorem <a class="heading-link" href="#question-9">§</a></h2>
   <div class="problem-statement">
-    <p>Quantum teleportation transfers an unknown state using shared entanglement and classical communication, without violating the principle that information cannot travel faster than light.</p>
-    <p>Alice holds an unknown qubit state \(\ket{\psi}_1 = \alpha\ket{0}_1 + \beta\ket{1}_1\) (qubit 1). Alice and Bob share a Bell pair \(\ket{\Phi^+}_{23} = \frac{\ket{00}+\ket{11}}{\sqrt{2}}\), where Alice holds qubit 2 and Bob holds qubit 3.</p>
-
-    <p><strong>(a) Expanding the 3-Qubit State:</strong><br/>
-    (i) Write the total initial 3-qubit state \(\ket{\Psi} = \ket{\psi}_1 \otimes \ket{\Phi^+}_{23}\) explicitly in the computational basis.<br/>
-    (ii) Express the four basis configurations of qubits 1 and 2 in terms of the Bell states \(\ket{\Phi^\pm} = \frac{\ket{00}\pm\ket{11}}{\sqrt{2}}\) and \(\ket{\Psi^\pm} = \frac{\ket{01}\pm\ket{10}}{\sqrt{2}}\).<br/>
-    (iii) Group terms by Alice’s Bell states to verify the teleportation identity:</p>
-    <p>\[\ket{\Psi} = \frac{1}{2}\left[\ket{\Phi^+}_{12}(\alpha\ket{0}+\beta\ket{1})_3 + \ket{\Phi^-}_{12}(\alpha\ket{0}-\beta\ket{1})_3 + \ket{\Psi^+}_{12}(\beta\ket{0}+\alpha\ket{1})_3 + \ket{\Psi^-}_{12}(-\beta\ket{0}+\alpha\ket{1})_3\right].\]</p>
-
-    <p><strong>(b) Measurement and Pauli Frame Corrections:</strong><br/>
-    (i) What is the probability that Alice measures each of the four Bell outcomes? Does this probability depend on \(\alpha\) or \(\beta\)?<br/>
-    (ii) For each measurement outcome, identify the conditional state of Bob’s qubit 3 and the exact Pauli operator (\(I, Z, X\), or \(XZ\)) Bob must apply to recover \(\ket{\psi}\).</p>
-
-    <p><strong>(c) The No-Signalling Principle:</strong><br/>
-    Suppose Alice performs her Bell measurement, but has not yet transmitted her results to Bob.<br/>
-    (i) In each of the four possible measurement branches, calculate the probability that Bob measures his qubit to be \(0\) in the computational basis.<br/>
-    (ii) Average these probabilities across all four equally likely branches to find Bob’s total probability of measuring \(0\).<br/>
-    (iii) Does Bob’s local probability depend on \(\alpha\), \(\beta\), or whether Alice even measured her qubits? Explain why quantum teleportation cannot send messages faster than light.</p>
+    <p>Chapter 6 explores how entangled resources allow distributed state transfer across space without physical qubit transmission, bounded strictly by relativistic causality.</p>
+    <p><strong>(a) Quantum Teleportation Protocol:</strong> Alice holds an unknown quantum state \(\ket{\psi}_1 = \alpha\ket{0} + \beta\ket{1}\) on qubit 1. Alice and Bob share a Bell pair \(\ket{\Phi^+}_{23} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})\) on qubits 2 and 3.<br/>
+    (i) Write down the complete 3-qubit joint initial state \(\ket{\Psi_{123}} = \ket{\psi}_1 \otimes \ket{\Phi^+}_{23}\).<br/>
+    (ii) Prove from first principles that \(\ket{\Psi_{123}}\) can be identically decomposed in the Bell basis for Alice’s qubits (1 and 2) as:</p>
+    <p>\[\ket{\Psi_{123}} = \frac{1}{2} \left[ \ket{\Phi^+}_{12} (\alpha\ket{0} + \beta\ket{1})_3 + \ket{\Phi^-}_{12} (\alpha\ket{0} - \beta\ket{1})_3 + \ket{\Psi^+}_{12} (\beta\ket{0} + \alpha\ket{1})_3 + \ket{\Psi^-}_{12} (-\beta\ket{0} + \alpha\ket{1})_3 \right].\]</p>
+    <p>(iii) For each of Alice’s four possible Bell measurement outcomes, specify the exact unitary correction Bob must apply to qubit 3 to recover \(\ket{\psi}\).</p>
+    <p><strong>(b) The No-Signaling Theorem:</strong> In Section 6.3.3, an arbitrary two-qubit state \(\ket{\Psi} = \sum_{a,b} c_{ab}\ket{ab}\) is grouped according to Bob's qubit:</p>
+    <p>\[\ket{\Psi} = \ket{v_0}\otimes\ket{0} + \ket{v_1}\otimes\ket{1}, \quad \text{where } \ket{v_b} = c_{0b}\ket{0} + c_{1b}\ket{1}.\]</p>
+    <p>(i) Show that Bob's marginal probability of observing outcome \(b\) is \(p_B(b) = \|\ket{v_b}\|^2\).<br/>
+    (ii) Prove that applying any local unitary operation \(U_A \otimes I\) on Alice's qubit transforms \(\ket{v_b} \to U_A \ket{v_b}\), and explain why this leaves Bob's marginal probability \(p_B(b)\) completely unchanged.<br/>
+    (iii) Suppose Alice measures her qubit in the computational basis, obtaining outcome \(a\) with probability \(p_A(a) = |c_{a0}|^2 + |c_{a1}|^2\). Prove that Bob's unconditioned probability of observing \(b\) is \(\sum_a p_A(a) p(b \mid a) = p_B(b)\).<br/>
+    (iv) Conclude why entanglement cannot be used to transmit a message faster than light, and why classical communication is necessary in teleportation.</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Algebraic State Decomposition:</strong></p>
-      <p>(i) Expanding \(\ket{\Psi} = (\alpha\ket{0}_1 + \beta\ket{1}_1) \otimes \frac{\ket{00}_{23} + \ket{11}_{23}}{\sqrt{2}}\):</p>
-      <p>\[\ket{\Psi} = \frac{1}{\sqrt{2}}\left( \alpha\ket{000} + \alpha\ket{011} + \beta\ket{100} + \beta\ket{111} \right).\]</p>
-      <p>(ii) Inverting the Bell state definitions:</p>
-      <p>\[\ket{00} = \frac{\ket{\Phi^+} + \ket{\Phi^-}}{\sqrt{2}}, \qquad \ket{11} = \frac{\ket{\Phi^+} - \ket{\Phi^-}}{\sqrt{2}},\]</p>
-      <p>\[\ket{01} = \frac{\ket{\Psi^+} + \ket{\Psi^-}}{\sqrt{2}}, \qquad \ket{10} = \frac{\ket{\Psi^+} - \ket{\Psi^-}}{\sqrt{2}}.\]</p>
-      <p>(iii) Substituting these into the four terms of \(\ket{\Psi}\):<br/>
-      - \(\alpha\ket{00}_1\ket{0}_3 = \frac{\alpha}{\sqrt{2}}(\ket{\Phi^+}+\ket{\Phi^-})\ket{0}\)<br/>
-      - \(\alpha\ket{01}_1\ket{1}_3 = \frac{\alpha}{\sqrt{2}}(\ket{\Psi^+}+\ket{\Psi^-})\ket{1}\)<br/>
-      - \(\beta\ket{10}_1\ket{0}_3 = \frac{\beta}{\sqrt{2}}(\ket{\Psi^+}-\ket{\Psi^-})\ket{0}\)<br/>
-      - \(\beta\ket{11}_1\ket{1}_3 = \frac{\beta}{\sqrt{2}}(\ket{\Phi^+}-\ket{\Phi^-})\ket{1}\)<br/>
-      Dividing by the overall factor of \(\sqrt{2}\) and grouping by Bell state yields:</p>
-      <p>\[\ket{\Psi} = \frac{1}{2}\left[\ket{\Phi^+}_{12}(\alpha\ket{0}+\beta\ket{1})_3 + \ket{\Phi^-}_{12}(\alpha\ket{0}-\beta\ket{1})_3 + \ket{\Psi^+}_{12}(\beta\ket{0}+\alpha\ket{1})_3 + \ket{\Psi^-}_{12}(-\beta\ket{0}+\alpha\ket{1})_3\right].\]</p>
+      <p><strong>(a) Quantum Teleportation Decomposition:</strong></p>
+      <p>(i) Expanding the joint state:</p>
+      <p>\[\ket{\Psi_{123}} = (\alpha\ket{0}_1 + \beta\ket{1}_1) \otimes \frac{1}{\sqrt{2}}(\ket{00}_{23} + \ket{11}_{23}) = \frac{1}{\sqrt{2}} \left[ \alpha\ket{000} + \alpha\ket{011} + \beta\ket{100} + \beta\ket{111} \right].\]</p>
+      <p>(ii) We invert the Bell basis definitions for qubits 1 and 2:<br/>
+      \(\ket{00} = \frac{1}{\sqrt{2}}(\ket{\Phi^+} + \ket{\Phi^-})\), \(\ket{11} = \frac{1}{\sqrt{2}}(\ket{\Phi^+} - \ket{\Phi^-})\),<br/>
+      \(\ket{01} = \frac{1}{\sqrt{2}}(\ket{\Psi^+} + \ket{\Psi^-})\), \(\ket{10} = \frac{1}{\sqrt{2}}(\ket{\Psi^+} - \ket{\Psi^-})\).<br/>
+      Substituting these into \(\ket{\Psi_{123}}\):</p>
+      <p>\[\ket{\Psi_{123}} = \frac{1}{2} \left[ \alpha(\ket{\Phi^+} + \ket{\Phi^-})\ket{0} + \alpha(\ket{\Psi^+} + \ket{\Psi^-})\ket{1} + \beta(\ket{\Psi^+} - \ket{\Psi^-})\ket{0} + \beta(\ket{\Phi^+} - \ket{\Phi^-})\ket{1} \right].\]</p>
+      <p>Regrouping by Alice’s Bell states:</p>
+      <p>\[\ket{\Psi_{123}} = \frac{1}{2} \left[ \ket{\Phi^+}_{12}(\alpha\ket{0} + \beta\ket{1}) + \ket{\Phi^-}_{12}(\alpha\ket{0} - \beta\ket{1}) + \ket{\Psi^+}_{12}(\beta\ket{0} + \alpha\ket{1}) + \ket{\Psi^-}_{12}(-\beta\ket{0} + \alpha\ket{1}) \right].\]</p>
+      <p>(iii) The required unitary correction operations on Bob’s qubit 3 are:<br/>
+      - If Alice measures \(\ket{\Phi^+}_{12}\): Bob has \(\ket{\psi}\), applies \(I\).<br/>
+      - If Alice measures \(\ket{\Phi^-}_{12}\): Bob has \(Z\ket{\psi}\), applies \(Z\).<br/>
+      - If Alice measures \(\ket{\Psi^+}_{12}\): Bob has \(X\ket{\psi}\), applies \(X\).<br/>
+      - If Alice measures \(\ket{\Psi^-}_{12}\): Bob has \(XZ\ket{\psi}\), applies \(ZX = -iY\) (or \(XZ\)).</p>
 
-      <p><strong>(b) Measurement Probabilities and Bob’s Corrections:</strong></p>
-      <p>(i) For each branch, the probability is the squared magnitude of the vector accompanying the Bell state:</p>
-      <p>\[P(\Phi^+) = \left\|\frac{1}{2}(\alpha\ket{0}+\beta\ket{1})\right\|^2 = \frac{1}{4}(|\alpha|^2 + |\beta|^2) = \frac{1}{4}\cdot 1 = \frac{1}{4}.\]</p>
-      <p>Similarly, \(P(\Phi^-) = P(\Psi^+) = P(\Psi^-) = 1/4\). All four outcomes occur with equal probability \(1/4\), completely independent of \(\alpha\) and \(\beta\). Alice’s measurement reveals zero information about \(\ket{\psi}\).</p>
-      <p>(ii) Bob’s conditional state and required correction:</p>
-      <ul>
-        <li>If Alice measures \(\ket{\Phi^+}\): Bob holds \(\alpha\ket{0}+\beta\ket{1} = \ket{\psi}\). Bob applies \(I\).</li>
-        <li>If Alice measures \(\ket{\Phi^-}\): Bob holds \(\alpha\ket{0}-\beta\ket{1} = Z\ket{\psi}\). Bob applies \(Z\) (since \(Z^2 = I\)).</li>
-        <li>If Alice measures \(\ket{\Psi^+}\): Bob holds \(\beta\ket{0}+\alpha\ket{1} = X\ket{\psi}\). Bob applies \(X\) (since \(X^2 = I\)).</li>
-        <li>If Alice measures \(\ket{\Psi^-}\): Bob holds \(-\beta\ket{0}+\alpha\ket{1} = XZ\ket{\psi}\). Bob applies \(ZX\) (since \(ZX(XZ\ket{\psi}) = -Z^2 X^2\ket{\psi} = -\ket{\psi}\), matching up to a global sign).</li>
-      </ul>
-
-      <p><strong>(c) The No-Signalling Principle:</strong></p>
-      <p>(i) The probability that Bob observes \(0\) on his qubit in each branch is:<br/>
-      - On branch \(\Phi^+\): state is \(\alpha\ket{0}+\beta\ket{1} \implies P(0) = |\alpha|^2\).<br/>
-      - On branch \(\Phi^-\): state is \(\alpha\ket{0}-\beta\ket{1} \implies P(0) = |\alpha|^2\).<br/>
-      - On branch \(\Psi^+\): state is \(\beta\ket{0}+\alpha\ket{1} \implies P(0) = |\beta|^2\).<br/>
-      - On branch \(\Psi^-\): state is \(-\beta\ket{0}+\alpha\ket{1} \implies P(0) = |-\beta|^2 = |\beta|^2\).</p>
-      <p>(ii) Averaging over all four equally likely branches:</p>
-      <p>\[P(\text{Bob measures } 0) = \frac{1}{4}|\alpha|^2 + \frac{1}{4}|\alpha|^2 + \frac{1}{4}|\beta|^2 + \frac{1}{4}|\beta|^2 = \frac{1}{2}(|\alpha|^2 + |\beta|^2) = \frac{1}{2}\cdot 1 = \frac{1}{2}.\]</p>
-      <p>(iii) Bob observes \(0\) with probability \(1/2\) and \(1\) with probability \(1/2\), regardless of \(\alpha\), \(\beta\), or whether Alice even performed her measurement. No local measurement Bob can perform reveals any hint of the state \(\ket{\psi}\) until Alice sends her 2 classical bits telling him which correction to apply. Because classical signals cannot exceed the speed of light, teleportation cannot transmit information superluminally.</p>
+      <p><strong>(b) The No-Signaling Theorem:</strong></p>
+      <p>(i) By the measurement postulate, Bob's probability of observing outcome \(b\) is the sum of joint probabilities \(p(a, b) = |c_{ab}|^2\) for all of Alice's outcomes \(a \in \{0, 1\}\):<br/>
+      \[p_B(b) = p(0, b) + p(1, b) = |c_{0b}|^2 + |c_{1b}|^2.\]<br/>
+      Since \(\ket{v_b} = c_{0b}\ket{0} + c_{1b}\ket{1}\), its squared Euclidean length is \(\|\ket{v_b}\|^2 = |c_{0b}|^2 + |c_{1b}|^2 = p_B(b)\).</p>
+      <p>(ii) Applying \(U_A \otimes I\) yields \(\ket{\Psi'} = (U_A\ket{v_0})\otimes\ket{0} + (U_A\ket{v_1})\otimes\ket{1}\). Bob's probability of observing \(b\) becomes \(p'_B(b) = \|U_A\ket{v_b}\|^2\). Because unitary operators are isometries that preserve Euclidean lengths (\(\|U_A\ket{v}\| = \|\ket{v}\|\)), we have \(\|U_A\ket{v_b}\|^2 = \|\ket{v_b}\|^2\). Thus \(p'_B(b) = p_B(b)\). Alice's local gate cannot transfer amplitude across Bob's orthogonal basis sectors.</p>
+      <p>(iii) If Alice measures outcome \(a\), the conditional probability for Bob to see \(b\) is \(p(b \mid a) = \frac{|c_{ab}|^2}{p_A(a)}\). Without Alice's message, Bob's observed probability is the statistical average across all branches:<br/>
+      \[\sum_a p_A(a) p(b \mid a) = \sum_a p_A(a) \frac{|c_{ab}|^2}{p_A(a)} = \sum_a |c_{ab}|^2 = p_B(b).\]<br/>
+      The branch probability \(p_A(a)\) exactly cancels the normalization denominator of the collapsed state!</p>
+      <p>(iv) Because neither local gates nor local measurements can alter Bob's outcome probabilities in any basis, Alice cannot transmit any signal to Bob through entanglement alone. In teleportation, Bob's qubit is left in an unconditioned random mixture until he receives Alice's classical measurement bits over an ordinary channel that respects the speed of light.</p>
     </div>
   </details>
 </article>
 
 <article class="assignment-problem" id="question-10">
-  <h2>Question 10: Quantum Parallelism and Oracle Entanglement <a class="heading-link" href="#question-10">§</a></h2>
+  <h2>Question 10: Quantum Parallelism and What a Measurement Reveals <a class="heading-link" href="#question-10">§</a></h2>
   <div class="problem-statement">
-    <p>Quantum parallelism evaluates a Boolean function across all inputs simultaneously in a single query. Understanding why parallel evaluation alone does not immediately speed up search is the foundation of quantum algorithms.</p>
-    <p>Let \(f: \{0, 1\}^2 \to \{0, 1\}\) be a 2-bit Boolean function. The standard evaluation unitary acts on two input qubits and one target qubit as:</p>
-    <p>\[U_f \ket{x_1 x_2}\ket{y} = \ket{x_1 x_2}\ket{y \oplus f(x_1, x_2)}.\]</p>
-
-    <p><strong>(a) Superposition on the Input Register:</strong><br/>
-    The two input qubits start in \(\ket{00}\), and a Hadamard gate is applied to each, preparing the equal superposition \(\ket{s} = \frac{1}{2}(\ket{00}+\ket{01}+\ket{10}+\ket{11})\). The target qubit starts in \(\ket{0}\).<br/>
-    (i) Write the full 3-qubit state after applying \(U_f\) when \(f\) is the constant-zero function: \(f(x) = 0\) for all \(x\).<br/>
-    (ii) Write the full 3-qubit state after applying \(U_f\) when \(f\) is the AND function: \(f(x_1, x_2) = x_1 \land x_2\).</p>
-
-    <p><strong>(b) Factorization and Oracle Entanglement:</strong><br/>
-    (i) For the constant-zero function, show that the 3-qubit state factors as a product state \(\ket{s} \otimes \ket{0}\), with zero entanglement between the input register and the target qubit.<br/>
-    (ii) For the AND function, prove that the state cannot be written in factored form \(\ket{\phi}_{\text{inputs}} \otimes \ket{\gamma}_{\text{target}}\).<br/>
-    (iii) Explain why the target qubit acts as a "which-path" marker that tags each computational branch with its function value.</p>
-
-    <p><strong>(c) Measurement Readout vs. Phase Kickback:</strong><br/>
-    (i) If all three qubits are measured in the computational basis after evaluating AND in parallel, what is the probability of observing each pair \((x, f(x))\)? Can a single run determine whether \(f\) is constant or balanced?<br/>
-    (ii) Now suppose the target qubit is prepared in \(\ket{-} = \frac{\ket{0}-\ket{1}}{\sqrt{2}}\) instead of \(\ket{0}\). Prove the phase kickback identity:</p>
-    <p>\[U_f (\ket{x_1 x_2}\ket{-}) = (-1)^{f(x_1, x_2)} \ket{x_1 x_2}\ket{-}.\]</p>
-    <p>(iii) Write the state when \(U_f\) acts on \(\ket{s}\ket{-}\). Is the input register entangled with the target qubit in this case? Explain why phase kickback is essential for creating interference between computational paths.</p>
+    <p>Chapter 6 culminates in quantum parallelism (Section 6.5): evaluating functions across all inputs simultaneously using a unitary oracle and analyzing what projective measurements reveal about the parallel state.</p>
+    <p><strong>(a) The Reversible Oracle:</strong> For any Boolean function \(f: \{0,1\}^n \to \{0,1\}\), the reversible oracle is defined by:</p>
+    <p>\[U_f \ket{x}\ket{y} = \ket{x}\ket{y \oplus f(x)}.\]</p>
+    <p>(i) Prove that \(U_f\) is both unitary and Hermitian: \(U_f = U_f^\dagger = U_f^{-1}\).<br/>
+    (ii) If the input register is initialized in the equal superposition \(\frac{1}{\sqrt{2^n}}\sum_{x} \ket{x}\) and the target in \(\ket{0}\), write down the state \(\ket{\psi_f}\) after the \(U_f\) gate.</p>
+    <p><strong>(b) What a Complete Measurement Reveals:</strong> Suppose all \(n+1\) qubits are measured in the computational basis immediately after \(U_f\).<br/>
+    (i) What is the probability of observing any specific pair \((x_0, f(x_0))\)?<br/>
+    (ii) Explain why measuring immediately destroys the parallel superposition, and why evaluating all inputs in parallel does not, by itself, grant an immediate computational advantage over classical sampling.</p>
+    <p><strong>(c) Measuring Only the Target Qubit:</strong> Suppose instead that we measure <em>only</em> the single target qubit in the state \(\ket{\psi_f} = \frac{1}{\sqrt{2^n}}\sum_{x} \ket{x}\ket{f(x)}\).<br/>
+    (i) Express the probability \(P(y = 0)\) of observing \(0\) on the target in terms of the number of preimages \(N_0 = |\{x \in \{0,1\}^n \mid f(x) = 0\}|\).<br/>
+    (ii) What is the post-measurement state of the input register when the target measurement yields \(0\)?<br/>
+    (iii) What is the post-measurement state of the input register when the target measurement yields \(1\)?<br/>
+    (iv) How does this demonstrate that measuring an entangled subsystem collapses the unmeasured register into an equal superposition over a sub-ensemble of configurations?</p>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
     <div class="solution-content">
-      <p><strong>(a) Superposition State Evolution:</strong></p>
-      <p>(i) For the constant-zero function, \(f(x) = 0\) on all four inputs. Applying \(U_f\):</p>
-      <p>\[U_f (\ket{s}\ket{0}) = \frac{1}{2}\sum_{x \in \{0,1\}^2} \ket{x}\ket{0 \oplus 0} = \frac{1}{2}(\ket{00}\ket{0} + \ket{01}\ket{0} + \ket{10}\ket{0} + \ket{11}\ket{0}).\]</p>
-      <p>(ii) For the AND function, \(f(00) = 0\), \(f(01) = 0\), \(f(10) = 0\), and \(f(11) = 1\). Applying \(U_f\):</p>
-      <p>\[U_f (\ket{s}\ket{0}) = \frac{1}{2}(\ket{00}\ket{0} + \ket{01}\ket{0} + \ket{10}\ket{0} + \ket{11}\ket{1}) = \frac{\ket{00}+\ket{01}+\ket{10}}{2}\ket{0} + \frac{\ket{11}}{2}\ket{1}.\]</p>
+      <p><strong>(a) The Oracle Gate:</strong></p>
+      <p>(i) Applying \(U_f\) twice to any basis state:</p>
+      <p>\[U_f^2 \ket{x}\ket{y} = U_f \ket{x}\ket{y \oplus f(x)} = \ket{x}\ket{(y \oplus f(x)) \oplus f(x)} = \ket{x}\ket{y \oplus 0} = \ket{x}\ket{y}.\]</p>
+      <p>Since \(U_f^2 = I\), \(U_f^{-1} = U_f\). Because \(U_f\) is a permutation of the real standard basis, its matrix elements are real, so \(U_f^\dagger = U_f^T = U_f\). Thus \(U_f\) is both unitary and Hermitian.</p>
+      <p>(ii) Initial state: \(\ket{\psi_0} = \frac{1}{\sqrt{2^n}}\sum_{x} \ket{x}\ket{0}\). Applying \(U_f\) by linearity:</p>
+      <p>\[\ket{\psi_f} = U_f \left(\frac{1}{\sqrt{2^n}}\sum_x \ket{x}\ket{0}\right) = \frac{1}{\sqrt{2^n}}\sum_{x \in \{0,1\}^n} \ket{x}\ket{f(x)}.\]</p>
 
-      <p><strong>(b) Factorization and Oracle Entanglement:</strong></p>
-      <p>(i) For the constant-zero function, the target qubit is \(\ket{0}\) for every term. Factoring out \(\ket{0}\):</p>
-      <p>\[\frac{1}{2}(\ket{00}+\ket{01}+\ket{10}+\ket{11})\otimes\ket{0} = \ket{s} \otimes \ket{0}.\]</p>
-      <p>The state is an unentangled product state between the 2-qubit input register and the target qubit.</p>
-      <p>(ii) For the AND function, suppose the state factored as \(\ket{\phi} \otimes (c_0\ket{0}+c_1\ket{1})\). Then every basis state \(\ket{x}\) present in \(\ket{\phi}\) would have to be accompanied by the same target state. But inputs \(00, 01, 10\) are accompanied exclusively by \(\ket{0}\) (meaning \(c_1 = 0\)), while input \(11\) is accompanied exclusively by \(\ket{1}\) (meaning \(c_0 = 0\)). This is a contradiction. Therefore, the input register is entangled with the target qubit.</p>
-      <p>(iii) The target qubit holds a permanent record of whether \(f(x) = 0\) or \(f(x) = 1\). Because the target states \(\ket{0}\) and \(\ket{1}\) are orthogonal, they act like which-path detectors in an interferometer: branches with \(f(x)=0\) and branches with \(f(x)=1\) can never cancel each other because they are tagged by mutually orthogonal target states.</p>
+      <p><strong>(b) What a Complete Measurement Reveals:</strong></p>
+      <p>(i) Each basis configuration \(\ket{x}\ket{f(x)}\) has amplitude \(1/\sqrt{2^n}\). By the measurement postulate, the probability of observing any specific pair \((x_0, f(x_0))\) is:</p>
+      <p>\[P(x_0, f(x_0)) = \left|\frac{1}{\sqrt{2^n}}\right|^2 = \frac{1}{2^n}.\]</p>
+      <p>(ii) The measurement projects the state onto the single observed configuration \(\ket{x_0}\ket{f(x_0)}\), irreversibly destroying the superposition of all other \(2^n - 1\) computational branches. We learn the function value for only one randomly chosen input \(x_0\). This provides no advantage over simply choosing \(x_0\) at random classically and evaluating \(f(x_0)\). Quantum parallelism alone does not yield a speedup without subsequent interference to extract global properties.</p>
 
-      <p><strong>(c) Readout vs. Phase Kickback:</strong></p>
-      <p>(i) Measuring in the computational basis collapses the superposition to a single term \(\ket{x}\ket{f(x)}\). Each of the four pairs has equal probability \(|1/2|^2 = 1/4\). A single run yields only a single function evaluation \((x, f(x))\), exactly like a single classical query. It cannot tell whether \(f\) is constant or balanced because observing \(f(00) = 0\) leaves the other three values unknown.</p>
-      <p>(ii) Recall that \(\ket{-} = \frac{\ket{0}-\ket{1}}{\sqrt{2}}\). The oracle acts on target \(\ket{y}\) by addition modulo 2: \(y \oplus f(x)\).<br/>
-      - If \(f(x) = 0\): \(\ket{0 \oplus 0} - \ket{1 \oplus 0} = \ket{0} - \ket{1} = \sqrt{2}\ket{-} = (+1)\sqrt{2}\ket{-}\).<br/>
-      - If \(f(x) = 1\): \(\ket{0 \oplus 1} - \ket{1 \oplus 1} = \ket{1} - \ket{0} = -(\ket{0} - \ket{1}) = (-1)\sqrt{2}\ket{-}\).<br/>
-      Combining both cases:</p>
-      <p>\[U_f (\ket{x}\ket{-}) = \ket{x} \otimes \frac{\ket{0\oplus f(x)} - \ket{1\oplus f(x)}}{\sqrt{2}} = (-1)^{f(x)} \ket{x}\ket{-}.\]</p>
-      <p>(iii) Applying \(U_f\) to \(\ket{s}\ket{-}\):</p>
-      <p>\[U_f (\ket{s}\ket{-}) = U_f \left(\frac{1}{2}\sum_x \ket{x}\ket{-}\right) = \left( \frac{1}{2}\sum_{x \in \{0,1\}^2} (-1)^{f(x)}\ket{x} \right) \otimes \ket{-}.\]</p>
-      <p>Because the target qubit remains completely in state \(\ket{-}\), it factors out entirely: <em>the input register is not entangled with the target qubit</em>. Because the target no longer distinguishes the branches, the input register remains in a pure superposition whose amplitudes have phase signs \((-1)^{f(x)}\). Subsequent Hadamard gates can now cause these signed paths to interfere constructively or destructively, enabling global properties of \(f\) to be learned in a single query.</p>
+      <p><strong>(c) Measuring Only the Target Qubit:</strong></p>
+      <p>(i) We can split the state \(\ket{\psi_f}\) into two orthogonal sums based on the value of \(f(x)\):</p>
+      <p>\[\ket{\psi_f} = \frac{1}{\sqrt{2^n}}\left( \sum_{x: f(x)=0} \ket{x} \right)\ket{0} + \frac{1}{\sqrt{2^n}}\left( \sum_{x: f(x)=1} \ket{x} \right)\ket{1}.\]</p>
+      <p>The probability of observing \(0\) on the target is the sum of squared amplitudes for all configurations with target \(0\):</p>
+      <p>\[P(y = 0) = \sum_{x: f(x)=0} \left|\frac{1}{\sqrt{2^n}}\right|^2 = \frac{N_0}{2^n},\]</p>
+      <p>where \(N_0 = |\{x \mid f(x) = 0\}|\) is the number of preimages of \(0\). Similarly, \(P(y = 1) = \frac{N_1}{2^n}\) where \(N_1 = 2^n - N_0\).</p>
+      <p>(ii) When the target measurement yields \(0\), the projector \(I \otimes \ketbra{0}{0}\) selects the first sum. Normalizing the collapsed state yields:</p>
+      <p>\[\ket{\psi_{\text{in}}^{(0)}} = \frac{1}{\sqrt{N_0}} \sum_{x: f(x)=0} \ket{x}.\]</p>
+      <p>(iii) When the target measurement yields \(1\), the projector \(I \otimes \ketbra{1}{1}\) selects the second sum. Normalizing the collapsed state yields:</p>
+      <p>\[\ket{\psi_{\text{in}}^{(1)}} = \frac{1}{\sqrt{N_1}} \sum_{x: f(x)=1} \ket{x}.\]</p>
+      <p>(iv) Because the target bit is entangled with the input register, measuring only the target performs a partial measurement that projects the input register into an equal superposition over all preimages of the observed value. This prepares a clean superposition over a specific functional level set.</p>
     </div>
   </details>
 </article>
-
-<dialog id="solution-pin-dialog" aria-labelledby="dialog-pin-title">
-  <form method="dialog" class="pin-dialog-form">
-    <button type="button" class="dialog-close" id="dialog-close" aria-label="Close passcode dialog">×</button>
-    <h3 id="dialog-pin-title">Unlock Worked Solution</h3>
-    <p>Enter the 4-digit code to reveal the solution:</p>
-    <div class="pin-input-group">
-      <label for="dialog-passcode-input" class="visually-hidden">4-digit access code</label>
-      <input type="password" id="dialog-passcode-input" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="••••" autocomplete="off" required aria-label="4-digit access code" />
-      <button type="submit" id="dialog-submit">Unlock</button>
-    </div>
-    <p class="auth-status" id="dialog-status" role="status" aria-live="polite"></p>
-  </form>
-</dialog>

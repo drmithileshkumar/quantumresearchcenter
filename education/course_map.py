@@ -12,7 +12,7 @@ def render_course_map(title, chapters):
             f'{escape(section["title"])}</a></li>'
             for section in sections
         )
-        number = 'A–E' if stem == 'appendices' else ('HW' if stem == 'assignments' else f'{i:02}')
+        number = 'A–E' if stem == 'appendices' else ('HW' if stem == 'assignments' else ('EX' if stem == 'exams' else f'{i:02}'))
         branches.append(
             f'<li class="topic-map-branch"><a class="topic-map-section" '
             f'href="{escape(stem)}.html"><span>{number}</span>'

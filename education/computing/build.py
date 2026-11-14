@@ -29,9 +29,10 @@ def navigation(current,data):
  pieces=[COURSE_LOGO+'<a class="book-home" href="index.html">Quantum Computing<span>From classical to quantum</span></a><a class="nav-introduction" href="index.html">About this book</a>']
  for i,(meta,m) in enumerate(zip(META,data)):
   stem,title,*_=meta
-  badge = 'A–E' if stem == 'appendices' else ('HW' if stem == 'assignments' else str(i+1).zfill(2))
-  is_open = 'open' if (current == stem or (stem == 'assignments' and current.startswith('assignment-'))) else ''
-  pieces.append(f'<details class="nav-chapter" {is_open}><summary><span>{badge}</span> {esc(title)}</summary><a class="chapter-start" href="{stem}.html">{"Assignments directory" if stem=="assignments" else "Chapter overview"}</a>')
+  badge = 'A–E' if stem == 'appendices' else ('HW' if stem == 'assignments' else ('EX' if stem == 'exams' else str(i+1).zfill(2)))
+  is_open = 'open' if (current == stem or (stem == 'assignments' and current.startswith('assignment-')) or (stem == 'exams' and current.startswith('exam-'))) else ''
+  start_label = "Assignments directory" if stem=="assignments" else ("Examinations directory" if stem=="exams" else "Chapter overview")
+  pieces.append(f'<details class="nav-chapter" {is_open}><summary><span>{badge}</span> {esc(title)}</summary><a class="chapter-start" href="{stem}.html">{start_label}</a>')
   group=None
   for sec in m['sections']:
    if sec['group'] and sec['group']!=group:
@@ -111,7 +112,7 @@ def main():
   for paragraph in ([continuation] if isinstance(continuation,str) else continuation): opening+=f'<p>{esc(paragraph)}</p>'
   intro_continuation=f'<p>{esc(manifest["intro_continuation"])}</p>' if manifest.get('intro_continuation') else ''
   slide_link=(f'<p class="chapter-slides"><a href="{stem}-slides.html">Presentation slides <span aria-hidden="true">↗</span></a><span>{slide_counts[stem]} slides · Fullscreen presentation or print to PDF</span></p>' if stem in slide_counts else '')
-  kicker = "Quantum Computing · Appendices" if stem=="appendices" else ("Quantum Computing · Assignments" if stem=="assignments" else f"Quantum Computing · Chapter {i+1:02}")
+  kicker = "Quantum Computing · Appendices" if stem=="appendices" else ("Quantum Computing · Assignments" if stem=="assignments" else ("Quantum Computing · Exams" if stem=="exams" else f"Quantum Computing · Chapter {i+1:02}"))
   body=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">{kicker}</p><h1>{title}</h1>{chapter_banner(stem)}{render_chapter_map(title,manifest)}{slide_link}{opening}{f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""}<p class="chapter-intro">{intro}</p>{intro_continuation}{f'<p class="reading-prompt">{prompt}</p>' if prompt else ""}<details class="chapter-contents"><summary>In this chapter · {contents_label}</summary><ol>{toc}</ol></details></header>'+learning.guide(stem)+str(soup)+chapter_summary.render(SUMMARIES.get(stem))+learning.exercises(stem,index,title)
   prev=META[i-1] if i else None; nxt=META[i+1] if i+1<len(META) else None
   links=(f'<a rel="prev" href="{prev[0]}.html"><small>Previous chapter</small>{prev[1]} ←</a>' if prev else '<a href="index.html"><small>Book overview</small>← Introduction</a>')+(f'<a rel="next" href="{nxt[0]}.html"><small>Next chapter</small>{nxt[1]} →</a>' if nxt else '<a href="index.html"><small>Return to</small>Book contents →</a>')
@@ -132,6 +133,21 @@ def main():
   links='<a rel="prev" href="assignments.html"><small>Return to</small>Assignments overview ←</a><a rel="next" href="assignments.html"><small>Course overview</small>Assignments index →</a>'
   asg_body=f'<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">{links}</nav>{asg_header}{asg_guide}{str(asg_soup)}<nav class="chapter-pagination" aria-label="Chapter navigation">{links}</nav>'
   (ROOT/f'{asg_stem}.html').write_text(shell(asg_stem,asg_manifest['title'],asg_body,data,asg_manifest.get('styles',[]),asg_manifest.get('scripts',[]),asg_manifest.get('classes',['revised-book'])))
+ for exam_stem in ['exam-1']:
+  exam_manifest=json.loads((ROOT/'content'/f'{exam_stem}.json').read_text())
+  exam_content=(ROOT/'content'/f'{exam_stem}.html').read_text()
+  exam_soup=BeautifulSoup(exam_content,'html.parser')
+  inline_figures(exam_soup)
+  for sec in exam_manifest['sections']:
+   s_el=exam_soup.find(id=sec['id'])
+   txt=s_el.get_text(' ',strip=True) if s_el else ''
+   index.append({'title':sec['title'],'chapter':exam_manifest['title'],'url':f'{exam_stem}.html#{sec["id"]}','text':txt})
+  exam_toc=''.join(f'<li><a href="#{sec["id"]}"><span>{sec["number"]}</span> {esc(sec["title"])}</a></li>' for sec in exam_manifest['sections'])
+  exam_header=f'<header class="chapter-header" id="chapter-top"><p class="book-kicker">Quantum Computing · Oral Examination 01</p><h1>{esc(exam_manifest["title"])}</h1><p class="chapter-subtitle">{esc(exam_manifest.get("subtitle",""))}</p><p class="chapter-intro">{esc(exam_manifest.get("intro",""))}</p><details class="chapter-contents"><summary>In this examination · {len(exam_manifest["sections"])} questions</summary><ol>{exam_toc}</ol></details></header>'
+  exam_guide='<aside class="learning-guide"><h2>Oral Examination Instructions</h2><p>These 20 questions evaluate physical intuition and structural understanding across Chapters 1 through 6. Formulate a 1 to 2 minute verbal response for each question before expanding the model insights and follow-up probes.</p></aside>'
+  links='<a rel="prev" href="exams.html"><small>Return to</small>Exams overview ←</a><a rel="next" href="exams.html"><small>Course overview</small>Exams index →</a>'
+  exam_body=f'<nav class="chapter-pagination chapter-pagination-top" aria-label="Chapter navigation, top of page">{links}</nav>{exam_header}{exam_guide}{str(exam_soup)}<nav class="chapter-pagination" aria-label="Chapter navigation">{links}</nav>'
+  (ROOT/f'{exam_stem}.html').write_text(shell(exam_stem,exam_manifest['title'],exam_body,data,exam_manifest.get('styles',[]),exam_manifest.get('scripts',[]),exam_manifest.get('classes',['revised-book'])))
  intro='''<header class="chapter-header book-cover" id="chapter-top"><p class="book-kicker">Quantum Computing · Mithilesh Kumar</p><h1>Quantum Computing</h1><p class="chapter-subtitle">From classical to quantum</p><p class="chapter-intro">What changes when computation follows the rules of quantum mechanics? This book builds the answer from the ground up: from mechanical reasoning and classical machines to quantum states, circuits, and algorithms.</p><a class="start-reading" href="01-logic-computability.html">Begin reading <span aria-hidden="true">→</span></a><a id="resume-reading" hidden>Continue where you left off →</a></header>
 <section class="book-about"><h2>Prerequisites and approach</h2><p>You do not need a previous course in quantum mechanics, computer science, or linear algebra. The mathematics is introduced as it is used, with examples you can work through by hand.</p><p>We begin with ordinary computation: how a machine follows rules, and what it means to reverse a calculation. From there, we study quantum states and the operations that change them. Small examples carry much of the explanation. Follow each calculation, try the problems, and use the interactive figures to check your predictions.</p></section>
 '''+course_map(data)+'''<section class="book-about"><h2>How to use this book</h2><p>Read the chapters in order for a continuous path through the subject, or use the expandable contents to revisit a topic. Search works throughout the book. The text-size controls adjust the reading view, and each section has a permanent link.</p><p>Diagrams, equations, and interactive experiments are included with the book. Use Print chapter for a reading copy, or download the complete offline edition. The <a href="study-guide.html">study guide</a> explains the exercises, reader controls, and sources; the <a href="glossary.html">glossary</a> collects key definitions. Interactive figures print their current state.</p></section>'''
@@ -146,5 +162,5 @@ def main():
  (ROOT/'assets/search-index.js').write_text('window.BOOK_SEARCH = '+json.dumps(index,ensure_ascii=False).replace('</','<\\/')+';\n')
  version_pages(ROOT)
  learning.package()
- print(f'Built {len(META)-2} chapters, appendices, assignments, {len(index)} topics, and the book introduction.')
+ print(f'Built {len(META)-3} chapters, appendices, assignments, exams, {len(index)} topics, and the book introduction.')
 if __name__=='__main__':main()

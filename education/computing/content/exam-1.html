@@ -1,0 +1,363 @@
+<section class="exam-intro-card" id="viva-overview">
+  <div class="exam-intro-header">
+    <span class="exam-badge" aria-hidden="true">EX-01</span>
+    <div>
+      <h3>Oral Examination Format &amp; Expectations</h3>
+      <p>This oral examination tests your physical intuition and structural vision across Chapters 1 through 6. For each problem, formulate a clear, concise 1 to 2 minute verbal response from first principles before expanding the examiner insights and follow-up probes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Part I: Classical Computation & Reversibility (Chapters 1 & 2) -->
+<section class="exam-part" id="part-1-classical-computation">
+  <div class="exam-part-header">
+    <span class="part-number">Part I</span>
+    <h2>Classical Computation &amp; Reversibility (Chapters 1 &amp; 2)</h2>
+    <p>Discrete configurations: collision of trajectories, Landauer dissipation, cycle topologies, and workspace cleaning.</p>
+  </div>
+
+  <article class="exam-question" id="question-1">
+    <h3>Question 1: Collision of Trajectories and Landauer Dissipation <a class="heading-link" href="#question-1">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “In Chapter 1, computation is viewed as a sequence of steps between configurations: \(c_t \to c_{t+1}\). What is the fundamental physical difference between a 1-to-1 mapping and a many-to-1 mapping? Why does the collision of trajectories mandate thermodynamic heat dissipation of at least \(k_B T \ln 2\) per discarded bit?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> In a deterministic process, each configuration has a unique successor. But when multiple distinct predecessor configurations merge into the same successor configuration (\(\tau(c_1) = \tau(c_2)\)), information about the past is physically destroyed. By Landauer's principle, compressing two distinct logical states into one reduces the information entropy of the computational degrees of freedom by \(\Delta S_{\text{info}} = k_B \ln 2\). By the second law of thermodynamics, this lost entropy must be expelled into the thermal environment as heat: \(Q \ge T \Delta S = k_B T \ln 2\). A reversible operation (a permutation on configurations) preserves phase space volume and can operate with zero fundamental thermodynamic dissipation.</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “If a classical NAND gate processes inputs where the inputs happen to be fixed or known, does it still dissipate heat?”</p>
+        <p><strong>Model Verbal Response:</strong> “Landauer dissipation depends on the change in thermodynamic entropy between the initial and final ensembles of configurations. If the input distribution has non-zero entropy and multiple inputs merge into the same output, the reduction in state space volume mandates heat dissipation. A logically reversible gate like Toffoli or Fredkin avoids this entirely because it maps each configuration bijectively to a unique successor, preserving configuration entropy and avoiding trajectory collisions.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-2">
+    <h3>Question 2: Trajectory Topology on Finite State Spaces <a class="heading-link" href="#question-2">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “Consider a deterministic computing machine operating on a finite set of \(S\) configurations. Why is a ‘lasso-shaped’ trajectory—a transient tail entering a periodic cycle from outside—strictly impossible if the machine is reversible?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Reversibility requires that the update rule \(\tau\) is a bijection: every configuration must have exactly one predecessor as well as one successor. At the junction point where a transient tail enters a periodic loop, the entering configuration would have two distinct predecessors: one from the preceding tail step, and one from the previous step inside the loop. This constitutes a trajectory collision in reverse, violating injectivity. Therefore, finite reversible state spaces decompose cleanly into disjoint, closed periodic cycles with zero transient branches.</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “What does this imply about the fate of an initial configuration \(c_0\) in a finite reversible machine?”</p>
+        <p><strong>Model Verbal Response:</strong> “Because there are no transient branches, every configuration belongs to a closed cycle. If the machine runs indefinitely on \(S\) configurations, the pigeonhole principle guarantees it must repeat a state, and reversibility guarantees that the first repeated state must be the initial state \(c_0\). The trajectory returns exactly to its starting point after at most \(S\) steps, executing a pure permutation cycle.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-3">
+    <h3>Question 3: Reversible Function Embedding <a class="heading-link" href="#question-3">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “Why can’t a non-invertible Boolean function \(f: \{0,1\}^n \to \{0,1\}\) be evaluated reversibly on \(n\) wires alone? How does the standard embedding \((x, y) \mapsto (x, y \oplus f(x))\) solve this, and why is addition modulo 2 (\(\oplus\)) specifically chosen?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> On \(n\) wires, any operation is a mapping from \(2^n\) configurations to \(2^n\) configurations. A non-invertible function maps multiple inputs to the same value (e.g. \(f(x) = 0\) for multiple \(x\)), which would destroy the input if overwritten. The standard embedding adds an auxiliary target wire \(y\) to preserve the input configuration \(x\). Addition modulo 2 is chosen because it is an involution: applying \(\oplus f(x)\) a second time yields \((y \oplus f(x)) \oplus f(x) = y\), making the operator its own inverse and ensuring it defines a valid permutation on \(\{0,1\}^{n+1}\).</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Does preserving the input \(x\) indefinitely cause a problem as computations grow long?”</p>
+        <p><strong>Model Verbal Response:</strong> “Yes! If every step preserves input history, the computer accumulates massive workspace garbage. Erasing that garbage irreversibly dissipates Landauer heat. In quantum computing, garbage bits entangled with the computation destroy interference. This necessitates Bennett's uncomputation strategy to clean the workspace reversibly.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-4">
+    <h3>Question 4: Workspace Footprints and Bennett's Uncomputation <a class="heading-link" href="#question-4">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “When an intermediate reversible circuit produces garbage in an auxiliary workspace register, producing \((x, g(x), f(x))\), why can't we simply reset the workspace register to zero? How does Bennett’s compute–copy–uncompute procedure restore the workspace without erasing the output?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Resetting an arbitrary workspace configuration \(g(x)\) to \(0\) is an irreversible operation that merges multiple configurations into one, causing Landauer dissipation. In quantum computing, retaining \(g(x)\) entangles the workspace with the system, which causes tracing out the workspace to destroy quantum interference between different \(x\) branches. Bennett’s procedure uses three stages: (1) compute \(f(x)\) into a temporary wire using reversible gates \(U\); (2) copy \(f(x)\) onto a clean output wire using CNOT; (3) apply the reverse circuit \(U^{-1}\) to undo all intermediate operations, resetting the workspace deterministically to \(0\).</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Why does copying \(f(x)\) with CNOT not violate the no-cloning theorem?”</p>
+        <p><strong>Model Verbal Response:</strong> “Because the output of a Boolean function is a classical bit value (\(0\) or \(1\)), which are orthogonal computational basis states \(\ket{0}\) and \(\ket{1}\). CNOT copies classical orthogonal basis states perfectly. No-cloning applies only to copying unknown, non-orthogonal superpositions.”</p>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- Part II: Probabilities, Amplitudes, and Interference (Chapter 3) -->
+<section class="exam-part" id="part-2-amplitudes-interference">
+  <div class="exam-part-header">
+    <span class="part-number">Part II</span>
+    <h2>Probabilities, Amplitudes, and Interference (Chapter 3)</h2>
+    <p>From single paths to branching superpositions: stochastic matrices, \(\ell_1\) vs. \(\ell_2\) norm conservation, destructive cancellation, and which-path detection.</p>
+  </div>
+
+  <article class="exam-question" id="question-5">
+    <h3>Question 5: Conserving Norms: Stochastic Matrices vs. Unitary Operators <a class="heading-link" href="#question-5">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “Compare a classical probabilistic transition matrix with a quantum unitary matrix. What mathematical norm does each preserve, and why does this distinction allow quantum amplitudes to have negative and complex values?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Classical stochastic matrices preserve the \(\ell_1\) norm: \(\|\mathbf{p}\|_1 = \sum |p_i| = \sum p_i = 1\). Because the probabilities themselves must be non-negative real numbers to represent physical frequencies, every entry \(M_{ij}\) must be non-negative real (\(M_{ij} \ge 0\)). In contrast, quantum mechanics conserves total probability via the \(\ell_2\) Euclidean norm: \(\|\ket{\psi}\|_2^2 = \sum |\alpha_i|^2 = 1\). Because the physical probability is the squared magnitude \(|\alpha_i|^2\), the amplitudes \(\alpha_i\) can be negative or complex while their squared magnitudes remain strictly non-negative.</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “What algebraic constraint does \(\ell_2\) conservation impose on the evolution matrix?”</p>
+        <p><strong>Model Verbal Response:</strong> “It requires that \(\bra{\psi}U^\dagger U\ket{\psi} = \bra{\psi}\ket{\psi}\) for all states, which forces \(U^\dagger U = I\). A quantum evolution matrix must be unitary: its columns and rows must form complete orthonormal sets. This is what guarantees that quantum operations are always length-preserving isometries.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-6">
+    <h3>Question 6: Why Probabilities Cannot Subtract <a class="heading-link" href="#question-6">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “In a classical stochastic network, can opening an additional computational path from configuration \(x\) to configuration \(y\) ever decrease the probability of reaching \(y\)? Why does quantum mechanics allow this to happen?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> In classical probability, the probability along each path is a product of non-negative transition probabilities, and alternative paths are combined by the sum rule: \(P_{\text{total}} = \sum_{\text{paths}} P(\text{path})\). Because each term is non-negative (\(P \ge 0\)), adding a new path can only increase or keep constant the total probability. In quantum mechanics, paths contribute complex amplitudes that add before squaring: \(P = |\sum A_{\text{path}}|^2\). If two paths have opposite signs or phases (e.g. \(+1/\sqrt{2}\) and \(-1/\sqrt{2}\)), their amplitudes sum to zero, completely extinguishing the transition probability through destructive interference.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Give a concrete example from Chapter 3 where destructive interference completely eliminates an outcome.”</p>
+        <p><strong>Model Verbal Response:</strong> “The double Hadamard sequence \(H^2\ket{0}\). The path \(0 \to 0 \to 1\) has amplitude \((1/\sqrt{2})(1/\sqrt{2}) = +1/2\), while the path \(0 \to 1 \to 1\) has amplitude \((1/\sqrt{2})(-1/\sqrt{2}) = -1/2\). When summed, \(1/2 - 1/2 = 0\), meaning the probability of finding \(\ket{1}\) is exactly zero.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-7">
+    <h3>Question 7: Path Sums and Computational Histories <a class="heading-link" href="#question-7">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “How does the quantum amplitude \(\bra{y} U_k \dots U_1 \ket{x}\) generalize the classical concept of a computational history? How does this connect to Feynman's path formulation?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Inserting the completeness relation \(\sum_{z} \ket{z}\bra{z} = I\) between every gate decomposes the total amplitude into a sum over all possible sequences of intermediate configurations: \(\bra{y} U_k \dots U_1 \ket{x} = \sum_{z_1,\dots,z_{k-1}} \prod_{j=1}^k \bra{z_j} U_j \ket{z_{j-1}}\). In a classical computer, a computation is a single deterministic trajectory through this configuration space. In a quantum computer, the computation simultaneously evaluates the amplitude along every conceivable trajectory, and the final state is determined by the coherent interference of all these computational histories.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Why can't we simply evaluate each quantum path separately on a classical computer to simulate it efficiently?”</p>
+        <p><strong>Model Verbal Response:</strong> “Because the number of intermediate configuration histories grows exponentially with circuit depth (\(2^{n(k-1)}\)). In addition, the amplitudes can have alternating signs that cancel to high precision, leading to the sign problem that prevents naive Monte Carlo sampling.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-8">
+    <h3>Question 8: Which-Path Information and the Erasure of Interference <a class="heading-link" href="#question-8">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “If a computational path leaves a distinguishing physical mark in an ancillary environment register, why does quantum interference vanish completely, even if no human observer ever looks at the ancilla?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Interference occurs between paths only when they arrive at the exact same final physical configuration. When an ancilla records the path, the composite state becomes \(\sum_z A_z \ket{z}_{\text{sys}} \otimes \ket{e_z}_{\text{anc}}\). The cross-terms in the transition probability contain the overlap \(\braket{e_{z'}}{e_z}_{\text{anc}}\). If the ancilla states are orthogonal (\(\braket{e_{z'}}{e_z} = \delta_{z, z'}\)), all cross-terms vanish identically. The paths now terminate in orthogonal composite configurations in the larger Hilbert space, so they can no longer interfere. Decoherence is an objective consequence of entanglement with the environment, independent of human observation.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “What happens if the path detector is only partially distinguishable (\(|\braket{e_1}{e_2}| \in (0, 1)\))?”</p>
+        <p><strong>Model Verbal Response:</strong> “The interference visibility is reduced proportionally to the overlap \(|\braket{e_1}{e_2}|\). As distinguishability increases, fringe visibility decreases, obeying the wave-particle duality relation.”</p>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- Part III: State Geometry, Observables, and Measurement (Chapter 4) -->
+<section class="exam-part" id="part-3-geometry-measurement">
+  <div class="exam-part-header">
+    <span class="part-number">Part III</span>
+    <h2>State Geometry, Observables, and Measurement (Chapter 4)</h2>
+    <p>Inner products as probability amplitudes, unitary isometries, projective collapse, and non-commuting measurement observables.</p>
+  </div>
+
+  <article class="exam-question" id="question-9">
+    <h3>Question 9: Inner Products and State Distinguishability <a class="heading-link" href="#question-9">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “What is the physical interpretation of the inner product \(\braket{\phi}{\psi}\), and what does orthogonality (\(\braket{\phi}{\psi} = 0\)) mean in terms of experimental distinguishability?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> By the measurement postulate, when a system in state \(\ket{\psi}\) is tested for property \(\ket{\phi}\), the probability of detection is \(P(\phi \leftarrow \psi) = |\braket{\phi}{\psi}|^2\). The inner product \(\braket{\phi}{\psi}\) is the transition amplitude between the two states. When \(\braket{\phi}{\psi} = 0\), the detection probability is strictly zero: the states are mutually exclusive and can be distinguished with 100% certainty in a single measurement. Orthogonality is the quantum generalization of classical distinctness.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “If two states are non-orthogonal (\(|\braket{\phi}{\psi}| > 0\)), can any measurement distinguish them with certainty?”</p>
+        <p><strong>Model Verbal Response:</strong> “No. Non-orthogonal states have non-zero overlap in the state plane. Any projective measurement basis will have a non-zero probability of misidentifying the state.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-10">
+    <h3>Question 10: Unitary Evolution as Distance-Preserving Isometries <a class="heading-link" href="#question-10">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “Why must physical, closed-system quantum evolution be represented by unitary operators? What physical principles would break down if an evolution operator were non-unitary?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Unitary operators are isometries: they preserve the \(\ell_2\) norm (\(\|U\ket{\psi}\|_2 = \|\ket{\psi}\|_2\)) and inner products (\(\braket{U\phi}{U\psi} = \braket{\phi}{\psi}\)). If an evolution were not unitary, the sum of measurement probabilities would either exceed 1 (creating probability from nothing) or fall below 1 (losing quantum state existence). Furthermore, non-unitary operators could map orthogonal states to non-orthogonal states, destroying distinguishability and violating physical reversibility.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Does a unitary operator always possess a valid physical inverse?”</p>
+        <p><strong>Model Verbal Response:</strong> “Yes! Because \(U^\dagger U = U U^\dagger = I\), the inverse operator \(U^{-1} = U^\dagger\) is always well-defined and unitary. Every closed quantum evolution can be undone by applying its conjugate transpose.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-11">
+    <h3>Question 11: The Measurement Postulate and Irreversibility <a class="heading-link" href="#question-11">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “How does the state change induced by a projective measurement differ fundamentally from unitary evolution in terms of linearity, determinism, and reversibility?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> A unitary evolution \(\ket{\psi} \to U\ket{\psi}\) is linear, deterministic, and fully reversible (\(U^{-1} = U^\dagger\)). A projective measurement \(\ket{\psi} \to \frac{P_k \ket{\psi}}{\sqrt{\bra{\psi}P_k\ket{\psi}}}\) violates all three properties: (1) it is non-linear because the state-dependent normalization denominator depends on \(\ket{\psi}\); (2) it is stochastic, selecting outcome \(k\) with Born rule probability \(p_k = \bra{\psi}P_k\ket{\psi}\); and (3) it is completely irreversible, projecting out and permanently erasing all state components orthogonal to subspace \(P_k\).”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Can the pre-measurement state be recovered if we know which outcome \(k\) occurred?”</p>
+        <p><strong>Model Verbal Response:</strong> “No. The projection operator \(P_k\) has a non-trivial null space. All probability amplitudes corresponding to orthogonal subspaces were multiplied by zero, destroying the information needed to invert the operation.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-12">
+    <h3>Question 12: Incompatible Observables and Configuration Memory <a class="heading-link" href="#question-12">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “A qubit is initialized in \(\ket{0}\). It is measured in the \(X\)-basis, and then immediately measured in the \(Z\)-basis. What is the probability of finding \(\ket{1}\)? Why did the intermediate measurement erase configuration memory?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> The final probability is \(1/2\). Measuring \(\ket{0}\) in the \(X\)-basis collapses the state to either \(\ket{+}\) or \(\ket{-}\) with equal probability \(1/2\). Both \(\ket{+}\) and \(\ket{-}\) have equal overlaps with \(\ket{0}\) and \(\ket{1}\): \(|\braket{0}{\pm}|^2 = |\braket{1}{\pm}|^2 = 1/2\). The subsequent \(Z\)-measurement therefore yields \(\ket{1}\) with probability \(1/2\). Incompatible observables do not share a common eigenbasis; measuring along an incompatible basis actively randomizes conjugate degrees of freedom and erases prior state history.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “What if the intermediate measurement was in the \(Z\)-basis instead of the \(X\)-basis?”</p>
+        <p><strong>Model Verbal Response:</strong> “Then the state would stay \(\ket{0}\) with probability 1, and the final \(Z\)-measurement would yield \(\ket{1}\) with probability 0. Compatible measurements leave mutually commuting observables undisturbed.”</p>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- Part IV: Single-Qubit Mechanics, Phase, and Pauli Operators (Chapter 5) -->
+<section class="exam-part" id="part-4-single-qubit-mechanics">
+  <div class="exam-part-header">
+    <span class="part-number">Part IV</span>
+    <h2>Single-Qubit Mechanics, Phase, and Pauli Operators (Chapter 5)</h2>
+    <p>The Pauli operators, anti-commutation, operator decompositions via trace formulas, and relative phase modulation.</p>
+  </div>
+
+  <article class="exam-question" id="question-13">
+    <h3>Question 13: The Pauli Operators and Anti-Commutation <a class="heading-link" href="#question-13">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “In Chapter 5, we introduced the Pauli operators \(X, Y, Z\). What are their defining algebraic properties—specifically their anti-commutation relations and their squares—and what physical actions do \(X\) and \(Z\) perform on computational basis states?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> \(X\) performs a bit flip: \(X\ket{0} = \ket{1}\) and \(X\ket{1} = \ket{0}\). \(Z\) performs a phase flip: \(Z\ket{0} = \ket{0}\) and \(Z\ket{1} = -\ket{1}\). Applying them in sequence yields \(XZ\ket{0} = \ket{1}\) and \(XZ\ket{1} = -\ket{0}\), while \(ZX\ket{0} = -\ket{1}\) and \(ZX\ket{1} = \ket{0}\). Thus \(XZ = -ZX\): the operators anti-commute. Each operator squares to identity (\(X^2 = Y^2 = Z^2 = I\)), making each an involution that is its own inverse.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “How is \(Y\) related to \(X\) and \(Z\)?”</p>
+        <p><strong>Model Verbal Response:</strong> “\(Y = iXZ = -iZX\). It combines both a bit flip and a phase flip with a factor of \(i\) that ensures it is Hermitian (\(Y = Y^\dagger\)) and unitary.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-14">
+    <h3>Question 14: Describing Every Operator in the Pauli Basis <a class="heading-link" href="#question-14">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “Section 5.3.2 shows that every \(2 \times 2\) complex matrix can be written as a linear combination of \(I, X, Y,\) and \(Z\). How do trace formulas extract these coefficients, and how does the Hadamard gate decompose into this basis?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Because \(\operatorname{tr}(\sigma_j \sigma_k) = 2\delta_{jk}\) for \(\sigma \in \{I, X, Y, Z\}\), taking the trace of \(A \sigma_k\) isolates the corresponding coefficient: \(c_k = \frac{1}{2}\operatorname{tr}(A \sigma_k)\). For the Hadamard gate \(H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\), \(\operatorname{tr}(H) = 0\) (so \(c_0 = 0\)), \(\operatorname{tr}(HY) = 0\) (so \(c_2 = 0\)), and \(\operatorname{tr}(HX) = \operatorname{tr}(HZ) = 2/\sqrt{2}\), giving \(c_1 = c_3 = 1/\sqrt{2}\). Thus \(H = \frac{1}{\sqrt{2}}(X + Z)\).”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Using this decomposition, why is \(H^2 = I\)?”</p>
+        <p><strong>Model Verbal Response:</strong> “Squaring \(H\): \(H^2 = \frac{1}{2}(X+Z)^2 = \frac{1}{2}(X^2 + XZ + ZX + Z^2)\). Since \(X^2 = Z^2 = I\) and \(XZ = -ZX\), the cross-terms cancel: \(H^2 = \frac{1}{2}(I + 0 + I) = I\).”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-15">
+    <h3>Question 15: Global vs. Relative Phase in Circuits <a class="heading-link" href="#question-15">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “Why does multiplying a quantum state by a global phase \(e^{i\alpha}\) have zero physical consequence, while a relative phase in \(\frac{1}{\sqrt{2}}(\ket{0} + e^{i\phi}\ket{1})\) can be detected? How does the circuit \(H P(\phi) H\) measure it?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> A global phase multiplies every amplitude by \(e^{i\alpha}\). When computing measurement probabilities \(P = |e^{i\alpha}\braket{b_j}{\psi}|^2 = |e^{i\alpha}|^2 |\braket{b_j}{\psi}|^2 = |\braket{b_j}{\psi}|^2\), the phase factor has unit magnitude and cancels out identically across all measurements. In contrast, a relative phase changes the relative angle between orthogonal components in the superposition. The second Hadamard gate recombines the \(\ket{0}\) and \(\ket{1}\) paths, translating the relative phase \(\phi\) into constructive and destructive interference: \(P(0) = \cos^2(\phi/2)\) and \(P(1) = \sin^2(\phi/2)\).”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “What happens when \(\phi = \pi\)?”</p>
+        <p><strong>Model Verbal Response:</strong> “When \(\phi = \pi\), \(P(\pi) = Z\). The gate maps \(\ket{+}\) to \(\ket{-}\). The second Hadamard then maps \(\ket{-}\) to \(\ket{1}\) with 100% certainty: destructive interference eliminates outcome \(0\) completely.”</p>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- Part V: Composite Systems and Fundamental Limits (Chapter 6) -->
+<section class="exam-part" id="part-5-composite-systems">
+  <div class="exam-part-header">
+    <span class="part-number">Part V</span>
+    <h2>Composite Systems and Fundamental Limits (Chapter 6)</h2>
+    <p>Local product operations vs. joint entangling gates, Bell states, the no-cloning theorem, and no-signaling causality.</p>
+  </div>
+
+  <article class="exam-question" id="question-16">
+    <h3>Question 16: Local Operations vs. Entangling Gates <a class="heading-link" href="#question-16">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “What is the mathematical and physical distinction between a tensor product operation \(U_A \otimes U_B\) and an entangling gate like CNOT? Why cannot local operations generate entanglement?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> A tensor product operation \(U_A \otimes U_B\) acts independently on the state spaces \(\mathcal{H}_A\) and \(\mathcal{H}_B\). Acting on an unentangled product state \(\ket{\psi_A} \otimes \ket{\psi_B}\), it yields \((U_A \ket{\psi_A}) \otimes (U_B \ket{\psi_B})\), which remains strictly factorized. An entangling gate like CNOT implements a conditional rule: the operation executed on system \(B\) depends on the physical configuration of system \(A\). This conditional interaction establishes non-separable phase or bit relationships that cannot be factored into independent subsystem states.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “How does the circuit \(\text{CNOT}_{1 \to 2}(H \otimes I)\) generate the Bell state \(\ket{\Phi^+}\) from \(\ket{00}\)?”</p>
+        <p><strong>Model Verbal Response:</strong> “\(H \otimes I\) prepares the product superposition \(\frac{1}{\sqrt{2}}(\ket{00} + \ket{10})\). The CNOT gate then flips the second qubit if and only if the first is \(1\), transforming \(\ket{10}\) to \(\ket{11}\) while leaving \(\ket{00}\) untouched, creating \(\frac{1}{\sqrt{2}}(\ket{00} + \ket{11})\).”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-17">
+    <h3>Question 17: Entanglement as Non-Factorizable Amplitudes <a class="heading-link" href="#question-17">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “In the Bell state \(\ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})\), why is it impossible to assign definite local state vectors to each individual qubit? What does an observer measuring only qubit 1 see?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> If \(\ket{\Phi^+}\) could be factored into \((\alpha\ket{0}+\beta\ket{1})\otimes(\gamma\ket{0}+\delta\ket{1})\), the cross-term coefficients \(\alpha\delta\) and \(\beta\gamma\) would have to equal \(0\), which requires either \(\alpha = 0\) or \(\delta = 0\). But this contradicts the non-zero coefficients \(\alpha\gamma = 1/\sqrt{2}\) and \(\beta\delta = 1/\sqrt{2}\). The state is mathematically non-factorizable. An observer measuring only qubit 1 computes marginal probabilities \(p_1(0) = |1/\sqrt{2}|^2 = 1/2\) and \(p_1(1) = |1/\sqrt{2}|^2 = 1/2\). The observer sees purely random noise (\(50\%\) \(0\), \(50\%\) \(1\)) with zero local information.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Where does the information of the Bell state reside?”</p>
+        <p><strong>Model Verbal Response:</strong> “It resides entirely in the joint correlations between the two qubits! Neither qubit has a definite individual state, yet whenever both qubits are measured in the same basis, their outcomes agree with 100% certainty.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-18">
+    <h3>Question 18: Why Linearity Forbids Cloning <a class="heading-link" href="#question-18">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “Prove from the fundamental linearity of quantum mechanics why an unknown quantum superposition cannot be cloned. Why can classical bit configurations be copied while quantum amplitudes cannot?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Suppose a unitary machine copies basis states: \(U(\ket{0}\ket{0}) = \ket{00}\) and \(U(\ket{1}\ket{0}) = \ket{11}\). Now feed the superposition \(\ket{+} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}\). By linearity, the machine must output \(U(\ket{+}\ket{0}) = \frac{1}{\sqrt{2}}(U\ket{00} + U\ket{10}) = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) = \ket{\Phi^+}\). But the desired cloned state is \(\ket{+}\ket{+} = \frac{1}{2}(\ket{00}+\ket{01}+\ket{10}+\ket{11})\). The machine produces an entangled Bell state instead of two independent clones. Linearity directly forbids cloning superpositions.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “Why doesn't this forbid classical copying like CNOT \(\ket{x}\ket{0} \to \ket{x}\ket{x}\)?”</p>
+        <p><strong>Model Verbal Response:</strong> “Because classical computation uses only mutually orthogonal basis states (\(\ket{0}\) and \(\ket{1}\)). The inner product between orthogonal states is \(0\), which satisfies \(\braket{0}{1} = (\braket{0}{1})^2\) (\(0 = 0^2\)). Orthogonal configurations can be copied reversibly; only non-orthogonal superpositions resist cloning.”</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="exam-question" id="question-19">
+    <h3>Question 19: Local States and the No-Signaling Theorem <a class="heading-link" href="#question-19">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “In Section 6.3.3, why cannot Alice use an entangled Bell pair to transmit an instantaneous signal to Bob? How does the state vector decomposition \(\ket{\Psi} = \ket{v_0}\otimes\ket{0} + \ket{v_1}\otimes\ket{1}\) prove that Bob's local statistics remain untouched?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Grouping any two-qubit state as \(\ket{\Psi} = \ket{v_0}\otimes\ket{0} + \ket{v_1}\otimes\ket{1}\), Bob's marginal probability of observing \(b\) is the squared Euclidean length \(\|\ket{v_b}\|^2\). Any local unitary Alice applies transforms \(\ket{v_b} \to U_A \ket{v_b}\). Because unitary operators preserve lengths, \(\|U_A\ket{v_b}\|^2 = \|\ket{v_b}\|^2\), so Bob's marginal probabilities remain completely invariant. When Alice measures her qubit, the probability \(p_A(a)\) with which each branch occurs exactly cancels the normalization denominator of Bob's conditional state, leaving his unconditioned probability distribution undisturbed.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “What role does classical communication play in quantum teleportation?”</p>
+        <p><strong>Model Verbal Response:</strong> “In teleportation, Bob's qubit is left in one of four states (\(\ket{\psi}, Z\ket{\psi}, X\ket{\psi}, XZ\ket{\psi}\)) with equal probability \(1/4\). Without knowing Alice's measurement result, Bob's observed statistics are completely random. He can only reconstruct \(\ket{\psi}\) after receiving Alice's two classical bits, preserving Einstein causality.”</p>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- Part VI: Quantum Parallelism and What Measurement Reveals (Chapter 6) -->
+<section class="exam-part" id="part-6-parallelism-measurement">
+  <div class="exam-part-header">
+    <span class="part-number">Part VI</span>
+    <h2>Quantum Parallelism and What Measurement Reveals (Chapter 6)</h2>
+    <p>Unitary oracle evaluation on superpositions, wave function collapse limitations, and measuring target qubits to isolate preimage superpositions.</p>
+  </div>
+
+  <article class="exam-question" id="question-20">
+    <h3>Question 20: Quantum Parallelism and Preimage Superpositions <a class="heading-link" href="#question-20">§</a></h3>
+    <div class="question-prompt">
+      <p><strong>Examiner Prompt:</strong> “In Section 6.5, the oracle gate \(U_f \ket{x}\ket{y} = \ket{x}\ket{y \oplus f(x)}\) evaluates a Boolean function across all inputs simultaneously when applied to an equal superposition. Why does measuring all qubits immediately fail to provide a computational advantage, and what happens when we measure only the target qubit?”</p>
+    </div>
+    <details class="problem-solution">
+      <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
+      <div class="solution-content">
+        <p><strong>Core Conceptual Insight:</strong> Applying \(U_f\) to \(\frac{1}{\sqrt{2^n}}\sum_x \ket{x}\ket{0}\) yields the superposed state \(\frac{1}{\sqrt{2^n}}\sum_x \ket{x}\ket{f(x)}\). Measuring all qubits collapses the superposition to a single random input-output pair \((x_0, f(x_0))\) with probability \(1/2^n\), identical to classical random sampling. However, measuring only the target qubit yields outcome \(y \in \{0, 1\}\) and collapses the input register into an equal superposition of all preimages \(\{x \mid f(x) = y\}\), preparing a structured superposition over a functional level set.”</p>
+        <p><strong>Examiner Follow-Up Probe:</strong> “What is the probability of observing \(0\) on the target qubit?”</p>
+        <p><strong>Model Verbal Response:</strong> “The probability is \(|f^{-1}(0)|/2^n\): the fraction of all inputs that evaluate to \(0\). The measurement isolates and preserves all configurations in the preimage set.”</p>
+      </div>
+    </details>
+  </article>
+</section>

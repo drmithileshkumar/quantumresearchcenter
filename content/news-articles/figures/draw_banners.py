@@ -461,7 +461,33 @@ def nighthawk_link():
     return svg(''.join(out))
 
 
+def control_software():
+    """A noisy drive signal passing through a control layer and leaving as shaped pulses on a row of qubits."""
+    out = [grid(0, 0, W, H, 40)]
+    rnd = random.Random(290)
+    pts = [(60 + k * 6, 200 + 60 * math.sin(k / 6) + rnd.uniform(-22, 22)) for k in range(55)]
+    out.append(path(pts, 'fig-line-2'))
+    out.append(arrow(400, 200, 450, 200, 'fig-line-1', 14))
+    out.append(rect(460, 90, 230, 220, 'fig-wash-1', 10))
+    out.append(rect(460, 90, 230, 220, 'fig-box-claimed', 10))
+    for k in range(5):
+        y = 120 + k * 38
+        out.append(line(485, y, 665, y, 'fig-grid'))
+        out.append(rect(485 + (k * 37) % 120, y - 7, 46, 14, 'fig-fill-1', 3))
+    out.append(arrow(700, 200, 750, 200, 'fig-line-1', 14))
+    for j in range(3):
+        y0 = 120 + j * 80
+        env = [(770 + k * 4, y0 - 36 * math.exp(-((k - 30) / 11) ** 2) * (1 if j != 1 else math.cos((k - 30) / 4))) for k in range(61)]
+        out.append(path(env, 'fig-line-1'))
+        out.append(line(770, y0, 1014, y0, 'fig-axis'))
+        out.append(circle(1060, y0, 13, 'fig-fill-1' if j != 1 else 'fig-fill-2'))
+        out.append(line(1014, y0, 1047, y0, 'fig-link'))
+    out.append(path([(1060, 120), (1060, 280)], 'fig-link'))
+    return svg(''.join(out))
+
+
 BANNERS = {
+    'q-ctrl-290-million-series-c': control_software,
     'ibm-nighthawk-r3-1040-qubit-plan': nighthawk_link,
     'google-ai-formally-verified-quantum-programs': verified_programs,
     'mip-star-equals-re-verified': mip_re,
