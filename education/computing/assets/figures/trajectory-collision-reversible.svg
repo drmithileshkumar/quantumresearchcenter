@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" role="img" aria-labelledby="title desc">
+  <title id="title">Trajectory collision versus reversible embedding</title>
+  <desc id="desc">Left: Many-to-one Boolean functions merge multiple distinct input trajectories into a single output, destroying predecessor information. Right: Reversible embedding preserves inputs in an auxiliary register, defining a bijection where every trajectory remains distinct.</desc>
+  <defs>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#246593"/>
+    </marker>
+    <marker id="arr-rust" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#a64d26"/>
+    </marker>
+  </defs>
+  <style>
+    text { font: 14px Georgia, serif; fill: #30343b; }
+    .heading { font: 600 13px system-ui, sans-serif; fill: #246593; text-transform: uppercase; letter-spacing: 0.05em; }
+    .small { font: 12px system-ui, sans-serif; fill: #626c77; }
+    .box { fill: #fff; stroke: #a7bccd; stroke-width: 1.4; rx: 6px; }
+    .box-acc { fill: #eaf1f7; stroke: #246593; stroke-width: 1.5; rx: 6px; }
+    .box-rust { fill: #fdf2ed; stroke: #a64d26; stroke-width: 1.5; rx: 6px; }
+    .curve-blue { fill: none; stroke: #246593; stroke-width: 1.6; marker-end: url(#arr-blue); }
+    .curve-rust { fill: none; stroke: #a64d26; stroke-width: 1.6; marker-end: url(#arr-rust); }
+    .divider { stroke: #d3dee7; stroke-width: 1.2; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Left: Irreversible Colliding Trajectories -->
+  <text x="180" y="28" text-anchor="middle" class="heading">Irreversible: Colliding Trajectories</text>
+  
+  <!-- 4 inputs mapping to 0 -->
+  <rect x="25" y="55" width="60" height="26" class="box"/>
+  <text x="55" y="73" text-anchor="middle" class="small">000</text>
+
+  <rect x="25" y="90" width="60" height="26" class="box"/>
+  <text x="55" y="108" text-anchor="middle" class="small">001</text>
+
+  <rect x="25" y="125" width="60" height="26" class="box"/>
+  <text x="55" y="143" text-anchor="middle" class="small">010</text>
+
+  <rect x="25" y="160" width="60" height="26" class="box"/>
+  <text x="55" y="178" text-anchor="middle" class="small">100</text>
+
+  <!-- Output 0 -->
+  <rect x="245" y="102" width="75" height="38" class="box-acc"/>
+  <text x="282.5" y="126" text-anchor="middle" data-math="\(y = 0\)">y = 0</text>
+
+  <!-- Curved converging paths -->
+  <path d="M85 68 C150 68, 180 115, 240 118" class="curve-blue"/>
+  <path d="M85 103 C150 103, 180 120, 240 120" class="curve-blue"/>
+  <path d="M85 138 C150 138, 180 124, 240 122" class="curve-blue"/>
+  <path d="M85 173 C150 173, 180 127, 240 124" class="curve-blue"/>
+
+  <!-- 4 inputs mapping to 1 -->
+  <rect x="25" y="205" width="60" height="26" class="box"/>
+  <text x="55" y="223" text-anchor="middle" class="small">011</text>
+
+  <rect x="25" y="240" width="60" height="26" class="box"/>
+  <text x="55" y="258" text-anchor="middle" class="small">101</text>
+
+  <rect x="25" y="275" width="60" height="26" class="box"/>
+  <text x="55" y="293" text-anchor="middle" class="small">110</text>
+
+  <rect x="25" y="310" width="60" height="26" class="box"/>
+  <text x="55" y="328" text-anchor="middle" class="small">111</text>
+
+  <!-- Output 1 -->
+  <rect x="245" y="252" width="75" height="38" class="box-rust"/>
+  <text x="282.5" y="276" text-anchor="middle" data-math="\(y = 1\)">y = 1</text>
+
+  <!-- Curved converging paths to 1 -->
+  <path d="M85 218 C150 218, 180 268, 240 268" class="curve-rust"/>
+  <path d="M85 253 C150 253, 180 270, 240 270" class="curve-rust"/>
+  <path d="M85 288 C150 288, 180 274, 240 272" class="curve-rust"/>
+  <path d="M85 323 C150 323, 180 276, 240 274" class="curve-rust"/>
+
+  <!-- Loss note -->
+  <text x="180" y="350" text-anchor="middle" class="small" data-math="Dissipation: \(Q \ge 2 k_B T \ln 2\)">Dissipation: Q ≥ 2 kB T ln 2</text>
+
+  <!-- Center Divider -->
+  <line x1="365" y1="20" x2="365" y2="340" class="divider"/>
+
+  <!-- Right: Reversible Bijective Trajectories -->
+  <text x="560" y="28" text-anchor="middle" class="heading">Reversible: Preserving Predecessors</text>
+
+  <!-- Sample 4D inputs -->
+  <rect x="395" y="58" width="85" height="30" class="box"/>
+  <text x="437.5" y="78" text-anchor="middle" class="small">000 · 0</text>
+  <rect x="635" y="58" width="85" height="30" class="box-acc"/>
+  <text x="677.5" y="78" text-anchor="middle" class="small">000 · 0</text>
+  <path d="M480 73 L628 73" class="curve-blue"/>
+
+  <rect x="395" y="113" width="85" height="30" class="box"/>
+  <text x="437.5" y="133" text-anchor="middle" class="small">011 · 0</text>
+  <rect x="635" y="113" width="85" height="30" class="box-rust"/>
+  <text x="677.5" y="133" text-anchor="middle" class="small">011 · 1</text>
+  <path d="M480 128 L628 128" class="curve-rust"/>
+
+  <rect x="395" y="168" width="85" height="30" class="box"/>
+  <text x="437.5" y="188" text-anchor="middle" class="small">101 · 0</text>
+  <rect x="635" y="168" width="85" height="30" class="box-rust"/>
+  <text x="677.5" y="188" text-anchor="middle" class="small">101 · 1</text>
+  <path d="M480 183 L628 183" class="curve-rust"/>
+
+  <rect x="395" y="223" width="85" height="30" class="box"/>
+  <text x="437.5" y="243" text-anchor="middle" class="small">111 · 0</text>
+  <rect x="635" y="223" width="85" height="30" class="box-rust"/>
+  <text x="677.5" y="243" text-anchor="middle" class="small">111 · 1</text>
+  <path d="M480 238 L628 238" class="curve-rust"/>
+
+  <text x="560" y="285" text-anchor="middle" class="small" data-math="\((x_1, x_2, x_3, y) \mapsto (x_1, x_2, x_3, y \oplus \operatorname{Maj}(x))\)">(x1, x2, x3, y) ↦ (x1, x2, x3, y ⊕ Maj(x))</text>
+  <text x="560" y="315" text-anchor="middle" class="small" data-math="1-to-1 permutation: zero information loss (\(Q = 0\))">1-to-1 permutation: zero information loss (Q = 0)</text>
+  <text x="560" y="340" text-anchor="middle" class="small">Applying the gate twice restores the exact input</text>
+</svg>

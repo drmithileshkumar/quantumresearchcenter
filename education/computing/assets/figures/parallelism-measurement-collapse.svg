@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 370" role="img" aria-labelledby="title desc">
+  <title id="title">Quantum Parallelism and Measurement Projection</title>
+  <desc id="desc">Left: Quantum oracle creates a joint entangled superposition of all 2^n inputs x and their function values f(x). Right: Full computational basis measurement collapses the entire state to a single random pair (x*, f(x*)) yielding no speedup over classical sampling, whereas target-register measurement groups the inputs into a coherent preimage superposition.</desc>
+  <defs>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#246593"/>
+    </marker>
+    <marker id="arr-rust" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#cf222e"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#1a7f37"/>
+    </marker>
+  </defs>
+  <style>
+    text { font: 14px Georgia, serif; fill: #30343b; }
+    .heading { font: 600 13px system-ui, sans-serif; fill: #246593; text-transform: uppercase; letter-spacing: 0.05em; }
+    .small { font: 12px system-ui, sans-serif; fill: #626c77; }
+    .node { fill: #fff; stroke: #246593; stroke-width: 1.6; }
+    .node-sup { fill: #f0f7fc; stroke: #246593; stroke-width: 1.8; }
+    .node-collapsed { fill: #fff8f2; stroke: #cf222e; stroke-width: 2; }
+    .branch { fill: none; stroke: #246593; stroke-width: 1.6; }
+    .branch-ghost { fill: none; stroke: #d3dee7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+    .branch-sel { fill: none; stroke: #cf222e; stroke-width: 2.2; marker-end: url(#arr-rust); }
+    .branch-preimage { fill: none; stroke: #1a7f37; stroke-width: 1.8; marker-end: url(#arr-green); }
+    .divider { stroke: #d3dee7; stroke-width: 1.2; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Left: Parallel Superposition Fan -->
+  <text x="200" y="28" text-anchor="middle" class="heading">Oracle Parallelism: All \(2^n\) Paths</text>
+
+  <!-- Initial state node -->
+  <rect x="15" y="148" width="100" height="38" rx="6" class="node"/>
+  <text x="65" y="172" text-anchor="middle" data-math="\(\ket{0}^{\otimes n}\ket{0}\)">|0...0⟩|0⟩</text>
+
+  <!-- Arrow with H^n -->
+  <path d="M115 167 L142 167" class="branch" marker-end="url(#arr-blue)"/>
+  <text x="128" y="157" text-anchor="middle" class="small" style="font-size:11px;font-weight:600;fill:#246593" data-tex="H^{\otimes n}">H^n</text>
+
+  <!-- Superposition node after H^n -->
+  <rect x="145" y="136" width="125" height="62" rx="6" class="node-sup"/>
+  <text x="207.5" y="162" text-anchor="middle" class="small" data-math="\(\frac{1}{\sqrt{2^n}}\sum_x \ket{x}\ket{0}\)">1/√2ⁿ ∑ |x⟩|0⟩</text>
+  <text x="207.5" y="184" text-anchor="middle" style="font-size:11px;fill:#626c77">All \(2^n\) inputs</text>
+
+  <!-- Fan-out paths to U_f output branches -->
+  <!-- Branch 0: x = 00...0 -->
+  <path d="M270 155 C285 130, 290 80, 305 70" class="branch"/>
+  <rect x="305" y="55" width="90" height="30" rx="6" class="node"/>
+  <text x="350" y="75" text-anchor="middle" class="small" data-math="\(\ket{0, f(0)}\)">|0, f(0)⟩</text>
+
+  <!-- Branch 1: x = 00...1 -->
+  <path d="M270 162 C285 145, 290 125, 305 120" class="branch"/>
+  <rect x="305" y="105" width="90" height="30" rx="6" class="node"/>
+  <text x="350" y="125" text-anchor="middle" class="small" data-math="\(\ket{1, f(1)}\)">|1, f(1)⟩</text>
+
+  <!-- Vertical dots -->
+  <circle cx="350" cy="160" r="2.5" fill="#626c77"/>
+  <circle cx="350" cy="172" r="2.5" fill="#626c77"/>
+  <circle cx="350" cy="184" r="2.5" fill="#626c77"/>
+
+  <!-- Branch 2^n - 1 -->
+  <path d="M270 180 C285 205, 290 245, 305 255" class="branch"/>
+  <rect x="305" y="240" width="90" height="30" rx="6" class="node"/>
+  <text x="350" y="260" text-anchor="middle" class="small" data-math="\(\ket{2^n{-}1, f}\)">|2ⁿ-1, f⟩</text>
+
+  <!-- Bottom equation -->
+  <text x="200" y="325" text-anchor="middle" style="font-weight:600;fill:#246593" data-math="\(\ket{\psi} = \frac{1}{\sqrt{2^n}}\sum_{x} \ket{x}\ket{f(x)}\)">|ψ⟩ = 1/√2ⁿ ∑ |x⟩|f(x)⟩</text>
+  <text x="200" y="348" text-anchor="middle" class="small">Single oracle evaluation evaluates \(f(x)\) on all inputs</text>
+
+  <!-- Center Divider -->
+  <line x1="410" y1="20" x2="410" y2="350" class="divider"/>
+
+  <!-- Right: Measurement Collapses -->
+  <text x="625" y="28" text-anchor="middle" class="heading">Measurement Projection &amp; Preimages</text>
+
+  <!-- Scenario A: Full Computational Basis Measurement -->
+  <g transform="translate(425, 45)">
+    <text x="0" y="16" style="font-weight:600;font-size:13px;fill:#cf222e">1. Full Measurement (All Qubits)</text>
+    <text x="0" y="36" class="small" data-math="Simultaneous readout of input and target registers:">Simultaneous readout of input and target registers:</text>
+
+    <!-- Branch fan collapsing to single node -->
+    <path d="M15 65 C45 50, 75 50, 105 50" class="branch-ghost"/>
+    <path d="M15 75 C45 75, 75 75, 105 75" class="branch-sel"/>
+    <path d="M15 85 C45 100, 75 100, 105 100" class="branch-ghost"/>
+
+    <rect x="110" y="58" width="105" height="34" rx="6" class="node-collapsed"/>
+    <text x="162.5" y="80" text-anchor="middle" style="font-weight:600;fill:#cf222e" data-math="\(\ket{x^*, f(x^*)}\)">|x*, f*⟩</text>
+
+    <!-- Collapsed note -->
+    <text x="230" y="72" class="small" style="fill:#cf222e;font-weight:600" data-math="\(P(x^*) = 1/2^n\)">P(x*) = 1/2ⁿ</text>
+    <text x="230" y="90" class="small">All \(2^n-1\) other paths vanish!</text>
+    <text x="0" y="125" class="small" style="font-style:italic">Yields exactly one random sample; no computational speedup.</text>
+  </g>
+
+  <!-- Scenario B: Target-Only Measurement -->
+  <g transform="translate(425, 195)">
+    <text x="0" y="16" style="font-weight:600;font-size:13px;fill:#1a7f37">2. Target Register Measurement Only</text>
+    <text x="0" y="36" class="small" data-math="Measures only target: outcome \(y \in \{0,1\}\)">Measures only target: outcome y ∈ {0,1}</text>
+
+    <!-- Branch into preimages -->
+    <path d="M15 72 C40 60, 65 57, 95 57" class="branch-preimage"/>
+    <path d="M15 72 C40 85, 65 97, 95 97" class="branch-preimage"/>
+
+    <rect x="98" y="42" width="70" height="30" rx="5" style="fill:#f0fbf0;stroke:#1a7f37;stroke-width:1.5"/>
+    <text x="133" y="62" text-anchor="middle" class="small" style="font-weight:600;fill:#1a7f37" data-math="\(y = 0\)">y = 0</text>
+    <text x="180" y="62" class="small" style="font-weight:600;fill:#1a7f37" data-math="\(\ket{\psi_0} = \frac{1}{\sqrt{|f^{-1}(0)|}}\sum_{x \in f^{-1}(0)}\ket{x}\ket{0}\)">|ψ0⟩ = 1/√|f⁻¹(0)| ∑ |x⟩|0⟩</text>
+
+    <rect x="98" y="82" width="70" height="30" rx="5" style="fill:#f0fbf0;stroke:#1a7f37;stroke-width:1.5"/>
+    <text x="133" y="102" text-anchor="middle" class="small" style="font-weight:600;fill:#1a7f37" data-math="\(y = 1\)">y = 1</text>
+    <text x="180" y="102" class="small" style="font-weight:600;fill:#1a7f37" data-math="\(\ket{\psi_1} = \frac{1}{\sqrt{|f^{-1}(1)|}}\sum_{x \in f^{-1}(1)}\ket{x}\ket{1}\)">|ψ1⟩ = 1/√|f⁻¹(1)| ∑ |x⟩|1⟩</text>
+
+    <text x="0" y="145" class="small" style="font-style:italic">Preserves coherent superposition of all inputs sharing value \(y\).</text>
+  </g>
+</svg>

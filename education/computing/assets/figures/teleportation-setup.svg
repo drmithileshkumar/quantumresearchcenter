@@ -35,29 +35,29 @@
     <!-- Alice Qubit 1: General State |ψ⟩ -->
     <g id="alice-qubit-psi">
       <rect x="36" y="162" width="380" height="102" rx="8" fill="#ffffff" stroke="#bae6fd" stroke-width="1.5"/>
-      <circle cx="78" cy="213" r="26" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
-      <ellipse cx="78" cy="213" rx="33" ry="11" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2"/>
-      <text x="78" y="219" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="bold" fill="#0369a1" data-tex="\ket\psi">|ψ⟩</text>
+      <circle cx="78" cy="213" r="30" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+      <ellipse cx="78" cy="213" rx="36" ry="12" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <text x="78" y="219" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-weight="bold" fill="#0369a1" data-tex="\ket\psi">|ψ⟩</text>
       
       <text x="118" y="186" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#0369a1">Qubit 1: Unknown General State</text>
       <text x="118" y="209" font-family="Georgia,serif" font-size="15" fill="#0f172a" data-tex="\ket{\psi} = \alpha\ket{0} + \beta\ket{1}">|ψ⟩ = α|0⟩ + β|1⟩</text>
       <text x="118" y="231" font-family="Arial,sans-serif" font-size="11" fill="#475569">Amplitudes α, β are completely unknown to Alice</text>
-      <rect x="118" y="238" width="210" height="18" rx="4" fill="#e0f2fe"/>
-      <text x="123" y="251" font-family="Arial,sans-serif" font-size="10.5" font-weight="bold" fill="#0284c7">STATE TO BE TELEPORTED TO BOB</text>
+      <rect x="118" y="238" width="240" height="18" rx="4" fill="#e0f2fe"/>
+      <text x="123" y="251" font-family="Arial,sans-serif" font-size="10" font-weight="bold" fill="#0284c7">STATE TO BE TELEPORTED TO BOB</text>
     </g>
 
     <!-- Alice Qubit 2: Shared Bell Qubit A -->
     <g id="alice-qubit-bell">
       <rect x="36" y="274" width="380" height="102" rx="8" fill="#ffffff" stroke="#ddd6fe" stroke-width="1.5"/>
-      <circle cx="78" cy="325" r="26" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
-      <ellipse cx="78" cy="325" rx="33" ry="11" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <circle cx="78" cy="325" r="30" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+      <ellipse cx="78" cy="325" rx="36" ry="12" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="3 2"/>
       <text x="78" y="331" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-weight="bold" fill="#6d28d9" data-tex="A">A</text>
       
       <text x="118" y="298" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#6d28d9">Qubit 2: Shared Bell Qubit (A)</text>
       <text x="118" y="321" font-family="Georgia,serif" font-size="14" fill="#0f172a" data-tex="\text{Qubit } A \in \ket{\Phi^+}_{AB}">Qubit A ∈ |Φ⁺⟩_AB</text>
       <text x="118" y="343" font-family="Arial,sans-serif" font-size="11" fill="#475569">Maximally entangled with Bob's Qubit B</text>
-      <rect x="118" y="350" width="210" height="18" rx="4" fill="#ede9fe"/>
-      <text x="123" y="363" font-family="Arial,sans-serif" font-size="10.5" font-weight="bold" fill="#7c3aed">PRE-SHARED ENTANGLED RESOURCE</text>
+      <rect x="118" y="350" width="240" height="18" rx="4" fill="#ede9fe"/>
+      <text x="123" y="363" font-family="Arial,sans-serif" font-size="10" font-weight="bold" fill="#7c3aed">PRE-SHARED ENTANGLED RESOURCE</text>
     </g>
 
     <!-- Alice Action Summary -->
@@ -84,29 +84,29 @@
     <!-- Bob Qubit 1: Target Qubit |0⟩ -->
     <g id="bob-qubit-target">
       <rect x="544" y="162" width="380" height="102" rx="8" fill="#ffffff" stroke="#bbf7d0" stroke-width="1.5"/>
-      <circle cx="586" cy="213" r="26" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
-      <ellipse cx="586" cy="213" rx="33" ry="11" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="3 2"/>
-      <text x="586" y="219" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="bold" fill="#15803d" data-tex="\ket0">|0⟩</text>
+      <circle cx="586" cy="213" r="30" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+      <ellipse cx="586" cy="213" rx="36" ry="12" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <text x="586" y="219" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-weight="bold" fill="#15803d" data-tex="\ket0">|0⟩</text>
       
       <text x="626" y="186" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#15803d">Target Qubit (Station B)</text>
       <text x="626" y="209" font-family="Georgia,serif" font-size="14" fill="#0f172a" data-tex="\text{Initial: } \ket{0} \;\longrightarrow\; \text{Final: } \ket{\psi}">Initial: |0⟩ ⟶ Final: |ψ⟩</text>
       <text x="626" y="231" font-family="Arial,sans-serif" font-size="11" fill="#475569">Local destination particle ready to receive |ψ⟩</text>
-      <rect x="626" y="238" width="210" height="18" rx="4" fill="#dcfce7"/>
-      <text x="631" y="251" font-family="Arial,sans-serif" font-size="10.5" font-weight="bold" fill="#15803d">DESTINATION OF TELEPORTED STATE</text>
+      <rect x="626" y="238" width="240" height="18" rx="4" fill="#dcfce7"/>
+      <text x="631" y="251" font-family="Arial,sans-serif" font-size="10" font-weight="bold" fill="#15803d">DESTINATION OF TELEPORTED STATE</text>
     </g>
 
     <!-- Bob Qubit 2: Shared Bell Qubit B -->
     <g id="bob-qubit-bell">
       <rect x="544" y="274" width="380" height="102" rx="8" fill="#ffffff" stroke="#ddd6fe" stroke-width="1.5"/>
-      <circle cx="586" cy="325" r="26" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
-      <ellipse cx="586" cy="325" rx="33" ry="11" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <circle cx="586" cy="325" r="30" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+      <ellipse cx="586" cy="325" rx="36" ry="12" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="3 2"/>
       <text x="586" y="331" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-weight="bold" fill="#6d28d9" data-tex="B">B</text>
       
       <text x="626" y="298" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#6d28d9">Qubit 3: Shared Bell Qubit (B)</text>
       <text x="626" y="321" font-family="Georgia,serif" font-size="14" fill="#0f172a" data-tex="\text{Qubit } B \in \ket{\Phi^+}_{AB}">Qubit B ∈ |Φ⁺⟩_AB</text>
       <text x="626" y="343" font-family="Arial,sans-serif" font-size="11" fill="#475569">Remains maximally mixed until message arrives</text>
-      <rect x="626" y="350" width="210" height="18" rx="4" fill="#ede9fe"/>
-      <text x="631" y="363" font-family="Arial,sans-serif" font-size="10.5" font-weight="bold" fill="#7c3aed">COLLAPSES CONDITIONALLY TO X^n Z^m |ψ⟩</text>
+      <rect x="626" y="350" width="280" height="18" rx="4" fill="#ede9fe"/>
+      <text x="631" y="363" font-family="Arial,sans-serif" font-size="10" font-weight="bold" fill="#7c3aed">COLLAPSES CONDITIONALLY TO Xⁿ Zᵐ |ψ⟩</text>
     </g>
 
     <!-- Bob Action Summary -->
@@ -127,7 +127,7 @@
     <!-- Central Purpose Badge -->
     <rect x="418" y="116" width="124" height="56" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" filter="url(#soft-shadow)"/>
     <text x="480" y="133" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="bold" fill="#1e40af">ALICE'S PURPOSE</text>
-    <text x="480" y="149" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="bold" fill="#2563eb" data-tex="\ket{\psi} \to \text{Target}">|ψ⟩ ⟶ Target</text>
+    <text x="480" y="149" text-anchor="middle" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="#2563eb" data-tex="\ket{\psi} \to \text{Bob}">|ψ⟩ ⟶ Bob</text>
     <text x="480" y="163" text-anchor="middle" font-family="Arial,sans-serif" font-size="8.5" fill="#3b82f6">Deliver state |ψ⟩</text>
   </g>
 

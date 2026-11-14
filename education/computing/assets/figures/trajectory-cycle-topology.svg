@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" role="img" aria-labelledby="title desc">
+  <title id="title">Trajectory topologies on finite configuration spaces</title>
+  <desc id="desc">Left: An irreversible lasso trajectory has a transient tail that enters a periodic loop. The junction configuration has two distinct incoming arrows, which violates injectivity. Right: In a reversible system, every state has a unique predecessor and successor, decomposing the finite state space into disjoint closed cycles.</desc>
+  <defs>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#cf222e"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#246593"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#1a7f37"/>
+    </marker>
+  </defs>
+  <style>
+    text { font: 14px Georgia, serif; fill: #30343b; }
+    .heading { font: 600 13px system-ui, sans-serif; fill: #246593; text-transform: uppercase; letter-spacing: 0.05em; }
+    .small { font: 12px system-ui, sans-serif; fill: #626c77; }
+    .warn { font: 600 12px system-ui, sans-serif; fill: #cf222e; }
+    .node { fill: #fff; stroke: #246593; stroke-width: 1.6; }
+    .node-warn { fill: #ffebe9; stroke: #cf222e; stroke-width: 2; }
+    .node-green { fill: #fff; stroke: #1a7f37; stroke-width: 1.6; }
+    .edge-blue { fill: none; stroke: #246593; stroke-width: 1.6; marker-end: url(#arr-blue); }
+    .edge-red { fill: none; stroke: #cf222e; stroke-width: 1.8; marker-end: url(#arr-red); }
+    .edge-green { fill: none; stroke: #1a7f37; stroke-width: 1.6; marker-end: url(#arr-green); }
+    .divider { stroke: #d3dee7; stroke-width: 1.2; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Left: Irreversible Lasso Trajectory -->
+  <text x="180" y="28" text-anchor="middle" class="heading">Irreversible: "Lasso" Trajectory</text>
+
+  <!-- Transient Tail Nodes -->
+  <circle cx="45" cy="80" r="20" class="node"/>
+  <text x="45" y="85" text-anchor="middle" class="small" data-tex="c_0">c0</text>
+
+  <circle cx="120" cy="80" r="20" class="node"/>
+  <text x="120" y="85" text-anchor="middle" class="small" data-tex="c_1">c1</text>
+
+  <path d="M65 80 L98 80" class="edge-blue"/>
+
+  <!-- Collision Junction Node -->
+  <circle cx="205" cy="115" r="22" class="node-warn"/>
+  <text x="205" y="120" text-anchor="middle" class="warn" data-tex="c_2">c2</text>
+
+  <!-- Curve from tail to junction -->
+  <path d="M138 86 C160 92, 175 100, 186 108" class="edge-red"/>
+
+  <!-- Cycle Nodes -->
+  <circle cx="285" cy="85" r="20" class="node"/>
+  <text x="285" y="90" text-anchor="middle" class="small" data-tex="c_3">c3</text>
+
+  <circle cx="310" cy="165" r="20" class="node"/>
+  <text x="310" y="170" text-anchor="middle" class="small" data-tex="c_4">c4</text>
+
+  <circle cx="235" cy="210" r="20" class="node"/>
+  <text x="235" y="215" text-anchor="middle" class="small" data-tex="c_5">c5</text>
+
+  <circle cx="160" cy="175" r="20" class="node"/>
+  <text x="160" y="180" text-anchor="middle" class="small" data-tex="c_6">c6</text>
+
+  <!-- Smooth Cycle Edges -->
+  <path d="M223 107 C240 98, 255 93, 267 89" class="edge-blue"/>
+  <path d="M292 103 C302 118, 308 135, 308 147" class="edge-blue"/>
+  <path d="M298 178 C285 192, 268 202, 251 207" class="edge-blue"/>
+  <path d="M217 203 C198 196, 180 188, 174 182" class="edge-blue"/>
+  <path d="M172 161 C180 148, 188 136, 192 129" class="edge-red"/>
+
+  <text x="180" y="255" text-anchor="middle" class="warn">Collision at \(c_2\): Two Predecessors!</text>
+  <text x="180" y="280" text-anchor="middle" class="small" data-math="\(\tau(c_1) = \tau(c_6) = c_2\)">τ(c1) = τ(c6) = c2</text>
+  <text x="180" y="305" text-anchor="middle" class="small">Violates invertibility (backward reconstruction fails)</text>
+
+  <!-- Center Divider -->
+  <line x1="370" y1="20" x2="370" y2="320" class="divider"/>
+
+  <!-- Right: Reversible Disjoint Cycles -->
+  <text x="565" y="28" text-anchor="middle" class="heading">Reversible: Disjoint Periodic Cycles</text>
+
+  <!-- Cycle A (Orbit 1) -->
+  <circle cx="460" cy="80" r="20" class="node-green"/>
+  <text x="460" y="85" text-anchor="middle" class="small" data-tex="s_0">s0</text>
+
+  <circle cx="530" cy="140" r="20" class="node-green"/>
+  <text x="530" y="145" text-anchor="middle" class="small" data-tex="s_1">s1</text>
+
+  <circle cx="460" cy="200" r="20" class="node-green"/>
+  <text x="460" y="205" text-anchor="middle" class="small" data-tex="s_2">s2</text>
+
+  <circle cx="390" cy="140" r="20" class="node-green"/>
+  <text x="390" y="145" text-anchor="middle" class="small" data-tex="s_3">s3</text>
+
+  <!-- Cycle A Smooth Curves -->
+  <path d="M476 92 C498 106, 510 118, 517 127" class="edge-green"/>
+  <path d="M517 153 C508 166, 492 182, 476 190" class="edge-green"/>
+  <path d="M444 190 C422 178, 410 165, 403 153" class="edge-green"/>
+  <path d="M403 127 C412 112, 428 98, 444 90" class="edge-green"/>
+
+  <text x="460" y="240" text-anchor="middle" class="small" style="font-weight:600;fill:#1a7f37">Cycle 1 (Length 4)</text>
+
+  <!-- Cycle B (Orbit 2) -->
+  <circle cx="650" cy="100" r="20" class="node-green"/>
+  <text x="650" y="105" text-anchor="middle" class="small" data-tex="r_0">r0</text>
+
+  <circle cx="690" cy="170" r="20" class="node-green"/>
+  <text x="690" y="175" text-anchor="middle" class="small" data-tex="r_1">r1</text>
+
+  <circle cx="610" cy="170" r="20" class="node-green"/>
+  <text x="610" y="175" text-anchor="middle" class="small" data-tex="r_2">r2</text>
+
+  <!-- Cycle B Curves -->
+  <path d="M664 114 C676 128, 683 142, 686 152" class="edge-green"/>
+  <path d="M670 172 L632 172" class="edge-green"/>
+  <path d="M622 153 C628 138, 636 124, 642 114" class="edge-green"/>
+
+  <text x="650" y="215" text-anchor="middle" class="small" style="font-weight:600;fill:#1a7f37">Cycle 2 (Length 3)</text>
+
+  <text x="565" y="280" text-anchor="middle" class="small" data-math="\(\text{State space } \mathcal{C} = \bigcup_k \mathcal{O}_k \quad (\text{Disjoint orbits})\)">State space C = ⋃k Ok (Disjoint orbits)</text>
+  <text x="565" y="305" text-anchor="middle" class="small">Every state belongs to a closed cycle; initial state \(c_0\) is revisited</text>
+</svg>

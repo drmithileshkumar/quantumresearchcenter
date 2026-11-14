@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" role="img" aria-labelledby="title desc">
+  <title id="title">Multi-path interference versus which-path decoherence</title>
+  <desc id="desc">Left: Two computational paths converge on the exact same final state with opposite amplitudes (+1/2 and -1/2), canceling out completely through destructive interference. Right: When an ancilla records the path taken, the paths terminate in orthogonal joint states (y, e0 and y, e1). The paths no longer arrive at the same destination, extinguishing interference and recovering classical probability addition.</desc>
+  <defs>
+    <marker id="arr-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#1a7f37"/>
+    </marker>
+    <marker id="arr-neg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#cf222e"/>
+    </marker>
+    <marker id="arr-anc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#246593"/>
+    </marker>
+  </defs>
+  <style>
+    text { font: 14px Georgia, serif; fill: #30343b; }
+    .heading { font: 600 13px system-ui, sans-serif; fill: #246593; text-transform: uppercase; letter-spacing: 0.05em; }
+    .small { font: 12px system-ui, sans-serif; fill: #626c77; }
+    .node { fill: #fff; stroke: #246593; stroke-width: 1.6; }
+    .node-target { fill: #f6f8fa; stroke: #246593; stroke-width: 1.8; }
+    .path-pos { fill: none; stroke: #1a7f37; stroke-width: 2; marker-end: url(#arr-pos); }
+    .path-neg { fill: none; stroke: #cf222e; stroke-width: 2; marker-end: url(#arr-neg); }
+    .path-anc { fill: none; stroke: #246593; stroke-width: 1.8; marker-end: url(#arr-anc); }
+    .divider { stroke: #d3dee7; stroke-width: 1.2; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Left: Destructive Interference -->
+  <text x="180" y="28" text-anchor="middle" class="heading">Identical Final State: Interference</text>
+
+  <!-- Initial State -->
+  <circle cx="45" cy="170" r="22" class="node"/>
+  <text x="45" y="176" text-anchor="middle" data-tex="\ket{0}">|0⟩</text>
+
+  <!-- Intermediate States -->
+  <circle cx="170" cy="95" r="22" class="node"/>
+  <text x="170" y="101" text-anchor="middle" data-tex="\ket{0}">|0⟩</text>
+
+  <circle cx="170" cy="245" r="22" class="node"/>
+  <text x="170" y="251" text-anchor="middle" data-tex="\ket{1}">|1⟩</text>
+
+  <!-- Final State -->
+  <circle cx="305" cy="170" r="24" class="node-target"/>
+  <text x="305" y="176" text-anchor="middle" data-tex="\ket{1}">|1⟩</text>
+
+  <!-- Upper Path (+1/2) -->
+  <path d="M64 158 C90 130, 120 105, 147 98" class="path-pos"/>
+  <path d="M192 98 C225 105, 260 135, 283 158" class="path-pos"/>
+  <text x="170" y="58" text-anchor="middle" style="fill:#1a7f37;font-weight:600" data-math="Path 1: \(+1/2\)">Path 1: +1/2</text>
+
+  <!-- Lower Path (-1/2) -->
+  <path d="M64 182 C90 210, 120 235, 147 242" class="path-neg"/>
+  <path d="M192 242 C225 235, 260 205, 283 182" class="path-neg"/>
+  <text x="170" y="292" text-anchor="middle" style="fill:#cf222e;font-weight:600" data-math="Path 2: \(-1/2\)">Path 2: -1/2</text>
+
+  <text x="180" y="325" text-anchor="middle" style="font-weight:600;fill:#cf222e" data-math="\(A_{\text{total}} = \frac{1}{2} - \frac{1}{2} = 0 \implies P(1) = 0\)">Atotal = 1/2 - 1/2 = 0 ⟹ P(1) = 0</text>
+  <text x="180" y="348" text-anchor="middle" class="small">Complete destructive cancellation on shared state \(\ket{1}\)</text>
+
+  <!-- Center Divider -->
+  <line x1="365" y1="20" x2="365" y2="345" class="divider"/>
+
+  <!-- Right: Which-Path Distinction -->
+  <text x="560" y="28" text-anchor="middle" class="heading">Which-Path Ancilla: Orthogonal Exit</text>
+
+  <!-- Initial Joint State -->
+  <rect x="380" y="148" width="90" height="38" rx="6" class="node"/>
+  <text x="425" y="172" text-anchor="middle" data-math="\(\ket{0}\ket{e_0}\)">|0⟩|e0⟩</text>
+
+  <!-- Intermediate Joint States -->
+  <rect x="495" y="74" width="90" height="38" rx="6" class="node"/>
+  <text x="540" y="98" text-anchor="middle" data-math="\(\ket{0}\ket{e_0}\)">|0⟩|e0⟩</text>
+
+  <rect x="495" y="224" width="90" height="38" rx="6" class="node"/>
+  <text x="540" y="248" text-anchor="middle" data-math="\(\ket{1}\ket{e_1}\)">|1⟩|e1⟩</text>
+
+  <!-- Final Orthogonal Outputs -->
+  <rect x="635" y="74" width="95" height="38" rx="6" class="node-target"/>
+  <text x="682.5" y="98" text-anchor="middle" data-math="\(\ket{1}\ket{e_0}\)">|1⟩|e0⟩</text>
+
+  <rect x="635" y="224" width="95" height="38" rx="6" class="node-target"/>
+  <text x="682.5" y="248" text-anchor="middle" data-math="\(\ket{1}\ket{e_1}\)">|1⟩|e1⟩</text>
+
+  <!-- Diverging Path Curves -->
+  <path d="M470 160 C478 140, 484 115, 494 100" class="path-anc"/>
+  <path d="M585 93 L633 93" class="path-anc"/>
+
+  <path d="M470 174 C478 194, 484 219, 494 234" class="path-anc"/>
+  <path d="M585 243 L633 243" class="path-anc"/>
+
+  <text x="560" y="325" text-anchor="middle" style="font-weight:600;fill:#246593" data-math="\(\braket{e_0}{e_1} = 0 \implies \text{Cross-terms vanish}\)">⟨e0|e1⟩ = 0 ⟹ Cross-terms vanish</text>
+  <text x="560" y="348" text-anchor="middle" class="small" data-math="Classical sum: \(P = |+1/2|^2 + |-1/2|^2 = 1/4 + 1/4 = 1/2\)">Classical sum: P = |+1/2|² + |-1/2|² = 1/4 + 1/4 = 1/2</text>
+</svg>

@@ -10,8 +10,8 @@
 <text x="400" y="309" text-anchor="middle" data-tex="c_{11}=bd">c₁₁ = bd</text>
 <text x="325" y="147" text-anchor="middle" data-tex="c_{01}=ad">c₀₁ = ad</text>
 <text x="325" y="263" text-anchor="middle" data-tex="c_{10}=bc">c₁₀ = bc</text>
-<circle class="node" cx="170" cy="120" r="28"/><circle class="node" cx="170" cy="280" r="28"/>
-<circle class="node" cx="630" cy="120" r="28"/><circle class="node" cx="630" cy="280" r="28"/>
+<circle class="node" cx="170" cy="120" r="35"/><circle class="node" cx="170" cy="280" r="35"/>
+<circle class="node" cx="630" cy="120" r="35"/><circle class="node" cx="630" cy="280" r="35"/>
 <text x="170" y="126" text-anchor="middle" data-tex="\ket0_A">|0⟩ₐ</text><text x="170" y="286" text-anchor="middle" data-tex="\ket1_A">|1⟩ₐ</text>
 <text x="630" y="126" text-anchor="middle" data-tex="\ket0_B">|0⟩ᵦ</text><text x="630" y="286" text-anchor="middle" data-tex="\ket1_B">|1⟩ᵦ</text>
 <text class="small" x="400" y="336" text-anchor="middle">Each edge joins a pair of local labels to specify one joint basis state.</text>

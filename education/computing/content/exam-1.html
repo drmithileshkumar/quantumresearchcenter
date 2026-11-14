@@ -20,6 +20,12 @@
     <h3>Question 1: Collision of Trajectories and Landauer Dissipation <a class="heading-link" href="#question-1">§</a></h3>
     <div class="question-prompt">
       <p><strong>Examiner Prompt:</strong> “In Chapter 1, computation is viewed as a sequence of steps between configurations: \(c_t \to c_{t+1}\). What is the fundamental physical difference between a 1-to-1 mapping and a many-to-1 mapping? Why does the collision of trajectories mandate thermodynamic heat dissipation of at least \(k_B T \ln 2\) per discarded bit?”</p>
+      <figure class="book-drawing">
+        <div aria-label="Irreversible colliding trajectories versus reversible permutation embedding; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+          <img alt="Irreversible colliding trajectories merging into output configurations with Landauer dissipation versus 1-to-1 reversible permutation embedding using an ancilla wire." loading="lazy" src="assets/figures/trajectory-collision-reversible.svg"/>
+        </div>
+        <figcaption>Colliding trajectories in irreversible Boolean logic versus 1-to-1 reversible permutation embedding.</figcaption>
+      </figure>
     </div>
     <details class="problem-solution">
       <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
@@ -35,6 +41,12 @@
     <h3>Question 2: Trajectory Topology on Finite State Spaces <a class="heading-link" href="#question-2">§</a></h3>
     <div class="question-prompt">
       <p><strong>Examiner Prompt:</strong> “Consider a deterministic computing machine operating on a finite set of \(S\) configurations. Why is a ‘lasso-shaped’ trajectory—a transient tail entering a periodic cycle from outside—strictly impossible if the machine is reversible?”</p>
+      <figure class="book-drawing">
+        <div aria-label="Trajectory topology on finite state spaces; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+          <img alt="Irreversible trajectories forming lasso structures with transient tails and collision junctions versus reversible finite dynamics decomposing into disjoint periodic cycles." loading="lazy" src="assets/figures/trajectory-cycle-topology.svg"/>
+        </div>
+        <figcaption>Trajectory topology on finite state spaces: irreversible updates exhibit transient tails and collision junctions (&ldquo;lasso&rdquo; topology), whereas reversible updates decompose strictly into disjoint periodic cycles.</figcaption>
+      </figure>
     </div>
     <details class="problem-solution">
       <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
@@ -134,6 +146,12 @@
     <h3>Question 8: Which-Path Information and the Erasure of Interference <a class="heading-link" href="#question-8">§</a></h3>
     <div class="question-prompt">
       <p><strong>Examiner Prompt:</strong> “If a computational path leaves a distinguishing physical mark in an ancillary environment register, why does quantum interference vanish completely, even if no human observer ever looks at the ancilla?”</p>
+      <figure class="book-drawing">
+        <div aria-label="Multi-path quantum interference versus which-path decoherence; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+          <img alt="Multi-path interference with opposite amplitudes canceling destructively versus which-path ancilla entanglement extinguishing interference." loading="lazy" src="assets/figures/multipath-interference-whichpath.svg"/>
+        </div>
+        <figcaption>Multi-path quantum interference versus which-path decoherence: distinguishing marks on an environment register force paths into orthogonal states, extinguishing interference.</figcaption>
+      </figure>
     </div>
     <details class="problem-solution">
       <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
@@ -158,6 +176,12 @@
     <h3>Question 9: Inner Products and State Distinguishability <a class="heading-link" href="#question-9">§</a></h3>
     <div class="question-prompt">
       <p><strong>Examiner Prompt:</strong> “What is the physical interpretation of the inner product \(\braket{\phi}{\psi}\), and what does orthogonality (\(\braket{\phi}{\psi} = 0\)) mean in terms of experimental distinguishability?”</p>
+      <figure class="book-drawing">
+        <div aria-label="Geometry of non-orthogonal state discrimination; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+          <img alt="State-plane geometry showing non-zero vector projection and smooth curves for overlap and error probability as a function of angular separation." loading="lazy" src="assets/figures/state-plane-discrimination.svg"/>
+        </div>
+        <figcaption>Geometry of pure state discrimination in the state plane: non-orthogonal states separated by angle \(\Delta\theta\) have non-zero overlap \(\braket{\phi}{\psi} = \cos\Delta\theta\), precluding error-free discrimination.</figcaption>
+      </figure>
     </div>
     <details class="problem-solution">
       <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
@@ -257,6 +281,12 @@
     <h3>Question 15: Global vs. Relative Phase in Circuits <a class="heading-link" href="#question-15">§</a></h3>
     <div class="question-prompt">
       <p><strong>Examiner Prompt:</strong> “Why does multiplying a quantum state by a global phase \(e^{i\alpha}\) have zero physical consequence, while a relative phase in \(\frac{1}{\sqrt{2}}(\ket{0} + e^{i\phi}\ket{1})\) can be detected? How does the circuit \(H P(\phi) H\) measure it?”</p>
+      <figure class="book-drawing">
+        <div aria-label="Phase modulation and interference fringe curves; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+          <img alt="Phase interferometer circuit and sinusoidal interference fringe curves oscillating between 0 and 1 as phase varies from 0 to 2 pi." loading="lazy" src="assets/figures/phase-modulation-curves.svg"/>
+        </div>
+        <figcaption>Converting relative phase into population differences: a second Hadamard gate causes computational paths to interfere, yielding sinusoidal probabilities \(P(0) = \cos^2(\phi/2)\) and \(P(1) = \sin^2(\phi/2)\).</figcaption>
+      </figure>
     </div>
     <details class="problem-solution">
       <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>
@@ -350,6 +380,12 @@
     <h3>Question 20: Quantum Parallelism and Preimage Superpositions <a class="heading-link" href="#question-20">§</a></h3>
     <div class="question-prompt">
       <p><strong>Examiner Prompt:</strong> “In Section 6.5, the oracle gate \(U_f \ket{x}\ket{y} = \ket{x}\ket{y \oplus f(x)}\) evaluates a Boolean function across all inputs simultaneously when applied to an equal superposition. Why does measuring all qubits immediately fail to provide a computational advantage, and what happens when we measure only the target qubit?”</p>
+      <figure class="book-drawing">
+        <div aria-label="Quantum parallelism and measurement projection; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+          <img alt="Oracle preparing exponential superposition of all inputs and function values, compared to full measurement collapse versus target-register preimage grouping." loading="lazy" src="assets/figures/parallelism-measurement-collapse.svg"/>
+        </div>
+        <figcaption>Quantum parallelism and measurement limitations: full computational measurement collapses the parallel state to a single random sample, while measuring the target qubit projects onto the preimage superposition.</figcaption>
+      </figure>
     </div>
     <details class="problem-solution">
       <summary><span class="solution-closed">Show examiner insight &amp; follow-up</span><span class="solution-open">Hide examiner insight</span></summary>

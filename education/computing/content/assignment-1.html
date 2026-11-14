@@ -29,6 +29,12 @@
     <p>\[(x_1, x_2, x_3, y) \mapsto (x_1, x_2, x_3, y \oplus \operatorname{Maj}(x_1, x_2, x_3)).\]</p>
     <p>Prove that this mapping is a permutation of the 16 configurations. Synthesize it using an explicit cascade of elementary Toffoli gates targeting the output wire \(y\).</p>
     <p><strong>(d) Uncomputing Workspace Footprints:</strong> Suppose an algorithm evaluates a complex function with the aid of an auxiliary workspace bit \(w\) initialized to \(0\), yielding \((x, 0_w, 0_y) \xrightarrow{U} (x, g(x)_w, f(x)_y)\). Explain why resetting \(w\) to \(0\) by an irreversible reset dissipates energy. Derive Bennett’s compute–copy–uncompute procedure from the invertibility of reversible circuits (\(U^{-1}U = I\)), showing how it restores the workspace configuration to \(0\) without destroying the computed result \(f(x)\).</p>
+    <figure class="book-drawing">
+      <div aria-label="Irreversible colliding trajectories versus reversible permutation embedding; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+        <img alt="Irreversible colliding trajectories merging into output configurations with Landauer dissipation versus 1-to-1 reversible permutation embedding using an ancilla wire." loading="lazy" src="assets/figures/trajectory-collision-reversible.svg"/>
+      </div>
+      <figcaption>Colliding trajectories in irreversible Boolean logic (dissipating \(Q \ge 2 k_B T \ln 2\) of Landauer heat per merged bit) versus bijective 1-to-1 embedding on an expanded configuration space via an ancilla wire.</figcaption>
+    </figure>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
@@ -89,6 +95,12 @@
     <p><strong>(c) Undecidability of Halting:</strong> Suppose there existed a total deterministic Turing machine decider \(H\) that accepts an encoding \(\langle M, w \rangle\) and determines whether machine \(M\) starting on input \(w\) terminates in a halting configuration.<br/>
     (i) Construct Turing’s diagonal machine \(D\) that takes an encoding \(\langle M \rangle\) as input and queries \(H(\langle M, \langle M \rangle \rangle)\).<br/>
     (ii) Trace the behavior of \(D\) when executed on its own encoding \(\langle D \rangle\), and deduce why the halting of computational trajectories is undecidable.</p>
+    <figure class="book-drawing">
+      <div aria-label="Trajectory topology on finite state spaces; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+        <img alt="Irreversible trajectories forming lasso structures with transient tails and collision junctions versus reversible finite dynamics decomposing into disjoint periodic cycles." loading="lazy" src="assets/figures/trajectory-cycle-topology.svg"/>
+      </div>
+      <figcaption>Trajectory topology on finite state spaces: irreversible updates exhibit transient tails and collision junctions (&ldquo;lasso&rdquo; topology), whereas reversible updates decompose strictly into disjoint periodic cycles returning directly to the initial configuration.</figcaption>
+    </figure>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
@@ -173,6 +185,12 @@
     (i) Show that the total probability of reaching final configuration \(\ket{y}\) is:</p>
     <p>\[P(x \to y) = \sum_{z} |\bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x}|^2 + \sum_{z \ne z'} \bra{y} U_2 \ket{z} \bra{z} U_1 \ket{x} (\bra{z'} U_1 \ket{x})^* (\bra{y} U_2 \ket{z'})^* \braket{e_{z'}}{e_z}_{\text{anc}}.\]</p>
     <p>(ii) Deduce that if the ancilla states are mutually orthogonal (\(\braket{e_{z'}}{e_z} = \delta_{z, z'}\), providing perfect which-path information), all interference cross-terms vanish identically, reducing the quantum probability to the classical sum of individual path probabilities.</p>
+    <figure class="book-drawing">
+      <div aria-label="Multi-path quantum interference versus which-path decoherence; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+        <img alt="Multi-path interference with opposite amplitudes canceling destructively versus which-path ancilla entanglement extinguishing interference." loading="lazy" src="assets/figures/multipath-interference-whichpath.svg"/>
+      </div>
+      <figcaption>Multi-path interference versus which-path distinction: identical final states allow probability amplitudes to add and cancel destructively (\(A_{\text{total}} = 0\)); entangling with an ancilla produces orthogonal outputs, extinguishing interference and recovering classical probability addition.</figcaption>
+    </figure>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
@@ -216,6 +234,12 @@
     <p><strong>(d) Sequential Incompatible Measurements:</strong> A qubit is initialized in \(\ket{0}\). It undergoes an \(X\)-basis measurement (\(\{\ket{+}, \ket{-}\}\)), followed immediately by a second measurement in the computational \(Z\)-basis (\(\{\ket{0}, \ket{1}\}\)).<br/>
     (i) Calculate the probability of obtaining outcome \(\ket{1}\) on the final measurement.<br/>
     (ii) How does this demonstrate that intermediate measurements in an incompatible basis erase all prior configuration history?</p>
+    <figure class="book-drawing">
+      <div aria-label="Geometry of non-orthogonal state discrimination; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+        <img alt="State-plane geometry showing non-zero vector projection and smooth curves for overlap and error probability as a function of angular separation." loading="lazy" src="assets/figures/state-plane-discrimination.svg"/>
+      </div>
+      <figcaption>Geometry of pure state discrimination in the state plane: non-orthogonal states separated by angle \(\Delta\theta\) have non-zero overlap \(\braket{\psi_0}{\psi_1} = \cos\Delta\theta\), causing error-free single-shot discrimination to fail until separation reaches \(\pi/2\) (orthogonality).</figcaption>
+    </figure>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
@@ -266,6 +290,12 @@
     (ii) Show that the probabilities of measuring \(\ket{0}\) and \(\ket{1}\) are \(P(0) = \cos^2(\phi/2)\) and \(P(1) = \sin^2(\phi/2)\).<br/>
     (iii) Explain how the second Hadamard gate converts an invisible relative phase \(\phi\) into a measurable probability difference.</p>
     <p><strong>(d) Global Phase Invariance:</strong> Prove that multiplying any state vector by a global phase \(e^{i\alpha}\) has zero effect on measurement probabilities in any orthonormal basis.</p>
+    <figure class="book-drawing">
+      <div aria-label="Phase modulation and interference fringe curves; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+        <img alt="Phase interferometer circuit and sinusoidal interference fringe curves oscillating between 0 and 1 as phase varies from 0 to 2 pi." loading="lazy" src="assets/figures/phase-modulation-curves.svg"/>
+      </div>
+      <figcaption>Interferometric conversion of relative phase to observable probabilities: a relative phase shift \(P(\phi)\) produces no detectable difference in the standard basis until recombined by a second Hadamard gate, yielding sinusoidal interference fringes \(P(0) = \cos^2(\phi/2)\) and \(P(1) = \sin^2(\phi/2)\).</figcaption>
+    </figure>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>
@@ -477,6 +507,12 @@
     (ii) What is the post-measurement state of the input register when the target measurement yields \(0\)?<br/>
     (iii) What is the post-measurement state of the input register when the target measurement yields \(1\)?<br/>
     (iv) How does this demonstrate that measuring an entangled subsystem collapses the unmeasured register into an equal superposition over a sub-ensemble of configurations?</p>
+    <figure class="book-drawing">
+      <div aria-label="Quantum parallelism and measurement projection; scroll horizontally on small screens" class="drawing-scroll" role="region" tabindex="0">
+        <img alt="Oracle preparing exponential superposition of all inputs and function values, compared to full measurement collapse versus target-register preimage grouping." loading="lazy" src="assets/figures/parallelism-measurement-collapse.svg"/>
+      </div>
+      <figcaption>Quantum parallelism and measurement limitations: a single oracle call creates a joint superposition of all \(2^n\) inputs and outputs; full computational measurement collapses this to a single random sample, whereas measuring only the target register projects onto the coherent preimage superposition.</figcaption>
+    </figure>
   </div>
   <details class="problem-solution">
     <summary><span class="solution-closed">Show worked solution</span><span class="solution-open">Hide worked solution</span></summary>

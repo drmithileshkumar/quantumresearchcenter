@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" role="img" aria-labelledby="title desc">
+  <title id="title">Geometry of Non-Orthogonal State Discrimination</title>
+  <desc id="desc">Left: Two pure state vectors psi0 and psi1 in the real state plane separated by angle delta-theta. Overlap is cos(delta-theta). Any projective measurement cannot perfectly partition them without error. Right: Smooth probability curves showing state overlap cos^2(delta-theta) dropping from 1 to 0 and discrimination error probability dropping from 1/2 to 0 as separation reaches 90 degrees (orthogonality).</desc>
+  <defs>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#246593"/>
+    </marker>
+    <marker id="arr-rust" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#a64d26"/>
+    </marker>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#626c77"/>
+    </marker>
+  </defs>
+  <style>
+    text { font: 14px Georgia, serif; fill: #30343b; }
+    .heading { font: 600 13px system-ui, sans-serif; fill: #246593; text-transform: uppercase; letter-spacing: 0.05em; }
+    .small { font: 12px system-ui, sans-serif; fill: #626c77; }
+    .axis { stroke: #a7bccd; stroke-width: 1.5; }
+    .grid { stroke: #eef2f5; stroke-width: 1; }
+    .vec-0 { stroke: #246593; stroke-width: 2.5; marker-end: url(#arr-blue); }
+    .vec-1 { stroke: #a64d26; stroke-width: 2.5; marker-end: url(#arr-rust); }
+    .proj-line { stroke: #8c959f; stroke-width: 1.2; stroke-dasharray: 3 3; }
+    .arc { fill: none; stroke: #246593; stroke-width: 1.5; }
+    .curve-overlap { fill: none; stroke: #246593; stroke-width: 2.5; }
+    .curve-error { fill: none; stroke: #cf222e; stroke-width: 2.2; stroke-dasharray: 5 3; }
+    .divider { stroke: #d3dee7; stroke-width: 1.2; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Left: State Plane Geometry -->
+  <text x="180" y="28" text-anchor="middle" class="heading">State-Plane Vectors and Overlap</text>
+
+  <!-- Origin at (80, 260) with radius R = 150 -->
+  <!-- Coordinate axes -->
+  <line x1="80" y1="260" x2="270" y2="260" class="axis" marker-end="url(#arr-gray)"/>
+  <line x1="80" y1="260" x2="80" y2="70" class="axis" marker-end="url(#arr-gray)"/>
+  <text x="275" y="264" class="small" data-tex="\ket{0}">|0⟩</text>
+  <text x="80" y="60" text-anchor="middle" class="small" data-tex="\ket{1}">|1⟩</text>
+
+  <!-- Unit circle quarter arc -->
+  <path d="M230 260 A150 150 0 0 0 80 110" fill="none" stroke="#d3dee7" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Vector psi_0 at angle theta0 = 20 deg (cos 20 = 0.940, sin 20 = 0.342) -> x = 80 + 141 = 221, y = 260 - 51 = 209 -->
+  <line x1="80" y1="260" x2="218" y2="210" class="vec-0"/>
+  <text x="232" y="208" style="font-weight:600;fill:#246593" data-tex="\ket{\psi_0}">|ψ0⟩</text>
+
+  <!-- Vector psi_1 at angle theta1 = 65 deg (cos 65 = 0.423, sin 65 = 0.906) -> x = 80 + 63 = 143, y = 260 - 136 = 124 -->
+  <line x1="80" y1="260" x2="145" y2="128" class="vec-1"/>
+  <text x="145" y="115" style="font-weight:600;fill:#a64d26" data-tex="\ket{\psi_1}">|ψ1⟩</text>
+
+  <!-- Angle arc between psi0 and psi1: radius 55 -->
+  <!-- 20 deg: 80 + 55*0.940 = 131.7, 260 - 55*0.342 = 241.2 -->
+  <!-- 65 deg: 80 + 55*0.423 = 103.3, 260 - 55*0.906 = 210.2 -->
+  <path d="M131 241 A55 55 0 0 0 103 210" class="arc"/>
+  <text x="135" y="222" style="font-size:12px;fill:#246593" data-tex="\Delta\theta">Δθ</text>
+
+  <!-- Orthogonal projection of psi1 onto psi0 -->
+  <!-- Overlap distance = 150 * cos(45 deg) = 106 px along psi0: x = 80 + 106*cos(20) = 180, y = 260 - 106*sin(20) = 224 -->
+  <line x1="145" y1="128" x2="180" y2="224" class="proj-line"/>
+  <circle cx="180" cy="224" r="3" fill="#626c77"/>
+
+  <!-- Caption annotations on left -->
+  <text x="180" y="305" text-anchor="middle" style="font-weight:600" data-math="\(\braket{\psi_0}{\psi_1} = \cos\Delta\theta \neq 0\)">⟨ψ0|ψ1⟩ = cos(Δθ) ≠ 0</text>
+  <text x="180" y="328" text-anchor="middle" class="small">Non-zero projection precludes error-free single-shot discrimination</text>
+
+  <!-- Center Divider -->
+  <line x1="365" y1="20" x2="365" y2="345" class="divider"/>
+
+  <!-- Right: Curves of Overlap and Error vs Delta Theta -->
+  <text x="560" y="28" text-anchor="middle" class="heading">Transition Overlap &amp; Error Bounds</text>
+
+  <!-- Axes origin at (430, 270), width = 270, height = 180 -->
+  <!-- Horizontal axis: Delta theta from 0 to pi/2 (430 to 700) -->
+  <!-- Vertical axis: Probability from 0 to 1 (270 to 90) -->
+  <line x1="430" y1="270" x2="710" y2="270" class="axis" marker-end="url(#arr-gray)"/>
+  <line x1="430" y1="270" x2="430" y2="75" class="axis" marker-end="url(#arr-gray)"/>
+
+  <text x="715" y="274" class="small" data-tex="\Delta\theta">Δθ</text>
+  <text x="430" y="68" text-anchor="middle" class="small">Prob.</text>
+
+  <!-- Ticks on horizontal axis -->
+  <!-- x = 430 is 0 -->
+  <line x1="430" y1="270" x2="430" y2="275" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="430" y="290" text-anchor="middle" class="small">0</text>
+
+  <!-- x = 565 is pi/4 -->
+  <line x1="565" y1="270" x2="565" y2="275" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="565" y="290" text-anchor="middle" class="small" data-tex="\pi/4">π/4</text>
+  <line x1="565" y1="90" x2="565" y2="270" stroke="#f0f3f6" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <!-- x = 700 is pi/2 -->
+  <line x1="700" y1="270" x2="700" y2="275" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="700" y="290" text-anchor="middle" class="small" data-tex="\pi/2">π/2</text>
+  <line x1="700" y1="90" x2="700" y2="270" stroke="#f0f3f6" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <!-- Ticks on vertical axis -->
+  <!-- y = 270 is 0 -->
+  <!-- y = 180 is 0.5 -->
+  <line x1="425" y1="180" x2="430" y2="180" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="415" y="184" text-anchor="end" class="small">0.5</text>
+  <line x1="430" y1="180" x2="700" y2="180" stroke="#f0f3f6" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <!-- y = 90 is 1.0 -->
+  <line x1="425" y1="90" x2="430" y2="90" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="415" y="94" text-anchor="end" class="small">1.0</text>
+  <line x1="430" y1="90" x2="700" y2="90" stroke="#f0f3f6" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <!-- Curve 1: Overlap cos^2(theta): from (430, 90) to (700, 270) -->
+  <!-- Smooth cubic bezier: start horizontal slope at (430,90), inflection at 565, 180, end horizontal slope at 700, 270 -->
+  <path d="M430 90 C500 90, 520 180, 565 180 C610 180, 630 270, 700 270" class="curve-overlap"/>
+
+  <!-- Curve 2: Optimal Error P_err = (1 - sin theta)/2 -->
+  <!-- At theta=0: P_err = 0.5 -> (430, 180) -->
+  <!-- At theta=pi/2: P_err = 0.0 -> (700, 270) -->
+  <!-- Starts with slope -1/2 at theta=0, ends horizontal at theta=pi/2 -->
+  <path d="M430 180 C480 205, 580 265, 700 270" class="curve-error"/>
+
+  <!-- Curve labels -->
+  <text x="590" y="125" style="fill:#246593;font-weight:600;font-size:13px" data-math="Overlap \(|\braket{\psi_0}{\psi_1}|^2 = \cos^2\Delta\theta\)">Overlap |⟨ψ0|ψ1⟩|² = cos²Δθ</text>
+  <text x="475" y="240" style="fill:#cf222e;font-weight:600;font-size:13px" data-math="Min. Error \(P_{\text{err}}\)">Min. Error Perr</text>
+
+  <!-- Explanatory note -->
+  <text x="565" y="325" text-anchor="middle" class="small" data-math="\(\Delta\theta = \pi/2 \implies \text{Zero error (orthogonal)}\)">Δθ = π/2 ⟹ Zero error (orthogonal)</text>
+  <text x="565" y="344" text-anchor="middle" class="small" data-math="\(\Delta\theta = 0 \implies P_{\text{err}} = 1/2 \text{ (pure random guess)}\)">Δθ = 0 ⟹ Perr = 1/2 (pure random guess)</text>
+</svg>
