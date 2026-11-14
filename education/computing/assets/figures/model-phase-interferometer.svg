@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 390" role="img" aria-labelledby="phase-title phase-desc">
+  <title id="phase-title">Phase Interferometer: Converting Relative Phase into Output Probabilities</title>
+  <desc id="phase-desc">A Hadamard gate creates a superposition with equal probabilities. A phase gate introduces a relative phase factor e^(i*phi). A second Hadamard gate translates this invisible phase into constructive or destructive interference, modulating the final measurement probabilities continuously between 0 and 1.</desc>
+  <defs>
+    <marker id="arr-axis" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#626c77"/>
+    </marker>
+    <marker id="arr-vec-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 1.5L8 5L0 8.5Z" fill="#246593"/>
+    </marker>
+    <marker id="arr-vec-rust" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 1.5L8 5L0 8.5Z" fill="#a64d26"/>
+    </marker>
+  </defs>
+  <style>
+    text { font: 14px Georgia, serif; fill: #30343b; }
+    .heading { font: 700 14px system-ui, sans-serif; fill: #1a3b47; }
+    .subheading { font: 600 12.5px system-ui, sans-serif; fill: #246593; text-transform: uppercase; letter-spacing: 0.04em; }
+    .small { font: 11.5px system-ui, sans-serif; fill: #626c77; }
+    .note { font: 11px system-ui, sans-serif; fill: #525f6c; }
+    .wire { stroke: #246593; stroke-width: 2; fill: none; }
+    .gate { fill: none; stroke: #246593; stroke-width: 1.8; rx: 4; }
+    .gate-phase { fill: none; stroke: #a64d26; stroke-width: 1.8; rx: 4; }
+    .gate-meas { fill: none; stroke: #4f5761; stroke-width: 1.8; rx: 4; }
+    .axis { stroke: #a7bccd; stroke-width: 1.4; fill: none; }
+    .grid-line { stroke: #eef2f5; stroke-width: 1; stroke-dasharray: 2 2; }
+    .curve-p0 { fill: none; stroke: #246593; stroke-width: 2.5; }
+    .curve-p1 { fill: none; stroke: #a64d26; stroke-width: 2.5; stroke-dasharray: 6 3; }
+    .phasor-base { fill: none; stroke: #d3dee7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+    .divider { stroke: #d8e5e8; stroke-width: 1.2; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Title -->
+  <text x="450" y="24" text-anchor="middle" class="heading">Phase Interferometer: Converting Relative Phase into Observable Probabilities</text>
+
+  <!-- ==================== TOP: CIRCUIT SCHEMATIC ==================== -->
+  <g id="circuit-section" transform="translate(20, 0)">
+    <!-- Circuit wire with gaps where gates sit (H at 85..133, R_phi at 260..316, H at 480..528, M at 695..745) -->
+    <path class="wire" d="M45 90 L85 90 M133 90 L260 90 M316 90 L480 90 M528 90 L695 90"/>
+    <!-- Classical double line after measurement -->
+    <line x1="745" y1="87" x2="800" y2="87" stroke="#626c77" stroke-width="1.3"/>
+    <line x1="745" y1="93" x2="800" y2="93" stroke="#626c77" stroke-width="1.3"/>
+
+    <!-- Input State -->
+    <text x="35" y="95" text-anchor="end" style="font-weight:700;fill:#246593" data-tex="\ket{0}">|0⟩</text>
+
+    <!-- Gate 1: H -->
+    <rect x="85" y="65" width="48" height="50" class="gate"/>
+    <text x="109" y="95" text-anchor="middle" style="font-weight:700;font-size:16px;fill:#246593">H</text>
+
+    <!-- State after H -->
+    <text x="195" y="52" text-anchor="middle" class="small" data-tex="\frac{\ket{0}+\ket{1}}{\sqrt{2}}">(|0⟩+|1⟩)/√2</text>
+    <text x="195" y="122" text-anchor="middle" class="note">Equal 50/50 mix</text>
+
+    <!-- Gate 2: R_phi -->
+    <rect x="260" y="65" width="56" height="50" class="gate-phase"/>
+    <text x="288" y="95" text-anchor="middle" style="font-weight:700;font-size:15px;fill:#a64d26" data-math="\(R_\phi\)">Rφ</text>
+
+    <!-- State after R_phi -->
+    <text x="385" y="52" text-anchor="middle" class="small" data-tex="\frac{\ket{0}+e^{i\phi}\ket{1}}{\sqrt{2}}">(|0⟩+e^iφ|1⟩)/√2</text>
+    <text x="385" y="122" text-anchor="middle" class="note" data-math="Phase \(\phi\) encoded">Phase φ encoded</text>
+
+    <!-- Gate 3: H -->
+    <rect x="480" y="65" width="48" height="50" class="gate"/>
+    <text x="504" y="95" text-anchor="middle" style="font-weight:700;font-size:16px;fill:#246593">H</text>
+
+    <!-- State after second H -->
+    <text x="605" y="52" text-anchor="middle" class="small" data-tex="c_0\ket{0} + c_1\ket{1}">c0|0⟩ + c1|1⟩</text>
+    <text x="605" y="122" text-anchor="middle" class="note" data-tex="c_0 = \frac{1+e^{i\phi}}{2}">c0 = (1+e^iφ)/2</text>
+
+    <!-- Gate 4: Measurement M -->
+    <rect x="695" y="65" width="50" height="50" class="gate-meas"/>
+    <text x="720" y="95" text-anchor="middle" style="font-weight:700;font-size:16px;fill:#30343b">M</text>
+
+    <!-- Classical Readout outcome y -->
+    <text x="815" y="95" text-anchor="start" style="font-weight:700;font-size:14px;fill:#a64d26" data-math="\(y \in \{0, 1\}\)">y ∈ {0,1}</text>
+  </g>
+
+  <!-- Horizontal divider between circuit and diagrams -->
+  <line x1="30" y1="145" x2="870" y2="145" stroke="#d8e5e8" stroke-width="1.2"/>
+
+  <!-- ==================== BOTTOM LEFT: PHASOR INTERFERENCE ==================== -->
+  <text x="230" y="172" text-anchor="middle" class="subheading">Interference of Path Amplitudes</text>
+
+  <!-- Case 1: phi = 0 -->
+  <g transform="translate(35, 190)">
+    <rect x="0" y="0" width="125" height="155" rx="6" fill="none" stroke="#d3dee7" stroke-width="1.2"/>
+    <text x="62" y="20" text-anchor="middle" style="font-weight:700;font-size:12px;fill:#246593" data-tex="\phi = 0">φ = 0</text>
+    <!-- Circle phasor -->
+    <circle cx="62" cy="64" r="28" class="phasor-base"/>
+    <line x1="62" y1="64" x2="90" y2="64" stroke="#246593" stroke-width="2" marker-end="url(#arr-vec-blue)"/>
+    <line x1="62" y1="64" x2="90" y2="64" stroke="#a64d26" stroke-width="2" stroke-dasharray="3 2"/>
+    <!-- Outcome summary -->
+    <text x="62" y="108" text-anchor="middle" class="small" style="font-weight:700;fill:#15803d">Constructive on 0</text>
+    <text x="62" y="126" text-anchor="middle" class="small" data-tex="p(0) = 1">p(0) = 1</text>
+    <text x="62" y="142" text-anchor="middle" class="small" data-tex="p(1) = 0">p(1) = 0</text>
+  </g>
+
+  <!-- Case 2: phi = pi/2 -->
+  <g transform="translate(170, 190)">
+    <rect x="0" y="0" width="125" height="155" rx="6" fill="none" stroke="#d3dee7" stroke-width="1.2"/>
+    <text x="62" y="20" text-anchor="middle" style="font-weight:700;font-size:12px;fill:#246593" data-tex="\phi = \pi/2">φ = π/2</text>
+    <!-- Circle phasor -->
+    <circle cx="62" cy="64" r="28" class="phasor-base"/>
+    <line x1="62" y1="64" x2="90" y2="64" stroke="#246593" stroke-width="2" marker-end="url(#arr-vec-blue)"/>
+    <line x1="62" y1="64" x2="62" y2="36" stroke="#a64d26" stroke-width="2" marker-end="url(#arr-vec-rust)"/>
+    <!-- Outcome summary -->
+    <text x="62" y="108" text-anchor="middle" class="small" style="font-weight:700;fill:#525f6c">Orthogonal (i)</text>
+    <text x="62" y="126" text-anchor="middle" class="small" data-tex="p(0) = 1/2">p(0) = 1/2</text>
+    <text x="62" y="142" text-anchor="middle" class="small" data-tex="p(1) = 1/2">p(1) = 1/2</text>
+  </g>
+
+  <!-- Case 3: phi = pi -->
+  <g transform="translate(305, 190)">
+    <rect x="0" y="0" width="125" height="155" rx="6" fill="none" stroke="#d3dee7" stroke-width="1.2"/>
+    <text x="62" y="20" text-anchor="middle" style="font-weight:700;font-size:12px;fill:#246593" data-tex="\phi = \pi">φ = π</text>
+    <!-- Circle phasor -->
+    <circle cx="62" cy="64" r="28" class="phasor-base"/>
+    <line x1="62" y1="64" x2="90" y2="64" stroke="#246593" stroke-width="2" marker-end="url(#arr-vec-blue)"/>
+    <line x1="62" y1="64" x2="34" y2="64" stroke="#a64d26" stroke-width="2" marker-end="url(#arr-vec-rust)"/>
+    <!-- Outcome summary -->
+    <text x="62" y="108" text-anchor="middle" class="small" style="font-weight:700;fill:#cf222e">Destructive on 0</text>
+    <text x="62" y="126" text-anchor="middle" class="small" data-tex="p(0) = 0">p(0) = 0</text>
+    <text x="62" y="142" text-anchor="middle" class="small" data-tex="p(1) = 1">p(1) = 1</text>
+  </g>
+
+  <!-- Vertical Divider -->
+  <line x1="450" y1="158" x2="450" y2="375" class="divider"/>
+
+  <!-- ==================== BOTTOM RIGHT: PROBABILITY CURVES ==================== -->
+  <text x="660" y="172" text-anchor="middle" class="subheading">Continuous Readout Probabilities vs Phase</text>
+
+  <!-- Axes origin at (510, 305), width = 330, height = 110 -->
+  <line x1="510" y1="305" x2="850" y2="305" class="axis" marker-end="url(#arr-axis)"/>
+  <line x1="510" y1="305" x2="510" y2="188" class="axis" marker-end="url(#arr-axis)"/>
+
+  <text x="855" y="309" class="small" text-anchor="start" data-tex="\phi">φ</text>
+  <text x="510" y="180" text-anchor="middle" class="small">Prob.</text>
+
+  <!-- Horizontal Ticks -->
+  <line x1="510" y1="305" x2="510" y2="310" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="510" y="324" text-anchor="middle" class="small">0</text>
+
+  <line x1="592" y1="305" x2="592" y2="310" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="592" y="324" text-anchor="middle" class="small" data-tex="\pi/2">π/2</text>
+  <line x1="592" y1="195" x2="592" y2="305" class="grid-line"/>
+
+  <line x1="675" y1="305" x2="675" y2="310" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="675" y="324" text-anchor="middle" class="small" data-tex="\pi">π</text>
+  <line x1="675" y1="195" x2="675" y2="305" class="grid-line"/>
+
+  <line x1="757" y1="305" x2="757" y2="310" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="757" y="324" text-anchor="middle" class="small" data-tex="3\pi/2">3π/2</text>
+  <line x1="757" y1="195" x2="757" y2="305" class="grid-line"/>
+
+  <line x1="840" y1="305" x2="840" y2="310" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="840" y="324" text-anchor="middle" class="small" data-tex="2\pi">2π</text>
+  <line x1="840" y1="195" x2="840" y2="305" class="grid-line"/>
+
+  <!-- Vertical Ticks -->
+  <text x="502" y="309" text-anchor="end" class="small">0</text>
+  <line x1="505" y1="250" x2="510" y2="250" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="502" y="254" text-anchor="end" class="small">0.5</text>
+  <line x1="510" y1="250" x2="840" y2="250" class="grid-line"/>
+  <line x1="505" y1="195" x2="510" y2="195" stroke="#8c959f" stroke-width="1.2"/>
+  <text x="502" y="199" text-anchor="end" class="small">1.0</text>
+  <line x1="510" y1="195" x2="840" y2="195" class="grid-line"/>
+
+  <!-- Curve p(0) = cos^2(phi/2) -->
+  <path d="M510 195 C552 195, 570 250, 592 250 C614 250, 633 305, 675 305 C717 305, 736 250, 757 250 C778 250, 798 195, 840 195" class="curve-p0"/>
+
+  <!-- Curve p(1) = sin^2(phi/2) -->
+  <path d="M510 305 C552 305, 570 250, 592 250 C614 250, 633 195, 675 195 C717 195, 736 250, 757 250 C778 250, 798 305, 840 305" class="curve-p1"/>
+
+  <!-- Legend -->
+  <g transform="translate(545, 345)">
+    <line x1="0" y1="5" x2="24" y2="5" class="curve-p0"/>
+    <text x="30" y="9" class="small" text-anchor="start" style="font-weight:600;fill:#246593" data-math="\(p(0) = \cos^2(\phi/2)\)">p(0) = cos²(φ/2)</text>
+  </g>
+  <g transform="translate(710, 345)">
+    <line x1="0" y1="5" x2="24" y2="5" class="curve-p1"/>
+    <text x="30" y="9" class="small" text-anchor="start" style="font-weight:600;fill:#a64d26" data-math="\(p(1) = \sin^2(\phi/2)\)">p(1) = sin²(φ/2)</text>
+  </g>
+
+  <!-- Explanatory note -->
+  <text x="675" y="375" text-anchor="middle" class="note" data-math="Conservation invariant: \(p(0) + p(1) = 1\) across all phase shifts \(\phi\)">Conservation invariant: p(0) + p(1) = 1 across all phase shifts φ</text>
+</svg>

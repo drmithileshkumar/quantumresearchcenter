@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 370" role="img" aria-labelledby="stages-title stages-desc">
+  <title id="stages-title">Three Stages of a Quantum Computation: Preparation, Evolution, and Measurement</title>
+  <desc id="stages-desc">A quantum computation proceeds in three sequential stages: classical input preparation into a standard basis state, coherent unitary evolution via quantum gates preserving total norm, and projective measurement collapsing the state into a single classical outcome.</desc>
+  <defs>
+    <marker id="arr-stage" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#246593"/>
+    </marker>
+    <marker id="arr-sub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 1.5L9 5L0 8.5Z" fill="#626c77"/>
+    </marker>
+  </defs>
+  <style>
+    text { font: 14px Georgia, serif; fill: #30343b; }
+    .stage-hdr { font: 700 13px system-ui, sans-serif; fill: #246593; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stage-sub { font: 12px system-ui, sans-serif; fill: #626c77; }
+    .card-prep { fill: none; stroke: #b5d7de; stroke-width: 1.5; rx: 8; }
+    .card-evol { fill: none; stroke: #246593; stroke-width: 1.8; rx: 10; }
+    .card-meas { fill: none; stroke: #d0c0a8; stroke-width: 1.5; rx: 8; }
+    .node-box { fill: none; stroke: #7da5bf; stroke-width: 1.3; rx: 6; }
+    .node-meas { fill: none; stroke: #b3592e; stroke-width: 1.3; rx: 6; }
+    .wire { stroke: #246593; stroke-width: 2; fill: none; }
+    .badge { fill: none; stroke: #246593; stroke-width: 1; rx: 6; }
+    .flow-arr { stroke: #246593; stroke-width: 2.2; fill: none; marker-end: url(#arr-stage); }
+    .note { font: 11.5px system-ui, sans-serif; fill: #525f6c; }
+  </style>
+
+  <!-- Title bar -->
+  <text x="460" y="26" text-anchor="middle" style="font-weight:700;font-size:16px;fill:#1a3b47">Architecture of the Quantum Model of Computation</text>
+
+  <!-- ==================== STAGE 1: PREPARATION ==================== -->
+  <rect x="25" y="46" width="255" height="305" class="card-prep"/>
+  <text x="152" y="72" text-anchor="middle" class="stage-hdr">Stage 1 · Preparation</text>
+  <text x="152" y="90" text-anchor="middle" class="stage-sub">Classical Input to State Vector</text>
+
+  <!-- Classical Input Register -->
+  <rect x="45" y="105" width="215" height="56" class="node-box"/>
+  <text x="152" y="125" text-anchor="middle" class="stage-sub">Classical Input Register</text>
+  <text x="152" y="147" text-anchor="middle" style="font-weight:600" data-tex="x = (x_1, \dots, x_n) \in \{0,1\}^n">x = (x1, ..., xn) ∈ {0,1}ⁿ</text>
+
+  <!-- Vertical transition arrow -->
+  <path d="M152 161 L152 185" stroke="#626c77" stroke-width="1.5" marker-end="url(#arr-sub)"/>
+
+  <!-- Quantum Basis State Node -->
+  <rect x="45" y="185" width="215" height="56" class="node-box" style="stroke:#246593;stroke-width:1.5"/>
+  <text x="152" y="205" text-anchor="middle" class="stage-sub">Initial State Vector</text>
+  <text x="152" y="227" text-anchor="middle" style="font-weight:700;fill:#246593" data-tex="\ket{\psi_{\mathrm{in}}} = \ket{x_1 \dots x_n}">|ψ_in⟩ = |x1 ... xn⟩</text>
+
+  <!-- Preparation footnote -->
+  <text x="152" y="264" text-anchor="middle" class="note">Standard computational basis</text>
+  <text x="152" y="282" text-anchor="middle" class="note">Prepared without entanglement</text>
+  <text x="152" y="318" text-anchor="middle" style="font-size:11px;fill:#626c77;font-style:italic">Cost: Included in algorithm</text>
+
+  <!-- Connector Arrow 1 -> 2 -->
+  <path d="M280 190 L320 190" class="flow-arr"/>
+
+  <!-- ==================== STAGE 2: COHERENT EVOLUTION ==================== -->
+  <rect x="325" y="46" width="275" height="305" class="card-evol"/>
+  <text x="462" y="72" text-anchor="middle" class="stage-hdr">Stage 2 · Coherent Evolution</text>
+  <text x="462" y="90" text-anchor="middle" class="stage-sub">Unitary Gate Sequence \(U = U_T \cdots U_1\)</text>
+
+  <!-- Schematic circuit within closed system -->
+  <g transform="translate(337, 105)">
+    <rect x="0" y="0" width="250" height="66" rx="6" fill="none" stroke="#c0d7e5" stroke-width="1.2"/>
+    <!-- Wire lines with gaps where gates sit -->
+    <!-- Wire 1 (y=23): spans 15 to 42, 78 to 182, 220 to 235 (U_1 is at 42..78, U_T is at 182..220) -->
+    <path class="wire" d="M15 23 L42 23 M78 23 L182 23 M220 23 L235 23"/>
+    <!-- Wire 2 (y=47): spans 15 to 98, 134 to 182, 220 to 235 (U_2 is at 98..134, U_T is at 182..220) -->
+    <path class="wire" d="M15 47 L98 47 M134 47 L182 47 M220 47 L235 47"/>
+
+    <!-- Gates -->
+    <rect x="42" y="10" width="36" height="26" rx="4" fill="none" stroke="#246593" stroke-width="1.5"/>
+    <text x="60" y="27" text-anchor="middle" style="font-weight:600;font-size:12px;fill:#246593" data-tex="U_1">U1</text>
+
+    <rect x="98" y="34" width="36" height="26" rx="4" fill="none" stroke="#246593" stroke-width="1.5"/>
+    <text x="116" y="51" text-anchor="middle" style="font-weight:600;font-size:12px;fill:#246593" data-tex="U_2">U2</text>
+
+    <text x="158" y="32" text-anchor="middle" style="font-weight:600;font-size:14px;fill:#626c77">⋯</text>
+
+    <rect x="182" y="10" width="38" height="50" rx="4" fill="none" stroke="#0e7490" stroke-width="1.5"/>
+    <text x="201" y="40" text-anchor="middle" style="font-weight:600;font-size:12px;fill:#0e7490" data-tex="U_T">UT</text>
+  </g>
+
+  <!-- Evolution state vector -->
+  <rect x="337" y="185" width="250" height="56" class="badge"/>
+  <text x="462" y="206" text-anchor="middle" style="font-weight:700;fill:#246593" data-tex="\ket{\psi_{\mathrm{out}}} = U_T \cdots U_1\ket{\psi_{\mathrm{in}}}">|ψ_out⟩ = UT ... U1 |ψ_in⟩</text>
+  <text x="462" y="228" text-anchor="middle" style="font-size:11.5px;fill:#626c77" data-math="Norm invariant: \(\|\ket{\psi}\|^2 = 1\)">Norm invariant: |||ψ⟩||² = 1</text>
+
+  <!-- Evolution footnote / properties -->
+  <text x="462" y="264" text-anchor="middle" style="font-size:11.5px;fill:#a64d26;font-weight:600">Amplitudes interfere along paths</text>
+  <text x="462" y="282" text-anchor="middle" class="note">Relative phases unobservable directly</text>
+  <text x="462" y="300" text-anchor="middle" class="note">Reversible unitary transformation</text>
+  <text x="462" y="318" text-anchor="middle" style="font-size:11px;fill:#626c77;font-style:italic">Cost: Total gate count T and depth</text>
+
+  <!-- Connector Arrow 2 -> 3 -->
+  <path d="M600 190 L640 190" class="flow-arr"/>
+
+  <!-- ==================== STAGE 3: MEASUREMENT ==================== -->
+  <rect x="645" y="46" width="255" height="305" class="card-meas"/>
+  <text x="772" y="72" text-anchor="middle" class="stage-hdr" style="fill:#a64d26">Stage 3 · Readout</text>
+  <text x="772" y="90" text-anchor="middle" class="stage-sub">Projective Measurement &amp; Collapse</text>
+
+  <!-- Measurement Gate Symbol -->
+  <rect x="665" y="105" width="215" height="56" class="node-meas"/>
+  <text x="772" y="125" text-anchor="middle" class="stage-sub">Computational Basis Readout</text>
+  <text x="772" y="147" text-anchor="middle" style="font-weight:700;fill:#a64d26" data-math="\(p(y) = |\braket{y}{\psi_{\mathrm{out}}}|^2\)">p(y) = |⟨y|ψ_out⟩|²</text>
+
+  <!-- Vertical transition arrow (double line for classical) -->
+  <line x1="769" y1="161" x2="769" y2="185" stroke="#626c77" stroke-width="1.3"/>
+  <line x1="775" y1="161" x2="775" y2="185" stroke="#626c77" stroke-width="1.3"/>
+  <path d="M772 182 L768 174 M772 182 L776 174" stroke="#626c77" stroke-width="1.3"/>
+
+  <!-- Classical Output Result -->
+  <rect x="665" y="185" width="215" height="56" class="node-box" style="stroke:#a64d26;stroke-width:1.5"/>
+  <text x="772" y="205" text-anchor="middle" class="stage-sub">Classical Outcome Register</text>
+  <text x="772" y="227" text-anchor="middle" style="font-weight:700;fill:#a64d26" data-tex="y = (y_1, \dots, y_n) \in \{0, 1\}^n">y = (y1, ..., yn) ∈ {0,1}ⁿ</text>
+
+  <!-- Measurement footnote -->
+  <text x="772" y="264" text-anchor="middle" style="font-size:11.5px;fill:#cf222e;font-weight:600">Wavefunction collapses irreversibly</text>
+  <text x="772" y="282" text-anchor="middle" class="note">Single-shot sample from p(y)</text>
+  <text x="772" y="300" text-anchor="middle" class="note">All unselected branches destroyed</text>
+  <text x="772" y="318" text-anchor="middle" style="font-size:11px;fill:#626c77;font-style:italic">Cost: Repetitions to boost confidence</text>
+</svg>
