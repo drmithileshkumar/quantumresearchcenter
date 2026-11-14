@@ -1,0 +1,46 @@
+{
+  "id": "2611.16456",
+  "topic": "information",
+  "title": "Learning sparse graph states with local Pauli measurements: tight nonadaptive bounds and an adaptive separation",
+  "authors": "Matteo De Francesco",
+  "submitted": "2026-11-12",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Given copies of an unknown \\(n\\)-qubit graph state whose graph is \\(d\\)-regular, and measuring every qubit in the \\(X\\), \\(Y\\) or \\(Z\\) basis, how many copies are needed to identify the graph? Ouyang and Tomamichel showed that \\(O(d^2\\log n)\\) copies suffice and that \\(\\Omega(d\\log n)\\) are needed with any measurement, and asked whether the extra factor \\(d\\) is necessary for Pauli measurements and whether adaptivity helps.",
+  "result": "For nonadaptive learners the factor is necessary: when \\(d^3\\ln n\\le n\\), every nonadaptive Pauli strategy needs \\(\\Omega(d^2\\log n)\\) copies, even with an unrestricted decoder and even if a small constant fraction of edges may be wrong. Adaptivity can beat this: on connected bipartite \\(d\\)-regular graphs of logarithmic diameter with a hidden bipartition, nonadaptive learners still need \\(\\Theta(d^2\\log n)\\), but a breadth-first adaptive learner needs \\(O(d\\log^2n/\\log\\log n)\\). Revealing the bipartition brings the nonadaptive cost to \\(\\Theta(d\\log n)\\).",
+  "significance": "It answers the Ouyang–Tomamichel question and isolates the mechanism: a copy reveals information only through stabilizers that happen to align with the chosen measurements, and without knowing the graph a learner can align only about \\(n/d\\) of them. The extra factor \\(d\\) is the price of not knowing which large sets of qubits are independent.",
+  "limitations": "Whether adaptivity helps on general regular graphs is open. All learners use exhaustive search over neighbourhoods and run in time \\(n^{O(d)}\\). The lower bounds are for Pauli bases and noiseless copies, and the degree range \\(d^3\\ln n\\le n\\) comes from the proof technique. The paper has no AI-use statement.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-13: Sections 1–2 (outcome law, information and Fano-type lemmas), the hard distribution and sign-sum identity at the start of Section 3, Section 4 (adaptive learner), Section 6 and the Discussion. The four-colour estimate, the bipartite lower bound of Section 5 and the appendices were not checked. The outcome law (Lemma 4) was verified by statevector simulation on random 6-qubit graph states.",
+  "verified_on": "2026-11-13",
+  "methods_source_section": "Lemmas 4–6 and Eq. (2); Eqs. (3)–(4); Lemma 13 and Theorem 14",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "A graph state is stabilized by \\(K_v=X_v\\prod_{u\\in N(v)}Z_u\\). The Ouyang–Tomamichel learner measures a random set of qubits in \\(X\\) and the rest in \\(Z\\); an \\(X\\)-measured vertex whose neighbours are all measured in \\(Z\\) yields the parity of its stabilizer, which tests candidate neighbourhoods. With a random set of size about \\(n/d\\), only about \\(n/d\\) vertices are isolated in it, so each copy tests few vertices, giving \\(O(d^2\\log n)\\) copies.",
+    "The lower bound shows that no nonadaptive schedule does better. A single copy's outcome is uniform on an affine subspace whose codimension is the binary nullity of a principal submatrix of the adjacency matrix, so the information per copy is at most that nullity. For the union of \\(d\\) random perfect matchings, the expected nullity of every fixed principal submatrix is \\(O(n/d)\\), while identifying the graph requires \\(\\Omega(nd\\log n)\\) bits.",
+    "Adaptivity helps when outcomes can reveal large independent sets. In a bipartite graph, all vertices at the same distance from a root lie on one side, so each breadth-first layer is independent and can be measured in \\(X\\) all at once while everything else is measured in \\(Z\\); the neighbourhoods of the whole layer are then read off in parallel. The number of stages is the diameter, \\(O(\\log n/\\log\\log n)\\) for the hard family.",
+    "Open questions: the optimal adaptive rate, whether adaptivity helps at all on general regular graphs, lower bounds for arbitrary single-qubit bases, and whether \\(\\mathrm{poly}(d)\\log n\\) copies can be achieved in polynomial time."
+  ],
+  "methods": [
+    {
+      "technique": "One copy reveals at most a nullity",
+      "explanation": "To bound what any classical decoder can learn, the paper computes the exact outcome distribution of one copy under one Pauli setting. Everything not fixed by a stabilizer made of measured observables is a fair coin, so the entropy deficit, and hence the information about the graph, is a rank deficiency over \\(\\mathbb F_2\\).",
+      "math": [
+        "Let \\(W\\) be the qubits measured in \\(X\\) or \\(Y\\), \\(\\Lambda\\) the diagonal marking the \\(Y\\) qubits, and \\(C=A_G[W,W]\\). Lemma 4: the outcome is uniform on an affine subspace of dimension \\(n-\\mathrm{nul}(C+\\Lambda)\\), with one parity check per kernel vector. For a nonadaptive schedule, independent of \\(G\\), \\[I(G;Y,S)\\le N\\sup_{W,\\Lambda}\\mathbb E_{G\\sim\\pi}\\,\\mathrm{nul}\\bigl(A_G[W,W]+\\Lambda\\bigr),\\] while a Fano-type argument gives \\(I\\ge\\tfrac23\\log(1/\\pi_*)-1\\), with \\(\\pi_*\\) the largest prior probability. Min-entropy \\(\\Omega(nd\\log n)\\) and expected nullity \\(O(n/d)\\) give \\(N=\\Omega(d^2\\log n)\\).",
+        "For an adaptive learner the setting depends on \\(G\\) through earlier outcomes, and the bound becomes an expected maximum of the nullity, which can reach \\(n/2\\) (one side of a bipartite graph). That gap is exactly what the adaptive learner exploits.",
+        "Editorial check: for 40 random 6-vertex graphs with random \\(X/Y/Z\\) settings, statevector simulation gave outcome distributions uniform on exactly \\(2^{n-\\mathrm{nul}(C+\\Lambda)}\\) strings in every case. For a triangle measured entirely in \\(X\\), the outcomes always have odd parity, the sign \\(\\omega\\) that the paper notes cannot be dropped."
+      ],
+      "transfer": "For learning stabilizer states with product Pauli measurements, the per-copy information is the dimension of the stabilizer subgroup made of measured observables. Lower bounds then reduce to bounding that dimension for a hard prior, a purely combinatorial question."
+    },
+    {
+      "technique": "Exponential moments of nullity as sign sums",
+      "explanation": "The expected nullity of a random matrix is awkward, but \\(2^{\\mathrm{nul}}\\) has an exact Fourier expansion. For a union of independent matchings the expectation factorises into a \\(d\\)-th power of a single-matching sign average, which can be estimated combinatorially.",
+      "math": [
+        "For a symmetric \\(m\\times m\\) matrix over \\(\\mathbb F_2\\), \\[2^{\\mathrm{nul}\\,C}=2^{-m}\\sum_{\\sigma,\\tau\\in\\mathbb F_2^m}(-1)^{\\sigma^{\\mathsf T}C\\tau},\\] because the sum over \\(\\tau\\) vanishes unless \\(C\\sigma=0\\). With \\(A=\\sum_{k=1}^dA_{M_k}\\) for independent uniform matchings, \\[\\mathbb E\\,2^{\\mathrm{nul}(A[W,W]+\\Lambda)}=2^{-m}\\sum_{\\sigma,\\tau}(-1)^{\\sigma^{\\mathsf T}\\Lambda\\tau}\\varphi(\\sigma,\\tau)^d,\\quad\\varphi(\\sigma,\\tau)=\\mathbb E_M(-1)^{\\sigma^{\\mathsf T}A_M\\tau}.\\]",
+        "Colour vertex \\(i\\) by \\((\\sigma_i,\\tau_i)\\); a matched pair contributes a sign exactly when its two colours are different and nonzero. A switching argument shows \\(\\varphi\\) is tiny unless the colouring is nearly two-coloured, which yields \\(\\mathbb E\\,2^{\\mathrm{nul}}\\le e^{O(n/d)}\\). Editorial step: by Jensen, \\(\\mathbb E\\,\\mathrm{nul}\\le\\log_2\\mathbb E\\,2^{\\mathrm{nul}}=O(n/d)\\). Conditioning on disjoint matchings costs only an additive \\(O(d^2\\log n)\\), absorbed when \\(d^3\\ln n\\le n\\). The identity for \\(2^{\\mathrm{nul}}\\) was checked editorially on random \\(5\\times5\\) matrices."
+      ],
+      "transfer": "To bound the rank deficiency of a random matrix over a finite field built from independent pieces, bound the exponential moment instead: its character expansion turns independence into a power of a single-piece average, and conditioning on rare events costs only additively."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-13"
+}

@@ -14,6 +14,8 @@ KEYWORDS=json.loads((ROOT/'content/keywords.json').read_text())
 NOTATION=json.loads((ROOT/'content/notation.json').read_text())
 def esc(value): return html.escape(str(value),quote=True)
 def guide(stem):
+ if stem == 'assignments':
+  return '<aside class="learning-guide"><h2>Using the assignments</h2><p>These comprehensive problem sets bring together concepts across multiple chapters. Work through each problem by hand before reviewing the complete worked solutions.</p></aside>'
  if stem not in LEARNING:
   return '<aside class="learning-guide"><h2>Using the appendices</h2><p>These are supporting references. Read them when a chapter points here; completing them in advance is not required.</p></aside>'
  d=LEARNING[stem]
@@ -47,6 +49,7 @@ PREDICTIONS={
  'inner':(r'This state-plane viewer projects \(\ket{\psi}\) onto \(\ket{\phi}\) and computes the transition probability \(|\braket{\phi|\psi}|^2\). Drag \(\ket{\psi}\) through \(30^\circ\), \(45^\circ\), \(90^\circ\), and \(180^\circ\) relative to \(\ket{\phi}\) to observe how projection length sets the Born probability.', r'At separation angle \(\theta\), the transition probability is \(\cos^2\theta\): \(3/4\) at \(30^\circ\), \(1/2\) at \(45^\circ\), and \(0\) at \(90^\circ\) where the states are orthogonal. At \(180^\circ\), the inner product is \(-1\) and the probability returns to \(1\).'),
  'measure':(r'This measurement simulator compares repeated projective measurements on fresh copies of \((\sqrt{3}/2)\ket{0}+(1/2)\ket{1}\) against repeated measurements on the same post-measurement qubit. Draw 100 fresh samples, then re-measure a single collapsed state.', r'Across 100 fresh copies, outcome \(1\) appears about \(25\pm 4\) times in accordance with \(|1/2|^2=1/4\). Re-measuring the same qubit after outcome \(1\) yields \(1\) deterministically because the first measurement projected the state onto \(\ket{1}\).'),
  'reflect':(r'This two-dimensional plane traces Grover’s iteration as a reflection \(O_f\) across the unmarked axis followed by a reflection \(D\) across the initial superposition \(\ket{s}\). Step through \(O_f\) and \(D\) for \(N=4\) to follow the state angle across two iterations.', r'Starting at \(30^\circ\) for \(N=4\), \(O_f\) reflects the state to \(-30^\circ\) and \(D\) reflects it to \(90^\circ\) (the marked axis, probability \(1\)). A second iteration adds another \(60^\circ\) rotation to \(150^\circ\), reducing the success probability to \(\sin^2 150^\circ=1/4\).'),
+ 'parallelism':(r'This interactive animation visualizes how the evaluation unitary \(U_f\) acts on a superposition of two-qubit inputs. Select a Boolean function and step through the calculation to watch each basis configuration pass through \(U_f\) and transform into \(\ket{x}\ket{y \oplus f(x)}\).', r'When the inputs start in an equal superposition \(\frac{1}{2}\sum_x \ket{x}\), a single application of \(U_f\) acts on every basis branch in parallel. The output register becomes \(\frac{1}{2}\sum_x \ket{x}\ket{f(x)}\), holding the complete function behavior in a single three-qubit state.'),
  'gates':(r'This single-qubit circuit tester applies sequences of \(X\), \(Z\), and \(H\) gates to \(\ket{0}\) and displays the resulting state vector and measurement bars. Compare the sequence \(H\to H\) with \(H\to Z\to H\) to see how \(H\) converts phase flips into bit flips.', r'Applying \(H\) twice cancels the off-diagonal phases and returns \(\ket{0}\) with certainty. Inserting \(Z\) between the two Hadamard gates flips the relative phase of \(\ket{1}\), so the second \(H\) interferes constructively on \(\ket{1}\) instead (\(HZH=X\)).')}
 def enrich(soup):
  for section in soup.select('.reading-topic'):
@@ -166,7 +169,7 @@ def package():
    if file.suffix=='.html':
     text=content.decode()
     for src,dest in [('../../index.html','https://quantumresearch.center/'),('../index.html','https://quantumresearch.center/education/')]:text=text.replace(f'href="{src}"',f'href="{dest}"')
-    text=re.sub(r'href="\.\./\.\./([a-z0-9_-]+)/index\.html"',r'href="https://quantumresearch.center/\1/"',text)
+    text=re.sub(r'href="\.\./\.\./([a-z0-9_/-]+?)/index\.html"',r'href="https://quantumresearch.center/\1/"',text)
     text=re.sub(r'<a[^>]*href="downloads/quantum-computing.zip"[^>]*>.*?</a>','<span>Offline edition (already downloaded)</span>',text)
     content=text.encode()
    add('education/computing/'+file.relative_to(ROOT).as_posix(),content)

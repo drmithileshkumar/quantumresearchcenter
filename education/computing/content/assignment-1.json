@@ -1,0 +1,74 @@
+{
+  "title": "Assignment 1: Foundations of Quantum Computation",
+  "subtitle": "Synthesizing Chapters 1–6: Computability, Reversibility, Amplitudes, Measurement, and Multi-Qubit Systems",
+  "intro": "This assignment brings together the foundational principles, configuration transitions, state geometry, and circuit mechanisms developed across the first six chapters of the course. Every problem can be solved directly from first principles using only the concepts and notation established in the lectures.",
+  "styles": [],
+  "scripts": [
+    "assets/assignment.js"
+  ],
+  "classes": [
+    "revised-book"
+  ],
+  "sections": [
+    {
+      "id": "question-1",
+      "title": "Question 1: Reversible Embedding and Workspace Cleaning",
+      "number": "01",
+      "group": ""
+    },
+    {
+      "id": "question-2",
+      "title": "Question 2: Invariants, Termination Variants, and the Halting Problem",
+      "number": "02",
+      "group": ""
+    },
+    {
+      "id": "question-3",
+      "title": "Question 3: Probability Amplitudes, Path Sums, and Destructive Interference",
+      "number": "03",
+      "group": ""
+    },
+    {
+      "id": "question-4",
+      "title": "Question 4: Inner Products, State Geometry, and Distinguishability",
+      "number": "04",
+      "group": ""
+    },
+    {
+      "id": "question-5",
+      "title": "Question 5: Pauli Operators, Basis Expansions, and Conjugate Readouts",
+      "number": "05",
+      "group": ""
+    },
+    {
+      "id": "question-6",
+      "title": "Question 6: Single-Qubit Circuits, Relative Phase, and Gate Identities",
+      "number": "06",
+      "group": ""
+    },
+    {
+      "id": "question-7",
+      "title": "Question 7: Composite Systems, Product States, and Bell Entanglement",
+      "number": "07",
+      "group": ""
+    },
+    {
+      "id": "question-8",
+      "title": "Question 8: The No-Cloning Theorem from First Principles",
+      "number": "08",
+      "group": ""
+    },
+    {
+      "id": "question-9",
+      "title": "Question 9: Quantum Teleportation and Local Operations",
+      "number": "09",
+      "group": ""
+    },
+    {
+      "id": "question-10",
+      "title": "Question 10: Quantum Parallelism and Oracle Entanglement",
+      "number": "10",
+      "group": ""
+    }
+  ]
+}

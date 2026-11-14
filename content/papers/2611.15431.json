@@ -1,0 +1,46 @@
+{
+  "id": "2611.15431",
+  "topic": "information",
+  "title": "Subadditivity and the failure of strong subadditivity in the Nichols–Wootters family of entropies",
+  "authors": "Lin Zhang; Wenlin Zhang; Haobo Ma",
+  "submitted": "2026-11-11",
+  "version": "v1",
+  "kind": "Theory",
+  "problem": "Subentropy \\(\\mathsf Q\\), introduced by Jozsa, Robb and Wootters as a lower bound on the accessible information of an ensemble with a given average state, sits at one end of the Nichols–Wootters family \\(\\mathsf S_1\\ge\\dots\\ge\\mathsf S_d\\), whose other end is the von Neumann entropy. Datta, Dorlas, Jozsa and Benatti conjectured that subentropy is subadditive on all bipartite states. Does subadditivity hold throughout the family, and does strong subadditivity?",
+  "result": "Subadditivity holds for every member when all spectra are padded to one common dimension \\(D\\ge mn\\), which settles the subentropy conjecture. Beyond von Neumann, equality holds exactly when a marginal is pure. Strong subadditivity fails for every member except von Neumann: on a Bell state tensored with a maximally mixed qubit the subentropy defect is \\(1/12\\), although the von Neumann conditional mutual information is zero. For two qubits the subentropy gap is at least \\(ab/3\\), with \\(a,b\\) the smaller marginal eigenvalues, and \\(1/3\\) is optimal.",
+  "significance": "It places subentropy precisely: subadditive, with a sharper equality condition than von Neumann entropy, but not strongly subadditive. A single tool, a representation of each member as a positive Haar average of compressed matrix entropies, drives subadditivity, the stability bounds and new entropy-gain bounds for unital channels, and it gives each member an operational meaning as a classical capacity after a specified partial measurement.",
+  "limitations": "The common-dimension convention is essential: with native dimensions the deficit of maximally mixed states is \\(1-H_k<0\\) for \\(2\\le k\\le\\min(m,n)\\), so intermediate members are not entropies in the usual dimension-free sense. The operational interpretation refers to a specific constructed family of partial measurements. The authors state that they used ChatGPT Pro, Codex and Claude Opus 5.5 for literature search, computation and double-checking, including Lean verification, and that all proofs can be checked by hand.",
+  "summary_basis": "Description based on the full arXiv HTML of v1, read 2026-11-13: Sections 1–2, Sections 3.1–3.3 (subadditivity, product gap, failure of SSA with the \\(D=8\\) table) and the proofs in Sections 5.2.1–5.2.2, plus the AI statement. The quantitative bounds, channel results and operational application (Sections 3.4–4 and their proofs) were read for statements only. The \\(1/12\\) defect and subentropy subadditivity on random two-qubit states were checked numerically.",
+  "verified_on": "2026-11-13",
+  "methods_source_section": "Lemma 3.17; Proposition 5.1 and Section 5.2.2; Proposition 3.9 and Theorem 3.10",
+  "methods_basis": "Based on the linked paper version. Derivations marked as editorial, and suggested uses in other problems, are editorial guidance rather than results of the paper.",
+  "description": [
+    "The family is defined by \\[\\mathsf S_k^{(d)}(\\rho)=d\\,\\mathbb E\\,\\eta(\\langle T,\\lambda_I\\rangle)-(H_k-1),\\] with \\(\\eta(x)=-x\\ln x\\), \\(I\\) a uniform \\(k\\)-subset of the eigenvalues, \\(T\\) uniform on the simplex and \\(H_k\\) the harmonic number. At \\(k=1\\) this is the von Neumann entropy and at \\(k=d\\) the subentropy; all members are concave, vanish exactly on pure states and are maximal on the maximally mixed state.",
+    "Intermediate members change when zero eigenvalues are appended, so the question must fix a dimension. The paper evaluates \\(\\rho_{AB}\\), \\(\\rho_A\\) and \\(\\rho_B\\) all in one dimension \\(D\\ge mn\\). Without this convention subadditivity fails trivially; with it, it holds for every \\(k\\). The proof pinches one subsystem and uses a Gram-matrix trick to compare the pinched state with \\(\\rho_A\\).",
+    "For strong subadditivity the obstruction is a product gap. On a pure entangled \\(\\ket\\psi_{AB}\\) tensored with a mixed \\(\\tau_C\\), the defect equals \\(\\mathsf S_k(\\lambda)+\\mathsf S_k(\\mu)-\\mathsf S_k(\\lambda\\otimes\\mu)\\), which is zero for von Neumann entropy (additivity) but strictly positive for every \\(k\\ge2\\). The defect also takes negative values on other states with zero conditional mutual information, so it does not define a consistent sign.",
+    "Further results quantify how strict subadditivity is (a lower bound in the two marginal purity deficits, and the optimal two-qubit coefficient in every common dimension) and bound the entropy gain of unital channels with an adapted Bregman divergence. Open questions include the meaning, if any, of a conditional subentropy."
+  ],
+  "methods": [
+    {
+      "technique": "Pinching sandwich through a Gram matrix",
+      "explanation": "Subadditivity needs \\(\\rho_{AB}\\) to be compared with \\(\\rho_A\\) and \\(\\rho_B\\). Pinching \\(B\\) in its eigenbasis gives an intermediate block-diagonal state; a two-sided pinching inequality bounds it from both sides, once against \\(\\rho_{AB}\\) and once, through a Gram matrix with the same spectrum as \\(\\rho_A\\), against \\(\\rho_A\\) plus the block masses.",
+      "math": [
+        "Pinching lemma: for a block pinching \\(\\mathcal P\\) with block masses \\(p\\), \\[0\\le\\mathsf S_k^{(D)}(\\mathcal P(\\rho))-\\mathsf S_k^{(D)}(\\rho)\\le\\mathsf S_k^{(D)}(\\mathrm{diag}\\,p).\\] The lower bound is Schur concavity; the upper bound uses the compressed-entropy representation to make the gain convex in \\(\\rho\\) and evaluates it on pure states.",
+        "Pinch \\(B\\) in the eigenbasis of \\(\\rho_B\\): \\(\\rho'=\\bigoplus_jX_j\\) with \\(\\sum_jX_j=\\rho_A\\) and \\(\\mathrm{Tr}X_j=\\lambda_j(\\rho_B)\\). The lower bound gives \\(\\mathsf S_k(\\rho_{AB})\\le\\mathsf S_k(\\rho')\\). Now set \\(W=\\sum_j\\sqrt{X_j}\\otimes\\ket j\\): then \\(W^{\\dagger}W=\\rho_A\\), and \\(WW^{\\dagger}\\), which has the same nonzero spectrum, pinches to \\(\\rho'\\) with masses \\(\\lambda_j(\\rho_B)\\). The upper bound gives \\(\\mathsf S_k(\\rho')\\le\\mathsf S_k(\\rho_A)+\\mathsf S_k(\\rho_B)\\). The common dimension is needed exactly here: \\(WW^{\\dagger}\\) and \\(\\rho_A\\) agree only after padding with zeros.",
+        "Editorial check: for 3000 random two-qubit states of random rank, subentropy subadditivity never failed, and the smallest observed ratio of the gap to \\(ab\\) was 0.61, above the proven optimal coefficient \\(1/3\\) (random states do not approach the extremal family)."
+      ],
+      "transfer": "For any concave, unitarily invariant spectral functional, a two-sided pinching inequality plus the Gram-matrix identity \\(\\mathrm{spec}(W^{\\dagger}W)=\\mathrm{spec}(WW^{\\dagger})\\) reduces subadditivity to bounding the pinching gain by the block masses. Check whether the functional depends on padding before stating the result."
+    },
+    {
+      "technique": "Strong-subadditivity defect as a product gap",
+      "explanation": "Tensoring a pure entangled pair with a mixed ancilla makes three of the four terms in strong subadditivity simple, and what remains is the failure of additivity on product spectra, which every member except von Neumann entropy has.",
+      "math": [
+        "For \\(\\rho_{ABC}=\\ketbra\\psi\\psi_{AB}\\otimes\\tau_C\\) with Schmidt spectrum \\(\\lambda\\) and \\(\\tau\\) of spectrum \\(\\mu\\): \\(\\rho_{ABC}\\) has spectrum \\(\\mu\\), \\(\\rho_B\\) has \\(\\lambda\\), \\(\\rho_{AB}\\) is pure and \\(\\rho_{BC}\\) has \\(\\lambda\\otimes\\mu\\). Hence \\[\\mathsf V_k=\\mathsf S_k(\\rho_{ABC})+\\mathsf S_k(\\rho_B)-\\mathsf S_k(\\rho_{AB})-\\mathsf S_k(\\rho_{BC})=\\mathsf S_k(\\mu)+\\mathsf S_k(\\lambda)-\\mathsf S_k(\\lambda\\otimes\\mu).\\]",
+        "For subentropy, which is padding-invariant, \\(\\mathsf Q(\\mathbb 1_\\ell/\\ell)=\\ln\\ell-(H_\\ell-1)\\). The Bell state with a maximally mixed qubit gives \\[\\mathsf V_{\\mathsf Q}=2\\mathsf Q(\\mathbb 1_2/2)-\\mathsf Q(\\mathbb 1_4/4)=H_4-2H_2+1=\\tfrac1{12},\\] the last entry of the paper's \\(D=8\\) table, confirmed editorially to 30 digits from the Jozsa–Robb–Wootters formula. Editorial example of the opposite sign: for \\((\\mathbb 1/2)^{\\otimes3}\\), \\(\\mathsf V_{\\mathsf Q}=2H_4-H_2-H_8\\approx-0.051\\)."
+      ],
+      "transfer": "To test an entropy-like functional for strong subadditivity, try a pure bipartite factor tensored with a mixed ancilla first: the defect collapses to the functional's failure of additivity on product spectra, which is a one-line computation."
+    }
+  ],
+  "status": "approved",
+  "approved_on": "2026-11-13"
+}

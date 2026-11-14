@@ -9,7 +9,7 @@ meta=json.loads((ROOT/'chapters.json').read_text())
 for stem,*_ in meta:
  soup=BeautifulSoup((ROOT/(stem+'.html')).read_text(),'html.parser')
  assert soup.select_one('.learning-guide'),stem
- if stem!='appendices':
+ if stem not in ('appendices', 'assignments'):
   exercises=soup.select('#practice .exercise')
   assert len(exercises)==10,stem
   assert all(e.select('.exercise-hint') for e in exercises),stem
